@@ -13,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import info.upump.jym.bd.DBHelper;
+import info.upump.jym.entity.TypeMuscle;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,6 +43,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        DBHelper dbHelper = DBHelper.getHelper(this);
+        dbHelper.getWritableDatabase();
+        System.out.println(dbHelper.getDatabaseName());
+       // TypeMuscle typeMuscle = TypeMuscle.valueOf("BICEPS");
+       // System.out.println(getResources().getString(typeMuscle.getName())+" "+ typeMuscle.getImg());
+        TypeMuscle[] values = TypeMuscle.values();
+        for (TypeMuscle t:values){
+            System.out.println(t.toString());
+        }
     }
 
     @Override
