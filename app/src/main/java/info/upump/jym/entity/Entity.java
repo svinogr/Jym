@@ -8,19 +8,19 @@ public abstract class Entity {
     protected long id;
     protected String title;
 
-    protected long getId() {
+    public long getId() {
         return id;
     }
 
-    protected void setId(long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    protected String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    protected void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 }

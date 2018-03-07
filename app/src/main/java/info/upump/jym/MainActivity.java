@@ -13,6 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import info.upump.jym.bd.DBHelper;
 import info.upump.jym.entity.TypeMuscle;
 
@@ -48,10 +53,23 @@ public class MainActivity extends AppCompatActivity
         System.out.println(dbHelper.getDatabaseName());
        // TypeMuscle typeMuscle = TypeMuscle.valueOf("BICEPS");
        // System.out.println(getResources().getString(typeMuscle.getName())+" "+ typeMuscle.getImg());
-        TypeMuscle[] values = TypeMuscle.values();
+     /*  TypeMuscle[] values = TypeMuscle.values();
         for (TypeMuscle t:values){
             System.out.println(t.toString());
+        }*/
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date();
+        System.out.println(date);
+        System.out.println(simpleDateFormat.format(date));
+        Date date1 = null;
+        try {
+            date1 = simpleDateFormat.parse(simpleDateFormat.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+        System.out.println(date1);
+
+
     }
 
     @Override
