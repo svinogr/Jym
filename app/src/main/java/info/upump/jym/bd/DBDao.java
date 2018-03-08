@@ -4,11 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 
-abstract class DBDAO {
+abstract class DBDao {
     protected SQLiteDatabase sqLiteDatabase;
     protected DBHelper dbHelper;
 
-    public DBDAO(Context context) {
+    public DBDao(Context context) {
         this.dbHelper = DBHelper.getHelper(context);
         open();
 

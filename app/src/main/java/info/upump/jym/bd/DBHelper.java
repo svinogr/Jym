@@ -21,6 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_KEY_ID = "_id";
     public static final String TABLE_KEY_TITLE = "title";
+    public static final String TABLE_KEY_COMMENT = "comment";
 
 
     public static final String TABLE_KEY_START_DATE = "start_date";
@@ -29,19 +30,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_KEY_WEEK_EVEN = "week_even";// only for workout
     public static final String TABLE_KEY_DEFAULT = "default_type";// only for workout
-    private static final String TABLE_KEY_CYCLE_ID = "cycle_id";// only for workout
+    public static final String TABLE_KEY_PARENT_ID = "parent_id";// only for workout
 
     public static final String TABLE_KEY_TYPE_EXERCISE = "type_exercise"; //for exercise, type of group muscles
     public static final String TABLE_KEY_IMG = "img";
-    public static final String TABLE_KEY_WORKOUT_ID = "workout_id";//for exercise
 
-    private static final String TABLE_KEY_SET_WEIGHT = "weight";//for set
-    private static final String TABLE_KEY_SET_REPS = "reps";//for set
-    private static final String TABLE_KEY_EXERCISE_ID = "exercise_id";//for set
+    public static final String TABLE_KEY_SET_WEIGHT = "weight";//for set
+    public static final String TABLE_KEY_SET_REPS = "reps";//for set
 
     private static final String CREATE_TABLE_CYCLE="CREATE TABLE "+TABLE_CYCLE+
             "( "+TABLE_KEY_ID+" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
             TABLE_KEY_TITLE+ " TEXT NOT NULL, " +
+            TABLE_KEY_COMMENT+ " TEXT, " +
             TABLE_KEY_START_DATE+" TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE+" TEXT NOT NULL)";
 
@@ -49,25 +49,31 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_WORKOUT="CREATE TABLE "+TABLE_WORKOUT+
             "( "+TABLE_KEY_ID+" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
              TABLE_KEY_TITLE+ " TEXT NOT NULL, " +
+            TABLE_KEY_COMMENT+ " TEXT, " +
             TABLE_KEY_WEEK_EVEN+" INTEGER NOT NULL, " +
             TABLE_KEY_DEFAULT+" INTEGER NOT NULL, "+
-            TABLE_KEY_CYCLE_ID+" INTEGER, "+
-            "FOREIGN KEY("+TABLE_KEY_CYCLE_ID+") REFERENCES "+TABLE_CYCLE+"("+TABLE_KEY_ID+") ON DELETE CASCADE)";
+            TABLE_KEY_PARENT_ID+" INTEGER)";
+       //     TABLE_KEY_PARENT_ID+" INTEGER, "+
+          //  "FOREIGN KEY("+TABLE_KEY_PARENT_ID+") REFERENCES "+TABLE_CYCLE+"("+TABLE_KEY_ID+") ON DELETE CASCADE)";
 
     private static final String CREATE_TABLE_EXERCISE="CREATE TABLE "+TABLE_EXERCISE+
             "( "+TABLE_KEY_ID+" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
             TABLE_KEY_TITLE+ " TEXT NOT NULL, " +
+            TABLE_KEY_COMMENT+ " TEXT, " +
             TABLE_KEY_TYPE_EXERCISE+" TEXT, " +
             TABLE_KEY_IMG+" TEXT, " +
-            TABLE_KEY_WORKOUT_ID+" INTEGER, " +
-            "FOREIGN KEY("+TABLE_KEY_WORKOUT_ID+") REFERENCES "+TABLE_WORKOUT+"("+TABLE_KEY_ID+")ON DELETE CASCADE)";
+            TABLE_KEY_PARENT_ID+" INTEGER)";
+            //TABLE_KEY_PARENT_ID+" INTEGER, " +
+          //  "FOREIGN KEY("+TABLE_KEY_PARENT_ID+") REFERENCES "+TABLE_WORKOUT+"("+TABLE_KEY_ID+")ON DELETE CASCADE)";
 
     private static final String CREATE_TABLE_SET="CREATE TABLE "+TABLE_SET+
             "( "+TABLE_KEY_ID+" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
+            TABLE_KEY_COMMENT+ " TEXT, " +
             TABLE_KEY_SET_WEIGHT+" INTEGER, " +
             TABLE_KEY_SET_REPS+" INTEGER, " +
-            TABLE_KEY_EXERCISE_ID+" INTEGER, " +
-            "FOREIGN KEY("+ TABLE_KEY_EXERCISE_ID+") REFERENCES "+TABLE_EXERCISE+"("+TABLE_KEY_ID+") ON DELETE CASCADE)";
+            TABLE_KEY_PARENT_ID+" INTEGER)";
+         //   TABLE_KEY_PARENT_ID+" INTEGER, " +
+        //    "FOREIGN KEY("+ TABLE_KEY_PARENT_ID+") REFERENCES "+TABLE_EXERCISE+"("+TABLE_KEY_ID+") ON DELETE CASCADE)";
 
     private static DBHelper instance;
 

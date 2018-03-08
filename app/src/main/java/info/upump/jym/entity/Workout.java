@@ -7,10 +7,10 @@ import java.util.List;
  * Created by explo on 05.03.2018.
  */
 
-class Workout extends Entity {
+public class Workout extends Entity {
     private boolean weekEven;
     private boolean defaultType;
-    private Cycle cycle;
+    private long cycleId;
     private List<Exercise> exercises = new ArrayList<>();
 
     public boolean isWeekEven() {
@@ -29,12 +29,12 @@ class Workout extends Entity {
         this.defaultType = defaultType;
     }
 
-    public Cycle getCycle() {
-        return cycle;
+    public long getCycleId() {
+        return cycleId;
     }
 
-    public void setCycle(Cycle cycle) {
-        this.cycle = cycle;
+    public void setCycleId(long cycleId) {
+        this.cycleId = cycleId;
     }
 
     public List<Exercise> getExercises() {
@@ -52,8 +52,7 @@ class Workout extends Entity {
                 ", title='" + title + '\'' +
                 ", weekEven=" + weekEven +
                 ", defaultType=" + defaultType +
-                ", cycle Id= " + cycle.getId()+
-                ", cycle Title= " + cycle.title +
+                ", cycle Id= " + cycleId+
                 ", exercises Size=" + exercises.size() +
                 '}';
     }

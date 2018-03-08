@@ -7,6 +7,7 @@ package info.upump.jym.entity;
 public abstract class Entity {
     protected long id;
     protected String title;
+    protected String comment;
 
     public long getId() {
         return id;
@@ -22,5 +23,13 @@ public abstract class Entity {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
