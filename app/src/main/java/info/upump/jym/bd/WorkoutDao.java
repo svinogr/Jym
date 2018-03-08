@@ -79,4 +79,9 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         long id = sqLiteDatabase.update(DBHelper.TABLE_WORKOUT, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         return id > 0;
     }
+
+    @Override
+    public Workout getById(long id) {
+        return null;
+    }
 }

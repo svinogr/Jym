@@ -74,7 +74,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_SET="CREATE TABLE "+TABLE_SET+
             "( "+TABLE_KEY_ID+" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
             TABLE_KEY_COMMENT+ " TEXT, " +
-            TABLE_KEY_SET_WEIGHT+" INTEGER, " +
+            TABLE_KEY_SET_WEIGHT+" REAL, " +
             TABLE_KEY_SET_REPS+" INTEGER, " +
             TABLE_KEY_START_DATE+" TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE+" TEXT NOT NULL, " +

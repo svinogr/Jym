@@ -80,4 +80,9 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         long id = sqLiteDatabase.update(DBHelper.TABLE_EXERCISE, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         return id > 0;
     }
+
+    @Override
+    public Exercise getById(long id) {
+        return null;
+    }
 }

@@ -13,4 +13,6 @@ public interface IData<T> {
     boolean delete(T object);
 
     boolean update(T object);
+
+    T getById(long id);
 }

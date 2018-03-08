@@ -70,4 +70,9 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         long id = sqLiteDatabase.update(DBHelper.TABLE_CYCLE, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(cycle.getId())});
         return id > 0;
     }
+
+    @Override
+    public Cycle getById(long id) {
+        return null;
+    }
 }
