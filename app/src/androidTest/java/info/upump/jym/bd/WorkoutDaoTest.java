@@ -40,6 +40,8 @@ public class WorkoutDaoTest {
         workout.setComment("workout comment");
         workout.setWeekEven(true);
         workout.setDefaultType(true);
+        workout.setStartDate("2018-08-08");
+        workout.setFinishDate("2019-08-08");
         long id = workoutDao.create(workout);
         workout.setId(id);
         Assert.assertNotEquals(id, -1);
@@ -55,6 +57,8 @@ public class WorkoutDaoTest {
         workout.setComment("workout comment");
         workout.setWeekEven(true);
         workout.setDefaultType(true);
+        workout.setStartDate("2018-08-08");
+        workout.setFinishDate("2019-08-08");
         long id = workoutDao.create(workout);
         Assert.assertNotEquals(id, -1);
     }
@@ -66,6 +70,8 @@ public class WorkoutDaoTest {
         workout.setComment("workout comment");
         workout.setWeekEven(true);
         workout.setDefaultType(true);
+        workout.setStartDate("2018-08-08");
+        workout.setFinishDate("2019-08-08");
         long id = workoutDao.create(workout);
         workout.setId(id);
         Assert.assertNotEquals(id, -1);
@@ -82,6 +88,8 @@ public class WorkoutDaoTest {
         workout.setComment("workout comment");
         workout.setWeekEven(true);
         workout.setDefaultType(true);
+        workout.setStartDate("2018-08-08");
+        workout.setFinishDate("2019-08-08");
         long id = workoutDao.create(workout);
         workout.setId(id);
         Assert.assertNotEquals(id, -1);

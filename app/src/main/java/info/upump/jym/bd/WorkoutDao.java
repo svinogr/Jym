@@ -24,6 +24,8 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
                         DBHelper.TABLE_KEY_COMMENT,
                         DBHelper.TABLE_KEY_WEEK_EVEN,
                         DBHelper.TABLE_KEY_DEFAULT,
+                        DBHelper.TABLE_KEY_START_DATE,
+                        DBHelper.TABLE_KEY_FINISH_DATE,
                         DBHelper.TABLE_KEY_PARENT_ID}
                 , null, null, null, null, null);
         List<Workout> workoutList = new ArrayList<>();
@@ -35,7 +37,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
                 workout.setComment(cursor.getString(2));
                 workout.setWeekEven(cursor.getInt(3) == 1);
                 workout.setDefaultType(cursor.getInt(4) == 1);
-                workout.setCycleId(cursor.getLong(5));
+                workout.setParentId(cursor.getLong(5));
 
                 workoutList.add(workout);
             } while (cursor.moveToNext());
@@ -51,7 +53,9 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         cv.put(DBHelper.TABLE_KEY_COMMENT, object.getComment());
         cv.put(DBHelper.TABLE_KEY_WEEK_EVEN, object.isWeekEven() ? 1 : 0);
         cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType() ? 1 : 0);
-        cv.put(DBHelper.TABLE_KEY_PARENT_ID, object.getCycleId());
+        cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
+        cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
+        cv.put(DBHelper.TABLE_KEY_PARENT_ID, object.getParentId());
         long id = sqLiteDatabase.insert(DBHelper.TABLE_WORKOUT, null, cv);
         return id;
     }
@@ -70,7 +74,8 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         cv.put(DBHelper.TABLE_KEY_COMMENT, object.getComment());
         cv.put(DBHelper.TABLE_KEY_WEEK_EVEN, object.isWeekEven() ? 1 : 0);
         cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType() ? 1 : 0);
-        cv.put(DBHelper.TABLE_KEY_PARENT_ID, object.getCycleId());
+        cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
+        cv.put(DBHelper.TABLE_KEY_PARENT_ID, object.getParentId());
         long id = sqLiteDatabase.update(DBHelper.TABLE_WORKOUT, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         return id > 0;
     }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Exercise extends Entity {
     private TypeMuscle typeMuscle;
-    private Workout workout;
+    private boolean defaultType;
     private List<Sets> setsList = new ArrayList<>();
 
     public TypeMuscle getTypeMuscle() {
@@ -21,15 +21,6 @@ public class Exercise extends Entity {
         this.typeMuscle = typeMuscle;
     }
 
-
-    public Workout getWorkout() {
-        return workout;
-    }
-
-    public void setWorkout(Workout workout) {
-        this.workout = workout;
-    }
-
     public List<Sets> getSetsList() {
         return setsList;
     }
@@ -38,14 +29,21 @@ public class Exercise extends Entity {
         this.setsList = setsList;
     }
 
+    public boolean isDefaultType() {
+        return defaultType;
+    }
+
+    public void setDefaultType(boolean defaultType) {
+        this.defaultType = defaultType;
+    }
+
     @Override
     public String toString() {
         return "Exercise{" +
                 "id=" + id +
                 ", title = '" + title + '\'' +
                 ", typeMuscle = " + typeMuscle.getName() +
-                ", workout id = " + workout.getId() +
-                ", workout title = " + workout.getTitle() +
+                ", workout id = " + parentId +
                 ", setsListSize = " + setsList.size() +
                 '}';
     }

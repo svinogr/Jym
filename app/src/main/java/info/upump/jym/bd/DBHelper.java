@@ -52,6 +52,8 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_COMMENT+ " TEXT, " +
             TABLE_KEY_WEEK_EVEN+" INTEGER NOT NULL, " +
             TABLE_KEY_DEFAULT+" INTEGER NOT NULL, "+
+            TABLE_KEY_START_DATE+" TEXT NOT NULL, " +
+            TABLE_KEY_FINISH_DATE+" TEXT NOT NULL, " +
             TABLE_KEY_PARENT_ID+" INTEGER)";
        //     TABLE_KEY_PARENT_ID+" INTEGER, "+
           //  "FOREIGN KEY("+TABLE_KEY_PARENT_ID+") REFERENCES "+TABLE_CYCLE+"("+TABLE_KEY_ID+") ON DELETE CASCADE)";
@@ -61,7 +63,10 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_TITLE+ " TEXT NOT NULL, " +
             TABLE_KEY_COMMENT+ " TEXT, " +
             TABLE_KEY_TYPE_EXERCISE+" TEXT, " +
+            TABLE_KEY_DEFAULT+" INTEGER NOT NULL, "+
             TABLE_KEY_IMG+" TEXT, " +
+            TABLE_KEY_START_DATE+" TEXT NOT NULL, " +
+            TABLE_KEY_FINISH_DATE+" TEXT NOT NULL, " +
             TABLE_KEY_PARENT_ID+" INTEGER)";
             //TABLE_KEY_PARENT_ID+" INTEGER, " +
           //  "FOREIGN KEY("+TABLE_KEY_PARENT_ID+") REFERENCES "+TABLE_WORKOUT+"("+TABLE_KEY_ID+")ON DELETE CASCADE)";
@@ -71,6 +76,8 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_COMMENT+ " TEXT, " +
             TABLE_KEY_SET_WEIGHT+" INTEGER, " +
             TABLE_KEY_SET_REPS+" INTEGER, " +
+            TABLE_KEY_START_DATE+" TEXT NOT NULL, " +
+            TABLE_KEY_FINISH_DATE+" TEXT NOT NULL, " +
             TABLE_KEY_PARENT_ID+" INTEGER)";
          //   TABLE_KEY_PARENT_ID+" INTEGER, " +
         //    "FOREIGN KEY("+ TABLE_KEY_PARENT_ID+") REFERENCES "+TABLE_EXERCISE+"("+TABLE_KEY_ID+") ON DELETE CASCADE)";

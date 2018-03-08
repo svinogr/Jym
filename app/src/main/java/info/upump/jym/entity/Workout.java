@@ -10,7 +10,6 @@ import java.util.List;
 public class Workout extends Entity {
     private boolean weekEven;
     private boolean defaultType;
-    private long cycleId;
     private List<Exercise> exercises = new ArrayList<>();
 
     public boolean isWeekEven() {
@@ -29,13 +28,7 @@ public class Workout extends Entity {
         this.defaultType = defaultType;
     }
 
-    public long getCycleId() {
-        return cycleId;
-    }
 
-    public void setCycleId(long cycleId) {
-        this.cycleId = cycleId;
-    }
 
     public List<Exercise> getExercises() {
         return exercises;
@@ -52,7 +45,7 @@ public class Workout extends Entity {
                 ", title='" + title + '\'' +
                 ", weekEven=" + weekEven +
                 ", defaultType=" + defaultType +
-                ", cycle Id= " + cycleId+
+                ", cycle Id= " + parentId +
                 ", exercises Size=" + exercises.size() +
                 '}';
     }

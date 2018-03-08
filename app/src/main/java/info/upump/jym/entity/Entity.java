@@ -1,13 +1,22 @@
 package info.upump.jym.entity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by explo on 05.03.2018.
  */
 
 public abstract class Entity {
+    protected final String formatDate = "yyyy-MM-dd";
+    protected Date startDate;
+    protected Date finishDate;
     protected long id;
     protected String title;
     protected String comment;
+    protected long parentId;
 
     public long getId() {
         return id;
@@ -31,5 +40,55 @@ public abstract class Entity {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public String getStartStringFormatDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatDate, Locale.getDefault());
+        return simpleDateFormat.format(startDate);
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setStartDate(String stringDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatDate, Locale.getDefault());
+        try {
+            this.startDate = simpleDateFormat.parse(stringDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public String getFinishStringFormatDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatDate, Locale.getDefault());
+        return simpleDateFormat.format(finishDate);
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
+    }
+
+    public void setFinishDate(String stringDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatDate, Locale.getDefault());
+        try {
+            this.finishDate = simpleDateFormat.parse(stringDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+    public long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(long parentId) {
+        this.parentId = parentId;
     }
 }
