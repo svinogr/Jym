@@ -51,6 +51,8 @@ public class SetDaoTest {
         Assert.assertEquals(set.getFinishStringFormatDate(),byId.getFinishStringFormatDate());
         Assert.assertEquals(set.getParentId(),byId.getParentId());
 
+        Assert.assertTrue(setDao.delete(set));
+
     }
 
     @Test
@@ -69,6 +71,8 @@ public class SetDaoTest {
         List<Sets> setsList = setDao.getAll();
         Assert.assertTrue(setsList.size()>0);
 
+        Assert.assertTrue(setDao.delete(set));
+
     }
 
     @Test
@@ -81,7 +85,10 @@ public class SetDaoTest {
         set.setFinishDate("2021-03-03");
         set.setParentId(226);
         long create = setDao.create(set);
+        set.setId(create);
         Assert.assertNotEquals(create,-1);
+
+        Assert.assertTrue(setDao.delete(set));
     }
 
     @Test
@@ -118,6 +125,8 @@ public class SetDaoTest {
         set.setReps(1);
         boolean update = setDao.update(set);
         Assert.assertTrue(update);
+
+        Assert.assertTrue(setDao.delete(set));
     }
 
     @Test
@@ -136,6 +145,8 @@ public class SetDaoTest {
 
         List<Sets> setsList = setDao.getByParentId(parentId);
         Assert.assertTrue(setsList.size()>0);
+
+        Assert.assertTrue(setDao.delete(set));
     }
 
 }

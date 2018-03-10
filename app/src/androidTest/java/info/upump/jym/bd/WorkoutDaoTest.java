@@ -48,6 +48,8 @@ public class WorkoutDaoTest {
 
         List<Workout> workoutList = workoutDao.getAll();
         Assert.assertTrue(workoutList.size()>0);
+
+        Assert.assertTrue(workoutDao.delete(workout));
     }
 
     @Test
@@ -60,7 +62,10 @@ public class WorkoutDaoTest {
         workout.setStartDate("2018-08-08");
         workout.setFinishDate("2019-08-08");
         long id = workoutDao.create(workout);
+        workout.setId(id);
         Assert.assertNotEquals(id, -1);
+
+        Assert.assertTrue(workoutDao.delete(workout));
     }
 
     @Test
@@ -78,7 +83,6 @@ public class WorkoutDaoTest {
 
         boolean delete = workoutDao.delete(workout);
         Assert.assertTrue(delete);
-
     }
 
     @Test
@@ -98,6 +102,8 @@ public class WorkoutDaoTest {
         workout.setComment("update comment");
         boolean update = workoutDao.update(workout);
         Assert.assertTrue(update);
+
+        Assert.assertTrue(workoutDao.delete(workout));
 
     }
 
@@ -122,6 +128,8 @@ public class WorkoutDaoTest {
         Assert.assertEquals(workout.getStartStringFormatDate(),byId.getStartStringFormatDate());
         Assert.assertEquals(workout.getFinishStringFormatDate(),byId.getFinishStringFormatDate());
         Assert.assertEquals(workout.getParentId(),byId.getParentId());
+
+        Assert.assertTrue(workoutDao.delete(workout));
     }
 
 
@@ -142,7 +150,7 @@ public class WorkoutDaoTest {
 
         List<Workout> setsList = workoutDao.getByParentId(parentId);
         Assert.assertTrue(setsList.size()>0);
+
+        Assert.assertTrue(workoutDao.delete(workout));
     }
-
-
 }

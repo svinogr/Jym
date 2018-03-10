@@ -23,7 +23,6 @@ public class CycleDaoTest {
 
     @Before
     public void setUp() throws Exception {
-        System.out.println(cycle != null);
         cycleDao = new CycleDao(InstrumentationRegistry.getTargetContext());
         System.out.println("setUp");
     }
@@ -39,12 +38,14 @@ public class CycleDaoTest {
     public void create() throws Exception {
         System.out.println("create");
         cycle = new Cycle();
-        cycle.setTitle("test title");
-        cycle.setStartDate("2018-03-07");
-        cycle.setFinishDate("2018-03-06");
+        cycle.setTitle("create create");
+        cycle.setStartDate("2018-03-12");
+        cycle.setFinishDate("2018-03-12");
         long id = cycleDao.create(cycle);
         cycle.setId(id);
         Assert.assertNotEquals(id, -1); //test create
+
+        Assert.assertTrue(cycleDao.delete(cycle));
 
     }
 
@@ -65,13 +66,15 @@ public class CycleDaoTest {
 
         boolean id = cycleDao.update(cycle);
         Assert.assertTrue(id);// test update
+
+        Assert.assertTrue(cycleDao.delete(cycle));
     }
 
     @Test
     public void delete() throws Exception {
         System.out.println("tearDown");
         cycle = new Cycle();
-        cycle.setTitle("test title");
+        cycle.setTitle("test delete");
         cycle.setStartDate("2018-03-07");
         cycle.setFinishDate("2018-03-06");
         long id = cycleDao.create(cycle);
@@ -94,6 +97,8 @@ public class CycleDaoTest {
         List<Cycle> all = cycleDao.getAll();
         Assert.assertTrue(all.size()>0);
 
+        Assert.assertTrue(cycleDao.delete(cycle));
+
     }
 
     @Test
@@ -103,6 +108,7 @@ public class CycleDaoTest {
             cycle.setStartDate("2018-04-04");
             cycle.setFinishDate("2018-04-04");
             long id = cycleDao.create(cycle);
+            cycle.setId(id);
             Assert.assertNotEquals(id, -1); //test create
 
         Cycle byId = cycleDao.getById(id);
@@ -112,6 +118,7 @@ public class CycleDaoTest {
         Assert.assertEquals(cycle.getFinishStringFormatDate(),byId.getFinishStringFormatDate());
         Assert.assertEquals(cycle.getParentId(),byId.getParentId());
 
+        Assert.assertTrue(cycleDao.delete(cycle));
     }
 
 
