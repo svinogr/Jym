@@ -31,7 +31,7 @@ public class SetDaoTest {
     }
 
     @Test
-    public void getById(){
+    public void getById() throws Exception{
         set = new Sets();
         set.setComment("create comment");
         set.setWeight(0.01);
@@ -118,7 +118,24 @@ public class SetDaoTest {
         set.setReps(1);
         boolean update = setDao.update(set);
         Assert.assertTrue(update);
+    }
 
+    @Test
+    public void getByParentId() throws Exception{
+        set = new Sets();
+        set.setComment("getByParentId comment");
+        set.setWeight(0.25);
+        set.setReps(333);
+        set.setStartDate("2021-03-03");
+        set.setFinishDate("2021-03-03");
+        long parentId = 226;
+        set.setParentId(parentId);
+        long create = setDao.create(set);
+        set.setId(create);
+        Assert.assertNotEquals(create,-1);
+
+        List<Sets> setsList = setDao.getByParentId(parentId);
+        Assert.assertTrue(setsList.size()>0);
     }
 
 }

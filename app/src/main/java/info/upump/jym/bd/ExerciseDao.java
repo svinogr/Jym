@@ -15,31 +15,52 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
     public ExerciseDao(Context context) {
         super(context);
     }
+    private final String[] keys =  new String[]{
+            DBHelper.TABLE_KEY_ID,
+            DBHelper.TABLE_KEY_TITLE,
+            DBHelper.TABLE_KEY_COMMENT,
+            DBHelper.TABLE_KEY_TYPE_EXERCISE,
+            DBHelper.TABLE_KEY_DEFAULT,
+            DBHelper.TABLE_KEY_START_DATE,
+            DBHelper.TABLE_KEY_FINISH_DATE,
+            DBHelper.TABLE_KEY_PARENT_ID};
+
+    private ContentValues getContentValuesFrom(Exercise object){
+        ContentValues cv = new ContentValues();
+        if(object.getId()!=0){
+            cv.put(DBHelper.TABLE_KEY_ID, object.getId());
+        }
+        cv.put(DBHelper.TABLE_KEY_TITLE, object.getTitle());
+        cv.put(DBHelper.TABLE_KEY_COMMENT, object.getComment());
+        cv.put(DBHelper.TABLE_KEY_TYPE_EXERCISE, object.getTypeMuscle().toString());
+        cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType());
+        cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
+        cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
+        cv.put(DBHelper.TABLE_KEY_PARENT_ID, object.getParentId());
+        return cv;
+    }
+
+    private Exercise getExerciseFromCursor(Cursor cursor) {
+        Exercise exercise = new Exercise();
+        exercise.setId(cursor.getLong(0));
+        exercise.setTitle(cursor.getString(1));
+        exercise.setComment(cursor.getString(2));
+        exercise.setTypeMuscle(TypeMuscle.valueOf(cursor.getString(3)));
+        exercise.setDefaultType(cursor.getInt(4) == 1);
+        exercise.setStartDate((cursor.getString(5)));
+        exercise.setFinishDate((cursor.getString(6)));
+        exercise.setParentId(cursor.getLong(7));
+        return exercise;
+    }
 
     @Override
     public List<Exercise> getAll() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
-                new String[]{
-                        DBHelper.TABLE_KEY_ID,
-                        DBHelper.TABLE_KEY_TITLE,
-                        DBHelper.TABLE_KEY_COMMENT,
-                        DBHelper.TABLE_KEY_TYPE_EXERCISE,
-                        DBHelper.TABLE_KEY_DEFAULT,
-                        DBHelper.TABLE_KEY_START_DATE,
-                        DBHelper.TABLE_KEY_FINISH_DATE,
-                        DBHelper.TABLE_KEY_PARENT_ID}, null, null, null, null, null);
+              keys, null, null, null, null, null);
         List<Exercise> exerciseList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                Exercise exercise = new Exercise();
-                exercise.setId(cursor.getLong(0));
-                exercise.setTitle(cursor.getString(1));
-                exercise.setComment(cursor.getString(2));
-                exercise.setTypeMuscle(TypeMuscle.valueOf(cursor.getString(3)));
-                exercise.setDefaultType(cursor.getInt(4) == 1);
-                exercise.setStartDate((cursor.getString(5)));
-                exercise.setFinishDate((cursor.getString(6)));
-                exercise.setParentId(cursor.getLong(7));
+                Exercise exercise = getExerciseFromCursor(cursor);
                 exerciseList.add(exercise);
             } while (cursor.moveToNext());
         }
@@ -48,14 +69,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     @Override
     public long create(Exercise object) {
-        ContentValues cv = new ContentValues();
-        cv.put(DBHelper.TABLE_KEY_TITLE, object.getTitle());
-        cv.put(DBHelper.TABLE_KEY_COMMENT, object.getComment());
-        cv.put(DBHelper.TABLE_KEY_TYPE_EXERCISE, object.getTypeMuscle().toString());
-        cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType());
-        cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
-        cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
-        cv.put(DBHelper.TABLE_KEY_PARENT_ID, object.getParentId());
+        ContentValues cv = getContentValuesFrom(object);
         long id = sqLiteDatabase.insert(DBHelper.TABLE_EXERCISE, null, cv);
         return id;
     }
@@ -69,20 +83,36 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     @Override
     public boolean update(Exercise object) {
-        ContentValues cv = new ContentValues();
-        cv.put(DBHelper.TABLE_KEY_TITLE, object.getTitle());
-        cv.put(DBHelper.TABLE_KEY_COMMENT, object.getComment());
-        cv.put(DBHelper.TABLE_KEY_TYPE_EXERCISE, object.getTypeMuscle().toString());
-        cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType());
-        cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
-        cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
-        cv.put(DBHelper.TABLE_KEY_PARENT_ID, object.getParentId());
+        ContentValues cv = getContentValuesFrom(object);
         long id = sqLiteDatabase.update(DBHelper.TABLE_EXERCISE, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         return id > 0;
     }
 
     @Override
     public Exercise getById(long id) {
-        return null;
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
+               keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
+        Exercise exercise = null;
+        if (cursor.moveToFirst()) {
+            do {
+                exercise = getExerciseFromCursor(cursor);
+            } while (cursor.moveToNext());
+        }
+        return exercise;
+    }
+
+    @Override
+    public List<Exercise> getByParentId(long id) {
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
+           keys, DBHelper.TABLE_KEY_PARENT_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
+
+        List<Exercise> exerciseList = new ArrayList<>();
+        if (cursor.moveToFirst()){
+            do{
+                Exercise exercise = getExerciseFromCursor(cursor);
+                exerciseList.add(exercise);
+            }while (cursor.moveToNext());
+        }
+        return exerciseList;
     }
 }

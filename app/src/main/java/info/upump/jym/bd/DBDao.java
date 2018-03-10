@@ -3,6 +3,8 @@ package info.upump.jym.bd;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import info.upump.jym.entity.Exercise;
+
 
 abstract class DBDao {
     protected SQLiteDatabase sqLiteDatabase;

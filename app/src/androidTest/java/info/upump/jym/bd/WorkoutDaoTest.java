@@ -101,4 +101,48 @@ public class WorkoutDaoTest {
 
     }
 
+    @Test
+    public void getById()throws Exception{
+        workout = new Workout();
+        workout.setTitle("getById title");
+        workout.setComment("workout comment");
+        workout.setWeekEven(true);
+        workout.setDefaultType(true);
+        workout.setStartDate("2018-08-08");
+        workout.setFinishDate("2019-08-08");
+        long id = workoutDao.create(workout);
+        workout.setId(id);
+        Assert.assertNotEquals(id, -1);
+
+        Workout byId = workoutDao.getById(workout.getId());
+        Assert.assertEquals(workout.getTitle(),byId.getTitle());
+        Assert.assertEquals(workout.getComment(),byId.getComment());
+        Assert.assertEquals(workout.isWeekEven(),byId.isWeekEven());
+        Assert.assertEquals(workout.isDefaultType(),byId.isDefaultType());
+        Assert.assertEquals(workout.getStartStringFormatDate(),byId.getStartStringFormatDate());
+        Assert.assertEquals(workout.getFinishStringFormatDate(),byId.getFinishStringFormatDate());
+        Assert.assertEquals(workout.getParentId(),byId.getParentId());
+    }
+
+
+    @Test
+    public void getByParentId()throws Exception{
+        workout = new Workout();
+        workout.setTitle("test title workout for delete");
+        workout.setComment("workout comment");
+        workout.setWeekEven(true);
+        workout.setDefaultType(true);
+        workout.setStartDate("2018-08-08");
+        workout.setFinishDate("2019-08-08");
+        long parentId =154;
+        workout.setParentId(parentId);
+        long id = workoutDao.create(workout);
+        workout.setId(id);
+        Assert.assertNotEquals(id, -1);
+
+        List<Workout> setsList = workoutDao.getByParentId(parentId);
+        Assert.assertTrue(setsList.size()>0);
+    }
+
+
 }

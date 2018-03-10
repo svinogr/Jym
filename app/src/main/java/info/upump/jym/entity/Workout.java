@@ -49,4 +49,5 @@ public class Workout extends Entity {
                 ", exercises Size=" + exercises.size() +
                 '}';
     }
+
 }

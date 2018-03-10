@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.List;
 
 import info.upump.jym.entity.Exercise;
+import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.TypeMuscle;
 
 import static org.junit.Assert.*;
@@ -101,6 +102,50 @@ public class ExerciseDaoTest {
         exercise.setComment("update comment");
         boolean update = exerciseDao.update(exercise);
         Assert.assertTrue(update);
+    }
+
+    @Test
+    public void getById()throws Exception{
+        exercise = new Exercise();
+        exercise.setTitle("create title");
+        exercise.setComment("create comment");
+        exercise.setDefaultType(false);
+        exercise.setTypeMuscle(TypeMuscle.ABS);
+        exercise.setStartDate("2020-03-03");
+        exercise.setFinishDate("2020-03-03");
+        exercise.setParentId(0);
+        long create = exerciseDao.create(exercise);
+        exercise.setId(create);
+        Assert.assertNotEquals(create, -1);
+
+        Exercise byId = exerciseDao.getById(exercise.getId());
+        Assert.assertEquals(exercise.getTitle(),byId.getTitle());
+        Assert.assertEquals(exercise.getComment(),byId.getComment());
+        Assert.assertEquals(exercise.isDefaultType(),byId.isDefaultType());
+        Assert.assertEquals(exercise.getTypeMuscle(),byId.getTypeMuscle());
+        Assert.assertEquals(exercise.getStartStringFormatDate(),byId.getStartStringFormatDate());
+        Assert.assertEquals(exercise.getFinishStringFormatDate(),byId.getFinishStringFormatDate());
+        Assert.assertEquals(exercise.getParentId(),byId.getParentId());
+
+    }
+
+    @Test
+    public void getByParentId()throws Exception{
+        exercise = new Exercise();
+        exercise.setTitle("getByParentId title");
+        exercise.setComment("getByParentId comment");
+        exercise.setDefaultType(false);
+        exercise.setTypeMuscle(TypeMuscle.ABS);
+        exercise.setStartDate("2020-03-03");
+        exercise.setFinishDate("2020-03-03");
+        long parentId = 216;
+        exercise.setParentId(parentId);
+        long create = exerciseDao.create(exercise);
+        exercise.setId(create);
+        Assert.assertNotEquals(create, -1);
+
+        List<Exercise> exerciseList = exerciseDao.getByParentId(parentId);
+        Assert.assertTrue(exerciseList.size()>0);
     }
 
 }

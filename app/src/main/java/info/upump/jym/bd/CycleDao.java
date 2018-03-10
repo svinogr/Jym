@@ -17,25 +17,43 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     public CycleDao(Context context) {
         super(context);
     }
+    private final String[] keys =  new String[]{
+            DBHelper.TABLE_KEY_ID,
+            DBHelper.TABLE_KEY_TITLE,
+            DBHelper.TABLE_KEY_COMMENT,
+            DBHelper.TABLE_KEY_START_DATE,
+            DBHelper.TABLE_KEY_FINISH_DATE};
+
+    private ContentValues getContentValuesFrom(Cycle object){
+        ContentValues cv = new ContentValues();
+        if(object.getId()!=0){
+            cv.put(DBHelper.TABLE_KEY_ID, object.getId());
+        }
+        cv.put(DBHelper.TABLE_KEY_TITLE, object.getTitle());
+        cv.put(DBHelper.TABLE_KEY_COMMENT, object.getComment());
+        cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
+        cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
+        return cv;
+    }
+
+    private Cycle getExerciseFromCursor(Cursor cursor) {
+        Cycle cycle = new Cycle();
+        cycle.setId(cursor.getLong(0));
+        cycle.setTitle(cursor.getString(1));
+        cycle.setComment(cursor.getString(2));
+        cycle.setStartDate((cursor.getString(3)));
+        cycle.setFinishDate((cursor.getString(4)));
+        return cycle;
+    }
 
     @Override
     public List<Cycle> getAll() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_CYCLE,
-                new String[]{
-                        DBHelper.TABLE_KEY_ID,
-                        DBHelper.TABLE_KEY_TITLE,
-                        DBHelper.TABLE_KEY_COMMENT,
-                        DBHelper.TABLE_KEY_START_DATE,
-                        DBHelper.TABLE_KEY_FINISH_DATE}, null, null, null, null, null);
+       keys, null, null, null, null, null);
         List<Cycle> cycleList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                Cycle cycle = new Cycle();
-                cycle.setId(cursor.getLong(0));
-                cycle.setTitle(cursor.getString(1));
-                cycle.setComment(cursor.getString(2));
-                cycle.setStartDate((cursor.getString(3)));
-                cycle.setFinishDate((cursor.getString(4)));
+                Cycle cycle = getExerciseFromCursor(cursor);
                 cycleList.add(cycle);
             } while (cursor.moveToNext());
         }
@@ -44,11 +62,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
 
     @Override
     public long create(Cycle cycle) {
-        ContentValues cv = new ContentValues();
-        cv.put(DBHelper.TABLE_KEY_TITLE, cycle.getTitle());
-        cv.put(DBHelper.TABLE_KEY_COMMENT, cycle.getComment());
-        cv.put(DBHelper.TABLE_KEY_START_DATE, cycle.getStartStringFormatDate());
-        cv.put(DBHelper.TABLE_KEY_FINISH_DATE, cycle.getFinishStringFormatDate());
+        ContentValues cv = getContentValuesFrom(cycle);
         long id = sqLiteDatabase.insert(DBHelper.TABLE_CYCLE, null, cv);
         return id;
     }
@@ -62,17 +76,26 @@ public class CycleDao extends DBDao implements IData<Cycle> {
 
     @Override
     public boolean update(Cycle cycle) {
-        ContentValues cv = new ContentValues();
-        cv.put(DBHelper.TABLE_KEY_TITLE, cycle.getTitle());
-        cv.put(DBHelper.TABLE_KEY_COMMENT, cycle.getComment());
-        cv.put(DBHelper.TABLE_KEY_START_DATE, cycle.getStartStringFormatDate());
-        cv.put(DBHelper.TABLE_KEY_FINISH_DATE, cycle.getFinishStringFormatDate());
+        ContentValues cv = getContentValuesFrom(cycle);
         long id = sqLiteDatabase.update(DBHelper.TABLE_CYCLE, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(cycle.getId())});
         return id > 0;
     }
 
     @Override
     public Cycle getById(long id) {
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_CYCLE,
+                keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
+        Cycle cycle = null;
+        if (cursor.moveToFirst()) {
+            do {
+                cycle = getExerciseFromCursor(cursor);
+            } while (cursor.moveToNext());
+        }
+        return cycle;
+    }
+
+    @Override
+    public List<Cycle> getByParentId(long id) {
         return null;
     }
 }

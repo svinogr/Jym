@@ -96,5 +96,23 @@ public class CycleDaoTest {
 
     }
 
+    @Test
+    public void getById() throws Exception{
+            cycle = new Cycle();
+            cycle.setTitle("test title getAll");
+            cycle.setStartDate("2018-04-04");
+            cycle.setFinishDate("2018-04-04");
+            long id = cycleDao.create(cycle);
+            Assert.assertNotEquals(id, -1); //test create
+
+        Cycle byId = cycleDao.getById(id);
+        Assert.assertEquals(cycle.getTitle(),byId.getTitle());
+        Assert.assertEquals(cycle.getComment(),byId.getComment());
+        Assert.assertEquals(cycle.getStartStringFormatDate(),byId.getStartStringFormatDate());
+        Assert.assertEquals(cycle.getFinishStringFormatDate(),byId.getFinishStringFormatDate());
+        Assert.assertEquals(cycle.getParentId(),byId.getParentId());
+
+    }
+
 
 }
