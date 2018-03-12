@@ -78,8 +78,7 @@ public class SetDao extends DBDao implements IData<Sets> {
 
     @Override
     public boolean delete(Sets object) {
-        long id = sqLiteDatabase.delete(DBHelper.TABLE_SET, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
-        System.out.println(id);
+        int id = sqLiteDatabase.delete(DBHelper.TABLE_SET, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         return id != 0;
     }
 
@@ -87,13 +86,13 @@ public class SetDao extends DBDao implements IData<Sets> {
     public boolean update(Sets object) {
         ContentValues cv = getContentValuesFor(object);
         long id = sqLiteDatabase.update(DBHelper.TABLE_SET, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
-        return id > 0;
+        return id != 0;
     }
 
     @Override
     public Sets getById(long id) {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_SET,
-                keys, DBHelper.TABLE_KEY_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
+                keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
         Sets sets = null;
         if (cursor.moveToFirst()) {
             do {

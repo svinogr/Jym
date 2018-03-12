@@ -12,6 +12,7 @@ public class Exercise extends Entity {
     private TypeMuscle typeMuscle;
     private boolean defaultType;
     private List<Sets> setsList = new ArrayList<>();
+    private String img;
 
     public TypeMuscle getTypeMuscle() {
         return typeMuscle;
@@ -37,14 +38,25 @@ public class Exercise extends Entity {
         this.defaultType = defaultType;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     @Override
     public String toString() {
         return "Exercise{" +
-                "id=" + id +
-                ", title = '" + title + '\'' +
-                ", typeMuscle = " + typeMuscle.getName() +
-                ", workout id = " + parentId +
-                ", setsListSize = " + setsList.size() +
+                "typeMuscle=" + typeMuscle +
+                ", defaultType=" + defaultType +
+                ", setsList=" + setsList.size() +
+                ", img='" + img + '\'' +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", comment='" + comment + '\'' +
+                ", parentId=" + parentId +
                 '}';
     }
 }

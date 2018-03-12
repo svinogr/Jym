@@ -1,11 +1,13 @@
 package info.upump.jym.bd;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ import static org.junit.Assert.*;
 /**
  * Created by explo on 08.03.2018.
  */
+@RunWith(AndroidJUnit4.class)
 public class ExerciseDaoTest {
     private Exercise exercise;
     private ExerciseDao exerciseDao;

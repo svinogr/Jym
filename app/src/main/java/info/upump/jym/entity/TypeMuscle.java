@@ -31,6 +31,20 @@ public enum TypeMuscle {
             return name;
         }
     },
+    PECTORAL() {
+        int img = R.drawable.ic_menu_camera;
+        int name = R.string.biceps;
+        @Override
+        public int getImg() {
+            return img;
+        }
+
+        @Override
+        public int getName() {
+            return name;
+        }
+    },
+
     TRAPS() {
         int img = R.drawable.ic_menu_camera;
         int name = R.string.biceps;
