@@ -7,7 +7,7 @@ public enum TypeMuscle {
 
     NECK() {
        int img = R.drawable.ic_menu_camera;
-       int name = R.string.biceps;
+       int name = R.string.neck;
         @Override
         public int getImg() {
             return img;
@@ -20,7 +20,20 @@ public enum TypeMuscle {
     },
     SHOULDER() {
         int img = R.drawable.ic_menu_camera;
-        int name = R.string.biceps;
+        int name = R.string.shoulder;
+        @Override
+        public int getImg() {
+            return img;
+        }
+
+        @Override
+        public int getName() {
+            return name;
+        }
+    },
+    TRAPS() {
+        int img = R.drawable.ic_menu_camera;
+        int name = R.string.traps;
         @Override
         public int getImg() {
             return img;
@@ -33,34 +46,7 @@ public enum TypeMuscle {
     },
     PECTORAL() {
         int img = R.drawable.ic_menu_camera;
-        int name = R.string.biceps;
-        @Override
-        public int getImg() {
-            return img;
-        }
-
-        @Override
-        public int getName() {
-            return name;
-        }
-    },
-
-    TRAPS() {
-        int img = R.drawable.ic_menu_camera;
-        int name = R.string.biceps;
-        @Override
-        public int getImg() {
-            return img;
-        }
-
-        @Override
-        public int getName() {
-            return name;
-        }
-    },
-    CHEST() {
-        int img = R.drawable.ic_menu_camera;
-        int name = R.string.biceps;
+        int name = R.string.pectoral;
         @Override
         public int getImg() {
             return img;
@@ -73,7 +59,7 @@ public enum TypeMuscle {
     },
     TRICEPS() {
         int img = R.drawable.ic_menu_camera;
-        int name = R.string.biceps;
+        int name = R.string.triceps;
         @Override
         public int getImg() {
             return img;
@@ -99,7 +85,7 @@ public enum TypeMuscle {
     },
     BACK() {
         int img = R.drawable.ic_menu_camera;
-        int name = R.string.biceps;
+        int name = R.string.back;
         @Override
         public int getImg() {
             return img;
@@ -112,7 +98,7 @@ public enum TypeMuscle {
     },
     GLUTES() {
         int img = R.drawable.ic_menu_camera;
-        int name = R.string.biceps;
+        int name = R.string.glutes;
         @Override
         public int getImg() {
             return img;
@@ -125,7 +111,7 @@ public enum TypeMuscle {
     },
     QUADS() {
         int img = R.drawable.ic_menu_camera;
-        int name = R.string.biceps;
+        int name = R.string.quades;
         @Override
         public int getImg() {
             return img;
@@ -138,7 +124,7 @@ public enum TypeMuscle {
     },
     HAMSTRINGS() {
         int img = R.drawable.ic_menu_camera;
-        int name = R.string.biceps;
+        int name = R.string.hamstring;
         @Override
         public int getImg() {
             return img;
@@ -151,7 +137,7 @@ public enum TypeMuscle {
     },
     CALVES() {
         int img = R.drawable.ic_menu_camera;
-        int name = R.string.biceps;
+        int name = R.string.calves;
         @Override
         public int getImg() {
             return img;
@@ -164,7 +150,7 @@ public enum TypeMuscle {
     },
     ABS() {
         int img = R.drawable.ic_menu_camera;
-        int name = R.string.biceps;
+        int name = R.string.abs;
         @Override
         public int getImg() {
             return img;

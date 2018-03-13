@@ -6,4 +6,19 @@
 
     <string name="action_settings">Settings</string>
     <string name="biceps">бицепс</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shoulder">плечи</string>
+    <string name="pectoral">грудные</string>
+    <string name="traps">трапеции</string>
+    <string name="neck">шея</string>
+    <string name="triceps">трицепс</string>
+    <string name="back">спина</string>
+    <string name="glutes">ягодицы</string>
+    <string name="quades">бицепс бедра</string>
+    <string name="hamstring">трицепс бедра</string>
+    <string name="calves">голень</string>
+    <string name="abs">пресс</string>
+    <string name="exercise_fragment_title">упражнения</string>
 </resources>

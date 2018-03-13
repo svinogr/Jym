@@ -3,6 +3,8 @@ package info.upump.jym;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,16 +22,19 @@ import java.util.Locale;
 
 import info.upump.jym.bd.DBHelper;
 import info.upump.jym.entity.TypeMuscle;
+import info.upump.jym.fragments.ExerciseFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ITitlable {
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -51,13 +56,19 @@ public class MainActivity extends AppCompatActivity
         DBHelper dbHelper = DBHelper.getHelper(this);
         dbHelper.getWritableDatabase();
         System.out.println(dbHelper.getDatabaseName());
-       // TypeMuscle typeMuscle = TypeMuscle.valueOf("BICEPS");
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        ExerciseFragment exerciseFragment = new ExerciseFragment();
+        fragmentTransaction.replace(R.id.main_container, exerciseFragment);
+        fragmentTransaction.commit();
+
+        // TypeMuscle typeMuscle = TypeMuscle.valueOf("BICEPS");
        // System.out.println(getResources().getString(typeMuscle.getName())+" "+ typeMuscle.getImg());
      /*  TypeMuscle[] values = TypeMuscle.values();
         for (TypeMuscle t:values){
             System.out.println(t.toString());
         }*/
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+      /*  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();
         System.out.println(date);
         System.out.println(simpleDateFormat.format(date));
@@ -67,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        System.out.println(date1);
+        System.out.println(date1);*/
 
 
     }
@@ -127,5 +138,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void setTitle(String title) {
+        toolbar.setTitle(title);
+        setSupportActionBar(toolbar);
     }
 }
