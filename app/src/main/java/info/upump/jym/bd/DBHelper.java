@@ -75,6 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "( " + TABLE_KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
             TABLE_KEY_TITLE + " TEXT NOT NULL, " +
             TABLE_KEY_COMMENT + " TEXT, " +
+            TABLE_KEY_DESCRIPTION + " TEXT, " +
             TABLE_KEY_TYPE_EXERCISE + " TEXT, " +
             TABLE_KEY_DEFAULT + " INTEGER NOT NULL, " +
             TABLE_KEY_IMG + " TEXT, " +
@@ -131,7 +132,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_EXERCISE);
         db.execSQL(CREATE_TABLE_SET);
         db.execSQL(CREATE_TABLE_USER);
-        db.execSQL(CREATE_TABLE_EXERCISE_DESCRIPTION);
+      //  db.execSQL(CREATE_TABLE_EXERCISE_DESCRIPTION);
 
     }
 

@@ -39,8 +39,11 @@ public class InflaiterDB {
                 Exercise exercise = new Exercise();
                 exercise.setTitle(context.getResources().getString(v.getName()) + i);
                 exercise.setComment("комент " + i);
+                exercise.setDescription("описание i na angliskom");
                 exercise.setTypeMuscle(v);
-                exercise.setDefaultType(true);
+                if(i%2 == 0) {
+                    exercise.setDefaultType(true);
+                }else exercise.setDefaultType(false);
                 exercise.setImg("картинка " + i);
                 exercise.setStartDate(new Date());
                 exercise.setFinishDate(new Date());

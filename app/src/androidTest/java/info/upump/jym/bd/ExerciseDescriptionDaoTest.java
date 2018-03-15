@@ -1,3 +1,4 @@
+/*
 package info.upump.jym.bd;
 
 import android.support.test.InstrumentationRegistry;
@@ -93,4 +94,4 @@ public class ExerciseDescriptionDaoTest {
 
     }
 
-}
+}*/

@@ -24,5 +24,6 @@
     <string name="title_activity_exercise_detail">ExerciseDetailActivity</string>
     <string name="no_description">нет описания</string>
     <string name="title_activity_exercise_detail_edit">ExerciseDetailActivityEdit</string>
-    <string name="exercise_edit_enter_title">Ввежите название упражнения</string>
+    <string name="exercise_edit_enter_title">Введите название упражнения</string>
+    <string name="exercise_detail_activity_edit_description">Описание</string>
 </resources>

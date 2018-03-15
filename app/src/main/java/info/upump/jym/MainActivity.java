@@ -18,6 +18,7 @@ import android.view.MenuItem;
 
 import info.upump.jym.bd.DBHelper;
 import info.upump.jym.fragments.ExerciseFragment;
+import info.upump.jym.temp.InflaiterDB;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ITitlable, IControlFragment {
@@ -76,8 +77,8 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
         System.out.println(date1);*/
-        // InflaiterDB inflaiterDB = new InflaiterDB(getApplicationContext());
-        //  inflaiterDB.insertInBasicExercise();
+      //   InflaiterDB inflaiterDB = new InflaiterDB(getApplicationContext());
+   //      inflaiterDB.insertInBasicExercise();
 
 
     }

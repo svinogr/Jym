@@ -39,7 +39,7 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder{
         mItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ExerciseDetailActivity.getIntent(context,exercise);
+                Intent intent = ExerciseDetailActivity.createIntent(context,exercise);
                 context.startActivity(intent);
             }
         });

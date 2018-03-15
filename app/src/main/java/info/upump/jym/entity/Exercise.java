@@ -13,6 +13,7 @@ public class Exercise extends Entity {
     private boolean defaultType;
     private List<Sets> setsList = new ArrayList<>();
     private String img;
+    private String description;
 
     public TypeMuscle getTypeMuscle() {
         return typeMuscle;
@@ -44,6 +45,14 @@ public class Exercise extends Entity {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

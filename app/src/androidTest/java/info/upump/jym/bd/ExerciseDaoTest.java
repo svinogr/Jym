@@ -42,6 +42,7 @@ public class ExerciseDaoTest {
         exercise.setTitle("create title");
         exercise.setComment("create comment");
         exercise.setDefaultType(false);
+        exercise.setDescription("description");
         exercise.setTypeMuscle(TypeMuscle.ABS);
         exercise.setStartDate("2020-03-03");
         exercise.setFinishDate("2020-03-03");
@@ -63,6 +64,7 @@ public class ExerciseDaoTest {
         exercise.setComment("create comment");
         exercise.setDefaultType(false);
         exercise.setTypeMuscle(TypeMuscle.ABS);
+        exercise.setDescription("description");
         exercise.setStartDate("2020-03-03");
         exercise.setFinishDate("2020-03-03");
         exercise.setParentId(0);
@@ -81,6 +83,7 @@ public class ExerciseDaoTest {
         exercise.setComment("create comment");
         exercise.setDefaultType(false);
         exercise.setTypeMuscle(TypeMuscle.ABS);
+        exercise.setDescription("description");
         exercise.setStartDate("2020-03-03");
         exercise.setFinishDate("2020-03-03");
         exercise.setParentId(0);
@@ -100,6 +103,7 @@ public class ExerciseDaoTest {
         exercise.setDefaultType(false);
         exercise.setTypeMuscle(TypeMuscle.ABS);
         exercise.setStartDate("2020-03-03");
+        exercise.setDescription("description");
         exercise.setFinishDate("2020-03-03");
         exercise.setParentId(0);
         long create = exerciseDao.create(exercise);
@@ -120,6 +124,7 @@ public class ExerciseDaoTest {
         exercise.setComment("create comment");
         exercise.setDefaultType(false);
         exercise.setTypeMuscle(TypeMuscle.ABS);
+        exercise.setDescription("description");
         exercise.setStartDate("2020-03-03");
         exercise.setFinishDate("2020-03-03");
         exercise.setParentId(0);
@@ -146,6 +151,7 @@ public class ExerciseDaoTest {
         exercise.setComment("getByParentId comment");
         exercise.setDefaultType(false);
         exercise.setTypeMuscle(TypeMuscle.ABS);
+        exercise.setDescription("description");
         exercise.setStartDate("2020-03-03");
         exercise.setFinishDate("2020-03-03");
         long parentId = 216;
@@ -167,6 +173,7 @@ public class ExerciseDaoTest {
         exercise = new Exercise();
         exercise.setTitle("getByParentId title");
         exercise.setComment("getByParentId comment");
+        exercise.setDescription("description");
         exercise.setDefaultType(false);
         exercise.setTypeMuscle(TypeMuscle.ABS);
         exercise.setStartDate("2020-03-03");

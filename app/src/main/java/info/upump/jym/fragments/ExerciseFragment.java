@@ -19,11 +19,11 @@ import info.upump.jym.IControlFragment;
 import info.upump.jym.ITitlable;
 import info.upump.jym.R;
 import info.upump.jym.adapters.PagerAdapter;
+import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
 
 public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelectedListener, View.OnClickListener{
     private static final String ADAPTER_POSITION = "adapter position";
-    private static final int CREATE_NEW_EXERCISE = 1;
     private String[] tabNames;
     private ITitlable iTitlable;
     private TypeMuscle[] values;
@@ -131,8 +131,9 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(getContext(),ExerciseDetailActivityEdit.class);
-        startActivityForResult(intent, CREATE_NEW_EXERCISE);
+        Exercise exercise = null;
+        Intent intent = ExerciseDetailActivityEdit.createIntent(getContext(),exercise);
+        startActivity(intent);
 
     }
 }
