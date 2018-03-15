@@ -21,4 +21,8 @@
     <string name="calves">голень</string>
     <string name="abs">пресс</string>
     <string name="exercise_fragment_title">упражнения</string>
+    <string name="title_activity_exercise_detail">ExerciseDetailActivity</string>
+    <string name="no_description">нет описания</string>
+    <string name="title_activity_exercise_detail_edit">ExerciseDetailActivityEdit</string>
+    <string name="exercise_edit_enter_title">Ввежите название упражнения</string>
 </resources>

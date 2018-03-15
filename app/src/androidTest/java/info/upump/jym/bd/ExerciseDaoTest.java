@@ -160,4 +160,28 @@ public class ExerciseDaoTest {
         Assert.assertTrue(exerciseDao.delete(exercise));
     }
 
+    @Test
+    public void getAllByTypeMuscle(){
+        TypeMuscle typeMuscle = TypeMuscle.ABS;
+
+        exercise = new Exercise();
+        exercise.setTitle("getByParentId title");
+        exercise.setComment("getByParentId comment");
+        exercise.setDefaultType(false);
+        exercise.setTypeMuscle(TypeMuscle.ABS);
+        exercise.setStartDate("2020-03-03");
+        exercise.setFinishDate("2020-03-03");
+        long parentId = 216;
+        exercise.setParentId(parentId);
+        long create = exerciseDao.create(exercise);
+        exercise.setId(create);
+        Assert.assertNotEquals(create, -1);
+
+        List<Exercise> allByTypeMuscle = exerciseDao.getAllByTypeMuscle(typeMuscle);
+        Assert.assertTrue(allByTypeMuscle.size()>0);
+        System.out.println(allByTypeMuscle.toString());
+
+        Assert.assertTrue(exerciseDao.delete(exercise));
+    }
+
 }

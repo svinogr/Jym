@@ -3,6 +3,7 @@ package info.upump.jym;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -15,35 +16,31 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import info.upump.jym.bd.DBHelper;
-import info.upump.jym.entity.TypeMuscle;
 import info.upump.jym.fragments.ExerciseFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ITitlable {
+        implements NavigationView.OnNavigationItemSelectedListener, ITitlable, IControlFragment {
     private Toolbar toolbar;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //fab = findViewById(R.id.main_fab);
+       /* fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
+*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -55,15 +52,15 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         DBHelper dbHelper = DBHelper.getHelper(this);
         dbHelper.getWritableDatabase();
+
         System.out.println(dbHelper.getDatabaseName());
-        FragmentManager supportFragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
-        ExerciseFragment exerciseFragment = new ExerciseFragment();
-        fragmentTransaction.replace(R.id.main_container, exerciseFragment);
-        fragmentTransaction.commit();
+
+
+        ExerciseFragment exerciseFragment = ExerciseFragment.newInstance();
+        createFragment(exerciseFragment);
 
         // TypeMuscle typeMuscle = TypeMuscle.valueOf("BICEPS");
-       // System.out.println(getResources().getString(typeMuscle.getName())+" "+ typeMuscle.getImg());
+        // System.out.println(getResources().getString(typeMuscle.getName())+" "+ typeMuscle.getImg());
      /*  TypeMuscle[] values = TypeMuscle.values();
         for (TypeMuscle t:values){
             System.out.println(t.toString());
@@ -79,9 +76,21 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
         System.out.println(date1);*/
+        // InflaiterDB inflaiterDB = new InflaiterDB(getApplicationContext());
+        //  inflaiterDB.insertInBasicExercise();
 
 
     }
+
+    @Override
+    public void createFragment(Fragment fragment) {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, fragment);
+        fragmentTransaction.commit();
+
+    }
+
 
     @Override
     public void onBackPressed() {

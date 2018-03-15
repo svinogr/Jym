@@ -15,7 +15,8 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
     public ExerciseDao(Context context) {
         super(context);
     }
-    private final String[] keys =  new String[]{
+
+    private final String[] keys = new String[]{
             DBHelper.TABLE_KEY_ID,
             DBHelper.TABLE_KEY_TITLE,
             DBHelper.TABLE_KEY_COMMENT,
@@ -26,9 +27,9 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
             DBHelper.TABLE_KEY_FINISH_DATE,
             DBHelper.TABLE_KEY_PARENT_ID};
 
-    private ContentValues getContentValuesFrom(Exercise object){
+    private ContentValues getContentValuesFrom(Exercise object) {
         ContentValues cv = new ContentValues();
-        if(object.getId()!=0){
+        if (object.getId() != 0) {
             cv.put(DBHelper.TABLE_KEY_ID, object.getId());
         }
         cv.put(DBHelper.TABLE_KEY_TITLE, object.getTitle());
@@ -59,7 +60,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
     @Override
     public List<Exercise> getAll() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
-              keys, null, null, null, null, null);
+                keys, null, null, null, null, null);
         List<Exercise> exerciseList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -94,7 +95,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
     @Override
     public Exercise getById(long id) {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
-               keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
+                keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
         Exercise exercise = null;
         if (cursor.moveToFirst()) {
             do {
@@ -107,14 +108,24 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
     @Override
     public List<Exercise> getByParentId(long id) {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
-           keys, DBHelper.TABLE_KEY_PARENT_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
+                keys, DBHelper.TABLE_KEY_PARENT_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
 
+        return getListExercise(cursor);
+    }
+
+    public List<Exercise> getAllByTypeMuscle(TypeMuscle typeMuscle) {
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
+                keys, DBHelper.TABLE_KEY_TYPE_EXERCISE + " = ? ", new String[]{typeMuscle.toString()}, null, null, null);
+        return getListExercise(cursor);
+    }
+
+    private List<Exercise> getListExercise(Cursor cursor) {
         List<Exercise> exerciseList = new ArrayList<>();
-        if (cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 Exercise exercise = getExerciseFromCursor(cursor);
                 exerciseList.add(exercise);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         return exerciseList;
     }
