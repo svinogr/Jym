@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,16 +13,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import info.upump.jym.temp.activity.exercise.ExerciseDetailActivityEdit;
+import java.util.List;
+
 import info.upump.jym.IControlFragment;
 import info.upump.jym.ITitlable;
 import info.upump.jym.R;
+import info.upump.jym.activity.exercise.ExerciseDetailActivityEdit;
 import info.upump.jym.adapters.PagerAdapter;
+import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
 
+import static android.app.Activity.RESULT_OK;
+
 public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelectedListener, View.OnClickListener {
-    private static final String ADAPTER_POSITION = "adapter position";
     private String[] tabNames;
     private ITitlable iTitlable;
     private TypeMuscle[] values;
@@ -33,7 +36,6 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
     private IControlFragment iControlFragment;
     private static final int ICON_FAB = R.drawable.ic_add_black_24dp;
     private FloatingActionButton fab;
-    private int tab = 2;
 
     public ExerciseFragment() {
     }
@@ -116,9 +118,37 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
 
     @Override
     public void onClick(View v) {
-        Exercise exercise = null;
+        Exercise exercise = new Exercise();
+        exercise.setTypeMuscle(values[viewPager.getCurrentItem()]);
         Intent intent = ExerciseDetailActivityEdit.createIntent(getContext(), exercise);
-        startActivity(intent);
+        startActivityForResult(intent, ExerciseDetailActivityEdit.REQUEST_CODE_FOR_NEW_EXERCISE);
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == ExerciseDetailActivityEdit.REQUEST_CODE_FOR_NEW_EXERCISE) {
+                Exercise exercise = new Exercise();
+                exercise.setTitle(data.getStringExtra(ExerciseDetailActivityEdit.TITLE_EXERCISE));
+                exercise.setDescription(data.getStringExtra(ExerciseDetailActivityEdit.DESCRIPTION_EXERCISE));
+                exercise.setTypeMuscle(TypeMuscle.valueOf(data.getStringExtra(ExerciseDetailActivityEdit.TYPE_MUSCLE_EXERCISE)));
+                // exercise.setImg(data.getStringExtra(ExerciseDetailActivityEdit.IMG_EXERCISE));
+                addExercise(exercise);
+            }
+            System.out.println("как");
+        }
+
+    }
+
+    private void addExercise(Exercise exercise) {
+        ExerciseDao exerciseDao = new ExerciseDao(getContext());
+        exerciseDao.create(exercise);
+        PagerAdapter pagerAdapter = (PagerAdapter) viewPager.getAdapter();
+        ExerciseListFragmentForViewPager fragment = (ExerciseListFragmentForViewPager) pagerAdapter.getMuscleFragmentMap().get(viewPager.getCurrentItem());
+        List<Exercise> exerciseList = fragment.getExerciseList();
+        exerciseList.add(exercise);
+        fragment.getExerciseAdapter().notifyItemInserted(exerciseList.size() - 1);
+        fragment.getLinearLayoutManager().scrollToPositionWithOffset(exerciseList.size()-1, -100);
     }
 }

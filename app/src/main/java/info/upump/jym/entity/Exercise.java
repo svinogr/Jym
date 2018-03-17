@@ -58,7 +58,8 @@ public class Exercise extends Entity {
     @Override
     public String toString() {
         return "Exercise{" +
-                "typeMuscle=" + typeMuscle +
+                ", desc "+ description+
+                ", typeMuscle=" + typeMuscle +
                 ", defaultType=" + defaultType +
                 ", setsList=" + setsList.size() +
                 ", img='" + img + '\'' +

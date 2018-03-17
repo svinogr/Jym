@@ -33,7 +33,36 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
     private static final String TYPE_MUSCLE = "type muscle";
     private List<Exercise> exerciseList = new ArrayList<>();
     private ExerciseAdapter exerciseAdapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
 
+    public LinearLayoutManager getLinearLayoutManager() {
+        return linearLayoutManager;
+    }
+
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
+
+    public void setRecyclerView(RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
+    }
+
+    public List<Exercise> getExerciseList() {
+        return exerciseList;
+    }
+
+    public void setExerciseList(List<Exercise> exerciseList) {
+        this.exerciseList = exerciseList;
+    }
+
+    public ExerciseAdapter getExerciseAdapter() {
+        return exerciseAdapter;
+    }
+
+    public void setExerciseAdapter(ExerciseAdapter exerciseAdapter) {
+        this.exerciseAdapter = exerciseAdapter;
+    }
 
     public ExerciseListFragmentForViewPager() {
         // Required empty public constructor
@@ -64,8 +93,8 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
         // Inflate the layout for this fragment
         System.out.println("onCreateView внутренний");
         View inflate = inflater.inflate(R.layout.exercise_list_fragment_for_view_pager, container, false);
-        RecyclerView recyclerView = inflate.findViewById(R.id.exercise_fragment_recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView = inflate.findViewById(R.id.exercise_fragment_recycler_view);
+        linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
         exerciseAdapter = new ExerciseAdapter(exerciseList);

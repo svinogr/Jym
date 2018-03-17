@@ -5,6 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import info.upump.jym.entity.TypeMuscle;
 import info.upump.jym.fragments.ExerciseFragment;
@@ -17,6 +21,15 @@ import info.upump.jym.fragments.ExerciseListFragmentForViewPager;
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private TypeMuscle[] typeMuscles;
     private Context context;
+    private Map<Integer,Fragment> muscleFragmentMap = new HashMap<>();
+
+    public Map<Integer, Fragment> getMuscleFragmentMap() {
+        return muscleFragmentMap;
+    }
+
+    public void setMuscleFragmentMap(Map<Integer, Fragment> muscleFragmentMap) {
+        this.muscleFragmentMap = muscleFragmentMap;
+    }
 
     public PagerAdapter(FragmentManager fm, TypeMuscle[] typeMuscles) {
         super(fm);
@@ -31,6 +44,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = ExerciseListFragmentForViewPager.newInstance(typeMuscles[position]);
+        muscleFragmentMap.put(position,fragment);
         return fragment;
     }
 
@@ -42,5 +56,11 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return context.getResources().getString(typeMuscles[position].getName());
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        super.destroyItem(container, position, object);
+        muscleFragmentMap.remove(position);
     }
 }

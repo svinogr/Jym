@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import info.upump.jym.entity.Exercise;
@@ -39,7 +40,13 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         cv.put(DBHelper.TABLE_KEY_TYPE_EXERCISE, object.getTypeMuscle().toString());
         cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType());
         cv.put(DBHelper.TABLE_KEY_IMG, object.getImg());
+        if(object.getStartDate() ==null){
+            object.setStartDate(new Date());
+        }
         cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
+        if(object.getFinishDate() ==null){
+            object.setFinishDate(new Date());
+        }
         cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
         cv.put(DBHelper.TABLE_KEY_PARENT_ID, object.getParentId());
         return cv;
