@@ -33,7 +33,7 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
     private IControlFragment iControlFragment;
     private static final int ICON_FAB = R.drawable.ic_add_black_24dp;
     private FloatingActionButton fab;
-    private int tab=2;
+    private int tab = 2;
 
     public ExerciseFragment() {
     }
@@ -55,7 +55,6 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
             tabNames[i] = getResources().getString(values[i].getName());
         }
         pagerAdapter = new PagerAdapter(getActivity().getSupportFragmentManager(), values, getContext());
-
     }
 
     @Override
@@ -74,18 +73,11 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
         // viewPager.setPageTransformer(true, );
         tabLayout = inflate.findViewById(R.id.exercise_fragment_tab_layout);
 
-        for (int i = 0; i < tabNames.length; i++) {
-            tabLayout.addTab(tabLayout.newTab().setText(tabNames[i]));
-        }
-        tabLayout.setOnTabSelectedListener(this);
 
         viewPager.setAdapter(pagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        if (savedInstanceState != null) {
-            int i = savedInstanceState.getInt(ADAPTER_POSITION);
-            // System.out.println(tabLayout.getTabAt(i));
-            tabLayout.getTabAt(i).select();
-        }
+        tabLayout.setupWithViewPager(viewPager);
+        // viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
         return inflate;
     }
 
@@ -100,37 +92,12 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
 
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        System.out.println("onActivityCreated");
-        if (savedInstanceState != null) {
-            tab = savedInstanceState.getInt(ADAPTER_POSITION);
-           // System.out.println(tabLayout.getTabAt(i));
-           // tabLayout.getTabAt(i).select();
-        }
-    }
-
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         iTitlable = (ITitlable) context;
         iControlFragment = (IControlFragment) context;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(ADAPTER_POSITION, viewPager.getCurrentItem());
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        System.out.println("onResume "+ tab );
-    //   tabLayout.getTabAt(tab).select();
-    }
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {

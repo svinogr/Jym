@@ -39,4 +39,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         return typeMuscles.length;
     }
 
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return context.getResources().getString(typeMuscles[position].getName());
+    }
 }

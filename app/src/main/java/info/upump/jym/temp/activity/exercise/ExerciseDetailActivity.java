@@ -39,7 +39,6 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout = findViewById(R.id.exercise_activity_collapsing);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
@@ -47,7 +46,6 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         if (intent != null) {
             exercise = getExerciseFromIntent(intent);
         }
-
 
         if (exercise.isDefaultType()) {
             fab.setVisibility(View.GONE);

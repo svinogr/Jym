@@ -56,10 +56,10 @@ public class MainActivity extends AppCompatActivity
 
         System.out.println(dbHelper.getDatabaseName());
 
-
-        ExerciseFragment exerciseFragment = ExerciseFragment.newInstance();
-        createFragment(exerciseFragment);
-
+       if(savedInstanceState == null){
+            ExerciseFragment exerciseFragment = ExerciseFragment.newInstance();
+            createFragment(exerciseFragment);
+        }
         // TypeMuscle typeMuscle = TypeMuscle.valueOf("BICEPS");
         // System.out.println(getResources().getString(typeMuscle.getName())+" "+ typeMuscle.getImg());
      /*  TypeMuscle[] values = TypeMuscle.values();

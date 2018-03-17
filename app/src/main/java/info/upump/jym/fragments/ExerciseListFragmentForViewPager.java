@@ -62,6 +62,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        System.out.println("onCreateView внутренний");
         View inflate = inflater.inflate(R.layout.exercise_list_fragment_for_view_pager, container, false);
         RecyclerView recyclerView = inflate.findViewById(R.id.exercise_fragment_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
