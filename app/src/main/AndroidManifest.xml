@@ -20,11 +20,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ExerciseDetailActivity"
+            android:name=".temp.activity.exercise.ExerciseDetailActivity"
             android:label="@string/title_activity_exercise_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ExerciseDetailActivityEdit"
+            android:name=".temp.activity.exercise.ExerciseDetailActivityEdit"
             android:label="@string/title_activity_exercise_detail_edit"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

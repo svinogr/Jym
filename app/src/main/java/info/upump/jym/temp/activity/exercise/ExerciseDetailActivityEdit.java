@@ -1,4 +1,4 @@
-package info.upump.jym;
+package info.upump.jym.temp.activity.exercise;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import info.upump.jym.R;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
 

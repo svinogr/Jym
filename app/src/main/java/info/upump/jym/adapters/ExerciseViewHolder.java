@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import info.upump.jym.ExerciseDetailActivity;
+import info.upump.jym.temp.activity.exercise.ExerciseDetailActivity;
 import info.upump.jym.R;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Sets;

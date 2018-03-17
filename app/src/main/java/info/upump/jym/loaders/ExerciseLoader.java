@@ -27,7 +27,6 @@ public class ExerciseLoader extends AsyncTaskLoader<List<Exercise>> {
     public List<Exercise> loadInBackground() {
         ExerciseDao exerciseDao = new ExerciseDao(context);
         List<Exercise> exerciseList = exerciseDao.getAllByTypeMuscle(typeMuscle);
-        System.out.println(exerciseList.size());
         return exerciseList;
     }
 

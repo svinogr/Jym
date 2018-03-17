@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import info.upump.jym.ExerciseDetailActivityEdit;
+import info.upump.jym.temp.activity.exercise.ExerciseDetailActivityEdit;
 import info.upump.jym.IControlFragment;
 import info.upump.jym.ITitlable;
 import info.upump.jym.R;
@@ -22,7 +22,7 @@ import info.upump.jym.adapters.PagerAdapter;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
 
-public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelectedListener, View.OnClickListener{
+public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelectedListener, View.OnClickListener {
     private static final String ADAPTER_POSITION = "adapter position";
     private String[] tabNames;
     private ITitlable iTitlable;
@@ -33,6 +33,7 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
     private IControlFragment iControlFragment;
     private static final int ICON_FAB = R.drawable.ic_add_black_24dp;
     private FloatingActionButton fab;
+    private int tab=2;
 
     public ExerciseFragment() {
     }
@@ -46,6 +47,7 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        System.out.println("onCreate");
         super.onCreate(savedInstanceState);
         values = TypeMuscle.values();
         tabNames = new String[values.length];
@@ -59,8 +61,9 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View inflate = inflater.inflate(R.layout.fragment_exercise, container, false);
 
+        View inflate = inflater.inflate(R.layout.fragment_exercise, container, false);
+        System.out.println("onCreateView");
         fab = getActivity().findViewById(R.id.main_fab);
         fab.setOnClickListener(this);
         setIconFab(fab);
@@ -68,15 +71,21 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
         iTitlable.setTitle(getResources().getString(R.string.exercise_fragment_title));
 
         viewPager = inflate.findViewById(R.id.exercise_fragment_viewpager);
+        // viewPager.setPageTransformer(true, );
         tabLayout = inflate.findViewById(R.id.exercise_fragment_tab_layout);
 
         for (int i = 0; i < tabNames.length; i++) {
             tabLayout.addTab(tabLayout.newTab().setText(tabNames[i]));
         }
-        viewPager.setAdapter(pagerAdapter);
-        // viewPager.setPageTransformer(true, );
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(this);
+
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        if (savedInstanceState != null) {
+            int i = savedInstanceState.getInt(ADAPTER_POSITION);
+            // System.out.println(tabLayout.getTabAt(i));
+            tabLayout.getTabAt(i).select();
+        }
         return inflate;
     }
 
@@ -91,14 +100,16 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
 
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        System.out.println("onActivityCreated");
         if (savedInstanceState != null) {
-            int i = savedInstanceState.getInt(ADAPTER_POSITION);
-            System.out.println(i);
-            viewPager.setCurrentItem(i);
+            tab = savedInstanceState.getInt(ADAPTER_POSITION);
+           // System.out.println(tabLayout.getTabAt(i));
+           // tabLayout.getTabAt(i).select();
         }
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -112,6 +123,13 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
         super.onSaveInstanceState(outState);
         outState.putInt(ADAPTER_POSITION, viewPager.getCurrentItem());
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("onResume "+ tab );
+    //   tabLayout.getTabAt(tab).select();
     }
 
     @Override
@@ -132,7 +150,7 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
     @Override
     public void onClick(View v) {
         Exercise exercise = null;
-        Intent intent = ExerciseDetailActivityEdit.createIntent(getContext(),exercise);
+        Intent intent = ExerciseDetailActivityEdit.createIntent(getContext(), exercise);
         startActivity(intent);
 
     }
