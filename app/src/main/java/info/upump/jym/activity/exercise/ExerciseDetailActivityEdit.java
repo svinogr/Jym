@@ -3,14 +3,21 @@ package info.upump.jym.activity.exercise;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import info.upump.jym.R;
 import info.upump.jym.entity.Exercise;
@@ -26,32 +33,65 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
     public static final String ACTION = "action";
     public static final int REQUEST_CODE_FOR_EDIT_EXERCISE = 1;
     public static final int REQUEST_CODE_FOR_NEW_EXERCISE = 0;
-    private boolean edit;
     private FloatingActionButton fabSave;
     private FloatingActionButton fabPhoto;
     private CollapsingToolbarLayout collapsingToolbarLayout;
+    private ImageView imageView;
     private Exercise exercise;
     private EditText title, description;
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 100) {
+                collapsingToolbarLayout.setTitle(msg.obj.toString());
+            }
+        }
+    };
+    private String TITLE = "title";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_detail_edit);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.exercise_activity_detail_edit_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         title = findViewById(R.id.exercise_detail_activity_edit_title);
         description = findViewById(R.id.exercise_detail_activity_edit_description);
+        imageView = findViewById(R.id.exercise_activity_detail_edit_image_view);
 
-        collapsingToolbarLayout = findViewById(R.id.exercise_activity_edit_collapsing);
+        collapsingToolbarLayout = findViewById(R.id.exercise_activity_detail_edit_collapsing);
+        if (savedInstanceState == null) {
+            collapsingToolbarLayout.setTitle(title.getHint());
+        }
 
-        fabSave = findViewById(R.id.fab_save);
-        fabPhoto = findViewById(R.id.fab_save);
+        fabSave = findViewById(R.id.exercise_activity_detail_edit_fab_save);
+        fabPhoto = findViewById(R.id.exercise_activity_detail_edit_fab_save);
         fabSave.setOnClickListener(this);
         fabPhoto.setOnClickListener(this);
-        //TODO добавить changeTextListener
+
+        title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handler.removeMessages(100);
+                if((title.getText().toString().trim()).equals("")){
+                    handler.sendMessageDelayed(handler.obtainMessage(100, title.getHint()), 250);
+                }else handler.sendMessageDelayed(handler.obtainMessage(100, title.getText()), 250);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         exercise = getExerciseFromIntent(getIntent());
 
@@ -59,8 +99,10 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
             title.setText(exercise.getTitle());
             description.setText(exercise.getDescription());
             collapsingToolbarLayout.setTitle(title.getText());
-
         }
+
+        Picasso.with(this).load(R.drawable.ic_menu_camera).into(imageView);
+
 
     }
 
@@ -95,8 +137,8 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
     @Override
     public void onClick(View v) {
         if (v.getId() == fabSave.getId()) {
-            if(title.getText().toString().trim().equals("")){
-                Toast.makeText(this,"времен, необходим тайтл вести",Toast.LENGTH_SHORT).show();
+            if (title.getText().toString().trim().equals("")) {
+                Toast.makeText(this, "времен, необходим тайтл вести", Toast.LENGTH_SHORT).show();
                 return;
             }
             createResultIntent();
@@ -120,5 +162,29 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        String titleS = null;
+
+        if (savedInstanceState.get(TITLE) != null) {
+            titleS = savedInstanceState.getString(TITLE);
+
+        }
+        title.setText(titleS);
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        if (!title.getText().toString().trim().equals("")) {
+            System.out.println("onSaveInstanceState "+title.getText().toString());
+            outState.putString(TITLE, title.getText().toString());
+
+        }
+        super.onSaveInstanceState(outState);
     }
 }

@@ -24,17 +24,26 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
     private WebView description;
     private Exercise exercise;
     private CollapsingToolbarLayout collapsingToolbarLayout;
+    private FloatingActionButton fabEdit;
+    private FloatingActionButton fabDelete;
+    public static final int REQUEST_OPEN_OR_CHANGE = 0;
+    public static final String ACTION = "action";
+    public static final int OPEN_OR_CHANGE = 1;
+    public static final int DELETE = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.exercise_activity_detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        collapsingToolbarLayout = findViewById(R.id.exercise_activity_collapsing);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+        collapsingToolbarLayout = findViewById(R.id.exercise_activity_detail_collapsing);
+        fabEdit = findViewById(R.id.exercise_activity_detail_fab_edit);
+        fabDelete = findViewById(R.id.exercise_activity_detail_fab_delete);
+        fabEdit.setOnClickListener(this);
+        fabDelete.setOnClickListener(this);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -42,26 +51,26 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         }
 
         if (exercise.isDefaultType()) {
-            fab.setVisibility(View.GONE);
+            fabEdit.setVisibility(View.GONE);
+            fabDelete.setVisibility(View.GONE);
         }
 
-        imageView = findViewById(R.id.exercise_detail_activity_image_view);
+        imageView = findViewById(R.id.exercise_activity_detail_image_view);
         description = findViewById(R.id.exercise_detail_activity_description);
 
         createViewFrom(exercise);
-
-
     }
 
     private void createViewFrom(Exercise exercise) {
-        Picasso.with(this).load(R.drawable.ic_launcher_background).fit().into(imageView);// TODO картинкку из тренироывкм
+        Picasso.with(this).load(R.drawable.ic_launcher_background).error(R.drawable.ic_launcher_background).fit().into(imageView);// TODO картинкку из тренироывкм
+
         collapsingToolbarLayout.setTitle(exercise.getTitle());
 
         if (exercise.getDescription().equals("")) {
             exercise.setDescription(getResources().getString(R.string.no_description));
         }
-        description.loadData(exercise.getDescription(), "text/html", "windows-1251");
 
+        description.loadData(exercise.getDescription(), "text/html", "windows-1251");
     }
 
     public static Intent createIntent(Context context, Exercise exercise) {
@@ -74,7 +83,6 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         ExerciseDao exerciseDao = new ExerciseDao(this);
         long longExtra = intent.getLongExtra(ID_EXERCISE, 0);
         exercise = exerciseDao.getById(longExtra);
-        System.out.println(exercise);
         return exercise;
     }
 
@@ -89,8 +97,32 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        Intent intent = ExerciseDetailActivityEdit.createIntent(this, exercise);
-        startActivityForResult(intent, ExerciseDetailActivityEdit.REQUEST_CODE_FOR_EDIT_EXERCISE);
+        if (v.getId() == fabEdit.getId()) {
+            Intent intent = ExerciseDetailActivityEdit.createIntent(this, exercise);
+            startActivityForResult(intent, ExerciseDetailActivityEdit.REQUEST_CODE_FOR_EDIT_EXERCISE);
+        }
+        if (v.getId() == fabDelete.getId()) {
+        //    ExerciseDao exerciseDao = new ExerciseDao(this);
+          //  if (exerciseDao.delete(exercise)) {
+            Intent intent = createIntentForResult(DELETE, exercise.getId());
+                finish();
+            //}
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+       // super.onBackPressed();
+        Intent intent = createIntentForResult(OPEN_OR_CHANGE, exercise.getId());
+        finish();
+    }
+
+    private Intent createIntentForResult(int action, long id) {
+        Intent intent = new Intent();
+        intent.putExtra(ACTION,action);
+        intent.putExtra(ID_EXERCISE, id);
+        setResult(REQUEST_OPEN_OR_CHANGE,intent);
+        return intent;
     }
 
     @Override
@@ -100,12 +132,10 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
                 ExerciseDao exerciseDao = new ExerciseDao(this);
                 exercise.setTitle(data.getStringExtra(ExerciseDetailActivityEdit.TITLE_EXERCISE));
                 exercise.setDescription(data.getStringExtra(ExerciseDetailActivityEdit.DESCRIPTION_EXERCISE));
-                if(exerciseDao.update(exercise)){
+                if (exerciseDao.update(exercise)) {
                     createViewFrom(exercise);
                 }
             }
         }
-
     }
-
 }

@@ -9,6 +9,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+   <!-- перечисление-->
     <string name="shoulder">плечи</string>
     <string name="pectoral">грудные</string>
     <string name="traps">трапеции</string>
@@ -20,10 +21,12 @@
     <string name="hamstring">трицепс бедра</string>
     <string name="calves">голень</string>
     <string name="abs">пресс</string>
-    <string name="exercise_fragment_title">упражнения</string>
+    <!--****-->
+    <string name="exercise_fragment_title">Упражнения</string>
     <string name="title_activity_exercise_detail">ExerciseDetailActivity</string>
-    <string name="no_description">нет описания</string>
+    <string name="no_description">Нет описания</string>
     <string name="title_activity_exercise_detail_edit">ExerciseDetailActivityEdit</string>
     <string name="exercise_edit_enter_title">Введите название упражнения</string>
     <string name="exercise_detail_activity_edit_description">Описание</string>
+    <string name="exercise_card_type_exrcise">своя</string>
 </resources>

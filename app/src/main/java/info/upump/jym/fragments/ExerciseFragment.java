@@ -72,16 +72,62 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
         iTitlable.setTitle(getResources().getString(R.string.exercise_fragment_title));
 
         viewPager = inflate.findViewById(R.id.exercise_fragment_viewpager);
-        // viewPager.setPageTransformer(true, );
-        tabLayout = inflate.findViewById(R.id.exercise_fragment_tab_layout);
+        viewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
+            @Override
+            public void transformPage(View view, float position) {
+
+                int pageWidth = view.getWidth();
+                int pageHeight = view.getHeight();
+                final float MIN_SCALE = 0.85f;
+                float MIN_ALPHA = 0.5f;
+
+                if (position < -1)
+
+                { // [-Infinity,-1)
+                    // This page is way off-screen to the left.
+                    view.setAlpha(0);
+
+                } else if (position <= 1)
+
+                { // [-1,1]
+                    // Modify the default slide transition to shrink the page as well
+                    float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
+                    float vertMargin = pageHeight * (1 - scaleFactor) / 2;
+                    float horzMargin = pageWidth * (1 - scaleFactor) / 2;
+                    if (position < 0) {
+                        view.setTranslationX(horzMargin - vertMargin / 2);
+                    } else {
+                        view.setTranslationX(-horzMargin + vertMargin / 2);
+                    }
+
+                    // Scale the page down (between MIN_SCALE and 1)
+                    view.setScaleX(scaleFactor);
+                    view.setScaleY(scaleFactor);
+
+                    // Fade the page relative to its size.
+                    view.setAlpha(MIN_ALPHA +
+                            (scaleFactor - MIN_SCALE) /
+                                    (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+
+                } else
+
+                { // (1,+Infinity]
+                    // This page is way off-screen to the right.
+                    view.setAlpha(0);
+                }
+            }
+
+
+            });
+            tabLayout =inflate.findViewById(R.id.exercise_fragment_tab_layout);
 
 
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        // viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            // viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         return inflate;
-    }
+        }
 
     private void setIconFab(FloatingActionButton fab) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -143,12 +189,16 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
 
     private void addExercise(Exercise exercise) {
         ExerciseDao exerciseDao = new ExerciseDao(getContext());
-        exerciseDao.create(exercise);
-        PagerAdapter pagerAdapter = (PagerAdapter) viewPager.getAdapter();
-        ExerciseListFragmentForViewPager fragment = (ExerciseListFragmentForViewPager) pagerAdapter.getMuscleFragmentMap().get(viewPager.getCurrentItem());
-        List<Exercise> exerciseList = fragment.getExerciseList();
-        exerciseList.add(exercise);
-        fragment.getExerciseAdapter().notifyItemInserted(exerciseList.size() - 1);
-        fragment.getLinearLayoutManager().scrollToPositionWithOffset(exerciseList.size()-1, -100);
+        long id = exerciseDao.create(exercise);
+        if(id != -1) {
+            PagerAdapter pagerAdapter = (PagerAdapter) viewPager.getAdapter();
+            int currentTab = viewPager.getCurrentItem();
+            exercise.setId(id);
+            ExerciseListFragmentForViewPager fragment = (ExerciseListFragmentForViewPager) pagerAdapter.getMuscleFragmentMap().get(currentTab);
+        //    List<Exercise> exerciseList = fragment.getExerciseList();
+          //  exerciseList.add(exercise);
+            //fragment.getExerciseAdapter().notifyItemInserted(exerciseList.size() - 1);
+            //fragment.getLinearLayoutManager().scrollToPositionWithOffset(exerciseList.size() - 1, -0);
+        }
     }
 }

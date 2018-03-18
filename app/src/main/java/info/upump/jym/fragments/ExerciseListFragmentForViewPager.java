@@ -1,6 +1,7 @@
 package info.upump.jym.fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -93,11 +94,12 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
         // Inflate the layout for this fragment
         System.out.println("onCreateView внутренний");
         View inflate = inflater.inflate(R.layout.exercise_list_fragment_for_view_pager, container, false);
+
+        exerciseAdapter = new ExerciseAdapter(exerciseList);
+
         recyclerView = inflate.findViewById(R.id.exercise_fragment_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        exerciseAdapter = new ExerciseAdapter(exerciseList);
         recyclerView.setAdapter(exerciseAdapter);
         return inflate;
     }
