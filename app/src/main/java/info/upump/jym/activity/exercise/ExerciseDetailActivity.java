@@ -102,11 +102,10 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
             startActivityForResult(intent, ExerciseDetailActivityEdit.REQUEST_CODE_FOR_EDIT_EXERCISE);
         }
         if (v.getId() == fabDelete.getId()) {
-        //    ExerciseDao exerciseDao = new ExerciseDao(this);
-          //  if (exerciseDao.delete(exercise)) {
+
             Intent intent = createIntentForResult(DELETE, exercise.getId());
                 finish();
-            //}
+
         }
     }
 
