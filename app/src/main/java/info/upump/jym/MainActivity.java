@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import info.upump.jym.activity.exercise.ExerciseDetailActivity;
 import info.upump.jym.bd.DBHelper;
 import info.upump.jym.fragments.ExerciseFragment;
 
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ITitlable, IControlFragment {
     private Toolbar toolbar;
     private FloatingActionButton fab;
+    private Fragment curFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void createFragment(Fragment fragment) {
+        curFragment = fragment;
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_container, fragment);
@@ -158,7 +161,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("requestCode"+requestCode);
+        System.out.println("in ac1");
+        System.out.println(resultCode);
+        System.out.println(requestCode);
+      if(resultCode == RESULT_OK) {
+          System.out.println("in ac1.5");
+          if (requestCode == ExerciseDetailActivity.REQUEST_OPEN_OR_CHANGE) {
+              System.out.println("in ac2");
+
+              ((ExerciseFragment) curFragment).deliteExercise(data.getLongExtra(ExerciseDetailActivity.ID_EXERCISE, 0));
+          }
+      }
 
     }
 }

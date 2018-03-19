@@ -133,5 +133,9 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
         getLoaderManager().initLoader(0, null, this);
     }
 
+    public void  deleteItem(long id){
+
+    }
+
 
 }

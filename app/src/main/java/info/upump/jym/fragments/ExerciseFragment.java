@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import info.upump.jym.IControlFragment;
 import info.upump.jym.ITitlable;
 import info.upump.jym.R;
 import info.upump.jym.activity.exercise.ExerciseDetailActivityEdit;
+import info.upump.jym.adapters.ExerciseAdapter;
 import info.upump.jym.adapters.PagerAdapter;
 import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.entity.Exercise;
@@ -118,16 +120,16 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
             }
 
 
-            });
-            tabLayout =inflate.findViewById(R.id.exercise_fragment_tab_layout);
+        });
+        tabLayout = inflate.findViewById(R.id.exercise_fragment_tab_layout);
 
 
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-            // viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        // viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         return inflate;
-        }
+    }
 
     private void setIconFab(FloatingActionButton fab) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -190,15 +192,55 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
     private void addExercise(Exercise exercise) {
         ExerciseDao exerciseDao = new ExerciseDao(getContext());
         long id = exerciseDao.create(exercise);
-        if(id != -1) {
+        if (id != -1) {
             PagerAdapter pagerAdapter = (PagerAdapter) viewPager.getAdapter();
             int currentTab = viewPager.getCurrentItem();
             exercise.setId(id);
             ExerciseListFragmentForViewPager fragment = (ExerciseListFragmentForViewPager) pagerAdapter.getMuscleFragmentMap().get(currentTab);
-        //    List<Exercise> exerciseList = fragment.getExerciseList();
-          //  exerciseList.add(exercise);
-            //fragment.getExerciseAdapter().notifyItemInserted(exerciseList.size() - 1);
+            List<Exercise> exerciseList = fragment.getExerciseList();
+            exerciseList.add(exercise);
+            fragment.getExerciseAdapter().notifyItemInserted(exerciseList.size() - 1);
+            fragment.getRecyclerView().smoothScrollToPosition(exerciseList.size() - 1);
             //fragment.getLinearLayoutManager().scrollToPositionWithOffset(exerciseList.size() - 1, -0);
         }
+    }
+
+    public void deliteExercise(long id) {
+
+        System.out.println("delete");
+        ExerciseDao exerciseDao = new ExerciseDao(getContext());
+        Exercise exerciseDel = exerciseDao.getById(id);
+        int cur = 0;
+        for (TypeMuscle t : values) {
+            if (t == exerciseDel.getTypeMuscle()) {
+                cur = t.ordinal();
+            }
+        }
+        if (viewPager.getCurrentItem() != cur) {
+            viewPager.setCurrentItem(cur);
+        }
+
+        PagerAdapter adapter = (PagerAdapter) viewPager.getAdapter();
+        ExerciseListFragmentForViewPager fragment = (ExerciseListFragmentForViewPager) adapter.getMuscleFragmentMap().get(cur);
+       fragment.deleteItem(id);
+
+
+
+
+        List<Exercise> exerciseList = fragment.getExerciseList();
+        for (Exercise e : exerciseList) {
+            System.out.println(e.getId() + " " + exerciseDel.getId());
+            if (e.getId() == exerciseDel.getId()) {
+                exerciseDao.delete(exerciseDel);
+
+                ExerciseAdapter exerciseAdapter = fragment.getExerciseAdapter();
+                int index = exerciseList.indexOf(e);
+                exerciseList.remove(index);
+                exerciseAdapter.notifyItemRemoved(index);
+                return;
+            }
+        }
+
+
     }
 }

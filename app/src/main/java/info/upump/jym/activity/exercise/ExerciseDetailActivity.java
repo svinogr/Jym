@@ -19,7 +19,7 @@ import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.entity.Exercise;
 
 public class ExerciseDetailActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String ID_EXERCISE = "id";
+    public static final String ID_EXERCISE = "id";
     private ImageView imageView;
     private WebView description;
     private Exercise exercise;
@@ -120,7 +120,7 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         Intent intent = new Intent();
         intent.putExtra(ACTION,action);
         intent.putExtra(ID_EXERCISE, id);
-        setResult(REQUEST_OPEN_OR_CHANGE,intent);
+        setResult(RESULT_OK,intent);
         return intent;
     }
 
