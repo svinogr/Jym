@@ -2,6 +2,7 @@ package info.upump.jym.activity.exercise;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import info.upump.jym.R;
+import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
 
@@ -39,6 +41,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
     private ImageView imageView;
     private Exercise exercise;
     private EditText title, description;
+    private ExerciseDao exerciseDao;
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -54,6 +57,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_detail_edit);
+
         Toolbar toolbar = findViewById(R.id.exercise_activity_detail_edit_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,30 +65,27 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
         title = findViewById(R.id.exercise_detail_activity_edit_title);
         description = findViewById(R.id.exercise_detail_activity_edit_description);
         imageView = findViewById(R.id.exercise_activity_detail_edit_image_view);
-
         collapsingToolbarLayout = findViewById(R.id.exercise_activity_detail_edit_collapsing);
-        if (savedInstanceState == null) {
-            collapsingToolbarLayout.setTitle(title.getHint());
-        }
-
-        fabSave = findViewById(R.id.exercise_activity_detail_edit_fab_save);
+        fabSave = findViewById(R.id.exercise_activity_detail_edit_fab_photo);
         fabPhoto = findViewById(R.id.exercise_activity_detail_edit_fab_save);
         fabSave.setOnClickListener(this);
         fabPhoto.setOnClickListener(this);
 
+        if (savedInstanceState == null) {
+            collapsingToolbarLayout.setTitle(title.getHint());
+        }
+
         title.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeMessages(100);
-                if((title.getText().toString().trim()).equals("")){
+                if ((title.getText().toString().trim()).equals("")) {
                     handler.sendMessageDelayed(handler.obtainMessage(100, title.getHint()), 250);
-                }else handler.sendMessageDelayed(handler.obtainMessage(100, title.getText()), 250);
-
+                } else handler.sendMessageDelayed(handler.obtainMessage(100, title.getText()), 250);
             }
 
             @Override
@@ -99,65 +100,96 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
             title.setText(exercise.getTitle());
             description.setText(exercise.getDescription());
             collapsingToolbarLayout.setTitle(title.getText());
+
         }
-
-        Picasso.with(this).load(R.drawable.ic_menu_camera).into(imageView);
-
-
+        Uri imgUri = null;
+        try {
+            imgUri = Uri.parse(exercise.getImg());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        Picasso.with(this).load(imgUri).error(R.drawable.ic_launcher_background).into(imageView);
     }
 
     public static Intent createIntent(Context context, Exercise exercise) {
         Intent intent = new Intent(context, ExerciseDetailActivityEdit.class);
-        if (exercise.getId() != 0) {
-            intent.putExtra(ACTION, ExerciseDetailActivityEdit.REQUEST_CODE_FOR_EDIT_EXERCISE);
-            intent.putExtra(ExerciseDetailActivityEdit.ID_EXERCISE, exercise.getId());
-            intent.putExtra(ExerciseDetailActivityEdit.TITLE_EXERCISE, exercise.getTitle());
-            intent.putExtra(ExerciseDetailActivityEdit.DESCRIPTION_EXERCISE, exercise.getDescription());
-            intent.putExtra(ExerciseDetailActivityEdit.IMG_EXERCISE, exercise.getImg());
-        } else {
-            intent.putExtra(ACTION, ExerciseDetailActivityEdit.REQUEST_CODE_FOR_NEW_EXERCISE);
-
-        }
         intent.putExtra(ExerciseDetailActivityEdit.TYPE_MUSCLE_EXERCISE, exercise.getTypeMuscle().toString());
+        if (exercise.getId() != 0) {
+            intent.putExtra(ExerciseDetailActivityEdit.ID_EXERCISE, exercise.getId());
+        }
         return intent;
     }
 
     private Exercise getExerciseFromIntent(Intent intent) {
-        Exercise exercise = new Exercise();
-        if (intent.getIntExtra(ACTION, 0) == REQUEST_CODE_FOR_EDIT_EXERCISE) {
-            exercise.setId(intent.getLongExtra(ID_EXERCISE, 0));
-            exercise.setTitle(intent.getStringExtra(TITLE_EXERCISE));
-            exercise.setDescription(intent.getStringExtra(DESCRIPTION_EXERCISE));
-            exercise.setImg(intent.getStringExtra(IMG_EXERCISE));
+        Exercise exercise = null;
+        long id = intent.getLongExtra(ID_EXERCISE, 0);
+        if (id != 0) {
+            exerciseDao = new ExerciseDao(this);
+            exercise = exerciseDao.getById(id);
+        } else {
+            exercise = new Exercise();
+            exercise.setTypeMuscle(TypeMuscle.valueOf(intent.getStringExtra(ExerciseDetailActivityEdit.TYPE_MUSCLE_EXERCISE)));
         }
-        exercise.setTypeMuscle(TypeMuscle.valueOf(intent.getStringExtra(ExerciseDetailActivityEdit.TYPE_MUSCLE_EXERCISE)));
         return exercise;
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == fabSave.getId()) {
-            if (title.getText().toString().trim().equals("")) {
-                Toast.makeText(this, "времен, необходим тайтл вести", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            createResultIntent();
-            finish();
+        System.out.println(v);
+        switch (v.getId()) {
+            case R.id.exercise_activity_detail_edit_fab_save:
+                if (title.getText().toString().trim().equals("")) {
+                    Toast.makeText(this, "времен, необходим тайтл вести", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    inflateItemFromFields();
+                    if (exercise.getId() > 0) {
+                        updateItem();
+                    } else saveItem();
+                    finish();   //   createResultIntent();
+                }
+                break;
+            case R.id.exercise_activity_detail_edit_fab_photo:
+                // start metod photo_
+                Toast.makeText(this, "времен, получим фото", Toast.LENGTH_SHORT).show();
+                break;
         }
+    }
+
+    private void updateItem() {
+        exerciseDao = getExerciseDao();
+        if (exerciseDao.update(exercise)) {
+            Toast.makeText(this, "времен, упражнение упражнение изменено", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "времен, не возможно изменить", Toast.LENGTH_SHORT).show();
 
     }
 
-    private void createResultIntent() {
+    private void saveItem() {
+        exerciseDao = getExerciseDao();
+        if (exerciseDao.create(exercise) != 1) {
+            Toast.makeText(this, "времен, упражнение сохранено", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
+    }
+
+    private ExerciseDao getExerciseDao() {
+        if (exerciseDao == null) {
+            exerciseDao = new ExerciseDao(this);
+        }
+        return exerciseDao;
+    }
+
+  /*  private void createResultIntent() {
         Intent intent = new Intent();
         intent.putExtra(TITLE_EXERCISE, title.getText().toString());
         intent.putExtra(DESCRIPTION_EXERCISE, description.getText().toString());
         intent.putExtra(TYPE_MUSCLE_EXERCISE, exercise.getTypeMuscle().toString());
         setResult(RESULT_OK, intent);
 
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+//        cansel create new back to fragment
         if (item.getItemId() == android.R.id.home) {
             finish();
         }
@@ -179,12 +211,16 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-
         if (!title.getText().toString().trim().equals("")) {
-            System.out.println("onSaveInstanceState "+title.getText().toString());
             outState.putString(TITLE, title.getText().toString());
-
         }
         super.onSaveInstanceState(outState);
+    }
+
+    private Exercise inflateItemFromFields() {
+        exercise.setTitle(title.getText().toString());
+        exercise.setDescription(description.getText().toString());
+        //exercise.setImg();
+        return exercise;
     }
 }

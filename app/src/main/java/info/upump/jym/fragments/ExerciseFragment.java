@@ -162,6 +162,7 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
     @Override
     public void onClick(View v) {
         Exercise exercise = new Exercise();
+//        ДОБАВЛЯЕМ МУСКУЛ ЧТОБЫ ЗНАТЬ В КАКУЮ ГРУППУ СОХРАНИТЬ
         exercise.setTypeMuscle(values[viewPager.getCurrentItem()]);
         Intent intent = ExerciseDetailActivityEdit.createIntent(getContext(), exercise);
         startActivity(intent);
