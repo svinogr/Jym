@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -47,6 +48,16 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         fabEdit.setOnClickListener(this);
         fabDelete.setOnClickListener(this);
 
+
+
+
+        imageView = findViewById(R.id.exercise_activity_detail_image_view);
+        description = findViewById(R.id.exercise_detail_activity_description);
+
+       //createViewFrom();
+    }
+
+    private void createViewFrom() {
         Intent intent = getIntent();
         if (intent != null) {
             exercise = getExerciseFromIntent(intent);
@@ -56,14 +67,6 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
             fabEdit.setVisibility(View.GONE);
             fabDelete.setVisibility(View.GONE);
         }
-
-        imageView = findViewById(R.id.exercise_activity_detail_image_view);
-        description = findViewById(R.id.exercise_detail_activity_description);
-
-        createViewFrom(exercise);
-    }
-
-    private void createViewFrom(Exercise exercise) {
         Picasso.with(this).load(R.drawable.ic_launcher_background).error(R.drawable.ic_launcher_background).fit().into(imageView);// TODO картинкку из тренироывкм
 
         collapsingToolbarLayout.setTitle(exercise.getTitle());
@@ -113,32 +116,23 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
                                 finish();
                             }
                         }).show();
-
         }
-
-
-
     }
 
     private void deleteItem() {
-        exerciseDao.delete(exercise);
+        if (exerciseDao.delete(exercise)) {
+            Toast.makeText(this, "времен, упражнение удалено", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "времен, не возможно удалить", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onBackPressed() {
-        // super.onBackPressed();
-        Intent intent = createIntentForResult(OPEN_OR_CHANGE, exercise.getId());
-        finish();
+    protected void onResume() {
+        super.onResume();
+        createViewFrom();
+
     }
 
-    private Intent createIntentForResult(int action, long id) {
-        Intent intent = new Intent();
-        intent.putExtra(ACTION, action);
-        intent.putExtra(ID_EXERCISE, id);
-        setResult(RESULT_OK, intent);
-        return intent;
-    }
-
+    /*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -152,4 +146,5 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
             }
         }
     }
+    */
 }
