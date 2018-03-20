@@ -77,7 +77,6 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
         viewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
             @Override
             public void transformPage(View view, float position) {
-
                 int pageWidth = view.getWidth();
                 int pageHeight = view.getHeight();
                 final float MIN_SCALE = 0.85f;
@@ -122,11 +121,8 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
 
         });
         tabLayout = inflate.findViewById(R.id.exercise_fragment_tab_layout);
-
-
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        // viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         return inflate;
     }
@@ -139,7 +135,6 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
         }
 
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -169,7 +164,8 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
         Exercise exercise = new Exercise();
         exercise.setTypeMuscle(values[viewPager.getCurrentItem()]);
         Intent intent = ExerciseDetailActivityEdit.createIntent(getContext(), exercise);
-        startActivityForResult(intent, ExerciseDetailActivityEdit.REQUEST_CODE_FOR_NEW_EXERCISE);
+        startActivity(intent);
+//        startActivityForResult(intent, ExerciseDetailActivityEdit.REQUEST_CODE_FOR_NEW_EXERCISE);
     }
 
     @Override
@@ -190,7 +186,7 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
     }
 
     private void addExercise(Exercise exercise) {
-        ExerciseDao exerciseDao = new ExerciseDao(getContext());
+      /*  ExerciseDao exerciseDao = new ExerciseDao(getContext());
         long id = exerciseDao.create(exercise);
         if (id != -1) {
             PagerAdapter pagerAdapter = (PagerAdapter) viewPager.getAdapter();
@@ -202,12 +198,12 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
             fragment.getExerciseAdapter().notifyItemInserted(exerciseList.size() - 1);
             fragment.getRecyclerView().smoothScrollToPosition(exerciseList.size() - 1);
             //fragment.getLinearLayoutManager().scrollToPositionWithOffset(exerciseList.size() - 1, -0);
-        }
+        }*/
     }
 
     public void deliteExercise(long id) {
 
-        System.out.println("delete");
+      /*  System.out.println("delete");
         ExerciseDao exerciseDao = new ExerciseDao(getContext());
         Exercise exerciseDel = exerciseDao.getById(id);
         int cur = 0;
@@ -240,7 +236,7 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
                 return;
             }
         }
-
+*/
 
     }
 }
