@@ -2,12 +2,19 @@ package info.upump.jym.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -50,12 +57,7 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(Exercise exercise) {
         this.exercise = exercise;
-        Picasso.with(itemView.getContext().getApplicationContext())
-                .load(R.drawable.ic_menu_camera)
-                .placeholder(R.mipmap.ic_launcher_round)
-                .error(R.drawable.ic_add_black_24dp)
-                .into(image);
-
+        setPic(Uri.parse(exercise.getImg()));
         title.setText(exercise.getTitle());
 
         if (exercise.getSetsList() == null && exercise.getSetsList().size() > 0) {
@@ -69,6 +71,18 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
 
     private int createInfo(List<Sets> setsList) {
         return 0;
+    }
+
+    private void setPic(Uri uri) {
+        RequestOptions options = new RequestOptions()
+                .transforms(new RoundedCorners(50))
+                .centerCrop()
+                .placeholder(R.drawable.ic_add_black_24dp)
+                .error(R.drawable.ic_add_black_24dp)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH);
+
+        Glide.with(itemView.getContext()).load(uri).apply(options).into(image);
     }
 
 }

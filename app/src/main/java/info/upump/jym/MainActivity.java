@@ -1,12 +1,11 @@
 package info.upump.jym;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import info.upump.jym.activity.exercise.ExerciseDetailActivity;
 import info.upump.jym.bd.DBHelper;
 import info.upump.jym.fragments.ExerciseFragment;
 import info.upump.jym.temp.InflaiterDB;
@@ -78,11 +76,8 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
         System.out.println(date1);*/
-/*
          InflaiterDB inflaiterDB = new InflaiterDB(getApplicationContext());
         inflaiterDB.insertInBasicExercise();
-*/
-
 
     }
 

@@ -18,6 +18,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import info.upump.jym.R;
@@ -35,6 +39,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
     public static final String ACTION = "action";
     public static final int REQUEST_CODE_FOR_EDIT_EXERCISE = 1;
     public static final int REQUEST_CODE_FOR_NEW_EXERCISE = 0;
+    private static final int REQUEST_CODE_GALLERY_PHOTO = 3;
     private FloatingActionButton fabSave;
     private FloatingActionButton fabPhoto;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -95,20 +100,39 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
         });
 
         exercise = getExerciseFromIntent(getIntent());
+        createViewFrom(exercise);
 
+    }
+
+    private void createViewFrom(Exercise exercise) {
         if (exercise.getId() != 0) {
             title.setText(exercise.getTitle());
             description.setText(exercise.getDescription());
             collapsingToolbarLayout.setTitle(title.getText());
-
         }
+
         Uri imgUri = null;
+
         try {
             imgUri = Uri.parse(exercise.getImg());
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        Picasso.with(this).load(imgUri).error(R.drawable.ic_launcher_background).into(imageView);
+        setPic(imgUri);
+
+
+    }
+    private void setPic(Uri uri){
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.ic_add_black_24dp)
+                .error(R.drawable.ic_add_black_24dp)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH);
+
+//        Picasso.with(this).load(imgUri).fit().error(R.drawable.ic_launcher_background).into(imageView);
+//        Glide.with(this).load(imgUri).into(imageView);
+        Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
     public static Intent createIntent(Context context, Exercise exercise) {
@@ -121,6 +145,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
     }
 
     private Exercise getExerciseFromIntent(Intent intent) {
+        System.out.println("1111111111111111111");
         Exercise exercise = null;
         long id = intent.getLongExtra(ID_EXERCISE, 0);
         if (id != 0) {
@@ -143,6 +168,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
 
                 } else {
                     inflateItemFromFields();
+                    System.out.println("be save "+exercise);
                     if (exercise.getId() > 0) {
                         updateItem();
                     } else saveItem();
@@ -150,8 +176,9 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
                 }
                 break;
             case R.id.exercise_activity_detail_edit_fab_photo:
-                // start metod photo_
-                Toast.makeText(this, "времен, получим фото", Toast.LENGTH_SHORT).show();
+                Intent phootoPic = new Intent(Intent.ACTION_PICK);
+                phootoPic.setType("image/*");
+                startActivityForResult(phootoPic, REQUEST_CODE_GALLERY_PHOTO);
                 break;
         }
     }
@@ -161,7 +188,27 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
         if (exerciseDao.update(exercise)) {
             Toast.makeText(this, "времен, упражнение упражнение изменено", Toast.LENGTH_SHORT).show();
         } else Toast.makeText(this, "времен, не возможно изменить", Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_GALLERY_PHOTO:
+                    handlingImage(data);
+            }
+        }
+
+    }
+
+    private void handlingImage(Intent data) {
+        Uri uriImage = data.getData();
+        System.out.println("image " + uriImage.toString());
+        exercise.setImg(uriImage.toString());
+        System.out.println(exercise.toString());
+        setPic(uriImage);
+     //   createViewFrom(exercise);
     }
 
     private void saveItem() {
@@ -177,15 +224,6 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
         }
         return exerciseDao;
     }
-
-  /*  private void createResultIntent() {
-        Intent intent = new Intent();
-        intent.putExtra(TITLE_EXERCISE, title.getText().toString());
-        intent.putExtra(DESCRIPTION_EXERCISE, description.getText().toString());
-        intent.putExtra(TYPE_MUSCLE_EXERCISE, exercise.getTypeMuscle().toString());
-        setResult(RESULT_OK, intent);
-
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -220,7 +258,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
     private Exercise inflateItemFromFields() {
         exercise.setTitle(title.getText().toString());
         exercise.setDescription(description.getText().toString());
-        //exercise.setImg();
+
         return exercise;
     }
 }

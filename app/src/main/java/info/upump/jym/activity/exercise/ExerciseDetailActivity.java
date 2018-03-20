@@ -2,6 +2,7 @@ package info.upump.jym.activity.exercise;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -14,7 +15,13 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
+
+import java.net.URI;
 
 import info.upump.jym.R;
 import info.upump.jym.bd.ExerciseDao;
@@ -48,13 +55,10 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         fabEdit.setOnClickListener(this);
         fabDelete.setOnClickListener(this);
 
-
-
-
         imageView = findViewById(R.id.exercise_activity_detail_image_view);
         description = findViewById(R.id.exercise_detail_activity_description);
 
-       //createViewFrom();
+        //createViewFrom();
     }
 
     private void createViewFrom() {
@@ -67,15 +71,12 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
             fabEdit.setVisibility(View.GONE);
             fabDelete.setVisibility(View.GONE);
         }
-        Picasso.with(this).load(R.drawable.ic_launcher_background).error(R.drawable.ic_launcher_background).fit().into(imageView);// TODO картинкку из тренироывкм
-
-        collapsingToolbarLayout.setTitle(exercise.getTitle());
 
         if (exercise.getDescription().equals("")) {
             exercise.setDescription(getResources().getString(R.string.no_description));
         }
-
-        description.loadData(exercise.getDescription(), "text/html", "windows-1251");
+        setPic(Uri.parse(exercise.getImg()));
+        description.loadDataWithBaseURL(null, exercise.getDescription(), "text/html", "UTF-8", null);
     }
 
     public static Intent createIntent(Context context, Exercise exercise) {
@@ -89,6 +90,17 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         long longExtra = intent.getLongExtra(ID_EXERCISE, 0);
         exercise = exerciseDao.getById(longExtra);
         return exercise;
+    }
+
+    private void setPic(Uri uri) {
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.ic_add_black_24dp)
+                .error(R.drawable.ic_add_black_24dp)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH);
+
+        Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
 
@@ -108,7 +120,7 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
                 startActivity(intent);
                 break;
             case R.id.exercise_activity_detail_fab_delete:
-                Snackbar.make(v,"ТОчно удадить", Snackbar.LENGTH_LONG)
+                Snackbar.make(v, "ТОчно удадить", Snackbar.LENGTH_LONG)
                         .setAction("сто пудов", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
