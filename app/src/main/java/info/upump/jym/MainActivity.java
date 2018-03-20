@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity
         actionBar.setTitle(title);
     }
 
-    @Override
+ /*   @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println("in ac1");
@@ -176,5 +176,5 @@ public class MainActivity extends AppCompatActivity
           }
       }
 
-    }
+    }*/
 }

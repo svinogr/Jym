@@ -43,7 +43,7 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 Intent intent = ExerciseDetailActivity.createIntent(context, exercise);
-                ((MainActivity)context).startActivityForResult(intent, ExerciseDetailActivity.REQUEST_OPEN_OR_CHANGE);
+                context.startActivity(intent);
             }
         });
     }
