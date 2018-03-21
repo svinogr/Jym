@@ -122,16 +122,14 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
 
 
     }
-    private void setPic(Uri uri){
+
+    private void setPic(Uri uri) {
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.drawable.ic_add_black_24dp)
                 .error(R.drawable.ic_add_black_24dp)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
-
-//        Picasso.with(this).load(imgUri).fit().error(R.drawable.ic_launcher_background).into(imageView);
-//        Glide.with(this).load(imgUri).into(imageView);
         Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
@@ -168,7 +166,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
 
                 } else {
                     inflateItemFromFields();
-                    System.out.println("be save "+exercise);
+                    System.out.println("be save " + exercise);
                     if (exercise.getId() > 0) {
                         updateItem();
                     } else saveItem();
@@ -176,8 +174,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
                 }
                 break;
             case R.id.exercise_activity_detail_edit_fab_photo:
-                Intent phootoPic = new Intent(Intent.ACTION_PICK);
-                phootoPic.setType("image/*");
+                Intent phootoPic = createIntentForGetPic();
                 startActivityForResult(phootoPic, REQUEST_CODE_GALLERY_PHOTO);
                 break;
         }
@@ -188,6 +185,17 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
         if (exerciseDao.update(exercise)) {
             Toast.makeText(this, "времен, упражнение упражнение изменено", Toast.LENGTH_SHORT).show();
         } else Toast.makeText(this, "времен, не возможно изменить", Toast.LENGTH_SHORT).show();
+    }
+
+    private Intent createIntentForGetPic() {
+        Intent intent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        } else {
+            intent = new Intent(Intent.ACTION_PICK);
+        }
+        intent.setType("image/*");
+        return intent;
     }
 
     @Override
@@ -208,7 +216,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
         exercise.setImg(uriImage.toString());
         System.out.println(exercise.toString());
         setPic(uriImage);
-     //   createViewFrom(exercise);
+        //   createViewFrom(exercise);
     }
 
     private void saveItem() {

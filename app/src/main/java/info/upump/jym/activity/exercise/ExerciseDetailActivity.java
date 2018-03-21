@@ -75,6 +75,7 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         if (exercise.getDescription().equals("")) {
             exercise.setDescription(getResources().getString(R.string.no_description));
         }
+        collapsingToolbarLayout.setTitle(exercise.getTitle());
         setPic(Uri.parse(exercise.getImg()));
         description.loadDataWithBaseURL(null, exercise.getDescription(), "text/html", "UTF-8", null);
     }
