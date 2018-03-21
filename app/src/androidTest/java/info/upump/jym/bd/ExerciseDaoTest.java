@@ -28,6 +28,16 @@ public class ExerciseDaoTest {
     @Before
     public void setUp() throws Exception {
         exerciseDao = new ExerciseDao(InstrumentationRegistry.getTargetContext());
+        exercise = new Exercise();
+        exercise.setTitle("create title");
+        exercise.setComment("create comment");
+        exercise.setDefaultType(true);
+        exercise.setTemplate(true);
+        exercise.setDescription("description");
+        exercise.setTypeMuscle(TypeMuscle.ABS);
+        exercise.setStartDate("2020-03-03");
+        exercise.setFinishDate("2020-03-03");
+        exercise.setParentId(0);
 
     }
 
@@ -38,15 +48,7 @@ public class ExerciseDaoTest {
 
     @Test
     public void getAll() throws Exception {
-        exercise = new Exercise();
-        exercise.setTitle("create title");
-        exercise.setComment("create comment");
-        exercise.setDefaultType(false);
-        exercise.setDescription("description");
-        exercise.setTypeMuscle(TypeMuscle.ABS);
-        exercise.setStartDate("2020-03-03");
-        exercise.setFinishDate("2020-03-03");
-        exercise.setParentId(0);
+
         long create = exerciseDao.create(exercise);
         exercise.setId(create);
         Assert.assertNotEquals(create, -1);
@@ -59,15 +61,7 @@ public class ExerciseDaoTest {
 
     @Test
     public void create() throws Exception {
-        exercise = new Exercise();
-        exercise.setTitle("create title");
-        exercise.setComment("create comment");
-        exercise.setDefaultType(false);
-        exercise.setTypeMuscle(TypeMuscle.ABS);
-        exercise.setDescription("description");
-        exercise.setStartDate("2020-03-03");
-        exercise.setFinishDate("2020-03-03");
-        exercise.setParentId(0);
+
         long create = exerciseDao.create(exercise);
         exercise.setId(create);
 
@@ -78,15 +72,7 @@ public class ExerciseDaoTest {
 
     @Test
     public void delete() throws Exception {
-        exercise = new Exercise();
-        exercise.setTitle("create title");
-        exercise.setComment("create comment");
-        exercise.setDefaultType(false);
-        exercise.setTypeMuscle(TypeMuscle.ABS);
-        exercise.setDescription("description");
-        exercise.setStartDate("2020-03-03");
-        exercise.setFinishDate("2020-03-03");
-        exercise.setParentId(0);
+
         long create = exerciseDao.create(exercise);
         exercise.setId(create);
         Assert.assertNotEquals(create, -1);
@@ -97,15 +83,7 @@ public class ExerciseDaoTest {
 
     @Test
     public void update() throws Exception {
-        exercise = new Exercise();
-        exercise.setTitle("create title");
-        exercise.setComment("create comment");
-        exercise.setDefaultType(false);
-        exercise.setTypeMuscle(TypeMuscle.ABS);
-        exercise.setStartDate("2020-03-03");
-        exercise.setDescription("description");
-        exercise.setFinishDate("2020-03-03");
-        exercise.setParentId(0);
+
         long create = exerciseDao.create(exercise);
         exercise.setId(create);
         Assert.assertNotEquals(create, -1);
@@ -119,15 +97,7 @@ public class ExerciseDaoTest {
 
     @Test
     public void getById()throws Exception{
-        exercise = new Exercise();
-        exercise.setTitle("create title");
-        exercise.setComment("create comment");
-        exercise.setDefaultType(false);
-        exercise.setTypeMuscle(TypeMuscle.ABS);
-        exercise.setDescription("description");
-        exercise.setStartDate("2020-03-03");
-        exercise.setFinishDate("2020-03-03");
-        exercise.setParentId(0);
+
         long create = exerciseDao.create(exercise);
         exercise.setId(create);
         Assert.assertNotEquals(create, -1);
@@ -146,14 +116,7 @@ public class ExerciseDaoTest {
 
     @Test
     public void getByParentId()throws Exception{
-        exercise = new Exercise();
-        exercise.setTitle("getByParentId title");
-        exercise.setComment("getByParentId comment");
-        exercise.setDefaultType(false);
-        exercise.setTypeMuscle(TypeMuscle.ABS);
-        exercise.setDescription("description");
-        exercise.setStartDate("2020-03-03");
-        exercise.setFinishDate("2020-03-03");
+
         long parentId = 216;
         exercise.setParentId(parentId);
         long create = exerciseDao.create(exercise);
@@ -170,14 +133,6 @@ public class ExerciseDaoTest {
     public void getAllByTypeMuscle(){
         TypeMuscle typeMuscle = TypeMuscle.ABS;
 
-        exercise = new Exercise();
-        exercise.setTitle("getByParentId title");
-        exercise.setComment("getByParentId comment");
-        exercise.setDescription("description");
-        exercise.setDefaultType(false);
-        exercise.setTypeMuscle(TypeMuscle.ABS);
-        exercise.setStartDate("2020-03-03");
-        exercise.setFinishDate("2020-03-03");
         long parentId = 216;
         exercise.setParentId(parentId);
         long create = exerciseDao.create(exercise);

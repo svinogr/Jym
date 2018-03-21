@@ -3,6 +3,7 @@ package info.upump.jym.activity.exercise;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -111,19 +112,23 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
             collapsingToolbarLayout.setTitle(title.getText());
         }
 
-        Uri imgUri = null;
+       /* Uri imgUri = null;
 
         try {
             imgUri = Uri.parse(exercise.getImg());
         } catch (NullPointerException e) {
             e.printStackTrace();
-        }
-        setPic(imgUri);
+        }*/
+        setPic();
 
 
     }
 
-    private void setPic(Uri uri) {
+    private void setPic() {
+        Uri uri = null;
+        if(exercise.getImg()!=null) {
+            uri = Uri.parse(exercise.getImg());
+        }
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.drawable.ic_add_black_24dp)
@@ -215,7 +220,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
         System.out.println("image " + uriImage.toString());
         exercise.setImg(uriImage.toString());
         System.out.println(exercise.toString());
-        setPic(uriImage);
+        setPic();
         //   createViewFrom(exercise);
     }
 
@@ -237,10 +242,14 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
     public boolean onOptionsItemSelected(MenuItem item) {
 //        cansel create new back to fragment
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                finishAfterTransition();
+            } else finish();
         }
-        return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
+
     }
+
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {

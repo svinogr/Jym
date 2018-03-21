@@ -1,14 +1,18 @@
 package info.upump.jym.activity.exercise;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
@@ -76,7 +80,7 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
             exercise.setDescription(getResources().getString(R.string.no_description));
         }
         collapsingToolbarLayout.setTitle(exercise.getTitle());
-        setPic(Uri.parse(exercise.getImg()));
+        setPic();
         description.loadDataWithBaseURL(null, exercise.getDescription(), "text/html", "UTF-8", null);
     }
 
@@ -93,7 +97,11 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         return exercise;
     }
 
-    private void setPic(Uri uri) {
+    private void setPic() {
+        Uri uri = null;
+        if(exercise.getImg()!=null) {
+            uri = Uri.parse(exercise.getImg());
+        }
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.drawable.ic_add_black_24dp)
@@ -104,21 +112,24 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                finishAfterTransition();
+            } else finish();
+
+
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.exercise_activity_detail_fab_edit:
-                Intent intent = ExerciseDetailActivityEdit.createIntent(this, exercise);
-                startActivity(intent);
+              startActivity();
                 break;
             case R.id.exercise_activity_detail_fab_delete:
                 Snackbar.make(v, "ТОчно удадить", Snackbar.LENGTH_LONG)
@@ -130,6 +141,22 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
                             }
                         }).show();
         }
+    }
+
+
+    private void startActivity() {
+        Intent intent = ExerciseDetailActivityEdit.createIntent(this, exercise);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View sharedViewIm = imageView;
+            View sharedViewT = description;
+            String transitionNameIm = "exercise_card_layout_image";
+            String transitionNameT = "exercise_detail_activity_description";
+            ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
+                            this,
+                    Pair.create(sharedViewIm, transitionNameIm),  Pair.create(sharedViewT, transitionNameT));
+            startActivity(intent, transitionActivityOptions.toBundle());
+        } else startActivity(intent);
+
     }
 
     private void deleteItem() {

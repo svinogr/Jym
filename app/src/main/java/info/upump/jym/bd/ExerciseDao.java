@@ -24,6 +24,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
             DBHelper.TABLE_KEY_DESCRIPTION,
             DBHelper.TABLE_KEY_TYPE_EXERCISE,
             DBHelper.TABLE_KEY_DEFAULT,
+            DBHelper.TABLE_KEY_TEMPLATE,
             DBHelper.TABLE_KEY_IMG,
             DBHelper.TABLE_KEY_START_DATE,
             DBHelper.TABLE_KEY_FINISH_DATE,
@@ -39,6 +40,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         cv.put(DBHelper.TABLE_KEY_DESCRIPTION, object.getDescription());
         cv.put(DBHelper.TABLE_KEY_TYPE_EXERCISE, object.getTypeMuscle().toString());
         cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType());
+        cv.put(DBHelper.TABLE_KEY_TEMPLATE, object.isTemplate());
         cv.put(DBHelper.TABLE_KEY_IMG, object.getImg());
         if(object.getStartDate() ==null){
             object.setStartDate(new Date());
@@ -60,10 +62,11 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         exercise.setDescription(cursor.getString(3));
         exercise.setTypeMuscle(TypeMuscle.valueOf(cursor.getString(4)));
         exercise.setDefaultType(cursor.getInt(5) == 1);
-        exercise.setImg(cursor.getString(6));
-        exercise.setStartDate((cursor.getString(7)));
-        exercise.setFinishDate((cursor.getString(8)));
-        exercise.setParentId(cursor.getLong(9));
+        exercise.setTemplate(cursor.getInt(6)==1);
+        exercise.setImg(cursor.getString(7));
+        exercise.setStartDate((cursor.getString(8)));
+        exercise.setFinishDate((cursor.getString(9)));
+        exercise.setParentId(cursor.getLong(10));
         return exercise;
     }
 

@@ -35,6 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_KEY_TYPE_EXERCISE = "type_exercise"; //for exercise, type of group muscles
     public static final String TABLE_KEY_IMG = "img";
+    public static final String TABLE_KEY_TEMPLATE = "template";
 
     public static final String TABLE_KEY_SET_WEIGHT = "weight";//for set
     public static final String TABLE_KEY_SET_REPS = "reps";//for set
@@ -78,6 +79,7 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_DESCRIPTION + " TEXT, " +
             TABLE_KEY_TYPE_EXERCISE + " TEXT, " +
             TABLE_KEY_DEFAULT + " INTEGER NOT NULL, " +
+            TABLE_KEY_TEMPLATE + " INTEGER NOT NULL, " +
             TABLE_KEY_IMG + " TEXT, " +
             TABLE_KEY_START_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE + " TEXT NOT NULL, " +

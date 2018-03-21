@@ -1,10 +1,14 @@
 package info.upump.jym.adapters;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +42,7 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
     private Exercise exercise;
 
 
-    public ExerciseViewHolder(final View itemView) {
+    public ExerciseViewHolder(View itemView) {
         super(itemView);
         this.mItemView = itemView;
         context = itemView.getContext();
@@ -49,15 +53,30 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
         mItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ExerciseDetailActivity.createIntent(context, exercise);
-                context.startActivity(intent);
+                startActivity();
             }
         });
     }
 
+    private void startActivity() {
+        Intent intent = ExerciseDetailActivity.createIntent(context, exercise);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View sharedViewIm = image;
+            View sharedViewT = title;
+            String transitionNameIm = "exercise_card_layout_image";
+            String transitionNameT = "exercise_card_layout_title";
+            ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
+                            context,
+                    Pair.create(sharedViewIm, transitionNameIm),
+                    Pair.create(sharedViewT, transitionNameT));
+            context.startActivity(intent, transitionActivityOptions.toBundle());
+        } else context.startActivity(intent);
+
+    }
+
     public void bind(Exercise exercise) {
         this.exercise = exercise;
-        setPic(Uri.parse(exercise.getImg()));
+        setPic();
         title.setText(exercise.getTitle());
 
         if (exercise.getSetsList() == null && exercise.getSetsList().size() > 0) {
@@ -73,7 +92,11 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
         return 0;
     }
 
-    private void setPic(Uri uri) {
+    private void setPic() {
+        Uri uri = null;
+        if (exercise.getImg() != null) {
+            uri = Uri.parse(exercise.getImg());
+        }
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()

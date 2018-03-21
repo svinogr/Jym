@@ -42,6 +42,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
+                        android:transitionName="exercise_card_layout_image"
                         android:id="@+id/exercise_activity_detail_edit_image_view"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"

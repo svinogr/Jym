@@ -1,5 +1,6 @@
 package info.upump.jym.adapters;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,11 +24,13 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseViewHolder> {
         this.exerciseList = exerciseList;
     }
 
+
     @Override
     public ExerciseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercise_card_layout, parent, false);
         return new ExerciseViewHolder(inflate);
     }
+
 
     @Override
     public void onBindViewHolder(ExerciseViewHolder holder, int position) {

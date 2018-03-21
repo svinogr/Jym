@@ -11,6 +11,7 @@ import java.util.List;
 public class Exercise extends Entity {
     private TypeMuscle typeMuscle;
     private boolean defaultType;
+    private boolean template;
     private List<Sets> setsList = new ArrayList<>();
     private String img;
     private String description;
@@ -55,9 +56,18 @@ public class Exercise extends Entity {
         this.description = description;
     }
 
+    public boolean isTemplate() {
+        return template;
+    }
+
+    public void setTemplate(boolean template) {
+        this.template = template;
+    }
+
     @Override
     public String toString() {
         return "Exercise{" +
+                "template"+ template+
                 ", desc "+ description+
                 ", typeMuscle=" + typeMuscle +
                 ", defaultType=" + defaultType +
