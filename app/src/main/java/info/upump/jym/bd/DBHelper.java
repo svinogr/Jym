@@ -56,6 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "( " + TABLE_KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
             TABLE_KEY_TITLE + " TEXT NOT NULL, " +
             TABLE_KEY_COMMENT + " TEXT, " +
+            TABLE_KEY_DEFAULT + " INTEGER NOT NULL, " +
             TABLE_KEY_START_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE + " TEXT NOT NULL)";
 
@@ -66,6 +67,7 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_COMMENT + " TEXT, " +
             TABLE_KEY_WEEK_EVEN + " INTEGER NOT NULL, " +
             TABLE_KEY_DEFAULT + " INTEGER NOT NULL, " +
+            TABLE_KEY_TEMPLATE + " INTEGER NOT NULL, " +
             TABLE_KEY_START_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_PARENT_ID + " INTEGER)";

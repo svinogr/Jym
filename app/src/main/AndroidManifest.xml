@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="info.upump.jym">
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -30,7 +31,12 @@
         <activity
             android:name=".activity.exercise.ExerciseDetailActivityEdit"
             android:label="@string/title_activity_exercise_detail_edit"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.workout.CycleDetailActivity"
+            android:label="@string/title_activity_workout_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.workout.CycleDetailActivityEdit"></activity>
     </application>
 
 </manifest>

@@ -1,32 +1,24 @@
-package info.upump.jym.fragments;
+package info.upump.jym.fragments.exercises;
 
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import info.upump.jym.IControlFragment;
 import info.upump.jym.ITitlable;
 import info.upump.jym.R;
 import info.upump.jym.activity.exercise.ExerciseDetailActivityEdit;
-import info.upump.jym.adapters.ExerciseAdapter;
 import info.upump.jym.adapters.PagerAdapter;
-import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
-
-import static android.app.Activity.RESULT_OK;
 
 public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelectedListener, View.OnClickListener {
     private String[] tabNames;
@@ -37,7 +29,7 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
     private PagerAdapter pagerAdapter;
     private IControlFragment iControlFragment;
     private static final int ICON_FAB = R.drawable.ic_add_black_24dp;
-    private FloatingActionButton fab;
+    private FloatingActionButton mainFab;
 
     public ExerciseFragment() {
     }
@@ -67,9 +59,9 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
 
         View inflate = inflater.inflate(R.layout.fragment_exercise, container, false);
         System.out.println("onCreateView");
-        fab = getActivity().findViewById(R.id.main_fab);
-        fab.setOnClickListener(this);
-        setIconFab(fab);
+        mainFab = getActivity().findViewById(R.id.main_fab);
+        mainFab.setOnClickListener(this);
+       // setIconFab();
 
         iTitlable.setTitle(getResources().getString(R.string.exercise_fragment_title));
 
@@ -127,22 +119,12 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
         return inflate;
     }
 
-    private void setIconFab(FloatingActionButton fab) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            fab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_add, getContext().getTheme()));
-        } else {
-            fab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_add));
-        }
-
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         iTitlable = (ITitlable) context;
         iControlFragment = (IControlFragment) context;
     }
-
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {

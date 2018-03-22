@@ -24,6 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:transitionName="exercise_card_layout_image"/>
 
+
         <TextView
             android:id="@+id/exercise_card_layout_title"
             android:transitionName=" exercise_card_layout_title"
@@ -36,7 +37,19 @@
             app:layout_constraintBottom_toBottomOf="@+id/exercise_card_layout_image"
             app:layout_constraintStart_toEndOf="@+id/exercise_card_layout_image"
             app:layout_constraintTop_toTopOf="@+id/exercise_card_layout_image"
-            tools:text="testttttttttt" />
+            tools:text="Навзание" />
+
+   <!--     <ImageButton
+            android:id="@+id/exercise_card_layout_delete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@android:drawable/ic_menu_delete"
+            app:layout_constraintBottom_toBottomOf="@+id/exercise_card_layout_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/exercise_card_layout_image" />-->
 
         <View
             android:id="@+id/com_div"
@@ -72,7 +85,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/exercise_card_layout_image"
             app:layout_constraintTop_toBottomOf="@+id/com_div"
-            tools:text="testttttttttt" />
+            tools:text="своя" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

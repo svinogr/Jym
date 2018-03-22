@@ -3,7 +3,6 @@ package info.upump.jym.adapters;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
@@ -11,8 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import info.upump.jym.entity.TypeMuscle;
-import info.upump.jym.fragments.ExerciseFragment;
-import info.upump.jym.fragments.ExerciseListFragmentForViewPager;
+import info.upump.jym.fragments.exercises.ExerciseListFragmentForViewPager;
 
 /**
  * Created by explo on 13.03.2018.

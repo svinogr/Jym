@@ -21,6 +21,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
             DBHelper.TABLE_KEY_ID,
             DBHelper.TABLE_KEY_TITLE,
             DBHelper.TABLE_KEY_COMMENT,
+            DBHelper.TABLE_KEY_DEFAULT,
             DBHelper.TABLE_KEY_START_DATE,
             DBHelper.TABLE_KEY_FINISH_DATE};
 
@@ -31,6 +32,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         }
         cv.put(DBHelper.TABLE_KEY_TITLE, object.getTitle());
         cv.put(DBHelper.TABLE_KEY_COMMENT, object.getComment());
+        cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType());
         cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
         cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
         return cv;
@@ -41,8 +43,9 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         cycle.setId(cursor.getLong(0));
         cycle.setTitle(cursor.getString(1));
         cycle.setComment(cursor.getString(2));
-        cycle.setStartDate((cursor.getString(3)));
-        cycle.setFinishDate((cursor.getString(4)));
+        cycle.setDefaultType(cursor.getInt(3)==1);
+        cycle.setStartDate((cursor.getString(4)));
+        cycle.setFinishDate((cursor.getString(5)));
         return cycle;
     }
 

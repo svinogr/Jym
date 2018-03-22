@@ -28,11 +28,13 @@
     <string name="title_activity_exercise_detail_edit">ExerciseDetailActivityEdit</string>
     <string name="exercise_edit_enter_title">Введите название упражнения</string>
     <string name="exercise_detail_activity_edit_description">Описание</string>
-    <string name="exercise_card_type_exrcise">своя</string>
+    <string name="exercise_card_type_exercise">своя</string>
     <!--permissions-->
     <string name="permission_description">Хранилище файлов</string>
     <string name="permission_description_camera">Камера</string>
     <string name="permission_text_request">Для продолжения необходимо разрешить доступ к: </string>
     <string name="permission_text_options">Настройки</string>
     <string name="permission_description_storage">Хранилище файлов</string>
+    <string name="title_activity_workout_detail">WorkoutDetailActivity</string>
+    <string name="cycle_title">Программы</string>
 </resources>

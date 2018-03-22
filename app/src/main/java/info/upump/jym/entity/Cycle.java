@@ -13,10 +13,20 @@ import java.util.Locale;
 
 public class Cycle extends Entity {
     private List<Workout> workoutList = new ArrayList<>();
+    private boolean defaultType;
+    private String image;
 
     private int getDaysBetweenDates() {
         //Todo getDaysBetweenDates
         return 0;
+    }
+
+    public boolean isDefaultType() {
+        return defaultType;
+    }
+
+    public void setDefaultType(boolean defaultType) {
+        this.defaultType = defaultType;
     }
 
     public List<Workout> getWorkoutList() {
@@ -25,6 +35,14 @@ public class Cycle extends Entity {
 
     public void setWorkoutList(List<Workout> workoutList) {
         this.workoutList = workoutList;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

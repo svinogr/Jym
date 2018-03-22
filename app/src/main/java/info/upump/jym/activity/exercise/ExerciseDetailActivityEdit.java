@@ -23,7 +23,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.Picasso;
 
 import info.upump.jym.R;
 import info.upump.jym.bd.ExerciseDao;
@@ -242,14 +241,19 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
     public boolean onOptionsItemSelected(MenuItem item) {
 //        cansel create new back to fragment
         if (item.getItemId() == android.R.id.home) {
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                finishAfterTransition();
-            } else finish();
+         finishActivityWithoutAnimation();
         }
             return super.onOptionsItemSelected(item);
 
     }
-
+    private void finishActivityWithAnimation(){
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        } else finish();
+    }
+    private void finishActivityWithoutAnimation(){
+      finish();
+    }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {

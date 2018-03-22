@@ -26,7 +26,7 @@ public class ExerciseLoader extends AsyncTaskLoader<List<Exercise>> {
     @Override
     public List<Exercise> loadInBackground() {
         ExerciseDao exerciseDao = new ExerciseDao(context);
-        List<Exercise> exerciseList = exerciseDao.getAllByTypeMuscle(typeMuscle);
+        List<Exercise> exerciseList = exerciseDao.getAllByTypeMuscle(typeMuscle);// TODO только темпейты
         return exerciseList;
     }
 

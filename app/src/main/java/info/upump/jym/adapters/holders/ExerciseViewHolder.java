@@ -1,4 +1,4 @@
-package info.upump.jym.adapters;
+package info.upump.jym.adapters.holders;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -6,24 +6,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import info.upump.jym.MainActivity;
 import info.upump.jym.activity.exercise.ExerciseDetailActivity;
 import info.upump.jym.R;
 import info.upump.jym.entity.Exercise;
@@ -39,6 +36,7 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
     private TextView setInfo, type;
     private Context context;
     private View mItemView;
+    private ImageButton delete;
     private Exercise exercise;
 
 
@@ -50,6 +48,7 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
         title = itemView.findViewById(R.id.exercise_card_layout_title);
         type = itemView.findViewById(R.id.exercise_card_layout_info_type);
         setInfo = itemView.findViewById(R.id.exercise_card_layout_info_sets);
+//        delete = itemView.findViewById(R.id.exercise_card_layout_delete);
         mItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +59,7 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
 
     private void startActivity() {
         Intent intent = ExerciseDetailActivity.createIntent(context, exercise);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = image;
             View sharedViewT = title;
             String transitionNameIm = "exercise_card_layout_image";
@@ -84,7 +83,7 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
             setInfo.setText(createInfo(exercise.getSetsList()));
         }
         if (!exercise.isDefaultType()) {
-            type.setText(context.getResources().getString(R.string.exercise_card_type_exrcise));
+            type.setText(context.getResources().getString(R.string.exercise_card_type_exercise));
         } else type.setText("");
     }
 

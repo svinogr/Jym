@@ -25,6 +25,12 @@ public class CycleDaoTest {
     public void setUp() throws Exception {
         cycleDao = new CycleDao(InstrumentationRegistry.getTargetContext());
         System.out.println("setUp");
+        System.out.println("create");
+        cycle = new Cycle();
+        cycle.setTitle("create create");
+        cycle.setDefaultType(true);
+        cycle.setStartDate("2018-03-12");
+        cycle.setFinishDate("2018-03-12");
     }
 
     @After
@@ -36,11 +42,7 @@ public class CycleDaoTest {
 
     @Test
     public void create() throws Exception {
-        System.out.println("create");
-        cycle = new Cycle();
-        cycle.setTitle("create create");
-        cycle.setStartDate("2018-03-12");
-        cycle.setFinishDate("2018-03-12");
+
         long id = cycleDao.create(cycle);
         cycle.setId(id);
         Assert.assertNotEquals(id, -1); //test create
@@ -51,10 +53,7 @@ public class CycleDaoTest {
 
     @Test
     public void update() {
-        cycle = new Cycle();
-        cycle.setTitle("test title for update");
-        cycle.setStartDate("2018-05-05");
-        cycle.setFinishDate("2018-05-05");
+
 
         long idCreate = cycleDao.create(cycle);
         cycle.setId(idCreate);
@@ -72,11 +71,7 @@ public class CycleDaoTest {
 
     @Test
     public void delete() throws Exception {
-        System.out.println("tearDown");
-        cycle = new Cycle();
-        cycle.setTitle("test delete");
-        cycle.setStartDate("2018-03-07");
-        cycle.setFinishDate("2018-03-06");
+
         long id = cycleDao.create(cycle);
         cycle.setId(id);
         Assert.assertNotEquals(id, -1); //test create
@@ -86,10 +81,7 @@ public class CycleDaoTest {
     }
     @Test
     public void getAll() throws Exception {
-        cycle = new Cycle();
-        cycle.setTitle("test title getAll");
-        cycle.setStartDate("2018-04-04");
-        cycle.setFinishDate("2018-04-04");
+
         long id = cycleDao.create(cycle);
         cycle.setId(id);
         Assert.assertNotEquals(id, -1); //test create
@@ -103,10 +95,7 @@ public class CycleDaoTest {
 
     @Test
     public void getById() throws Exception{
-            cycle = new Cycle();
-            cycle.setTitle("test title getAll");
-            cycle.setStartDate("2018-04-04");
-            cycle.setFinishDate("2018-04-04");
+
             long id = cycleDao.create(cycle);
             cycle.setId(id);
             Assert.assertNotEquals(id, -1); //test create

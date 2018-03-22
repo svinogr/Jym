@@ -21,6 +21,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
             DBHelper.TABLE_KEY_COMMENT,
             DBHelper.TABLE_KEY_WEEK_EVEN,
             DBHelper.TABLE_KEY_DEFAULT,
+            DBHelper.TABLE_KEY_TEMPLATE,
             DBHelper.TABLE_KEY_START_DATE,
             DBHelper.TABLE_KEY_FINISH_DATE,
             DBHelper.TABLE_KEY_PARENT_ID};
@@ -34,6 +35,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         cv.put(DBHelper.TABLE_KEY_COMMENT, object.getComment());
         cv.put(DBHelper.TABLE_KEY_WEEK_EVEN, object.isWeekEven() ? 1 : 0);
         cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType() ? 1 : 0);
+        cv.put(DBHelper.TABLE_KEY_TEMPLATE, object.isTemplate() ? 1 : 0);
         cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
         cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
         cv.put(DBHelper.TABLE_KEY_PARENT_ID, object.getParentId());
@@ -47,9 +49,10 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         workout.setComment(cursor.getString(2));
         workout.setWeekEven(cursor.getInt(3) == 1);
         workout.setDefaultType(cursor.getInt(4) == 1);
-        workout.setStartDate(cursor.getString(5));
-        workout.setFinishDate(cursor.getString(6));
-        workout.setParentId(cursor.getLong(7));
+        workout.setTemplate(cursor.getInt(5) == 1);
+        workout.setStartDate(cursor.getString(6));
+        workout.setFinishDate(cursor.getString(7));
+        workout.setParentId(cursor.getLong(8));
         return workout;
     }
 
@@ -90,9 +93,9 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     }
 
     @Override
-    public Workout getById(long id)
-    { Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT,
-            keys, DBHelper.TABLE_KEY_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
+    public Workout getById(long id) {
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT,
+                keys, DBHelper.TABLE_KEY_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
 
         Workout workout = null;
         if (cursor.moveToFirst()) {
@@ -109,11 +112,11 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
                 keys, DBHelper.TABLE_KEY_PARENT_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
 
         List<Workout> workoutList = new ArrayList<>();
-        if (cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 Workout workout = getWorkoutFromCursor(cursor);
                 workoutList.add(workout);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         return workoutList;
 

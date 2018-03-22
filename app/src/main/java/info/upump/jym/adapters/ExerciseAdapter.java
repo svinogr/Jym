@@ -1,16 +1,14 @@
 package info.upump.jym.adapters;
 
-import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import info.upump.jym.R;
+import info.upump.jym.adapters.holders.ExerciseViewHolder;
 import info.upump.jym.entity.Exercise;
 
 /**

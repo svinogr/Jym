@@ -23,9 +23,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.Picasso;
-
-import java.net.URI;
 
 import info.upump.jym.R;
 import info.upump.jym.bd.ExerciseDao;
@@ -115,11 +112,7 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                finishAfterTransition();
-            } else finish();
-
-
+            finishActivityWithAnimation();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -129,7 +122,7 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.exercise_activity_detail_fab_edit:
-              startActivity();
+             startActivityWithoutAnimation();
                 break;
             case R.id.exercise_activity_detail_fab_delete:
                 Snackbar.make(v, "ТОчно удадить", Snackbar.LENGTH_LONG)
@@ -137,16 +130,24 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
                             @Override
                             public void onClick(View v) {
                                 deleteItem();
-                                finish();
+                              finishActivityWithAnimation();
                             }
                         }).show();
         }
     }
 
+    private void finishActivityWithAnimation(){
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        } else finish();
+    }
+    private void finishActivityWithoutAnimation(){
+      finish();
+    }
 
-    private void startActivity() {
+    private void startActivityAnimation() {
         Intent intent = ExerciseDetailActivityEdit.createIntent(this, exercise);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;
             View sharedViewT = description;
             String transitionNameIm = "exercise_card_layout_image";
@@ -156,7 +157,10 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
                     Pair.create(sharedViewIm, transitionNameIm),  Pair.create(sharedViewT, transitionNameT));
             startActivity(intent, transitionActivityOptions.toBundle());
         } else startActivity(intent);
-
+    }
+    private void startActivityWithoutAnimation(){
+        Intent intent = ExerciseDetailActivityEdit.createIntent(this, exercise);
+        startActivity(intent);
     }
 
     private void deleteItem() {
@@ -172,19 +176,4 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
 
     }
 
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == ExerciseDetailActivityEdit.REQUEST_CODE_FOR_EDIT_EXERCISE) {
-                ExerciseDao exerciseDao = new ExerciseDao(this);
-                exercise.setTitle(data.getStringExtra(ExerciseDetailActivityEdit.TITLE_EXERCISE));
-                exercise.setDescription(data.getStringExtra(ExerciseDetailActivityEdit.DESCRIPTION_EXERCISE));
-                if (exerciseDao.update(exercise)) {
-                    createViewFrom(exercise);
-                }
-            }
-        }
-    }
-    */
 }

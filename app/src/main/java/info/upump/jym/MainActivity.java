@@ -32,7 +32,8 @@ import java.util.List;
 import java.util.Map;
 
 import info.upump.jym.bd.DBHelper;
-import info.upump.jym.fragments.ExerciseFragment;
+import info.upump.jym.fragments.exercises.ExerciseFragment;
+import info.upump.jym.fragments.workout.CycleFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ITitlable, IControlFragment {
@@ -54,8 +55,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         this.savedInstanceState = savedInstanceState;
 
-
-        //fab = findViewById(R.id.main_fab);
+        fab = findViewById(R.id.main_fab);
        /* fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -231,7 +231,8 @@ public class MainActivity extends AppCompatActivity
 
         System.out.println(dbHelper.getDatabaseName());
         if (savedInstanceState == null) {
-            ExerciseFragment exerciseFragment = ExerciseFragment.newInstance();
+          //  ExerciseFragment exerciseFragment = ExerciseFragment.newInstance();
+            CycleFragment exerciseFragment = CycleFragment.newInstance();
             createFragment(exerciseFragment);
         }
     }
@@ -302,20 +303,27 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_programs) {
+            if(!(curFragment instanceof CycleFragment)){
+                curFragment = CycleFragment.newInstance();
+            }
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_exercises) {
+            if(!(curFragment instanceof ExerciseFragment)){
+                curFragment = ExerciseFragment.newInstance();
+            }
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_workouts) {
 
-        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_progress) {
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
         }
-
+        createFragment(curFragment);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

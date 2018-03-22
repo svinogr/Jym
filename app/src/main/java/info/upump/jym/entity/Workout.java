@@ -10,6 +10,7 @@ import java.util.List;
 public class Workout extends Entity {
     private boolean weekEven;
     private boolean defaultType;
+    private boolean template;
     private List<Exercise> exercises = new ArrayList<>();
 
     public boolean isWeekEven() {
@@ -28,7 +29,13 @@ public class Workout extends Entity {
         this.defaultType = defaultType;
     }
 
+    public boolean isTemplate() {
+        return template;
+    }
 
+    public void setTemplate(boolean template) {
+        this.template = template;
+    }
 
     public List<Exercise> getExercises() {
         return exercises;
