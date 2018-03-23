@@ -48,7 +48,8 @@ public class Cycle extends Entity {
     @Override
     public String toString() {
         return "Cycle{" +
-                "startDate=" + startDate +
+                "id"+id+
+                " startDate=" + startDate +
                 ", finishDate=" + finishDate +
                 ", workoutList=" + workoutList.size() +
                 '}';

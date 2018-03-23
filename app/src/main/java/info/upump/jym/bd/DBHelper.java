@@ -32,6 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_KEY_WEEK_EVEN = "week_even";// only for workout
     public static final String TABLE_KEY_DEFAULT = "default_type";// only for workout
     public static final String TABLE_KEY_PARENT_ID = "parent_id";// only for workout
+    public static final String TABLE_KEY_DAY = "day";// only for workout
 
     public static final String TABLE_KEY_TYPE_EXERCISE = "type_exercise"; //for exercise, type of group muscles
     public static final String TABLE_KEY_IMG = "img";
@@ -40,6 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_KEY_SET_WEIGHT = "weight";//for set
     public static final String TABLE_KEY_SET_REPS = "reps";//for set
 
+    /*for user*/
     public static final String TABLE_KEY_NAME = "name";
     public static final String TABLE_KEY_HEIGHT = "height";
     public static final String TABLE_KEY_NECK = "neck";
@@ -68,6 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_WEEK_EVEN + " INTEGER NOT NULL, " +
             TABLE_KEY_DEFAULT + " INTEGER NOT NULL, " +
             TABLE_KEY_TEMPLATE + " INTEGER NOT NULL, " +
+            TABLE_KEY_DAY + " TEXT, " +
             TABLE_KEY_START_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_PARENT_ID + " INTEGER)";

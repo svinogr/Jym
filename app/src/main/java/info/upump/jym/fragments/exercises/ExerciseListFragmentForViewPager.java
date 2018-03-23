@@ -19,7 +19,7 @@ import info.upump.jym.R;
 import info.upump.jym.adapters.ExerciseAdapter;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
-import info.upump.jym.loaders.ExerciseLoader;
+import info.upump.jym.loaders.ExerciseFragmentLoader;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -104,7 +104,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
 
     @Override
     public Loader<List<Exercise>> onCreateLoader(int id, Bundle args) {
-        ExerciseLoader exerciseLoader = new ExerciseLoader(getContext(), typeMuscle);
+        ExerciseFragmentLoader exerciseLoader = new ExerciseFragmentLoader(getContext(), typeMuscle);
         return exerciseLoader;
 
     }

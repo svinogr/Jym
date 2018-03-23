@@ -38,9 +38,12 @@ public class CycleDetailActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.cycle_fragment_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-        pagerAdapterCycle = new PagerAdapterCycle(getSupportFragmentManager());
+        cycle = getCycleFromIntent();
+
+        pagerAdapterCycle = new PagerAdapterCycle(getSupportFragmentManager(),cycle);
         viewPager.setAdapter(pagerAdapterCycle);
-        createViewFrom();
+
+        createViewFrom(cycle);
 
     }
 
@@ -52,12 +55,11 @@ public class CycleDetailActivity extends AppCompatActivity {
     }
 
 
-    private void createViewFrom() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            cycle = getCycleFromIntent(intent);
+    private void createViewFrom(Cycle cycle) {
+        if (cycle != null) {
+            collapsingToolbarLayout.setTitle(cycle.getTitle());
         }
-        collapsingToolbarLayout.setTitle(cycle.getTitle());
+        System.out.println(cycle);
 
 
        /* if (exercise.getDescription().equals("")) {
@@ -68,7 +70,8 @@ public class CycleDetailActivity extends AppCompatActivity {
         description.loadDataWithBaseURL(null, exercise.getDescription(), "text/html", "UTF-8", null);
    */ }
 
-    private Cycle getCycleFromIntent(Intent intent) {
+    private Cycle getCycleFromIntent() {
+        Intent intent = getIntent();
         long id = intent.getLongExtra(ID_CYCLE,0);
         CycleDao cycleDao = new CycleDao(this);
         Cycle cycle = cycleDao.getById(id);

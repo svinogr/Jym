@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
 
 
         // TypeMuscle typeMuscle = TypeMuscle.valueOf("BICEPS");
-        // System.out.println(getResources().getString(typeMuscle.getName())+" "+ typeMuscle.getImg());
+        // System.out.println(getResources().getString(typeMuscle.getName())+" "+ typeMuscle.getColor());
      /*  TypeMuscle[] values = TypeMuscle.values();
         for (TypeMuscle t:values){
             System.out.println(t.toString());

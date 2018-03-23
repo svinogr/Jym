@@ -25,7 +25,7 @@ public class CycleAdapter extends RecyclerView.Adapter<CycleHolder> {
 
     @Override
     public CycleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_card_layout, parent, false);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_card_layout, parent, false);
         return new CycleHolder(inflate);
     }
 

@@ -13,11 +13,11 @@ import info.upump.jym.entity.TypeMuscle;
  * Created by explo on 14.03.2018.
  */
 
-public class ExerciseLoader extends AsyncTaskLoader<List<Exercise>> {
+public class ExerciseFragmentLoader extends AsyncTaskLoader<List<Exercise>> {
     private Context context;
     private TypeMuscle typeMuscle;
 
-    public ExerciseLoader(Context context, TypeMuscle typeMuscle) {
+    public ExerciseFragmentLoader(Context context, TypeMuscle typeMuscle) {
         super(context);
         this.context = context;
         this.typeMuscle = typeMuscle;

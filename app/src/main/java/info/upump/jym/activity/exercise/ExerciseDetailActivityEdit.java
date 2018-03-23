@@ -114,7 +114,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
        /* Uri imgUri = null;
 
         try {
-            imgUri = Uri.parse(exercise.getImg());
+            imgUri = Uri.parse(exercise.getColor());
         } catch (NullPointerException e) {
             e.printStackTrace();
         }*/

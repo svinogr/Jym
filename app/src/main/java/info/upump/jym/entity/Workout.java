@@ -11,6 +11,7 @@ public class Workout extends Entity {
     private boolean weekEven;
     private boolean defaultType;
     private boolean template;
+    private Day day;
     private List<Exercise> exercises = new ArrayList<>();
 
     public boolean isWeekEven() {
@@ -43,6 +44,14 @@ public class Workout extends Entity {
 
     public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
+    }
+
+    public Day getDay() {
+        return day;
+    }
+
+    public void setDay(Day day) {
+        this.day = day;
     }
 
     @Override

@@ -19,7 +19,7 @@ import info.upump.jym.ITitlable;
 import info.upump.jym.R;
 import info.upump.jym.adapters.CycleAdapter;
 import info.upump.jym.entity.Cycle;
-import info.upump.jym.loaders.CycleLoader;
+import info.upump.jym.loaders.CycleFragmentLoader;
 
 public class CycleFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Cycle>> {
     private ITitlable iTitlable;
@@ -65,7 +65,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
     @Override
     public Loader<List<Cycle>> onCreateLoader(int id, Bundle args) {
-        CycleLoader cycleLoader = new CycleLoader(getContext());
+        CycleFragmentLoader cycleLoader = new CycleFragmentLoader(getContext());
         return cycleLoader;
     }
 

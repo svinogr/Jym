@@ -25,8 +25,9 @@ public class CycleDaoTest {
     public void setUp() throws Exception {
         cycleDao = new CycleDao(InstrumentationRegistry.getTargetContext());
         System.out.println("setUp");
-        System.out.println("create");
+        System.out.println("new program");
         cycle = new Cycle();
+        cycle.setComment("эта программа супер пуппер");
         cycle.setTitle("create create");
         cycle.setDefaultType(true);
         cycle.setStartDate("2018-03-12");
@@ -95,8 +96,8 @@ public class CycleDaoTest {
 
     @Test
     public void getById() throws Exception{
-
             long id = cycleDao.create(cycle);
+        System.out.println("dkshjkshdhsjdk"+id);
             cycle.setId(id);
             Assert.assertNotEquals(id, -1); //test create
 
@@ -107,7 +108,7 @@ public class CycleDaoTest {
         Assert.assertEquals(cycle.getFinishStringFormatDate(),byId.getFinishStringFormatDate());
         Assert.assertEquals(cycle.getParentId(),byId.getParentId());
 
-        Assert.assertTrue(cycleDao.delete(cycle));
+   //     Assert.assertTrue(cycleDao.delete(cycle));
     }
 
 

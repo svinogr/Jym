@@ -16,9 +16,9 @@ import info.upump.jym.entity.Workout;
  * Created by explo on 22.03.2018.
  */
 
-public class CycleLoader extends AsyncTaskLoader<List<Cycle>> {
+public class CycleFragmentLoader extends AsyncTaskLoader<List<Cycle>> {
     private Context context;
-    public CycleLoader(@NonNull Context context) {
+    public CycleFragmentLoader(@NonNull Context context) {
         super(context);
         this.context = context;
     }

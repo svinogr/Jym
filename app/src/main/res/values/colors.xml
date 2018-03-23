@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <!--700 color-->
+    <color name="monday">#1976d2</color>
+    <color name="tuesday">#7b1fa2</color>
+    <color name="wednesday">#388e3c</color>
+    <color name="thursday">#c2185b</color>
+    <color name="friday">#fbc02d</color>
+    <color name="saturday">#f57c00</color>
+    <color name="sunday">#d32f2f</color>
 </resources>

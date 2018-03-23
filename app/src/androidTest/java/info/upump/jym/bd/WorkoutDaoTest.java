@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import info.upump.jym.entity.Day;
 import info.upump.jym.entity.Workout;
 
 import static org.junit.Assert.*;
@@ -32,6 +33,7 @@ public class WorkoutDaoTest {
         workout.setWeekEven(true);
         workout.setDefaultType(true);
         workout.setTemplate(true);
+        workout.setDay(Day.MONDAY);
         workout.setStartDate("2018-08-08");
         workout.setFinishDate("2019-08-08");
     }
@@ -112,7 +114,7 @@ public class WorkoutDaoTest {
     @Test
     public void getByParentId()throws Exception{
         workout.setFinishDate("2019-08-08");
-        long parentId =154;
+        long parentId =8;
         workout.setParentId(parentId);
         long id = workoutDao.create(workout);
         workout.setId(id);
