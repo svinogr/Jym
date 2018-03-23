@@ -35,7 +35,8 @@
     <string name="permission_text_request">Для продолжения необходимо разрешить доступ к: </string>
     <string name="permission_text_options">Настройки</string>
     <string name="permission_description_storage">Хранилище файлов</string>
-    <string name="title_activity_workout_detail">WorkoutDetailActivity</string>
+    <string name="title_activity_workout_detail">CycleDetailActivity</string>
+    <string name="title_activity_workout_detail_edit">CycleDetailEditActivity</string>
     <string name="cycle_title">Программы</string>
     <!--day-->
     <string name="day_monday">пн</string>

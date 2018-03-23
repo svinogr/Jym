@@ -1,26 +1,21 @@
 package info.upump.jym.adapters;
 
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
 import info.upump.jym.activity.workout.fragments.CycleFragmentForViewPagerDescription;
 import info.upump.jym.activity.workout.fragments.CycleFragmentForViewPagerWorkouts;
 import info.upump.jym.entity.Cycle;
 
 /**
- * Created by explo on 22.03.2018.
+ * Created by explo on 23.03.2018.
  */
 
-public class PagerAdapterCycle extends FragmentStatePagerAdapter {
-    protected String[] tabs = new String[]{"Описание", "Упражнения"};
-    protected Cycle cycle;
-
-    public PagerAdapterCycle(FragmentManager fm, Cycle cycle) {
-        super(fm);
-        this.cycle = cycle;
+public class PagerAdapterCycleEdit extends PagerAdapterCycle {
+    public PagerAdapterCycleEdit(FragmentManager fm, Cycle cycle) {
+        super(fm, cycle);
     }
+
 
     @Override
     public Fragment getItem(int position) {
@@ -36,14 +31,5 @@ public class PagerAdapterCycle extends FragmentStatePagerAdapter {
         return fragment;
     }
 
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return tabs[position];
-    }
-
-    @Override
-    public int getCount() {
-        return tabs.length;
-    }
 }
+

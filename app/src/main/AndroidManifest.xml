@@ -36,7 +36,9 @@
             android:name=".activity.workout.CycleDetailActivity"
             android:label="@string/title_activity_workout_detail"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.workout.CycleDetailActivityEdit"></activity>
+        <activity android:name=".activity.workout.CycleDetailActivityEdit"
+            android:label="@string/title_activity_workout_detail_edit"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

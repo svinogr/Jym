@@ -48,7 +48,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
-                        android:transitionName="exercise_card_layout_image"/>
+                        android:transitionName="cycle_card_layout_image"/>
                 </android.support.v7.widget.CardView>
             </android.support.constraint.ConstraintLayout>
 
@@ -68,11 +68,20 @@
         layout="@layout/content_cycle_detail" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/cycle_activity_detail_fab"
+        android:id="@+id/cycle_activity_detail_fab_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/cycle_activity_detail_fab_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@id/cycle_activity_detail_appbar"
+        app:layout_anchorGravity="bottom|right|end"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
 
 </android.support.design.widget.CoordinatorLayout>
