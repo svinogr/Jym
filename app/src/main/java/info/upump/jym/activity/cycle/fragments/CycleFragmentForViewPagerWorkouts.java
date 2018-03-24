@@ -1,4 +1,4 @@
-package info.upump.jym.activity.workout.fragments;
+package info.upump.jym.activity.cycle.fragments;
 
 
 import android.content.Context;
@@ -11,15 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import info.upump.jym.R;
 import info.upump.jym.adapters.WorkoutAdapter;
-import info.upump.jym.bd.IData;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;

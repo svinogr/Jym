@@ -33,10 +33,10 @@
             android:label="@string/title_activity_exercise_detail_edit"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.workout.CycleDetailActivity"
+            android:name=".activity.cycle.CycleDetailActivity"
             android:label="@string/title_activity_workout_detail"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.workout.CycleDetailActivityEdit"
+        <activity android:name=".activity.cycle.CycleDetailActivityEdit"
             android:label="@string/title_activity_workout_detail_edit"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>

@@ -1,4 +1,4 @@
-package info.upump.jym.activity.workout.fragments;
+package info.upump.jym.activity.cycle.fragments;
 
 
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 import info.upump.jym.R;
@@ -17,13 +16,14 @@ import info.upump.jym.entity.Cycle;
  * Use the {@link CycleFragmentForViewPagerDescription#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CycleFragmentForViewPagerDescription extends Fragment implements View.OnClickListener {
+public class CycleFragmentForViewPagerDescription extends Fragment {
     private final static String START_DATA = "start";
     private final static String FINISH_DATA = "finish";
     private final static String COMMENT = "comment";
     private Cycle cycle;
     private TextView startDataLabel, finishDataLabel, startTextData, finishTextData;
-    private WebView webView;
+    //private WebView webView;
+    private TextView comment;
 
 
     public CycleFragmentForViewPagerDescription() {
@@ -37,7 +37,6 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
         args.putString(START_DATA, cycle.getStartStringFormatDate());
         args.putString(FINISH_DATA, cycle.getFinishStringFormatDate());
         args.putString(COMMENT, cycle.getComment());
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,10 +45,7 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            cycle = new Cycle();
-            cycle.setStartDate(getArguments().getString(START_DATA));
-            cycle.setFinishDate(getArguments().getString(FINISH_DATA));
-            cycle.setComment(getArguments().getString(COMMENT));
+            getCycleFromBundle();
         }
     }
 
@@ -62,22 +58,22 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
         finishDataLabel = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_label_finish);
         startTextData = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_data_start);
         finishTextData = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_data_finish);
-        webView = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_web);
-
-        startTextData.setOnClickListener(this);
-        finishTextData.setOnClickListener(this);
+        comment = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_web);
 
         startDataLabel.setText(R.string.label_start_cycle);
         finishDataLabel.setText(R.string.label_finis_cycle);
-        webView.loadDataWithBaseURL(null,cycle.getComment(), "text/html", "UTF-8", null);
+        comment.setText(cycle.getComment());
+        //webView.loadDataWithBaseURL(null,cycle.getComment(), "text/html", "UTF-8", null);
         startTextData.setText(cycle.getStartStringFormatDate());
         finishTextData.setText(cycle.getFinishStringFormatDate());
-
         return inflate;
     }
 
-    @Override
-    public void onClick(View v) {
-
+    private Cycle getCycleFromBundle(){
+        cycle = new Cycle();
+        cycle.setStartDate(getArguments().getString(START_DATA));
+        cycle.setFinishDate(getArguments().getString(FINISH_DATA));
+        cycle.setComment(getArguments().getString(COMMENT));
+        return cycle;
     }
 }

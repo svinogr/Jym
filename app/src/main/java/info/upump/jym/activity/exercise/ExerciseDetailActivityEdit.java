@@ -170,7 +170,7 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
 
                 } else {
                     inflateItemFromFields();
-                    System.out.println("be save " + exercise);
+                    System.out.println("be update " + exercise);
                     if (exercise.getId() > 0) {
                         updateItem();
                     } else saveItem();

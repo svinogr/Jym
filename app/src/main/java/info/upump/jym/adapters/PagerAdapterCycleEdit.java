@@ -3,13 +3,10 @@ package info.upump.jym.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import info.upump.jym.activity.workout.fragments.CycleFragmentForViewPagerDescription;
-import info.upump.jym.activity.workout.fragments.CycleFragmentForViewPagerWorkouts;
+import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerDescription;
+import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerDescriptionEdit;
 import info.upump.jym.entity.Cycle;
 
-/**
- * Created by explo on 23.03.2018.
- */
 
 public class PagerAdapterCycleEdit extends PagerAdapterCycle {
     public PagerAdapterCycleEdit(FragmentManager fm, Cycle cycle) {
@@ -23,10 +20,10 @@ public class PagerAdapterCycleEdit extends PagerAdapterCycle {
         System.out.println(1);
         switch (position) {
             case 0:
-                fragment = CycleFragmentForViewPagerDescription.newInstance(cycle);
+                fragment = CycleFragmentForViewPagerDescriptionEdit.newInstance(cycle);
                 break;
-            case 1:
-                fragment = CycleFragmentForViewPagerWorkouts.newInstance(cycle);
+         /*   case 1:
+                fragment = CycleFragmentForViewPagerWorkoutsEdit.newInstance(cycle);*/
         }
         return fragment;
     }

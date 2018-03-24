@@ -19,7 +19,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import info.upump.jym.R;
-import info.upump.jym.activity.workout.CycleDetailActivity;
+import info.upump.jym.activity.cycle.CycleDetailActivity;
 import info.upump.jym.entity.Cycle;
 
 /**

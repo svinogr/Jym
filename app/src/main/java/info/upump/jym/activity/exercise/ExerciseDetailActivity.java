@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -31,7 +32,8 @@ import info.upump.jym.entity.Exercise;
 public class ExerciseDetailActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String ID_EXERCISE = "id";
     private ImageView imageView;
-    private WebView description;
+    //private WebView description;
+    private TextView description;
     private Exercise exercise;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private FloatingActionButton fabEdit;
@@ -78,7 +80,8 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         }
         collapsingToolbarLayout.setTitle(exercise.getTitle());
         setPic();
-        description.loadDataWithBaseURL(null, exercise.getDescription(), "text/html", "UTF-8", null);
+        //description.loadDataWithBaseURL(null, exercise.getDescription(), "text/html", "UTF-8", null);
+        description.setText(exercise.getDescription());
     }
 
     public static Intent createIntent(Context context, Exercise exercise) {

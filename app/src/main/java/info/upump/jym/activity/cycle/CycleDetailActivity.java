@@ -1,4 +1,4 @@
-package info.upump.jym.activity.workout;
+package info.upump.jym.activity.cycle;
 
 import android.content.Context;
 import android.content.Intent;
@@ -41,7 +41,8 @@ public class CycleDetailActivity extends AppCompatActivity implements View.OnCli
         tabLayout.setupWithViewPager(viewPager);
 
         fab.setOnClickListener(this);
-        cycle = getCycleFromIntent();
+        createViewFrom();
+       // cycle = getCycleFromIntent();
 
         pagerAdapterCycle = new PagerAdapterCycle(getSupportFragmentManager(), cycle);
         viewPager.setAdapter(pagerAdapterCycle);
@@ -91,7 +92,7 @@ public class CycleDetailActivity extends AppCompatActivity implements View.OnCli
 
 
         });
-        createViewFrom(cycle);
+
 
     }
 
@@ -103,7 +104,8 @@ public class CycleDetailActivity extends AppCompatActivity implements View.OnCli
     }
 
 
-    private void createViewFrom(Cycle cycle) {
+    private void createViewFrom() {
+        cycle = getCycleFromIntent();
         if (cycle != null) {
             collapsingToolbarLayout.setTitle(cycle.getTitle());
         }
@@ -149,5 +151,13 @@ public class CycleDetailActivity extends AppCompatActivity implements View.OnCli
             Intent intent = CycleDetailActivityEdit.createIntent(this,cycle);
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        createViewFrom();
+        pagerAdapterCycle.notifyDataSetChanged();
+
     }
 }

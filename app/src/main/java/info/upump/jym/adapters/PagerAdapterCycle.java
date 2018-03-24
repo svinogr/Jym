@@ -5,8 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import info.upump.jym.activity.workout.fragments.CycleFragmentForViewPagerDescription;
-import info.upump.jym.activity.workout.fragments.CycleFragmentForViewPagerWorkouts;
+import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerDescription;
+import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerWorkouts;
 import info.upump.jym.entity.Cycle;
 
 /**
@@ -14,7 +14,7 @@ import info.upump.jym.entity.Cycle;
  */
 
 public class PagerAdapterCycle extends FragmentStatePagerAdapter {
-    protected String[] tabs = new String[]{"Описание", "Упражнения"};
+    protected String[] tabs = new String[]{"Описание", "Тренировки"};
     protected Cycle cycle;
 
     public PagerAdapterCycle(FragmentManager fm, Cycle cycle) {

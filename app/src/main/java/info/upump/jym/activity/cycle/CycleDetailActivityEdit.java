@@ -1,31 +1,31 @@
-package info.upump.jym.activity.workout;
+package info.upump.jym.activity.cycle;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import info.upump.jym.R;
-import info.upump.jym.adapters.PagerAdapterCycle;
 import info.upump.jym.adapters.PagerAdapterCycleEdit;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 
-public class CycleDetailActivityEdit extends AppCompatActivity {
+public class CycleDetailActivityEdit extends AppCompatActivity implements IChageItem {
     private static final String ID_CYCLE = "id";
     private FloatingActionButton save, photo;
     private ViewPager viewPager;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Cycle cycle;
     private PagerAdapterCycleEdit pagerAdapterCycleEdit;
+    private  CycleDao cycleDao;
 
 
     @Override
@@ -126,4 +126,25 @@ public class CycleDetailActivityEdit extends AppCompatActivity {
     }
 
 
+
+
+    @Override
+    public void update(Cycle cycleSave) {
+        //cycle.setTitle(cycleSave.getTitle());
+        cycle.setStartDate(cycleSave.getStartDate());
+        cycle.setFinishDate(cycleSave.getFinishDate());
+        cycle.setComment(cycleSave.getComment());
+        cycleDao = getCycleDao();
+        if (cycleDao.update(cycle)) {
+            Toast.makeText(this, "времен, упражнение сохранено", Toast.LENGTH_SHORT).show();
+            finish();
+        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
+    }
+
+    private CycleDao getCycleDao() {
+        if (cycleDao == null) {
+            cycleDao = new CycleDao(this);
+        }
+        return cycleDao;
+    }
 }
