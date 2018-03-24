@@ -14,7 +14,7 @@ import info.upump.jym.entity.Cycle;
  */
 
 public class PagerAdapterCycle extends FragmentStatePagerAdapter {
-    protected String[] tabs = new String[]{"Описание", "Тренировки"};
+    protected String[] tabs = new String[]{"Тренировки", "Описание программы"};
     protected Cycle cycle;
 
     public PagerAdapterCycle(FragmentManager fm, Cycle cycle) {
@@ -24,13 +24,13 @@ public class PagerAdapterCycle extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = CycleFragmentForViewPagerDescription.newInstance(cycle);
+        Fragment fragment = null;
         System.out.println(1);
         switch (position) {
-            case 0:
+            case 1:
                 fragment = CycleFragmentForViewPagerDescription.newInstance(cycle);
                 break;
-            case 1:
+            case 0:
                 fragment = CycleFragmentForViewPagerWorkouts.newInstance(cycle);
         }
         return fragment;

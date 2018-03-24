@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
+import info.upump.jym.IControlFragment;
 import info.upump.jym.R;
 import info.upump.jym.activity.cycle.CycleDetailActivity;
 import info.upump.jym.entity.Cycle;
@@ -33,6 +35,8 @@ public class CycleHolder extends RecyclerView.ViewHolder implements View.OnClick
     private Cycle cycle;
     private View itemView;
     private Context context;
+    private ImageButton buttonDelete;
+    private IControlFragment iControlFragment;
 
     public CycleHolder(View itemView) {
         super(itemView);
@@ -41,6 +45,11 @@ public class CycleHolder extends RecyclerView.ViewHolder implements View.OnClick
         title = itemView.findViewById(R.id.cycle_card_layout_title);
         date = itemView.findViewById(R.id.cycle_card_layout_info_date);
         imageView = itemView.findViewById(R.id.cycle_card_layout_image);
+        buttonDelete = itemView.findViewById(R.id.cycle_card_layout_but_delete);
+        itemView.setOnClickListener(this);
+        buttonDelete.setOnClickListener(this);
+        iControlFragment = (IControlFragment) context;
+
     }
 
     public void bind(Cycle cycle) {
@@ -48,7 +57,7 @@ public class CycleHolder extends RecyclerView.ViewHolder implements View.OnClick
         title.setText(cycle.getTitle());
         date.setText(cycle.getStartStringFormatDate());
         setPic();
-        itemView.setOnClickListener(this);
+
 
     }
 
@@ -56,17 +65,18 @@ public class CycleHolder extends RecyclerView.ViewHolder implements View.OnClick
         Intent intent = CycleDetailActivity.createIntent(context, cycle);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;
-           // View sharedViewT = title;
+            // View sharedViewT = title;
             String transitionNameIm = "cycle_card_layout_image";
-         //   String transitionNameT = "exercise_card_layout_title";
+            //   String transitionNameT = "exercise_card_layout_title";
             ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
                             context,
                     Pair.create(sharedViewIm, transitionNameIm));
             context.startActivity(intent, transitionActivityOptions.toBundle());
         } else
-        context.startActivity(intent);
+            context.startActivity(intent);
 
     }
+
     private void setPic() {
         Uri uri = null;
         if (cycle.getImage() != null) {
@@ -75,8 +85,8 @@ public class CycleHolder extends RecyclerView.ViewHolder implements View.OnClick
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
-                .placeholder(R.drawable.ic_add_black_24dp)
-                .error(R.drawable.ic_add_black_24dp)
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
 
@@ -86,6 +96,14 @@ public class CycleHolder extends RecyclerView.ViewHolder implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        startActivity();
+        switch (v.getId()) {
+            case R.id.cycle_card_layout_but_delete:
+                iControlFragment.delete(cycle.getId());
+                break;
+            default:
+                startActivity();
+                break;
+        }
+
     }
 }

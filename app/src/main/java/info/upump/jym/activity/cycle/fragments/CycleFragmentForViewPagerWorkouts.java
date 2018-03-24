@@ -3,6 +3,7 @@ package info.upump.jym.activity.cycle.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -21,16 +22,12 @@ import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CycleFragmentForViewPagerWorkouts#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Workout>> {
     private final static String ID_CYCLE = "id";
     private Cycle cycle;
     private List<Workout> workoutList = new ArrayList<>();
     private RecyclerView recyclerView;
+    private FloatingActionButton addFab;
 
     public CycleFragmentForViewPagerWorkouts() {
         // Required empty public constructor
@@ -57,12 +54,34 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_cycle_fragment_for_view_pager_workout, container, false);
         recyclerView = inflate.findViewById(R.id.cycle_fragment_for_view_pager_workouts_recycler);
+        addFab = inflate.findViewById(R.id.cycle_activity_detail_fab_main);
+//        addFab.setVisibility(View.VISIBLE);
+        addFab.setOnClickListener(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         WorkoutAdapter workoutAdapter = new WorkoutAdapter(workoutList);
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(workoutAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx,int dy){
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy >0) {
+                    // Scroll Down
+                    if (addFab.isShown()) {
+                        addFab.hide();
+                    }
+                }
+                else if (dy <0) {
+                    // Scroll Up
+                    if (!addFab.isShown()) {
+                        addFab.show();
+                    }
+                }
+            }
+        });
 
 
         return inflate;
@@ -70,6 +89,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
 
     @Override
     public void onClick(View v) {
+        System.out.println("добавить новую тренировку"+cycle);
 
     }
 

@@ -3,6 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorTextLabel">#6c6c70</color>
+    <color name="colorText">#000000</color>
+
     <!--700 color-->
     <color name="monday">#1976d2</color>
     <color name="tuesday">#7b1fa2</color>

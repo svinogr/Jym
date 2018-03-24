@@ -3,49 +3,49 @@ package info.upump.jym.activity.cycle;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import info.upump.jym.R;
 import info.upump.jym.adapters.PagerAdapterCycle;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 
-public class CycleDetailActivity extends AppCompatActivity implements View.OnClickListener{
+public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle> {
     private static final String ID_CYCLE = "id";
-    private Cycle cycle;
-    private FloatingActionButton fab;
-    private PagerAdapterCycle pagerAdapterCycle;
     private ViewPager viewPager;
     private CollapsingToolbarLayout collapsingToolbarLayout;
+    private Cycle cycle;
+    private PagerAdapterCycle pagerAdapterCycleEdit;
+    private  CycleDao cycleDao;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cycle_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.cycle_activity_detail_toolbar);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.cycle_activity_detail_edit_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fab = findViewById(R.id.cycle_activity_detail_fab_edit);
-        viewPager = findViewById(R.id.cycle_fragment_viewpager);
-        collapsingToolbarLayout = findViewById(R.id.cycle_activity_detail_collapsing);
-        TabLayout tabLayout = findViewById(R.id.cycle_fragment_tab_layout);
+        viewPager = findViewById(R.id.cycle_fragment_edit_viewpager);
+        collapsingToolbarLayout = findViewById(R.id.cycle_activity_detail_edit_collapsing);
+        TabLayout tabLayout = findViewById(R.id.cycle_fragment_edit_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-        fab.setOnClickListener(this);
-        createViewFrom();
-       // cycle = getCycleFromIntent();
+        cycle = getCycleFromIntent();
 
-        pagerAdapterCycle = new PagerAdapterCycle(getSupportFragmentManager(), cycle);
-        viewPager.setAdapter(pagerAdapterCycle);
+        pagerAdapterCycleEdit = new PagerAdapterCycle(getSupportFragmentManager(), cycle);
+        viewPager.setAdapter(pagerAdapterCycleEdit);
         viewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
             @Override
             public void transformPage(View view, float position) {
@@ -92,10 +92,9 @@ public class CycleDetailActivity extends AppCompatActivity implements View.OnCli
 
 
         });
-
+        createViewFrom(cycle);
 
     }
-
 
     public static Intent createIntent(Context context, Cycle cycle) {
         Intent intent = new Intent(context, CycleDetailActivity.class);
@@ -103,21 +102,10 @@ public class CycleDetailActivity extends AppCompatActivity implements View.OnCli
         return intent;
     }
 
-
-    private void createViewFrom() {
-        cycle = getCycleFromIntent();
+    private void createViewFrom(Cycle cycle) {
         if (cycle != null) {
             collapsingToolbarLayout.setTitle(cycle.getTitle());
         }
-
-
-       /* if (exercise.getDescription().equals("")) {
-            exercise.setDescription(getResources().getString(R.string.no_description));
-        }
-        collapsingToolbarLayout.setTitle(cycle.getTitle());
-        setPic();
-        description.loadDataWithBaseURL(null, exercise.getDescription(), "text/html", "UTF-8", null);
-   */
     }
 
     private Cycle getCycleFromIntent() {
@@ -127,9 +115,12 @@ public class CycleDetailActivity extends AppCompatActivity implements View.OnCli
         Cycle cycle = cycleDao.getById(id);
         return cycle;
     }
-
-    private void setPic() {
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+          finishActivityWithAnimation();
+        }
+        return super.onOptionsItemSelected(item);
     }
     private void finishActivityWithAnimation(){
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -137,27 +128,30 @@ public class CycleDetailActivity extends AppCompatActivity implements View.OnCli
         } else finish();
     }
 
+
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finishActivityWithAnimation();
-        }
-        return super.onOptionsItemSelected(item);
+    public void update(Cycle cycleSave) {
+        //cycle.setTitle(cycleSave.getTitle());
+        cycle.setStartDate(cycleSave.getStartDate());
+        cycle.setFinishDate(cycleSave.getFinishDate());
+        cycle.setComment(cycleSave.getComment());
+        cycleDao = getCycleDao();
+        if (cycleDao.update(cycle)) {
+            Toast.makeText(this, "времен, упражнение сохранено", Toast.LENGTH_SHORT).show();
+            finish();
+        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.cycle_activity_detail_fab_edit){
-            Intent intent = CycleDetailActivityEdit.createIntent(this,cycle);
-            startActivity(intent);
-        }
+    public void delete(long id) {
+
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        createViewFrom();
-        pagerAdapterCycle.notifyDataSetChanged();
-
+    private CycleDao getCycleDao() {
+        if (cycleDao == null) {
+            cycleDao = new CycleDao(this);
+        }
+        return cycleDao;
     }
 }

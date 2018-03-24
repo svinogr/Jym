@@ -1,4 +1,4 @@
-package info.upump.jym.fragments.workout;
+package info.upump.jym.fragments.cycle;
 
 
 import android.content.Context;
@@ -17,11 +17,13 @@ import java.util.List;
 
 import info.upump.jym.ITitlable;
 import info.upump.jym.R;
+import info.upump.jym.activity.cycle.IChangeItem;
 import info.upump.jym.adapters.CycleAdapter;
+import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.loaders.CycleFragmentLoader;
 
-public class CycleFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Cycle>> {
+public class CycleFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Cycle>>, IChangeItem<Cycle> {
     private ITitlable iTitlable;
     private RecyclerView recyclerView;
     private CycleAdapter cycleAdapter;
@@ -92,5 +94,37 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         super.onAttach(context);
         getLoaderManager().initLoader(0, null, this);
         iTitlable = (ITitlable) context;
+
     }
+
+    @Override
+    public void update(Cycle object) {
+
+    }
+
+    @Override
+    public void delete(long id) {
+        CycleDao cycleDao = new CycleDao(getContext());
+        Cycle cycle = new Cycle();
+        cycle.setId(id);
+
+        if (cycleDao.delete(cycle)) {
+            if (cycleList != null) {
+                int index;
+                for (Cycle m : cycleList) {
+                    if (m.getId() == cycle.getId()) {
+                        index = cycleList.indexOf(m);
+                        cycleList.remove(index);
+                        cycleAdapter.notifyItemRemoved(index);
+                      //  showSnackBar();
+                        return;
+                    }
+                }
+
+                System.out.println("удалили итем");
+            }
+
+        }
+    }
+
 }

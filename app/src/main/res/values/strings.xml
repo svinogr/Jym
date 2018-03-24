@@ -46,6 +46,9 @@
     <string name="day_friday">пт</string>
     <string name="day_saturday">сб</string>
     <string name="day_sunday">вс</string>
-    <string name="label_start_cycle">начало программы</string>
-    <string name="label_finis_cycle">конец программы</string>
+    <!--cycle edit-->
+    <string name="label_cycle">Данные программы</string>
+    <string name="label_start_cycle">Дата начала</string>
+    <string name="label_finish_cycle">Дата Окончания</string>
+    <string name="label_description_cycle">Описание</string>
 </resources>

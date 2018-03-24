@@ -6,6 +6,7 @@ import info.upump.jym.entity.Cycle;
  * Created by explo on 24.03.2018.
  */
 
-public interface IChageItem {
-    void update(Cycle cycle);
+public interface IChangeItem<T> {
+    void update(T object);
+    void delete(long id);
 }
