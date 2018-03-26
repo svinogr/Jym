@@ -69,7 +69,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         });
         collapsingToolbarLayout = findViewById(R.id.cycle_activity_detail_edit_collapsing);
 
-
         TabLayout tabLayout = findViewById(R.id.cycle_fragment_edit_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -156,11 +155,11 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         if(uriImage != null){
             cycle.setImage(uriImage.toString());
         }
-        if (id != 0) {
+        if (id >0) {
             CycleDao cycleDao = new CycleDao(this);
             cycle = cycleDao.getById(id);
         } else {
-            cycle.setTitle("");
+            cycle.setTitle(" ");
             cycle.setComment("");
             cycle.setStartDate(new Date());
             cycle.setFinishDate(new Date());
@@ -214,30 +213,39 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (itemIsNotChanged()) {
-                finishActivityWithAnimation();
-            } else {
-                AlertDialog.Builder ad = new AlertDialog.Builder(this);
-                ad.setTitle("Сохранить изменения описания?");
-                ad.setPositiveButton("Да и выйти", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveOrUpdate();
-                    }
-                });
-                ad.setNegativeButton("Нет и выйти", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finishActivityWithAnimation();
-                    }
-                });
-                ad.show();
-
-            }
+          exit();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+       // super.onBackPressed();
+      exit();
+
+    }
+    private void exit(){
+        if (itemIsNotChanged()) {
+            finishActivityWithAnimation();
+        } else {
+            AlertDialog.Builder ad = new AlertDialog.Builder(this);
+            ad.setTitle("Сохранить изменения описания?");
+            ad.setPositiveButton("Да и выйти", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    saveOrUpdate();
+                }
+            });
+            ad.setNegativeButton("Нет и выйти", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finishActivityWithAnimation();
+                }
+            });
+            ad.show();
+
+        }
+    }
     private void saveOrUpdate() {
         Cycle sOu = (Cycle) iDescriptionFragment.getChangeableItem();
         if (sOu.getTitle().trim().isEmpty()) {
@@ -326,4 +334,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
             outState.putString(URI_IMG, uriImage.toString());
         }
     }
+
+
 }

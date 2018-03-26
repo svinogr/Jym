@@ -33,6 +33,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     private CycleAdapter cycleAdapter;
     private List<Cycle> cycleList = new ArrayList<>();
     private FloatingActionButton fabAdd;
+
     public CycleFragment() {
         // Required empty public constructor
     }
@@ -64,6 +65,25 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(cycleAdapter);
+      /*  recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx,int dy){
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    if (dy >0) {
+                        // Scroll Down
+                        if (fabAdd.isShown()) {
+                            fabAdd.hide();
+                        }
+                    }
+                    else if (dy <=0) {
+                        // Scroll Up
+                        if (!fabAdd.isShown()) {
+                            fabAdd.show();
+                        }
+                    }
+                }
+        });*/
 
         fabAdd.setOnClickListener(this);
 
@@ -92,7 +112,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.cycle_fragment_fab_add:
                 addItem();
                 break;
@@ -139,7 +159,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
                         index = cycleList.indexOf(m);
                         cycleList.remove(index);
                         cycleAdapter.notifyItemRemoved(index);
-                      //  showSnackBar();
+                        //  showSnackBar();
                         return;
                     }
                 }

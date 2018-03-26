@@ -5,8 +5,13 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +43,15 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
     private CycleDao cycleDao;
     private EditText description, title;
     private IChangeItem iChangeItem;
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 100) {
+                collapsingToolbarLayout.setTitle(msg.obj.toString());
+            }
+        }
+    };
 
     public CycleFragmentForViewPagerDescription() {
         // Required empty public constructor
@@ -92,6 +106,27 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
         //webView.loadDataWithBaseURL(null,cycle.getComment(), "text/html", "UTF-8", null);
         startTextData.setText(cycle.getStartStringFormatDate());
         finishTextData.setText(cycle.getFinishStringFormatDate());
+        collapsingToolbarLayout = getActivity().findViewById(R.id.cycle_activity_detail_edit_collapsing);
+
+        title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handler.removeMessages(100);
+                if ((title.getText().toString().trim()).equals("")) {
+                    handler.sendMessageDelayed(handler.obtainMessage(100, title.getHint()), 250);
+                } else handler.sendMessageDelayed(handler.obtainMessage(100, title.getText()), 250);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         return inflate;
     }
 
