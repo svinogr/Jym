@@ -59,8 +59,8 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
 
         View inflate = inflater.inflate(R.layout.fragment_exercise, container, false);
         System.out.println("onCreateView");
-        mainFab = getActivity().findViewById(R.id.main_fab);
-        mainFab.setOnClickListener(this);
+     //   mainFab = getActivity().findViewById(R.id.main_fab);
+    //    mainFab.setOnClickListener(this);
        // setIconFab();
 
         iTitlable.setTitle(getResources().getString(R.string.exercise_fragment_title));

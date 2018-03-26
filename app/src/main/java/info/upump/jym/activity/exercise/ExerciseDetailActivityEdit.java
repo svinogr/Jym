@@ -147,7 +147,6 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
     }
 
     private Exercise getExerciseFromIntent(Intent intent) {
-        System.out.println("1111111111111111111");
         Exercise exercise = null;
         long id = intent.getLongExtra(ID_EXERCISE, 0);
         if (id != 0) {
@@ -178,8 +177,8 @@ public class ExerciseDetailActivityEdit extends AppCompatActivity implements Vie
                 }
                 break;
             case R.id.exercise_activity_detail_edit_fab_photo:
-                Intent phootoPic = createIntentForGetPic();
-                startActivityForResult(phootoPic, REQUEST_CODE_GALLERY_PHOTO);
+                Intent photoPic = createIntentForGetPic();
+                startActivityForResult(photoPic, REQUEST_CODE_GALLERY_PHOTO);
                 break;
         }
     }

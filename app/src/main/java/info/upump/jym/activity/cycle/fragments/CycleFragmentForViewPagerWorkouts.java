@@ -37,7 +37,9 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
     public static CycleFragmentForViewPagerWorkouts newInstance(Cycle cycle) {
         CycleFragmentForViewPagerWorkouts fragment = new CycleFragmentForViewPagerWorkouts();
         Bundle args = new Bundle();
-        args.putLong(ID_CYCLE, cycle.getId());
+        if (cycle != null) {
+            args.putLong(ID_CYCLE, cycle.getId());
+        }
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,16 +67,15 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         recyclerView.setAdapter(workoutAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx,int dy){
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                if (dy >0) {
+                if (dy > 0) {
                     // Scroll Down
                     if (addFab.isShown()) {
                         addFab.hide();
                     }
-                }
-                else if (dy <0) {
+                } else if (dy < 0) {
                     // Scroll Up
                     if (!addFab.isShown()) {
                         addFab.show();
@@ -89,13 +90,13 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
 
     @Override
     public void onClick(View v) {
-        System.out.println("добавить новую тренировку"+cycle);
+        System.out.println("добавить новую тренировку" + cycle);
 
     }
 
     @Override
     public Loader<List<Workout>> onCreateLoader(int id, Bundle args) {
-        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(getContext(),WorkoutFragmentLoader.BY_PARENT_ID,cycle.getId());
+        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(getContext(), WorkoutFragmentLoader.BY_PARENT_ID, cycle.getId());
         return workoutFragmentLoader;
     }
 

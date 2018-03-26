@@ -2,7 +2,9 @@ package info.upump.jym.fragments.cycle;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -17,7 +19,9 @@ import java.util.List;
 
 import info.upump.jym.ITitlable;
 import info.upump.jym.R;
+import info.upump.jym.activity.cycle.CycleDetailActivity;
 import info.upump.jym.activity.cycle.IChangeItem;
+import info.upump.jym.activity.cycle.IDescriptionFragment;
 import info.upump.jym.adapters.CycleAdapter;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
@@ -28,6 +32,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     private RecyclerView recyclerView;
     private CycleAdapter cycleAdapter;
     private List<Cycle> cycleList = new ArrayList<>();
+    private FloatingActionButton fabAdd;
     public CycleFragment() {
         // Required empty public constructor
     }
@@ -54,12 +59,13 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_cycle, container, false);
         recyclerView = inflate.findViewById(R.id.cycle_fragment_recycler_view);
-
+        fabAdd = inflate.findViewById(R.id.cycle_fragment_fab_add);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(linearLayoutManager);
-
         recyclerView.setAdapter(cycleAdapter);
+
+        fabAdd.setOnClickListener(this);
 
         iTitlable.setTitle(getResources().getString(R.string.cycle_title));
         return inflate;
@@ -86,7 +92,19 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.cycle_fragment_fab_add:
+                addItem();
+                break;
+        }
 
+    }
+
+    private void addItem() {
+   /*     Cycle cycle = new Cycle();
+        cycle.setId(0);*/
+        Intent intent = CycleDetailActivity.createIntent(getContext(), new Cycle());
+        startActivity(intent);
     }
 
     @Override
@@ -99,6 +117,11 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
     @Override
     public void update(Cycle object) {
+
+    }
+
+    @Override
+    public void save(Cycle object) {
 
     }
 
@@ -125,6 +148,11 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
             }
 
         }
+    }
+
+    @Override
+    public void setInterfaceForDescription(IDescriptionFragment interfaceForDescription) {
+        //nop
     }
 
 }

@@ -102,6 +102,7 @@ public class ExerciseDetailActivity extends AppCompatActivity implements View.On
         if(exercise.getImg()!=null) {
             uri = Uri.parse(exercise.getImg());
         }
+        System.out.println("exer uri "+ exercise.getImg());
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.drawable.ic_add_black_24dp)

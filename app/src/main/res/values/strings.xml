@@ -51,4 +51,5 @@
     <string name="label_start_cycle">Дата начала</string>
     <string name="label_finish_cycle">Дата Окончания</string>
     <string name="label_description_cycle">Описание</string>
+    <string name="label_title_cycle">Название програмы</string>
 </resources>

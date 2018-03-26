@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         this.savedInstanceState = savedInstanceState;
 
-        fab = findViewById(R.id.main_fab);
+       // fab = findViewById(R.id.main_fab);
        /* fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -47,25 +47,25 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
     @Override
     public long create(ExerciseDescription object) {
         ContentValues cv = getContentValuesFrom(object);
-        return sqLiteDatabase.insert(DBHelper.TABLE_EXERCISE_DESCRPTION, null, cv);
+        return sqLiteDatabase.insert(DBHelper.TABLE_EXERCISE_DESCRIPTION, null, cv);
     }
 
     @Override
     public boolean delete(ExerciseDescription object) {
-        int delete = sqLiteDatabase.delete(DBHelper.TABLE_EXERCISE_DESCRPTION, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
+        int delete = sqLiteDatabase.delete(DBHelper.TABLE_EXERCISE_DESCRIPTION, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         return delete != 0;
     }
 
     @Override
     public boolean update(ExerciseDescription object) {
         ContentValues cv = getContentValuesFrom(object);
-        int update = sqLiteDatabase.update(DBHelper.TABLE_EXERCISE_DESCRPTION, cv, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(object.getId())});
+        int update = sqLiteDatabase.update(DBHelper.TABLE_EXERCISE_DESCRIPTION, cv, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(object.getId())});
         return update != 0;
     }
 
     @Override
     public ExerciseDescription getById(long id) {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE_DESCRPTION,
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE_DESCRIPTION,
                 keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
         ExerciseDescription exerciseDescription = null;
         if (cursor.moveToFirst()) {
@@ -79,7 +79,7 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
 
     @Override
     public List<ExerciseDescription> getByParentId(long id) {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE_DESCRPTION,
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE_DESCRIPTION,
                 keys, DBHelper.TABLE_KEY_PARENT_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
         List<ExerciseDescription> exerciseDescriptionList = null;
         ExerciseDescription exerciseDescription = null;

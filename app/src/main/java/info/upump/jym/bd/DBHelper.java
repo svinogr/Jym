@@ -17,7 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public final static String TABLE_WORKOUT = "workouts";
     public final static String TABLE_CYCLE = "cycles";
     public final static String TABLE_USER = "user";
-    public final static String TABLE_EXERCISE_DESCRPTION = "exercise_description";
+    public final static String TABLE_EXERCISE_DESCRIPTION = "exercise_description";
 
 
     public static final String TABLE_KEY_ID = "_id";
@@ -59,6 +59,7 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_TITLE + " TEXT NOT NULL, " +
             TABLE_KEY_COMMENT + " TEXT, " +
             TABLE_KEY_DEFAULT + " INTEGER NOT NULL, " +
+            TABLE_KEY_IMG + " TEXT, " +
             TABLE_KEY_START_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE + " TEXT NOT NULL)";
 
@@ -115,7 +116,7 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_LEG + " REAL, " +
             TABLE_KEY_DATE + " TEXT NOT NULL)";
 
-    private static final String CREATE_TABLE_EXERCISE_DESCRIPTION = "CREATE TABLE " + TABLE_EXERCISE_DESCRPTION +
+    private static final String CREATE_TABLE_EXERCISE_DESCRIPTION = "CREATE TABLE " + TABLE_EXERCISE_DESCRIPTION +
             "( " + TABLE_KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
             TABLE_KEY_DESCRIPTION + " TEXT, " +
             TABLE_KEY_PARENT_ID + " INTEGER)";

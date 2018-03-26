@@ -8,5 +8,7 @@ import info.upump.jym.entity.Cycle;
 
 public interface IChangeItem<T> {
     void update(T object);
+    void save(T object);
     void delete(long id);
+    void setInterfaceForDescription(IDescriptionFragment interfaceForDescription);
 }

@@ -27,6 +27,7 @@ public class CycleDaoTest {
         System.out.println("setUp");
         System.out.println("new program");
         cycle = new Cycle();
+        cycle.setImage("deded");
         cycle.setComment("эта программа супер пуппер");
         cycle.setTitle("create create");
         cycle.setDefaultType(true);
