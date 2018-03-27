@@ -39,13 +39,13 @@
     <string name="title_activity_workout_detail_edit">CycleDetailEditActivity</string>
     <string name="cycle_title">Программы</string>
     <!--day-->
-    <string name="day_monday">пн</string>
-    <string name="day_wednesday">вт</string>
-    <string name="day_tuesday">ср</string>
-    <string name="day_thursday">чт</string>
-    <string name="day_friday">пт</string>
-    <string name="day_saturday">сб</string>
-    <string name="day_sunday">вс</string>
+    <string name="day_monday">понедельник</string>
+    <string name="day_wednesday">вторник</string>
+    <string name="day_tuesday">среда</string>
+    <string name="day_thursday">четверг</string>
+    <string name="day_friday">пятница</string>
+    <string name="day_saturday">суббота</string>
+    <string name="day_sunday">воскресенье</string>
     <!--cycle edit-->
     <string name="label_cycle">Данные программы</string>
     <string name="label_start_cycle">Дата начала</string>

@@ -1,7 +1,6 @@
 package info.upump.jym.activity.cycle.fragments;
 
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -19,10 +18,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.cycle.IChangeItem;
@@ -80,6 +77,7 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
         }
         if(savedInstanceState != null){
             cycle.setStartDate(savedInstanceState.getString(START_DATA));
+            cycle.setFinishDate(savedInstanceState.getString(FINISH_DATA));
         }
     }
 
@@ -94,16 +92,13 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
         finishTextData = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_data_edit_finish);
         description = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_edit_web);
         title = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_edit_title);
-        ///  saveFab = getActivity().findViewById(R.id.cycle_activity_detail_fab_main);
 
         startTextData.setOnClickListener(this);
         finishTextData.setOnClickListener(this);
-        //   saveFab.setVisibility(View.GONE);
         title.setText(cycle.getTitle());
         startDataLabel.setText(R.string.label_start_cycle);
         finishDataLabel.setText(R.string.label_finish_cycle);
         description.setText(cycle.getComment());
-        //webView.loadDataWithBaseURL(null,cycle.getComment(), "text/html", "UTF-8", null);
         startTextData.setText(cycle.getStartStringFormatDate());
         finishTextData.setText(cycle.getFinishStringFormatDate());
         collapsingToolbarLayout = getActivity().findViewById(R.id.cycle_activity_detail_edit_collapsing);
@@ -163,7 +158,6 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
                         cycle.setStartDate(newDate.getTime());
-                        //   startTextData.setText(formatData(newDate.getTime()));
                         startTextData.setText(cycle.getStartStringFormatDate());
                     }
 
@@ -180,7 +174,6 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
                         cycle.setFinishDate(newDate.getTime());
-                        //finishTextData.setText(formatData(newDate.getTime()));
                         finishTextData.setText(cycle.getFinishStringFormatDate());
                     }
 

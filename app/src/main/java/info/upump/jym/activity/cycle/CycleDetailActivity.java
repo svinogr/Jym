@@ -173,23 +173,15 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_GALLERY_PHOTO:
-                    handlingImage(data);
+                    uriImage = data.getData();
+                    setPic(uriImage);
             }
         }
 
     }
 
-    private void handlingImage(Intent data) {
-        uriImage = data.getData();
-        System.out.println("image " + uriImage.toString());
-        //   cycle.setImage(uriImage.toString());
-        //   System.out.println(cycle.toString());
-        setPic(uriImage);
-        //   createViewFrom(exercise);
-    }
 
     private void setPic(Uri uri) {
-
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.drawable.ic_add_black_24dp)
