@@ -27,7 +27,7 @@ import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.loaders.CycleFragmentLoader;
 
-public class CycleFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Cycle>>, IChangeItem<Cycle> {
+public class CycleFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Cycle>> {
     private ITitlable iTitlable;
     private RecyclerView recyclerView;
     private CycleAdapter cycleAdapter;
@@ -135,17 +135,9 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
     }
 
-    @Override
-    public void update(Cycle object) {
 
-    }
 
-    @Override
-    public void save(Cycle object) {
-
-    }
-
-    @Override
+  /*  @Override
     public void delete(long id) {
         CycleDao cycleDao = new CycleDao(getContext());
         Cycle cycle = new Cycle();
@@ -168,11 +160,8 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
             }
 
         }
-    }
+    }*/
 
-    @Override
-    public void setInterfaceForDescription(IDescriptionFragment interfaceForDescription) {
-        //nop
-    }
+
 
 }

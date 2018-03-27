@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -204,9 +207,23 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.edit_menu_delete:
+                Snackbar.make(this.imageView, "Удалить программу?", Snackbar.LENGTH_LONG)
+                        .setAction("Да", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                deleteItem();
+                                finishActivityWithAnimation();
+                            }
+                        }).show();
+        }
+
         if (item.getItemId() == android.R.id.home) {
           exit();
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -268,6 +285,17 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     }
 
 
+    private void deleteItem() {
+        if(cycle.getId()>0){
+          cycleDao = getCycleDao();
+          cycleDao.delete(cycle);
+          exit();
+        } else {
+            Toast.makeText(this, "Программа еще не сохранена", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     private boolean itemIsNotChanged() {
         System.out.println(cycle);
         Cycle changeableItem = (Cycle) iDescriptionFragment.getChangeableItem();
@@ -325,6 +353,13 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         if (uriImage != null) {
             outState.putString(URI_IMG, uriImage.toString());
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.edit_menu, menu);
+        return true;
     }
 
 
