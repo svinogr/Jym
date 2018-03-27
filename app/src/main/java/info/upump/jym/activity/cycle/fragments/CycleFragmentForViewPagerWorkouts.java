@@ -28,6 +28,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
     private List<Workout> workoutList = new ArrayList<>();
     private RecyclerView recyclerView;
     private FloatingActionButton addFab;
+    private   WorkoutAdapter workoutAdapter;
 
     public CycleFragmentForViewPagerWorkouts() {
         // Required empty public constructor
@@ -47,6 +48,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+         workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DAY);
 
     }
 
@@ -57,11 +59,10 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         View inflate = inflater.inflate(R.layout.fragment_cycle_fragment_for_view_pager_workout, container, false);
         recyclerView = inflate.findViewById(R.id.cycle_fragment_for_view_pager_workouts_recycler);
         addFab = inflate.findViewById(R.id.cycle_activity_detail_fab_main);
-//        addFab.setVisibility(View.VISIBLE);
         addFab.setOnClickListener(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        WorkoutAdapter workoutAdapter = new WorkoutAdapter(workoutList);
+
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(workoutAdapter);
@@ -83,8 +84,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
                 }
             }
         });
-
-
         return inflate;
     }
 
@@ -104,8 +103,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
     public void onLoadFinished(Loader<List<Workout>> loader, List<Workout> data) {
         workoutList.clear();
         workoutList.addAll(data);
-
-
     }
 
     @Override

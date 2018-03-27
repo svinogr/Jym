@@ -83,7 +83,7 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
             setInfo.setText(createInfo(exercise.getSetsList()));
         }
         if (!exercise.isDefaultType()) {
-            type.setText(context.getResources().getString(R.string.exercise_card_type_exercise));
+            type.setText(context.getResources().getString(R.string.card_type_item));
         } else type.setText("");
     }
 

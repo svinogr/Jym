@@ -1,21 +1,30 @@
 <resources>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowContentTransitions">true</item>
-<!--        &lt;!&ndash; specify enter and exit transitions &ndash;&gt;
-        <item name="android:windowEnterTransition">tra</item>
-        <item name="android:windowExitTransition">@transition/explode</item>
-        &lt;!&ndash; specify shared element transitions &ndash;&gt;
-        <item name="android:windowSharedElementEnterTransition">@transition/changebounds</item>
-        <item name="android:windowSharedElementExitTransition">@transition/changebounds</item>-->
+        <!--        &lt;!&ndash; specify enter and exit transitions &ndash;&gt;
+                <item name="android:windowEnterTransition">tra</item>
+                <item name="android:windowExitTransition">@transition/explode</item>
+                &lt;!&ndash; specify shared element transitions &ndash;&gt;
+                <item name="android:windowSharedElementEnterTransition">@transition/changebounds</item>
+                <item name="android:windowSharedElementExitTransition">@transition/changebounds</item>-->
     </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+
     </style>
 
+ <!--   <style name="CardView" parent="Base.CardView">
+        <item name="cardElevation">20dp</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="android:color">#b72424</item>
+    </style>
+-->
 </resources>

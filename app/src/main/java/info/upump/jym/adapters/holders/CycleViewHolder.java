@@ -28,27 +28,22 @@ import info.upump.jym.entity.Cycle;
  * Created by explo on 22.03.2018.
  */
 
-public class CycleHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView title;
     private TextView date;
     private ImageView imageView;
     private Cycle cycle;
     private View itemView;
     private Context context;
-    private ImageButton buttonDelete;
-    private IControlFragment iControlFragment;
 
-    public CycleHolder(View itemView) {
+    public CycleViewHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
         this.context = itemView.getContext();
         title = itemView.findViewById(R.id.cycle_card_layout_title);
         date = itemView.findViewById(R.id.cycle_card_layout_info_date);
         imageView = itemView.findViewById(R.id.cycle_card_layout_image);
-        buttonDelete = itemView.findViewById(R.id.cycle_card_layout_but_delete);
         itemView.setOnClickListener(this);
-        buttonDelete.setOnClickListener(this);
-        iControlFragment = (IControlFragment) context;
 
     }
 
@@ -96,14 +91,6 @@ public class CycleHolder extends RecyclerView.ViewHolder implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.cycle_card_layout_but_delete:
-                iControlFragment.delete(cycle.getId());
-                break;
-            default:
-                startActivity();
-                break;
-        }
-
+        startActivity();
     }
 }

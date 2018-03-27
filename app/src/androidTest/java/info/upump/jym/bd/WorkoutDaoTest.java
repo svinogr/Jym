@@ -114,7 +114,7 @@ public class WorkoutDaoTest {
     @Test
     public void getByParentId()throws Exception{
         workout.setFinishDate("2019-08-08");
-        long parentId =11;
+        long parentId =15;
         workout.setParentId(parentId);
         long id = workoutDao.create(workout);
         workout.setId(id);

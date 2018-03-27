@@ -1,5 +1,6 @@
 package info.upump.jym.adapters.holders;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
@@ -21,35 +22,39 @@ import info.upump.jym.entity.Workout;
  * Created by explo on 23.03.2018.
  */
 
-public class WorkoutHolder  extends RecyclerView.ViewHolder implements View.OnClickListener{
-    private ImageView imageView;
-    private TextView title, day;
-    private View itemView;
-    private Workout workout;
+abstract public   class WorkoutViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    protected ImageView imageView;
+    protected TextView title, variably;
+    protected View itemView;
+    protected Workout workout;
+    protected Context context;
 
-    public WorkoutHolder(View itemView) {
+    public WorkoutViewHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
         imageView = itemView.findViewById(R.id.workout_card_layout_image);
         title = itemView.findViewById(R.id.workout_card_layout_title);
-        day = itemView.findViewById(R.id.workout_card_layout_info_day);
+        variably = itemView.findViewById(R.id.workout_card_layout_info_variably);
         itemView.setOnClickListener(this);
+        context = itemView.getContext();
     }
 
-    public void bind(Workout workout){
+    public void bind(Workout workout) {
         this.workout = workout;
         System.out.println(workout);
         setPic();
         title.setText(workout.getTitle());
-        day.setText(workout.getDay().getName());
-
+        setVariablyField();
     }
+
+    abstract void setVariablyField();
 
     @Override
     public void onClick(View v) {
 
     }
-    private void setPic() {
+
+    protected void setPic() {
         Day day = workout.getDay();
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))

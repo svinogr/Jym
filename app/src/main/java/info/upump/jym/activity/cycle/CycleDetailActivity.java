@@ -297,7 +297,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
 
     private boolean itemIsNotChanged() {
-        System.out.println(cycle);
         Cycle changeableItem = (Cycle) iDescriptionFragment.getChangeableItem();
         System.out.println(changeableItem);
         if (!changeableItem.getTitle().equals(cycle.getTitle())) return false;

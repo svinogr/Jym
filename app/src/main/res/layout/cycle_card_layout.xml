@@ -36,18 +36,6 @@
             app:layout_constraintTop_toTopOf="@id/cycle_card_layout_image"
             tools:text="Название" />
 
-        <ImageButton
-            android:id="@+id/cycle_card_layout_but_delete"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            app:layout_constraintBottom_toBottomOf="@+id/cycle_card_layout_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cycle_card_layout_image" />
-
 
         <View
             android:id="@+id/com_div"

@@ -36,11 +36,10 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
     private static final String TITLE = "title";
     private Cycle cycle;
     private TextView startDataLabel, finishDataLabel, startTextData, finishTextData;
-    //private WebView webView;
     private CycleDao cycleDao;
     private EditText description, title;
     private IChangeItem iChangeItem;
-    CollapsingToolbarLayout collapsingToolbarLayout;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -181,7 +180,6 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
                 j.show();
                 break;
         }
-
     }
 
 
@@ -191,7 +189,6 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
         iChangeItem = (IChangeItem) context;
         iChangeItem.setInterfaceForDescription(this);
     }
-
 
     @Override
     public Cycle getChangeableItem() {

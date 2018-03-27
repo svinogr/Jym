@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import info.upump.jym.IControlFragment;
-import info.upump.jym.ITitlable;
+import info.upump.jym.ITitleble;
 import info.upump.jym.R;
 import info.upump.jym.activity.exercise.ExerciseDetailActivityEdit;
 import info.upump.jym.adapters.PagerAdapter;
@@ -22,7 +22,7 @@ import info.upump.jym.entity.TypeMuscle;
 
 public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelectedListener, View.OnClickListener {
     private String[] tabNames;
-    private ITitlable iTitlable;
+    private ITitleble iTitlable;
     private TypeMuscle[] values;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -122,7 +122,7 @@ public class ExerciseFragment extends Fragment implements TabLayout.OnTabSelecte
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        iTitlable = (ITitlable) context;
+        iTitlable = (ITitleble) context;
         iControlFragment = (IControlFragment) context;
     }
 

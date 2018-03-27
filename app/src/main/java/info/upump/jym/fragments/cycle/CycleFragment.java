@@ -17,18 +17,15 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.upump.jym.ITitlable;
+import info.upump.jym.ITitleble;
 import info.upump.jym.R;
 import info.upump.jym.activity.cycle.CycleDetailActivity;
-import info.upump.jym.activity.cycle.IChangeItem;
-import info.upump.jym.activity.cycle.IDescriptionFragment;
 import info.upump.jym.adapters.CycleAdapter;
-import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.loaders.CycleFragmentLoader;
 
 public class CycleFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Cycle>> {
-    private ITitlable iTitlable;
+    private ITitleble iTitlable;
     private RecyclerView recyclerView;
     private CycleAdapter cycleAdapter;
     private List<Cycle> cycleList = new ArrayList<>();
@@ -131,7 +128,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     public void onAttach(Context context) {
         super.onAttach(context);
         getLoaderManager().initLoader(0, null, this);
-        iTitlable = (ITitlable) context;
+        iTitlable = (ITitleble) context;
 
     }
 

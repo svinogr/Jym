@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import info.upump.jym.R;
-import info.upump.jym.adapters.holders.CycleHolder;
+import info.upump.jym.adapters.holders.CycleViewHolder;
 import info.upump.jym.entity.Cycle;
 
 
@@ -16,7 +16,7 @@ import info.upump.jym.entity.Cycle;
  * Created by explo on 22.03.2018.
  */
 
-public class CycleAdapter extends RecyclerView.Adapter<CycleHolder> {
+public class CycleAdapter extends RecyclerView.Adapter<CycleViewHolder> {
     private List<Cycle> cycleList;
 
     public CycleAdapter(List<Cycle> workouts) {
@@ -24,13 +24,13 @@ public class CycleAdapter extends RecyclerView.Adapter<CycleHolder> {
     }
 
     @Override
-    public CycleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_card_layout, parent, false);
-        return new CycleHolder(inflate);
+        return new CycleViewHolder(inflate);
     }
 
     @Override
-    public void onBindViewHolder(CycleHolder holder, int position) {
+    public void onBindViewHolder(CycleViewHolder holder, int position) {
         holder.bind(cycleList.get(position));
 
     }

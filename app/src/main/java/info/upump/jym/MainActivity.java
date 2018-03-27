@@ -37,7 +37,7 @@ import info.upump.jym.fragments.exercises.ExerciseFragment;
 import info.upump.jym.fragments.cycle.CycleFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ITitlable, IControlFragment {
+        implements NavigationView.OnNavigationItemSelectedListener, ITitleble, IControlFragment {
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private Fragment curFragment;
@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity
     private static final int PERMISSION_CODE = 1;
     private static final int REQUEST_PERMISSION_IN_SETTINGS = 10;
     private Bundle savedInstanceState;
-    public IChangeItem iChangeItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,20 +242,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void createFragment(Fragment fragment) {
         curFragment = fragment;
-        if(fragment instanceof IChangeItem){
-            iChangeItem = (IChangeItem) fragment;
-        }
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commitAllowingStateLoss();
         //fragmentTransaction.commit();
-    }
-
-    @Override
-    public void delete(long id) {
-        iChangeItem.delete(id);
-
     }
 
     private void openApplicationSettings() {
