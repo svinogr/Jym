@@ -19,6 +19,7 @@ import java.util.List;
 
 import info.upump.jym.ITitleble;
 import info.upump.jym.R;
+import info.upump.jym.activity.cycle.CycleCreateActivity;
 import info.upump.jym.activity.cycle.CycleDetailActivity;
 import info.upump.jym.adapters.CycleAdapter;
 import info.upump.jym.entity.Cycle;
@@ -117,11 +118,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     }
 
     private void addItem() {
-   /*     Cycle cycle = new Cycle();
-        cycle.setId(0);*/
-        Cycle cycle = new Cycle();
-        cycle.setTitle("новая");
-        Intent intent = CycleDetailActivity.createIntent(getContext(), cycle);
+        Intent intent = CycleCreateActivity.createIntent(getContext());
         startActivity(intent);
     }
 
