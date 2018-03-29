@@ -14,13 +14,12 @@ import java.util.List;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IChooseItem;
+import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
 
 public class WorkoutActivityForChoose extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Workout>>, IChooseItem<Workout> {
-    public static final int CHOOSE_WORKOUT = 10;
-    public static final String ID_WORKOUT = "id";
     private RecyclerView recyclerView;
     private WorkoutAdapter workoutAdapter;
     private List<Workout> workoutList =  new ArrayList<>();
@@ -71,7 +70,7 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
     @Override
     public void createIntentForChooseResult(Workout workout) {
         Intent intent = new Intent();
-        intent.putExtra(ID_WORKOUT, workout.getId());
+        intent.putExtra(Constants.ID, workout.getId());
         setResult(RESULT_OK, intent);
         finish();
     }

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/exercise_card_layout"
-    android:elevation="0dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
- android:layout_marginBottom="2dp">
+    android:layout_marginBottom="2dp"
+    android:elevation="0dp">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -25,29 +25,28 @@
 
         <TextView
             android:id="@+id/exercise_card_layout_title"
-            android:transitionName=" exercise_card_layout_title"
+            style="@style/TextViewText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/exercise_card_layout_image"
+            android:transitionName=" exercise_card_layout_title"
             app:layout_constraintStart_toEndOf="@+id/exercise_card_layout_image"
             app:layout_constraintTop_toTopOf="@+id/exercise_card_layout_image"
             tools:text="Навзание" />
 
-   <!--     <ImageButton
-            android:id="@+id/exercise_card_layout_delete"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@android:drawable/ic_menu_delete"
-            app:layout_constraintBottom_toBottomOf="@+id/exercise_card_layout_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/exercise_card_layout_image" />-->
+        <!--     <ImageButton
+                 android:id="@+id/exercise_card_layout_delete"
+                 android:layout_width="24dp"
+                 android:layout_height="24dp"
+                 android:layout_marginBottom="8dp"
+                 android:layout_marginEnd="8dp"
+                 android:layout_marginTop="8dp"
+                 android:src="@android:drawable/ic_menu_delete"
+                 app:layout_constraintBottom_toBottomOf="@+id/exercise_card_layout_image"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintTop_toTopOf="@+id/exercise_card_layout_image" />-->
 
         <View
             android:id="@+id/com_div"
@@ -59,7 +58,7 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/exercise_card_layout_image"
-            app:layout_constraintTop_toBottomOf="@+id/exercise_card_layout_image" />
+            app:layout_constraintTop_toBottomOf="@+id/exercise_card_layout_title" />
 
         <TextView
             android:id="@+id/exercise_card_layout_info_type"
@@ -73,6 +72,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/com_div"
             tools:text="своя" />
+
         <TextView
             android:id="@+id/exercise_card_layout_info_sets"
             android:layout_width="wrap_content"

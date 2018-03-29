@@ -34,7 +34,7 @@ public class WorkoutDaoTest {
         workout.setDefaultType(true);
         workout.setTemplate(true);
         workout.setDay(Day.THURSDAY);
-        workout.setParentId(1);
+        workout.setParentId(0);
         workout.setStartDate("2018-08-08");
         workout.setFinishDate("2019-08-08");
     }

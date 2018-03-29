@@ -9,5 +9,4 @@ import java.util.List;
 public interface IItemFragment<T> {
     void addChosenItem(long idItem);
     boolean clear();
-    List<T> getListItem();
 }

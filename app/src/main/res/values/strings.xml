@@ -58,4 +58,8 @@
     <string name="label_title_cycle">Название программы</string>
     <string name="title_cycle_hint">Новая программа</string>
     <string name="action_clear">Очистить</string>
+    <!--dialog-->
+    <string name="save">Сохранить?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 </resources>

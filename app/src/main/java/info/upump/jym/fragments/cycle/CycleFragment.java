@@ -2,17 +2,21 @@ package info.upump.jym.fragments.cycle;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,8 +122,29 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     }
 
     private void addItem() {
-        Intent intent = CycleCreateActivity.createIntent(getContext());
-        startActivity(intent);
+        String[] inputs = {"Свою", "Выбрать готовую"};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Выберите путь"); // заголовок для диалога
+
+        builder.setItems(inputs, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                // TODO Auto-generated method stub
+                switch (item) {
+                    case 0:
+                        Intent intent = CycleCreateActivity.createIntent(getContext());
+                        startActivity(intent);
+                        break;
+                        case 1:
+                    Toast.makeText(getContext(),
+                            "Летим к готовыи: ",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
     }
 
     @Override
@@ -129,6 +154,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         iTitlable = (ITitleble) context;
 
     }
+
 
 
 

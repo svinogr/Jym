@@ -39,8 +39,8 @@
         <activity android:name=".activity.workout.WorkoutActivityForChoose" />
         <activity
             android:name=".activity.cycle.CycleCreateActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.workout.WorkoutCreateActivity"></activity>
+    </application>
 
-</application>
-
-    </manifest>
+</manifest>

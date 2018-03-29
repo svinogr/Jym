@@ -239,14 +239,14 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
 
     private void exit() {
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
-        ad.setTitle("Сохранить изменения описания?");
-        ad.setPositiveButton("Да и выйти", new DialogInterface.OnClickListener() {
+        ad.setTitle(getResources().getString(R.string.save));
+        ad.setPositiveButton((getResources().getString(R.string.yes)), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 save();
             }
         });
-        ad.setNegativeButton("Нет и выйти", new DialogInterface.OnClickListener() {
+        ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finishActivityWithAnimation();

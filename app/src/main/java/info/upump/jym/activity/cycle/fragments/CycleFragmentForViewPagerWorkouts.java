@@ -2,6 +2,7 @@ package info.upump.jym.activity.cycle.fragments;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,11 +10,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +26,8 @@ import java.util.List;
 import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IItemFragment;
+import info.upump.jym.activity.constant.Constants;
+import info.upump.jym.activity.cycle.CycleCreateActivity;
 import info.upump.jym.activity.workout.WorkoutActivityForChoose;
 import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.bd.CycleDao;
@@ -32,7 +37,6 @@ import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
 
 public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Workout>>, IItemFragment<Workout> {
-    private final static String ID_CYCLE = "id";
     private Cycle cycle;
     private List<Workout> workoutList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -48,7 +52,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         CycleFragmentForViewPagerWorkouts fragment = new CycleFragmentForViewPagerWorkouts();
         Bundle args = new Bundle();
         if (cycle != null) {
-            args.putLong(ID_CYCLE, cycle.getId());
+            args.putLong(Constants.ID, cycle.getId());
         }
         fragment.setArguments(args);
         return fragment;
@@ -119,8 +123,30 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(getActivity(), WorkoutActivityForChoose.class);
-        getActivity().startActivityForResult(intent, WorkoutActivityForChoose.CHOOSE_WORKOUT);
+        String[] inputs = {"Свою", "Выбрать готовую"};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Выберите путь"); // заголовок для диалога
+
+        builder.setItems(inputs, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                // TODO Auto-generated method stub
+                switch (item) {
+                    case 1:
+                        Intent intent = new Intent(getActivity(), WorkoutActivityForChoose.class);
+                        getActivity().startActivityForResult(intent, Constants.CHOOSE);
+                        break;
+                    case 0:
+                        Toast.makeText(getContext(),
+                                "создадим новую ",
+                                Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
+
     }
 
 
@@ -161,7 +187,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
 
         if (getArguments() != null) {
             cycle = new Cycle();
-            cycle.setId(getArguments().getLong(ID_CYCLE, 0));
+            cycle.setId(getArguments().getLong(Constants.ID, 0));
         }
         getLoaderManager().initLoader(0, null, this);
 
@@ -171,10 +197,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
     public void addChosenItem(long idItem) {
         WorkoutDao workoutDao = new WorkoutDao(getContext());
         long id = workoutDao.copyFromTemplate(idItem, cycle.getId());
-        Workout workout = workoutDao.getById(idItem);
-        System.out.println("addChosenItem before "+ workoutList.size());
-        System.out.println(workout);
-
+        Workout workout = workoutDao.getById(id);
         workoutList.add(workout);
         System.out.println("addChosenItem after "+ workoutList.size());
         sortListByDay(workoutList);
@@ -191,10 +214,5 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
             return true;
         }else return false;
 
-    }
-
-    @Override
-    public List<Workout> getListItem() {
-        return workoutList;
     }
 }
