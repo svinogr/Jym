@@ -17,6 +17,7 @@ import info.upump.jym.entity.Workout;
 public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
     private Context context;
     public final static int BY_PARENT_ID = 1;
+    public final static int BY_TEMPLATE_TYPE = 2;
     private int operation;
     private long id;
 
@@ -39,6 +40,8 @@ public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
             case BY_PARENT_ID:
                workoutList =  workoutDao.getByParentId(id);
                 break;
+            case BY_TEMPLATE_TYPE:
+                workoutList = workoutDao.getTemplate();
         }
         return workoutList;
     }

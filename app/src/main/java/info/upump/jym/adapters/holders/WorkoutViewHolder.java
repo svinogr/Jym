@@ -50,9 +50,7 @@ abstract public   class WorkoutViewHolder extends RecyclerView.ViewHolder implem
     abstract void setVariablyField();
 
     @Override
-    public void onClick(View v) {
-
-    }
+    abstract public void onClick(View v);
 
     protected void setPic() {
         Day day = workout.getDay();

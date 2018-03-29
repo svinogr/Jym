@@ -109,4 +109,9 @@ public class UserDao extends DBDao implements IData<User> {
     public List<User> getByParentId(long id) {
         return null;
     }
+
+    @Override
+    public boolean clear(User object) {
+        return false;
+    }
 }

@@ -117,4 +117,9 @@ public class SetDao extends DBDao implements IData<Sets> {
         }
         return setsList;
     }
+
+    @Override
+    public boolean clear(Sets object) {
+        return false;
+    }
 }

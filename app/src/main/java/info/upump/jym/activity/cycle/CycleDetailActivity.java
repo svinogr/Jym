@@ -25,17 +25,27 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import info.upump.jym.R;
+import info.upump.jym.activity.IChangeItem;
+import info.upump.jym.activity.IDescriptionFragment;
+import info.upump.jym.activity.IItemFragment;
+import info.upump.jym.activity.workout.WorkoutActivityForChoose;
 import info.upump.jym.adapters.PagerAdapterCycle;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
+import info.upump.jym.entity.Workout;
 
 public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle> {
     private static final String ID_CYCLE = "id";
     private static final int REQUEST_CODE_GALLERY_PHOTO = 1;
     private static final String URI_IMG = "uri";
+    private static final String TITLE_CYCLE = "title";
     private ViewPager viewPager;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ImageView imageView;
@@ -44,6 +54,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     private PagerAdapterCycle pagerAdapterCycleEdit;
     private CycleDao cycleDao;
     private IDescriptionFragment iDescriptionFragment;
+    private IItemFragment iItemFragment;
 
 
     @Override
@@ -137,6 +148,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     public static Intent createIntent(Context context, Cycle cycle) {
         Intent intent = new Intent(context, CycleDetailActivity.class);
         intent.putExtra(ID_CYCLE, cycle.getId());
+        intent.putExtra(TITLE_CYCLE, cycle.getTitle());
         return intent;
     }
 
@@ -154,15 +166,16 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     private Cycle getCycleFromIntent() {
         Intent intent = getIntent();
         long id = intent.getLongExtra(ID_CYCLE, 0);
+        String title = intent.getStringExtra(TITLE_CYCLE);
         Cycle cycle = new Cycle();
-        if(uriImage != null){
+        if (uriImage != null) {
             cycle.setImage(uriImage.toString());
         }
-        if (id >0) {
+        if (id > 0) {
             CycleDao cycleDao = new CycleDao(this);
             cycle = cycleDao.getById(id);
         } else {
-            cycle.setTitle(" ");
+            cycle.setTitle(title);
             cycle.setComment("");
             cycle.setStartDate(new Date());
             cycle.setFinishDate(new Date());
@@ -173,11 +186,18 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("onActivityResult  " + requestCode + "  " + resultCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_GALLERY_PHOTO:
                     uriImage = data.getData();
                     setPic(uriImage);
+                    break;
+                case WorkoutActivityForChoose.CHOOSE_WORKOUT:
+                    System.out.println("from choose");
+                    // saveOrUpdate();
+                    iItemFragment.addChosenItem(data.getLongExtra(WorkoutActivityForChoose.ID_WORKOUT, 0));
+                    break;
             }
         }
 
@@ -207,7 +227,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.edit_menu_delete:
                 Snackbar.make(this.imageView, "Удалить программу?", Snackbar.LENGTH_LONG)
                         .setAction("Да", new View.OnClickListener() {
@@ -217,10 +237,19 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                                 finishActivityWithAnimation();
                             }
                         }).show();
+                break;
+            case R.id.edit_menu_clear:
+                Snackbar.make(this.imageView, "Очистить программу?", Snackbar.LENGTH_LONG)
+                        .setAction("Да", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                clear();
+                            }
+                        }).show();
         }
 
         if (item.getItemId() == android.R.id.home) {
-          exit();
+            exit();
         }
 
 
@@ -229,11 +258,12 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
     @Override
     public void onBackPressed() {
-       // super.onBackPressed();
-      exit();
+        // super.onBackPressed();
+        exit();
 
     }
-    private void exit(){
+
+    private void exit() {
         if (itemIsNotChanged()) {
             finishActivityWithAnimation();
         } else {
@@ -255,6 +285,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
         }
     }
+
     private void saveOrUpdate() {
         Cycle sOu = (Cycle) iDescriptionFragment.getChangeableItem();
         if (sOu.getTitle().trim().isEmpty()) {
@@ -286,18 +317,25 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
 
     private void deleteItem() {
-        if(cycle.getId()>0){
-          cycleDao = getCycleDao();
-          cycleDao.delete(cycle);
-          exit();
+        if (cycle.getId() > 0) {
+            cycleDao = getCycleDao();
+            cycleDao.delete(cycle);
+            exit();
         } else {
             Toast.makeText(this, "Программа еще не сохранена", Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void clear() {
+        if (iItemFragment.clear()) {
+            Toast.makeText(this, "Программа очищена", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "Не удалось очистить", Toast.LENGTH_SHORT).show();
+    }
+
 
     private boolean itemIsNotChanged() {
         Cycle changeableItem = (Cycle) iDescriptionFragment.getChangeableItem();
+
         System.out.println(changeableItem);
         if (!changeableItem.getTitle().equals(cycle.getTitle())) return false;
         if (!changeableItem.getComment().equals(cycle.getComment())) return false;
@@ -311,6 +349,8 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
         return true;
     }
+
+
 
 
     private void finishActivityWithAnimation() {
@@ -337,6 +377,11 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     @Override
     public void setInterfaceForDescription(IDescriptionFragment interfaceForDescription) {
         this.iDescriptionFragment = interfaceForDescription;
+    }
+
+    @Override
+    public void setInterfaceForItem(IItemFragment interfaceForItem) {
+        this.iItemFragment = interfaceForItem;
     }
 
     private CycleDao getCycleDao() {

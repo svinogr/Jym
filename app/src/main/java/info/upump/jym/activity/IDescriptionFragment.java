@@ -1,4 +1,4 @@
-package info.upump.jym.activity.cycle;
+package info.upump.jym.activity;
 
 /**
  * Created by explo on 26.03.2018.

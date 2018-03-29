@@ -9,9 +9,11 @@ import info.upump.jym.entity.Exercise;
 abstract class DBDao {
     protected SQLiteDatabase sqLiteDatabase;
     protected DBHelper dbHelper;
+    protected Context context;
 
     public DBDao(Context context) {
         this.dbHelper = DBHelper.getHelper(context);
+        this.context = context;
         open();
 
     }

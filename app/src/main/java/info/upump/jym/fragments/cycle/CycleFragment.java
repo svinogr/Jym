@@ -62,25 +62,24 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(cycleAdapter);
-      /*  recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx,int dy){
-                    super.onScrolled(recyclerView, dx, dy);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-                    if (dy >0) {
-                        // Scroll Down
-                        if (fabAdd.isShown()) {
-                            fabAdd.hide();
-                        }
+                if (dy > 0) {
+                    // Scroll Down
+                    if (fabAdd.isShown()) {
+                        fabAdd.hide();
                     }
-                    else if (dy <=0) {
-                        // Scroll Up
-                        if (!fabAdd.isShown()) {
-                            fabAdd.show();
-                        }
+                } else if (dy <= 0) {
+                    // Scroll Up
+                    if (!fabAdd.isShown()) {
+                        fabAdd.show();
                     }
                 }
-        });*/
+            }
+        });
 
         fabAdd.setOnClickListener(this);
 
@@ -120,7 +119,9 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     private void addItem() {
    /*     Cycle cycle = new Cycle();
         cycle.setId(0);*/
-        Intent intent = CycleDetailActivity.createIntent(getContext(), new Cycle());
+        Cycle cycle = new Cycle();
+        cycle.setTitle("новая");
+        Intent intent = CycleDetailActivity.createIntent(getContext(), cycle);
         startActivity(intent);
     }
 
@@ -158,7 +159,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
         }
     }*/
-
 
 
 }

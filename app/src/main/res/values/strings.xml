@@ -56,4 +56,5 @@
     <string name="label_finish_cycle">Дата окончания</string>
     <string name="label_description_cycle">Описание</string>
     <string name="label_title_cycle">Название програмы</string>
+    <string name="action_clear">Очистить</string>
 </resources>

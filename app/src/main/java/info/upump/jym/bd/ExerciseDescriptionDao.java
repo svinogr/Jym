@@ -92,4 +92,9 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
         }
         return exerciseDescriptionList;
     }
+
+    @Override
+    public boolean clear(ExerciseDescription object) {
+        return false;
+    }
 }

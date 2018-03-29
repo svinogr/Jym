@@ -62,7 +62,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
+        android:id="@+id/test"
         layout="@layout/content_cycle_detail" />
-
 
 </android.support.design.widget.CoordinatorLayout>

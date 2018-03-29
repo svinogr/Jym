@@ -20,4 +20,9 @@ public class WorkoutDefaultViewHolder extends WorkoutViewHolder {
             variably.setText(context.getResources().getString(R.string.card_type_item));
         } else variably.setText("");
     }
+
+    @Override
+    public void onClick(View v) {
+        System.out.println("WorkoutDefaultViewHolder");
+    }
 }

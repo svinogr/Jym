@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import info.upump.jym.activity.cycle.IChangeItem;
 import info.upump.jym.bd.DBHelper;
 import info.upump.jym.fragments.exercises.ExerciseFragment;
 import info.upump.jym.fragments.cycle.CycleFragment;

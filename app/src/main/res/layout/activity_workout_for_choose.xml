@@ -7,6 +7,7 @@
     tools:context="info.upump.jym.activity.workout.WorkoutActivityForChoose">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_workout_for_choose_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

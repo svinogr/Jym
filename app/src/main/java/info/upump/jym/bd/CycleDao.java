@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.upump.jym.entity.Cycle;
+import info.upump.jym.entity.Workout;
 
 /**
  * Created by explo on 05.03.2018.
@@ -75,9 +76,34 @@ public class CycleDao extends DBDao implements IData<Cycle> {
 
     @Override
     public boolean delete(Cycle cycle) {
-        long id = sqLiteDatabase.delete(DBHelper.TABLE_CYCLE, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(cycle.getId())});
+        long id = 0;
+        if(deleteChildren(cycle.getId())) {
+            id = sqLiteDatabase.delete(DBHelper.TABLE_CYCLE, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(cycle.getId())});
+        }
         System.out.println(id);
         return id != 0;
+    }
+
+
+
+    private List<Workout> getAllChildren(long id) {
+        List<Workout>  workoutList = null;
+        WorkoutDao workoutDao = new WorkoutDao(context);
+        workoutList = workoutDao.getByParentId(id);
+        System.out.println("кол-во чилдренов " +workoutList.size());
+        return workoutList;
+    }
+
+    private boolean deleteChildren(long id){
+        List<Workout> workoutList = getAllChildren(id);
+        boolean flag = true;
+        if(workoutList != null){
+            WorkoutDao workoutDao = new WorkoutDao(context);
+            for(Workout workout: workoutList){
+                flag = workoutDao.delete(workout);
+            }
+        }
+        return flag;
     }
 
     @Override
@@ -97,6 +123,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
                 cycle = getExerciseFromCursor(cursor);
             } while (cursor.moveToNext());
         }
+        cycle.getWorkoutList().addAll(getAllChildren(id));
         return cycle;
     }
 
@@ -104,4 +131,11 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     public List<Cycle> getByParentId(long id) {
         return null;
     }
+
+    @Override
+    public boolean clear(Cycle object)
+    {
+        return deleteChildren(object.getId());
+    }
+
 }

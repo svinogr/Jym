@@ -16,6 +16,8 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         super(context);
     }
 
+    private List<Workout> workoutList;
+
     private final String[] keys = new String[]{
             DBHelper.TABLE_KEY_ID,
             DBHelper.TABLE_KEY_TITLE,
@@ -64,7 +66,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     public List<Workout> getAll() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT,
                 keys, null, null, null, null, null);
-        List<Workout> workoutList = new ArrayList<>();
+        workoutList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
                 Workout workout = getWorkoutFromCursor(cursor);
@@ -115,7 +117,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT,
                 keys, DBHelper.TABLE_KEY_PARENT_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
 
-        List<Workout> workoutList = new ArrayList<>();
+        workoutList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
                 Workout workout = getWorkoutFromCursor(cursor);
@@ -124,5 +126,34 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         }
         return workoutList;
 
+    }
+
+    @Override
+    public boolean clear(Workout object) {
+        return false;
+    }
+
+    public List<Workout> getTemplate() {
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
+                DBHelper.TABLE_KEY_TEMPLATE + " =?", new String[]{String.valueOf(1)}, null, null, null
+        );
+        workoutList = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                Workout workout = getWorkoutFromCursor(cursor);
+                workoutList.add(workout);
+            } while (cursor.moveToNext());
+        }
+
+        return workoutList;
+    }
+
+    public long  copyFromTemplate(long idItem, long id) {
+//        insert into cycles (title, comment, default_type, img, start_date, finish_date) select  title, 1, 0, img, start_date, finish_date from cycles where _id = 1
+        Workout workout = getById(idItem);
+        workout.setId(0);
+        workout.setTemplate(false);
+        workout.setParentId(id);
+        return create(workout);
     }
 }

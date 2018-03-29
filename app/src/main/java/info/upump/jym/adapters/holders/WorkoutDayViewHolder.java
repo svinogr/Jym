@@ -15,4 +15,9 @@ public class WorkoutDayViewHolder extends WorkoutViewHolder {
     void setVariablyField() {
         variably.setText(workout.getDay().getName());
     }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 }

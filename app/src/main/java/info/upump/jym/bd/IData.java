@@ -18,4 +18,6 @@ public interface IData<T> {
     T getById(long id);
 
     List<T> getByParentId(long id);
+
+    boolean clear(T object);
 }

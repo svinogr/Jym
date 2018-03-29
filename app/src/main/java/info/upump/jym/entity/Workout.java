@@ -54,6 +54,7 @@ public class Workout extends Entity {
         this.day = day;
     }
 
+
     @Override
     public String toString() {
         return "Workout{" +

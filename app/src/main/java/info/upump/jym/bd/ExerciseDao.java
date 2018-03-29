@@ -126,6 +126,11 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         return getListExercise(cursor);
     }
 
+    @Override
+    public boolean clear(Exercise object) {
+        return false;
+    }
+
     public List<Exercise> getAllByTypeMuscle(TypeMuscle typeMuscle) {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
                 keys, DBHelper.TABLE_KEY_TYPE_EXERCISE + " = ? ", new String[]{typeMuscle.toString()}, null, null, null);
