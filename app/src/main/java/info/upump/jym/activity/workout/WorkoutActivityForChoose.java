@@ -1,5 +1,6 @@
 package info.upump.jym.activity.workout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -38,6 +39,11 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
         recyclerView = findViewById(R.id.activity_workout_for_choose_recycler_view);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(workoutAdapter);
+    }
+
+    public static Intent createIntent(Context context){
+        Intent intent = new Intent(context, WorkoutCreateActivity.class);
+        return intent;
     }
 
 

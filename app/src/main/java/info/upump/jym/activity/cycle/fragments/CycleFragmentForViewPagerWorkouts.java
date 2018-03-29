@@ -16,7 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,8 +26,8 @@ import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
-import info.upump.jym.activity.cycle.CycleCreateActivity;
 import info.upump.jym.activity.workout.WorkoutActivityForChoose;
+import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.bd.WorkoutDao;
@@ -131,15 +130,15 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 // TODO Auto-generated method stub
+                Intent intent = null;
                 switch (item) {
                     case 1:
-                        Intent intent = new Intent(getActivity(), WorkoutActivityForChoose.class);
-                        getActivity().startActivityForResult(intent, Constants.CHOOSE);
+                        intent = WorkoutActivityForChoose.createIntent(getContext());
+                        getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
                         break;
                     case 0:
-                        Toast.makeText(getContext(),
-                                "создадим новую ",
-                                Toast.LENGTH_SHORT).show();
+                        intent  = WorkoutCreateActivity.createIntent(getContext(), cycle.getId());
+                        getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
                 }
 
             }

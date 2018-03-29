@@ -25,14 +25,11 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.util.Date;
-
 import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IDescriptionFragment;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
-import info.upump.jym.activity.workout.WorkoutActivityForChoose;
 import info.upump.jym.adapters.PagerAdapterCycle;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
@@ -175,7 +172,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                     uriImage = data.getData();
                     setPic(uriImage);
                     break;
-                case Constants.CHOOSE:
+                case Constants.REQUEST_CODE_CHOOSE:
                     iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0));
                     break;
             }
