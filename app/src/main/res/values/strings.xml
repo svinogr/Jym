@@ -27,6 +27,8 @@
     <string name="abs">пресс</string>
     <!--****-->
     <string name="exercise_fragment_title">Упражнения</string>
+    <string name="cycle_fragment_title">Программы</string>
+    <string name="workout_fragment_title">Тренировки</string>
     <string name="title_activity_exercise_detail">ExerciseDetailActivity</string>
     <string name="no_description">Нет описания</string>
     <string name="title_activity_exercise_detail_edit">ExerciseDetailActivityEdit</string>
@@ -41,11 +43,11 @@
     <string name="permission_description_storage">Хранилище файлов</string>
     <string name="title_activity_workout_detail">CycleDetailActivity</string>
     <string name="title_activity_workout_detail_edit">CycleDetailEditActivity</string>
-    <string name="cycle_title">Программы</string>
+
     <!--day-->
     <string name="day_monday">понедельник</string>
-    <string name="day_wednesday">вторник</string>
-    <string name="day_tuesday">среда</string>
+    <string name="day_wednesday">среда</string>
+    <string name="day_tuesday">вторник</string>
     <string name="day_thursday">четверг</string>
     <string name="day_friday">пятница</string>
     <string name="day_saturday">суббота</string>
@@ -63,4 +65,5 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="label_spinner_day">День недели</string>
+
 </resources>

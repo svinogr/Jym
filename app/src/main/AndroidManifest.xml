@@ -40,8 +40,11 @@
         <activity
             android:name=".activity.cycle.CycleCreateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.workout.WorkoutCreateActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.workout.WorkoutCreateActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.workout.WorkoutDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -7,19 +7,22 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerDescription;
 import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerWorkouts;
+import info.upump.jym.activity.workout.fragments.WorkoutFragmentForViewPagerDescription;
+import info.upump.jym.activity.workout.fragments.WorkoutFragmentForViewPagerExercises;
 import info.upump.jym.entity.Cycle;
+import info.upump.jym.entity.Workout;
 
 /**
  * Created by explo on 22.03.2018.
  */
 
-public class PagerAdapterCycle extends FragmentStatePagerAdapter {
-    protected String[] tabs = new String[]{"Тренировки", "Описание"};
-    protected Cycle cycle;
+public class PagerAdapterWorkout extends FragmentStatePagerAdapter {
+    protected String[] tabs = new String[]{"Упражнения", "Описание"};
+    protected Workout workout;
 
-    public PagerAdapterCycle(FragmentManager fm, Cycle cycle) {
+    public PagerAdapterWorkout(FragmentManager fm, Workout workout) {
         super(fm);
-        this.cycle = cycle;
+        this.workout = workout;
     }
 
     @Override
@@ -28,10 +31,11 @@ public class PagerAdapterCycle extends FragmentStatePagerAdapter {
         System.out.println(1);
         switch (position) {
             case 1:
-                fragment = CycleFragmentForViewPagerDescription.newInstance(cycle);
+                fragment = WorkoutFragmentForViewPagerDescription.newInstance(workout);
                 break;
             case 0:
-                fragment = CycleFragmentForViewPagerWorkouts.newInstance(cycle);
+                fragment = WorkoutFragmentForViewPagerDescription.newInstance(workout);
+                //fragment = WorkoutFragmentForViewPagerExercises.newInstance(workout);
         }
         return fragment;
     }

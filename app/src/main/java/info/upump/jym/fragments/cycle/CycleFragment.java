@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -24,7 +23,6 @@ import java.util.List;
 import info.upump.jym.ITitleble;
 import info.upump.jym.R;
 import info.upump.jym.activity.cycle.CycleCreateActivity;
-import info.upump.jym.activity.cycle.CycleDetailActivity;
 import info.upump.jym.adapters.CycleAdapter;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.loaders.CycleFragmentLoader;
@@ -34,7 +32,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     private RecyclerView recyclerView;
     private CycleAdapter cycleAdapter;
     private List<Cycle> cycleList = new ArrayList<>();
-    private FloatingActionButton fabAdd;
+    private FloatingActionButton addFab;
 
     public CycleFragment() {
         // Required empty public constructor
@@ -62,9 +60,9 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_cycle, container, false);
         recyclerView = inflate.findViewById(R.id.cycle_fragment_recycler_view);
-        fabAdd = inflate.findViewById(R.id.cycle_fragment_fab_add);
+        addFab = inflate.findViewById(R.id.cycle_fragment_fab_add);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-
+        iTitlable.setTitle(getResources().getString(R.string.cycle_fragment_title));
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(cycleAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -74,21 +72,21 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
                 if (dy > 0) {
                     // Scroll Down
-                    if (fabAdd.isShown()) {
-                        fabAdd.hide();
+                    if (addFab.isShown()) {
+                        addFab.hide();
                     }
                 } else if (dy <= 0) {
                     // Scroll Up
-                    if (!fabAdd.isShown()) {
-                        fabAdd.show();
+                    if (!addFab.isShown()) {
+                        addFab.show();
                     }
                 }
             }
         });
 
-        fabAdd.setOnClickListener(this);
+        addFab.setOnClickListener(this);
 
-        iTitlable.setTitle(getResources().getString(R.string.cycle_title));
+
         return inflate;
     }
 
@@ -125,7 +123,13 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         String[] inputs = {"Свою", "Выбрать готовую"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Выберите путь"); // заголовок для диалога
-
+        builder.setNeutralButton("Отмена",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int id) {
+                        dialog.cancel();
+                    }
+                });
         builder.setItems(inputs, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -135,10 +139,10 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
                         Intent intent = CycleCreateActivity.createIntent(getContext());
                         startActivity(intent);
                         break;
-                        case 1:
-                    Toast.makeText(getContext(),
-                            "Летим к готовыи: ",
-                            Toast.LENGTH_SHORT).show();
+                    case 1:
+                        Toast.makeText(getContext(),
+                                "Летим к готовыи: ",
+                                Toast.LENGTH_SHORT).show();
                 }
 
             }

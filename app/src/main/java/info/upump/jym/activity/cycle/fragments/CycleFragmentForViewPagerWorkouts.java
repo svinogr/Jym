@@ -125,7 +125,13 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         String[] inputs = {"Свою", "Выбрать готовую"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Выберите путь"); // заголовок для диалога
-
+        builder.setNeutralButton("Отмена",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int id) {
+                        dialog.cancel();
+                    }
+                });
         builder.setItems(inputs, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -137,7 +143,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
                         getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
                         break;
                     case 0:
-                        intent  = WorkoutCreateActivity.createIntent(getContext(), cycle.getId());
+                        intent  = WorkoutCreateActivity.createIntent(getContext());
                         getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
                 }
 
@@ -201,8 +207,9 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         System.out.println("addChosenItem after "+ workoutList.size());
         sortListByDay(workoutList);
         workoutAdapter.notifyDataSetChanged();
-
     }
+
+
 
     @Override
     public boolean clear() {

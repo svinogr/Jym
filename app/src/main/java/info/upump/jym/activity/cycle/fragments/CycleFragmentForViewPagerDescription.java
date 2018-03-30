@@ -19,21 +19,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IDescriptionFragment;
+import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 
+import static info.upump.jym.activity.constant.Constants.COMMENT;
+import static info.upump.jym.activity.constant.Constants.FINISH_DATA;
+import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.TITLE;
+
 
 public class CycleFragmentForViewPagerDescription extends Fragment implements View.OnClickListener, IDescriptionFragment {
-    public final static String ID_CYCLE = "id";
-    public final static String START_DATA = "start";
-    public final static String FINISH_DATA = "finish";
-    public final static String COMMENT = "description";
-    private static final String TITLE_CYCLE = "title";
     private Cycle cycle;
     private TextView startDataLabel, finishDataLabel, startTextData, finishTextData;
     private CycleDao cycleDao;
@@ -57,10 +58,9 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
     public static CycleFragmentForViewPagerDescription newInstance(Cycle cycle) {
         CycleFragmentForViewPagerDescription fragment = new CycleFragmentForViewPagerDescription();
         Bundle args = new Bundle();
-        args.putString(TITLE_CYCLE, cycle.getTitle());
+        args.putString(TITLE, cycle.getTitle());
         if (cycle.getId() >0) {
-            args.putLong(ID_CYCLE, cycle.getId());
-
+            args.putLong(Constants.ID, cycle.getId());
             args.putString(START_DATA, cycle.getStartStringFormatDate());
             args.putString(FINISH_DATA, cycle.getFinishStringFormatDate());
             args.putString(COMMENT, cycle.getComment());
@@ -73,7 +73,7 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-           cycle =  getCycleFromBundle();
+           cycle =  getItemFromBundle();
         }
         if(savedInstanceState != null){
             cycle.setStartDate(savedInstanceState.getString(START_DATA));
@@ -125,23 +125,22 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
         return inflate;
     }
 
-    private Cycle getCycleFromBundle() {
+    private Cycle getItemFromBundle() {
         Cycle cycle = new Cycle();
-        cycle.setId(getArguments().getLong(ID_CYCLE, 0));
-        String title = getArguments().getString(TITLE_CYCLE);
+        cycle.setId(getArguments().getLong(ID, 0));
+      //  String title = getArguments().getString(TITLE);
         if (cycle.getId() > 0) {
             System.out.println(12);
             cycle.setStartDate(getArguments().getString(START_DATA));
             cycle.setFinishDate(getArguments().getString(FINISH_DATA));
             cycle.setComment(getArguments().getString(COMMENT));
-            cycle.setTitle(getArguments().getString(TITLE_CYCLE));
-        } else {
-            System.out.println(2);
+            cycle.setTitle(getArguments().getString(TITLE));
+        }/* else {
             cycle.setStartDate(new Date());
             cycle.setFinishDate(new Date());
             cycle.setComment("");
             cycle.setTitle(title);
-        }
+        }*/
         return cycle;
     }
 

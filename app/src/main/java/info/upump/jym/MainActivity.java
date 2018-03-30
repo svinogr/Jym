@@ -34,6 +34,7 @@ import java.util.Map;
 import info.upump.jym.bd.DBHelper;
 import info.upump.jym.fragments.exercises.ExerciseFragment;
 import info.upump.jym.fragments.cycle.CycleFragment;
+import info.upump.jym.fragments.workout.WorkoutFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ITitleble, IControlFragment {
@@ -232,7 +233,8 @@ public class MainActivity extends AppCompatActivity
         System.out.println(dbHelper.getDatabaseName());
         if (savedInstanceState == null) {
           //  ExerciseFragment exerciseFragment = ExerciseFragment.newInstance();
-            CycleFragment exerciseFragment = CycleFragment.newInstance();
+        //    CycleFragment exerciseFragment = CycleFragment.newInstance();
+            WorkoutFragment exerciseFragment = WorkoutFragment.newInstance();
             createFragment(exerciseFragment);
         }
     }
@@ -314,6 +316,9 @@ public class MainActivity extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_workouts) {
+            if(!(curFragment instanceof WorkoutFragment)){
+                curFragment = WorkoutFragment.newInstance();
+            }
 
 
         } else if (id == R.id.nav_progress) {

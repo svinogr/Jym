@@ -128,7 +128,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             uri = Uri.parse(cycle.getImage().toString());
         }
         setPic(uri);
-        System.out.println(cycle);
         title.setText(cycle.getTitle());
         System.out.println(cycle);
         if (cycle.getTitle() == null) {
@@ -253,7 +252,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             }
         });
         ad.show();
-
 
     }
 

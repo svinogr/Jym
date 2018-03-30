@@ -61,6 +61,7 @@ public class Workout extends Entity {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", weekEven=" + weekEven +
+                ", Day=" + day +
                 ", defaultType=" + defaultType +
                 ", cycle Id= " + parentId +
                 ", exercises Size=" + exercises.size() +

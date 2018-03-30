@@ -71,7 +71,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         TabLayout tabLayout = findViewById(R.id.cycle_fragment_edit_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-        cycle = getCycleFromIntent();
+        cycle = getItemFromIntent();
 
         pagerAdapterCycleEdit = new PagerAdapterCycle(getSupportFragmentManager(), cycle);
         viewPager.setAdapter(pagerAdapterCycleEdit);
@@ -154,7 +154,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
     }
 
-    private Cycle getCycleFromIntent() {
+    private Cycle getItemFromIntent() {
         Intent intent = getIntent();
         long id = intent.getLongExtra(Constants.ID, 0);
         Cycle cycle = null;
@@ -173,6 +173,9 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                     setPic(uriImage);
                     break;
                 case Constants.REQUEST_CODE_CHOOSE:
+                    iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0));
+                    break;
+                case Constants.REQUEST_CODE_CREATE:
                     iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0));
                     break;
             }
@@ -222,6 +225,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                                 clear();
                             }
                         }).show();
+                break;
         }
 
         if (item.getItemId() == android.R.id.home) {
@@ -289,8 +293,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     }
 
 
-
-//delete all childs
+    //delete all childs
     private void clear() {
         if (iItemFragment.clear()) {
             Toast.makeText(this, "Программа очищена", Toast.LENGTH_SHORT).show();
