@@ -27,19 +27,12 @@ import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WorkoutFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Workout>>, View.OnClickListener {
+    private ITitleble iTitleble;
     private RecyclerView recyclerView;
     private WorkoutAdapter workoutAdapter;
     private List<Workout> workoutList = new ArrayList<>();
     private FloatingActionButton addFab;
-
-    private ITitleble iTitleble;
 
     public WorkoutFragment() {
         // Required empty public constructor
@@ -63,10 +56,10 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
-        View inflate = inflater.inflate(R.layout.fragment_workout, container, false);
         iTitleble.setTitle(getResources().getString(R.string.workout_fragment_title));
+        View inflate = inflater.inflate(R.layout.fragment_workout, container, false);
+
         recyclerView = inflate.findViewById(R.id.workout_fragment_recycler_view);
         addFab = inflate.findViewById(R.id.workout_fragment_fab_add);
 
@@ -99,8 +92,8 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        iTitleble = (ITitleble) context;
         getLoaderManager().initLoader(0, null, this);
+        iTitleble = (ITitleble) context;
     }
 
     @Override

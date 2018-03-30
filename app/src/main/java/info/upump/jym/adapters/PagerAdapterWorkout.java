@@ -34,8 +34,8 @@ public class PagerAdapterWorkout extends FragmentStatePagerAdapter {
                 fragment = WorkoutFragmentForViewPagerDescription.newInstance(workout);
                 break;
             case 0:
-                fragment = WorkoutFragmentForViewPagerDescription.newInstance(workout);
-                //fragment = WorkoutFragmentForViewPagerExercises.newInstance(workout);
+               // fragment = WorkoutFragmentForViewPagerDescription.newInstance(workout);
+                fragment = WorkoutFragmentForViewPagerExercises.newInstance(workout);
         }
         return fragment;
     }

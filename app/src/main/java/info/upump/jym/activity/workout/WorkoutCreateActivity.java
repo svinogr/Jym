@@ -164,11 +164,14 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 save();
+
             }
         });
         ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Intent intent = createIntentForResult(); // при создании из вне
+                setResult(RESULT_CANCELED, intent);
                 finishActivityWithAnimation();
             }
         });
@@ -201,13 +204,14 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         if (id != -1) {
             workout.setId(id);
             Toast.makeText(this, "времен, программа сохранена", Toast.LENGTH_SHORT).show();
+            Intent intent = createIntentForResult(); // при создании из вне
+            setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
     }
 
     private void finishActivityWithAnimation() {
-        Intent intent = createIntentForResult(); // при создании из вне
-        setResult(RESULT_OK, intent);
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();

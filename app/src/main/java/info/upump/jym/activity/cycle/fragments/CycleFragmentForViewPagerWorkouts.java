@@ -139,17 +139,20 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
                 Intent intent = null;
                 switch (item) {
                     case 1:
+                        System.out.println(1);
                         intent = WorkoutActivityForChoose.createIntent(getContext());
                         getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
                         break;
                     case 0:
+                        System.out.println(2);
                         intent  = WorkoutCreateActivity.createIntent(getContext());
                         getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
+                        break;
                 }
 
             }
         });
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         builder.show();
 
     }
@@ -166,6 +169,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         workoutList.clear();
         workoutList.addAll(data);
         sortListByDay(workoutList);
+        workoutAdapter.notifyDataSetChanged();
     }
 
     private void sortListByDay(List<Workout> list) {
@@ -219,6 +223,18 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
             workoutAdapter.notifyDataSetChanged();
             return true;
         }else return false;
+
+    }
+
+    @Override
+    public void addItem(long idItem) {
+        WorkoutDao workoutDao = new WorkoutDao(getContext());
+        Workout workout = workoutDao.getById(idItem);
+        workout.setTemplate(false);
+        workoutDao.update(workout);
+        workoutList.add(workout);
+        sortListByDay(workoutList);
+        workoutAdapter.notifyDataSetChanged();
 
     }
 }

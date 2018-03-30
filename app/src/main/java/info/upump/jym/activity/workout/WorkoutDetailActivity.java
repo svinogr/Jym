@@ -234,7 +234,9 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         System.out.println(changeableItem);
         if (!changeableItem.getTitle().equals(workout.getTitle())) return false;
         if (!changeableItem.getComment().equals(workout.getComment())) return false;
-        if (!changeableItem.getDay().equals(workout.getDay())) return false;
+        System.out.println(workout.getDay()+" " +changeableItem.getDay());
+        System.out.println(changeableItem.getDay().toString().equals(workout.getDay().toString()));
+        if (!changeableItem.getDay().toString().equals(workout.getDay().toString())) return false;
         return true;
     }
 

@@ -42,7 +42,7 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
     }
 
     public static Intent createIntent(Context context){
-        Intent intent = new Intent(context, WorkoutCreateActivity.class);
+        Intent intent = new Intent(context, WorkoutActivityForChoose.class);
         return intent;
     }
 

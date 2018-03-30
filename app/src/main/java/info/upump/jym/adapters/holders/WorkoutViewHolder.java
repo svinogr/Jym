@@ -1,6 +1,7 @@
 package info.upump.jym.adapters.holders;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
@@ -54,12 +55,16 @@ abstract public   class WorkoutViewHolder extends RecyclerView.ViewHolder implem
 
     protected void setPic() {
         Day day = workout.getDay();
+        Bitmap bitmap = Bitmap.createBitmap(100, 100,
+                Bitmap.Config.ARGB_8888);
+        bitmap.eraseColor(context.getResources().getColor(day.getColor()));
+
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .priority(Priority.HIGH);
 
-        Glide.with(itemView.getContext()).load(itemView.getResources().getDrawable(day.getColor())).apply(options).into(imageView);
+        Glide.with(itemView.getContext()).load(bitmap).into(imageView);
     }
 }

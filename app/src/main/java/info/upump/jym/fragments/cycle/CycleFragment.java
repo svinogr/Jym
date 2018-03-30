@@ -26,7 +26,6 @@ import info.upump.jym.activity.cycle.CycleCreateActivity;
 import info.upump.jym.adapters.CycleAdapter;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.loaders.CycleFragmentLoader;
-
 public class CycleFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Cycle>> {
     private ITitleble iTitlable;
     private RecyclerView recyclerView;
@@ -58,11 +57,13 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        iTitlable.setTitle(getResources().getString(R.string.cycle_fragment_title));
         View inflate = inflater.inflate(R.layout.fragment_cycle, container, false);
+
         recyclerView = inflate.findViewById(R.id.cycle_fragment_recycler_view);
         addFab = inflate.findViewById(R.id.cycle_fragment_fab_add);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        iTitlable.setTitle(getResources().getString(R.string.cycle_fragment_title));
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(cycleAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -101,7 +102,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         cycleList.clear();
         cycleList.addAll(data);
         cycleAdapter.notifyDataSetChanged();
-
     }
 
     @Override

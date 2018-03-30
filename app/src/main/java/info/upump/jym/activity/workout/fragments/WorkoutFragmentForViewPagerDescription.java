@@ -94,9 +94,9 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
         imageView = getActivity().findViewById(R.id.workout_activity_detail_edit_image_view);
 
         String[] nameOfValues = getNameOfDays();
-        ArrayAdapter<String> dayArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, nameOfValues);
+        ArrayAdapter<String> dayArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, nameOfValues);
         spinner.setAdapter(dayArrayAdapter);
-
+        spinner.setSelection(workout.getDay().ordinal());
         title.setText(workout.getTitle());
         description.setText(workout.getComment());
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -176,7 +176,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                     iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0));
                     break;
                 case Constants.REQUEST_CODE_CREATE:
-                    iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0));
+                    iItemFragment.addItem(data.getLongExtra(Constants.ID, 0));
                     break;
             }
         }
