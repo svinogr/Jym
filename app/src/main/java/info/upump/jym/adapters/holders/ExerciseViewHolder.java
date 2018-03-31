@@ -9,7 +9,6 @@ import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,44 +20,50 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-import info.upump.jym.activity.exercise.ExerciseDetailActivity;
 import info.upump.jym.R;
 import info.upump.jym.entity.Exercise;
-import info.upump.jym.entity.Sets;
 
-/**
- * Created by explo on 14.03.2018.
- */
 
-public class ExerciseViewHolder extends RecyclerView.ViewHolder {
-    private ImageView image;
-    private TextView title;
-    private TextView setInfo, type;
-    private Context context;
-    private View mItemView;
-    private ImageButton delete;
-    private Exercise exercise;
+ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    protected List<Exercise> exerciseList;
+    protected Context context;
+    protected ImageView image;
+    protected TextView title, type, setInfo;
 
+
+    protected Exercise exercise;
 
     public ExerciseViewHolder(View itemView) {
         super(itemView);
-        this.mItemView = itemView;
         context = itemView.getContext();
         image = itemView.findViewById(R.id.exercise_card_layout_image);
         title = itemView.findViewById(R.id.exercise_card_layout_title);
         type = itemView.findViewById(R.id.exercise_card_layout_info_type);
         setInfo = itemView.findViewById(R.id.exercise_card_layout_info_sets);
-//        delete = itemView.findViewById(R.id.exercise_card_layout_delete);
-        mItemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity();
-            }
-        });
+        itemView.setOnClickListener(this);
+    }
+
+
+    @Override
+    public void onClick(View v){
+        startActivity();
+    }
+
+    abstract public Intent createIntent();
+
+    public void bind(Exercise exercise) {
+        this.exercise = exercise;
+        setPic();
+        title.setText(exercise.getTitle());
+        setInfo.setText(exercise.creteInfo());
+
+        if (!exercise.isDefaultType()) {
+            type.setText(context.getResources().getString(R.string.card_type_item_exercise));
+        } else type.setText("");
     }
 
     private void startActivity() {
-        Intent intent = ExerciseDetailActivity.createIntent(context, exercise);
+        Intent intent = createIntent();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = image;
             View sharedViewT = title;
@@ -70,25 +75,6 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
                     Pair.create(sharedViewT, transitionNameT));
             context.startActivity(intent, transitionActivityOptions.toBundle());
         } else context.startActivity(intent);
-
-    }
-
-    public void bind(Exercise exercise) {
-        this.exercise = exercise;
-        setPic();
-        title.setText(exercise.getTitle());
-
-        if (exercise.getSetsList() == null && exercise.getSetsList().size() > 0) {
-
-            setInfo.setText(createInfo(exercise.getSetsList()));
-        }
-        if (!exercise.isDefaultType()) {
-            type.setText(context.getResources().getString(R.string.card_type_item));
-        } else type.setText("");
-    }
-
-    private int createInfo(List<Sets> setsList) {
-        return 0;
     }
 
     private void setPic() {
@@ -106,5 +92,4 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
 
         Glide.with(itemView.getContext()).load(uri).apply(options).into(image);
     }
-
 }

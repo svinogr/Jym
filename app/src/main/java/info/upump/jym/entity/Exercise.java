@@ -64,6 +64,10 @@ public class Exercise extends Entity {
         this.template = template;
     }
 
+    public String creteInfo(){
+        return "инфо";
+    }
+
     @Override
     public String toString() {
         return "Exercise{" +

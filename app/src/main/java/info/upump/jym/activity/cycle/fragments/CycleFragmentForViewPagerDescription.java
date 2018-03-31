@@ -126,6 +126,8 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
     }
 
     private Cycle getItemFromBundle() {
+
+        //TODO возможно стоит броать из базы
         Cycle cycle = new Cycle();
         cycle.setId(getArguments().getLong(ID, 0));
       //  String title = getArguments().getString(TITLE);

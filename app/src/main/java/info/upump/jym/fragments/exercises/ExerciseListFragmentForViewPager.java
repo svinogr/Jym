@@ -20,7 +20,6 @@ import java.util.List;
 import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.activity.exercise.ExerciseCreateActivity;
-import info.upump.jym.activity.exercise.ExerciseDetailActivityEdit;
 import info.upump.jym.adapters.ExerciseAdapter;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
@@ -59,7 +58,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
             String t = getArguments().getString(TYPE_MUSCLE);
             typeMuscle = TypeMuscle.valueOf(t);
         }
-        exerciseAdapter = new ExerciseAdapter(exerciseList);
+        exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.DEFAULT_TYPE);
     }
 
     @Override

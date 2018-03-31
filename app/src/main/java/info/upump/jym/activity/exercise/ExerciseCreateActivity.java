@@ -67,7 +67,7 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        exercise = new Exercise();
+        exercise = getItemFromIntent();
 
         imageView = findViewById(R.id.exercise_activity_create_image_view);
         collapsingToolbarLayout = findViewById(R.id.exercise_activity_create_collapsing);
@@ -84,7 +84,8 @@ public class ExerciseCreateActivity extends AppCompatActivity {
 
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
-                appBarLayout.setExpanded(true);
+                // TODO взможно стоит убрать
+                //  appBarLayout.setExpanded(true);
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
@@ -128,6 +129,10 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         if (exercise.getTitle() == null) {
             collapsingToolbarLayout.setTitle(title.getHint().toString());
         } else collapsingToolbarLayout.setTitle(exercise.getTitle());
+    }
+
+    private Exercise getItemFromIntent() {
+        return new Exercise();
     }
 
     private TypeMuscle getMuscle(int i) {
@@ -242,15 +247,7 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
             return;
         }
-        exercise.setTitle(title.getText().toString());
-        exercise.setComment(description.getText().toString());
-        exercise.setStartDate(new Date());
-        exercise.setFinishDate(new Date());
-        exercise.setTemplate(true);
-        exercise.setDefaultType(false);
-        int selectedItem = spinner.getSelectedItemPosition();
-        TypeMuscle typeMuscle = getMuscle(selectedItem);
-        exercise.setTypeMuscle(typeMuscle);
+        exercise = getChangeableItem();
         long id = exerciseDao.create(exercise);
         if (id != -1) {
             exercise.setId(id);
@@ -260,6 +257,25 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             finishActivityWithAnimation();
         } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
     }
+
+    private Exercise getChangeableItem() {
+        Exercise changeableExercise = new Exercise();
+        changeableExercise.setId(exercise.getId());
+        changeableExercise.setTitle(title.getText().toString());
+        changeableExercise.setDescription(description.getText().toString());
+        changeableExercise.setStartDate(new Date());
+        changeableExercise.setFinishDate(new Date());
+        changeableExercise.setTemplate(true);
+        changeableExercise.setDefaultType(false);
+        int selectedItem = spinner.getSelectedItemPosition();
+        TypeMuscle typeMuscle = getMuscle(selectedItem);
+        changeableExercise.setTypeMuscle(typeMuscle);
+        if(uriImage != null){
+            changeableExercise.setImg(uriImage.toString());
+        }
+        return changeableExercise;
+    }
+
 
     private void finishActivityWithAnimation() {
 

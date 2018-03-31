@@ -25,12 +25,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.exercise.ExerciseDetailActivity"
+            android:name=".activity.exercise.ExerciseDetailTemplateActivity"
             android:label="@string/title_activity_exercise_detail"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.exercise.ExerciseDetailActivityEdit"
-            android:label="@string/title_activity_exercise_detail_edit"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.cycle.CycleDetailActivity"

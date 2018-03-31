@@ -65,7 +65,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         if (getArguments() != null) {
 
         }
-        exerciseAdapter = new ExerciseAdapter(exerciseList);
+        exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.INFO);
     }
 
     @Override
