@@ -1,13 +1,12 @@
-package info.upump.jym.activity.workout;
+package info.upump.jym.activity.exercise;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.SyncStateContract;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AlertDialog;
@@ -23,27 +22,31 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Date;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
-import info.upump.jym.bd.CycleDao;
+import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.bd.WorkoutDao;
-import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Day;
-import info.upump.jym.entity.Workout;
-import info.upump.jym.utils.LetterBitmap;
+import info.upump.jym.entity.Exercise;
+import info.upump.jym.entity.TypeMuscle;
 
-public class WorkoutCreateActivity extends AppCompatActivity {
+public class ExerciseCreateActivity extends AppCompatActivity {
     private EditText title, description;
     private Spinner spinner;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ImageView imageView;
     private AppBarLayout appBarLayout;
-    private Workout workout;
+    private Exercise exercise;
+    private Uri uriImage;
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -54,35 +57,26 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         }
     };
 
-    private void setPic(int s) {
-        Bitmap bitmap = Bitmap.createBitmap(100, 100,
-                Bitmap.Config.ARGB_8888);
-        bitmap.eraseColor(getResources().getColor(getDay(s).getColor()));
-        imageView.setImageBitmap(bitmap);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workout_create);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.workout_activity_create_toolbar);
+        setContentView(R.layout.activity_exercise_create);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.exercise_activity_create_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
-      //  long idParent = intent.getLongExtra(Constants.ID, 0);
-        workout = new Workout();
-     //   workout.setParentId(idParent);
+        exercise = new Exercise();
 
-        imageView = findViewById(R.id.workout_activity_create_image_view);
-        collapsingToolbarLayout = findViewById(R.id.workout_activity_create_collapsing);
-        appBarLayout = findViewById(R.id.workout_activity_create_appbar);
-        spinner = findViewById(R.id.content_workout_create_activity_spinner);
-        description = findViewById(R.id.content_workout_create_activity_web);
-        title = findViewById(R.id.content_workout_create_activity_title);
+        imageView = findViewById(R.id.exercise_activity_create_image_view);
+        collapsingToolbarLayout = findViewById(R.id.exercise_activity_create_collapsing);
+        appBarLayout = findViewById(R.id.exercise_activity_create_appbar);
+        title = findViewById(R.id.content_exercise_create_activity_title);
+        description = findViewById(R.id.content_exercise_create_activity_web);
+        spinner = findViewById(R.id.content_exercise_create_activity_spinner);
 
-        String[] nameOfValues = getNameOfDays();
+        String[] nameOfValues = getNameOfMuscle();
         ArrayAdapter<String> dayArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameOfValues);
         spinner.setAdapter(dayArrayAdapter);
         spinner.setFocusableInTouchMode(false);
@@ -90,11 +84,17 @@ public class WorkoutCreateActivity extends AppCompatActivity {
 
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
-                setPic(arg2);
                 appBarLayout.setExpanded(true);
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPic = createIntentForGetPic();
+                startActivityForResult(photoPic, Constants.REQUEST_CODE_GALLERY_PHOTO);
             }
         });
 
@@ -109,7 +109,8 @@ public class WorkoutCreateActivity extends AppCompatActivity {
                 handler.removeMessages(200);
                 if ((title.getText().toString().trim()).isEmpty()) {
                     handler.sendMessageDelayed(handler.obtainMessage(200, title.getHint()), 250);
-                } else handler.sendMessageDelayed(handler.obtainMessage(200, title.getText()), 250);
+                } else
+                    handler.sendMessageDelayed(handler.obtainMessage(200, title.getText()), 250);
             }
 
             @Override
@@ -117,15 +118,25 @@ public class WorkoutCreateActivity extends AppCompatActivity {
 
             }
         });
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getString(Constants.URI_IMG) != null) {
+                exercise.setImg(savedInstanceState.getString(Constants.URI_IMG));
+                setPic(Uri.parse(exercise.getImg()));
+            }
+        }
 
-        if (workout.getTitle() == null) {
+        if (exercise.getTitle() == null) {
             collapsingToolbarLayout.setTitle(title.getHint().toString());
-        } else collapsingToolbarLayout.setTitle(workout.getTitle());
-
+        } else collapsingToolbarLayout.setTitle(exercise.getTitle());
     }
 
-    private String[] getNameOfDays() {
-        Day[] values = Day.values();
+    private TypeMuscle getMuscle(int i) {
+        TypeMuscle[] values = TypeMuscle.values();
+        return values[i];
+    }
+
+    private String[] getNameOfMuscle() {
+        TypeMuscle[] values = TypeMuscle.values();
         String[] nameOfValues = new String[values.length];
         for (int i = 0; i < values.length; i++) {
             nameOfValues[i] = getResources().getString(values[i].getName());
@@ -133,14 +144,54 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         return nameOfValues;
     }
 
-    private Day getDay(int i) {
-        Day[] values = Day.values();
-        return values[i];
+    public static Intent createIntent(Context context) {
+        Intent intent = new Intent(context, ExerciseCreateActivity.class);
+        return intent;
     }
 
-    public static Intent createIntent(Context context) {
-        Intent intent = new Intent(context, WorkoutCreateActivity.class);
+    private Intent createIntentForGetPic() {
+        Intent intent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        } else {
+            intent = new Intent(Intent.ACTION_PICK);
+        }
+        intent.setType("image/*");
         return intent;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("onActivityResult  " + requestCode + "  " + resultCode);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case Constants.REQUEST_CODE_GALLERY_PHOTO:
+                    uriImage = data.getData();
+                    exercise.setImg(uriImage.toString());
+                    setPic(Uri.parse(exercise.getImg()));
+                    break;
+            }
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (exercise.getImg() != null) {
+            outState.putString(Constants.URI_IMG, exercise.getImg());
+        }
+    }
+
+    private void setPic(Uri uri) {
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.ic_add_black_24dp)
+                .error(R.drawable.ic_add_black_24dp)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH);
+        Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
     @Override
@@ -181,28 +232,28 @@ public class WorkoutCreateActivity extends AppCompatActivity {
 
     private Intent createIntentForResult() {
         Intent intent = new Intent();
-        intent.putExtra(Constants.ID, workout.getId());
+        intent.putExtra(Constants.ID, exercise.getId());
         return intent;
     }
 
     private void save() {
-        WorkoutDao workoutDao = new WorkoutDao(this);
+        ExerciseDao exerciseDao = new ExerciseDao(this);
         if (title.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
             return;
         }
-        workout.setTitle(title.getText().toString());
-        workout.setComment(description.getText().toString());
-        workout.setStartDate(new Date());
-        workout.setFinishDate(new Date());
-        workout.setTemplate(true);
-        workout.setDefaultType(false);
+        exercise.setTitle(title.getText().toString());
+        exercise.setComment(description.getText().toString());
+        exercise.setStartDate(new Date());
+        exercise.setFinishDate(new Date());
+        exercise.setTemplate(true);
+        exercise.setDefaultType(false);
         int selectedItem = spinner.getSelectedItemPosition();
-        Day day = getDay(selectedItem);
-        workout.setDay(day);
-        long id = workoutDao.create(workout);
+        TypeMuscle typeMuscle = getMuscle(selectedItem);
+        exercise.setTypeMuscle(typeMuscle);
+        long id = exerciseDao.create(exercise);
         if (id != -1) {
-            workout.setId(id);
+            exercise.setId(id);
             Toast.makeText(this, "времен, программа сохранена", Toast.LENGTH_SHORT).show();
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
@@ -216,5 +267,4 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             finishAfterTransition();
         } else finish();
     }
-
 }

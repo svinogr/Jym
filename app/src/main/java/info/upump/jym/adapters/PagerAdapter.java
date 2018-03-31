@@ -1,3 +1,4 @@
+/*
 package info.upump.jym.adapters;
 
 import android.content.Context;
@@ -12,9 +13,11 @@ import java.util.Map;
 import info.upump.jym.entity.TypeMuscle;
 import info.upump.jym.fragments.exercises.ExerciseListFragmentForViewPager;
 
+*/
 /**
  * Created by explo on 13.03.2018.
- */
+ *//*
+
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private TypeMuscle[] typeMuscles;
@@ -62,3 +65,4 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         muscleFragmentMap.remove(position);
     }
 }
+*/

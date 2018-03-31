@@ -20,6 +20,8 @@ import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
 
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
+
 public class WorkoutActivityForChoose extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Workout>>, IChooseItem<Workout> {
     private RecyclerView recyclerView;
     private WorkoutAdapter workoutAdapter;
@@ -49,7 +51,7 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
 
     @Override
     public Loader<List<Workout>> onCreateLoader(int id, Bundle args) {
-        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(this,WorkoutFragmentLoader.BY_TEMPLATE_TYPE);
+        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(this, LOADER_BY_TEMPLATE_TYPE);
         return workoutFragmentLoader;
     }
 

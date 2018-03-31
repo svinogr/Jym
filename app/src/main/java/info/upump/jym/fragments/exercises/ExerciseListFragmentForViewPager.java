@@ -2,7 +2,9 @@ package info.upump.jym.fragments.exercises;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -16,59 +18,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.upump.jym.R;
+import info.upump.jym.activity.constant.Constants;
+import info.upump.jym.activity.exercise.ExerciseCreateActivity;
+import info.upump.jym.activity.exercise.ExerciseDetailActivityEdit;
 import info.upump.jym.adapters.ExerciseAdapter;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
 import info.upump.jym.loaders.ExerciseFragmentLoader;
+
+import static info.upump.jym.activity.constant.Constants.TYPE_MUSCLE;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ExerciseListFragmentForViewPager#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ExerciseListFragmentForViewPager extends Fragment implements LoaderManager.LoaderCallbacks<List<Exercise>> {
-
+public class ExerciseListFragmentForViewPager extends Fragment implements LoaderManager.LoaderCallbacks<List<Exercise>>, View.OnClickListener {
     private TypeMuscle typeMuscle;
-    private static final String TYPE_MUSCLE = "type muscle";
     private List<Exercise> exerciseList = new ArrayList<>();
     private ExerciseAdapter exerciseAdapter;
     private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
+    private FloatingActionButton addFab;
 
-    public LinearLayoutManager getLinearLayoutManager() {
-        return linearLayoutManager;
-    }
-
-    public RecyclerView getRecyclerView() {
-        return recyclerView;
-    }
-
-    public void setRecyclerView(RecyclerView recyclerView) {
-        this.recyclerView = recyclerView;
-    }
-
-    public List<Exercise> getExerciseList() {
-        return exerciseList;
-    }
-
-    public void setExerciseList(List<Exercise> exerciseList) {
-        this.exerciseList = exerciseList;
-    }
-
-    public ExerciseAdapter getExerciseAdapter() {
-        return exerciseAdapter;
-    }
-
-    public void setExerciseAdapter(ExerciseAdapter exerciseAdapter) {
-        this.exerciseAdapter = exerciseAdapter;
-    }
 
     public ExerciseListFragmentForViewPager() {
         // Required empty public constructor
     }
-
-
-    // TODO: Rename and change types and number of parameters
     public static ExerciseListFragmentForViewPager newInstance(TypeMuscle typeMuscle) {
         ExerciseListFragmentForViewPager fragment = new ExerciseListFragmentForViewPager();
         Bundle args = new Bundle();
@@ -84,6 +59,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
             String t = getArguments().getString(TYPE_MUSCLE);
             typeMuscle = TypeMuscle.valueOf(t);
         }
+        exerciseAdapter = new ExerciseAdapter(exerciseList);
     }
 
     @Override
@@ -92,19 +68,20 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
         // Inflate the layout for this fragment
         System.out.println("onCreateView внутренний");
         View inflate = inflater.inflate(R.layout.exercise_list_fragment_for_view_pager, container, false);
+        recyclerView = inflate.findViewById(R.id.exercise_list_fragment_for_view_pager_recycler_view);
+        addFab = inflate.findViewById(R.id.exercise_list_fragment_for_view_pager_add_fab);
 
-        exerciseAdapter = new ExerciseAdapter(exerciseList);
-
-        recyclerView = inflate.findViewById(R.id.exercise_fragment_recycler_view);
-        linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(exerciseAdapter);
+
+        addFab.setOnClickListener(this);
         return inflate;
     }
 
     @Override
     public Loader<List<Exercise>> onCreateLoader(int id, Bundle args) {
-        ExerciseFragmentLoader exerciseLoader = new ExerciseFragmentLoader(getContext(), typeMuscle);
+        ExerciseFragmentLoader exerciseLoader = new ExerciseFragmentLoader(getContext(), Constants.LOADER_BY_TEMPLATE_TYPE ,typeMuscle);
         return exerciseLoader;
 
     }
@@ -136,4 +113,14 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.exercise_list_fragment_for_view_pager_add_fab:
+                Intent intent =  ExerciseCreateActivity.createIntent(getContext());
+                startActivity(intent);
+
+        }
+
+    }
 }

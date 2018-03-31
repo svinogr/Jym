@@ -1,25 +1,22 @@
 package info.upump.jym.loaders;
 
-import android.support.v4.content.AsyncTaskLoader;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.AsyncTaskLoader;
 
 import java.util.List;
 
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Workout;
 
-/**
- * Created by explo on 23.03.2018.
- */
+import static info.upump.jym.activity.constant.Constants.*;
+
 
 public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
     private Context context;
-    public final static int BY_PARENT_ID = 1;
-    public final static int BY_TEMPLATE_TYPE = 2;
     private int operation;
-    private long id;
+    private long parentId;
 
     public WorkoutFragmentLoader(@NonNull Context context, int operation) {
         super(context);
@@ -28,7 +25,7 @@ public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
     }
     public WorkoutFragmentLoader(@NonNull Context context, int operation, long id) {
         this(context,operation);
-        this.id = id;
+        this.parentId = id;
     }
 
     @Nullable
@@ -37,10 +34,10 @@ public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
         WorkoutDao workoutDao = new WorkoutDao(context);
         List<Workout> workoutList =null;
         switch (operation){
-            case BY_PARENT_ID:
-               workoutList =  workoutDao.getByParentId(id);
+            case LOADER_BY_PARENT_ID:
+               workoutList =  workoutDao.getByParentId(parentId);
                 break;
-            case BY_TEMPLATE_TYPE:
+            case LOADER_BY_TEMPLATE_TYPE:
                 workoutList = workoutDao.getTemplate();
         }
         return workoutList;

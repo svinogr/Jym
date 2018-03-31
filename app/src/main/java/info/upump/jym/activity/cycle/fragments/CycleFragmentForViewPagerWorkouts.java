@@ -35,6 +35,8 @@ import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
 
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
+
 public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Workout>>, IItemFragment<Workout> {
     private Cycle cycle;
     private List<Workout> workoutList = new ArrayList<>();
@@ -160,7 +162,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
 
     @Override
     public Loader<List<Workout>> onCreateLoader(int id, Bundle args) {
-        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(getContext(), WorkoutFragmentLoader.BY_PARENT_ID, cycle.getId());
+        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(getContext(), LOADER_BY_PARENT_ID, cycle.getId());
         return workoutFragmentLoader;
     }
 

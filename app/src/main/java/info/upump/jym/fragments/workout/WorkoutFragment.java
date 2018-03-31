@@ -27,6 +27,9 @@ import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
+
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
+
 public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Workout>>, View.OnClickListener {
     private ITitleble iTitleble;
     private RecyclerView recyclerView;
@@ -98,7 +101,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<List<Workout>> onCreateLoader(int id, Bundle args) {
-        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(getContext(), WorkoutFragmentLoader.BY_TEMPLATE_TYPE);
+        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(getContext(), LOADER_BY_TEMPLATE_TYPE);
         return workoutFragmentLoader;
     }
 
@@ -124,6 +127,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
 
     }
     private void addItem() {
+        //TODO сделать вызов для резалт активити, типа красиво вставляем
       Intent intent = WorkoutCreateActivity.createIntent(getContext());
       startActivity(intent);
     }

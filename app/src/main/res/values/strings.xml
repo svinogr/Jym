@@ -65,5 +65,8 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="label_spinner_day">День недели</string>
+    <string name="label_title_exercise">Название упражнения</string>
+    <string name="title_exercise_hint">Новое упражнение</string>
+    <string name="label_spinner_type_muscle">группа мышц</string>
 
 </resources>

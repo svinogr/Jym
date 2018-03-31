@@ -85,7 +85,7 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View inflate = inflater.inflate(R.layout.fragment_cycle_fragment_for_view_pager_description_edit, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_cycle_fragment_for_view_pager_description, container, false);
         startDataLabel = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_label_edit_start);
         finishDataLabel = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_label_edit_finish);
         startTextData = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_data_edit_start);
