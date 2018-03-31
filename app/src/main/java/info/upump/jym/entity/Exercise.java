@@ -64,7 +64,7 @@ public class Exercise extends Entity {
         this.template = template;
     }
 
-    public String creteInfo(){
+    public String createInfo(){
         return "инфо";
     }
 

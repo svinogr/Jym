@@ -19,4 +19,9 @@ public class ExerciseTemplateViewHolder extends ExerciseViewHolder {
         Intent intent = ExerciseDetailTemplateActivity.createIntent(context, exercise);
         return intent;
     }
+
+    @Override
+    public void setInfo() {
+
+    }
 }

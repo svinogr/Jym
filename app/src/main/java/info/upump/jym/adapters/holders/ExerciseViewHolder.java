@@ -24,7 +24,7 @@ import info.upump.jym.R;
 import info.upump.jym.entity.Exercise;
 
 
- public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     protected List<Exercise> exerciseList;
     protected Context context;
     protected ImageView image;
@@ -45,7 +45,7 @@ import info.upump.jym.entity.Exercise;
 
 
     @Override
-    public void onClick(View v){
+    public void onClick(View v) {
         startActivity();
     }
 
@@ -55,12 +55,13 @@ import info.upump.jym.entity.Exercise;
         this.exercise = exercise;
         setPic();
         title.setText(exercise.getTitle());
-        setInfo.setText(exercise.creteInfo());
-
+        setInfo();
         if (!exercise.isDefaultType()) {
             type.setText(context.getResources().getString(R.string.card_type_item_exercise));
         } else type.setText("");
     }
+
+    abstract public void setInfo();
 
     private void startActivity() {
         Intent intent = createIntent();

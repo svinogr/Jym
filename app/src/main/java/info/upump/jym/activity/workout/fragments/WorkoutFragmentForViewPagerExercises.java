@@ -160,7 +160,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
                                 break;
                             case 0:
                                 System.out.println(2);
-                                intent  = WorkoutCreateActivity.createIntent(getContext());
+                               // intent  = WorkoutCreateActivity.createIntent(getContext());
                                 getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
                                 break;
                         }

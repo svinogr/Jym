@@ -18,4 +18,9 @@ public class ExerciseWithInfoViewHolder extends ExerciseViewHolder {
     public Intent createIntent() {
         return null;
     }
+
+    @Override
+    public void setInfo() {
+        setInfo.setText(exercise.createInfo());
+    }
 }
