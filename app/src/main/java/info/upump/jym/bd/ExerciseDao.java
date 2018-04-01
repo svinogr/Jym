@@ -137,6 +137,14 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         return getListExercise(cursor);
     }
 
+    public List<Exercise> getAllByTypeMuscleTemplate(TypeMuscle typeMuscle) {
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
+                keys, DBHelper.TABLE_KEY_TYPE_EXERCISE + " = ? and " + DBHelper.TABLE_KEY_TEMPLATE + " = ?"
+                , new String[]{typeMuscle.toString(), String.valueOf(1)},
+                null, null, null);
+        return getListExercise(cursor);
+    }
+
     private List<Exercise> getListExercise(Cursor cursor) {
         List<Exercise> exerciseList = new ArrayList<>();
         if (cursor.moveToFirst()) {
@@ -146,5 +154,14 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
             } while (cursor.moveToNext());
         }
         return exerciseList;
+    }
+
+    public long copyFromTemplate(long idItem, long id) {
+        //insert into cycles (title, comment, default_type, img, start_date, finish_date) select  title, 1, 0, img, start_date, finish_date from cycles where _id = 1
+        Exercise exercise = getById(idItem);
+        exercise.setId(0);
+        exercise.setTemplate(false);
+        exercise.setParentId(id);
+        return create(exercise);
     }
 }

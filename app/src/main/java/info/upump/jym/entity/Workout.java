@@ -59,6 +59,7 @@ public class Workout extends Entity {
     public String toString() {
         return "Workout{" +
                 "id=" + id +
+                "com " + comment+
                 ", title='" + title + '\'' +
                 ", weekEven=" + weekEven +
                 ", Day=" + day +

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import info.upump.jym.R;
+import info.upump.jym.adapters.holders.ExerciseTemplateChooseViewHolder;
 import info.upump.jym.adapters.holders.ExerciseTemplateViewHolder;
 import info.upump.jym.adapters.holders.ExerciseWithInfoViewHolder;
 import info.upump.jym.adapters.holders.ExerciseViewHolder;
@@ -21,6 +22,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<Exercise> exerciseList;
     public static final int INFO = 0;
     public static final int DEFAULT_TYPE = 1;
+    public static final int CHOOSE = 2;
     private int type_holder;
 
     public ExerciseAdapter(List<Exercise> exerciseList, int type_holder) {
@@ -40,6 +42,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             case DEFAULT_TYPE:
                 viewHolder = new ExerciseTemplateViewHolder(inflate);
+                break;
+            case CHOOSE:
+                viewHolder = new ExerciseTemplateChooseViewHolder(inflate);
                 break;
         }
 

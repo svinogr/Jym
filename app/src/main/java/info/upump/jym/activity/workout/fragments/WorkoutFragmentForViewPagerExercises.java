@@ -24,9 +24,11 @@ import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
+import info.upump.jym.activity.exercise.ExerciseActivityForChoose;
 import info.upump.jym.activity.workout.WorkoutActivityForChoose;
 import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.ExerciseAdapter;
+import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.ExerciseFragmentLoader;
@@ -101,6 +103,14 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
 
     @Override
     public void addChosenItem(long idItem) {
+        ExerciseDao exerciseDao = new ExerciseDao(getContext());
+        long id = exerciseDao.copyFromTemplate(idItem, workout.getId());
+        Exercise exercise = exerciseDao.getById(id);
+        exerciseList.add(exercise);
+        System.out.println("addChosenItem after "+exerciseList.size());
+        exerciseAdapter.notifyDataSetChanged();
+
+        System.out.println("выбрана " + idItem);
 
     }
 
@@ -117,7 +127,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
     @Override
     public Loader<List<Exercise>> onCreateLoader(int id, Bundle args) {
         ExerciseFragmentLoader exerciseFragmentLoader = new ExerciseFragmentLoader(getContext(), Constants.LOADER_BY_PARENT_ID, workout.getId() );
-        return null;
+        return exerciseFragmentLoader;
     }
 
     @Override
@@ -135,7 +145,9 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        Intent intent = ExerciseActivityForChoose.createIntent(getContext());
+        getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
+      /*  switch (v.getId()){
             case R.id.workout_fragment_for_view_pager_exercises_fab_main:
                 String[] inputs = {"Своe", "Выбрать готовоe"};
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -155,7 +167,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
                         switch (item) {
                             case 1:
                                 System.out.println(1);
-                              //  intent = ExerciseForChoose.createIntent(getContext());
+                                intent = ExerciseActivityForChoose.createIntent(getContext());
                                 getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
                                 break;
                             case 0:
@@ -170,6 +182,6 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
                 builder.setCancelable(true);
                 builder.show();
                 break;
-        }
+        }*/
     }
 }

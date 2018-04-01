@@ -232,9 +232,9 @@ public class MainActivity extends AppCompatActivity
 
         System.out.println(dbHelper.getDatabaseName());
         if (savedInstanceState == null) {
-            ExerciseFragment exerciseFragment = ExerciseFragment.newInstance();
+         //   ExerciseFragment exerciseFragment = ExerciseFragment.newInstance();
         //    CycleFragment exerciseFragment = CycleFragment.newInstance();
-         //   WorkoutFragment exerciseFragment = WorkoutFragment.newInstance();
+            WorkoutFragment exerciseFragment = WorkoutFragment.newInstance();
             createFragment(exerciseFragment);
         }
     }

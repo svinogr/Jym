@@ -46,7 +46,7 @@ public class ExerciseFragmentLoader extends AsyncTaskLoader<List<Exercise>> {
                 exerciseList =  exerciseDao.getByParentId(parentId);
                 break;
             case LOADER_BY_TEMPLATE_TYPE:
-                exerciseList = exerciseDao.getAllByTypeMuscle(typeMuscle);// все по типу мышцы и темплайты
+                exerciseList = exerciseDao.getAllByTypeMuscleTemplate(typeMuscle);// все по типу мышцы и темплайты
         }
 
         return exerciseList;

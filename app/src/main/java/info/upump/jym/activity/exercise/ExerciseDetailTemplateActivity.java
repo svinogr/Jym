@@ -276,7 +276,6 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         if (!(changeableItem.getTypeMuscle().toString().equals(exercise.getTypeMuscle().toString())))
             return false;
         if (uriImage != null) return false;
-
         return true;
     }
 
@@ -284,7 +283,8 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         Exercise changeableExercise = new Exercise();
         changeableExercise.setId(exercise.getId());
         changeableExercise.setTitle(title.getText().toString());
-        changeableExercise.setDescription(description.getText().toString());
+         changeableExercise.setDescription(description.getText().toString());
+
         changeableExercise.setStartDate(new Date());
         changeableExercise.setFinishDate(new Date());
         changeableExercise.setTemplate(true);
@@ -294,7 +294,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         changeableExercise.setTypeMuscle(typeMuscle);
         if (uriImage != null) {
             changeableExercise.setImg(uriImage.toString());
-        } changeableExercise.setImg(exercise.getImg());
+        } else changeableExercise.setImg(exercise.getImg());
         return changeableExercise;
     }
 

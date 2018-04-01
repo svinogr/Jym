@@ -23,6 +23,7 @@ import java.util.Date;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
+import info.upump.jym.activity.IChooseItem;
 import info.upump.jym.activity.IDescriptionFragment;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
@@ -41,7 +42,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     private ViewPager viewPager;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private IDescriptionFragment iDescriptionFragment;
-
+    private IItemFragment iItemFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +135,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     private Workout getItemFromIntent() {
         Intent intent = getIntent();
         long id = intent.getLongExtra(ID, 0);
-        System.out.println("id " + id);
         WorkoutDao workoutDao = new WorkoutDao(this);
         return workoutDao.getById(id);
     }
@@ -172,13 +172,15 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
     @Override
     public void setInterfaceForDescription(IDescriptionFragment interfaceForDescription) {
+        System.out.println("interfaceForDescription "+interfaceForDescription);
         this.iDescriptionFragment = interfaceForDescription;
 
     }
 
     @Override
     public void setInterfaceForItem(IItemFragment interfaceForItem) {
-
+        System.out.println("interfaceForItem "+interfaceForItem);
+      this.iItemFragment = interfaceForItem;
     }
 
     private void exit() {
@@ -234,7 +236,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         System.out.println(changeableItem);
         if (!changeableItem.getTitle().equals(workout.getTitle())) return false;
         if (!changeableItem.getComment().equals(workout.getComment())) return false;
-        System.out.println(workout.getDay()+" " +changeableItem.getDay());
+        System.out.println(workout.getDay() + " " + changeableItem.getDay());
         System.out.println(changeableItem.getDay().toString().equals(workout.getDay().toString()));
         if (!changeableItem.getDay().toString().equals(workout.getDay().toString())) return false;
         return true;
@@ -276,5 +278,18 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     public void onBackPressed() {
         exit();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case Constants.REQUEST_CODE_CHOOSE:
+                    System.out.println("interfaceForItem "+iItemFragment);
+                    iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0));
+                    break;
+            }
+        }
     }
 }

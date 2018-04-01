@@ -17,8 +17,8 @@ import info.upump.jym.fragments.exercises.ExerciseListFragmentForViewPager;
  */
 
 public class PagerAdapterExercise extends FragmentStatePagerAdapter {
-    private TypeMuscle[] typeMuscles = TypeMuscle.values();
-    private Context context;
+    protected TypeMuscle[] typeMuscles = TypeMuscle.values();
+    protected Context context;
 
     public PagerAdapterExercise(FragmentManager fm) {
         super(fm);
@@ -32,6 +32,7 @@ public class PagerAdapterExercise extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        System.out.println("getItem + 1");
         Fragment fragment = ExerciseListFragmentForViewPager.newInstance(typeMuscles[position]);
         return fragment;
     }
