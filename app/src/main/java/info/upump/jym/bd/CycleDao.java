@@ -6,8 +6,11 @@ import android.database.Cursor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import info.upump.jym.entity.Cycle;
+import info.upump.jym.entity.Exercise;
+import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.Workout;
 
 /**
@@ -18,7 +21,8 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     public CycleDao(Context context) {
         super(context);
     }
-    private final String[] keys =  new String[]{
+
+    private final String[] keys = new String[]{
             DBHelper.TABLE_KEY_ID,
             DBHelper.TABLE_KEY_TITLE,
             DBHelper.TABLE_KEY_COMMENT,
@@ -27,9 +31,9 @@ public class CycleDao extends DBDao implements IData<Cycle> {
             DBHelper.TABLE_KEY_START_DATE,
             DBHelper.TABLE_KEY_FINISH_DATE};
 
-    private ContentValues getContentValuesFrom(Cycle object){
+    private ContentValues getContentValuesFrom(Cycle object) {
         ContentValues cv = new ContentValues();
-        if(object.getId()!=0){
+        if (object.getId() != 0) {
             cv.put(DBHelper.TABLE_KEY_ID, object.getId());
         }
         cv.put(DBHelper.TABLE_KEY_TITLE, object.getTitle());
@@ -46,7 +50,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         cycle.setId(cursor.getLong(0));
         cycle.setTitle(cursor.getString(1));
         cycle.setComment(cursor.getString(2));
-        cycle.setDefaultType(cursor.getInt(3)==1);
+        cycle.setDefaultType(cursor.getInt(3) == 1);
         cycle.setImage(cursor.getString(4));
         cycle.setStartDate((cursor.getString(5)));
         cycle.setFinishDate((cursor.getString(6)));
@@ -56,7 +60,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     @Override
     public List<Cycle> getAll() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_CYCLE,
-       keys, null, null, null, null, null);
+                keys, null, null, null, null, null);
         List<Cycle> cycleList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -77,7 +81,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     @Override
     public boolean delete(Cycle cycle) {
         long id = 0;
-        if(deleteChildren(cycle.getId())) {
+        if (deleteChildren(cycle.getId())) {
             id = sqLiteDatabase.delete(DBHelper.TABLE_CYCLE, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(cycle.getId())});
         }
         System.out.println(id);
@@ -85,21 +89,20 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     }
 
 
-
     private List<Workout> getAllChildren(long id) {
-        List<Workout>  workoutList = null;
+        List<Workout> workoutList = null;
         WorkoutDao workoutDao = new WorkoutDao(context);
         workoutList = workoutDao.getByParentId(id);
-        System.out.println("кол-во чилдренов " +workoutList.size());
+        System.out.println("кол-во чилдренов " + workoutList.size());
         return workoutList;
     }
 
-    private boolean deleteChildren(long id){
+    private boolean deleteChildren(long id) {
         List<Workout> workoutList = getAllChildren(id);
         boolean flag = true;
-        if(workoutList != null){
+        if (workoutList != null) {
             WorkoutDao workoutDao = new WorkoutDao(context);
-            for(Workout workout: workoutList){
+            for (Workout workout : workoutList) {
                 flag = workoutDao.delete(workout);
             }
         }
@@ -133,9 +136,46 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     }
 
     @Override
-    public boolean clear(Cycle object)
-    {
+    public boolean clear(Cycle object) {
         return deleteChildren(object.getId());
     }
+
+
+    public long copyFromTemplate(long idItem, long id) {
+        Cycle cycle = getById(idItem);
+        WorkoutDao workoutDao = new WorkoutDao(context);
+        List<Workout> workoutList = workoutDao.getByParentId(idItem);
+
+        cycle.setId(0);
+        cycle.setDefaultType(false);
+        long idNewCycle = create(cycle);
+
+        for (Workout workout : workoutList) {
+            workoutDao.copyFromTemplate(workout.getId(), idNewCycle);
+
+       /*     List<Exercise> exerciseList = exerciseDao.getByParentId(workout.getId());
+            workout.setId(0);
+            workout.setParentId(idNewCycle);
+            long idNewWorkout = workoutDao.create(workout);
+
+            for (Exercise exercise : exerciseList) {
+                List<Sets> setsList = setDao.getByParentId(exercise.getId());
+                exercise.setId(0);
+                exercise.setParentId(idNewWorkout);
+                long idNewExercise = exerciseDao.create(exercise);
+
+                for (Sets sets : setsList) {
+                    sets.setId(0);
+                    sets.setParentId(idNewExercise);
+                    setDao.create(sets);
+                }
+
+
+            }*/
+        }
+
+        return idNewCycle;
+    }
+
 
 }

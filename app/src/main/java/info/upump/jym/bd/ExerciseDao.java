@@ -7,9 +7,12 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import info.upump.jym.entity.Exercise;
+import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.TypeMuscle;
+import info.upump.jym.entity.Workout;
 
 
 public class ExerciseDao extends DBDao implements IData<Exercise> {
@@ -42,11 +45,11 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType());
         cv.put(DBHelper.TABLE_KEY_TEMPLATE, object.isTemplate());
         cv.put(DBHelper.TABLE_KEY_IMG, object.getImg());
-        if(object.getStartDate() ==null){
+        if (object.getStartDate() == null) {
             object.setStartDate(new Date());
         }
         cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
-        if(object.getFinishDate() ==null){
+        if (object.getFinishDate() == null) {
             object.setFinishDate(new Date());
         }
         cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
@@ -62,7 +65,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         exercise.setDescription(cursor.getString(3));
         exercise.setTypeMuscle(TypeMuscle.valueOf(cursor.getString(4)));
         exercise.setDefaultType(cursor.getInt(5) == 1);
-        exercise.setTemplate(cursor.getInt(6)==1);
+        exercise.setTemplate(cursor.getInt(6) == 1);
         exercise.setImg(cursor.getString(7));
         exercise.setStartDate((cursor.getString(8)));
         exercise.setFinishDate((cursor.getString(9)));
@@ -131,6 +134,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         return false;
     }
 
+
     public List<Exercise> getAllByTypeMuscle(TypeMuscle typeMuscle) {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
                 keys, DBHelper.TABLE_KEY_TYPE_EXERCISE + " = ? ", new String[]{typeMuscle.toString()}, null, null, null);
@@ -158,10 +162,28 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     public long copyFromTemplate(long idItem, long id) {
         //insert into cycles (title, comment, default_type, img, start_date, finish_date) select  title, 1, 0, img, start_date, finish_date from cycles where _id = 1
-        Exercise exercise = getById(idItem);
+      /*  Exercise exercise = getById(idItem);
         exercise.setId(0);
         exercise.setTemplate(false);
         exercise.setParentId(id);
-        return create(exercise);
+        return create(exercise);*/
+
+        SetDao setDao = new SetDao(context);
+        Exercise exercise = getById(idItem);
+
+        List<Sets> setsList = setDao.getByParentId(exercise.getId());
+
+        exercise.setId(0);
+        exercise.setParentId(id);
+        exercise.setTemplate(false);
+        long idNewExercise = create(exercise);
+
+        for (Sets sets : setsList) {
+            setDao.copyFromTemplate(sets.getId(), idNewExercise);
+        }
+        return idNewExercise;
+
     }
+
+
 }

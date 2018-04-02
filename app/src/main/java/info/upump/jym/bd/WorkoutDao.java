@@ -7,7 +7,10 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
+import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Day;
+import info.upump.jym.entity.Exercise;
+import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.Workout;
 
 
@@ -148,12 +151,32 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         return workoutList;
     }
 
-    public long  copyFromTemplate(long idItem, long id) {
+    public long copyFromTemplate(long idItem, long id) {
 //        insert into cycles (title, comment, default_type, img, start_date, finish_date) select  title, 1, 0, img, start_date, finish_date from cycles where _id = 1
-        Workout workout = getById(idItem);
+   /*     Workout workout = getById(idItem);
         workout.setId(0);
         workout.setTemplate(false);
         workout.setParentId(id);
-        return create(workout);
+        return create(workout);*/
+        Workout workout = getById(idItem);
+        ExerciseDao exerciseDao = new ExerciseDao(context);
+
+        List<Exercise> exerciseList = exerciseDao.getByParentId(workout.getId());
+
+        workout.setId(0);
+        workout.setTemplate(false);
+        workout.setDefaultType(false);
+        workout.setParentId(id);
+        long idNewWorkout = create(workout);
+
+        for (Exercise exercise : exerciseList) {
+            exerciseDao.copyFromTemplate(exercise.getId(), idNewWorkout);
+
+        }
+        return idNewWorkout;
+
+
     }
+
+
 }
