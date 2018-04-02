@@ -45,8 +45,9 @@
         <activity
             android:name=".activity.exercise.ExerciseCreateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.exercise.ExerciseActivityForChoose"
-            />
+        <activity android:name=".activity.exercise.ExerciseActivityForChoose" />
+        <activity android:name=".activity.exercise.ExerciseDetail" />
+        <activity android:name=".activity.sets.SetActivityCreate"></activity>
     </application>
 
 </manifest>

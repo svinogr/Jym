@@ -65,7 +65,7 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
 
     private void startActivity() {
         Intent intent = createIntent();
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+       /* if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = image;
             View sharedViewT = title;
             String transitionNameIm = "exercise_card_layout_image";
@@ -75,7 +75,8 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
                     Pair.create(sharedViewIm, transitionNameIm),
                     Pair.create(sharedViewT, transitionNameT));
             context.startActivity(intent, transitionActivityOptions.toBundle());
-        } else context.startActivity(intent);
+        } else context.startActivity(intent);*/
+        context.startActivity(intent);
     }
 
     private void setPic() {

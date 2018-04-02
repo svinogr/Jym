@@ -23,8 +23,9 @@ public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
         this.context = context;
         this.operation = operation;
     }
+
     public WorkoutFragmentLoader(@NonNull Context context, int operation, long id) {
-        this(context,operation);
+        this(context, operation);
         this.parentId = id;
     }
 
@@ -32,10 +33,10 @@ public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
     @Override
     public List<Workout> loadInBackground() {
         WorkoutDao workoutDao = new WorkoutDao(context);
-        List<Workout> workoutList =null;
-        switch (operation){
+        List<Workout> workoutList = null;
+        switch (operation) {
             case LOADER_BY_PARENT_ID:
-               workoutList =  workoutDao.getByParentId(parentId);
+                workoutList = workoutDao.getByParentId(parentId);
                 break;
             case LOADER_BY_TEMPLATE_TYPE:
                 workoutList = workoutDao.getTemplate();
