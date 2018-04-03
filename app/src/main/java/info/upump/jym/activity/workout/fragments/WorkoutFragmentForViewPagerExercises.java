@@ -28,7 +28,9 @@ import info.upump.jym.activity.exercise.ExerciseActivityForChoose;
 import info.upump.jym.activity.workout.WorkoutActivityForChoose;
 import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.ExerciseAdapter;
+import info.upump.jym.bd.CycleDao;
 import info.upump.jym.bd.ExerciseDao;
+import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.ExerciseFragmentLoader;
@@ -107,7 +109,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         long id = exerciseDao.copyFromTemplate(idItem, workout.getId());
         Exercise exercise = exerciseDao.getById(id);
         exerciseList.add(exercise);
-        System.out.println("addChosenItem after "+exerciseList.size());
+        System.out.println("addChosenItem after " + exerciseList.size());
         exerciseAdapter.notifyDataSetChanged();
 
         System.out.println("выбрана " + idItem);
@@ -116,7 +118,14 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
 
     @Override
     public boolean clear() {
-        return false;
+        WorkoutDao workoutDao = new WorkoutDao(getContext());
+        boolean clear = workoutDao.clear(workout.getId());
+        if (clear) {
+            exerciseList.clear();
+            exerciseAdapter.notifyDataSetChanged();
+            return true;
+        } else return false;
+
     }
 
     @Override
@@ -126,7 +135,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
 
     @Override
     public Loader<List<Exercise>> onCreateLoader(int id, Bundle args) {
-        ExerciseFragmentLoader exerciseFragmentLoader = new ExerciseFragmentLoader(getContext(), Constants.LOADER_BY_PARENT_ID, workout.getId() );
+        ExerciseFragmentLoader exerciseFragmentLoader = new ExerciseFragmentLoader(getContext(), Constants.LOADER_BY_PARENT_ID, workout.getId());
         return exerciseFragmentLoader;
     }
 

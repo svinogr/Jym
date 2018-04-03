@@ -119,9 +119,10 @@ public class SetDao extends DBDao implements IData<Sets> {
     }
 
     @Override
-    public boolean clear(Sets object) {
+    public boolean clear(long id) {
         return false;
     }
+
 
 
     public long copyFromTemplate(long idItem, long id) {

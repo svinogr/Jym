@@ -220,11 +220,12 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
     @Override
     public boolean clear() {
         CycleDao cycleDao = new CycleDao(getContext());
-        if(cycleDao.clear(cycle)){
+        boolean clear = cycleDao.clear(cycle.getId());
+        if (clear) {
             workoutList.clear();
             workoutAdapter.notifyDataSetChanged();
             return true;
-        }else return false;
+        } else return false;
 
     }
 

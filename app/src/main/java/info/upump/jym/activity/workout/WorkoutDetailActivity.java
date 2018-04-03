@@ -14,6 +14,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -165,10 +167,18 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
     }
 
+
     @Override
     public void delete(long id) {
+        WorkoutDao workoutDao = new WorkoutDao(this);
+        if( workoutDao.delete(workout)){
+            Toast.makeText(this, "времен, программа  удалена", Toast.LENGTH_SHORT).show();
+            //exit();
+            finishActivityWithAnimation();
+        }else  Toast.makeText(this, "времен, программа  не удалена", Toast.LENGTH_SHORT).show();
 
     }
+
 
     @Override
     public void setInterfaceForDescription(IDescriptionFragment interfaceForDescription) {
@@ -247,24 +257,24 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit_menu_delete:
-               /* Snackbar.make(this.imageView, "Удалить программу?", Snackbar.LENGTH_LONG)
+                Snackbar.make(this.imageView, "Удалить программу?", Snackbar.LENGTH_LONG)
                         .setAction("Да", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                delete(cycle.getId());
-                                finishActivityWithAnimation();
+                                delete(workout.getId());
+
                             }
-                        }).show();*/
+                        }).show();
                 break;
             case R.id.edit_menu_clear:
-             /*   Snackbar.make(this.imageView, "Очистить программу?", Snackbar.LENGTH_LONG)
+                Snackbar.make(this.imageView, "Очистить программу?", Snackbar.LENGTH_LONG)
                         .setAction("Да", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 clear();
                             }
                         }).show();
-                break;*/
+                break;
         }
 
         if (item.getItemId() == android.R.id.home) {
@@ -272,6 +282,14 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void clear() {
+        if (iItemFragment.clear()) {
+            Toast.makeText(this, "Программа очищена", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "Не удалось очистить", Toast.LENGTH_SHORT).show();
+
+
     }
 
     @Override
@@ -291,5 +309,12 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                     break;
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.edit_menu, menu);
+        return true;
     }
 }

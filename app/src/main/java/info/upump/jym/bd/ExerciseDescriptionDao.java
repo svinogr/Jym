@@ -1,3 +1,4 @@
+/*
 package info.upump.jym.bd;
 
 import android.content.ContentValues;
@@ -94,7 +95,13 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
     }
 
     @Override
+    public boolean clear(long id) {
+        return false;
+    }
+
+    @Override
     public boolean clear(ExerciseDescription object) {
         return false;
     }
 }
+*/

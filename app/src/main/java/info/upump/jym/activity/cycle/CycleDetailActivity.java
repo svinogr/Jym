@@ -212,8 +212,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                         .setAction("Да", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                delete(cycle.getId());
-                                finishActivityWithAnimation();
+                               delete(cycle.getId());
                             }
                         }).show();
                 break;
@@ -338,8 +337,12 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     @Override
     public void delete(long id) {
         cycleDao = getCycleDao();
-        cycleDao.delete(cycle);
-        exit();
+         if(cycleDao.delete(cycle)){
+            Toast.makeText(this, "времен, программа  удалена", Toast.LENGTH_SHORT).show();
+             finishActivityWithAnimation();
+           //exit();
+        }else  Toast.makeText(this, "времен, программа  не удалена", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

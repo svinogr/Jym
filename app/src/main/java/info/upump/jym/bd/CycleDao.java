@@ -78,35 +78,30 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         return id;
     }
 
+
+
     @Override
-    public boolean delete(Cycle cycle) {
-        long id = 0;
-        if (deleteChildren(cycle.getId())) {
-            id = sqLiteDatabase.delete(DBHelper.TABLE_CYCLE, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(cycle.getId())});
+    public boolean delete(Cycle object) {
+        if (object.isDefaultType()) return false;
+        boolean delChild = clear(object.getId());
+        long id=0;
+        if (delChild) {
+            id = sqLiteDatabase.delete(DBHelper.TABLE_CYCLE, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         }
         System.out.println(id);
         return id != 0;
     }
 
-
-    private List<Workout> getAllChildren(long id) {
-        List<Workout> workoutList = null;
+    private boolean deleteChildren(long id) {
+        List<Workout> workoutList;
         WorkoutDao workoutDao = new WorkoutDao(context);
         workoutList = workoutDao.getByParentId(id);
-        System.out.println("кол-во чилдренов " + workoutList.size());
-        return workoutList;
-    }
-
-    private boolean deleteChildren(long id) {
-        List<Workout> workoutList = getAllChildren(id);
-        boolean flag = true;
-        if (workoutList != null) {
-            WorkoutDao workoutDao = new WorkoutDao(context);
+        if (workoutList.size() > 0) {
             for (Workout workout : workoutList) {
-                flag = workoutDao.delete(workout);
+                if (!workoutDao.delete(workout)) return false;
             }
         }
-        return flag;
+        return true;
     }
 
     @Override
@@ -126,7 +121,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
                 cycle = getExerciseFromCursor(cursor);
             } while (cursor.moveToNext());
         }
-        cycle.getWorkoutList().addAll(getAllChildren(id));
+       // cycle.getWorkoutList().addAll(getAllChildren(id));
         return cycle;
     }
 
@@ -136,8 +131,16 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     }
 
     @Override
-    public boolean clear(Cycle object) {
-        return deleteChildren(object.getId());
+    public boolean clear(long id) {
+        List<Workout> workoutList;
+        WorkoutDao workoutDao = new WorkoutDao(context);
+        workoutList = workoutDao.getByParentId(id);
+        if (workoutList.size() > 0) {
+            for (Workout workout : workoutList) {
+                if (!workoutDao.delete(workout)) return false;
+            }
+        }
+        return true;
     }
 
 

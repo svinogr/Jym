@@ -5,25 +5,41 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_programs"
+            android:id="@+id/nav_my_programs"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Программы" />
+            android:title="@string/my_programs" />
         <item
-            android:id="@+id/nav_workouts"
+            android:id="@+id/nav_my_workouts"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Тренировки" />
-        <item
-            android:id="@+id/nav_exercises"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Упражнения" />
+            android:title="@string/my_workouts" />
+
         <item
             android:id="@+id/nav_progress"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Мой прогресс" />
+            android:title="@string/my_progress" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/templates">
         <menu>
+            <item
+                android:id="@+id/nav_programs"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="@string/programs" />
+            <item
+                android:id="@+id/nav_workouts"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="@string/workouts" />
+            <item
+                android:id="@+id/nav_my_exercises"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="@string/exercises" />
+
+        </menu>
+    </item>
+    <item android:title="Дополнительно">
+
+        <menu>
+
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
@@ -34,5 +50,6 @@
                 android:title="Инструкция" />
         </menu>
     </item>
+
 
 </menu>

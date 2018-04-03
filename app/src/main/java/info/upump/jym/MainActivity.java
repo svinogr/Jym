@@ -304,17 +304,17 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_programs) {
+        if (id == R.id.nav_my_programs) {
             if(!(curFragment instanceof CycleFragment)){
                 curFragment = CycleFragment.newInstance();
             }
             // Handle the camera action
-        } else if (id == R.id.nav_exercises) {
+        } else if (id == R.id.nav_my_exercises) {
             if(!(curFragment instanceof ExerciseFragment)){
                 curFragment = ExerciseFragment.newInstance();
             }
 
-        } else if (id == R.id.nav_workouts) {
+        } else if (id == R.id.nav_my_workouts) {
             if(!(curFragment instanceof WorkoutFragment)){
                 curFragment = WorkoutFragment.newInstance();
             }

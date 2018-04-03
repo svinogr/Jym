@@ -111,7 +111,7 @@ public class UserDao extends DBDao implements IData<User> {
     }
 
     @Override
-    public boolean clear(User object) {
+    public boolean clear(long id) {
         return false;
     }
 }

@@ -7,12 +7,10 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.TypeMuscle;
-import info.upump.jym.entity.Workout;
 
 
 public class ExerciseDao extends DBDao implements IData<Exercise> {
@@ -96,10 +94,29 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     @Override
     public boolean delete(Exercise object) {
-        long id = sqLiteDatabase.delete(DBHelper.TABLE_EXERCISE, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
+        if (object.isDefaultType()) return false;
+        boolean delChild = clear(object.getId());
+        long id = 0;
+        if (delChild) {
+            id = sqLiteDatabase.delete(DBHelper.TABLE_EXERCISE, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
+        }
         System.out.println(id);
         return id != 0;
     }
+
+    @Override
+    public boolean clear(long id) {
+        List<Sets> setsList;
+        SetDao setDao = new SetDao(context);
+        setsList = setDao.getByParentId(id);
+        if (setsList.size() > 0) {
+            for (Sets set : setsList) {
+                if (!setDao.delete(set)) return false;
+            }
+        }
+        return true;
+    }
+
 
     @Override
     public boolean update(Exercise object) {
@@ -127,11 +144,6 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
                 keys, DBHelper.TABLE_KEY_PARENT_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
 
         return getListExercise(cursor);
-    }
-
-    @Override
-    public boolean clear(Exercise object) {
-        return false;
     }
 
 
@@ -162,11 +174,6 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     public long copyFromTemplate(long idItem, long id) {
         //insert into cycles (title, comment, default_type, img, start_date, finish_date) select  title, 1, 0, img, start_date, finish_date from cycles where _id = 1
-      /*  Exercise exercise = getById(idItem);
-        exercise.setId(0);
-        exercise.setTemplate(false);
-        exercise.setParentId(id);
-        return create(exercise);*/
 
         SetDao setDao = new SetDao(context);
         Exercise exercise = getById(idItem);

@@ -7,10 +7,8 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Day;
 import info.upump.jym.entity.Exercise;
-import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.Workout;
 
 
@@ -87,12 +85,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         return id;
     }
 
-    @Override
-    public boolean delete(Workout object) {
-        long id = sqLiteDatabase.delete(DBHelper.TABLE_WORKOUT, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
-        System.out.println(id);
-        return id != 0;
-    }
+
 
     @Override
     public boolean update(Workout object) {
@@ -131,10 +124,33 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
     }
 
+
+
     @Override
-    public boolean clear(Workout object) {
-        return false;
+    public boolean delete(Workout object) {
+        if (object.isDefaultType()) return false;
+        boolean delChild = clear(object.getId());
+        long id=0;
+        if (delChild) {
+            id = sqLiteDatabase.delete(DBHelper.TABLE_WORKOUT, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
+        }
+        System.out.println(id);
+        return id != 0;
     }
+
+    @Override
+   public  boolean clear(long id) {
+        List<Exercise> exerciseList;
+        ExerciseDao exerciseDao = new ExerciseDao(context);
+        exerciseList = exerciseDao.getByParentId(id);
+        if (exerciseList.size() > 0) {
+            for (Exercise exercise : exerciseList) {
+                if (!exerciseDao.delete(exercise)) return false;
+            }
+        }
+        return true;
+    }
+
 
     public List<Workout> getTemplate() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
@@ -153,11 +169,6 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
     public long copyFromTemplate(long idItem, long id) {
 //        insert into cycles (title, comment, default_type, img, start_date, finish_date) select  title, 1, 0, img, start_date, finish_date from cycles where _id = 1
-   /*     Workout workout = getById(idItem);
-        workout.setId(0);
-        workout.setTemplate(false);
-        workout.setParentId(id);
-        return create(workout);*/
         Workout workout = getById(idItem);
         ExerciseDao exerciseDao = new ExerciseDao(context);
 
