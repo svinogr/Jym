@@ -27,8 +27,8 @@
     <string name="abs">пресс</string>
     <!--****-->
     <string name="exercise_fragment_title">Упражнения</string>
-    <string name="cycle_fragment_title">Программы</string>
-    <string name="workout_fragment_title">Тренировки</string>
+    <string name="cycle_fragment_title">Мои программы</string>
+    <string name="workout_fragment_title">Мои тренировки</string>
     <string name="title_activity_exercise_detail">ExerciseDetailActivity</string>
     <string name="no_description">Нет описания</string>
     <string name="title_activity_exercise_detail_edit">ExerciseDetailActivityEdit</string>
@@ -82,5 +82,9 @@
     <string name="programs">Программы</string>
     <string name="workouts">Тренировки</string>
     <string name="exercises">Упражнения</string>
+    <string name="action_delete_exercise">Удалить упражнение</string>
+    <string name="action_exercise_clear">Удалить подходы</string>
+    <string name="action_exercise_change_weight">Изменить все веса</string>
+    <string name="action_exercise_change_reps">Изменить повторения</string>
 
 </resources>

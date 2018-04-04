@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
@@ -12,8 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +29,7 @@ import info.upump.jym.activity.sets.SetActivityCreate;
 import info.upump.jym.adapters.SetsAdapter;
 import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.bd.SetDao;
+import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Sets;
 import info.upump.jym.loaders.SetsLoader;
@@ -121,9 +126,20 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
 
     }
 
+
     @Override
     public boolean clear() {
-        return false;
+        ExerciseDao exerciseDao = new ExerciseDao(this);
+        boolean clear = exerciseDao.clear(exercise.getId());
+        if (clear) {
+            setsList.clear();
+            setsAdapter.notifyDataSetChanged();
+            Toast.makeText(this, "Подходы удалены", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            Toast.makeText(this, "Не удалось очистить", Toast.LENGTH_SHORT).show();
+            return false;}
+
     }
 
     @Override
@@ -150,6 +166,28 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         if (item.getItemId() == android.R.id.home) {
             exit();
         }
+        switch (item.getItemId()) {
+            case R.id.edit_menu_delete:
+                Snackbar.make(getCurrentFocus(), "Удалить упражнение?", Snackbar.LENGTH_LONG)
+                        .setAction("Да", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                delete(exercise.getId());
+
+                            }
+                        }).show();
+                break;
+            case R.id.edit_menu_clear:
+                Snackbar.make(getCurrentFocus(), "Очистить упражнение?", Snackbar.LENGTH_LONG)
+                        .setAction("Да", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                clear();
+                            }
+                        }).show();
+                break;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -164,5 +202,22 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.edit_exercise_menu, menu);
+        return true;
+    }
+
+
+    public void delete(long id) {
+        ExerciseDao exerciseDao = new ExerciseDao(this);
+        if( exerciseDao.delete(exercise)){
+            Toast.makeText(this, "времен, упражнение  удален", Toast.LENGTH_SHORT).show();
+            //exit();
+            finishActivityWithAnimation();
+        }else  Toast.makeText(this, "времен, упражнение  не удалено", Toast.LENGTH_SHORT).show();
+
     }
 }

@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -43,7 +47,7 @@ public class SetActivityCreate extends AppCompatActivity {
     }
 
     private void createView() {
-        if(sets.getId()>0){
+        if (sets.getId() > 0) {
             weight.setText(String.valueOf(sets.getWeight()));
             reps.setText(String.valueOf(sets.getReps()));
         }
@@ -88,9 +92,32 @@ public class SetActivityCreate extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             exit();
         }
+        if (sets.getId() > 0) {
+            switch (item.getItemId()) {
+                case R.id.edit_menu_delete:
+                    Snackbar.make(getCurrentFocus(), "Удалить подход?", Snackbar.LENGTH_LONG)
+                            .setAction("Да", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    delete(sets.getId());
+
+                                }
+                            }).show();
+                    break;
+            }
+        } else Toast.makeText(this, "времен, подход  не сохранен", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
 
+    public void delete(long id) {
+        SetDao setDao = new SetDao(this);
+        if (setDao.delete(sets)) {
+            Toast.makeText(this, "времен, подход  удален", Toast.LENGTH_SHORT).show();
+            //exit();
+            finishActivityWithAnimation();
+        } else Toast.makeText(this, "времен, подход  не удалено", Toast.LENGTH_SHORT).show();
+
+    }
 
     private void exit() {
         if (itemIsNotChanged()) {
@@ -101,9 +128,9 @@ public class SetActivityCreate extends AppCompatActivity {
             ad.setPositiveButton((getResources().getString(R.string.yes)), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if(sets.getId()>0) {
+                    if (sets.getId() > 0) {
                         update();
-                    }else save();
+                    } else save();
 
 
                 }
@@ -155,12 +182,12 @@ public class SetActivityCreate extends AppCompatActivity {
         changeableSets.setId(sets.getId());
         changeableSets.setStartDate(new Date());
         changeableSets.setFinishDate(new Date());
-        if(!weight.getText().toString().isEmpty()){
+        if (!weight.getText().toString().isEmpty()) {
             changeableSets.setWeight(Double.parseDouble(weight.getText().toString()));
-        }else changeableSets.setWeight(0);
-        if(!reps.getText().toString().isEmpty()){
+        } else changeableSets.setWeight(0);
+        if (!reps.getText().toString().isEmpty()) {
             changeableSets.setReps(Integer.parseInt(reps.getText().toString()));
-        }else changeableSets.setReps(0);
+        } else changeableSets.setReps(0);
         changeableSets.setParentId(sets.getParentId());
 
         return changeableSets;
@@ -192,6 +219,13 @@ public class SetActivityCreate extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.edit_set_menu, menu);
+        return true;
     }
 
 

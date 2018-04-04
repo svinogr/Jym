@@ -128,6 +128,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
 
     }
 
+
     @Override
     public void addItem(long longExtra) {
 
