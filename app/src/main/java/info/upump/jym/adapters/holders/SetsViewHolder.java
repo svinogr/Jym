@@ -12,12 +12,13 @@ import info.upump.jym.entity.Sets;
 
 
 public class SetsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private TextView weight, reps;
+    private TextView weight, reps, set;
     private Context context;
     private Sets sets;
 
     public SetsViewHolder(View itemView) {
         super(itemView);
+        set = itemView.findViewById(R.id.set_card_layout_label_set);
         weight = itemView.findViewById(R.id.set_card_layout_weight);
         reps = itemView.findViewById(R.id.set_card_layout_reps);
         context = itemView.getContext();
@@ -26,6 +27,7 @@ public class SetsViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     public void bind(Sets sets) {
         this.sets =sets;
+        set.setText(String.valueOf(getAdapterPosition()+1)+". ");
         weight.setText(String.valueOf(sets.getWeight()));
         reps.setText(String.valueOf(sets.getReps()));
 

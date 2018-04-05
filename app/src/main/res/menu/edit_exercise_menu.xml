@@ -11,7 +11,7 @@
         android:orderInCategory="100"
         android:title="@string/action_exercise_clear"
         app:showAsAction="never" />
-    <item
+  <!--  <item
         android:id="@+id/edit_menu_change_weight"
         android:orderInCategory="100"
         android:title="@string/action_exercise_change_weight"
@@ -20,6 +20,6 @@
         android:id="@+id/edit_menu_change_reps"
         android:orderInCategory="100"
         android:title="@string/action_exercise_change_reps"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
 
 </menu>

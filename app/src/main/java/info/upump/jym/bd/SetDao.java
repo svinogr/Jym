@@ -132,4 +132,18 @@ public class SetDao extends DBDao implements IData<Sets> {
         long l = create(sets);
         return l;
     }
+
+    public List<Sets> getSetsFromId(long id){
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_SET,
+                keys, DBHelper.TABLE_KEY_ID + " >=? ", new String[]{String.valueOf(id)}, null, null, null);
+
+        List<Sets> setsList = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                Sets sets = getSetsFromCursor(cursor);
+                setsList.add(sets);
+            } while (cursor.moveToNext());
+        }
+        return setsList;
+    }
 }

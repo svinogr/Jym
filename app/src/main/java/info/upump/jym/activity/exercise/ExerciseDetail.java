@@ -145,12 +145,17 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     @Override
     public void addItem(long longExtra) {
         if (longExtra >0){
-            SetDao setDao = new SetDao(this);
+        /*    SetDao setDao = new SetDao(this);
             Sets sets = setDao.getById(longExtra);
-            sets.setParentId(exercise.getId());
-            setDao.update(sets);
-            setsList.add(sets);
-            System.out.println(sets);
+            sets.setParentId(exercise.getId());*/
+            SetDao setDao = new SetDao(this);
+            List<Sets> newSets = setDao.getSetsFromId(longExtra);
+            for (Sets s: newSets){
+                s.setParentId(exercise.getId());
+                setDao.update(s);
+            }
+            setsList.addAll(newSets);
+            System.out.println(newSets);
             setsAdapter.notifyDataSetChanged();
         }
     }

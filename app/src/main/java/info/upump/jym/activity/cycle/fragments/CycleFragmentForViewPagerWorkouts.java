@@ -233,6 +233,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
     public void addItem(long idItem) {
         WorkoutDao workoutDao = new WorkoutDao(getContext());
         Workout workout = workoutDao.getById(idItem);
+        workout.setParentId(cycle.getId());
         workout.setTemplate(false);
         workoutDao.update(workout);
         workoutList.add(workout);

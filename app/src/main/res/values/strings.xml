@@ -86,5 +86,6 @@
     <string name="action_exercise_clear">Удалить подходы</string>
     <string name="action_exercise_change_weight">Изменить все веса</string>
     <string name="action_exercise_change_reps">Изменить повторения</string>
+    <string name="label_sets">Количество добавляемых подходов</string>
 
 </resources>

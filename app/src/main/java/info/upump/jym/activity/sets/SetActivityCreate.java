@@ -8,29 +8,32 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.Date;
-import java.util.Set;
 
 import info.upump.jym.R;
-import info.upump.jym.activity.constant.Constants;
-import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.bd.SetDao;
-import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Sets;
-import info.upump.jym.entity.TypeMuscle;
 
 import static info.upump.jym.activity.constant.Constants.ID;
 
 public class SetActivityCreate extends AppCompatActivity {
     private Sets sets;
-    private EditText weight, reps;
+    private NumberPicker weight, reps;
+    private NumberPicker numberPicker;
+    private String[] valuesForWeight;
+    private int qSet = 1;
+    private CardView cardView;
+    private int[] arrayId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +41,47 @@ public class SetActivityCreate extends AppCompatActivity {
         setContentView(R.layout.activity_set_create);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        sets = getItemFromIntent();
+        weight = findViewById(R.id.numberPickerWeight);
+        reps = findViewById(R.id.numberPickerReps);
+        numberPicker = findViewById(R.id.numberPickerSets);
+        cardView = findViewById(R.id.data_card3);
 
-        weight = findViewById(R.id.set_create_activity_weight_edit_weight);
-        reps = findViewById(R.id.set_create_activity_label_weight_edit_reps);
+        sets = getItemFromIntent();
+        double min = 0;
+        int max = 200;
+        double step = 1.25;
+
+        valuesForWeight = getArrayWithSteps(min, max, step);
+        weight.setMinValue(0);
+        weight.setMaxValue(200);
+        weight.setDisplayedValues(valuesForWeight);
+
+        reps.setMaxValue(100);
+        reps.setMinValue(0);
+
+        numberPicker.setMaxValue(20);
+        numberPicker.setMinValue(1);
         createView();
 
     }
 
+    public String[] getArrayWithSteps(double iMinValue, int iMaxValue, double iStep) {
+        int iStepsArray = 800; //get the lenght array that will return
+
+        String[] arrayValues = new String[iStepsArray]; //Create array with length of iStepsArray
+
+        for (int i = 0; i < iStepsArray; i++) {
+            arrayValues[i] = String.valueOf(iMinValue + (i * iStep));
+        }
+
+        return arrayValues;
+    }
+
     private void createView() {
         if (sets.getId() > 0) {
-            weight.setText(String.valueOf(sets.getWeight()));
-            reps.setText(String.valueOf(sets.getReps()));
+            int i = Arrays.asList(valuesForWeight).indexOf(String.valueOf(sets.getWeight()));
+            weight.setValue(i);
+            reps.setValue(sets.getReps());
         }
     }
 
@@ -67,6 +99,7 @@ public class SetActivityCreate extends AppCompatActivity {
             SetDao setDao = new SetDao(this);
             sets = setDao.getById(id);
             setTitle("Изменить подход");
+            cardView.setVisibility(View.GONE);
         } else {
             sets = new Sets();
             setTitle("Новый подход");
@@ -92,20 +125,22 @@ public class SetActivityCreate extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             exit();
         }
-        if (sets.getId() > 0) {
-            switch (item.getItemId()) {
-                case R.id.edit_menu_delete:
-                    Snackbar.make(getCurrentFocus(), "Удалить подход?", Snackbar.LENGTH_LONG)
-                            .setAction("Да", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    delete(sets.getId());
+        if (item.getItemId() == R.id.edit_menu_delete) {
+            if (sets.getId() > 0) {
+                switch (item.getItemId()) {
+                    case R.id.edit_menu_delete:
+                        Snackbar.make(reps, "Удалить подход?", Snackbar.LENGTH_LONG)
+                                .setAction("Да", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        delete(sets.getId());
 
-                                }
-                            }).show();
-                    break;
-            }
-        } else Toast.makeText(this, "времен, подход  не сохранен", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).show();
+                        break;
+                }
+            } else Toast.makeText(this, "времен, подход  не сохранен", Toast.LENGTH_SHORT).show();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -150,19 +185,29 @@ public class SetActivityCreate extends AppCompatActivity {
 
     private void save() {
         SetDao setDao = new SetDao(this);
-        if (weight.getText().toString().trim().isEmpty()) {
+     /*   if (weight.getValue() < 0) {
             Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (reps.getText().toString().trim().isEmpty()) {
+        if (reps.getValue() < 0) {
             Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
         Sets changeableItem = getChangeableItem();
-        long id = setDao.create(changeableItem);
+        qSet = numberPicker.getValue();
+        System.out.println(qSet);
+        long id = -1;
+        for (int i = 0; i < qSet; i++) {
+
+            id = setDao.create(changeableItem);
+            if (i == 0) {
+                sets.setId(id); // если делаем много одинаковых подходов то передаем только первый, чтоб получить остальные начиная с него ;)
+            }
+            System.out.println(id);
+        }
         if (id != -1) {
-            sets.setId(id);
-            Toast.makeText(this, "времен, программа сохранена", Toast.LENGTH_SHORT).show();
+            // sets.setId(id);
+            Toast.makeText(this, "времен, подход сохранен", Toast.LENGTH_SHORT).show();
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
@@ -182,25 +227,20 @@ public class SetActivityCreate extends AppCompatActivity {
         changeableSets.setId(sets.getId());
         changeableSets.setStartDate(new Date());
         changeableSets.setFinishDate(new Date());
-        if (!weight.getText().toString().isEmpty()) {
-            changeableSets.setWeight(Double.parseDouble(weight.getText().toString()));
-        } else changeableSets.setWeight(0);
-        if (!reps.getText().toString().isEmpty()) {
-            changeableSets.setReps(Integer.parseInt(reps.getText().toString()));
-        } else changeableSets.setReps(0);
+        changeableSets.setWeight(Double.parseDouble(valuesForWeight[weight.getValue()]));
+        changeableSets.setReps(reps.getValue());
         changeableSets.setParentId(sets.getParentId());
-
         return changeableSets;
     }
 
 
     private void update() {
         SetDao setDao = new SetDao(this);
-        if (weight.getText().toString().trim().isEmpty()) {
+        if (weight.getValue() < 0) {
             Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (reps.getText().toString().trim().isEmpty()) {
+        if (reps.getValue() < 0) {
             Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -227,6 +267,5 @@ public class SetActivityCreate extends AppCompatActivity {
         menuInflater.inflate(R.menu.edit_set_menu, menu);
         return true;
     }
-
 
 }
