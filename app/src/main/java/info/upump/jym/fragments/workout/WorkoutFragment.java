@@ -29,13 +29,15 @@ import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
 
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
+import static info.upump.jym.adapters.ExerciseAdapter.DEFAULT_TYPE;
 
 public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Workout>>, View.OnClickListener {
-    private ITitleble iTitleble;
-    private RecyclerView recyclerView;
-    private WorkoutAdapter workoutAdapter;
-    private List<Workout> workoutList = new ArrayList<>();
-    private FloatingActionButton addFab;
+    protected ITitleble iTitleble;
+    protected RecyclerView recyclerView;
+    protected WorkoutAdapter workoutAdapter;
+    protected List<Workout> workoutList = new ArrayList<>();
+    protected FloatingActionButton addFab;
 
     public WorkoutFragment() {
         // Required empty public constructor
@@ -53,14 +55,15 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-        workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DEFAULT_TYPE);
+        createAdapter();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        iTitleble.setTitle(getResources().getString(R.string.workout_fragment_title));
+
+        setTitle();
         View inflate = inflater.inflate(R.layout.fragment_workout, container, false);
 
         recyclerView = inflate.findViewById(R.id.workout_fragment_recycler_view);
@@ -69,6 +72,21 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(workoutAdapter);
+        setFab();
+
+        return inflate;
+    }
+
+    protected void setTitle() {
+        iTitleble.setTitle(getResources().getString(R.string.workout_fragment_title));
+    }
+
+
+    protected void createAdapter() {
+        workoutAdapter = new WorkoutAdapter(workoutList, LOADER_BY_USER_TYPE);
+    }
+
+    protected void setFab() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -88,8 +106,6 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
             }
         });
         addFab.setOnClickListener(this);
-
-        return inflate;
     }
 
     @Override
@@ -101,7 +117,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<List<Workout>> onCreateLoader(int id, Bundle args) {
-        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(getContext(), LOADER_BY_TEMPLATE_TYPE);
+        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(getContext(), LOADER_BY_USER_TYPE);
         return workoutFragmentLoader;
     }
 
@@ -119,16 +135,17 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.workout_fragment_fab_add:
                 addItem();
                 break;
         }
 
     }
+
     private void addItem() {
         //TODO сделать вызов для резалт активити, типа красиво вставляем
-      Intent intent = WorkoutCreateActivity.createIntent(getContext());
-      startActivity(intent);
+        Intent intent = WorkoutCreateActivity.createIntent(getContext());
+        startActivity(intent);
     }
 }

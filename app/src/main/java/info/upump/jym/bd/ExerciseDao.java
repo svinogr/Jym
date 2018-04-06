@@ -172,6 +172,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         return exerciseList;
     }
 
+    @Override
     public long copyFromTemplate(long idItem, long id) {
         //insert into cycles (title, comment, default_type, img, start_date, finish_date) select  title, 1, 0, img, start_date, finish_date from cycles where _id = 1
 

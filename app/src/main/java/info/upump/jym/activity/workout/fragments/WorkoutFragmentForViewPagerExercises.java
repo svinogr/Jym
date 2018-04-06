@@ -44,12 +44,12 @@ import static info.upump.jym.activity.constant.Constants.ID;
  */
 public class WorkoutFragmentForViewPagerExercises extends Fragment implements IItemFragment<Workout>,
         LoaderManager.LoaderCallbacks<List<Exercise>>, View.OnClickListener {
-    private Workout workout;
-    private IChangeItem iChangeItem;
-    private RecyclerView recyclerView;
-    private FloatingActionButton addFab;
-    private ExerciseAdapter exerciseAdapter;
-    private List<Exercise> exerciseList = new ArrayList<>();
+   protected Workout workout;
+   protected IChangeItem iChangeItem;
+   protected RecyclerView recyclerView;
+   protected FloatingActionButton addFab;
+   protected ExerciseAdapter exerciseAdapter;
+   protected List<Exercise> exerciseList = new ArrayList<>();
 
     public WorkoutFragmentForViewPagerExercises() {
         // Required empty public constructor
@@ -69,6 +69,10 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         if (getArguments() != null) {
 
         }
+       setAdapter();
+    }
+
+    protected void setAdapter(){
         exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.INFO);
     }
 
@@ -77,7 +81,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_workout_fragment_for_view_pager_exercises, container, false);
-        addFab = inflate.findViewById(R.id.workout_fragment_for_view_pager_exercises_fab_main);
+        addFab = getActivity().findViewById(R.id.workout_fragment_for_view_pager_exercises_fab_main);
         recyclerView = inflate.findViewById(R.id.workout_fragment_for_view_pager_exercises_recycler);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

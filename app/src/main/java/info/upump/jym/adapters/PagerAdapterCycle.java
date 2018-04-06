@@ -24,9 +24,13 @@ public class PagerAdapterCycle extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+
+        return getFragment(position);
+    }
+
+    protected Fragment getFragment(int poz){
         Fragment fragment = null;
-        System.out.println(1);
-        switch (position) {
+        switch (poz) {
             case 1:
                 fragment = CycleFragmentForViewPagerDescription.newInstance(cycle);
                 break;

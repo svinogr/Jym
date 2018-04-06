@@ -38,8 +38,14 @@ public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
             case LOADER_BY_PARENT_ID:
                 workoutList = workoutDao.getByParentId(parentId);
                 break;
+                case LOADER_BY_DEFAULT_TYPE:
+                workoutList = workoutDao.getDefault();
+                break;
+            case LOADER_BY_USER_TYPE:
+                workoutList = workoutDao.getTemplateUser();
+                break;
             case LOADER_BY_TEMPLATE_TYPE:
-                workoutList = workoutDao.getTemplate();
+                workoutList =  workoutDao.getTemplate();
         }
         return workoutList;
     }

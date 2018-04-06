@@ -87,5 +87,7 @@
     <string name="action_exercise_change_weight">Изменить все веса</string>
     <string name="action_exercise_change_reps">Изменить повторения</string>
     <string name="label_sets">Количество добавляемых подходов</string>
+    <string name="cycle_fragment_template_title">Готовые программы</string>
+    <string name="workout_fragment_default_title">Готовые тренировки</string>
 
 </resources>

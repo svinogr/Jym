@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -38,13 +39,14 @@ import info.upump.jym.entity.Workout;
 import static info.upump.jym.activity.constant.Constants.ID;
 
 public class WorkoutDetailActivity extends AppCompatActivity implements IChangeItem<Workout> {
-    private Workout workout;
-    private ImageView imageView;
-    private PagerAdapterWorkout pagerAdapterWorkout;
-    private ViewPager viewPager;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
-    private IDescriptionFragment iDescriptionFragment;
-    private IItemFragment iItemFragment;
+   protected Workout workout;
+   protected ImageView imageView;
+   protected PagerAdapterWorkout pagerAdapterWorkout;
+   protected ViewPager viewPager;
+   protected CollapsingToolbarLayout collapsingToolbarLayout;
+   protected IDescriptionFragment iDescriptionFragment;
+   protected IItemFragment iItemFragment;
+   protected FloatingActionButton addFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,17 +58,17 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
         workout = getItemFromIntent();
         System.out.println("worko " + workout);
-        pagerAdapterWorkout = new PagerAdapterWorkout(getSupportFragmentManager(), workout);
+        setPagerAdapter();
+        addFab = findViewById(R.id.workout_fragment_for_view_pager_exercises_fab_main);
         imageView = findViewById(R.id.workout_activity_detail_edit_image_view);
         collapsingToolbarLayout = findViewById(R.id.workout_activity_detail_edit_collapsing);
         viewPager = findViewById(R.id.workout_activity_detail_viewpager);
         TabLayout tabLayout = findViewById(R.id.workout_activity_detail_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-
         viewPager.setAdapter(pagerAdapterWorkout);
         setPageTransform();
-
+        setFabVisible(true);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.getString(Constants.URI_IMG) != null) {
@@ -76,6 +78,14 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         }
         createViewFrom(workout);
 
+    }
+
+    protected void setFabVisible(boolean visible) {
+
+    }
+
+    protected void setPagerAdapter() {
+        pagerAdapterWorkout = new PagerAdapterWorkout(getSupportFragmentManager(), workout);
     }
 
     private void setPageTransform() {
@@ -129,6 +139,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
 
     public static Intent createIntent(Context context, Workout workout) {
+        System.out.println("WorkoutDetailActivity");
         Intent intent = new Intent(context, WorkoutDetailActivity.class);
         intent.putExtra(ID, workout.getId());
         return intent;

@@ -25,14 +25,6 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        app:layout_anchor="@id/cycle_fragment_for_view_pager_workouts_recycler"
 
-        app:layout_anchorGravity="top|end"
-        android:id="@+id/cycle_activity_detail_fab_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_menu_add" />
-    app:layout_behavior="info.upump.jym.utils.ScrollAwareFABBehavior"
+   <!-- app:layout_behavior="info.upump.jym.utils.ScrollAwareFABBehavior"-->
 </android.support.design.widget.CoordinatorLayout>

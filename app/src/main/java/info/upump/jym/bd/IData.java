@@ -20,5 +20,6 @@ public interface IData<T> {
     List<T> getByParentId(long id);
 
     boolean clear( long id);
+    long copyFromTemplate(long idItem, long idPrent);
 
 }

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -35,15 +36,16 @@ import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 
 public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle> {
-    private ViewPager viewPager;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
-    private ImageView imageView;
-    private Cycle cycle;
-    private Uri uriImage;
-    private PagerAdapterCycle pagerAdapterCycleEdit;
-    private CycleDao cycleDao;
-    private IDescriptionFragment iDescriptionFragment;
-    private IItemFragment iItemFragment;
+    protected ViewPager viewPager;
+    protected CollapsingToolbarLayout collapsingToolbarLayout;
+    protected ImageView imageView;
+    protected Cycle cycle;
+    protected Uri uriImage;
+    protected PagerAdapterCycle pagerAdapterCycleEdit;
+    protected CycleDao cycleDao;
+    protected IDescriptionFragment iDescriptionFragment;
+    protected IItemFragment iItemFragment;
+    protected FloatingActionButton addFab;
 
 
     @Override
@@ -59,6 +61,8 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         viewPager = findViewById(R.id.cycle_fragment_edit_viewpager);
         viewPager = findViewById(R.id.cycle_fragment_edit_viewpager);
         imageView = findViewById(R.id.exercise_activity_detail_edit_image_view);
+        addFab = findViewById(R.id.cycle_activity_detail_fab_main);
+        setFabVisible(true);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +77,8 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
         cycle = getItemFromIntent();
 
-        pagerAdapterCycleEdit = new PagerAdapterCycle(getSupportFragmentManager(), cycle);
+        setPagerAdapter();
+
         viewPager.setAdapter(pagerAdapterCycleEdit);
         setPageTransform();
 
@@ -86,6 +91,14 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         }
         createViewFrom(cycle);
 
+    }
+
+    protected void setFabVisible(boolean visible){
+
+    }
+
+    protected void setPagerAdapter() {
+        pagerAdapterCycleEdit = new PagerAdapterCycle(getSupportFragmentManager(), cycle);
     }
 
     private void setPageTransform() {

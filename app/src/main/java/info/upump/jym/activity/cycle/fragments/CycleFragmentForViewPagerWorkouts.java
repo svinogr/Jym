@@ -38,11 +38,11 @@ import info.upump.jym.loaders.WorkoutFragmentLoader;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
 
 public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Workout>>, IItemFragment<Workout> {
-    private Cycle cycle;
-    private List<Workout> workoutList = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private FloatingActionButton addFab;
-    private WorkoutAdapter workoutAdapter;
+    protected Cycle cycle;
+    protected List<Workout> workoutList = new ArrayList<>();
+    protected RecyclerView recyclerView;
+    protected FloatingActionButton addFab;
+    protected WorkoutAdapter workoutAdapter;
 
     public CycleFragmentForViewPagerWorkouts() {
         // Required empty public constructor
@@ -62,8 +62,12 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DAY);
+        setAdapter();
+    }
 
+    protected void setAdapter() {
+        System.out.println("CycleFragmentForViewPagerWorkout");
+        workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DAY);
     }
 
     @Override
@@ -72,13 +76,11 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_cycle_fragment_for_view_pager_workout, container, false);
         recyclerView = inflate.findViewById(R.id.cycle_fragment_for_view_pager_workouts_recycler);
-        addFab = inflate.findViewById(R.id.cycle_activity_detail_fab_main);
+        addFab = getActivity().findViewById(R.id.cycle_activity_detail_fab_main);
         addFab.setOnClickListener(this);
         NestedScrollView nestedScrollView = inflate.findViewById(R.id.nested);
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(workoutAdapter);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -147,7 +149,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
                         break;
                     case 0:
                         System.out.println(2);
-                        intent  = WorkoutCreateActivity.createIntent(getContext());
+                        intent = WorkoutCreateActivity.createIntent(getContext());
                         getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
                         break;
                 }
@@ -210,11 +212,10 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         long id = workoutDao.copyFromTemplate(idItem, cycle.getId());
         Workout workout = workoutDao.getById(id);
         workoutList.add(workout);
-        System.out.println("addChosenItem after "+ workoutList.size());
+        System.out.println("addChosenItem after " + workoutList.size());
         sortListByDay(workoutList);
         workoutAdapter.notifyDataSetChanged();
     }
-
 
 
     @Override

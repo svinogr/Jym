@@ -32,6 +32,10 @@
             android:name=".activity.cycle.CycleDetailActivity"
             android:label="@string/title_activity_workout_detail_edit"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.cycle.CycleDetailDefaultActivity"
+            android:label="@string/title_activity_workout_detail_edit"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.workout.WorkoutActivityForChoose" />
         <activity
             android:name=".activity.cycle.CycleCreateActivity"
@@ -43,11 +47,16 @@
             android:name=".activity.workout.WorkoutDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activity.workout.WorkoutDetailDefaultActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activity.exercise.ExerciseCreateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.exercise.ExerciseActivityForChoose" />
         <activity android:name=".activity.exercise.ExerciseDetail" />
-        <activity android:name=".activity.sets.SetActivityCreate"></activity>
+        <activity android:name=".activity.exercise.ExerciseDetailDefaultActivity" />
+        <activity android:name=".activity.sets.SetActivityCreate" />
+        <activity android:name=".activity.cycle.CycleActivityForChoose"></activity>
     </application>
 
 </manifest>

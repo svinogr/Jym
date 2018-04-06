@@ -66,5 +66,14 @@
     <include
         android:id="@+id/test"
         layout="@layout/content_workout_detail" />
+    <android.support.design.widget.FloatingActionButton
+        app:layout_anchor="@id/test"
+
+        app:layout_anchorGravity="bottom|end"
+        android:id="@+id/workout_fragment_for_view_pager_exercises_fab_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_menu_add" />
 
 </android.support.design.widget.CoordinatorLayout>

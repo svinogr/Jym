@@ -32,8 +32,10 @@ import java.util.List;
 import java.util.Map;
 
 import info.upump.jym.bd.DBHelper;
-import info.upump.jym.fragments.exercises.ExerciseFragment;
 import info.upump.jym.fragments.cycle.CycleFragment;
+import info.upump.jym.fragments.cycle.CycleFragmentDefault;
+import info.upump.jym.fragments.exercises.ExerciseFragment;
+import info.upump.jym.fragments.workout.WorkoutDefaultFragment;
 import info.upump.jym.fragments.workout.WorkoutFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -305,27 +307,29 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_my_programs) {
-            if(!(curFragment instanceof CycleFragment)){
+//            if(!(curFragment instanceof CycleFragment)){
                 curFragment = CycleFragment.newInstance();
-            }
+//            }
             // Handle the camera action
         } else if (id == R.id.nav_my_exercises) {
-            if(!(curFragment instanceof ExerciseFragment)){
+//            if(!(curFragment instanceof ExerciseFragment)){
                 curFragment = ExerciseFragment.newInstance();
-            }
+//            }
 
         } else if (id == R.id.nav_my_workouts) {
-            if(!(curFragment instanceof WorkoutFragment)){
+//            if(!(curFragment instanceof WorkoutFragment)){
                 curFragment = WorkoutFragment.newInstance();
-            }
-
+//            }
 
         } else if (id == R.id.nav_progress) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_programs) {
+         /*   if(!(curFragment instanceof CycleFragmentTemplate)) {*/
+                curFragment = CycleFragmentDefault.newInstance();
+         //   }
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_workouts) {
+            curFragment = WorkoutDefaultFragment.newInstance();
         }
         createFragment(curFragment);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

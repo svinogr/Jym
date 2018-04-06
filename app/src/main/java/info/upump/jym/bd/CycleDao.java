@@ -71,6 +71,35 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         return cycleList;
     }
 
+    public List<Cycle> getAllDefault() {
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_CYCLE,
+                keys, DBHelper.TABLE_KEY_DEFAULT + " = ?",new String[]{"1"}, null, null, null);
+        List<Cycle> cycleList = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                Cycle cycle = getExerciseFromCursor(cursor);
+                cycleList.add(cycle);
+            } while (cursor.moveToNext());
+        }
+        return cycleList;
+    }
+
+    public List<Cycle> getAllUser() {
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_CYCLE,
+                keys, DBHelper.TABLE_KEY_DEFAULT + " = ?",new String[]{"0"}, null, null, null);
+        List<Cycle> cycleList = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                Cycle cycle = getExerciseFromCursor(cursor);
+                cycleList.add(cycle);
+            } while (cursor.moveToNext());
+        }
+        return cycleList;
+    }
+
+
+
+
     @Override
     public long create(Cycle cycle) {
         ContentValues cv = getContentValuesFrom(cycle);
@@ -144,39 +173,17 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     }
 
 
-    public long copyFromTemplate(long idItem, long id) {
+    @Override
+    public long copyFromTemplate(long idItem, long idParent) {
         Cycle cycle = getById(idItem);
         WorkoutDao workoutDao = new WorkoutDao(context);
-        List<Workout> workoutList = workoutDao.getByParentId(idItem);
-
-        cycle.setId(0);
+        List<Workout> workoutList = workoutDao.getByParentId(cycle.getId());
         cycle.setDefaultType(false);
+        cycle.setId(0);
         long idNewCycle = create(cycle);
-
-        for (Workout workout : workoutList) {
-            workoutDao.copyFromTemplate(workout.getId(), idNewCycle);
-
-       /*     List<Exercise> exerciseList = exerciseDao.getByParentId(workout.getId());
-            workout.setId(0);
-            workout.setParentId(idNewCycle);
-            long idNewWorkout = workoutDao.create(workout);
-
-            for (Exercise exercise : exerciseList) {
-                List<Sets> setsList = setDao.getByParentId(exercise.getId());
-                exercise.setId(0);
-                exercise.setParentId(idNewWorkout);
-                long idNewExercise = exerciseDao.create(exercise);
-
-                for (Sets sets : setsList) {
-                    sets.setId(0);
-                    sets.setParentId(idNewExercise);
-                    setDao.create(sets);
-                }
-
-
-            }*/
+        for (Workout workout: workoutList){
+            workoutDao.copyFromTemplate(workout.getId(),idNewCycle);
         }
-
         return idNewCycle;
     }
 

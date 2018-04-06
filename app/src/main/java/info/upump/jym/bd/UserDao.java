@@ -114,4 +114,9 @@ public class UserDao extends DBDao implements IData<User> {
     public boolean clear(long id) {
         return false;
     }
+
+    @Override
+    public long copyFromTemplate(long idItem, long idPrent) {
+        return 0;
+    }
 }

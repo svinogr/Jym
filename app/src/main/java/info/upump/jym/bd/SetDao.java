@@ -124,7 +124,7 @@ public class SetDao extends DBDao implements IData<Sets> {
     }
 
 
-
+@Override
     public long copyFromTemplate(long idItem, long id) {
         Sets sets = getById(idItem);
         sets.setId(0);

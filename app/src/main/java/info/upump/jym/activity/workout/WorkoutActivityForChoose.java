@@ -20,6 +20,7 @@ import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
 
+import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_CHOOSE;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
 
 public class WorkoutActivityForChoose extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Workout>>, IChooseItem<Workout> {
@@ -32,10 +33,11 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_for_choose);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Выберите тренировку");
 
         getSupportLoaderManager().initLoader(0, null, this);
 
-        workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DEFAULT_TYPE_CHOOSE);
+        workoutAdapter = new WorkoutAdapter(workoutList, DEFAULT_TYPE_CHOOSE);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
         recyclerView = findViewById(R.id.activity_workout_for_choose_recycler_view);

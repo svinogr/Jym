@@ -38,11 +38,11 @@ import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
 
 public class ExerciseDetail extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Sets>>, IItemFragment<Sets> {
-    private Exercise exercise;
-    private List<Sets> setsList = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private FloatingActionButton addFab;
-    private SetsAdapter setsAdapter;
+    protected Exercise exercise;
+    protected List<Sets> setsList = new ArrayList<>();
+    protected RecyclerView recyclerView;
+    protected FloatingActionButton addFab;
+    protected SetsAdapter setsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +60,16 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         recyclerView = findViewById(R.id.exercise_activity_detail_recycler_view);
         recyclerView.setLayoutManager(linearLayoutManager);
         addFab = findViewById(R.id.exercise_activity_detail_fab_add);
-
+        setFabVisible(true);
         addFab.setOnClickListener(this);
         recyclerView.setAdapter(setsAdapter);
 
     }
+
+    protected void setFabVisible(boolean visible) {
+
+    }
+
 
     public static Intent createIntent(Context context, Exercise exercise) {
         Intent intent = new Intent(context, ExerciseDetail.class);
@@ -138,19 +143,20 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
             return true;
         } else {
             Toast.makeText(this, "Не удалось очистить", Toast.LENGTH_SHORT).show();
-            return false;}
+            return false;
+        }
 
     }
 
     @Override
     public void addItem(long longExtra) {
-        if (longExtra >0){
+        if (longExtra > 0) {
         /*    SetDao setDao = new SetDao(this);
             Sets sets = setDao.getById(longExtra);
             sets.setParentId(exercise.getId());*/
             SetDao setDao = new SetDao(this);
             List<Sets> newSets = setDao.getSetsFromId(longExtra);
-            for (Sets s: newSets){
+            for (Sets s : newSets) {
                 s.setParentId(exercise.getId());
                 setDao.update(s);
             }
@@ -198,16 +204,18 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
 
     private void exit() {
 
-                    finishActivityWithAnimation();
+        finishActivityWithAnimation();
 
 
     }
+
     private void finishActivityWithAnimation() {
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -218,11 +226,11 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
 
     public void delete(long id) {
         ExerciseDao exerciseDao = new ExerciseDao(this);
-        if( exerciseDao.delete(exercise)){
+        if (exerciseDao.delete(exercise)) {
             Toast.makeText(this, "времен, упражнение  удален", Toast.LENGTH_SHORT).show();
             //exit();
             finishActivityWithAnimation();
-        }else  Toast.makeText(this, "времен, упражнение  не удалено", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "времен, упражнение  не удалено", Toast.LENGTH_SHORT).show();
 
     }
 }

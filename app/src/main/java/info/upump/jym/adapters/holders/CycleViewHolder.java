@@ -32,9 +32,9 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
     private TextView title;
     private TextView date;
     private ImageView imageView;
-    private Cycle cycle;
+    protected Cycle cycle;
     private View itemView;
-    private Context context;
+    protected Context context;
 
     public CycleViewHolder(View itemView) {
         super(itemView);
@@ -57,7 +57,7 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
     }
 
     private void startActivity() {
-        Intent intent = CycleDetailActivity.createIntent(context, cycle);
+        Intent intent = createIntent();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;
             // View sharedViewT = title;
@@ -70,6 +70,11 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
         } else
             context.startActivity(intent);
 
+    }
+
+    protected Intent createIntent(){
+        Intent intent = CycleDetailActivity.createIntent(context, cycle);
+        return intent;
     }
 
     private void setPic() {

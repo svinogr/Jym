@@ -22,16 +22,21 @@ import java.util.List;
 
 import info.upump.jym.ITitleble;
 import info.upump.jym.R;
+import info.upump.jym.activity.constant.Constants;
+import info.upump.jym.activity.cycle.CycleActivityForChoose;
 import info.upump.jym.activity.cycle.CycleCreateActivity;
 import info.upump.jym.adapters.CycleAdapter;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.loaders.CycleFragmentLoader;
+
+import static info.upump.jym.activity.constant.Constants.ID;
+
 public class CycleFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Cycle>> {
-    private ITitleble iTitlable;
-    private RecyclerView recyclerView;
-    private CycleAdapter cycleAdapter;
-    private List<Cycle> cycleList = new ArrayList<>();
-    private FloatingActionButton addFab;
+    protected ITitleble iTitlable;
+    protected RecyclerView recyclerView;
+    protected CycleAdapter cycleAdapter;
+    protected List<Cycle> cycleList = new ArrayList<>();
+    protected FloatingActionButton addFab;
 
     public CycleFragment() {
         // Required empty public constructor
@@ -49,23 +54,37 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-        cycleAdapter = new CycleAdapter(cycleList);
+        createAdapter();
 
+    }
+
+    protected void createAdapter() {
+        cycleAdapter = new CycleAdapter(cycleList, Constants.LOADER_BY_USER_TYPE);
+    }
+
+    protected void setTitle() {
+        iTitlable.setTitle(getResources().getString(R.string.cycle_fragment_title));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        iTitlable.setTitle(getResources().getString(R.string.cycle_fragment_title));
+        setTitle();
         View inflate = inflater.inflate(R.layout.fragment_cycle, container, false);
 
         recyclerView = inflate.findViewById(R.id.cycle_fragment_recycler_view);
         addFab = inflate.findViewById(R.id.cycle_fragment_fab_add);
+        setFab();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(cycleAdapter);
+
+        return inflate;
+    }
+
+    protected void setFab() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -86,16 +105,14 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         });
 
         addFab.setOnClickListener(this);
-
-
-        return inflate;
     }
 
     @Override
     public Loader<List<Cycle>> onCreateLoader(int id, Bundle args) {
-        CycleFragmentLoader cycleLoader = new CycleFragmentLoader(getContext());
+        CycleFragmentLoader cycleLoader = new CycleFragmentLoader(getContext(), Constants.LOADER_BY_USER_TYPE);
         return cycleLoader;
     }
+
 
     @Override
     public void onLoadFinished(Loader<List<Cycle>> loader, List<Cycle> data) {
@@ -123,6 +140,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         String[] inputs = {"Свою", "Выбрать готовую"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Выберите путь"); // заголовок для диалога
+
         builder.setNeutralButton("Отмена",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
@@ -136,13 +154,12 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
                 // TODO Auto-generated method stub
                 switch (item) {
                     case 0:
-                        Intent intent = CycleCreateActivity.createIntent(getContext());
-                        startActivity(intent);
+                        Intent intent0 = CycleCreateActivity.createIntent(getContext());
+                        startActivity(intent0);
                         break;
                     case 1:
-                        Toast.makeText(getContext(),
-                                "Летим к готовыи: ",
-                                Toast.LENGTH_SHORT).show();
+                        Intent intent1 = CycleActivityForChoose.createIntent(getContext());
+                        startActivityForResult(intent1, Constants.REQUEST_CODE_CHOOSE);
                 }
 
             }
@@ -159,10 +176,15 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("lcefefefref");
+        super.onActivityResult(requestCode, resultCode, data);
 
 
+    }
 
-  /*  @Override
+    /*  @Override
     public void delete(long id) {
         CycleDao cycleDao = new CycleDao(getContext());
         Cycle cycle = new Cycle();

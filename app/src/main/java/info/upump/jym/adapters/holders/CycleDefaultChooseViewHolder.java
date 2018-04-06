@@ -5,21 +5,19 @@ import android.view.View;
 import info.upump.jym.activity.IChooseItem;
 
 /**
- * Created by explo on 28.03.2018.
+ * Created by explo on 06.04.2018.
  */
 
-public class WorkoutDefaultChooseViewHolder extends WorkoutTemplateViewHolder {
+public class CycleDefaultChooseViewHolder extends CycleDefaultViewHolder {
     private IChooseItem iChooseItem;
-
-    public WorkoutDefaultChooseViewHolder(View itemView) {
+    public CycleDefaultChooseViewHolder(View itemView) {
         super(itemView);
         iChooseItem = (IChooseItem) context;
     }
 
     @Override
     public void onClick(View v) {
-        System.out.println("choose");
-        iChooseItem.createIntentForChooseResult(workout);
+        iChooseItem.createIntentForChooseResult(cycle);
 
     }
 }
