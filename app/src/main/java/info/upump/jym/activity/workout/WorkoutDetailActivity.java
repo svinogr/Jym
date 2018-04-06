@@ -204,7 +204,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
       this.iItemFragment = interfaceForItem;
     }
 
-    private void exit() {
+    protected void exit() {
         if (itemIsNotChanged()) {
             finishActivityWithAnimation();
         } else {
@@ -246,7 +246,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         } else Toast.makeText(this, "времен, не возможно изменить", Toast.LENGTH_SHORT).show();
     }
 
-    private void finishActivityWithAnimation() {
+    protected void finishActivityWithAnimation() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();

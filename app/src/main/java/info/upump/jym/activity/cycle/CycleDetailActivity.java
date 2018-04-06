@@ -253,7 +253,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
     }
 
-    private void exit() {
+    protected void exit() {
         if (itemIsNotChanged()) {
             finishActivityWithAnimation();
         } else {
@@ -331,7 +331,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     }
 
 
-    private void finishActivityWithAnimation() {
+    protected void finishActivityWithAnimation() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();

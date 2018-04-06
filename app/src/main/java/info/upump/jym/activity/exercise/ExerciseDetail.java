@@ -202,14 +202,14 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         return super.onOptionsItemSelected(item);
     }
 
-    private void exit() {
+    protected void exit() {
 
         finishActivityWithAnimation();
 
 
     }
 
-    private void finishActivityWithAnimation() {
+    protected void finishActivityWithAnimation() {
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();

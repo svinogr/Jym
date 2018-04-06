@@ -36,4 +36,9 @@ public class WorkoutDetailDefaultActivity extends WorkoutDetailActivity {
     protected void setPagerAdapter() {
         pagerAdapterWorkout = new PagerAdapterWorkoutDefault(getSupportFragmentManager(), workout);
     }
+
+    @Override
+    protected void exit() {
+        finishActivityWithAnimation();
+    }
 }

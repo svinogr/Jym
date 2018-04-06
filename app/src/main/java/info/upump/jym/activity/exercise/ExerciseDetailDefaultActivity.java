@@ -31,4 +31,9 @@ public class ExerciseDetailDefaultActivity  extends ExerciseDetail{
         return true;
     }
 
+    @Override
+    protected void exit() {
+        finishActivityWithAnimation();
+    }
+
 }
