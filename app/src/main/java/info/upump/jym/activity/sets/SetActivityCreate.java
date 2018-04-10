@@ -195,7 +195,6 @@ public class SetActivityCreate extends AppCompatActivity {
         }*/
         Sets changeableItem = getChangeableItem();
         qSet = numberPicker.getValue();
-        System.out.println(qSet);
         long id = -1;
         for (int i = 0; i < qSet; i++) {
 

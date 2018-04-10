@@ -110,5 +110,7 @@
     <string name="label_height_user">Рост</string>
     <string name="label_fat_user">Жир</string>
     <string name="action_graph">График</string>
+    <string name="picker_dialog_btn_save">Сохранить</string>
+    <string name="picker_dialog_btn_cancel">Отмена</string>
 
 </resources>

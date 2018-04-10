@@ -40,12 +40,12 @@ public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickL
         height.setText(String.valueOf(user.getHeight()));
         fat.setText(String.valueOf(user.getFat()));
         date.setText(user.getStringFormatDate());
-
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = UserCreateActivity.createIntent(context, user);
+        System.out.printf(user.toString());
         context.startActivity(intent);
 
     }
