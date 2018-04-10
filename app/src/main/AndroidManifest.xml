@@ -56,7 +56,10 @@
         <activity android:name=".activity.exercise.ExerciseDetail" />
         <activity android:name=".activity.exercise.ExerciseDetailDefaultActivity" />
         <activity android:name=".activity.sets.SetActivityCreate" />
-        <activity android:name=".activity.cycle.CycleActivityForChoose"></activity>
+        <activity android:name=".activity.cycle.CycleActivityForChoose" />
+        <activity
+            android:name=".activity.user.UserCreateActivity"
+           />
     </application>
 
 </manifest>

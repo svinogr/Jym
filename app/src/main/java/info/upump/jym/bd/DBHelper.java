@@ -44,11 +44,17 @@ public class DBHelper extends SQLiteOpenHelper {
     /*for user*/
     public static final String TABLE_KEY_NAME = "name";
     public static final String TABLE_KEY_HEIGHT = "height";
+    public static final String TABLE_KEY_FAT = "fat";
     public static final String TABLE_KEY_NECK = "neck";
+    public static final String TABLE_KEY_SHOULDER = "shoulder";
     public static final String TABLE_KEY_PECTORAL = "pectoral";
-    public static final String TABLE_KEY_HAND = "hand";
+    public static final String TABLE_KEY_RIGHT_HAND = "right_hand";
+    public static final String TABLE_KEY_LEFT_HAND = "left_hand";
     public static final String TABLE_KEY_ABS = "abs";
-    public static final String TABLE_KEY_LEG = "leg";
+    public static final String TABLE_KEY_RIGHT_LEG = "right_leg";
+    public static final String TABLE_KEY_LEFT_LEG = "left_leg";
+    public static final String TABLE_KEY_LEFT_CALVES = "right_calves";
+    public static final String TABLE_KEY_RIGHT_CALVES= "left_calves";
     public static final String TABLE_KEY_DATE = "date";
 
     public static final String TABLE_KEY_DESCRIPTION = "description";
@@ -109,11 +115,17 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_NAME + " TEXT, " +
             TABLE_KEY_SET_WEIGHT + " REAL, " +
             TABLE_KEY_HEIGHT + " REAL, " +
+            TABLE_KEY_FAT + " REAL, " +
             TABLE_KEY_NECK + " REAL, " +
+            TABLE_KEY_SHOULDER + " REAL, " +
             TABLE_KEY_PECTORAL + " REAL, " +
-            TABLE_KEY_HAND + " REAL, " +
+            TABLE_KEY_RIGHT_HAND + " REAL, " +
+            TABLE_KEY_LEFT_HAND + " REAL, " +
             TABLE_KEY_ABS + " REAL, " +
-            TABLE_KEY_LEG + " REAL, " +
+            TABLE_KEY_RIGHT_LEG + " REAL, " +
+            TABLE_KEY_LEFT_LEG + " REAL, " +
+            TABLE_KEY_RIGHT_CALVES + " REAL, " +
+            TABLE_KEY_LEFT_CALVES + " REAL, " +
             TABLE_KEY_DATE + " TEXT NOT NULL)";
 
     private static final String CREATE_TABLE_EXERCISE_DESCRIPTION = "CREATE TABLE " + TABLE_EXERCISE_DESCRIPTION +
@@ -139,6 +151,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_WORKOUT);
         db.execSQL(CREATE_TABLE_EXERCISE);
         db.execSQL(CREATE_TABLE_SET);
+       // db.execSQL("DROP TABLE " + TABLE_USER+";");
+
         db.execSQL(CREATE_TABLE_USER);
       //  db.execSQL(CREATE_TABLE_EXERCISE_DESCRIPTION);
 

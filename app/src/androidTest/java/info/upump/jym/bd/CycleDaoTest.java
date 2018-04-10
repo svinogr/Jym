@@ -153,6 +153,7 @@ public class CycleDaoTest {
 
    //     Assert.assertTrue(cycleDao.delete(cycle));
 
+
     }
 
 

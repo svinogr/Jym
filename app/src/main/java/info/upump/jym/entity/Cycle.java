@@ -53,7 +53,7 @@ public class Cycle extends Entity {
                 "title " + title +
                 " startDate=" + getStartStringFormatDate() +
                 ", finishDate=" + getFinishStringFormatDate() +
-                ", workoutList=" + workoutList.size() +
+                ", userList=" + workoutList.size() +
                 '}';
     }
 
