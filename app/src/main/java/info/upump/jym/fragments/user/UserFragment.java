@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,6 +23,7 @@ import java.util.List;
 import info.upump.jym.ITitleble;
 import info.upump.jym.R;
 import info.upump.jym.activity.user.UserCreateActivity;
+import info.upump.jym.activity.user.UserGraphActivity;
 import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.UserAdapter;
 import info.upump.jym.entity.User;
@@ -141,6 +143,16 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
                 break;
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.edit_menu_graph){
+            System.out.println("grafic");
+            Intent intent = UserGraphActivity.createIntent(getContext());
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void addItem() {

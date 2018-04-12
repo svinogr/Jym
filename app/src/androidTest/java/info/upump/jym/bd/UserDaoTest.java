@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,10 @@ public class UserDaoTest {
         user.setLeftBiceps(100.3);
         user.setAbs(100.3);
         user.setRightLeg(100.3);
-        user.setDate(new Date());
+        Calendar calendar = Calendar.getInstance();
+           calendar.add(Calendar.DATE, -5);
+
+        user.setDate(calendar.getTime());
 
     }
 

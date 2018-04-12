@@ -254,7 +254,6 @@ public class SetActivityCreate extends AppCompatActivity {
     }
 
     private void finishActivityWithAnimation() {
-
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();

@@ -57,9 +57,8 @@
         <activity android:name=".activity.exercise.ExerciseDetailDefaultActivity" />
         <activity android:name=".activity.sets.SetActivityCreate" />
         <activity android:name=".activity.cycle.CycleActivityForChoose" />
-        <activity
-            android:name=".activity.user.UserCreateActivity"
-           />
+        <activity android:name=".activity.user.UserCreateActivity" />
+        <activity android:name=".activity.user.UserGraphActivity"></activity>
     </application>
 
 </manifest>

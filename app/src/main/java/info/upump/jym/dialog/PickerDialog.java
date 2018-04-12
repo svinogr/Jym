@@ -46,7 +46,6 @@ public class PickerDialog extends DialogFragment implements View.OnClickListener
 
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(200);
-
         numberPicker.setDisplayedValues(value);
         numberPicker.setValue(valueStart);
         cancel.setOnClickListener(this);
