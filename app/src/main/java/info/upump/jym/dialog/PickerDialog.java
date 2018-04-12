@@ -31,7 +31,7 @@ public class PickerDialog extends DialogFragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         double min = 0;
-        int max = 200;
+        int max = 500;
         double step = 0.5;
         value = getArrayWithSteps(min, max, step);
         int valueStart =0;
@@ -45,7 +45,7 @@ public class PickerDialog extends DialogFragment implements View.OnClickListener
 
 
         numberPicker.setMinValue(0);
-        numberPicker.setMaxValue(200);
+        numberPicker.setMaxValue(max);
         numberPicker.setDisplayedValues(value);
         numberPicker.setValue(valueStart);
         cancel.setOnClickListener(this);
@@ -72,7 +72,7 @@ public class PickerDialog extends DialogFragment implements View.OnClickListener
     }
 
     public String[] getArrayWithSteps(double iMinValue, int iMaxValue, double iStep) {
-        int iStepsArray = 800; //get the lenght array that will return
+        int iStepsArray = iMaxValue*2; //get the lenght array that will return
 
         String[] arrayValues = new String[iStepsArray]; //Create array with length of iStepsArray
 

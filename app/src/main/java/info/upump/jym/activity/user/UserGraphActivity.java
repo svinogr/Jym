@@ -23,6 +23,7 @@ public class UserGraphActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         viewPager = findViewById(R.id.user_graph_activity_viewpager);
         tabLayout = findViewById(R.id.user_graph_activity_tab_layout);
+        setTitle("График");
 
         pagerAdapterUserGraph = new PagerAdapterUserGraph(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapterUserGraph);

@@ -128,11 +128,13 @@ public class UserGraphFragmentForViewPager extends Fragment implements LoaderMan
                 Toast.makeText(getActivity(), String.valueOf(dataPoint.getY()), Toast.LENGTH_SHORT).show();
             }
         });
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setScrollable(true);
 
-        graph.getViewport().setMaxXAxisSize(2);
-        graph.getViewport().setMaxY(200);
+        graph.getViewport().setMinX(min.getTime());
+        graph.getViewport().setMaxX(max.getTime());
+        graph.getViewport().setScalable(true);
+
+     //   graph.getViewport().setMaxXAxisSize(2);
+        graph.getViewport().setMaxY(250);
         graph.getViewport().setYAxisBoundsManual(true);
 
     /*    DataPoint[] dataPointArr = new DataPoint[userList.size()];
