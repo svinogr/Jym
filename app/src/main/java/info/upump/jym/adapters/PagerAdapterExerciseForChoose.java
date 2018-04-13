@@ -13,7 +13,6 @@ import info.upump.jym.activity.exercise.ExerciseListFragmentForViewPagerChoose;
 public class PagerAdapterExerciseForChoose extends PagerAdapterExercise {
     public PagerAdapterExerciseForChoose(FragmentManager fm, Context context) {
         super(fm, context);
-        System.out.println(121313213);
     }
 
     @Override

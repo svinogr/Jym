@@ -25,7 +25,7 @@ public class UserGraphActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.user_graph_activity_tab_layout);
         setTitle("График");
 
-        pagerAdapterUserGraph = new PagerAdapterUserGraph(getSupportFragmentManager());
+        pagerAdapterUserGraph = new PagerAdapterUserGraph(getSupportFragmentManager(), this);
         viewPager.setAdapter(pagerAdapterUserGraph);
         tabLayout.setupWithViewPager(viewPager);
 
