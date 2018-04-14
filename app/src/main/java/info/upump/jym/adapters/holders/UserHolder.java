@@ -15,7 +15,7 @@ import info.upump.jym.entity.User;
  */
 
 public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private TextView weight, height, fat, date;
+    private TextView weight,  fat, date;
     private User user;
     private Context context;
     private View itemView;
@@ -25,7 +25,6 @@ public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickL
         context = itemView.getContext();
         this.itemView = itemView;
         weight = itemView.findViewById(R.id.user_card_layout_weight);
-        height = itemView.findViewById(R.id.user_card_layout_height);
         fat = itemView.findViewById(R.id.user_card_layout_fat);
         date = itemView.findViewById(R.id.user_card_layout_label_date);
         this.itemView = itemView;
@@ -37,7 +36,6 @@ public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickL
         this.user = user;
         System.out.println(user);
         weight.setText(String.valueOf(user.getWeight()));
-        height.setText(String.valueOf(user.getHeight()));
         fat.setText(String.valueOf(user.getFat()));
         date.setText(user.getStringFormatDate());
     }

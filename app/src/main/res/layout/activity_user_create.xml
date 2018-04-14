@@ -20,9 +20,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -39,70 +40,23 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+                <NumberPicker
                     android:id="@+id/content_user_create_weight_edit"
                     style="@style/TextViewText"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
-                    app:layout_constraintEnd_toStartOf="@id/guideline"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_weight" />
-              <!--  <NumberPicker
-                    android:id="@+id/content_user_create_weight_edit"
-                    style="@style/TextViewText"
-                    android:layout_height="50dp"
-
-                    android:layout_width="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
-                    app:layout_constraintEnd_toStartOf="@id/guideline"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/content_user_create_label_weight"/>-->
 
                 <android.support.constraint.Guideline
-                    android:id="@+id/guideline"
+                    android:id="@+id/guideline0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.33" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/guideline8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.66" />
-
-                <TextView
-                    android:id="@+id/content_user_create_label_height"
-                    style="@style/TextViewLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/label_title_user_height"
-                    app:layout_constraintStart_toStartOf="@+id/guideline"
-
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
-                    android:id="@+id/content_user_create_height_edit"
-                    style="@style/TextViewText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline8"
-                    app:layout_constraintStart_toStartOf="@id/guideline"
-                    app:layout_constraintTop_toBottomOf="@id/content_user_create_label_height" />
+                    app:layout_constraintGuide_percent="0.50" />
 
                 <TextView
                     android:id="@+id/content_user_create_label_fat"
@@ -112,21 +66,19 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/label_title_user_fat"
-                    app:layout_constraintStart_toStartOf="@+id/guideline8"
 
+                    app:layout_constraintStart_toStartOf="@+id/guideline0"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+                <NumberPicker
                     android:id="@+id/content_user_create_fat_edit"
                     style="@style/TextViewText"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_fat_hint"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/guideline8"
+                    app:layout_constraintStart_toStartOf="@+id/guideline0"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_fat" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
@@ -158,15 +110,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+
+                <NumberPicker
                     android:id="@+id/content_user_create_neck_edit"
                     style="@style/TextViewText"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_neck" />
@@ -199,19 +150,18 @@
                     android:text="@string/label_title_user_shoulders"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
+                <NumberPicker
                     android:id="@+id/content_user_create_shoulder"
                     style="@style/TextViewText"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_shoulder" />
+
+
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
@@ -240,19 +190,17 @@
                     android:text="@string/label_title_user_pectoral"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
+                <NumberPicker
                     android:id="@+id/content_user_create_pectoral_edit"
                     style="@style/TextViewText"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_pectoral" />
+
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
@@ -281,19 +229,19 @@
                     android:text="@string/label_title_user_left_biceps"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
+                <NumberPicker
                     android:id="@+id/content_user_create_left_biceps_edit"
                     style="@style/TextViewText"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_left_biceps" />
+
+
 
                 <android.support.constraint.Guideline
                     android:id="@+id/guideline2"
@@ -313,18 +261,18 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+                <NumberPicker
                     android:id="@+id/content_user_create_right_biceps_edit"
                     style="@style/TextViewText"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
+
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_right_biceps" />
+
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
@@ -354,19 +302,17 @@
                     android:text="@string/label_title_user_abs"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
+                <NumberPicker
                     android:id="@+id/content_user_create_abs_edit"
                     style="@style/TextViewText"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_abs" />
+
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
@@ -395,19 +341,18 @@
                     android:text="@string/label_title_user_left_leg"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
+                <NumberPicker
                     android:id="@+id/content_user_create_left_leg_edit"
                     style="@style/TextViewText"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline3"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_left_leg" />
+
 
                 <android.support.constraint.Guideline
                     android:id="@+id/guideline3"
@@ -426,19 +371,17 @@
                     android:text="@string/label_title_user_right_leg"
                     app:layout_constraintStart_toStartOf="@+id/guideline3"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
+                <NumberPicker
                     android:id="@+id/content_user_create_right_leg_edit"
                     style="@style/TextViewText"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline3"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_right_leg" />
+
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
@@ -468,18 +411,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+                <NumberPicker
                     android:id="@+id/content_user_create_left_calves_edit"
                     style="@style/TextViewText"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline4"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_left_calves" />
+
+
 
                 <android.support.constraint.Guideline
                     android:id="@+id/guideline4"
@@ -499,18 +443,17 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline4"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+                <NumberPicker
                     android:id="@+id/content_user_create_right_calves_edit"
                     style="@style/TextViewText"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:editable="false"
-                    android:hint="@string/title_user_hint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline4"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_right_calves" />
+
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 

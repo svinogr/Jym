@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -30,16 +31,11 @@ import info.upump.jym.entity.User;
 
 import static info.upump.jym.activity.constant.Constants.ID;
 
-public class UserCreateActivity extends AppCompatActivity implements IPicable, View.OnClickListener {
+public class UserCreateActivity extends AppCompatActivity  {
     private User user;
-    private EditText weight, height, fat, neck, shoulder, pectoral,
+    private NumberPicker weight, fat, neck, shoulder, pectoral,
             rightBiceps, leftBiceps, abs, rightLeg, leftLeg, leftCalves, rightCalves;
-    private EditText curView;
-
-    @Override
-    public void setPicker(double number) {
-        curView.setText(String.valueOf(number));
-    }
+    private String[] valueNumber;
 
 
     public static Intent createIntent(Context context, User user) {
@@ -54,7 +50,6 @@ public class UserCreateActivity extends AppCompatActivity implements IPicable, V
         setContentView(R.layout.activity_user_create);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         weight = findViewById(R.id.content_user_create_weight_edit);
-        height = findViewById(R.id.content_user_create_height_edit);
         fat = findViewById(R.id.content_user_create_fat_edit);
         neck = findViewById(R.id.content_user_create_neck_edit);
         shoulder = findViewById(R.id.content_user_create_shoulder);
@@ -67,44 +62,98 @@ public class UserCreateActivity extends AppCompatActivity implements IPicable, V
         leftCalves = findViewById(R.id.content_user_create_left_calves_edit);
         rightCalves = findViewById(R.id.content_user_create_right_calves_edit);
 
+        initValueOfNumberPicker();
+
         user = getItemFromIntent();
+
         createView();
-        setInputDialog();
     }
 
-    private void setInputDialog() {
-        weight.setOnClickListener(this);
-        height.setOnClickListener(this);
-        fat.setOnClickListener(this);
-        neck.setOnClickListener(this);
-        shoulder.setOnClickListener(this);
-        pectoral.setOnClickListener(this);
-        rightBiceps.setOnClickListener(this);
-        leftBiceps.setOnClickListener(this);
-        abs.setOnClickListener(this);
-        leftLeg.setOnClickListener(this);
-        rightLeg.setOnClickListener(this);
-        leftCalves.setOnClickListener(this);
-        rightCalves.setOnClickListener(this);
+    private void initValueOfNumberPicker() {
+
+        double min = 0;
+        int max = 500;
+        double step = 0.5;
+        valueNumber = getArrayWithSteps(min, max, step);
+        weight.setMinValue(0);
+        weight.setMaxValue(max);
+        weight.setDisplayedValues(valueNumber);
+
+        fat.setMinValue(0);
+        fat.setMaxValue(max);
+        fat.setDisplayedValues(valueNumber);
+
+        neck.setMinValue(0);
+        neck.setMaxValue(max);
+        neck.setDisplayedValues(valueNumber);
+
+        pectoral.setMinValue(0);
+        pectoral.setMaxValue(max);
+        pectoral.setDisplayedValues(valueNumber);
+
+        shoulder.setMinValue(0);
+        shoulder.setMaxValue(max);
+        shoulder.setDisplayedValues(valueNumber);
+
+        leftBiceps.setMinValue(0);
+        leftBiceps.setMaxValue(max);
+        leftBiceps.setDisplayedValues(valueNumber);
+
+        rightBiceps.setMinValue(0);
+        rightBiceps.setMaxValue(max);
+        rightBiceps.setDisplayedValues(valueNumber);
+
+        abs.setMinValue(0);
+        abs.setMaxValue(max);
+        abs.setDisplayedValues(valueNumber);
+
+        leftLeg.setMinValue(0);
+        leftLeg.setMaxValue(max);
+        leftLeg.setDisplayedValues(valueNumber);
+
+        rightLeg.setMinValue(0);
+        rightLeg.setMaxValue(max);
+        rightLeg.setDisplayedValues(valueNumber);
+
+        leftCalves.setMinValue(0);
+        leftCalves.setMaxValue(max);
+        leftCalves.setDisplayedValues(valueNumber);
+
+        rightCalves.setMinValue(0);
+        rightCalves.setMaxValue(max);
+        rightCalves.setDisplayedValues(valueNumber);
 
     }
 
+    public String[] getArrayWithSteps(double iMinValue, int iMaxValue, double iStep) {
+        int iStepsArray = iMaxValue*2; //get the lenght array that will return
+
+        String[] arrayValues = new String[iStepsArray]; //Create array with length of iStepsArray
+
+        for (int i = 0; i < iStepsArray; i++) {
+            arrayValues[i] = String.valueOf(iMinValue + (i * iStep));
+        }
+
+        return arrayValues;
+    }
+
+
+    private int getPozValue(double value){
+        return Arrays.asList(valueNumber).indexOf(String.valueOf(value));
+    }
     private void createView() {
-      //  if (user.getId() > 0) {
-            weight.setText(String.valueOf(user.getWeight()));
-            height.setText(String.valueOf(user.getHeight()));
-            fat.setText(String.valueOf(user.getFat()));
-            neck.setText(String.valueOf(user.getNeck()));
-            shoulder.setText(String.valueOf(user.getShoulder()));
-            pectoral.setText(String.valueOf(user.getPectoral()));
-            rightBiceps.setText(String.valueOf(user.getRightBiceps()));
-            leftBiceps.setText(String.valueOf(user.getLeftBiceps()));
-            abs.setText(String.valueOf(user.getAbs()));
-            rightLeg.setText(String.valueOf(user.getRightLeg()));
-            leftLeg.setText(String.valueOf(user.getLeftLeg()));
-            rightCalves.setText(String.valueOf(user.getRightCalves()));
-            leftCalves.setText(String.valueOf(user.getLeftCalves()));
-        //}
+        weight.setValue(getPozValue(user.getWeight()));
+        fat.setValue(getPozValue(user.getFat()));
+        neck.setValue(getPozValue(user.getNeck()));
+        pectoral.setValue(getPozValue(user.getShoulder()));
+        shoulder.setValue(getPozValue(user.getPectoral()));
+        leftBiceps.setValue(getPozValue(user.getLeftBiceps()));
+        rightBiceps.setValue(getPozValue(user.getRightBiceps()));
+        abs.setValue(getPozValue(user.getAbs()));
+        leftLeg.setValue(getPozValue(user.getLeftLeg()));
+        rightLeg.setValue(getPozValue(user.getRightLeg()));
+        leftCalves.setValue(getPozValue(user.getLeftCalves()));
+        rightCalves.setValue(getPozValue(user.getRightCalves()));
     }
 
 
@@ -155,18 +204,21 @@ public class UserCreateActivity extends AppCompatActivity implements IPicable, V
     private void save() {
         UserDao userDao = new UserDao(this);
         User changeableItem = getChangeableItem();
+        if (changeableItem.getWeight()==0) {
+            Toast.makeText(this, "времен, необходтио ввести вес", Toast.LENGTH_SHORT).show();
+            return;
+        }
         long id = userDao.create(changeableItem);
-       if(id != -1){
-           user.setId(id);
-        Toast.makeText(this, "времен, замер сохранен", Toast.LENGTH_SHORT).show();
-        Intent intent = createIntentForResult(); // при создании из вне
-        setResult(RESULT_OK, intent);
-        finishActivityWithAnimation();
-    } else Toast.makeText(this,"времен, не возможно сохранить",Toast.LENGTH_SHORT).
-    show();
+        if (id != -1) {
+            user.setId(id);
+            Toast.makeText(this, "времен, замер сохранен", Toast.LENGTH_SHORT).show();
+            Intent intent = createIntentForResult(); // при создании из вне
+            setResult(RESULT_OK, intent);
+            finishActivityWithAnimation();
+        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).
+                show();
 
-}
-
+    }
     private boolean itemIsNotChanged() {
         User changeableItem = getChangeableItem();
         System.out.println(changeableItem);
@@ -185,36 +237,36 @@ public class UserCreateActivity extends AppCompatActivity implements IPicable, V
         if (changeableItem.getRightCalves() != user.getRightCalves()) return false;
         return true;
     }
-
     private User getChangeableItem() {
-        User changeableSets = new User();
-        changeableSets.setId(user.getId());
-        if(user.getId()>0){
-            changeableSets.setDate(user.getDate());
-        } else  changeableSets.setDate(new Date());
-        changeableSets.setWeight(Double.parseDouble(weight.getText().toString()));
-        changeableSets.setHeight(Double.parseDouble(height.getText().toString()));
-        changeableSets.setFat(Double.parseDouble(fat.getText().toString()));
-        changeableSets.setNeck(Double.parseDouble(neck.getText().toString()));
-        changeableSets.setPectoral(Double.parseDouble(pectoral.getText().toString()));
-        changeableSets.setRightBiceps(Double.parseDouble(rightBiceps.getText().toString()));
-        changeableSets.setLeftBiceps(Double.parseDouble(leftBiceps.getText().toString()));
-        changeableSets.setAbs(Double.parseDouble(abs.getText().toString()));
-        changeableSets.setRightLeg(Double.parseDouble(rightLeg.getText().toString()));
-        changeableSets.setLeftLeg(Double.parseDouble(leftLeg.getText().toString()));
-        changeableSets.setLeftCalves(Double.parseDouble(leftCalves.getText().toString()));
-        changeableSets.setRightCalves(Double.parseDouble(rightCalves.getText().toString()));
-        return changeableSets;
+        User changeableUser = new User();
+        changeableUser.setId(user.getId());
+        if (user.getId() > 0) {
+            changeableUser.setDate(user.getDate());
+        } else changeableUser.setDate(new Date());
+        changeableUser.setWeight(Double.parseDouble(valueNumber[weight.getValue()]));
+        changeableUser.setFat(Double.parseDouble(valueNumber[fat.getValue()]));
+        changeableUser.setNeck(Double.parseDouble(valueNumber[neck.getValue()]));
+        changeableUser.setShoulder(Double.parseDouble(valueNumber[shoulder.getValue()]));
+        changeableUser.setPectoral(Double.parseDouble(valueNumber[pectoral.getValue()]));
+        changeableUser.setRightBiceps(Double.parseDouble(valueNumber[rightBiceps.getValue()]));
+        changeableUser.setLeftBiceps(Double.parseDouble(valueNumber[leftBiceps.getValue()]));
+        changeableUser.setAbs(Double.parseDouble(valueNumber[abs.getValue()]));
+        changeableUser.setRightLeg(Double.parseDouble(valueNumber[rightLeg.getValue()]));
+        changeableUser.setLeftLeg(Double.parseDouble(valueNumber[leftLeg.getValue()]));
+        changeableUser.setLeftCalves(Double.parseDouble(valueNumber[leftCalves.getValue()]));
+        changeableUser.setRightCalves(Double.parseDouble(valueNumber[rightCalves.getValue()]));
+        return changeableUser;
     }
 
 
     private void update() {
-        UserDao userDao = new UserDao(this);
-        if (weight.getText().toString().isEmpty()) {
+        User userUpdate = getChangeableItem();
+
+        if (userUpdate.getWeight()==0) {
             Toast.makeText(this, "времен, необходтио ввести вес", Toast.LENGTH_SHORT).show();
             return;
         }
-        User userUpdate = getChangeableItem();
+        UserDao userDao = new UserDao(this);
         boolean id = userDao.update(userUpdate);
         if (id) {
             Toast.makeText(this, "времен, замер  сохранен", Toast.LENGTH_SHORT).show();
@@ -236,6 +288,7 @@ public class UserCreateActivity extends AppCompatActivity implements IPicable, V
         menuInflater.inflate(R.menu.edit_set_menu, menu);
         return true;
     }
+
     private Intent createIntentForResult() {
         Intent intent = new Intent();
         intent.putExtra(ID, user.getId());
@@ -281,15 +334,4 @@ public class UserCreateActivity extends AppCompatActivity implements IPicable, V
 
     }
 
-
-    @Override
-    public void onClick(View v) {
-        curView = (EditText) v;
-        System.out.println(curView.getText().toString());
-        PickerDialog pickerDialog = new PickerDialog();
-        Bundle bundle = new Bundle();
-        bundle.putString(PickerDialog.VALUE, curView.getText().toString());
-        pickerDialog.setArguments(bundle);
-        pickerDialog.show(getFragmentManager(), null);
-    }
 }
