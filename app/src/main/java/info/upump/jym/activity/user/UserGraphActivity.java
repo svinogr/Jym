@@ -2,6 +2,8 @@ package info.upump.jym.activity.user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -27,7 +29,7 @@ import info.upump.jym.R;
 import info.upump.jym.bd.UserDao;
 import info.upump.jym.entity.User;
 
-public class UserGraphActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserGraphActivity extends AppCompatActivity implements View.OnClickListener, TabLayout.OnTabSelectedListener {
     private List<User> allUser;
     private GraphView graphView;
     private LineGraphSeries<DataPoint> series, series2;
@@ -35,6 +37,8 @@ public class UserGraphActivity extends AppCompatActivity implements View.OnClick
     private DataPoint[] dataPoints2 = new DataPoint[0];
     private Button btnWeight, btnFat, btnNeck, btnPectoral, btnShoulder, btnBiceps, btnAbs, btnLeg, btnCalves;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private TabLayout tabLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,44 +48,31 @@ public class UserGraphActivity extends AppCompatActivity implements View.OnClick
         setTitle("График");
 
         graphView = findViewById(R.id.user_graph_activity_graphView);
-        btnWeight = findViewById(R.id.user_graph_activity_radioButtonWeight);
-        btnFat = findViewById(R.id.user_graph_activity_radioButtonFat);
-        btnNeck = findViewById(R.id.user_graph_activity_radioButtonNeck);
-        btnShoulder = findViewById(R.id.user_graph_activity_radioButtonShoulders);
-        btnPectoral = findViewById(R.id.user_graph_activity_radioButtonPectoral);
-        btnBiceps = findViewById(R.id.user_graph_activity_radioButtonBiceps);
-        btnAbs = findViewById(R.id.user_graph_activity_radioButtonAbs);
-        btnLeg = findViewById(R.id.user_graph_activity_radioButtonLeg);
-        btnCalves = findViewById(R.id.user_graph_activity_radioButtonCalves);
+        tabLayout = findViewById(R.id.user_graph_activity_tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("Вес"));
+        tabLayout.addTab(tabLayout.newTab().setText("Жир"));
+        tabLayout.addTab(tabLayout.newTab().setText("Шея"));
+        tabLayout.addTab(tabLayout.newTab().setText("Плечи"));
+        tabLayout.addTab(tabLayout.newTab().setText("Грудь"));
+        tabLayout.addTab(tabLayout.newTab().setText("Бицепс"));
+        tabLayout.addTab(tabLayout.newTab().setText("Талия"));
+        tabLayout.addTab(tabLayout.newTab().setText("Бедра"));
+        tabLayout.addTab(tabLayout.newTab().setText("Голень"));
 
-        btnWeight.setOnClickListener(this);
-        btnNeck.setOnClickListener(this);
-        btnShoulder.setOnClickListener(this);
-        btnPectoral.setOnClickListener(this);
-        btnBiceps.setOnClickListener(this);
-        btnAbs.setOnClickListener(this);
-        btnLeg.setOnClickListener(this);
-        btnCalves.setOnClickListener(this);
-        btnFat.setOnClickListener(this);
+        tabLayout.addOnTabSelectedListener(this);
+
 
         allUser = getAllUser();
         sortListByDate(allUser);
         initGraphView();
-
-
-        //  viewPager = findViewById(R.id.user_graph_activity_viewpager);
-        // tabLayout = findViewById(R.id.user_graph_activity_tab_layout);
-
-
-        //  pagerAdapterUserGraph = new PagerAdapterUserGraph(getSupportFragmentManager(), this);
-        //   viewPager.setAdapter(pagerAdapterUserGraph);
-        //  tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).select();
 
     }
 
     private void initGraphView() {
         series = new LineGraphSeries<>(dataPoints);
         series2 = new LineGraphSeries<>(dataPoints2);
+        series2.setColor(Color.RED);
         series.setDrawDataPoints(true);
         series.setDataPointsRadius(20);
         series2.setDrawDataPoints(true);
@@ -93,15 +84,18 @@ public class UserGraphActivity extends AppCompatActivity implements View.OnClick
         series.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), String.valueOf(dataPoint.getY()), Toast.LENGTH_SHORT).show();
+                int index = getIndex(dataPoint.getX());
+                Date date = allUser.get(index).getDate();
+                Toast.makeText(getApplicationContext(), String.valueOf(dataPoint.getY())+" "+sdf.format(date), Toast.LENGTH_SHORT).show();
             }
         });
 
         series2.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getApplicationContext(), String.valueOf(dataPoint.getY()), Toast.LENGTH_SHORT).show();
-            }
+                int index = getIndex(dataPoint.getX());
+                Date date = allUser.get(index).getDate();
+                Toast.makeText(getApplicationContext(), String.valueOf(dataPoint.getY())+" "+sdf.format(date), Toast.LENGTH_SHORT).show();            }
         });
 
 
@@ -110,21 +104,24 @@ public class UserGraphActivity extends AppCompatActivity implements View.OnClick
             @Override
             public String formatLabel(double value, boolean isValueX) {
                 if (isValueX) {
-                   // return sdf.format(new Date((long) value));
-                    int index = 0;
-                    for (User u: allUser){
-                        if(u.getId() == value){
-                            index = allUser.indexOf(u);
-                            break;
-                        }
-                    }
-
+                    int index = getIndex(value);
                     return sdf.format(allUser.get(index).getDate());
                 } else return super.formatLabel(value, isValueX);
             }
         });
         graphView.getViewport().setScalable(true);
 
+    }
+
+    private int getIndex(double value){
+        int index =0;
+        for (User u : allUser) {
+            if (u.getId() == value) {
+                index = allUser.indexOf(u);
+                break;
+            }
+        }
+        return index;
     }
 
     public static Intent createIntent(Context context) {
@@ -168,51 +165,51 @@ public class UserGraphActivity extends AppCompatActivity implements View.OnClick
         dataPoints2 = new DataPoint[0];
 
         switch (id) {
-            case R.id.user_graph_activity_radioButtonWeight:
+            case 0:
                 for (int i = 0; i < dataPoints.length; i++) {
                     dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getWeight());
                 }
                 break;
-            case R.id.user_graph_activity_radioButtonFat:
+            case 1:
                 for (int i = 0; i < dataPoints.length; i++) {
                     dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getFat());
                 }
                 break;
-            case R.id.user_graph_activity_radioButtonNeck:
+            case 2:
                 for (int i = 0; i < dataPoints.length; i++) {
                     dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getNeck());
                 }
                 break;
-            case R.id.user_graph_activity_radioButtonShoulders:
+            case 3:
                 for (int i = 0; i < dataPoints.length; i++) {
                     dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getShoulder());
                 }
                 break;
-            case R.id.user_graph_activity_radioButtonPectoral:
+            case 4:
                 for (int i = 0; i < dataPoints.length; i++) {
                     dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getPectoral());
                 }
                 break;
-            case R.id.user_graph_activity_radioButtonBiceps:
+            case 5:
                 dataPoints2 = new DataPoint[allUser.size()];
                 for (int i = 0; i < dataPoints.length; i++) {
                     dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getRightBiceps());
                     dataPoints2[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getLeftBiceps());
                 }
                 break;
-            case R.id.user_graph_activity_radioButtonAbs:
+            case 6:
                 for (int i = 0; i < dataPoints.length; i++) {
                     dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getFat());
                 }
                 break;
-            case R.id.user_graph_activity_radioButtonLeg:
+            case 7:
                 dataPoints2 = new DataPoint[allUser.size()];
                 for (int i = 0; i < dataPoints.length; i++) {
                     dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getRightLeg());
                     dataPoints2[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getLeftLeg());
                 }
                 break;
-            case R.id.user_graph_activity_radioButtonCalves:
+            case 8:
                 dataPoints2 = new DataPoint[allUser.size()];
                 for (int i = 0; i < dataPoints.length; i++) {
                     dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getRightCalves());
@@ -221,8 +218,27 @@ public class UserGraphActivity extends AppCompatActivity implements View.OnClick
                 break;
 
         }
+        System.out.println(dataPoints.toString());
         series.resetData(dataPoints);
-            series2.resetData(dataPoints2);
+        series2.resetData(dataPoints2);
+
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        int position = tab.getPosition();
+        createDataPoints(position);
+        System.out.println(position);
+
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
 
     }
 }
