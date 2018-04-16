@@ -25,10 +25,14 @@
         <TextView
             android:id="@+id/cycle_card_layout_title"
             style="@style/TextViewText"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/length_title"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:singleLine="true"
+
+            android:ellipsize="end"
+            android:maxLines="1"
             android:transitionName="cycle_card_layout_title"
             app:layout_constraintStart_toEndOf="@id/cycle_card_layout_image"
             app:layout_constraintTop_toTopOf="@+id/cycle_card_layout_image"
