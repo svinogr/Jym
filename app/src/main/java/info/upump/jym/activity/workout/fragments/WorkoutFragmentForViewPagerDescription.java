@@ -41,6 +41,7 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            System.out.println(msg.obj.toString());
             if (msg.what == 100) {
                 collapsingToolbarLayout.setTitle(msg.obj.toString());
             }

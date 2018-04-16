@@ -72,7 +72,7 @@
     <string name="label_weight_set">Вес</string>
     <string name="label_reps_sets">Количество повторений</string>
     <string name="label_reps_sets_short">Повторения</string>
-    <string name="label_title_workout">Название тренировки</string>
+    <string name="label_title_workout">Новая тренировка</string>
     <string name="title_workout_hint">Новая тренировка</string>
     <string name="my_programs">Мои программы</string>
     <string name="my_workouts">Мои тренировки</string>
@@ -106,10 +106,10 @@
     <string name="label_title_user_fat">Жир,%</string>
     <string name="title_user_fat_hint">0.00</string>
     <string name="title_user_fragment">Мой прогресс</string>
-    <string name="label_weight_user">Вес, кг</string>
+    <string name="label_weight_user">Вес тела, кг</string>
     <string name="label_height_user">Рост</string>
     <string name="label_fat_user">Жир, %</string>
-    <string name="action_graph">График</string>
+    <string name="action_graph">Статистика</string>
     <string name="picker_dialog_btn_save">Сохранить</string>
     <string name="picker_dialog_btn_cancel">Отмена</string>
     <string name="label_title_user_date">Дата измерения</string>

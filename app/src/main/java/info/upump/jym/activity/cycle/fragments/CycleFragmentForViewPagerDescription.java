@@ -44,6 +44,7 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            System.out.println(msg.obj.toString());
             if (msg.what == 100) {
                 collapsingToolbarLayout.setTitle(msg.obj.toString());
             }
