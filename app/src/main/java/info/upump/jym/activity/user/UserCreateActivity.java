@@ -1,41 +1,47 @@
 package info.upump.jym.activity.user;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.DatePicker;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import info.upump.jym.R;
-import info.upump.jym.activity.sets.SetActivityCreate;
-import info.upump.jym.bd.SetDao;
 import info.upump.jym.bd.UserDao;
-import info.upump.jym.dialog.PickerDialog;
-import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.User;
 
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
 
-public class UserCreateActivity extends AppCompatActivity  {
+public class UserCreateActivity extends AppCompatActivity implements View.OnClickListener {
     private User user;
     private NumberPicker weight, fat, neck, shoulder, pectoral,
             rightBiceps, leftBiceps, abs, rightLeg, leftLeg, leftCalves, rightCalves;
+    private TextView dateText;
     private String[] valueNumber;
+    private String[] valueNumberFat;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private String date;
 
 
     public static Intent createIntent(Context context, User user) {
@@ -49,6 +55,7 @@ public class UserCreateActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_create);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dateText = findViewById(R.id.content_user_create_date_edit);
         weight = findViewById(R.id.content_user_create_weight_edit);
         fat = findViewById(R.id.content_user_create_fat_edit);
         neck = findViewById(R.id.content_user_create_neck_edit);
@@ -62,9 +69,18 @@ public class UserCreateActivity extends AppCompatActivity  {
         leftCalves = findViewById(R.id.content_user_create_left_calves_edit);
         rightCalves = findViewById(R.id.content_user_create_right_calves_edit);
 
+        dateText.setOnClickListener(this);
+
         initValueOfNumberPicker();
 
         user = getItemFromIntent();
+
+        if(savedInstanceState != null){
+            if(savedInstanceState.getString(START_DATA) != null){
+              date = savedInstanceState.getString(START_DATA);
+            }
+        }
+
 
         createView();
     }
@@ -73,16 +89,20 @@ public class UserCreateActivity extends AppCompatActivity  {
 
         double min = 0;
         int max = 500;
+        int maxfat = 200;
         double step = 0.5;
         valueNumber = getArrayWithSteps(min, max, step);
+        valueNumberFat = getArrayWithSteps(min, maxfat,step);
+
+
         weight.setMinValue(0);
         weight.setMaxValue(max);
         weight.setDisplayedValues(valueNumber);
         weight.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         fat.setMinValue(0);
-        fat.setMaxValue(max);
-        fat.setDisplayedValues(valueNumber);
+        fat.setMaxValue(maxfat);
+        fat.setDisplayedValues(valueNumberFat);
         fat.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         neck.setMinValue(0);
@@ -138,7 +158,7 @@ public class UserCreateActivity extends AppCompatActivity  {
     }
 
     public String[] getArrayWithSteps(double iMinValue, int iMaxValue, double iStep) {
-        int iStepsArray = iMaxValue*2; //get the lenght array that will return
+        int iStepsArray = iMaxValue * 2; //get the lenght array that will return
 
         String[] arrayValues = new String[iStepsArray]; //Create array with length of iStepsArray
 
@@ -150,9 +170,10 @@ public class UserCreateActivity extends AppCompatActivity  {
     }
 
 
-    private int getPozValue(double value){
+    private int getPozValue(double value) {
         return Arrays.asList(valueNumber).indexOf(String.valueOf(value));
     }
+
     private void createView() {
         weight.setValue(getPozValue(user.getWeight()));
         fat.setValue(getPozValue(user.getFat()));
@@ -166,6 +187,12 @@ public class UserCreateActivity extends AppCompatActivity  {
         rightLeg.setValue(getPozValue(user.getRightLeg()));
         leftCalves.setValue(getPozValue(user.getLeftCalves()));
         rightCalves.setValue(getPozValue(user.getRightCalves()));
+        if (user.getDate() == null) {
+            user.setDate(new Date());
+        }
+        if(date == null) {
+            dateText.setText(sdf.format(user.getDate()));
+        }else dateText.setText(date);
     }
 
 
@@ -216,10 +243,10 @@ public class UserCreateActivity extends AppCompatActivity  {
     private void save() {
         UserDao userDao = new UserDao(this);
         User changeableItem = getChangeableItem();
-        if (changeableItem.getWeight()==0) {
+      /*  if (changeableItem.getWeight() == 0) {
             Toast.makeText(this, "времен, необходтио ввести вес", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
         long id = userDao.create(changeableItem);
         if (id != -1) {
             user.setId(id);
@@ -231,9 +258,12 @@ public class UserCreateActivity extends AppCompatActivity  {
                 show();
 
     }
+
     private boolean itemIsNotChanged() {
         User changeableItem = getChangeableItem();
         System.out.println(changeableItem);
+        System.out.println(changeableItem.getDate()+"  " +user.getDate());
+        if (changeableItem.getDate().compareTo(user.getDate())!=0) return false;
         if (changeableItem.getWeight() != user.getWeight()) return false;
         if (changeableItem.getHeight() != user.getHeight()) return false;
         if (changeableItem.getFat() != user.getFat()) return false;
@@ -249,12 +279,20 @@ public class UserCreateActivity extends AppCompatActivity  {
         if (changeableItem.getRightCalves() != user.getRightCalves()) return false;
         return true;
     }
+
     private User getChangeableItem() {
         User changeableUser = new User();
         changeableUser.setId(user.getId());
-        if (user.getId() > 0) {
+      /*  if (user.getId() > 0) {
             changeableUser.setDate(user.getDate());
-        } else changeableUser.setDate(new Date());
+        } else changeableUser.setDate(new Date());*/
+        try {
+            changeableUser.setDate(sdf.parse(dateText.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+      //  changeableUser.setDate(new Date(dateText.getText().toString()));
+
         changeableUser.setWeight(Double.parseDouble(valueNumber[weight.getValue()]));
         changeableUser.setFat(Double.parseDouble(valueNumber[fat.getValue()]));
         changeableUser.setNeck(Double.parseDouble(valueNumber[neck.getValue()]));
@@ -273,11 +311,11 @@ public class UserCreateActivity extends AppCompatActivity  {
 
     private void update() {
         User userUpdate = getChangeableItem();
-
-        if (userUpdate.getWeight()==0) {
+/*
+        if (userUpdate.getWeight() == 0) {
             Toast.makeText(this, "времен, необходтио ввести вес", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
         UserDao userDao = new UserDao(this);
         boolean id = userDao.update(userUpdate);
         if (id) {
@@ -346,4 +384,33 @@ public class UserCreateActivity extends AppCompatActivity  {
 
     }
 
+    @Override
+    public void onClick(View v) {
+        Calendar newCalendar = null;
+        DatePickerDialog j = null;
+        switch (v.getId()) {
+            case R.id.content_user_create_date_edit:
+                newCalendar = Calendar.getInstance();
+                newCalendar.setTime(user.getDate());
+                j = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        user.setDate(newDate.getTime());
+                        dateText.setText(sdf.format(user.getDate()));
+                    }
+
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                j.show();
+
+                break;
+        }
+    }
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(START_DATA, dateText.getText().toString());
+
+    }
 }

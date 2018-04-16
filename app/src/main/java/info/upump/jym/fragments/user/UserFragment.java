@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import info.upump.jym.ITitleble;
@@ -127,6 +129,7 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onLoadFinished(Loader<List<User>> loader, List<User> data) {
         userList.clear();
         userList.addAll(data);
+        sortListByDate(userList);
         userAdapter.notifyDataSetChanged();
     }
 
@@ -166,8 +169,16 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
          menu.clear();
          inflater.inflate(R.menu.user_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-       /* MenuInflater menuInflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.edit_menu, menu);*/
 
+    }
+
+    private void sortListByDate(List<User> list) {
+        Collections.sort(list, new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
     }
 }
