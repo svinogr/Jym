@@ -20,8 +20,8 @@
             android:id="@+id/user_graph_activity_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="scrollable"
-            android:layout_gravity="top">
+            android:layout_gravity="top"
+            app:tabMode="scrollable">
 
         </android.support.design.widget.TabLayout>
     </android.support.constraint.ConstraintLayout>
@@ -157,7 +157,7 @@
      </ScrollView>-->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cons"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -168,18 +168,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sq">
 
-         <com.jjoe64.graphview.GraphView
+        <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/user_graph_activity_graphView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

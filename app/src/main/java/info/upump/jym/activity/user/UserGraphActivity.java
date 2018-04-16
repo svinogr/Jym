@@ -3,41 +3,46 @@ package info.upump.jym.activity.user;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.jjoe64.graphview.DefaultLabelFormatter;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.DataPointInterface;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.jjoe64.graphview.series.OnDataPointTapListener;
-import com.jjoe64.graphview.series.Series;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import info.upump.jym.R;
 import info.upump.jym.bd.UserDao;
 import info.upump.jym.entity.User;
 
-public class UserGraphActivity extends AppCompatActivity implements View.OnClickListener, TabLayout.OnTabSelectedListener {
+public class UserGraphActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
     private List<User> allUser;
-    private GraphView graphView;
-    private LineGraphSeries<DataPoint> series, series2;
-    private DataPoint[] dataPoints = new DataPoint[0];
-    private DataPoint[] dataPoints2 = new DataPoint[0];
+    private LineChart graphView;
+    private List<Entry> listEntryWithoutDate, listEntryWithoutDate2;
+    private List<Date> dates;
+    private LineDataSet series, series2;
+    private LineData lineData;
+    private List<ILineDataSet> iLineDataSets;
     private Button btnWeight, btnFat, btnNeck, btnPectoral, btnShoulder, btnBiceps, btnAbs, btnLeg, btnCalves;
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private TabLayout tabLayout;
+    private static String TAB = "tab";
 
 
     @Override
@@ -61,68 +66,144 @@ public class UserGraphActivity extends AppCompatActivity implements View.OnClick
 
         tabLayout.addOnTabSelectedListener(this);
 
-
         allUser = getAllUser();
         sortListByDate(allUser);
         initGraphView();
-        tabLayout.getTabAt(0).select();
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getString(TAB) != null) {
+                int tab = Integer.parseInt(savedInstanceState.getString(TAB));
+                tabLayout.getTabAt(tab).select();
+                createEntries(tab);
+            }
+
+        } else createEntries(0);
+
+    }
+
+    private void createEntries(int idTab) {
+        listEntryWithoutDate = new ArrayList<>();
+        listEntryWithoutDate2 = new ArrayList<>();
+        iLineDataSets.removeAll(iLineDataSets);
+        switch (idTab) {
+            case 0:
+                for (int i = 0; i < allUser.size(); i++) {
+                    listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getWeight()));
+
+                }
+                series = new LineDataSet(listEntryWithoutDate, "Вес тела, кг");
+                iLineDataSets.add(series);
+                break;
+            case 1:
+                for (int i = 0; i < allUser.size(); i++) {
+                    listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getFat()));
+
+                }
+                series = new LineDataSet(listEntryWithoutDate, "Процент жира");
+                iLineDataSets.add(series);
+                break;
+            case 2:
+                for (int i = 0; i < allUser.size(); i++) {
+                    listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getNeck()));
+
+                }
+                series = new LineDataSet(listEntryWithoutDate, "Шея, см");
+                iLineDataSets.add(series);
+                break;
+            case 3:
+                for (int i = 0; i < allUser.size(); i++) {
+                    listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getShoulder()));
+
+                }
+                series = new LineDataSet(listEntryWithoutDate, "Плечи, см");
+                iLineDataSets.add(series);
+                break;
+            case 4:
+                for (int i = 0; i < allUser.size(); i++) {
+                    listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getPectoral()));
+
+                }
+                series = new LineDataSet(listEntryWithoutDate, "Грудь, см");
+                iLineDataSets.add(series);
+                break;
+            case 5:
+                for (int i = 0; i < allUser.size(); i++) {
+                    listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getRightBiceps()));
+                    listEntryWithoutDate2.add(new Entry(i, (float) allUser.get(i).getLeftBiceps()));
+
+                }
+                series = new LineDataSet(listEntryWithoutDate, "Правый бицепс, см");
+                series2 = new LineDataSet(listEntryWithoutDate2, "Левый бицепс, см");
+                series2.setColor(Color.RED);
+                iLineDataSets.add(series);
+                iLineDataSets.add(series2);
+                break;
+            case 6:
+                for (int i = 0; i < allUser.size(); i++) {
+                    listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getAbs()));
+
+                }
+                series = new LineDataSet(listEntryWithoutDate, "Талия, см");
+                iLineDataSets.add(series);
+                break;
+            case 7:
+                for (int i = 0; i < allUser.size(); i++) {
+                    listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getRightLeg()));
+                    listEntryWithoutDate2.add(new Entry(i, (float) allUser.get(i).getLeftLeg()));
+
+                }
+                series = new LineDataSet(listEntryWithoutDate, "Правое бедро, см");
+                series2 = new LineDataSet(listEntryWithoutDate2, "Левое бедро, см");
+                series2.setColor(Color.RED);
+                iLineDataSets.add(series);
+                iLineDataSets.add(series2);
+                break;
+            case 8:
+                for (int i = 0; i < allUser.size(); i++) {
+                    listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getRightCalves()));
+                    listEntryWithoutDate2.add(new Entry(i, (float) allUser.get(i).getLeftCalves()));
+
+                }
+                series = new LineDataSet(listEntryWithoutDate, "Правая голень, см");
+                series2 = new LineDataSet(listEntryWithoutDate2, "Левая голень, см");
+                series2.setColor(Color.RED);
+                iLineDataSets.add(series);
+                iLineDataSets.add(series2);
+                break;
+
+        }
+        System.out.println(iLineDataSets.toString());
+        lineData = new LineData(iLineDataSets);
+        graphView.setData(lineData);
+        //  lineData.notifyDataChanged();
+        graphView.invalidate();
     }
 
     private void initGraphView() {
-        series = new LineGraphSeries<>(dataPoints);
-        series2 = new LineGraphSeries<>(dataPoints2);
-        series2.setColor(Color.RED);
-        series.setDrawDataPoints(true);
-        series.setDataPointsRadius(20);
-        series2.setDrawDataPoints(true);
-        series2.setDataPointsRadius(20);
-
-        graphView.getGridLabelRenderer().setNumHorizontalLabels(2); // only 4 because of the space
-        graphView.addSeries(series);
-        graphView.addSeries(series2);
-        series.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series series, DataPointInterface dataPoint) {
-                int index = getIndex(dataPoint.getX());
-                Date date = allUser.get(index).getDate();
-                Toast.makeText(getApplicationContext(), String.valueOf(dataPoint.getY())+" "+sdf.format(date), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        series2.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series series, DataPointInterface dataPoint) {
-                int index = getIndex(dataPoint.getX());
-                Date date = allUser.get(index).getDate();
-                Toast.makeText(getApplicationContext(), String.valueOf(dataPoint.getY())+" "+sdf.format(date), Toast.LENGTH_SHORT).show();            }
-        });
-
-
-        graphView.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if (isValueX) {
-                    int index = getIndex(value);
-                    return sdf.format(allUser.get(index).getDate());
-                } else return super.formatLabel(value, isValueX);
-            }
-        });
-        graphView.getViewport().setScalable(true);
-
-    }
-
-    private int getIndex(double value){
-        int index =0;
+        dates = new ArrayList<>();
         for (User u : allUser) {
-            if (u.getId() == value) {
-                index = allUser.indexOf(u);
-                break;
-            }
+            dates.add(u.getDate());
         }
-        return index;
+
+        iLineDataSets = new ArrayList<>();
+        lineData = new LineData(iLineDataSets);
+        graphView.setData(lineData);
+        graphView.getDescription().setEnabled(false);
+
+        XAxis xAxis = graphView.getXAxis();
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return sdf.format(dates.get((int) value));
+            }
+
+        };
+        xAxis.setValueFormatter(formatter);
+        xAxis.setGranularity(1f);
+
     }
+
 
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, UserGraphActivity.class);
@@ -154,81 +235,11 @@ public class UserGraphActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        createDataPoints(v.getId());
-
-    }
-
-    private void createDataPoints(int id) {
-        dataPoints = new DataPoint[allUser.size()];
-        dataPoints2 = new DataPoint[0];
-
-        switch (id) {
-            case 0:
-                for (int i = 0; i < dataPoints.length; i++) {
-                    dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getWeight());
-                }
-                break;
-            case 1:
-                for (int i = 0; i < dataPoints.length; i++) {
-                    dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getFat());
-                }
-                break;
-            case 2:
-                for (int i = 0; i < dataPoints.length; i++) {
-                    dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getNeck());
-                }
-                break;
-            case 3:
-                for (int i = 0; i < dataPoints.length; i++) {
-                    dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getShoulder());
-                }
-                break;
-            case 4:
-                for (int i = 0; i < dataPoints.length; i++) {
-                    dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getPectoral());
-                }
-                break;
-            case 5:
-                dataPoints2 = new DataPoint[allUser.size()];
-                for (int i = 0; i < dataPoints.length; i++) {
-                    dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getRightBiceps());
-                    dataPoints2[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getLeftBiceps());
-                }
-                break;
-            case 6:
-                for (int i = 0; i < dataPoints.length; i++) {
-                    dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getFat());
-                }
-                break;
-            case 7:
-                dataPoints2 = new DataPoint[allUser.size()];
-                for (int i = 0; i < dataPoints.length; i++) {
-                    dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getRightLeg());
-                    dataPoints2[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getLeftLeg());
-                }
-                break;
-            case 8:
-                dataPoints2 = new DataPoint[allUser.size()];
-                for (int i = 0; i < dataPoints.length; i++) {
-                    dataPoints[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getRightCalves());
-                    dataPoints2[i] = new DataPoint(allUser.get(i).getId(), allUser.get(i).getLeftCalves());
-                }
-                break;
-
-        }
-        System.out.println(dataPoints.toString());
-        series.resetData(dataPoints);
-        series2.resetData(dataPoints2);
-
-    }
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         int position = tab.getPosition();
-        createDataPoints(position);
-        System.out.println(position);
+        createEntries(position);
 
     }
 
@@ -240,5 +251,12 @@ public class UserGraphActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        int selectedTabPosition = tabLayout.getSelectedTabPosition();
+        outState.putString(TAB, String.valueOf(selectedTabPosition));
+        super.onSaveInstanceState(outState);
     }
 }

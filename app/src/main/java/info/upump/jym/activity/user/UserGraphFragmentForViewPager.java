@@ -1,3 +1,4 @@
+/*
 package info.upump.jym.activity.user;
 
 
@@ -95,25 +96,29 @@ public class UserGraphFragmentForViewPager extends Fragment implements LoaderMan
         graph.getViewport().setMinY(250);
      //   graph.getViewport().setScalableY(true);
         graph.addSeries(series);
-        /*DataPoint[] dataPointArr = new DataPoint[userList.size()];
+        */
+/*DataPoint[] dataPointArr = new DataPoint[userList.size()];
         userList.toArray(dataPointArr);
         graph.getViewport().scrollToEnd();
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         graph.getGridLabelRenderer().setNumHorizontalLabels(2);
         series = new LineGraphSeries<>(dataPointArr);
         graph.addSeries(series);
-        // chart = inflate.findViewById(R.id.chart);*/
+        // chart = inflate.findViewById(R.id.chart);*//*
 
 
 
-    /*
+
+    */
+/*
         Calendar calendar = Calendar.getInstance();
         Date d1 = calendar.getTime();
         calendar.add(Calendar.DATE, 1);
         Date d2 = calendar.getTime();
         calendar.add(Calendar.DATE, 1);
         Date d3 = calendar.getTime();
-*/
+*//*
+
 
 // you can directly pass Date objects to DataPoint-Constructor
 // this will convert the Date to double via Date#getTime()
@@ -162,9 +167,11 @@ public class UserGraphFragmentForViewPager extends Fragment implements LoaderMan
         //   graph.getViewport().setMinY(0);
         //   graph.getViewport().setYAxisBoundsManual(true);
 
-    /*    DataPoint[] dataPointArr = new DataPoint[userList.size()];
+    */
+/*    DataPoint[] dataPointArr = new DataPoint[userList.size()];
         userList.toArray(dataPointArr);
-        series = new LineGraphSeries<>(dataPointArr);*/
+        series = new LineGraphSeries<>(dataPointArr);*//*
+
         //  graph.getViewport().scrollToEnd();
 
         //
@@ -196,3 +203,4 @@ public class UserGraphFragmentForViewPager extends Fragment implements LoaderMan
         });
     }
 }
+*/

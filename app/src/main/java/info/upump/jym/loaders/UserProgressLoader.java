@@ -1,21 +1,22 @@
+/*
 package info.upump.jym.loaders;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
-import com.github.mikephil.charting.data.Entry;
 import com.jjoe64.graphview.series.DataPoint;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import info.upump.jym.bd.UserDao;
 import info.upump.jym.entity.User;
 import info.upump.jym.entity.UserProgressEnum;
 
+*/
 /**
  * Created by explo on 12.04.2018.
- */
+ *//*
+
 
 public class UserProgressLoader extends AsyncTaskLoader<DataPoint[]> {
     private UserProgressEnum userProgressEnum;
@@ -124,3 +125,4 @@ public class UserProgressLoader extends AsyncTaskLoader<DataPoint[]> {
         super.onForceLoad();
     }
 }
+*/

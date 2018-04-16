@@ -55,12 +55,15 @@ public class SetActivityCreate extends AppCompatActivity {
         weight.setMinValue(0);
         weight.setMaxValue(200);
         weight.setDisplayedValues(valuesForWeight);
+        weight.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         reps.setMaxValue(100);
         reps.setMinValue(0);
+        reps.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         numberPicker.setMaxValue(20);
         numberPicker.setMinValue(1);
+        numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         createView();
 
     }
@@ -116,7 +119,6 @@ public class SetActivityCreate extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
         exit();
     }
 

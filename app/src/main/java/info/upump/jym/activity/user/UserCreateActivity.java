@@ -78,50 +78,62 @@ public class UserCreateActivity extends AppCompatActivity  {
         weight.setMinValue(0);
         weight.setMaxValue(max);
         weight.setDisplayedValues(valueNumber);
+        weight.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         fat.setMinValue(0);
         fat.setMaxValue(max);
         fat.setDisplayedValues(valueNumber);
+        fat.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         neck.setMinValue(0);
         neck.setMaxValue(max);
         neck.setDisplayedValues(valueNumber);
+        neck.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         pectoral.setMinValue(0);
         pectoral.setMaxValue(max);
         pectoral.setDisplayedValues(valueNumber);
+        pectoral.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         shoulder.setMinValue(0);
         shoulder.setMaxValue(max);
         shoulder.setDisplayedValues(valueNumber);
+        shoulder.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         leftBiceps.setMinValue(0);
         leftBiceps.setMaxValue(max);
         leftBiceps.setDisplayedValues(valueNumber);
+        leftBiceps.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         rightBiceps.setMinValue(0);
         rightBiceps.setMaxValue(max);
         rightBiceps.setDisplayedValues(valueNumber);
+        rightBiceps.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         abs.setMinValue(0);
         abs.setMaxValue(max);
         abs.setDisplayedValues(valueNumber);
+        abs.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         leftLeg.setMinValue(0);
         leftLeg.setMaxValue(max);
         leftLeg.setDisplayedValues(valueNumber);
+        leftLeg.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         rightLeg.setMinValue(0);
         rightLeg.setMaxValue(max);
         rightLeg.setDisplayedValues(valueNumber);
+        rightLeg.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         leftCalves.setMinValue(0);
         leftCalves.setMaxValue(max);
         leftCalves.setDisplayedValues(valueNumber);
+        leftCalves.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         rightCalves.setMinValue(0);
         rightCalves.setMaxValue(max);
         rightCalves.setDisplayedValues(valueNumber);
+        rightCalves.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
     }
 

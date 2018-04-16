@@ -1,3 +1,4 @@
+/*
 package info.upump.jym.adapters;
 
 import android.content.Context;
@@ -8,9 +9,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import info.upump.jym.activity.user.UserGraphFragmentForViewPager;
 import info.upump.jym.entity.UserProgressEnum;
 
+*/
 /**
  * Created by explo on 12.04.2018.
- */
+ *//*
+
 
 public class PagerAdapterUserGraph extends FragmentStatePagerAdapter {
     private Context context;
@@ -40,3 +43,4 @@ public class PagerAdapterUserGraph extends FragmentStatePagerAdapter {
 
 
 }
+*/
