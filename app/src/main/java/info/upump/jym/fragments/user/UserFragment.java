@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -151,9 +152,12 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.edit_menu_graph){
-            System.out.println("grafic");
-            Intent intent = UserGraphActivity.createIntent(getContext());
-            startActivity(intent);
+            if(userList.size()<2){
+                Toast.makeText(getContext(), "времено, неоьходимо минимумм 2 измерения", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = UserGraphActivity.createIntent(getContext());
+                startActivity(intent);
+            }
         }
         return super.onOptionsItemSelected(item);
     }

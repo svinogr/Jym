@@ -7,18 +7,21 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +33,7 @@ import java.util.Locale;
 import info.upump.jym.R;
 import info.upump.jym.bd.UserDao;
 import info.upump.jym.entity.User;
+import info.upump.jym.utils.MyValueFormatter;
 
 public class UserGraphActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
     private List<User> allUser;
@@ -88,6 +92,7 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
         switch (idTab) {
             case 0:
                 for (int i = 0; i < allUser.size(); i++) {
+                    System.out.println("флоат " + (float) allUser.get(i).getWeight());
                     listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getWeight()));
 
                 }
@@ -175,7 +180,8 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
         System.out.println(iLineDataSets.toString());
         lineData = new LineData(iLineDataSets);
         graphView.setData(lineData);
-        //  lineData.notifyDataChanged();
+        lineData.setValueFormatter(new MyValueFormatter());
+        //lineData.notifyDataChanged();
         graphView.invalidate();
     }
 
@@ -184,9 +190,10 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
         for (User u : allUser) {
             dates.add(u.getDate());
         }
-
+        System.out.println(dates.toString());
         iLineDataSets = new ArrayList<>();
         lineData = new LineData(iLineDataSets);
+        // lineData.setValueFormatter(new MyValueFormatter());
         graphView.setData(lineData);
         graphView.getDescription().setEnabled(false);
 
@@ -196,13 +203,16 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 return sdf.format(dates.get((int) value));
+
             }
 
         };
         xAxis.setValueFormatter(formatter);
-        xAxis.setGranularity(1f);
+        xAxis.setGranularity(1.0f);
+
 
     }
+
 
 
     public static Intent createIntent(Context context) {
