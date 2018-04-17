@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
@@ -27,11 +26,15 @@ import info.upump.jym.entity.Sets;
 import static info.upump.jym.activity.constant.Constants.ID;
 
 public class SetActivityCreate extends AppCompatActivity {
+    private static final String WEIGHT = "weight";
+    private static final String REPS = "reps";
+    private static final String QUANTITY_SETS = "quantity";
     private Sets sets;
     private NumberPicker weight, reps;
-    private NumberPicker numberPicker;
+    private NumberPicker quantitySets;
+    private int weightValue = -1, repsValue = -1;
     private String[] valuesForWeight;
-    private int qSet = 1;
+    private int quantitySetsValue = 1;
     private CardView cardView;
     private int[] arrayId;
 
@@ -43,7 +46,7 @@ public class SetActivityCreate extends AppCompatActivity {
 
         weight = findViewById(R.id.numberPickerWeight);
         reps = findViewById(R.id.numberPickerReps);
-        numberPicker = findViewById(R.id.numberPickerSets);
+        quantitySets = findViewById(R.id.numberPickerSets);
         cardView = findViewById(R.id.data_card3);
 
         sets = getItemFromIntent();
@@ -61,9 +64,23 @@ public class SetActivityCreate extends AppCompatActivity {
         reps.setMinValue(0);
         reps.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        numberPicker.setMaxValue(20);
-        numberPicker.setMinValue(1);
-        numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        quantitySets.setMaxValue(20);
+        quantitySets.setMinValue(1);
+        quantitySets.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getString(WEIGHT) != null) {
+                weightValue = Integer.parseInt(savedInstanceState.getString(WEIGHT));
+            }
+            if (savedInstanceState.getString(REPS) != null) {
+                repsValue = Integer.parseInt(savedInstanceState.getString(REPS));
+            }
+            if (savedInstanceState.getString(REPS) != null) {
+                quantitySetsValue = Integer.parseInt(savedInstanceState.getString(QUANTITY_SETS));
+            }
+
+
+        }
+
         createView();
 
     }
@@ -86,6 +103,16 @@ public class SetActivityCreate extends AppCompatActivity {
             weight.setValue(i);
             reps.setValue(sets.getReps());
         }
+        if (weightValue != -1) {
+            weight.setValue(weightValue);
+        }
+        if (repsValue != -1) {
+            reps.setValue(repsValue);
+        }
+        if (quantitySetsValue > 1) {
+            quantitySets.setValue(quantitySetsValue);
+        }
+
     }
 
     public static Intent createIntent(Context context, Sets sets) {
@@ -196,9 +223,9 @@ public class SetActivityCreate extends AppCompatActivity {
             return;
         }*/
         Sets changeableItem = getChangeableItem();
-        qSet = numberPicker.getValue();
+        quantitySetsValue = quantitySets.getValue();
         long id = -1;
-        for (int i = 0; i < qSet; i++) {
+        for (int i = 0; i < quantitySetsValue; i++) {
 
             id = setDao.create(changeableItem);
             if (i == 0) {
@@ -268,4 +295,11 @@ public class SetActivityCreate extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(WEIGHT, String.valueOf(weight.getValue()));
+        outState.putString(REPS, String.valueOf(reps.getValue()));
+        outState.putString(QUANTITY_SETS, String.valueOf(quantitySets.getValue()));
+        super.onSaveInstanceState(outState);
+    }
 }

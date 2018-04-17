@@ -90,7 +90,7 @@ public class UserDao extends DBDao implements IData<User> {
         List<User> userList = new ArrayList<>();
         User user;
         if (cursor.moveToFirst()) {
-         //   userList = new ArrayList<>();
+            //   userList = new ArrayList<>();
             do {
                 user = getUserFromCursor(cursor);
                 userList.add(user);
@@ -113,19 +113,19 @@ public class UserDao extends DBDao implements IData<User> {
 
     @Override
     public boolean update(User object) {
-     ContentValues cv = getContentValuesFrom(object);
-     int id =sqLiteDatabase.update(DBHelper.TABLE_USER, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
-      return id >0;
+        ContentValues cv = getContentValuesFrom(object);
+        int id = sqLiteDatabase.update(DBHelper.TABLE_USER, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
+        return id > 0;
     }
 
     @Override
     public User getById(long id) {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_USER, keys, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(id)},null, null, null);
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_USER, keys, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(id)}, null, null, null);
         User user = null;
-        if(cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 user = getUserFromCursor(cursor);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         return user;
     }
@@ -144,4 +144,21 @@ public class UserDao extends DBDao implements IData<User> {
     public long copyFromTemplate(long idItem, long idPrent) {
         return 0;
     }
+
+    public User getByOldDate() {
+
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_USER, keys,
+                null, null, null, null,
+                " date(" + DBHelper.TABLE_KEY_DATE + ") desc Limit 1 ");
+        User user = null;
+        if (cursor.moveToFirst()) {
+            do {
+                user = getUserFromCursor(cursor);
+            } while (cursor.moveToNext());
+        }
+        return user;
+    }
+
+
 }
+

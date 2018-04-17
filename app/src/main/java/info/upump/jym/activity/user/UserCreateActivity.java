@@ -34,14 +34,28 @@ import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.START_DATA;
 
 public class UserCreateActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String WEIGHT = "weight";
+    private static final String FAT = "fat";
+    private static final String NECK = "neck";
+    private static final String SHOULDERS = "shoulders";
+    private static final String PECTORAL = "pectoral";
+    private static final String R_BICEPS = "r biceps";
+    private static final String L_BICEPS = "l biceps";
+    private static final String ABS = "abs";
+    private static final String R_LEG = "r leg";
+    private static final String L_LEG = "l leg";
+    private static final String R_CALVES = "r calves";
+    private static final String L_CALVES = "l calves";
     private User user;
-    private NumberPicker weight, fat, neck, shoulder, pectoral,
-            rightBiceps, leftBiceps, abs, rightLeg, leftLeg, leftCalves, rightCalves;
+    private NumberPicker weightPicker, fatPicker, neckPicker, shoulderPicker, pectoralPicker,
+            rightBicepsPicker, leftBicepsPicker, absPicker, rightLegPicker, leftLegPicker, leftCalvesPicker, rightCalvesPicker;
     private TextView dateText;
     private String[] valueNumber;
     private String[] valueNumberFat;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private String date;
+    private int weightValue = -1, fatValue = -1, neckValue = -1, shoulderValue = -1, pectoralValue = -1,
+            rightBicepsValue = -1, leftBicepsValue = -1, absValue = -1, rightLegValue = -1, leftLegValue = -1, leftCalvesValue = -1, rightCalvesValue = -1;
 
 
     public static Intent createIntent(Context context, User user) {
@@ -56,18 +70,18 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_user_create);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dateText = findViewById(R.id.content_user_create_date_edit);
-        weight = findViewById(R.id.content_user_create_weight_edit);
-        fat = findViewById(R.id.content_user_create_fat_edit);
-        neck = findViewById(R.id.content_user_create_neck_edit);
-        shoulder = findViewById(R.id.content_user_create_shoulder);
-        pectoral = findViewById(R.id.content_user_create_pectoral_edit);
-        rightBiceps = findViewById(R.id.content_user_create_right_biceps_edit);
-        leftBiceps = findViewById(R.id.content_user_create_left_biceps_edit);
-        abs = findViewById(R.id.content_user_create_abs_edit);
-        leftLeg = findViewById(R.id.content_user_create_left_leg_edit);
-        rightLeg = findViewById(R.id.content_user_create_right_leg_edit);
-        leftCalves = findViewById(R.id.content_user_create_left_calves_edit);
-        rightCalves = findViewById(R.id.content_user_create_right_calves_edit);
+        weightPicker = findViewById(R.id.content_user_create_weight_edit);
+        fatPicker = findViewById(R.id.content_user_create_fat_edit);
+        neckPicker = findViewById(R.id.content_user_create_neck_edit);
+        shoulderPicker = findViewById(R.id.content_user_create_shoulder);
+        pectoralPicker = findViewById(R.id.content_user_create_pectoral_edit);
+        rightBicepsPicker = findViewById(R.id.content_user_create_right_biceps_edit);
+        leftBicepsPicker = findViewById(R.id.content_user_create_left_biceps_edit);
+        absPicker = findViewById(R.id.content_user_create_abs_edit);
+        leftLegPicker = findViewById(R.id.content_user_create_left_leg_edit);
+        rightLegPicker = findViewById(R.id.content_user_create_right_leg_edit);
+        leftCalvesPicker = findViewById(R.id.content_user_create_left_calves_edit);
+        rightCalvesPicker = findViewById(R.id.content_user_create_right_calves_edit);
 
         dateText.setOnClickListener(this);
 
@@ -75,14 +89,59 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
 
         user = getItemFromIntent();
 
-        if(savedInstanceState != null){
-            if(savedInstanceState.getString(START_DATA) != null){
-              date = savedInstanceState.getString(START_DATA);
-            }
+        if (savedInstanceState != null) {
+
+        }
+
+        if (savedInstanceState != null) {
+            valuesFromSavedInstanceState(savedInstanceState);
+
+        }
+        createView();
+    }
+
+    private void valuesFromSavedInstanceState(Bundle saved) {
+        if (saved.getString(START_DATA) != null) {
+            date = saved.getString(START_DATA);
+        }
+        if (saved.getString(WEIGHT) != null) {
+            weightValue = Integer.parseInt(saved.getString(WEIGHT));
+        }
+        if (saved.getString(FAT) != null) {
+            fatValue = Integer.parseInt(saved.getString(FAT));
+        }
+        if (saved.getString(NECK) != null) {
+            neckValue = Integer.parseInt(saved.getString(NECK));
+        }
+        if (saved.getString(SHOULDERS) != null) {
+            shoulderValue = Integer.parseInt(saved.getString(SHOULDERS));
+        }
+        if (saved.getString(PECTORAL) != null) {
+            pectoralValue = Integer.parseInt(saved.getString(PECTORAL));
+        }
+        if (saved.getString(R_BICEPS) != null) {
+            rightBicepsValue = Integer.parseInt(saved.getString(R_BICEPS));
+        }
+        if (saved.getString(L_BICEPS) != null) {
+            leftBicepsValue = Integer.parseInt(saved.getString(L_BICEPS));
+        }
+        if (saved.getString(ABS) != null) {
+            absValue = Integer.parseInt(saved.getString(ABS));
+        }
+        if (saved.getString(R_LEG) != null) {
+            rightLegValue = Integer.parseInt(saved.getString(R_LEG));
+        }
+        if (saved.getString(L_LEG) != null) {
+            leftLegValue = Integer.parseInt(saved.getString(L_LEG));
+        }
+        if (saved.getString(R_CALVES) != null) {
+            rightCalvesValue = Integer.parseInt(saved.getString(R_CALVES));
+        }
+        if (saved.getString(L_CALVES) != null) {
+            leftCalvesValue = Integer.parseInt(saved.getString(L_CALVES));
         }
 
 
-        createView();
     }
 
     private void initValueOfNumberPicker() {
@@ -92,68 +151,68 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         int maxfat = 200;
         double step = 0.5;
         valueNumber = getArrayWithSteps(min, max, step);
-        valueNumberFat = getArrayWithSteps(min, maxfat,step);
+        valueNumberFat = getArrayWithSteps(min, maxfat, step);
 
 
-        weight.setMinValue(0);
-        weight.setMaxValue(max);
-        weight.setDisplayedValues(valueNumber);
-        weight.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        weightPicker.setMinValue(0);
+        weightPicker.setMaxValue(max);
+        weightPicker.setDisplayedValues(valueNumber);
+        weightPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        fat.setMinValue(0);
-        fat.setMaxValue(maxfat);
-        fat.setDisplayedValues(valueNumberFat);
-        fat.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        fatPicker.setMinValue(0);
+        fatPicker.setMaxValue(maxfat);
+        fatPicker.setDisplayedValues(valueNumberFat);
+        fatPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        neck.setMinValue(0);
-        neck.setMaxValue(max);
-        neck.setDisplayedValues(valueNumber);
-        neck.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        neckPicker.setMinValue(0);
+        neckPicker.setMaxValue(max);
+        neckPicker.setDisplayedValues(valueNumber);
+        neckPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        pectoral.setMinValue(0);
-        pectoral.setMaxValue(max);
-        pectoral.setDisplayedValues(valueNumber);
-        pectoral.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        pectoralPicker.setMinValue(0);
+        pectoralPicker.setMaxValue(max);
+        pectoralPicker.setDisplayedValues(valueNumber);
+        pectoralPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        shoulder.setMinValue(0);
-        shoulder.setMaxValue(max);
-        shoulder.setDisplayedValues(valueNumber);
-        shoulder.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        shoulderPicker.setMinValue(0);
+        shoulderPicker.setMaxValue(max);
+        shoulderPicker.setDisplayedValues(valueNumber);
+        shoulderPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        leftBiceps.setMinValue(0);
-        leftBiceps.setMaxValue(max);
-        leftBiceps.setDisplayedValues(valueNumber);
-        leftBiceps.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        leftBicepsPicker.setMinValue(0);
+        leftBicepsPicker.setMaxValue(max);
+        leftBicepsPicker.setDisplayedValues(valueNumber);
+        leftBicepsPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        rightBiceps.setMinValue(0);
-        rightBiceps.setMaxValue(max);
-        rightBiceps.setDisplayedValues(valueNumber);
-        rightBiceps.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        rightBicepsPicker.setMinValue(0);
+        rightBicepsPicker.setMaxValue(max);
+        rightBicepsPicker.setDisplayedValues(valueNumber);
+        rightBicepsPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        abs.setMinValue(0);
-        abs.setMaxValue(max);
-        abs.setDisplayedValues(valueNumber);
-        abs.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        absPicker.setMinValue(0);
+        absPicker.setMaxValue(max);
+        absPicker.setDisplayedValues(valueNumber);
+        absPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        leftLeg.setMinValue(0);
-        leftLeg.setMaxValue(max);
-        leftLeg.setDisplayedValues(valueNumber);
-        leftLeg.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        leftLegPicker.setMinValue(0);
+        leftLegPicker.setMaxValue(max);
+        leftLegPicker.setDisplayedValues(valueNumber);
+        leftLegPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        rightLeg.setMinValue(0);
-        rightLeg.setMaxValue(max);
-        rightLeg.setDisplayedValues(valueNumber);
-        rightLeg.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        rightLegPicker.setMinValue(0);
+        rightLegPicker.setMaxValue(max);
+        rightLegPicker.setDisplayedValues(valueNumber);
+        rightLegPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        leftCalves.setMinValue(0);
-        leftCalves.setMaxValue(max);
-        leftCalves.setDisplayedValues(valueNumber);
-        leftCalves.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        leftCalvesPicker.setMinValue(0);
+        leftCalvesPicker.setMaxValue(max);
+        leftCalvesPicker.setDisplayedValues(valueNumber);
+        leftCalvesPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        rightCalves.setMinValue(0);
-        rightCalves.setMaxValue(max);
-        rightCalves.setDisplayedValues(valueNumber);
-        rightCalves.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        rightCalvesPicker.setMinValue(0);
+        rightCalvesPicker.setMaxValue(max);
+        rightCalvesPicker.setDisplayedValues(valueNumber);
+        rightCalvesPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
     }
 
@@ -175,24 +234,60 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void createView() {
-        weight.setValue(getPozValue(user.getWeight()));
-        fat.setValue(getPozValue(user.getFat()));
-        neck.setValue(getPozValue(user.getNeck()));
-        pectoral.setValue(getPozValue(user.getShoulder()));
-        shoulder.setValue(getPozValue(user.getPectoral()));
-        leftBiceps.setValue(getPozValue(user.getLeftBiceps()));
-        rightBiceps.setValue(getPozValue(user.getRightBiceps()));
-        abs.setValue(getPozValue(user.getAbs()));
-        leftLeg.setValue(getPozValue(user.getLeftLeg()));
-        rightLeg.setValue(getPozValue(user.getRightLeg()));
-        leftCalves.setValue(getPozValue(user.getLeftCalves()));
-        rightCalves.setValue(getPozValue(user.getRightCalves()));
+        if (weightValue != -1) {
+            weightPicker.setValue(weightValue);
+        } else weightPicker.setValue(getPozValue(user.getWeight()));
+
+        if (fatValue != -1) {
+            fatPicker.setValue(fatValue);
+        } else fatPicker.setValue(getPozValue(user.getFat()));
+
+        if (neckValue != -1) {
+            neckPicker.setValue(neckValue);
+        } else neckPicker.setValue(getPozValue(user.getNeck()));
+
+        if (pectoralValue != -1) {
+            pectoralPicker.setValue(pectoralValue);
+        } else pectoralPicker.setValue(getPozValue(user.getPectoral()));
+
+        if (shoulderValue != -1) {
+            shoulderPicker.setValue(shoulderValue);
+        } else shoulderPicker.setValue(getPozValue(user.getShoulder()));
+
+        if (leftBicepsValue != -1) {
+            leftBicepsPicker.setValue(leftBicepsValue);
+        } else leftBicepsPicker.setValue(getPozValue(user.getLeftBiceps()));
+
+        if (rightBicepsValue != -1) {
+            rightBicepsPicker.setValue(rightBicepsValue);
+        } else rightBicepsPicker.setValue(getPozValue(user.getRightBiceps()));
+
+        if (absValue != -1) {
+            absPicker.setValue(absValue);
+        } else absPicker.setValue(getPozValue(user.getAbs()));
+
+        if (leftLegValue != -1) {
+            leftLegPicker.setValue(leftLegValue);
+        } else leftLegPicker.setValue(getPozValue(user.getLeftLeg()));
+
+        if (rightLegValue != -1) {
+            rightLegPicker.setValue(rightLegValue);
+        } else rightLegPicker.setValue(getPozValue(user.getRightLeg()));
+
+        if (leftCalvesValue != -1) {
+            leftCalvesPicker.setValue(leftCalvesValue);
+        } else  leftCalvesPicker.setValue(getPozValue(user.getLeftCalves()));
+
+        if (rightCalvesValue != -1) {
+            rightCalvesPicker.setValue(rightCalvesValue);
+        } else rightCalvesPicker.setValue(getPozValue(user.getRightCalves()));
+
         if (user.getDate() == null) {
             user.setDate(new Date());
         }
-        if(date == null) {
+        if (date == null) {
             dateText.setText(sdf.format(user.getDate()));
-        }else dateText.setText(date);
+        } else dateText.setText(date);
     }
 
 
@@ -200,12 +295,20 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         Intent intent = getIntent();
         long id = intent.getLongExtra(ID, 0);
         User user;
+        UserDao userDao;
         if (id > 0) {
-            UserDao userDao = new UserDao(this);
+            userDao = new UserDao(this);
             user = userDao.getById(id);
             setTitle("Изменить замеры");
         } else {
-            user = new User();
+            userDao = new UserDao(this);
+            user = userDao.getByOldDate();
+            if (user != null) {
+                user.setId(0);
+                user.setDate(new Date());
+            } else user = new User();
+//
+            System.out.println(user);
             setTitle("Новый замеры");
         }
         return user;
@@ -243,10 +346,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
     private void save() {
         UserDao userDao = new UserDao(this);
         User changeableItem = getChangeableItem();
-      /*  if (changeableItem.getWeight() == 0) {
-            Toast.makeText(this, "времен, необходтио ввести вес", Toast.LENGTH_SHORT).show();
-            return;
-        }*/
         long id = userDao.create(changeableItem);
         if (id != -1) {
             user.setId(id);
@@ -254,68 +353,73 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).
-                show();
+        } else
+            Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).
+                    show();
 
     }
 
     private boolean itemIsNotChanged() {
         User changeableItem = getChangeableItem();
         System.out.println(changeableItem);
-        System.out.println(changeableItem.getDate()+"  " +user.getDate());
-        if (changeableItem.getDate().compareTo(user.getDate())!=0) return false;
-        if (changeableItem.getWeight() != user.getWeight()) return false;
-        if (changeableItem.getHeight() != user.getHeight()) return false;
-        if (changeableItem.getFat() != user.getFat()) return false;
-        if (changeableItem.getNeck() != user.getNeck()) return false;
-        if (changeableItem.getShoulder() != user.getShoulder()) return false;
-        if (changeableItem.getPectoral() != user.getPectoral()) return false;
-        if (changeableItem.getRightBiceps() != user.getRightBiceps()) return false;
-        if (changeableItem.getLeftBiceps() != user.getLeftBiceps()) return false;
-        if (changeableItem.getAbs() != user.getAbs()) return false;
-        if (changeableItem.getRightLeg() != user.getRightLeg()) return false;
-        if (changeableItem.getLeftLeg() != user.getLeftLeg()) return false;
-        if (changeableItem.getLeftCalves() != user.getLeftCalves()) return false;
-        if (changeableItem.getRightCalves() != user.getRightCalves()) return false;
+        System.out.println(changeableItem.getDate() + "  " + user.getDate());
+        if (changeableItem.getDate().compareTo(user.getDate()) != 0)
+            return false;
+        if (changeableItem.getWeight() != user.getWeight())
+            return false;
+        if (changeableItem.getHeight() != user.getHeight())
+            return false;
+        if (changeableItem.getFat() != user.getFat())
+            return false;
+        if (changeableItem.getNeck() != user.getNeck())
+            return false;
+        if (changeableItem.getShoulder() != user.getShoulder())
+            return false;
+        if (changeableItem.getPectoral() != user.getPectoral())
+            return false;
+        if (changeableItem.getRightBiceps() != user.getRightBiceps())
+            return false;
+        if (changeableItem.getLeftBiceps() != user.getLeftBiceps())
+            return false;
+        if (changeableItem.getAbs() != user.getAbs())
+            return false;
+        if (changeableItem.getRightLeg() != user.getRightLeg())
+            return false;
+        if (changeableItem.getLeftLeg() != user.getLeftLeg())
+            return false;
+        if (changeableItem.getLeftCalves() != user.getLeftCalves())
+            return false;
+        if (changeableItem.getRightCalves() != user.getRightCalves())
+            return false;
         return true;
     }
 
     private User getChangeableItem() {
         User changeableUser = new User();
         changeableUser.setId(user.getId());
-      /*  if (user.getId() > 0) {
-            changeableUser.setDate(user.getDate());
-        } else changeableUser.setDate(new Date());*/
         try {
             changeableUser.setDate(sdf.parse(dateText.getText().toString()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-      //  changeableUser.setDate(new Date(dateText.getText().toString()));
-
-        changeableUser.setWeight(Double.parseDouble(valueNumber[weight.getValue()]));
-        changeableUser.setFat(Double.parseDouble(valueNumber[fat.getValue()]));
-        changeableUser.setNeck(Double.parseDouble(valueNumber[neck.getValue()]));
-        changeableUser.setShoulder(Double.parseDouble(valueNumber[shoulder.getValue()]));
-        changeableUser.setPectoral(Double.parseDouble(valueNumber[pectoral.getValue()]));
-        changeableUser.setRightBiceps(Double.parseDouble(valueNumber[rightBiceps.getValue()]));
-        changeableUser.setLeftBiceps(Double.parseDouble(valueNumber[leftBiceps.getValue()]));
-        changeableUser.setAbs(Double.parseDouble(valueNumber[abs.getValue()]));
-        changeableUser.setRightLeg(Double.parseDouble(valueNumber[rightLeg.getValue()]));
-        changeableUser.setLeftLeg(Double.parseDouble(valueNumber[leftLeg.getValue()]));
-        changeableUser.setLeftCalves(Double.parseDouble(valueNumber[leftCalves.getValue()]));
-        changeableUser.setRightCalves(Double.parseDouble(valueNumber[rightCalves.getValue()]));
+        changeableUser.setWeight(Double.parseDouble(valueNumber[weightPicker.getValue()]));
+        changeableUser.setFat(Double.parseDouble(valueNumber[fatPicker.getValue()]));
+        changeableUser.setNeck(Double.parseDouble(valueNumber[neckPicker.getValue()]));
+        changeableUser.setShoulder(Double.parseDouble(valueNumber[shoulderPicker.getValue()]));
+        changeableUser.setPectoral(Double.parseDouble(valueNumber[pectoralPicker.getValue()]));
+        changeableUser.setRightBiceps(Double.parseDouble(valueNumber[rightBicepsPicker.getValue()]));
+        changeableUser.setLeftBiceps(Double.parseDouble(valueNumber[leftBicepsPicker.getValue()]));
+        changeableUser.setAbs(Double.parseDouble(valueNumber[absPicker.getValue()]));
+        changeableUser.setRightLeg(Double.parseDouble(valueNumber[rightLegPicker.getValue()]));
+        changeableUser.setLeftLeg(Double.parseDouble(valueNumber[leftLegPicker.getValue()]));
+        changeableUser.setLeftCalves(Double.parseDouble(valueNumber[leftCalvesPicker.getValue()]));
+        changeableUser.setRightCalves(Double.parseDouble(valueNumber[rightCalvesPicker.getValue()]));
         return changeableUser;
     }
 
 
     private void update() {
         User userUpdate = getChangeableItem();
-/*
-        if (userUpdate.getWeight() == 0) {
-            Toast.makeText(this, "времен, необходтио ввести вес", Toast.LENGTH_SHORT).show();
-            return;
-        }*/
         UserDao userDao = new UserDao(this);
         boolean id = userDao.update(userUpdate);
         if (id) {
@@ -323,7 +427,8 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
     }
 
     private void finishActivityWithAnimation() {
@@ -369,7 +474,8 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
                                 }).show();
                         break;
                 }
-            } else Toast.makeText(this, "времен, замер  не сохранен", Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(this, "времен, замер  не сохранен", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -380,7 +486,8 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
             Toast.makeText(this, "времен, замер  удален", Toast.LENGTH_SHORT).show();
             //exit();
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, замер  не удалено", Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(this, "времен, замер  не удалено", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -407,10 +514,22 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
     }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
+        outState.putString(WEIGHT, String.valueOf(weightPicker.getValue()));
+        outState.putString(FAT, String.valueOf(fatPicker.getValue()));
+        outState.putString(NECK, String.valueOf(neckPicker.getValue()));
+        outState.putString(SHOULDERS, String.valueOf(shoulderPicker.getValue()));
+        outState.putString(PECTORAL, String.valueOf(pectoralPicker.getValue()));
+        outState.putString(R_BICEPS, String.valueOf(rightBicepsPicker.getValue()));
+        outState.putString(L_BICEPS, String.valueOf(leftBicepsPicker.getValue()));
+        outState.putString(ABS, String.valueOf(absPicker.getValue()));
+        outState.putString(R_LEG, String.valueOf(rightLegPicker.getValue()));
+        outState.putString(L_LEG, String.valueOf(leftLegPicker.getValue()));
+        outState.putString(R_CALVES, String.valueOf(rightCalvesPicker.getValue()));
+        outState.putString(L_CALVES, String.valueOf(leftCalvesPicker.getValue()));
         outState.putString(START_DATA, dateText.getText().toString());
-
+        super.onSaveInstanceState(outState);
     }
 }
