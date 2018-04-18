@@ -28,10 +28,7 @@ public class CycleDetailDefaultActivity extends CycleDetailActivity {
         return intent;
     }
 
-    @Override
-    protected void setFabVisible(boolean visible) {
-        addFab.setVisibility(View.GONE);
-    }
+
 
     @Override
     protected void setPagerAdapter() {

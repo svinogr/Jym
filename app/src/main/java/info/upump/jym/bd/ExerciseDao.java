@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import info.upump.jym.entity.Exercise;
+import info.upump.jym.entity.ExerciseDescription;
 import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.TypeMuscle;
 
@@ -20,13 +21,11 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     private final String[] keys = new String[]{
             DBHelper.TABLE_KEY_ID,
-            DBHelper.TABLE_KEY_TITLE,
             DBHelper.TABLE_KEY_COMMENT,
-            DBHelper.TABLE_KEY_DESCRIPTION,
+            DBHelper.TABLE_KEY_DESCRIPTION_ID,
             DBHelper.TABLE_KEY_TYPE_EXERCISE,
             DBHelper.TABLE_KEY_DEFAULT,
             DBHelper.TABLE_KEY_TEMPLATE,
-            DBHelper.TABLE_KEY_IMG,
             DBHelper.TABLE_KEY_START_DATE,
             DBHelper.TABLE_KEY_FINISH_DATE,
             DBHelper.TABLE_KEY_PARENT_ID};
@@ -36,13 +35,11 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         if (object.getId() != 0) {
             cv.put(DBHelper.TABLE_KEY_ID, object.getId());
         }
-        cv.put(DBHelper.TABLE_KEY_TITLE, object.getTitle());
         cv.put(DBHelper.TABLE_KEY_COMMENT, object.getComment());
-        cv.put(DBHelper.TABLE_KEY_DESCRIPTION, object.getDescription());
+        cv.put(DBHelper.TABLE_KEY_DESCRIPTION_ID, object.getDescriptionId());
         cv.put(DBHelper.TABLE_KEY_TYPE_EXERCISE, object.getTypeMuscle().toString());
         cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType());
         cv.put(DBHelper.TABLE_KEY_TEMPLATE, object.isTemplate());
-        cv.put(DBHelper.TABLE_KEY_IMG, object.getImg());
         if (object.getStartDate() == null) {
             object.setStartDate(new Date());
         }
@@ -58,16 +55,14 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
     private Exercise getExerciseFromCursor(Cursor cursor) {
         Exercise exercise = new Exercise();
         exercise.setId(cursor.getLong(0));
-        exercise.setTitle(cursor.getString(1));
-        exercise.setComment(cursor.getString(2));
-        exercise.setDescription(cursor.getString(3));
-        exercise.setTypeMuscle(TypeMuscle.valueOf(cursor.getString(4)));
-        exercise.setDefaultType(cursor.getInt(5) == 1);
-        exercise.setTemplate(cursor.getInt(6) == 1);
-        exercise.setImg(cursor.getString(7));
-        exercise.setStartDate((cursor.getString(8)));
-        exercise.setFinishDate((cursor.getString(9)));
-        exercise.setParentId(cursor.getLong(10));
+        exercise.setComment(cursor.getString(1));
+        exercise.setDescriptionId(cursor.getInt(2));
+        exercise.setTypeMuscle(TypeMuscle.valueOf(cursor.getString(3)));
+        exercise.setDefaultType(cursor.getInt(4) == 1);
+        exercise.setTemplate(cursor.getInt(5) == 1);
+        exercise.setStartDate((cursor.getString(6)));
+        exercise.setFinishDate((cursor.getString(7)));
+        exercise.setParentId(cursor.getLong(8));
         return exercise;
     }
 
@@ -87,6 +82,11 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     @Override
     public long create(Exercise object) {
+        if (object.getExerciseDescription().getId() == 0) {
+            ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+            long l = exerciseDescriptionDao.create(object.getExerciseDescription());
+            object.setDescriptionId(l);
+        }
         ContentValues cv = getContentValuesFrom(object);
         long id = sqLiteDatabase.insert(DBHelper.TABLE_EXERCISE, null, cv);
         return id;
@@ -120,6 +120,8 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     @Override
     public boolean update(Exercise object) {
+        ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+        exerciseDescriptionDao.update(object.getExerciseDescription());
         ContentValues cv = getContentValuesFrom(object);
         long id = sqLiteDatabase.update(DBHelper.TABLE_EXERCISE, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         return id > 0;
@@ -134,6 +136,11 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
             do {
                 exercise = getExerciseFromCursor(cursor);
             } while (cursor.moveToNext());
+        }
+        if (exercise != null) {
+            ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+            ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
+            exercise.setExerciseDescription(exerciseDescription);
         }
         return exercise;
     }
@@ -169,6 +176,14 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
                 exerciseList.add(exercise);
             } while (cursor.moveToNext());
         }
+        if (exerciseList.size() > 0) {
+            ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+            for (Exercise exercise : exerciseList) {
+                ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
+                exercise.setExerciseDescription(exerciseDescription);
+            }
+        }
+
         return exerciseList;
     }
 

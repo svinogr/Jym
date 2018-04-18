@@ -10,11 +10,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,7 +37,9 @@ import java.util.Date;
 import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.ExerciseDao;
+import info.upump.jym.bd.ExerciseDescriptionDao;
 import info.upump.jym.entity.Exercise;
+import info.upump.jym.entity.ExerciseDescription;
 import info.upump.jym.entity.TypeMuscle;
 
 import static info.upump.jym.activity.constant.Constants.ID;
@@ -67,7 +72,14 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         Intent intent = getIntent();
         long id = intent.getLongExtra(ID, 0);
         ExerciseDao exerciseDao = new ExerciseDao(this);
-        return exerciseDao.getById(id);
+        Exercise exercise = exerciseDao.getById(id);
+        ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(this);
+        ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
+        exercise.setExerciseDescription(exerciseDescription);
+     /*   if (exerciseDescription == null) {
+            exerciseDescription = new ImageForItem();
+        }*/
+        return exercise;
     }
 
     private TypeMuscle getMuscle(int i) {
@@ -112,6 +124,9 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         if (uriImage != null) {
             outState.putString(Constants.URI_IMG, uriImage.toString());
         }
+      /*  if (exerciseDescription.getImg() != null) {
+            outState.putString(Constants.URI_IMG, exerciseDescription.getImg());
+        }*/
     }
 
     @Override
@@ -122,9 +137,12 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_GALLERY_PHOTO:
                     uriImage = data.getData();
+                    // exerciseDescription = new ImageForItem();
+                    //    exerciseDescription.setImg(uriImage.toString());
                     //  exercise.setImg(uriImage.toString());
-                    //setPic(Uri.parse(exercise.getImg()));
                     setPic(uriImage);
+                    //  setPic(uriImage);
+                    //  setPic(Uri.parse(exerciseDescription.getImg()));
                     break;
             }
         }
@@ -199,6 +217,8 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
                 // exercise.setImg(savedInstanceState.getString(Constants.URI_IMG));
 
                 // setPic(Uri.parse(exercise.getImg()));
+                //     exerciseDescription.setImg(savedInstanceState.getString(Constants.URI_IMG));
+                //    setPic(Uri.parse(exerciseDescription.getImg()));
                 uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
                 setPic(uriImage);
             }
@@ -209,17 +229,18 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
     private void createViewFrom() {
 
         //TODO убрать взможность сохранить для не своих
-        title.setText(exercise.getTitle());
+        title.setText(exercise.getExerciseDescription().getTitle());
 
-        if (exercise.getDescription() != null) {
-            description.setText(exercise.getDescription());
+        if (exercise.getComment() != null) {
+            description.setText(exercise.getComment());
         }
 
         spinner.setSelection(exercise.getTypeMuscle().ordinal());
-
+        setPic(Uri.parse(exercise.getExerciseDescription().getImg()));
+/*
         if (exercise.getImg() != null) {
             setPic(Uri.parse(exercise.getImg()));
-        }
+        }*/
     }
 
 
@@ -234,7 +255,26 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             exit();
         }
+        if (item.getItemId() == R.id.edit_menu_delete) {
+            Snackbar.make(this.imageView, "Удалить ?", Snackbar.LENGTH_LONG)
+                    .setAction("Да", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            delete();
+                        }
+                    }).show();
+
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void delete() {
+        ExerciseDao exerciseDao = new ExerciseDao(this);
+        if (exerciseDao.delete(exercise)) {
+            Toast.makeText(this, "времен, упражнение удалена", Toast.LENGTH_SHORT).show();
+            finishActivityWithAnimation();
+            //exit();
+        } else Toast.makeText(this, "времен, упражнение  не удалена", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -267,8 +307,8 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
     private boolean itemIsNotChanged() {
         Exercise changeableItem = getChangeableItem();
         System.out.println(changeableItem);
-        if (!changeableItem.getTitle().equals(exercise.getTitle())) return false;
-        if (!changeableItem.getDescription().equals(exercise.getDescription())) return false;
+        if (!changeableItem.getExerciseDescription().getTitle().equals(exercise.getExerciseDescription().getTitle())) return false;
+        if (!changeableItem.getComment().equals(exercise.getComment())) return false;
         if (!(changeableItem.getTypeMuscle().toString().equals(exercise.getTypeMuscle().toString())))
             return false;
         if (uriImage != null) return false;
@@ -276,11 +316,18 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
     }
 
     private Exercise getChangeableItem() {
+        ExerciseDescription changeableExerciseDescription = new ExerciseDescription();
+        if (uriImage != null) {
+            changeableExerciseDescription.setImg(uriImage.toString());
+        } else changeableExerciseDescription.setImg(exercise.getExerciseDescription().getImg());
+
+        changeableExerciseDescription.setId(exercise.getExerciseDescription().getId());
+        changeableExerciseDescription.setTitle(title.getText().toString());
+
         Exercise changeableExercise = new Exercise();
         changeableExercise.setId(exercise.getId());
-        changeableExercise.setTitle(title.getText().toString());
-         changeableExercise.setDescription(description.getText().toString());
-
+        changeableExercise.setComment(description.getText().toString());
+        changeableExercise.setDescriptionId(exercise.getDescriptionId());
         changeableExercise.setStartDate(new Date());
         changeableExercise.setFinishDate(new Date());
         changeableExercise.setTemplate(true);
@@ -288,9 +335,12 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         int selectedItem = spinner.getSelectedItemPosition();
         TypeMuscle typeMuscle = getMuscle(selectedItem);
         changeableExercise.setTypeMuscle(typeMuscle);
-        if (uriImage != null) {
-            changeableExercise.setImg(uriImage.toString());
-        } else changeableExercise.setImg(exercise.getImg());
+        changeableExercise.setExerciseDescription(changeableExerciseDescription);
+
+       /* if (uriImage != null) {
+            changeableExercise.setImageId(imE);
+        } else changeableExercise.setImg(exercise.getImg());*/
+
         return changeableExercise;
     }
 
@@ -302,6 +352,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
             return;
         }
         Exercise exerciseUpdate = getChangeableItem();
+
         boolean id = exerciseDao.update(exerciseUpdate);
         if (id) {
             Toast.makeText(this, "времен, программа сохранена", Toast.LENGTH_SHORT).show();
@@ -325,109 +376,13 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         return intent;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*
-
-    private Exercise getExerciseFromIntent(Intent intent) {
-        exerciseDao = new ExerciseDao(this);
-        long longExtra = intent.getLongExtra(ID_EXERCISE, 0);
-        exercise = exerciseDao.getById(longExtra);
-        return exercise;
-    }
-
-    private void setPic() {
-        Uri uri = null;
-        if(exercise.getImg()!=null) {
-            uri = Uri.parse(exercise.getImg());
-        }
-        System.out.println("exer uri "+ exercise.getImg());
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.ic_add_black_24dp)
-                .error(R.drawable.ic_add_black_24dp)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH);
-
-        Glide.with(this).load(uri).apply(options).into(imageView);
-    }
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finishActivityWithAnimation();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (!exercise.isDefaultType()) {
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(R.menu.edit_template_exercise_menu, menu);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.exercise_activity_detail_fab_edit:
-             startActivityWithoutAnimation();
-                break;
-            case R.id.exercise_activity_detail_fab_delete:
-                Snackbar.make(v, "ТОчно удадить", Snackbar.LENGTH_LONG)
-                        .setAction("сто пудов", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                deleteItem();
-                              finishActivityWithAnimation();
-                            }
-                        }).show();
-        }
-    }
-
-    private void finishActivityWithAnimation(){
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
-        } else finish();
-    }
-    private void finishActivityWithoutAnimation(){
-      finish();
-    }
-
-    private void startActivityAnimation() {
-        Intent intent = ExerciseDetailActivityEdit.createIntent(this, exercise);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            View sharedViewIm = imageView;
-            View sharedViewT = description;
-            String transitionNameIm = "exercise_card_layout_image";
-            String transitionNameT = "exercise_detail_activity_description";
-            ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
-                            this,
-                    Pair.create(sharedViewIm, transitionNameIm),  Pair.create(sharedViewT, transitionNameT));
-            startActivity(intent, transitionActivityOptions.toBundle());
-        } else startActivity(intent);
-    }
-    private void startActivityWithoutAnimation(){
-        Intent intent = ExerciseDetailActivityEdit.createIntent(this, exercise);
-        startActivity(intent);
-    }
-
-    private void deleteItem() {
-        if (exerciseDao.delete(exercise)) {
-            Toast.makeText(this, "времен, упражнение удалено", Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(this, "времен, не возможно удалить", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        createViewFrom();
-
-    }
-*/
 }

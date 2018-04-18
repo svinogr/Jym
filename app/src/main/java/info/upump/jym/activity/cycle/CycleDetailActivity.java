@@ -82,18 +82,38 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         viewPager.setAdapter(pagerAdapterCycleEdit);
         setPageTransform();
 
-
         if (savedInstanceState != null) {
             if (savedInstanceState.getString(Constants.URI_IMG) != null) {
                 uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
                 cycle.setImage(uriImage.toString());
             }
         }
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0) {
+                    setFabVisible(true);
+                } else setFabVisible(false);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         createViewFrom(cycle);
 
     }
 
-    protected void setFabVisible(boolean visible){
+    protected void setFabVisible(boolean visible) {
+        if (visible) {
+            addFab.setVisibility(View.VISIBLE);
+        } else  addFab.setVisibility(View.GONE);
 
     }
 
@@ -225,7 +245,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                         .setAction("Да", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                               delete(cycle.getId());
+                                delete(cycle.getId());
                             }
                         }).show();
                 break;
@@ -350,11 +370,11 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     @Override
     public void delete(long id) {
         cycleDao = getCycleDao();
-         if(cycleDao.delete(cycle)){
+        if (cycleDao.delete(cycle)) {
             Toast.makeText(this, "времен, программа  удалена", Toast.LENGTH_SHORT).show();
-             finishActivityWithAnimation();
-           //exit();
-        }else  Toast.makeText(this, "времен, программа  не удалена", Toast.LENGTH_SHORT).show();
+            finishActivityWithAnimation();
+            //exit();
+        } else Toast.makeText(this, "времен, программа  не удалена", Toast.LENGTH_SHORT).show();
 
     }
 

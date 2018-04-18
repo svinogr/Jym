@@ -54,10 +54,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_KEY_RIGHT_LEG = "right_leg";
     public static final String TABLE_KEY_LEFT_LEG = "left_leg";
     public static final String TABLE_KEY_LEFT_CALVES = "right_calves";
-    public static final String TABLE_KEY_RIGHT_CALVES= "left_calves";
+    public static final String TABLE_KEY_RIGHT_CALVES = "left_calves";
     public static final String TABLE_KEY_DATE = "date";
+    public static final String TABLE_KEY_IMG_ID = "id_image";
 
-    public static final String TABLE_KEY_DESCRIPTION = "description";
+    public static final String TABLE_KEY_DESCRIPTION_ID = "description_id";
 
 
     private static final String CREATE_TABLE_CYCLE = "CREATE TABLE " + TABLE_CYCLE +
@@ -86,13 +87,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_EXERCISE = "CREATE TABLE " + TABLE_EXERCISE +
             "( " + TABLE_KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
-            TABLE_KEY_TITLE + " TEXT NOT NULL, " +
             TABLE_KEY_COMMENT + " TEXT, " +
-            TABLE_KEY_DESCRIPTION + " TEXT, " +
+            TABLE_KEY_DESCRIPTION_ID + " INTEGER, " +
             TABLE_KEY_TYPE_EXERCISE + " TEXT, " +
             TABLE_KEY_DEFAULT + " INTEGER NOT NULL, " +
             TABLE_KEY_TEMPLATE + " INTEGER NOT NULL, " +
-            TABLE_KEY_IMG + " TEXT, " +
             TABLE_KEY_START_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_PARENT_ID + " INTEGER)";
@@ -128,10 +127,11 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_LEFT_CALVES + " REAL, " +
             TABLE_KEY_DATE + " TEXT NOT NULL)";
 
+
     private static final String CREATE_TABLE_EXERCISE_DESCRIPTION = "CREATE TABLE " + TABLE_EXERCISE_DESCRIPTION +
             "( " + TABLE_KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
-            TABLE_KEY_DESCRIPTION + " TEXT, " +
-            TABLE_KEY_PARENT_ID + " INTEGER)";
+            TABLE_KEY_IMG + " TEXT, " +
+            TABLE_KEY_TITLE + " TEXT)";
 
 
     private static DBHelper instance;
@@ -151,10 +151,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_WORKOUT);
         db.execSQL(CREATE_TABLE_EXERCISE);
         db.execSQL(CREATE_TABLE_SET);
-       // db.execSQL("DROP TABLE " + TABLE_USER+";");
+        // db.execSQL("DROP TABLE " + TABLE_USER+";");
 
         db.execSQL(CREATE_TABLE_USER);
-      //  db.execSQL(CREATE_TABLE_EXERCISE_DESCRIPTION);
+        db.execSQL(CREATE_TABLE_EXERCISE_DESCRIPTION);
+
+        //  db.execSQL(CREATE_TABLE_EXERCISE_DESCRIPTION);
 
     }
 

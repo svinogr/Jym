@@ -68,7 +68,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
         viewPager.setAdapter(pagerAdapterWorkout);
         setPageTransform();
-        setFabVisible(true);
+       // setFabVisible(true);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.getString(Constants.URI_IMG) != null) {
@@ -77,11 +77,31 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
             }
         }
         createViewFrom(workout);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0) {
+                    setFabVisible(true);
+                } else setFabVisible(false);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
     }
 
     protected void setFabVisible(boolean visible) {
-
+        if (visible) {
+            addFab.setVisibility(View.VISIBLE);
+        } else  addFab.setVisibility(View.GONE);
     }
 
     protected void setPagerAdapter() {

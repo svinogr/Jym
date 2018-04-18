@@ -1,16 +1,14 @@
 package info.upump.jym.activity.exercise;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -29,7 +27,6 @@ import info.upump.jym.activity.sets.SetActivityCreate;
 import info.upump.jym.adapters.SetsAdapter;
 import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.bd.SetDao;
-import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Sets;
 import info.upump.jym.loaders.SetsLoader;
@@ -43,6 +40,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     protected RecyclerView recyclerView;
     protected FloatingActionButton addFab;
     protected SetsAdapter setsAdapter;
+ //   private ImageForItem exerciseDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +62,14 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         addFab.setOnClickListener(this);
         recyclerView.setAdapter(setsAdapter);
 
+
+
     }
 
     protected void setFabVisible(boolean visible) {
+        if (visible) {
+            addFab.setVisibility(View.VISIBLE);
+        } else  addFab.setVisibility(View.GONE);
 
     }
 
@@ -81,6 +84,8 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         Intent intent = getIntent();
         long id = intent.getLongExtra(ID, 0);
         ExerciseDao exerciseDao = new ExerciseDao(this);
+  //      ImageDao imageDao = new ImageDao(this);
+  //      exerciseDescription = imageDao.getById(exercise.getImageId());
         return exerciseDao.getById(id);
     }
 

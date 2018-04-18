@@ -1,13 +1,9 @@
 package info.upump.jym.adapters.holders;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +17,9 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 import info.upump.jym.R;
+import info.upump.jym.bd.ExerciseDescriptionDao;
 import info.upump.jym.entity.Exercise;
+import info.upump.jym.entity.ExerciseDescription;
 
 
 public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -53,8 +51,10 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
 
     public void bind(Exercise exercise) {
         this.exercise = exercise;
+        System.out.println(exercise);
+
         setPic();
-        title.setText(exercise.getTitle());
+        title.setText(exercise.getExerciseDescription().getTitle());
         setInfo();
         if (!exercise.isDefaultType()) {
             type.setText(context.getResources().getString(R.string.card_type_item_exercise));
@@ -81,9 +81,14 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
 
     private void setPic() {
         Uri uri = null;
-        if (exercise.getImg() != null) {
+       /* if (exercise.getImageId() != 0) {
+
             uri = Uri.parse(exercise.getImg());
-        }
+        }*/
+       if(exercise.getExerciseDescription().getImg() != null){
+           System.out.println("exerciseDescription "+ exercise.getExerciseDescription().getImg());
+           uri = Uri.parse(exercise.getExerciseDescription().getImg());
+       }
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()

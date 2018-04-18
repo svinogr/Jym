@@ -1,13 +1,21 @@
 package info.upump.jym.entity;
 
 /**
- * Created by explo on 12.03.2018.
+ * Created by explo on 18.04.2018.
  */
 
 public class ExerciseDescription {
     private long id;
-    private String description;
-    private long parentId;
+    private String img;
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public long getId() {
         return id;
@@ -17,28 +25,20 @@ public class ExerciseDescription {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getImg() {
+        return img;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(long parentId) {
-        this.parentId = parentId;
+    public void setImg(String img) {
+        this.img = img;
     }
 
     @Override
     public String toString() {
         return "ExerciseDescription{" +
                 "id=" + id +
-                ", description='" + description + '\'' +
-                ", parentId=" + parentId +
+                ", img='" + img + '\'' +
+                ", title='" + title + '\'' +
                 '}';
     }
 }

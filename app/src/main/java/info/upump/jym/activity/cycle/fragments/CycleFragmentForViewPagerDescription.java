@@ -2,6 +2,7 @@ package info.upump.jym.activity.cycle.fragments;
 
 
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -190,6 +191,7 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        System.out.println("atach");
         iChangeItem = (IChangeItem) context;
         iChangeItem.setInterfaceForDescription(this);
     }
@@ -207,4 +209,12 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
         outState.putString(START_DATA,startTextData.getText().toString());
         outState.putString(FINISH_DATA,finishTextData.getText().toString());
     }
+
+    @Override
+    public void onResume() {
+        System.out.println("resume");
+        super.onResume();
+    }
+
+
 }
