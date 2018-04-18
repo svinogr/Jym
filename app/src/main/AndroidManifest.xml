@@ -26,17 +26,15 @@
         </activity>
         <activity
             android:name=".activity.exercise.ExerciseDetailTemplateActivity"
-            android:label="@string/title_activity_exercise_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.cycle.CycleDetailActivity"
-            android:label="@string/title_activity_workout_detail_edit"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.cycle.CycleDetailDefaultActivity"
-            android:label="@string/title_activity_workout_detail_edit"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.workout.WorkoutActivityForChoose" />
+        <activity
+            android:name=".activity.workout.WorkoutActivityForChoose" />
         <activity
             android:name=".activity.cycle.CycleCreateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -58,7 +56,7 @@
         <activity android:name=".activity.sets.SetActivityCreate" />
         <activity android:name=".activity.cycle.CycleActivityForChoose" />
         <activity android:name=".activity.user.UserCreateActivity" />
-        <activity android:name=".activity.user.UserGraphActivity"></activity>
+        <activity android:name=".activity.user.UserGraphActivity"/>
     </application>
 
 </manifest>

@@ -57,7 +57,7 @@
     <string name="label_start_cycle">Дата начала</string>
     <string name="label_finish_cycle">Дата окончания</string>
     <string name="label_description_cycle">Описание</string>
-    <string name="label_title_cycle">Название программы</string>
+    <string name="label_title_cycle">Новая программы</string>
     <string name="title_cycle_hint">Новая программа</string>
     <string name="action_clear">Очистить</string>
     <!--dialog-->

@@ -85,6 +85,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
 
     }
 
+
     @Override
     public void onLoadFinished(Loader<List<Exercise>> loader, List<Exercise> data) {
         exerciseList.clear();

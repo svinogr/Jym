@@ -30,7 +30,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:singleLine="true"
-
             android:ellipsize="end"
             android:maxLines="1"
             android:transitionName="cycle_card_layout_title"

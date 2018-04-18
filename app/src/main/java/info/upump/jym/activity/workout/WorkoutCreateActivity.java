@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +26,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Date;
 
@@ -55,10 +61,17 @@ public class WorkoutCreateActivity extends AppCompatActivity {
     };
 
     private void setPic(int s) {
-        Bitmap bitmap = Bitmap.createBitmap(100, 100,
+        Bitmap bitmap = Bitmap.createBitmap(1200, 500,
                 Bitmap.Config.ARGB_8888);
         bitmap.eraseColor(getResources().getColor(getDay(s).getColor()));
         imageView.setImageBitmap(bitmap);
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.ic_add_black_24dp)
+                .error(R.drawable.ic_add_black_24dp)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH);
+        Glide.with(this).load(bitmap).apply(options).into(imageView);
     }
 
 
@@ -66,14 +79,11 @@ public class WorkoutCreateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_create);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.workout_activity_create_toolbar);
+        Toolbar toolbar =findViewById(R.id.workout_activity_create_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
-      //  long idParent = intent.getLongExtra(Constants.ID, 0);
         workout = new Workout();
-     //   workout.setParentId(idParent);
 
         imageView = findViewById(R.id.workout_activity_create_image_view);
         collapsingToolbarLayout = findViewById(R.id.workout_activity_create_collapsing);
