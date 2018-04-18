@@ -10,7 +10,7 @@
         android:fitsSystemWindows="true"
         android:id="@+id/exercise_detail_template_activity_appbar"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="200dp"
         android:theme="@style/AppTheme.AppBarOverlay">
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/exercise_detail_template_activity_collapsing"
@@ -27,10 +27,7 @@
                         android:id="@+id/exercise_detail_template_activity_image_view"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+
                         android:scaleType="centerCrop"
                         android:fitsSystemWindows="true"
                         android:transitionName="exercise_detail_template_activity_image"
