@@ -72,11 +72,11 @@
     <string name="label_weight_set">Вес</string>
     <string name="label_reps_sets">Количество повторений</string>
     <string name="label_reps_sets_short">Повторения</string>
-    <string name="label_title_workout">Новая тренировка</string>
+    <string name="label_title_workout">Название тренировки</string>
     <string name="title_workout_hint">Новая тренировка</string>
     <string name="my_programs">Мои программы</string>
     <string name="my_workouts">Мои тренировки</string>
-    <string name="my_exercises">Мо упражнения</string>
+    <string name="my_exercises">Мои упражнения</string>
     <string name="my_progress">Мой прогресс</string>
     <string name="templates">Готовые шаблоны</string>
     <string name="programs">Программы</string>

@@ -32,12 +32,12 @@ import static info.upump.jym.activity.constant.Constants.TYPE_MUSCLE;
  * Use the {@link ExerciseListFragmentForViewPager#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ExerciseListFragmentForViewPager extends Fragment implements LoaderManager.LoaderCallbacks<List<Exercise>>, View.OnClickListener {
+public class ExerciseListFragmentForViewPager extends Fragment implements LoaderManager.LoaderCallbacks<List<Exercise>> {
     private TypeMuscle typeMuscle;
     private List<Exercise> exerciseList = new ArrayList<>();
     private ExerciseAdapter exerciseAdapter;
     private RecyclerView recyclerView;
-    private FloatingActionButton addFab;
+
 
 
     public ExerciseListFragmentForViewPager() {
@@ -68,13 +68,14 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
         System.out.println("onCreateView внутренний");
         View inflate = inflater.inflate(R.layout.exercise_list_fragment_for_view_pager, container, false);
         recyclerView = inflate.findViewById(R.id.exercise_list_fragment_for_view_pager_recycler_view);
-        addFab = inflate.findViewById(R.id.exercise_list_fragment_for_view_pager_add_fab);
+
+
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(exerciseAdapter);
 
-        addFab.setOnClickListener(this);
+
         return inflate;
     }
 
@@ -112,15 +113,4 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
 
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.exercise_list_fragment_for_view_pager_add_fab:
-                Intent intent =  ExerciseCreateActivity.createIntent(getContext());
-                startActivity(intent);
-
-        }
-
-    }
 }

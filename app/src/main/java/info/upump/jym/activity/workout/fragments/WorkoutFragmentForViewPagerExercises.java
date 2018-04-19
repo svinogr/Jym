@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,6 +51,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
    protected FloatingActionButton addFab;
    protected ExerciseAdapter exerciseAdapter;
    protected List<Exercise> exerciseList = new ArrayList<>();
+   protected NestedScrollView nestedScrollView;
 
     public WorkoutFragmentForViewPagerExercises() {
         // Required empty public constructor
@@ -83,13 +85,31 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         View inflate = inflater.inflate(R.layout.fragment_workout_fragment_for_view_pager_exercises, container, false);
         addFab = getActivity().findViewById(R.id.workout_fragment_for_view_pager_exercises_fab_main);
         recyclerView = inflate.findViewById(R.id.workout_fragment_for_view_pager_exercises_recycler);
+        nestedScrollView = inflate.findViewById(R.id.nested);
+
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(exerciseAdapter);
 
         addFab.setOnClickListener(this);
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY) {
+                    // Scroll Down
+                    if (addFab.isShown()) {
+                        addFab.hide();
+                    }
+                } else if (scrollY <= oldScrollY) {
+                    // Scroll Up
+                    if (!addFab.isShown()) {
+                        addFab.show();
+                    }
+                }
 
+            }
+        });
         return inflate;
     }
 
@@ -161,41 +181,6 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
     public void onClick(View v) {
         Intent intent = ExerciseActivityForChoose.createIntent(getContext());
         getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
-      /*  switch (v.getId()){
-            case R.id.workout_fragment_for_view_pager_exercises_fab_main:
-                String[] inputs = {"Своe", "Выбрать готовоe"};
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Выберите путь"); // заголовок для диалога
-                builder.setNeutralButton("Отмена",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int id) {
-                                dialog.cancel();
-                            }
-                        });
-                builder.setItems(inputs, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        // TODO Auto-generated method stub
-                        Intent intent = null;
-                        switch (item) {
-                            case 1:
-                                System.out.println(1);
-                                intent = ExerciseActivityForChoose.createIntent(getContext());
-                                getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
-                                break;
-                            case 0:
-                                System.out.println(2);
-                               // intent  = WorkoutCreateActivity.createIntent(getContext());
-                                getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
-                                break;
-                        }
-
-                    }
-                });
-                builder.setCancelable(true);
-                builder.show();
-                break;
-        }*/
     }
+
 }

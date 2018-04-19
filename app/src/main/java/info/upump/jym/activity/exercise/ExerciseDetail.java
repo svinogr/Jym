@@ -40,7 +40,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     protected RecyclerView recyclerView;
     protected FloatingActionButton addFab;
     protected SetsAdapter setsAdapter;
- //   private ImageForItem exerciseDescription;
+    //   private ImageForItem exerciseDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +61,13 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         setFabVisible(true);
         addFab.setOnClickListener(this);
         recyclerView.setAdapter(setsAdapter);
-
-
-
+        setFab();
     }
 
     protected void setFabVisible(boolean visible) {
         if (visible) {
             addFab.setVisibility(View.VISIBLE);
-        } else  addFab.setVisibility(View.GONE);
+        } else addFab.setVisibility(View.GONE);
 
     }
 
@@ -84,8 +82,8 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         Intent intent = getIntent();
         long id = intent.getLongExtra(ID, 0);
         ExerciseDao exerciseDao = new ExerciseDao(this);
-  //      ImageDao imageDao = new ImageDao(this);
-  //      exerciseDescription = imageDao.getById(exercise.getImageId());
+        //      ImageDao imageDao = new ImageDao(this);
+        //      exerciseDescription = imageDao.getById(exercise.getImageId());
         return exerciseDao.getById(id);
     }
 
@@ -237,5 +235,28 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
             finishActivityWithAnimation();
         } else Toast.makeText(this, "времен, упражнение  не удалено", Toast.LENGTH_SHORT).show();
 
+    }
+
+    protected void setFab() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+                    // Scroll Down
+                    if (addFab.isShown()) {
+                        addFab.hide();
+                    }
+                } else if (dy <= 0) {
+                    // Scroll Up
+                    if (!addFab.isShown()) {
+                        addFab.show();
+                    }
+                }
+            }
+        });
+
+        addFab.setOnClickListener(this);
     }
 }

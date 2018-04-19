@@ -2,11 +2,13 @@ package info.upump.jym.fragments.exercises;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import info.upump.jym.IControlFragment;
 import info.upump.jym.ITitleble;
 import info.upump.jym.R;
+import info.upump.jym.activity.exercise.ExerciseCreateActivity;
 import info.upump.jym.adapters.PagerAdapterExercise;
 import info.upump.jym.entity.Exercise;
 
@@ -24,8 +27,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     private PagerAdapterExercise pagerAdapter;
     private IControlFragment iControlFragment;
     private static final int ICON_FAB = R.drawable.ic_add_black_24dp;
-    private FloatingActionButton mainFab;
-
+    private FloatingActionButton addFab;
     public ExerciseFragment() {
     }
 
@@ -57,10 +59,11 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
         iTitlable.setTitle(getResources().getString(R.string.exercise_fragment_title));
         viewPager = inflate.findViewById(R.id.exercise_fragment_viewpager);
         tabLayout = inflate.findViewById(R.id.exercise_fragment_tab_layout);
-
+        addFab = inflate.findViewById(R.id.exercise_fragment_add_fab);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         setPageTransform();
+        addFab.setOnClickListener(this);
         return inflate;
     }
 
@@ -136,14 +139,39 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
 //
 //    }
 
+
+   /* protected void setFab() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+                    // Scroll Down
+                    if (addFab.isShown()) {
+                        addFab.hide();
+                    }
+                } else if (dy <= 0) {
+                    // Scroll Up
+                    if (!addFab.isShown()) {
+                        addFab.show();
+                    }
+                }
+            }
+        });
+
+        addFab.setOnClickListener(this);
+    }*/
+
     @Override
     public void onClick(View v) {
-        Exercise exercise = new Exercise();
-//        ДОБАВЛЯЕМ МУСКУЛ ЧТОБЫ ЗНАТЬ В КАКУЮ ГРУППУ СОХРАНИТЬ
-   /*     exercise.setTypeMuscle(values[viewPager.getCurrentItem()]);
-        Intent intent = ExerciseDetailActivityEdit.createIntent(getContext(), exercise);
-        startActivity(intent);*/
-//        startActivityForResult(intent, ExerciseDetailActivityEdit.REQUEST_CODE_FOR_NEW_EXERCISE);
+        switch (v.getId()){
+            case R.id.exercise_fragment_add_fab:
+                Intent intent =  ExerciseCreateActivity.createIntent(getContext());
+                startActivity(intent);
+
+        }
+
     }
 
 
