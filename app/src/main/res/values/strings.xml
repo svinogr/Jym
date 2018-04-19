@@ -113,5 +113,6 @@
     <string name="picker_dialog_btn_save">Сохранить</string>
     <string name="picker_dialog_btn_cancel">Отмена</string>
     <string name="label_title_user_date">Дата измерения</string>
+    <string name="label_date_user">Дата</string>
 
 </resources>

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -13,7 +12,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="info.upump.jym.activity.user.UserCreateActivity"
         tools:showIn="@layout/activity_user_create">
-
         <android.support.v7.widget.CardView
             android:id="@+id/title_card0"
             android:layout_width="match_parent"
@@ -23,11 +21,9 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
-
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <TextView
                     android:id="@+id/content_user_create_label_weight"
                     style="@style/TextViewLabel"
@@ -38,7 +34,6 @@
                     android:text="@string/label_title_user_weight"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
                 <EditText
                     android:id="@+id/content_user_create_weight_edit"
                     style="@style/TextViewText"
@@ -51,21 +46,18 @@
                     app:layout_constraintEnd_toStartOf="@id/guideline"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_weight" />
-
                 <android.support.constraint.Guideline
                     android:id="@+id/guideline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.33" />
-
                 <android.support.constraint.Guideline
                     android:id="@+id/guideline8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.66" />
-
                 <TextView
                     android:id="@+id/content_user_create_label_height"
                     style="@style/TextViewLabel"
@@ -75,9 +67,7 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/label_title_user_height"
                     app:layout_constraintStart_toStartOf="@+id/guideline"
-
                     app:layout_constraintTop_toTopOf="parent" />
-
                 <EditText
                     android:id="@+id/content_user_create_fat_edit"
                     style="@style/TextViewText"
@@ -90,7 +80,6 @@
                     app:layout_constraintEnd_toStartOf="@+id/guideline8"
                     app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_height" />
-
                 <TextView
                     android:id="@+id/content_user_create_label_fat"
                     style="@style/TextViewLabel"
@@ -100,9 +89,7 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/label_title_user_fat"
                     app:layout_constraintStart_toStartOf="@+id/guideline8"
-
                     app:layout_constraintTop_toTopOf="parent" />
-
                 <EditText
                     android:id="@+id/content_user_create_right_fat_edit"
                     style="@style/TextViewText"
@@ -129,11 +116,9 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_card0">
-
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <TextView
                     android:id="@+id/content_user_create_label_neck"
                     style="@style/TextViewLabel"
@@ -144,7 +129,6 @@
                     android:text="@string/label_title_user_neck"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
                 <EditText
                     android:id="@+id/content_user_create_neck_edit"
                     style="@style/TextViewText"
@@ -159,7 +143,6 @@
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_neck" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
-
         <android.support.v7.widget.CardView
             android:id="@+id/title_card2"
             android:layout_width="match_parent"
@@ -171,11 +154,9 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_card">
-
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <TextView
                     android:id="@+id/content_user_create_label_shoulder"
                     style="@style/TextViewLabel"
@@ -186,7 +167,6 @@
                     android:text="@string/label_title_user_shoulders"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
                 <EditText
                     android:id="@+id/content_user_create_shoulder"
                     style="@style/TextViewText"
@@ -201,7 +181,6 @@
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_shoulder" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
-
         <android.support.v7.widget.CardView
             android:id="@+id/title_card3"
             android:layout_width="match_parent"
@@ -213,11 +192,9 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_card2">
-
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <TextView
                     android:id="@+id/content_user_create_label_pectoral"
                     style="@style/TextViewLabel"
@@ -228,7 +205,6 @@
                     android:text="@string/label_title_user_pectoral"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
                 <EditText
                     android:id="@+id/content_user_create_pectoral_edit"
                     style="@style/TextViewText"
@@ -243,7 +219,6 @@
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_pectoral" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
-
         <android.support.v7.widget.CardView
             android:id="@+id/title_card4"
             android:layout_width="match_parent"
@@ -254,11 +229,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_card3">
-
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <TextView
                     android:id="@+id/content_user_create_label_left_biceps"
                     style="@style/TextViewLabel"
@@ -269,7 +242,6 @@
                     android:text="@string/label_title_user_left_biceps"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
                 <EditText
                     android:id="@+id/content_user_create_left_biceps_edit"
                     style="@style/TextViewText"
@@ -282,14 +254,12 @@
                     app:layout_constraintEnd_toStartOf="@+id/guideline2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_left_biceps" />
-
                 <android.support.constraint.Guideline
                     android:id="@+id/guideline2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.50" />
-
                 <TextView
                     android:id="@+id/content_user_create_label_right_biceps"
                     style="@style/TextViewLabel"
@@ -300,7 +270,6 @@
                     android:text="@string/label_title_user_right_biceps"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
                     app:layout_constraintTop_toTopOf="parent" />
-
                 <EditText
                     android:id="@+id/content_user_create_right_biceps_edit"
                     style="@style/TextViewText"
@@ -314,7 +283,6 @@
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_right_biceps" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
-
         <android.support.v7.widget.CardView
             android:id="@+id/title_card5"
             android:layout_width="match_parent"
@@ -326,11 +294,9 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_card4">
-
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <TextView
                     android:id="@+id/content_user_create_label_abs"
                     style="@style/TextViewLabel"
@@ -341,7 +307,6 @@
                     android:text="@string/label_title_user_abs"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
                 <EditText
                     android:id="@+id/content_user_create_abs_edit"
                     style="@style/TextViewText"
@@ -356,7 +321,6 @@
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_abs" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
-
         <android.support.v7.widget.CardView
             android:id="@+id/title_card6"
             android:layout_width="match_parent"
@@ -367,7 +331,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_card5">
-
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

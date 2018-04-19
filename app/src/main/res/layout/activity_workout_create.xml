@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <android.support.design.widget.AppBarLayout
         android:fitsSystemWindows="true"
         android:id="@+id/workout_activity_create_appbar"
@@ -26,13 +25,10 @@
                         android:id="@+id/workout_activity_create_image_view"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-
                         android:scaleType="centerCrop"
                         android:fitsSystemWindows="true"
                         android:transitionName="workout_activity_create_image"
                         app:layout_collapseMode="parallax" />
-
-
             <android.support.v7.widget.Toolbar
                 app:layout_collapseMode="pin"
                 android:id="@+id/workout_activity_create_toolbar"
@@ -40,10 +36,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
         </android.support.design.widget.CollapsingToolbarLayout>
-
-
     </android.support.design.widget.AppBarLayout>
-
     <include
         layout="@layout/content_workout_create_activity" />
 
