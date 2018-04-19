@@ -126,16 +126,16 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
 
     @Override
     public void onClick(View v) {
-        String[] inputs = {"Свою", "Выбрать готовую"};
+        String[] inputs = {getString(R.string.workout_dialog_create_new), getString(R.string.workout_dialog_сhoose)};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Выберите путь"); // заголовок для диалога
-        builder.setNeutralButton("Отмена",
+        builder.setTitle(R.string.workout_dialog_title); // заголовок для диалога
+      /*  builder.setNeutralButton("Отмена",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {
                         dialog.cancel();
                     }
-                });
+                });*/
         builder.setItems(inputs, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {

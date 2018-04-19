@@ -61,7 +61,6 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         setTitle();
         View inflate = inflater.inflate(R.layout.fragment_workout, container, false);

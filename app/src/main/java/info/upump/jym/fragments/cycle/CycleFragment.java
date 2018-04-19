@@ -15,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +27,6 @@ import info.upump.jym.activity.cycle.CycleCreateActivity;
 import info.upump.jym.adapters.CycleAdapter;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.loaders.CycleFragmentLoader;
-
-import static info.upump.jym.activity.constant.Constants.ID;
 
 public class CycleFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Cycle>> {
     protected ITitleble iTitlable;
@@ -137,17 +134,17 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     }
 
     private void addItem() {
-        String[] inputs = {"Свою", "Выбрать готовую"};
+        String[] inputs = {getString(R.string.cycle_dialog_create_new), getString(R.string.cycle_dialog_сhoose)};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Выберите путь"); // заголовок для диалога
+        builder.setTitle(R.string.cycle_dialog_title); // заголовок для диалога
 
-        builder.setNeutralButton("Отмена",
+       /* builder.setNeutralButton("Отмена",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {
                         dialog.cancel();
                     }
-                });
+                });*/
         builder.setItems(inputs, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -164,7 +161,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
             }
         });
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         builder.show();
     }
 
