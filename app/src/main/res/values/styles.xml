@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimaryNet</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkNet</item>
+        <item name="colorAccent">@color/colorAccentNet</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -33,11 +33,13 @@
     </style>
 
     <style name="RecyclerView">
+        <item name="android:background">@color/colorBackgroundRecyclerView</item>
         <item name="android:layout_marginStart">0dp</item>
         <item name="android:layout_marginEnd">0dp</item>>
     </style>
 
-    <style name="MyCardView">
+    <style name="MyCardView" parent="Base.CardView">
+        <item name="cardBackgroundColor">@color/colorBackgroundCardView</item>
         <item name="cardElevation">1dp</item>
         <item name="cardCornerRadius">0dp</item>
         <item name="android:layout_marginEnd">4dp</item>
@@ -46,5 +48,25 @@
         <item name="android:layout_marginTop">2dp</item>
     </style>
 
+    <style name="MyCardViewTop">
+        <item name="cardBackgroundColor">@color/colorBackgroundTabLayout</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+    </style>
+
+    <style name="MyTabLayout">
+        <item name="android:background">@color/colorBackgroundTabLayout</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>>
+    </style>
+
+    <style name="MyConstrateLayout">
+        <item name="android:background">@color/colorBackgroundConstrateLayout</item>
+
+    </style>
 
 </resources>

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryNet">#56030a</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDarkNet">#171c20</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorAccentNet">#d90919</color>
     <color name="colorTextLabel">#6c6c70</color>
     <color name="colorText">#000000</color>
-
+    <color name="colorBackgroundRecyclerView">#d9d9d9</color>
+    <color name="colorBackgroundCardView">#feffff</color>
+    <color name="colorBackgroundTabLayout">#a2a2a2</color>
+    <color name="colorBackgroundConstrateLayout">#d9d9d9</color>
+    a2a2a2
     <!--700 color-->
     <color name="monday">#1976d2</color>
     <color name="tuesday">#7b1fa2</color>
