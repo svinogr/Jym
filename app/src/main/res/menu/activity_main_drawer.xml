@@ -2,25 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_my_programs"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/my_programs" />
-        <item
-            android:id="@+id/nav_my_workouts"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/my_workouts" />
+        <group
+            android:id="@+id/nav_g1"
+            android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_my_programs"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="@string/my_programs" />
+            <item
+                android:id="@+id/nav_my_workouts"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="@string/my_workouts" />
 
-        <item
-            android:id="@+id/nav_progress"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/my_progress" />
-    </group>
-
-    <item android:title="@string/templates">
-        <menu>
+            <item
+                android:id="@+id/nav_progress"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/my_progress" />
+        </group>
+        <group
+            android:id="@+id/nav_g2"
+            android:checkableBehavior="single"
+            android:title="@string/my_progress">
             <item
                 android:id="@+id/nav_programs"
                 android:icon="@drawable/ic_menu_camera"
@@ -33,13 +36,10 @@
                 android:id="@+id/nav_my_exercises"
                 android:icon="@drawable/ic_menu_slideshow"
                 android:title="@string/exercises" />
-
-        </menu>
-    </item>
-    <item android:title="Дополнительно">
-
-        <menu>
-
+        </group>
+        <group
+            android:id="@+id/nav_g3"
+            android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
@@ -48,8 +48,7 @@
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Инструкция" />
-        </menu>
-    </item>
 
-
+        </group>
+    </group>
 </menu>

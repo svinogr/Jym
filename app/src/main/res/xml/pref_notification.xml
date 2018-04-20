@@ -1,0 +1,34 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Экран при включении приложения">
+    <CheckBoxPreference
+        android:title="@string/my_programs"
+        android:defaultValue="true"
+        android:key="checkboxPref" />
+        <CheckBoxPreference
+            android:title="@string/my_programs"
+            android:defaultValue="false"
+            android:key="checkboxPref" />
+        <CheckBoxPreference
+            android:title="@string/my_workouts"
+            android:defaultValue="false"
+            android:key="checkboxPref" />
+        <CheckBoxPreference
+            android:title="@string/my_progress"
+            android:defaultValue="false"
+            android:key="checkboxPref" />
+        <CheckBoxPreference
+            android:title="@string/programs"
+            android:defaultValue="false"
+            android:key="checkboxPref" />
+        <CheckBoxPreference
+            android:title="@string/workouts"
+            android:defaultValue="false"
+            android:key="checkboxPref" />
+        <CheckBoxPreference
+            android:title="@string/exercises"
+            android:defaultValue="false"
+            android:key="checkboxPref" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

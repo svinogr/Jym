@@ -8,6 +8,6 @@ import android.support.v4.app.Fragment;
  */
 
 public interface IControlFragment {
-   void createFragment(Fragment fragment);
+   void createFragment(int fragment);
 
 }

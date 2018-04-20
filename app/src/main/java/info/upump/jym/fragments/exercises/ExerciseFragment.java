@@ -42,7 +42,6 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         System.out.println("onCreate");
         super.onCreate(savedInstanceState);
-     //   pagerAdapter = new PagerAdapter(getActivity().getSupportFragmentManager(), values, getContext());
         pagerAdapter = new PagerAdapterExercise(getActivity().getSupportFragmentManager(), getContext());
     }
 
@@ -51,10 +50,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         View inflate = inflater.inflate(R.layout.fragment_exercise, container, false);
-        System.out.println("onCreateView");
-     //  mainFab = inflate.findViewById(R.id.exercise_fragment_main_fab);
-    //    mainFab.setOnClickListener(this);
-       // setIconFab();
+        System.out.println("onCreateView Exerso");
 
         iTitlable.setTitle(getResources().getString(R.string.exercise_fragment_title));
         viewPager = inflate.findViewById(R.id.exercise_fragment_viewpager);
@@ -124,44 +120,12 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
         iControlFragment = (IControlFragment) context;
     }
 
-//    @Override
-//    public void onTabSelected(TabLayout.Tab tab) {
-//        viewPager.setCurrentItem(tab.getPosition(), true);
-//    }
-//
-//    @Override
-//    public void onTabUnselected(TabLayout.Tab tab) {
-//
-//    }
-//
-//    @Override
-//    public void onTabReselected(TabLayout.Tab tab) {
-//
-//    }
-
-
-   /* protected void setFab() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                if (dy > 0) {
-                    // Scroll Down
-                    if (addFab.isShown()) {
-                        addFab.hide();
-                    }
-                } else if (dy <= 0) {
-                    // Scroll Up
-                    if (!addFab.isShown()) {
-                        addFab.show();
-                    }
-                }
-            }
-        });
-
-        addFab.setOnClickListener(this);
-    }*/
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("onCreateView onResume");
+        
+    }
 
     @Override
     public void onClick(View v) {

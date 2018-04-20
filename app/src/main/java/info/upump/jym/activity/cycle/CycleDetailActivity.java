@@ -61,7 +61,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         viewPager = findViewById(R.id.cycle_fragment_edit_viewpager);
         viewPager = findViewById(R.id.cycle_fragment_edit_viewpager);
         imageView = findViewById(R.id.exercise_activity_detail_edit_image_view);
-        addFab = findViewById(R.id.cycle_activity_detail_fab_main);
+        addFab =   findViewById(R.id.cycle_activity_detail_fab_main);
         setFabVisible(true);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

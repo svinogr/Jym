@@ -8,7 +8,7 @@
         android:fitsSystemWindows="true"
         android:id="@+id/cycle_activity_detail_edit_appbar"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="280dp"
         android:theme="@style/AppTheme.AppBarOverlay">
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/cycle_create_activity_collapsing"
@@ -22,7 +22,7 @@
                     <ImageView
                         android:id="@+id/cycle_create_activity_image_view"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="280dp"
                         android:scaleType="centerCrop"
                         android:fitsSystemWindows="true"
                         android:transitionName="cycle_card_layout_image"

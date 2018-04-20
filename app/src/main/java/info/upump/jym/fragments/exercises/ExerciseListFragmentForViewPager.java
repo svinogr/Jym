@@ -27,11 +27,6 @@ import info.upump.jym.loaders.ExerciseFragmentLoader;
 
 import static info.upump.jym.activity.constant.Constants.TYPE_MUSCLE;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ExerciseListFragmentForViewPager#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ExerciseListFragmentForViewPager extends Fragment implements LoaderManager.LoaderCallbacks<List<Exercise>> {
     private TypeMuscle typeMuscle;
     private List<Exercise> exerciseList = new ArrayList<>();
@@ -65,17 +60,15 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         System.out.println("onCreateView внутренний");
         View inflate = inflater.inflate(R.layout.exercise_list_fragment_for_view_pager, container, false);
         recyclerView = inflate.findViewById(R.id.exercise_list_fragment_for_view_pager_recycler_view);
 
-
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(exerciseAdapter);
-
-
+        LoaderManager loaderManager = getLoaderManager();
         return inflate;
     }
 
@@ -113,4 +106,9 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
 
     }
 
+    @Override
+    public void onResume() {
+
+        super.onResume();
+    }
 }
