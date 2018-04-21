@@ -13,6 +13,7 @@ public class WorkoutDefaultChooseViewHolder extends WorkoutTemplateViewHolder {
 
     public WorkoutDefaultChooseViewHolder(View itemView) {
         super(itemView);
+        System.out.println("WorkoutDefaultChooseViewHolder");
         iChooseItem = (IChooseItem) context;
     }
 

@@ -13,6 +13,8 @@ import info.upump.jym.activity.workout.WorkoutDetailDefaultActivity;
 public class WorkoutDefaultViewHolder extends WorkoutTemplateViewHolder {
     public WorkoutDefaultViewHolder(View itemView) {
         super(itemView);
+        System.out.println("WorkoutDefaultViewHolder");
+
     }
 
     @Override

@@ -72,7 +72,7 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
 
     }
 
-    protected Intent createIntent(){
+    protected Intent createIntent() {
         Intent intent = CycleDetailActivity.createIntent(context, cycle);
         return intent;
     }

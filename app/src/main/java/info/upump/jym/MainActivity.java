@@ -304,7 +304,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        System.out.println("кол-во экрано "+getSupportFragmentManager().getBackStackEntryCount());
+        System.out.println("кол-во экрано " + getSupportFragmentManager().getBackStackEntryCount());
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity
                     .setAction("Да", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                           finish();
+                            finish();
                         }
                     }).show();
         }
@@ -322,10 +322,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+       // getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
+/*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -337,41 +337,42 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        int fragment = 0;
-        if (id == R.id.nav_my_programs) {
-//            if(!(curFragment instanceof CycleFragment)){
-            fragment = 0;
-//            }
-            // Handle the camera action
-        } else if (id == R.id.nav_my_exercises) {
-//            if(!(curFragment instanceof ExerciseFragment)){
-            fragment=5;
-//            }
-
-        } else if (id == R.id.nav_my_workouts) {
-//            if(!(curFragment instanceof WorkoutFragment)){
-            fragment = 1;
-//            }
-
-        } else if (id == R.id.nav_progress) {
-            fragment = 2;
-
-        } else if (id == R.id.nav_programs) {
-         /*   if(!(curFragment instanceof CycleFragmentTemplate)) {*/
-            fragment = 3;
-            //   }
-
-        } else if (id == R.id.nav_workouts) {
-            fragment = 4;
+        int fragment = -1;
+        switch (id){
+            case R.id.nav_my_programs:
+                fragment = 0;
+                break;
+            case R.id.nav_my_workouts:
+                fragment = 1;
+                break;
+            case R.id.nav_progress:
+                fragment = 2;
+                break;
+            case R.id.nav_programs:
+                fragment = 3;
+                break;
+            case R.id.nav_workouts:
+                fragment = 4;
+                break;
+            case R.id.nav_my_exercises:
+                fragment = 5;
+                break;
         }
-        createFragment(fragment);
+
+        if (fragment != -1) {
+            createFragment(fragment);
+        }
+        if(id == R.id.nav_settings) {
+            Intent intent = SettingsActivity.createIntent(this);
+            startActivity(intent);
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -79,9 +79,9 @@
     <string name="my_exercises">Мои упражнения</string>
     <string name="my_progress">Мой прогресс</string>
     <string name="templates">Готовые шаблоны</string>
-    <string name="programs">Программы</string>
-    <string name="workouts">Тренировки</string>
-    <string name="exercises">Упражнения</string>
+    <string name="programs">Готовые программы</string>
+    <string name="workouts">Готовые тренировки</string>
+    <string name="exercises">Все упражнения</string>
     <string name="action_delete_exercise">Удалить упражнение</string>
     <string name="action_exercise_clear">Удалить подходы</string>
     <string name="action_exercise_change_weight">Изменить все веса</string>
@@ -141,9 +141,9 @@
         <item>Мои программы</item>
         <item>Мои тренировки</item>
         <item>Мой прогресс</item>
-        <item>Програмы</item>
-        <item>Тренировки</item>
-        <item>Упражнения</item>
+        <item>Готовые програмы</item>
+        <item>Готовые уренировки</item>
+        <item>Все упражнения</item>
     </string-array>
     <string-array name="pref_example_list_values">
         <item>0</item>

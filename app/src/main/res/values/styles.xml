@@ -68,5 +68,12 @@
         <item name="android:background">@color/colorBackgroundConstrateLayout</item>
 
     </style>
+    <!-- Splash theme. -->
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_activity</item>
+        style name="AppTheme.NoActionBar">
+
+    </style>
 
 </resources>

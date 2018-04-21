@@ -8,16 +8,16 @@
             android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_my_programs"
-                android:icon="@drawable/ic_menu_camera"
+                android:icon="@drawable/ic_bookmark_black_24dp"
                 android:title="@string/my_programs" />
             <item
                 android:id="@+id/nav_my_workouts"
-                android:icon="@drawable/ic_menu_gallery"
+                android:icon="@drawable/ic_bookmark_black_24dp"
                 android:title="@string/my_workouts" />
 
             <item
                 android:id="@+id/nav_progress"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_insert_chart_black_24dp"
                 android:title="@string/my_progress" />
         </group>
         <group
@@ -26,29 +26,35 @@
             android:title="@string/my_progress">
             <item
                 android:id="@+id/nav_programs"
-                android:icon="@drawable/ic_menu_camera"
+                android:icon="@drawable/ic_book_black_24dp"
                 android:title="@string/programs" />
             <item
                 android:id="@+id/nav_workouts"
-                android:icon="@drawable/ic_menu_gallery"
+                android:icon="@drawable/ic_book_black_24dp"
                 android:title="@string/workouts" />
             <item
                 android:id="@+id/nav_my_exercises"
-                android:icon="@drawable/ic_menu_slideshow"
+                android:icon="@drawable/ic_fitness_center_black_24dp"
                 android:title="@string/exercises" />
         </group>
         <group
             android:id="@+id/nav_g3"
             android:checkableBehavior="single">
             <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Настройки" />
+           <!-- <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="О приложении" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Инструкция" />
+                android:title="Инструкция" />-->
 
         </group>
+
     </group>
+
 </menu>

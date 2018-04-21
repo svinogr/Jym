@@ -2,7 +2,14 @@ package info.upump.jym.bd;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by explo on 05.03.2018.
@@ -171,4 +178,76 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return instance;
     }
+    public void create_db() {
+        InputStream myInput = null;
+        OutputStream myOutput = null;
+        if (checkBD()) {
+            return;
+        }
+
+        try {
+            File file = new File(DB_PATH);
+            if (!file.exists()) {
+                //получаем локальную бд как поток в папке assets
+                this.getReadableDatabase();
+                myInput = context.getAssets().open(DATABASE_NAME);
+                // Путь к новой бд
+                String outFileName = DB_PATH;
+                // Открываем пустую бд
+                myOutput = new FileOutputStream(outFileName);
+                // побайтово копируем данные
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = myInput.read(buffer)) > 0) {
+                    myOutput.write(buffer, 0, length);
+                }
+
+                myOutput.flush();
+                myOutput.close();
+                myInput.close();
+                close();
+
+            }
+            seVersionDB();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void deleteBD() {
+        File file = new File(DB_PATH);
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
+    private void seVersionDB() {
+        SQLiteDatabase sqLiteDatabase;
+        try {
+            sqLiteDatabase = getWritableDatabase();
+            sqLiteDatabase.setVersion(DATA_BASE_VERSION);
+            sqLiteDatabase.close();
+        } catch (SQLiteException e) {
+
+        }
+    }
+
+    private boolean checkBD() {
+        SQLiteDatabase sqLiteDatabase;
+        try {
+            sqLiteDatabase = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
+            int version = sqLiteDatabase.getVersion();
+            sqLiteDatabase.close();
+            if (version < DATA_BASE_VERSION) {
+                deleteBD();
+                return false;
+            } else return true;
+        } catch (SQLiteException e) {
+            return false;
+        }
+    }
+
 }

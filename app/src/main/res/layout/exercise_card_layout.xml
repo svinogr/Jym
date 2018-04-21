@@ -10,6 +10,7 @@
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
+        android:background="?selectableItemBackground"
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/exercise_card_layout_image"
@@ -17,7 +18,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:transitionName="exercise_card_layout_image"
+            android:transitionName="exercise_detail_template_activity_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <TextView

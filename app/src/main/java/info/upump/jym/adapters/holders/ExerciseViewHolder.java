@@ -1,9 +1,14 @@
 package info.upump.jym.adapters.holders;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,7 +57,6 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
     public void bind(Exercise exercise) {
         this.exercise = exercise;
         System.out.println(exercise);
-
         setPic();
         title.setText(exercise.getExerciseDescription().getTitle());
         setInfo();
@@ -65,18 +69,17 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
 
     private void startActivity() {
         Intent intent = createIntent();
-       /* if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        System.out.println("контекст "+context);
+
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = image;
-            View sharedViewT = title;
-            String transitionNameIm = "exercise_card_layout_image";
-            String transitionNameT = "exercise_card_layout_title";
+            String transitionNameIm = "exercise_detail_template_activity_image";
             ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
-                            context,
-                    Pair.create(sharedViewIm, transitionNameIm),
-                    Pair.create(sharedViewT, transitionNameT));
+                            getAnimationContext(),
+                    Pair.create(sharedViewIm, transitionNameIm));
             context.startActivity(intent, transitionActivityOptions.toBundle());
-        } else context.startActivity(intent);*/
-        context.startActivity(intent);
+        } else context.startActivity(intent);
     }
 
     private void setPic() {
@@ -98,5 +101,12 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
                 .priority(Priority.HIGH);
 
         Glide.with(itemView.getContext()).load(uri).apply(options).into(image);
+    }
+    protected Context getAnimationContext(){
+
+        if(context instanceof Activity){
+            context = (Activity)context;
+        } else context =  ((ContextThemeWrapper) context).getBaseContext();
+        return context;
     }
 }

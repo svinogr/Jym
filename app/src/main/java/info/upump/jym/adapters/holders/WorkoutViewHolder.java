@@ -1,8 +1,10 @@
 package info.upump.jym.adapters.holders;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.view.ContextThemeWrapper;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -23,7 +25,7 @@ import info.upump.jym.entity.Workout;
  * Created by explo on 23.03.2018.
  */
 
-abstract public   class WorkoutViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     protected ImageView imageView;
     protected TextView title, variably;
     protected View itemView;
@@ -32,6 +34,7 @@ abstract public   class WorkoutViewHolder extends RecyclerView.ViewHolder implem
 
     public WorkoutViewHolder(View itemView) {
         super(itemView);
+        System.out.println("abstract WorkoutViewHolder");
         this.itemView = itemView;
         imageView = itemView.findViewById(R.id.workout_card_layout_image);
         title = itemView.findViewById(R.id.workout_card_layout_title);
@@ -66,5 +69,12 @@ abstract public   class WorkoutViewHolder extends RecyclerView.ViewHolder implem
                 .priority(Priority.HIGH);
 
         Glide.with(itemView.getContext()).load(bitmap).into(imageView);
+    }
+    protected Context getAnimationContext(){
+
+        if(context instanceof Activity){
+            context = (Activity)context;
+        } else context =  ((ContextThemeWrapper) context).getBaseContext();
+        return context;
     }
 }
