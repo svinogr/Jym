@@ -6,12 +6,11 @@
 
     <item
         android:drawable="@color/colorPrimaryNet"/>
-<!--
-    <item>
+    <item >
         <bitmap
             android:gravity="center"
-            android:src="@drawable/ic_launcher_background"
-            tools:ignore="VectorDrawableCompat" />
-    </item>-->
+            android:src="@mipmap/ic_launcher_round"
+          />
+    </item>
     <!--android:src="@drawable/ic_launcher_background"/>-->
 </layer-list>
