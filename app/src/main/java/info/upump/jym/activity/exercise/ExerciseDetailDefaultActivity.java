@@ -41,4 +41,5 @@ public class ExerciseDetailDefaultActivity  extends ExerciseDetail{
         finishActivityWithAnimation();
     }
 
+
 }

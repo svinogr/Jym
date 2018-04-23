@@ -17,7 +17,7 @@ import java.io.OutputStream;
 
 public class DBHelper extends SQLiteOpenHelper {
     private Context context;
-    public final static int DATA_BASE_VERSION = 5;
+    public final static int DATA_BASE_VERSION = 9;
     public final static String DATABASE_NAME = "jym.db";
     public final static String TABLE_SET = "sets";
     public final static String TABLE_EXERCISE = "exercises";

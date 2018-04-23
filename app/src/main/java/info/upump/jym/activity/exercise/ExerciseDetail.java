@@ -34,6 +34,7 @@ import info.upump.jym.loaders.SetsLoader;
 import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
 
+// с просмотром подходов и добавлением кнопкой
 public class ExerciseDetail extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Sets>>, IItemFragment<Sets> {
     protected Exercise exercise;
     protected List<Sets> setsList = new ArrayList<>();
@@ -44,6 +45,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("ExerciseDetail");
         setContentView(R.layout.activity_exercise_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.exercise_title_sets);

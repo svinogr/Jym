@@ -55,7 +55,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 200) {
+            if (msg.what == 100) {
                 collapsingToolbarLayout.setTitle(msg.obj.toString());
             }
 
@@ -63,6 +63,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
     };
 
     public static Intent createIntent(Context context, Exercise exercise) {
+        System.out.println("ExerciseDetailTemplateActivity");
         Intent intent = new Intent(context, ExerciseDetailTemplateActivity.class);
         intent.putExtra(ID, exercise.getId());
         return intent;
@@ -108,11 +109,14 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
     private void setPic(Uri uri) {
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.ic_add_black_24dp)
-                .error(R.drawable.ic_add_black_24dp)
+                .placeholder(R.drawable.view_place_holder_exercise)
+                .error(R.drawable.iview_place_erore_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
-        Glide.with(this).load(uri).apply(options).into(imageView);
+        if (exercise.isDefaultType()) {
+            int ident = getResources().getIdentifier(exercise.getExerciseDescription().getImg(), "drawable", getPackageName());
+            Glide.with(this).load(ident).apply(options).into(imageView);
+        } else Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
     @Override
@@ -155,6 +159,8 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         description = findViewById(R.id.content_exercise_detail_template_activity_web);
         spinner = findViewById(R.id.content_exercise_detail_template_activity_spinner);
 
+        title.setText(exercise.getTitle());
+
         String[] nameOfValues = getNameOfMuscle();
         ArrayAdapter<String> dayArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameOfValues);
         spinner.setAdapter(dayArrayAdapter);
@@ -168,13 +174,9 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent photoPic = createIntentForGetPic();
-                startActivityForResult(photoPic, Constants.REQUEST_CODE_GALLERY_PHOTO);
-            }
-        });
+
+        setChangePic();
+
 
         title.addTextChangedListener(new TextWatcher() {
             @Override
@@ -184,11 +186,11 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                handler.removeMessages(200);
+                handler.removeMessages(100);
                 if ((title.getText().toString().trim()).isEmpty()) {
-                    handler.sendMessageDelayed(handler.obtainMessage(200, title.getHint()), 250);
+                    handler.sendMessageDelayed(handler.obtainMessage(100, title.getHint()), 250);
                 } else
-                    handler.sendMessageDelayed(handler.obtainMessage(200, title.getText()), 250);
+                    handler.sendMessageDelayed(handler.obtainMessage(100, title.getText()), 250);
             }
 
             @Override
@@ -208,9 +210,20 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
 
     }
 
-    private void createViewFrom() {
+    protected void setChangePic() {
+        if (!exercise.isDefaultType()) {
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent photoPic = createIntentForGetPic();
+                    startActivityForResult(photoPic, Constants.REQUEST_CODE_GALLERY_PHOTO);
+                }
+            });
+        }
+    }
 
-        //TODO убрать взможность сохранить для не своих
+    private void createViewFrom() {
+        collapsingToolbarLayout.setTitle(exercise.getExerciseDescription().getTitle());
         title.setText(exercise.getExerciseDescription().getTitle());
 
         if (exercise.getComment() != null) {
@@ -250,13 +263,13 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         if (exerciseDao.delete(exercise)) {
             Toast.makeText(this, R.string.toast_exercise_delete, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
-            //exit();
         } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
     }
 
 
     private void exit() {
-        if (itemIsNotChanged()) {
+        System.out.println(exercise.isDefaultType());
+        if (itemIsNotChanged() || exercise.isDefaultType()) {
             finishActivityWithAnimation();
         } else {
             AlertDialog.Builder ad = new AlertDialog.Builder(this);
@@ -265,7 +278,6 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     update();
-
                 }
             });
             ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
@@ -278,13 +290,13 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
             });
             ad.show();
         }
-
     }
 
     private boolean itemIsNotChanged() {
         Exercise changeableItem = getChangeableItem();
         System.out.println(changeableItem);
-        if (!changeableItem.getExerciseDescription().getTitle().equals(exercise.getExerciseDescription().getTitle())) return false;
+        if (!changeableItem.getExerciseDescription().getTitle().equals(exercise.getExerciseDescription().getTitle()))
+            return false;
         if (!changeableItem.getComment().equals(exercise.getComment())) return false;
         if (!(changeableItem.getTypeMuscle().toString().equals(exercise.getTypeMuscle().toString())))
             return false;
@@ -320,7 +332,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
     private void update() {
         ExerciseDao exerciseDao = new ExerciseDao(this);
         if (title.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this,  R.string.toast_write_name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
         }
         Exercise exerciseUpdate = getChangeableItem();
