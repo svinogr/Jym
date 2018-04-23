@@ -52,7 +52,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder = new ExerciseTemplateChooseViewHolder(inflate);
                 break;
         }
-
         return  viewHolder;
     }
 
@@ -66,7 +65,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if(holder instanceof ExerciseViewHolder) {
             ((ExerciseViewHolder) holder).bind(exerciseList.get(position));
         }
-
     }
 
     @Override

@@ -30,7 +30,6 @@ public class ExerciseWithInfoViewHolder extends ExerciseViewHolder {
     public void setInfo() {
         SetDao setDao = new SetDao(context);
         List<Sets> setsList = setDao.getByParentId(exercise.getId());
- // TODO все это говно перенести в аснинк таск
         if (setsList.size() > 1) {
             Collections.sort(setsList, new Comparator<Sets>() {
                 @Override
@@ -44,6 +43,5 @@ public class ExerciseWithInfoViewHolder extends ExerciseViewHolder {
         } else if(setsList.size()==1){
             setInfo.setText(1 + " x " + setsList.get(0).getReps());
         } else setInfo.setText("0");
-
     }
 }

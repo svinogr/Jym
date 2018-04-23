@@ -20,9 +20,6 @@ import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_CHOOSE;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_DEFAULT_TYPE;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
 
-/**
- * Created by explo on 23.03.2018.
- */
 
 public class WorkoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Workout> workoutList;

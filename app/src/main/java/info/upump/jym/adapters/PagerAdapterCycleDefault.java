@@ -1,5 +1,6 @@
 package info.upump.jym.adapters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -14,8 +15,8 @@ import info.upump.jym.entity.Cycle;
 
 public class PagerAdapterCycleDefault extends PagerAdapterCycle {
 
-    public PagerAdapterCycleDefault(FragmentManager fm, Cycle cycle) {
-        super(fm, cycle);
+    public PagerAdapterCycleDefault(FragmentManager fm, Cycle cycle, Context context) {
+        super(fm, cycle, context);
     }
 
     @Override

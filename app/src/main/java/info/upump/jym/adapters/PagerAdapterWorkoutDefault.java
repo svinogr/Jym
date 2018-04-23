@@ -1,5 +1,6 @@
 package info.upump.jym.adapters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -13,8 +14,8 @@ import info.upump.jym.entity.Workout;
  */
 
 public class PagerAdapterWorkoutDefault extends PagerAdapterWorkout {
-    public PagerAdapterWorkoutDefault(FragmentManager fm, Workout workout) {
-        super(fm, workout);
+    public PagerAdapterWorkoutDefault(FragmentManager fm, Workout workout, Context context) {
+        super(fm, workout,context);
     }
 
     @Override
@@ -26,7 +27,6 @@ public class PagerAdapterWorkoutDefault extends PagerAdapterWorkout {
                 fragment = WorkoutFragmentForViewPagerDescription.newInstance(workout);
                 break;
             case 0:
-                // fragment = WorkoutFragmentForViewPagerDescription.newInstance(workout);
                 fragment = WorkoutFragmentForViewPagerExercisesDefault.newInstance(workout);
         }
         return fragment;

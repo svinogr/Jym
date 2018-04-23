@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Jym</string>
+    <string name="app_name">UPump</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -25,10 +25,20 @@
     <string name="hamstring">трицепс бедра</string>
     <string name="calves">голень</string>
     <string name="abs">пресс</string>
-    <!--****-->
+    <!--titles-->
     <string name="exercise_fragment_title">Упражнения</string>
+    <string name="exercise_title_sets">Подходы</string>
     <string name="cycle_fragment_title">Мои программы</string>
+    <string name="cycle_fragment_title_add_cycle">Выберите программу</string>
+    <string name="exercise_choose_title_add_exercise">Выберите упражнение</string>
+    <string name="workout_choose_title_add_workouts">Выберите тренировку</string>
+    <string name="user_update_title">Изменить параметры замера</string>
+    <string name="user_create_title">Параметры нового замера</string>
+    <string name="graph_title">Статистика</string>
+
     <string name="workout_fragment_title">Мои тренировки</string>
+    <string name="set_create_title">Создать новый подход</string>
+    <string name="set_update_title">Изменить подход</string>
     <string name="title_activity_exercise_detail">ExerciseDetailActivity</string>
     <string name="no_description">Нет описания</string>
     <string name="title_activity_exercise_detail_edit">ExerciseDetailActivityEdit</string>
@@ -43,6 +53,20 @@
     <string name="permission_description_storage">Хранилище файлов</string>
     <string name="title_activity_workout_detail">CycleDetailActivity</string>
     <string name="title_activity_workout_detail_edit">CycleDetailEditActivity</string>
+    <!--tabs pager-->
+    <string name="tab_workout">Тренировки</string>
+    <string name="tab_exercise">Упражнения</string>
+    <string name="tab_weight">Вес тела</string>
+    <string name="tab_fat">Процент жира</string>
+    <string name="tab_nec">Шея</string>
+    <string name="tab_shoulders">Плечи</string>
+    <string name="tab_pectoral">Грудь</string>
+    <string name="tab_biceps">Бицепсы</string>
+    <string name="tab_abs">Талия</string>
+    <string name="tab_leg">Бедра</string>
+    <string name="tab_calves">Голени</string>
+    <string name="tab_description">Описание</string>
+
 
     <!--day-->
     <string name="day_monday">понедельник</string>
@@ -57,7 +81,7 @@
     <string name="label_start_cycle">Дата начала</string>
     <string name="label_finish_cycle">Дата окончания</string>
     <string name="label_description_cycle">Описание</string>
-    <string name="label_title_cycle">Новая программы</string>
+    <string name="label_title_cycle">Название программы</string>
     <string name="title_cycle_hint">Новая программа</string>
     <string name="action_clear">Очистить</string>
     <!--dialog-->
@@ -122,6 +146,20 @@
     <string name="workout_dialog_create_new">Создать новую тренировку</string>
     <string name="workout_dialog_сhoose">Выбрать готовую тренировку</string>
     <string name="title_activity_settings2">Settings</string>
+
+    <!--graph-->
+    <string name="desc_graph_weight">Вес тела, кг</string>
+    <string name="desc_graph_fat">Процент жира</string>
+    <string name="desc_graph_neck">Шея, см</string>
+    <string name="desc_graph_shoulders">Пдечи, см</string>
+    <string name="desc_graph_pectoral">Грудь, см</string>
+    <string name="desc_graph_r_biceps">Правый бицепс, см</string>
+    <string name="desc_graph_l_biceps">Левый бицепс, см</string>
+    <string name="desc_graph_abs">Талия, см</string>
+    <string name="desc_graph_r_leg">Правое бедро, см</string>
+    <string name="desc_graph_l_leg">Левое, см</string>
+    <string name="desc_graph_r_calves">Правая голень, см</string>
+    <string name="desc_graph_l_calves">Левая голень, см</string>
 
     <!-- Strings related to Settings -->
 
@@ -200,5 +238,38 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
+    <!--toasts-->
+    <string name="toast_write_name">Необходимо ввести название</string>
+    <string name="toast_cycle_saved">Программа сохранена</string>
+    <string name="toast_dont_save">Невозможно сохранить</string>
+    <string name="toast_cycle_delete_workouts">Тренировки удалены</string>
+    <string name="toast_cycle_update">Программа изменена</string>
+    <string name="toast_dont_update">Невозможно изменить</string>
+    <string name="toast_cycle_delete">Программа удалена</string>
+    <string name="toast_dont_delete">Невозможно удалить</string>
+    <string name="toast_exercise_saved">Упражнение сохранено</string>
+    <string name="toast_exercise_delete_sets">Подходы удалены</string>
+    <string name="toast_exercise_delete">Упражнение удалено</string>
+    <string name="toast_exercise_update">Упражнение изменено</string>
+    <string name="toast_set_delete">Подход удален</string>
+    <string name="toast_set_saved">Подход сохранен</string>
+    <string name="toast_not_corect_value">Введено неправильное значение</string>
+    <string name="toast_set_update">Подход изменен</string>
+    <string name="toast_user_saved">Параметры сохранены</string>
+    <string name="toast_user_update">Параметры изменены</string>
+    <string name="toast_user_delete">Параметры удалены</string>
+    <string name="toast_workout_saved">Тренировка сохранена</string>
+    <string name="toast_workout_delete">Тренировка удалена</string>
+    <string name="toast_workout_update">Тренировка изменена</string>
+    <string name="toast_workout_delete_exercises">Упражнения удалены</string>
+    <string name="toast_user_warning">Для построения графика необходимо минимум два измерения параметров</string>
+    <string name="warning_save_description">Сохранить изменение описания</string>
+
+    <string name="snack_delete">Удалить?</string>
+    <string name="snack_cycle_delete_workouts">Удалить тренировки</string>
+    <string name="snack_exersice_delete_sets">Удалить подходы</string>
+    <string name="snack_workout_delete_exercises">Удалить упражнения</string>
+    <string name="snack_exit">Выйти из приложения?</string>
 
 </resources>

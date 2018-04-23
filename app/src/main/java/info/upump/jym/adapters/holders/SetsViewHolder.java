@@ -30,13 +30,11 @@ public class SetsViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         set.setText(String.valueOf(getAdapterPosition()+1)+". ");
         weight.setText(String.valueOf(sets.getWeight()));
         reps.setText(String.valueOf(sets.getReps()));
-
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = SetActivityCreate.createIntent(context, sets);
         context.startActivity(intent);
-
     }
 }

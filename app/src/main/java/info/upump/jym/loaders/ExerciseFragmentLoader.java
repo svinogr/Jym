@@ -48,7 +48,6 @@ public class ExerciseFragmentLoader extends AsyncTaskLoader<List<Exercise>> {
             case LOADER_BY_TEMPLATE_TYPE:
                 exerciseList = exerciseDao.getAllByTypeMuscleTemplate(typeMuscle);// все по типу мышцы и темплайты
         }
-
         return exerciseList;
     }
 
@@ -61,7 +60,6 @@ public class ExerciseFragmentLoader extends AsyncTaskLoader<List<Exercise>> {
     @Override
     protected void onStopLoading() {
         super.onStopLoading();
-
     }
 
     @Override

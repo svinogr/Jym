@@ -91,7 +91,6 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
                             } else {
                                 view.setTranslationX(-horzMargin + vertMargin / 2);
                             }
-
                             // Scale the page down (between MIN_SCALE and 1)
                             view.setScaleX(scaleFactor);
                             view.setScaleY(scaleFactor);
@@ -121,22 +120,11 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        System.out.println("onCreateView onResume");
-        
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.exercise_fragment_add_fab:
                 Intent intent =  ExerciseCreateActivity.createIntent(getContext());
                 startActivity(intent);
-
         }
-
     }
-
-
 }

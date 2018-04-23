@@ -10,9 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
-/**
- * Created by explo on 25.03.2018.
- */
 
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
     public ScrollAwareFABBehavior(Context context, AttributeSet attrs) {

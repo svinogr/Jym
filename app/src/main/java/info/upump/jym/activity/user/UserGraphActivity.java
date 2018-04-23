@@ -48,25 +48,24 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
     private TabLayout tabLayout;
     private static String TAB = "tab";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_graph);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("График");
+        setTitle(R.string.graph_title);
 
         graphView = findViewById(R.id.user_graph_activity_graphView);
         tabLayout = findViewById(R.id.user_graph_activity_tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Вес"));
-        tabLayout.addTab(tabLayout.newTab().setText("Жир"));
-        tabLayout.addTab(tabLayout.newTab().setText("Шея"));
-        tabLayout.addTab(tabLayout.newTab().setText("Плечи"));
-        tabLayout.addTab(tabLayout.newTab().setText("Грудь"));
-        tabLayout.addTab(tabLayout.newTab().setText("Бицепс"));
-        tabLayout.addTab(tabLayout.newTab().setText("Талия"));
-        tabLayout.addTab(tabLayout.newTab().setText("Бедра"));
-        tabLayout.addTab(tabLayout.newTab().setText("Голень"));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_weight)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_fat)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_nec)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_shoulders)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_pectoral)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_biceps)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_abs)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_leg)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_calves)));
 
         tabLayout.addOnTabSelectedListener(this);
 
@@ -82,7 +81,6 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
             }
 
         } else createEntries(0);
-
     }
 
     private void createEntries(int idTab) {
@@ -92,11 +90,10 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
         switch (idTab) {
             case 0:
                 for (int i = 0; i < allUser.size(); i++) {
-                    System.out.println("флоат " + (float) allUser.get(i).getWeight());
                     listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getWeight()));
 
                 }
-                series = new LineDataSet(listEntryWithoutDate, "Вес тела, кг");
+                series = new LineDataSet(listEntryWithoutDate, getResources().getString(R.string.desc_graph_weight));
                 iLineDataSets.add(series);
                 break;
             case 1:
@@ -104,7 +101,7 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
                     listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getFat()));
 
                 }
-                series = new LineDataSet(listEntryWithoutDate, "Процент жира");
+                series = new LineDataSet(listEntryWithoutDate, getResources().getString(R.string.desc_graph_fat));
                 iLineDataSets.add(series);
                 break;
             case 2:
@@ -112,7 +109,7 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
                     listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getNeck()));
 
                 }
-                series = new LineDataSet(listEntryWithoutDate, "Шея, см");
+                series = new LineDataSet(listEntryWithoutDate, getResources().getString(R.string.desc_graph_neck));
                 iLineDataSets.add(series);
                 break;
             case 3:
@@ -120,7 +117,7 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
                     listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getShoulder()));
 
                 }
-                series = new LineDataSet(listEntryWithoutDate, "Плечи, см");
+                series = new LineDataSet(listEntryWithoutDate,getResources().getString(R.string.desc_graph_shoulders));
                 iLineDataSets.add(series);
                 break;
             case 4:
@@ -128,7 +125,7 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
                     listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getPectoral()));
 
                 }
-                series = new LineDataSet(listEntryWithoutDate, "Грудь, см");
+                series = new LineDataSet(listEntryWithoutDate, getResources().getString(R.string.desc_graph_pectoral));
                 iLineDataSets.add(series);
                 break;
             case 5:
@@ -137,8 +134,8 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
                     listEntryWithoutDate2.add(new Entry(i, (float) allUser.get(i).getLeftBiceps()));
 
                 }
-                series = new LineDataSet(listEntryWithoutDate, "Правый бицепс, см");
-                series2 = new LineDataSet(listEntryWithoutDate2, "Левый бицепс, см");
+                series = new LineDataSet(listEntryWithoutDate, getResources().getString(R.string.desc_graph_r_biceps));
+                series2 = new LineDataSet(listEntryWithoutDate2, getResources().getString(R.string.desc_graph_l_biceps));
                 series2.setColor(Color.RED);
                 iLineDataSets.add(series);
                 iLineDataSets.add(series2);
@@ -148,7 +145,7 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
                     listEntryWithoutDate.add(new Entry(i, (float) allUser.get(i).getAbs()));
 
                 }
-                series = new LineDataSet(listEntryWithoutDate, "Талия, см");
+                series = new LineDataSet(listEntryWithoutDate, getResources().getString(R.string.desc_graph_abs));
                 iLineDataSets.add(series);
                 break;
             case 7:
@@ -157,8 +154,8 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
                     listEntryWithoutDate2.add(new Entry(i, (float) allUser.get(i).getLeftLeg()));
 
                 }
-                series = new LineDataSet(listEntryWithoutDate, "Правое бедро, см");
-                series2 = new LineDataSet(listEntryWithoutDate2, "Левое бедро, см");
+                series = new LineDataSet(listEntryWithoutDate, getResources().getString(R.string.desc_graph_r_leg));
+                series2 = new LineDataSet(listEntryWithoutDate2,  getResources().getString(R.string.desc_graph_l_leg));
                 series2.setColor(Color.RED);
                 iLineDataSets.add(series);
                 iLineDataSets.add(series2);
@@ -169,8 +166,8 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
                     listEntryWithoutDate2.add(new Entry(i, (float) allUser.get(i).getLeftCalves()));
 
                 }
-                series = new LineDataSet(listEntryWithoutDate, "Правая голень, см");
-                series2 = new LineDataSet(listEntryWithoutDate2, "Левая голень, см");
+                series = new LineDataSet(listEntryWithoutDate,  getResources().getString(R.string.desc_graph_r_calves));
+                series2 = new LineDataSet(listEntryWithoutDate2, getResources().getString(R.string.desc_graph_l_calves));
                 series2.setColor(Color.RED);
                 iLineDataSets.add(series);
                 iLineDataSets.add(series2);
@@ -209,8 +206,6 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
         };
         xAxis.setValueFormatter(formatter);
         xAxis.setGranularity(1.0f);
-
-
     }
 
 
@@ -250,17 +245,14 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
     public void onTabSelected(TabLayout.Tab tab) {
         int position = tab.getPosition();
         createEntries(position);
-
     }
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-
     }
 
     @Override

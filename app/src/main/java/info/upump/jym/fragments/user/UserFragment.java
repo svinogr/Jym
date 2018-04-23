@@ -43,7 +43,6 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
     protected List<User> userList = new ArrayList<>();
     protected FloatingActionButton addFab;
 
-
     public UserFragment() {
         // Required empty public constructor
     }
@@ -66,7 +65,6 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         View inflate = inflater.inflate(R.layout.fragment_user, container, false);
         addFab = inflate.findViewById(R.id.user_fragment_fab_add);
@@ -78,7 +76,6 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
         addFab.setOnClickListener(this);
         setTitle();
         setFab();
-
         return inflate;
     }
 
@@ -146,14 +143,13 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
                 addItem();
                 break;
         }
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.edit_menu_graph){
             if(userList.size()<2){
-                Toast.makeText(getContext(), "времено, неоьходимо минимумм 2 измерения", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.toast_user_warning, Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = UserGraphActivity.createIntent(getContext());
                 startActivity(intent);
@@ -180,7 +176,6 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
         Collections.sort(list, new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
-
                 return o1.getDate().compareTo(o2.getDate());
             }
         });

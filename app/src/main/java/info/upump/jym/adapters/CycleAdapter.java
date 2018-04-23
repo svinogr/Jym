@@ -45,8 +45,6 @@ public class CycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case DEFAULT_TYPE_CHOOSE:
                 holder = new CycleDefaultChooseViewHolder(inflate);
                 break;
-
-
         }
         return holder;
     }
@@ -56,7 +54,6 @@ public class CycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if(holder instanceof CycleViewHolder) {
             ((CycleViewHolder)holder).bind(cycleList.get(position));
         }
-
     }
 
     @Override

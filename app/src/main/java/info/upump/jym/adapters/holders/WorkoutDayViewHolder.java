@@ -27,7 +27,6 @@ public class WorkoutDayViewHolder extends WorkoutViewHolder {
 
     @Override
     public void onClick(View v) {
-        System.out.println("контекст "+context);
         Intent intent = WorkoutDetailActivity.createIntent(context,workout);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;

@@ -34,7 +34,6 @@ import java.util.Date;
 import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.ExerciseDao;
-import info.upump.jym.bd.ExerciseDescriptionDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.ExerciseDescription;
 import info.upump.jym.entity.TypeMuscle;
@@ -85,8 +84,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
 
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
-                // TODO взможно стоит убрать
-                //  appBarLayout.setExpanded(true);
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
@@ -170,14 +167,10 @@ public class ExerciseCreateActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("onActivityResult  " + requestCode + "  " + resultCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_GALLERY_PHOTO:
                     uriImage = data.getData();
-                    //  exerciseDescription = new ImageForItem();
-                    //exerciseDescription.setImg(uriImage.toString());
-                    //    exercise.setImg(uriImage.toString());
                     setPic(uriImage);
                     break;
             }
@@ -188,9 +181,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-       /* if (exercise.getImg() != null) {
-            outState.putString(Constants.URI_IMG, exercise.getImg());
-        }*/
         if (uriImage != null) {
             outState.putString(Constants.URI_IMG, uriImage.toString());
         }
@@ -208,7 +198,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
         exit();
     }
 
@@ -251,28 +240,20 @@ public class ExerciseCreateActivity extends AppCompatActivity {
     private void save() {
         ExerciseDao exerciseDao = new ExerciseDao(this);
         if (title.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,  R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
         }
 
         exercise = getChangeableItem();
-
-     /*   ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(this);
-        System.out.println(exerciseDescription);
-
-        long idImageExercise = exerciseDescriptionDao.create(exerciseDescription);
-        if (idImageExercise != -1) {
-            exercise.setDescriptionId(idImageExercise);
-        }
-*/
         long id = exerciseDao.create(exercise);
+
         if (id != -1) {
             exercise.setId(id);
-            Toast.makeText(this, "времен, программа сохранена", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_exercise_saved, Toast.LENGTH_SHORT).show();
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).
+        } else Toast.makeText(this,  R.string.toast_dont_save, Toast.LENGTH_SHORT).
 
                 show();
 
@@ -296,10 +277,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         TypeMuscle typeMuscle = getMuscle(selectedItem);
         changeableExercise.setTypeMuscle(typeMuscle);
         changeableExercise.setExerciseDescription(exerciseDescription);
-       /* if (uriImage != null) {
-            exerciseDescription.setImg(uriImage.toString());
-        } else exerciseDescription.setImg(" ");*/
-
         return changeableExercise;
     }
 

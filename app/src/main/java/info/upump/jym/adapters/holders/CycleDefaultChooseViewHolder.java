@@ -18,6 +18,5 @@ public class CycleDefaultChooseViewHolder extends CycleDefaultViewHolder {
     @Override
     public void onClick(View v) {
         iChooseItem.createIntentForChooseResult(cycle);
-
     }
 }

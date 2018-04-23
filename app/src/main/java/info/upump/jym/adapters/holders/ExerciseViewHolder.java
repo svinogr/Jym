@@ -69,8 +69,6 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
 
     private void startActivity() {
         Intent intent = createIntent();
-        System.out.println("контекст "+context);
-
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = image;
@@ -84,10 +82,6 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
 
     private void setPic() {
         Uri uri = null;
-       /* if (exercise.getImageId() != 0) {
-
-            uri = Uri.parse(exercise.getImg());
-        }*/
        if(exercise.getExerciseDescription().getImg() != null){
            System.out.println("exerciseDescription "+ exercise.getExerciseDescription().getImg());
            uri = Uri.parse(exercise.getExerciseDescription().getImg());
@@ -95,8 +89,8 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
-                .placeholder(R.drawable.ic_add_black_24dp)
-                .error(R.drawable.ic_add_black_24dp)
+                .placeholder(R.drawable.view_place_holder_exercise)
+                .error(R.drawable.iview_place_erore_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
 

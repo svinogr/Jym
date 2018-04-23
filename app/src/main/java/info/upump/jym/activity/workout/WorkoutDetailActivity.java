@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,7 +13,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,18 +21,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.Date;
-
 import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
-import info.upump.jym.activity.IChooseItem;
 import info.upump.jym.activity.IDescriptionFragment;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.PagerAdapterWorkout;
 import info.upump.jym.bd.WorkoutDao;
-import info.upump.jym.entity.Cycle;
-import info.upump.jym.entity.Day;
 import info.upump.jym.entity.Workout;
 
 import static info.upump.jym.activity.constant.Constants.ID;
@@ -57,7 +51,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         workout = getItemFromIntent();
-        System.out.println("worko " + workout);
         setPagerAdapter();
         addFab = findViewById(R.id.workout_fragment_for_view_pager_exercises_fab_main);
         imageView = findViewById(R.id.workout_activity_detail_edit_image_view);
@@ -70,12 +63,12 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         setPageTransform();
        // setFabVisible(true);
 
-        if (savedInstanceState != null) {
+       /* if (savedInstanceState != null) {
             if (savedInstanceState.getString(Constants.URI_IMG) != null) {
                 //   uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
                 // cycle.setImage(uriImage.toString());
             }
-        }
+        }*/
         createViewFrom(workout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -105,7 +98,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     }
 
     protected void setPagerAdapter() {
-        pagerAdapterWorkout = new PagerAdapterWorkout(getSupportFragmentManager(), workout);
+        pagerAdapterWorkout = new PagerAdapterWorkout(getSupportFragmentManager(), workout, this);
     }
 
     private void setPageTransform() {
@@ -184,18 +177,15 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                 Bitmap.Config.ARGB_8888);
         bitmap.eraseColor(getResources().getColor(workout.getDay().getColor()));
         imageView.setImageBitmap(bitmap);
-
     }
 
 
     @Override
     public void update(Workout object) {
-
     }
 
     @Override
     public void save(Workout object) {
-
     }
 
 
@@ -203,11 +193,10 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     public void delete(long id) {
         WorkoutDao workoutDao = new WorkoutDao(this);
         if( workoutDao.delete(workout)){
-            Toast.makeText(this, "времен, программа  удалена", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_workout_delete, Toast.LENGTH_SHORT).show();
             //exit();
             finishActivityWithAnimation();
-        }else  Toast.makeText(this, "времен, программа  не удалена", Toast.LENGTH_SHORT).show();
-
+        }else  Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -215,7 +204,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     public void setInterfaceForDescription(IDescriptionFragment interfaceForDescription) {
         System.out.println("interfaceForDescription "+interfaceForDescription);
         this.iDescriptionFragment = interfaceForDescription;
-
     }
 
     @Override
@@ -252,7 +240,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
         WorkoutDao workoutDao = new WorkoutDao(this);
         if (sOU.getTitle().trim().isEmpty()) {
-            Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
         }
         workout.setTitle(sOU.getTitle());
@@ -261,9 +249,9 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
         boolean id = workoutDao.update(workout);
         if (id) {
-            Toast.makeText(this, "времен, программа изменена", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_workout_update, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно изменить", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
     }
 
     protected void finishActivityWithAnimation() {
@@ -288,18 +276,17 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit_menu_delete:
-                Snackbar.make(this.imageView, "Удалить программу?", Snackbar.LENGTH_LONG)
-                        .setAction("Да", new View.OnClickListener() {
+                Snackbar.make(this.imageView, R.string.snack_delete, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.yes, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 delete(workout.getId());
-
                             }
                         }).show();
                 break;
             case R.id.edit_menu_clear:
-                Snackbar.make(this.imageView, "Очистить программу?", Snackbar.LENGTH_LONG)
-                        .setAction("Да", new View.OnClickListener() {
+                Snackbar.make(this.imageView, R.string.snack_workout_delete_exercises, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.yes, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 clear();
@@ -317,16 +304,13 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
     private void clear() {
         if (iItemFragment.clear()) {
-            Toast.makeText(this, "Программа очищена", Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(this, "Не удалось очистить", Toast.LENGTH_SHORT).show();
-
-
+            Toast.makeText(this, R.string.toast_workout_delete_exercises, Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onBackPressed() {
         exit();
-
     }
 
     @Override

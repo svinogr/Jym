@@ -128,23 +128,15 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
     }
 
     private Cycle getItemFromBundle() {
-
-        //TODO возможно стоит броать из базы
         Cycle cycle = new Cycle();
         cycle.setId(getArguments().getLong(ID, 0));
-      //  String title = getArguments().getString(TITLE);
         if (cycle.getId() > 0) {
             System.out.println(12);
             cycle.setStartDate(getArguments().getString(START_DATA));
             cycle.setFinishDate(getArguments().getString(FINISH_DATA));
             cycle.setComment(getArguments().getString(COMMENT));
             cycle.setTitle(getArguments().getString(TITLE));
-        }/* else {
-            cycle.setStartDate(new Date());
-            cycle.setFinishDate(new Date());
-            cycle.setComment("");
-            cycle.setTitle(title);
-        }*/
+        }
         return cycle;
     }
 
@@ -215,6 +207,5 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements Vi
         System.out.println("resume");
         super.onResume();
     }
-
 
 }

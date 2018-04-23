@@ -26,9 +26,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,10 +35,10 @@ import java.util.Map;
 
 import info.upump.jym.activity.SettingsActivity;
 import info.upump.jym.bd.DBHelper;
-import info.upump.jym.fragments.user.UserFragment;
 import info.upump.jym.fragments.cycle.CycleFragment;
 import info.upump.jym.fragments.cycle.CycleFragmentDefault;
 import info.upump.jym.fragments.exercises.ExerciseFragment;
+import info.upump.jym.fragments.user.UserFragment;
 import info.upump.jym.fragments.workout.WorkoutDefaultFragment;
 import info.upump.jym.fragments.workout.WorkoutFragment;
 
@@ -49,13 +47,16 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private Fragment curFragment;
-    private final static String[] arrayPermissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-    private final static String[] arrayPermissionDescription = {"Хранилище файлов", "Камера"};
-    private static Map<String, String> mapPermission = new HashMap<>();
+    /*    private final static String[] arrayPermissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+        private final static String[] arrayPermissionDescription = { "Хранилище файлов", "Камера"}; */
+    private final String[] arrayPermissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+    private String[] arrayPermissionDescription;
+
+    //    private static Map<String, String> mapPermission = new HashMap<>();
+    private Map<String, String> mapPermission = new HashMap<>();
     private static final int PERMISSION_CODE = 1;
     private static final int REQUEST_PERMISSION_IN_SETTINGS = 10;
     private Bundle savedInstanceState;
-    private static long back_pressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity
         System.out.println(date1);*/
 //         InflaiterDB inflaiterDB = new InflaiterDB(getApplicationContext());
 //        inflaiterDB.insertInBasicExercise();
+        arrayPermissionDescription = new String[]{getResources().getString(R.string.permission_description), getResources().getString(R.string.permission_description_camera)};
 
         for (int i = 0; i < arrayPermissions.length; i++) {
             mapPermission.put(arrayPermissions[i], arrayPermissionDescription[i]);
@@ -304,13 +306,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        System.out.println("кол-во экрано " + getSupportFragmentManager().getBackStackEntryCount());
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Snackbar.make(findViewById(R.id.coordinator), "Выйти из приложкния", Snackbar.LENGTH_LONG)
-                    .setAction("Да", new View.OnClickListener() {
+            Snackbar.make(findViewById(R.id.coordinator), R.string.snack_exit, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.yes, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             finish();
@@ -322,7 +323,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.main, menu);
+        // getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 /*
@@ -345,7 +346,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         int fragment = -1;
-        switch (id){
+        switch (id) {
             case R.id.nav_my_programs:
                 fragment = 0;
                 break;
@@ -369,7 +370,7 @@ public class MainActivity extends AppCompatActivity
         if (fragment != -1) {
             createFragment(fragment);
         }
-        if(id == R.id.nav_settings) {
+        if (id == R.id.nav_settings) {
             Intent intent = SettingsActivity.createIntent(this);
             startActivity(intent);
         }

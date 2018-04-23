@@ -41,6 +41,5 @@ public class CycleFragmentDefault extends CycleFragment {
     public Loader<List<Cycle>> onCreateLoader(int id, Bundle args) {
         CycleFragmentLoader cycleFragmentLoader = new CycleFragmentLoader(getContext(), Constants.LOADER_BY_DEFAULT_TYPE);
         return cycleFragmentLoader;
-
     }
 }

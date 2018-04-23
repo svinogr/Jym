@@ -60,9 +60,7 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
         Intent intent = createIntent();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;
-            // View sharedViewT = title;
             String transitionNameIm = "cycle_card_layout_image";
-            //   String transitionNameT = "exercise_card_layout_title";
             ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
                             context,
                     Pair.create(sharedViewIm, transitionNameIm));
@@ -85,14 +83,12 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.view_place_holder_cycle)
+                .error(R.drawable.iview_place_erore_cycle)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
-
         Glide.with(itemView.getContext()).load(uri).apply(options).into(imageView);
     }
-
 
     @Override
     public void onClick(View v) {

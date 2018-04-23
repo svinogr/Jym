@@ -77,12 +77,8 @@ public class SetActivityCreate extends AppCompatActivity {
             if (savedInstanceState.getString(REPS) != null) {
                 quantitySetsValue = Integer.parseInt(savedInstanceState.getString(QUANTITY_SETS));
             }
-
-
         }
-
         createView();
-
     }
 
     public String[] getArrayWithSteps(double iMinValue, int iMaxValue, double iStep) {
@@ -93,7 +89,6 @@ public class SetActivityCreate extends AppCompatActivity {
         for (int i = 0; i < iStepsArray; i++) {
             arrayValues[i] = String.valueOf(iMinValue + (i * iStep));
         }
-
         return arrayValues;
     }
 
@@ -112,7 +107,6 @@ public class SetActivityCreate extends AppCompatActivity {
         if (quantitySetsValue > 1) {
             quantitySets.setValue(quantitySetsValue);
         }
-
     }
 
     public static Intent createIntent(Context context, Sets sets) {
@@ -128,11 +122,11 @@ public class SetActivityCreate extends AppCompatActivity {
         if (id > 0) {
             SetDao setDao = new SetDao(this);
             sets = setDao.getById(id);
-            setTitle("Изменить подход");
+            setTitle(R.string.set_update_title);
             cardView.setVisibility(View.GONE);
         } else {
             sets = new Sets();
-            setTitle("Новый подход");
+            setTitle(R.string.set_create_title);
         }
         System.out.println(sets);
         return sets;
@@ -158,8 +152,8 @@ public class SetActivityCreate extends AppCompatActivity {
             if (sets.getId() > 0) {
                 switch (item.getItemId()) {
                     case R.id.edit_menu_delete:
-                        Snackbar.make(reps, "Удалить подход?", Snackbar.LENGTH_LONG)
-                                .setAction("Да", new View.OnClickListener() {
+                        Snackbar.make(reps, R.string.snack_delete, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.yes, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         delete(sets.getId());
@@ -168,7 +162,7 @@ public class SetActivityCreate extends AppCompatActivity {
                                 }).show();
                         break;
                 }
-            } else Toast.makeText(this, "времен, подход  не сохранен", Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -176,10 +170,9 @@ public class SetActivityCreate extends AppCompatActivity {
     public void delete(long id) {
         SetDao setDao = new SetDao(this);
         if (setDao.delete(sets)) {
-            Toast.makeText(this, "времен, подход  удален", Toast.LENGTH_SHORT).show();
-            //exit();
+            Toast.makeText(this, R.string.toast_set_delete, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, подход  не удалено", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -209,19 +202,11 @@ public class SetActivityCreate extends AppCompatActivity {
             });
             ad.show();
         }
-
     }
 
     private void save() {
         SetDao setDao = new SetDao(this);
-     /*   if (weight.getValue() < 0) {
-            Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (reps.getValue() < 0) {
-            Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
-            return;
-        }*/
+
         Sets changeableItem = getChangeableItem();
         quantitySetsValue = quantitySets.getValue();
         long id = -1;
@@ -235,11 +220,11 @@ public class SetActivityCreate extends AppCompatActivity {
         }
         if (id != -1) {
             // sets.setId(id);
-            Toast.makeText(this, "времен, подход сохранен", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_set_saved, Toast.LENGTH_SHORT).show();
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this,R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
     }
 
     private boolean itemIsNotChanged() {
@@ -265,21 +250,21 @@ public class SetActivityCreate extends AppCompatActivity {
     private void update() {
         SetDao setDao = new SetDao(this);
         if (weight.getValue() < 0) {
-            Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_not_corect_value, Toast.LENGTH_SHORT).show();
             return;
         }
         if (reps.getValue() < 0) {
-            Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_not_corect_value, Toast.LENGTH_SHORT).show();
             return;
         }
         Sets exerciseUpdate = getChangeableItem();
         boolean id = setDao.update(exerciseUpdate);
         if (id) {
-            Toast.makeText(this, "времен, программа сохранена", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_set_update, Toast.LENGTH_SHORT).show();
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this,  R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
     }
 
     private void finishActivityWithAnimation() {

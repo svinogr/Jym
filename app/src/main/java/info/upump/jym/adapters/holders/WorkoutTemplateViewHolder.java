@@ -30,7 +30,6 @@ public class WorkoutTemplateViewHolder extends WorkoutViewHolder {
 
     @Override
     public void onClick(View v) {
-        System.out.println("контекст "+context);
         System.out.println("WorkoutTemplateViewHolder");
         Intent intent = WorkoutDetailActivity.createIntent(context,workout);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

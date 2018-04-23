@@ -131,7 +131,6 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         if (workout.getTitle() == null) {
             collapsingToolbarLayout.setTitle(title.getHint().toString());
         } else collapsingToolbarLayout.setTitle(workout.getTitle());
-
     }
 
     private String[] getNameOfDays() {
@@ -155,7 +154,6 @@ public class WorkoutCreateActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
         exit();
     }
 
@@ -174,7 +172,6 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 save();
-
             }
         });
         ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
@@ -186,7 +183,6 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             }
         });
         ad.show();
-
     }
 
     private Intent createIntentForResult() {
@@ -198,7 +194,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
     private void save() {
         WorkoutDao workoutDao = new WorkoutDao(this);
         if (title.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
         }
         workout.setTitle(title.getText().toString());
@@ -213,11 +209,11 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         long id = workoutDao.create(workout);
         if (id != -1) {
             workout.setId(id);
-            Toast.makeText(this, "времен, программа сохранена", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_workout_saved, Toast.LENGTH_SHORT).show();
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
     }
 
     private void finishActivityWithAnimation() {
@@ -226,5 +222,4 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             finishAfterTransition();
         } else finish();
     }
-
 }

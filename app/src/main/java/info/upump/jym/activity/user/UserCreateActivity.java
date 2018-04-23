@@ -140,8 +140,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         if (saved.getString(L_CALVES) != null) {
             leftCalvesValue = Integer.parseInt(saved.getString(L_CALVES));
         }
-
-
     }
 
     private void initValueOfNumberPicker() {
@@ -152,7 +150,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         double step = 0.5;
         valueNumber = getArrayWithSteps(min, max, step);
         valueNumberFat = getArrayWithSteps(min, maxfat, step);
-
 
         weightPicker.setMinValue(0);
         weightPicker.setMaxValue(max);
@@ -213,7 +210,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         rightCalvesPicker.setMaxValue(max);
         rightCalvesPicker.setDisplayedValues(valueNumber);
         rightCalvesPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
     }
 
     public String[] getArrayWithSteps(double iMinValue, int iMaxValue, double iStep) {
@@ -299,7 +295,7 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         if (id > 0) {
             userDao = new UserDao(this);
             user = userDao.getById(id);
-            setTitle("Изменить замеры");
+            setTitle(R.string.user_update_title);
         } else {
             userDao = new UserDao(this);
             user = userDao.getByOldDate();
@@ -307,9 +303,8 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
                 user.setId(0);
                 user.setDate(new Date());
             } else user = new User();
-//
             System.out.println(user);
-            setTitle("Новый замеры");
+            setTitle(R.string.user_create_title);
         }
         return user;
     }
@@ -340,7 +335,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
             });
             ad.show();
         }
-
     }
 
     private void save() {
@@ -349,14 +343,13 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         long id = userDao.create(changeableItem);
         if (id != -1) {
             user.setId(id);
-            Toast.makeText(this, "времен, замер сохранен", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_user_saved, Toast.LENGTH_SHORT).show();
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else
-            Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).
+            Toast.makeText(this,  R.string.toast_dont_save, Toast.LENGTH_SHORT).
                     show();
-
     }
 
     private boolean itemIsNotChanged() {
@@ -423,12 +416,12 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         UserDao userDao = new UserDao(this);
         boolean id = userDao.update(userUpdate);
         if (id) {
-            Toast.makeText(this, "времен, замер  сохранен", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_user_update, Toast.LENGTH_SHORT).show();
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else
-            Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
     }
 
     private void finishActivityWithAnimation() {
@@ -464,8 +457,8 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
             if (user.getId() > 0) {
                 switch (item.getItemId()) {
                     case R.id.edit_menu_delete:
-                        Snackbar.make(getWindow().getDecorView(), "Удалить замер?", Snackbar.LENGTH_LONG)
-                                .setAction("Да", new View.OnClickListener() {
+                        Snackbar.make(getWindow().getDecorView(), R.string.snack_delete, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.yes, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         delete(user.getId());
@@ -475,7 +468,7 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
                         break;
                 }
             } else
-                Toast.makeText(this, "времен, замер  не сохранен", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -483,11 +476,10 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
     public void delete(long id) {
         UserDao userDao = new UserDao(this);
         if (userDao.delete(user)) {
-            Toast.makeText(this, "времен, замер  удален", Toast.LENGTH_SHORT).show();
-            //exit();
+            Toast.makeText(this, R.string.toast_user_delete, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
         } else
-            Toast.makeText(this, "времен, замер  не удалено", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
 
     }
 

@@ -35,7 +35,7 @@ public class CycleActivityForChoose extends AppCompatActivity implements LoaderM
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cycle_for_choose);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Выберите программу");
+        setTitle(R.string.cycle_fragment_title_add_cycle);
         getSupportLoaderManager().initLoader(0, null, this);
 
         cycleAdapter = new CycleAdapter(cycleList, DEFAULT_TYPE_CHOOSE);

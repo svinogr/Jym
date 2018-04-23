@@ -65,6 +65,4 @@ public class CycleFragmentLoader extends AsyncTaskLoader<List<Cycle>> {
     protected void onForceLoad() {
         super.onForceLoad();
     }
-
-
 }

@@ -100,27 +100,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
 
             }
         });
-
-
-
-    /*    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                System.out.println("addOnScrollListener recyclerView");
-                if (dy > 0) {
-                    // Scroll Down
-                    if (addFab.isShown()) {
-                        addFab.hide();
-                    }
-                } else if (dy <= 0) {
-                    // Scroll Up
-                    if (!addFab.isShown()) {
-                        addFab.show();
-                    }
-                }
-            }
-        });*/
         return inflate;
     }
 
@@ -129,13 +108,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         String[] inputs = {getString(R.string.workout_dialog_create_new), getString(R.string.workout_dialog_сhoose)};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.workout_dialog_title); // заголовок для диалога
-      /*  builder.setNeutralButton("Отмена",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,
-                                        int id) {
-                        dialog.cancel();
-                    }
-                });*/
         builder.setItems(inputs, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -240,6 +212,5 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         workoutList.add(workout);
         sortListByDay(workoutList);
         workoutAdapter.notifyDataSetChanged();
-
     }
 }

@@ -1,10 +1,12 @@
 package info.upump.jym.adapters;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import info.upump.jym.R;
 import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerDescription;
 import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerWorkouts;
 import info.upump.jym.activity.workout.fragments.WorkoutFragmentForViewPagerDescription;
@@ -17,12 +19,14 @@ import info.upump.jym.entity.Workout;
  */
 
 public class PagerAdapterWorkout extends FragmentStatePagerAdapter {
-    protected String[] tabs = new String[]{"Упражнения", "Описание"};
+    protected String[] tabs ;
     protected Workout workout;
 
-    public PagerAdapterWorkout(FragmentManager fm, Workout workout) {
+    public PagerAdapterWorkout(FragmentManager fm, Workout workout, Context context) {
         super(fm);
         this.workout = workout;
+        this.tabs = new String[]{context.getResources().getString(R.string.tab_exercise), context.getResources().getString(R.string.tab_description)};
+
     }
 
     @Override

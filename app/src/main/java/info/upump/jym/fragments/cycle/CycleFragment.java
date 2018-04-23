@@ -52,7 +52,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         if (getArguments() != null) {
         }
         createAdapter();
-
     }
 
     protected void createAdapter() {
@@ -110,7 +109,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         return cycleLoader;
     }
 
-
     @Override
     public void onLoadFinished(Loader<List<Cycle>> loader, List<Cycle> data) {
         cycleList.clear();
@@ -130,21 +128,12 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
                 addItem();
                 break;
         }
-
     }
 
     private void addItem() {
         String[] inputs = {getString(R.string.cycle_dialog_create_new), getString(R.string.cycle_dialog_сhoose)};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.cycle_dialog_title); // заголовок для диалога
-
-       /* builder.setNeutralButton("Отмена",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,
-                                        int id) {
-                        dialog.cancel();
-                    }
-                });*/
         builder.setItems(inputs, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -170,41 +159,11 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
         super.onAttach(context);
         getLoaderManager().initLoader(0, null, this);
         iTitlable = (ITitleble) context;
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println("lcefefefref");
         super.onActivityResult(requestCode, resultCode, data);
-
-
     }
-
-    /*  @Override
-    public void delete(long id) {
-        CycleDao cycleDao = new CycleDao(getContext());
-        Cycle cycle = new Cycle();
-        cycle.setId(id);
-
-        if (cycleDao.delete(cycle)) {
-            if (cycleList != null) {
-                int index;
-                for (Cycle m : cycleList) {
-                    if (m.getId() == cycle.getId()) {
-                        index = cycleList.indexOf(m);
-                        cycleList.remove(index);
-                        cycleAdapter.notifyItemRemoved(index);
-                        //  showSnackBar();
-                        return;
-                    }
-                }
-
-                System.out.println("удалили итем");
-            }
-
-        }
-    }*/
-
-
 }

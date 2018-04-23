@@ -33,8 +33,6 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
     private ExerciseAdapter exerciseAdapter;
     private RecyclerView recyclerView;
 
-
-
     public ExerciseListFragmentForViewPager() {
         // Required empty public constructor
     }
@@ -59,8 +57,6 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         System.out.println("onCreateView внутренний");
         View inflate = inflater.inflate(R.layout.exercise_list_fragment_for_view_pager, container, false);
         recyclerView = inflate.findViewById(R.id.exercise_list_fragment_for_view_pager_recycler_view);
@@ -76,7 +72,6 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
     public Loader<List<Exercise>> onCreateLoader(int id, Bundle args) {
         ExerciseFragmentLoader exerciseLoader = new ExerciseFragmentLoader(getContext(), Constants.LOADER_BY_TEMPLATE_TYPE ,typeMuscle);
         return exerciseLoader;
-
     }
 
 
@@ -89,7 +84,6 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
 
     @Override
     public void onLoaderReset(Loader<List<Exercise>> loader) {
-
     }
 
     @Override
@@ -103,12 +97,5 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
     }
 
     public void  deleteItem(long id){
-
-    }
-
-    @Override
-    public void onResume() {
-
-        super.onResume();
     }
 }

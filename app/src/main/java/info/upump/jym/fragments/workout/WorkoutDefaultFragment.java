@@ -12,12 +12,8 @@ import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
 
-/**
- * Created by explo on 06.04.2018.
- */
 
 public class WorkoutDefaultFragment extends WorkoutFragment {
-
 
     public static WorkoutDefaultFragment newInstance() {
         WorkoutDefaultFragment fragment = new WorkoutDefaultFragment();
@@ -46,7 +42,5 @@ public class WorkoutDefaultFragment extends WorkoutFragment {
     public Loader<List<Workout>> onCreateLoader(int id, Bundle args) {
         WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(getContext(), Constants.LOADER_BY_DEFAULT_TYPE);
         return workoutFragmentLoader;
-
     }
-
 }

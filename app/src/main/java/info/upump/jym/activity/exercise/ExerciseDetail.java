@@ -47,7 +47,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Подходы");
+        setTitle(R.string.exercise_title_sets);
 
         exercise = getItemFromIntent();
         getSupportLoaderManager().initLoader(0, null, this);
@@ -82,8 +82,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         Intent intent = getIntent();
         long id = intent.getLongExtra(ID, 0);
         ExerciseDao exerciseDao = new ExerciseDao(this);
-        //      ImageDao imageDao = new ImageDao(this);
-        //      exerciseDescription = imageDao.getById(exercise.getImageId());
         return exerciseDao.getById(id);
     }
 
@@ -96,7 +94,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         }
 
     }
-
 
     @Override
     public Loader<List<Sets>> onCreateLoader(int id, Bundle args) {
@@ -121,7 +118,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_CREATE:
-                    System.out.println("interfaceForItem ");
                     long id = data.getLongExtra(ID, 0);
                     addItem(id);
                     break;
@@ -142,10 +138,10 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         if (clear) {
             setsList.clear();
             setsAdapter.notifyDataSetChanged();
-            Toast.makeText(this, "Подходы удалены", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_exercise_delete_sets, Toast.LENGTH_SHORT).show();
             return true;
         } else {
-            Toast.makeText(this, "Не удалось очистить", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -154,9 +150,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     @Override
     public void addItem(long longExtra) {
         if (longExtra > 0) {
-        /*    SetDao setDao = new SetDao(this);
-            Sets sets = setDao.getById(longExtra);
-            sets.setParentId(exercise.getId());*/
             SetDao setDao = new SetDao(this);
             List<Sets> newSets = setDao.getSetsFromId(longExtra);
             for (Sets s : newSets) {
@@ -171,7 +164,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
         exit();
     }
 
@@ -182,8 +174,8 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         }
         switch (item.getItemId()) {
             case R.id.edit_menu_delete:
-                Snackbar.make(getCurrentFocus(), "Удалить упражнение?", Snackbar.LENGTH_LONG)
-                        .setAction("Да", new View.OnClickListener() {
+                Snackbar.make(getCurrentFocus(), R.string.snack_delete, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.yes, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 delete(exercise.getId());
@@ -192,8 +184,8 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
                         }).show();
                 break;
             case R.id.edit_menu_clear:
-                Snackbar.make(getCurrentFocus(), "Очистить упражнение?", Snackbar.LENGTH_LONG)
-                        .setAction("Да", new View.OnClickListener() {
+                Snackbar.make(getCurrentFocus(), R.string.snack_exersice_delete_sets, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.yes, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 clear();
@@ -230,10 +222,10 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     public void delete(long id) {
         ExerciseDao exerciseDao = new ExerciseDao(this);
         if (exerciseDao.delete(exercise)) {
-            Toast.makeText(this, "времен, упражнение  удален", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_exercise_delete, Toast.LENGTH_SHORT).show();
             //exit();
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, упражнение  не удалено", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
 
     }
 

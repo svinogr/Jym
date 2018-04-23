@@ -2,35 +2,29 @@ package info.upump.jym.fragments.workout;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import info.upump.jym.ITitleble;
 import info.upump.jym.R;
-import info.upump.jym.activity.cycle.CycleCreateActivity;
 import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
 
-import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
-import static info.upump.jym.adapters.ExerciseAdapter.DEFAULT_TYPE;
 
 public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Workout>>, View.OnClickListener {
     protected ITitleble iTitleble;
@@ -129,7 +123,6 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoaderReset(Loader<List<Workout>> loader) {
-
     }
 
     @Override
@@ -139,11 +132,9 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
                 addItem();
                 break;
         }
-
     }
 
     private void addItem() {
-        //TODO сделать вызов для резалт активити, типа красиво вставляем
         Intent intent = WorkoutCreateActivity.createIntent(getContext());
         startActivity(intent);
     }

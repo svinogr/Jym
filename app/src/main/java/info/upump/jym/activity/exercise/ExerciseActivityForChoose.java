@@ -33,7 +33,7 @@ public class ExerciseActivityForChoose extends AppCompatActivity implements  ICh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_for_choose);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Выберите упражнение");
+        setTitle(R.string.exercise_choose_title_add_exercise);
 
         viewPager = findViewById(R.id.activity_exercise_for_choose_viewpager);
         tabLayout = findViewById(R.id.activity_exercise_for_choose_tab_layout);

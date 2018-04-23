@@ -33,7 +33,7 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_for_choose);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Выберите тренировку");
+        setTitle(R.string.workout_choose_title_add_workouts);
 
         getSupportLoaderManager().initLoader(0, null, this);
 
@@ -66,7 +66,6 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
 
     @Override
     public void onLoaderReset(Loader<List<Workout>> loader) {
-
     }
 
     @Override

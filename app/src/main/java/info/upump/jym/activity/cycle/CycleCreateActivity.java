@@ -258,7 +258,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
     private void save() {
         CycleDao cycleDao = new CycleDao(this);
         if (title.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "времен, необходтио ввести имя", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
         }
         cycle.setTitle(title.getText().toString());
@@ -267,9 +267,9 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         cycle.setFinishDate(finishTextData.getText().toString());
 
         if (cycleDao.create(cycle) != -1) {
-            Toast.makeText(this, "времен, программа сохранена", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_cycle_saved, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
     }
 
     private void finishActivityWithAnimation() {

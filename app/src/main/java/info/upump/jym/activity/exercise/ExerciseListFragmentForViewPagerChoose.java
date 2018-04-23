@@ -77,7 +77,6 @@ public class ExerciseListFragmentForViewPagerChoose extends Fragment implements 
     public Loader<List<Exercise>> onCreateLoader(int id, Bundle args) {
         ExerciseFragmentLoader exerciseLoader = new ExerciseFragmentLoader(getContext(), Constants.LOADER_BY_TEMPLATE_TYPE ,typeMuscle);
         return exerciseLoader;
-
     }
 
     @Override
@@ -89,7 +88,6 @@ public class ExerciseListFragmentForViewPagerChoose extends Fragment implements 
 
     @Override
     public void onLoaderReset(Loader<List<Exercise>> loader) {
-
     }
 
     @Override
@@ -100,10 +98,6 @@ public class ExerciseListFragmentForViewPagerChoose extends Fragment implements 
             typeMuscle = TypeMuscle.valueOf(t);
         }
         getLoaderManager().initLoader(0, null, this);
-    }
-
-    public void  deleteItem(long id){
-
     }
 
 }

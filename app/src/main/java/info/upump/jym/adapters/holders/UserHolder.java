@@ -29,7 +29,6 @@ public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickL
         date = itemView.findViewById(R.id.user_card_layout_label_date);
         this.itemView = itemView;
         itemView.setOnClickListener(this);
-
     }
 
     public void bind(User user) {
@@ -45,6 +44,5 @@ public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickL
         Intent intent = UserCreateActivity.createIntent(context, user);
         System.out.printf(user.toString());
         context.startActivity(intent);
-
     }
 }

@@ -87,7 +87,6 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         recyclerView = inflate.findViewById(R.id.workout_fragment_for_view_pager_exercises_recycler);
         nestedScrollView = inflate.findViewById(R.id.nested);
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(exerciseAdapter);
@@ -133,11 +132,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         long id = exerciseDao.copyFromTemplate(idItem, workout.getId());
         Exercise exercise = exerciseDao.getById(id);
         exerciseList.add(exercise);
-        System.out.println("addChosenItem after " + exerciseList.size());
         exerciseAdapter.notifyDataSetChanged();
-
-        System.out.println("выбрана " + idItem);
-
     }
 
     @Override
@@ -149,13 +144,11 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
             exerciseAdapter.notifyDataSetChanged();
             return true;
         } else return false;
-
     }
 
 
     @Override
     public void addItem(long longExtra) {
-
     }
 
     @Override
@@ -169,12 +162,10 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         exerciseList.clear();
         exerciseList.addAll(data);
         exerciseAdapter.notifyDataSetChanged();
-
     }
 
     @Override
     public void onLoaderReset(Loader<List<Exercise>> loader) {
-
     }
 
     @Override
@@ -182,5 +173,4 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         Intent intent = ExerciseActivityForChoose.createIntent(getContext());
         getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
     }
-
 }

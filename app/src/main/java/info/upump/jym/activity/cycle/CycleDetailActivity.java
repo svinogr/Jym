@@ -118,7 +118,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     }
 
     protected void setPagerAdapter() {
-        pagerAdapterCycleEdit = new PagerAdapterCycle(getSupportFragmentManager(), cycle);
+        pagerAdapterCycleEdit = new PagerAdapterCycle(getSupportFragmentManager(), cycle, this);
     }
 
     private void setPageTransform() {
@@ -241,8 +241,8 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit_menu_delete:
-                Snackbar.make(this.imageView, "Удалить программу?", Snackbar.LENGTH_LONG)
-                        .setAction("Да", new View.OnClickListener() {
+                Snackbar.make(this.imageView, R.string.snack_delete, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.yes, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 delete(cycle.getId());
@@ -250,8 +250,8 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                         }).show();
                 break;
             case R.id.edit_menu_clear:
-                Snackbar.make(this.imageView, "Очистить программу?", Snackbar.LENGTH_LONG)
-                        .setAction("Да", new View.OnClickListener() {
+                Snackbar.make(this.imageView,  R.string.snack_cycle_delete_workouts, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.yes, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 clear();
@@ -278,7 +278,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
             finishActivityWithAnimation();
         } else {
             AlertDialog.Builder ad = new AlertDialog.Builder(this);
-            ad.setTitle("Сохранить изменения описания?");
+            ad.setTitle(R.string.warning_save_description);
             ad.setPositiveButton((getResources().getString(R.string.yes)), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -298,7 +298,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     private void saveOrUpdate() {
         Cycle sOu = (Cycle) iDescriptionFragment.getChangeableItem();
         if (sOu.getTitle().trim().isEmpty()) {
-            Toast.makeText(this, "необходимо имя", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
         }
         cycle.setComment(sOu.getComment());
@@ -319,17 +319,16 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     public void save(Cycle cycle) {
         cycleDao = getCycleDao();
         if (cycleDao.create(cycle) != -1) {
-            Toast.makeText(this, "времен, программа сохранена", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_cycle_saved, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this,  R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
     }
 
 
-    //delete all childs
     private void clear() {
         if (iItemFragment.clear()) {
-            Toast.makeText(this, "Программа очищена", Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(this, "Не удалось очистить", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_cycle_delete_workouts, Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -345,8 +344,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
             return false;
 
         if (uriImage != null) return false;
-        // if (!getChangeableItem.getImage().equals(cycle.getImage())) return false;
-
         return true;
     }
 
@@ -362,19 +359,18 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     public void update(Cycle cycleSave) {
         cycleDao = getCycleDao();
         if (cycleDao.update(cycleSave)) {
-            Toast.makeText(this, "времен, программа изменена", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_cycle_update, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void delete(long id) {
         cycleDao = getCycleDao();
         if (cycleDao.delete(cycle)) {
-            Toast.makeText(this, "времен, программа  удалена", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_cycle_delete, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
-            //exit();
-        } else Toast.makeText(this, "времен, программа  не удалена", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -409,6 +405,5 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         menuInflater.inflate(R.menu.edit_menu, menu);
         return true;
     }
-
 
 }
