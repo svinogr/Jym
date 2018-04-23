@@ -92,6 +92,12 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         recyclerView.setAdapter(exerciseAdapter);
 
         addFab.setOnClickListener(this);
+        setNestedScroll();
+
+        return inflate;
+    }
+
+    protected void setNestedScroll() {
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -109,8 +115,8 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
 
             }
         });
-        return inflate;
     }
+
 
     @Override
     public void onAttach(Context context) {

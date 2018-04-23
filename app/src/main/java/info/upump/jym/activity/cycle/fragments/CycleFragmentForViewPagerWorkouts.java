@@ -43,11 +43,11 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
     protected RecyclerView recyclerView;
     protected FloatingActionButton addFab;
     protected WorkoutAdapter workoutAdapter;
+    protected NestedScrollView nestedScrollView;
 
     public CycleFragmentForViewPagerWorkouts() {
         // Required empty public constructor
     }
-
 
     public static CycleFragmentForViewPagerWorkouts newInstance(Cycle cycle) {
         CycleFragmentForViewPagerWorkouts fragment = new CycleFragmentForViewPagerWorkouts();
@@ -78,11 +78,18 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         recyclerView = inflate.findViewById(R.id.cycle_fragment_for_view_pager_workouts_recycler);
         addFab = getActivity().findViewById(R.id.cycle_activity_detail_fab_main);
         addFab.setOnClickListener(this);
-        NestedScrollView nestedScrollView = inflate.findViewById(R.id.nested);
+        nestedScrollView = inflate.findViewById(R.id.nested);
+
+        setNestedScroll();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(workoutAdapter);
+        return inflate;
+    }
+
+
+    protected void setNestedScroll() {
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -100,7 +107,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
 
             }
         });
-        return inflate;
+
     }
 
     @Override

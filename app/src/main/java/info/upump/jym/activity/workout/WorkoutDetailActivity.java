@@ -33,14 +33,15 @@ import info.upump.jym.entity.Workout;
 import static info.upump.jym.activity.constant.Constants.ID;
 
 public class WorkoutDetailActivity extends AppCompatActivity implements IChangeItem<Workout> {
-   protected Workout workout;
-   protected ImageView imageView;
-   protected PagerAdapterWorkout pagerAdapterWorkout;
-   protected ViewPager viewPager;
-   protected CollapsingToolbarLayout collapsingToolbarLayout;
-   protected IDescriptionFragment iDescriptionFragment;
-   protected IItemFragment iItemFragment;
-   protected FloatingActionButton addFab;
+    protected Workout workout;
+    protected ImageView imageView;
+    protected PagerAdapterWorkout pagerAdapterWorkout;
+    protected ViewPager viewPager;
+    protected CollapsingToolbarLayout collapsingToolbarLayout;
+    protected IDescriptionFragment iDescriptionFragment;
+    protected IItemFragment iItemFragment;
+    protected FloatingActionButton addFab;
+    protected TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +53,17 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
         workout = getItemFromIntent();
         setPagerAdapter();
+
         addFab = findViewById(R.id.workout_fragment_for_view_pager_exercises_fab_main);
         imageView = findViewById(R.id.workout_activity_detail_edit_image_view);
         collapsingToolbarLayout = findViewById(R.id.workout_activity_detail_edit_collapsing);
         viewPager = findViewById(R.id.workout_activity_detail_viewpager);
-        TabLayout tabLayout = findViewById(R.id.workout_activity_detail_tab_layout);
+        tabLayout = findViewById(R.id.workout_activity_detail_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
         viewPager.setAdapter(pagerAdapterWorkout);
         setPageTransform();
-       // setFabVisible(true);
+        // setFabVisible(true);
 
        /* if (savedInstanceState != null) {
             if (savedInstanceState.getString(Constants.URI_IMG) != null) {
@@ -70,6 +72,12 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
             }
         }*/
         createViewFrom(workout);
+        setTabSelected();
+
+
+    }
+
+    protected void setTabSelected() {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -94,7 +102,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     protected void setFabVisible(boolean visible) {
         if (visible) {
             addFab.setVisibility(View.VISIBLE);
-        } else  addFab.setVisibility(View.GONE);
+        } else addFab.setVisibility(View.GONE);
     }
 
     protected void setPagerAdapter() {
@@ -192,24 +200,24 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     @Override
     public void delete(long id) {
         WorkoutDao workoutDao = new WorkoutDao(this);
-        if( workoutDao.delete(workout)){
+        if (workoutDao.delete(workout)) {
             Toast.makeText(this, R.string.toast_workout_delete, Toast.LENGTH_SHORT).show();
             //exit();
             finishActivityWithAnimation();
-        }else  Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
     }
 
 
     @Override
     public void setInterfaceForDescription(IDescriptionFragment interfaceForDescription) {
-        System.out.println("interfaceForDescription "+interfaceForDescription);
+        System.out.println("interfaceForDescription " + interfaceForDescription);
         this.iDescriptionFragment = interfaceForDescription;
     }
 
     @Override
     public void setInterfaceForItem(IItemFragment interfaceForItem) {
-        System.out.println("interfaceForItem "+interfaceForItem);
-      this.iItemFragment = interfaceForItem;
+        System.out.println("interfaceForItem " + interfaceForItem);
+        this.iItemFragment = interfaceForItem;
     }
 
     protected void exit() {
@@ -319,7 +327,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_CHOOSE:
-                    System.out.println("interfaceForItem "+iItemFragment);
+                    System.out.println("interfaceForItem " + iItemFragment);
                     iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0));
                     break;
             }

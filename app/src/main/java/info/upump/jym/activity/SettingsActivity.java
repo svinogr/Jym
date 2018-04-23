@@ -136,7 +136,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
-        setTitle("Настройки");
+        setTitle(R.string.action_settings);
     }
 
     /**

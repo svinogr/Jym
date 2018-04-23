@@ -40,7 +40,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     protected RecyclerView recyclerView;
     protected FloatingActionButton addFab;
     protected SetsAdapter setsAdapter;
-    //   private ImageForItem exerciseDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

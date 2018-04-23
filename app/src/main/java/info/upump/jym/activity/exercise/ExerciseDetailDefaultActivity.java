@@ -21,7 +21,12 @@ public class ExerciseDetailDefaultActivity  extends ExerciseDetail{
         addFab.setVisibility(View.GONE);
     }
 
+    @Override
+    protected void setFab() {
+    }
+
     public static Intent createIntent(Context context, Exercise exercise) {
+        System.out.println("ExerciseDetailDefaultActivity");
         Intent intent = new Intent(context, ExerciseDetailDefaultActivity.class);
         intent.putExtra(ID, exercise.getId());
         return intent;

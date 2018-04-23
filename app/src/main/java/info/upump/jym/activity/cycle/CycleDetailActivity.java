@@ -46,6 +46,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     protected IDescriptionFragment iDescriptionFragment;
     protected IItemFragment iItemFragment;
     protected FloatingActionButton addFab;
+    protected   TabLayout tabLayout;
 
 
     @Override
@@ -72,11 +73,12 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         });
         collapsingToolbarLayout = findViewById(R.id.cycle_activity_detail_edit_collapsing);
 
-        TabLayout tabLayout = findViewById(R.id.cycle_fragment_edit_tab_layout);
+         tabLayout = findViewById(R.id.cycle_fragment_edit_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
         cycle = getItemFromIntent();
 
+        setTabSelected();
         setPagerAdapter();
 
         viewPager.setAdapter(pagerAdapterCycleEdit);
@@ -88,6 +90,12 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                 cycle.setImage(uriImage.toString());
             }
         }
+
+        createViewFrom(cycle);
+
+    }
+
+    protected void setTabSelected() {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -106,7 +114,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
             }
         });
-        createViewFrom(cycle);
 
     }
 

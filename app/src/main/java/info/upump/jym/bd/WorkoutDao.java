@@ -152,9 +152,9 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     }
 
 
-    public List<Workout> getTemplateUser() {
+    public List<Workout> getTemplateUser() { // только юзерские темплетйы, вторая вкладка t =  1, d =0
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
-                DBHelper.TABLE_KEY_TEMPLATE + " =? and "+ DBHelper.TABLE_KEY_DEFAULT+" = ? ", new String[]{String.valueOf(1), String.valueOf(0)}, null, null, null
+                DBHelper.TABLE_KEY_TEMPLATE + " =? and "+DBHelper.TABLE_KEY_DEFAULT+ " = ?", new String[]{String.valueOf(1),String.valueOf(0)}, null, null, null
         );
         workoutList = new ArrayList<>();
         if (cursor.moveToFirst()) {
@@ -168,9 +168,9 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     }
 
 
-    public List<Workout> getTemplate() {
+    public List<Workout> getAllTemplate() {//
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
-                DBHelper.TABLE_KEY_TEMPLATE + " =?", new String[]{String.valueOf(1)}, null, null, null
+                DBHelper.TABLE_KEY_TEMPLATE + " =? or "+ DBHelper.TABLE_KEY_DEFAULT+" = ?", new String[]{String.valueOf(1), String.valueOf(1)}, null, null, null
         );
         workoutList = new ArrayList<>();
         if (cursor.moveToFirst()) {
@@ -207,9 +207,9 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     }
 
 
-    public List<Workout> getDefault() {
+    public List<Workout> getDefault() { // для готовых тренировок только дефолты d = 1 t = 0
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
-                DBHelper.TABLE_KEY_DEFAULT + " =?", new String[]{String.valueOf(1)}, null, null, null
+                DBHelper.TABLE_KEY_DEFAULT + " =? and "+ DBHelper.TABLE_KEY_TEMPLATE + " =?", new String[]{String.valueOf(1), String.valueOf(0)}, null, null, null
         );
         workoutList = new ArrayList<>();
         if (cursor.moveToFirst()) {
