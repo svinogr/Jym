@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import info.upump.jym.R;
@@ -188,10 +189,30 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
             collapsingToolbarLayout.setTitle(cycle.getTitle());
         }
 
-        if (cycle.getImage() != null) {
+        if(cycle.getDefaultImg() != null){
+            setDefaultPic();
+        } else  if (cycle.getImage() != null) {
             setPic(Uri.parse(cycle.getImage()));
         }
 
+    }
+
+    private void setDefaultPic() {
+        RequestOptions options = getOptionsGlide();
+            int ident =getResources().getIdentifier(cycle.getDefaultImg(), "drawable",  getPackageName());
+        System.out.println(ident);
+            Glide.with(this).load(ident).apply(options).into(imageView);
+    }
+
+    private RequestOptions getOptionsGlide(){
+        RequestOptions options = new RequestOptions()
+                .transforms(new RoundedCorners(50))
+                .centerCrop()
+                .placeholder(R.drawable.view_place_holder_exercise)
+                .error(R.drawable.iview_place_erore_exercise)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH);
+        return options;
     }
 
     private Cycle getItemFromIntent() {
@@ -224,12 +245,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
 
     private void setPic(Uri uri) {
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.ic_add_black_24dp)
-                .error(R.drawable.ic_add_black_24dp)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH);
+        RequestOptions options = getOptionsGlide();
         Glide.with(this).load(uri).apply(options).into(imageView);
     }
 

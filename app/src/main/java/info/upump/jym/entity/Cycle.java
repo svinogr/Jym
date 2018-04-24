@@ -15,10 +15,19 @@ public class Cycle extends Entity {
     private List<Workout> workoutList = new ArrayList<>();
     private boolean defaultType;
     private String image;
+    private String defaultImg;
 
     private int getDaysBetweenDates() {
         //Todo getDaysBetweenDates
         return 0;
+    }
+
+    public String getDefaultImg() {
+        return defaultImg;
+    }
+
+    public void setDefaultImg(String defaultImg) {
+        this.defaultImg = defaultImg;
     }
 
     public boolean isDefaultType() {

@@ -87,7 +87,12 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
                 .error(R.drawable.iview_place_erore_cycle)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
-        Glide.with(itemView.getContext()).load(uri).apply(options).into(imageView);
+        if(cycle.getDefaultImg() != null){
+            int ident =context.getResources().getIdentifier(cycle.getDefaultImg(), "drawable",  context.getPackageName());
+            System.out.println(ident);
+            Glide.with(context).load(ident).apply(options).into(imageView);
+        }else Glide.with(itemView.getContext()).load(uri).apply(options).into(imageView);
+
     }
 
     @Override

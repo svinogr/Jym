@@ -29,7 +29,8 @@ public class CycleDao extends DBDao implements IData<Cycle> {
             DBHelper.TABLE_KEY_DEFAULT,
             DBHelper.TABLE_KEY_IMG,
             DBHelper.TABLE_KEY_START_DATE,
-            DBHelper.TABLE_KEY_FINISH_DATE};
+            DBHelper.TABLE_KEY_FINISH_DATE,
+            DBHelper.TABLE_KEY_DEFAULT_IMG,};
 
     private ContentValues getContentValuesFrom(Cycle object) {
         ContentValues cv = new ContentValues();
@@ -40,6 +41,9 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         cv.put(DBHelper.TABLE_KEY_COMMENT, object.getComment());
         cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType());
         cv.put(DBHelper.TABLE_KEY_IMG, object.getImage());
+        if(object.getImage() != null){
+            cv.putNull(DBHelper.TABLE_KEY_DEFAULT_IMG);
+        } else  cv.put(DBHelper.TABLE_KEY_DEFAULT_IMG, object.getDefaultImg());
         cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
         cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
         return cv;
@@ -54,6 +58,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         cycle.setImage(cursor.getString(4));
         cycle.setStartDate((cursor.getString(5)));
         cycle.setFinishDate((cursor.getString(6)));
+        cycle.setDefaultImg(cursor.getString(7));
         return cycle;
     }
 
@@ -96,9 +101,6 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         }
         return cycleList;
     }
-
-
-
 
     @Override
     public long create(Cycle cycle) {

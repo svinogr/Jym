@@ -17,7 +17,7 @@ import java.io.OutputStream;
 
 public class DBHelper extends SQLiteOpenHelper {
     private Context context;
-    public final static int DATA_BASE_VERSION = 9;
+    public final static int DATA_BASE_VERSION = 1;
     public final static String DATABASE_NAME = "jym.db";
     public final static String TABLE_SET = "sets";
     public final static String TABLE_EXERCISE = "exercises";
@@ -43,6 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_KEY_TYPE_EXERCISE = "type_exercise"; //for exercise, type of group muscles
     public static final String TABLE_KEY_IMG = "img";
+    public static final String TABLE_KEY_DEFAULT_IMG = "default_img";
     public static final String TABLE_KEY_TEMPLATE = "template";
 
     public static final String TABLE_KEY_SET_WEIGHT = "weight";//for set
@@ -75,8 +76,8 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_DEFAULT + " INTEGER NOT NULL, " +
             TABLE_KEY_IMG + " TEXT, " +
             TABLE_KEY_START_DATE + " TEXT NOT NULL, " +
-            TABLE_KEY_FINISH_DATE + " TEXT NOT NULL)";
-
+            TABLE_KEY_FINISH_DATE + " TEXT NOT NULL, "+
+            TABLE_KEY_DEFAULT_IMG + " TEXT )";
 
     private static final String CREATE_TABLE_WORKOUT = "CREATE TABLE " + TABLE_WORKOUT +
             "( " + TABLE_KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
