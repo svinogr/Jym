@@ -21,7 +21,7 @@
             app:expandedTitleMarginStart="16dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
             <ImageView
-                android:id="@+id/exercise_activity_detail_edit_image_view"
+                android:id="@+id/cycle_activity_detail_edit_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
                 android:fitsSystemWindows="true"

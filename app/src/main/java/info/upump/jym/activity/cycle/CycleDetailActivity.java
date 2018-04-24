@@ -3,6 +3,7 @@ package info.upump.jym.activity.cycle;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     protected IDescriptionFragment iDescriptionFragment;
     protected IItemFragment iItemFragment;
     protected FloatingActionButton addFab;
-    protected   TabLayout tabLayout;
+    protected TabLayout tabLayout;
 
 
     @Override
@@ -62,19 +63,10 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
         viewPager = findViewById(R.id.cycle_fragment_edit_viewpager);
         viewPager = findViewById(R.id.cycle_fragment_edit_viewpager);
-        imageView = findViewById(R.id.exercise_activity_detail_edit_image_view);
-        addFab =   findViewById(R.id.cycle_activity_detail_fab_main);
-        setFabVisible(true);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent photoPic = createIntentForGetPic();
-                startActivityForResult(photoPic, Constants.REQUEST_CODE_GALLERY_PHOTO);
-            }
-        });
+        imageView = findViewById(R.id.cycle_activity_detail_edit_image_view);
+        addFab = findViewById(R.id.cycle_activity_detail_fab_main);
         collapsingToolbarLayout = findViewById(R.id.cycle_activity_detail_edit_collapsing);
-
-         tabLayout = findViewById(R.id.cycle_fragment_edit_tab_layout);
+        tabLayout = findViewById(R.id.cycle_fragment_edit_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
         cycle = getItemFromIntent();
@@ -85,24 +77,26 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         viewPager.setAdapter(pagerAdapterCycleEdit);
         setPageTransform();
 
-        if (savedInstanceState != null) {
+       /* if (savedInstanceState != null) {
             if (savedInstanceState.getString(Constants.URI_IMG) != null) {
                 uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
                 cycle.setImage(uriImage.toString());
             }
-        }
-
+        }*/
         createViewFrom(cycle);
+    }
 
+    void setIconFab(int positionTab){
+        if(positionTab == 0){
+            addFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_add));
+        } else  addFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_edit));
     }
 
     protected void setTabSelected() {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0) {
-                    setFabVisible(true);
-                } else setFabVisible(false);
+               setIconFab(tab.getPosition());
             }
 
             @Override
@@ -121,8 +115,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     protected void setFabVisible(boolean visible) {
         if (visible) {
             addFab.setVisibility(View.VISIBLE);
-        } else  addFab.setVisibility(View.GONE);
-
+        } else addFab.setVisibility(View.GONE);
     }
 
     protected void setPagerAdapter() {
@@ -189,22 +182,21 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
             collapsingToolbarLayout.setTitle(cycle.getTitle());
         }
 
-        if(cycle.getDefaultImg() != null){
+        if (cycle.getDefaultImg() != null) {
             setDefaultPic();
-        } else  if (cycle.getImage() != null) {
+        } else if (cycle.getImage() != null) {
             setPic(Uri.parse(cycle.getImage()));
         }
-
     }
 
     private void setDefaultPic() {
         RequestOptions options = getOptionsGlide();
-            int ident =getResources().getIdentifier(cycle.getDefaultImg(), "drawable",  getPackageName());
+        int ident = getResources().getIdentifier(cycle.getDefaultImg(), "drawable", getPackageName());
         System.out.println(ident);
-            Glide.with(this).load(ident).apply(options).into(imageView);
+        Glide.with(this).load(ident).apply(options).into(imageView);
     }
 
-    private RequestOptions getOptionsGlide(){
+    private RequestOptions getOptionsGlide() {
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
@@ -229,15 +221,14 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case Constants.REQUEST_CODE_GALLERY_PHOTO:
-                    uriImage = data.getData();
-                    setPic(uriImage);
-                    break;
                 case Constants.REQUEST_CODE_CHOOSE:
                     iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0));
                     break;
                 case Constants.REQUEST_CODE_CREATE:
                     iItemFragment.addItem(data.getLongExtra(Constants.ID, 0));
+                    break;
+                case Constants.UPDATE:
+                    iItemFragment.updateItem(data.getLongExtra(Constants.ID, 0));
                     break;
             }
         }
@@ -249,16 +240,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
-    private Intent createIntentForGetPic() {
-        Intent intent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        } else {
-            intent = new Intent(Intent.ACTION_PICK);
-        }
-        intent.setType("image/*");
-        return intent;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -273,7 +254,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                         }).show();
                 break;
             case R.id.edit_menu_clear:
-                Snackbar.make(this.imageView,  R.string.snack_cycle_delete_workouts, Snackbar.LENGTH_LONG)
+                Snackbar.make(this.imageView, R.string.snack_cycle_delete_workouts, Snackbar.LENGTH_LONG)
                         .setAction(R.string.yes, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -297,56 +278,23 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     }
 
     protected void exit() {
-        if (itemIsNotChanged()) {
             finishActivityWithAnimation();
-        } else {
-            AlertDialog.Builder ad = new AlertDialog.Builder(this);
-            ad.setTitle(R.string.warning_save_description);
-            ad.setPositiveButton((getResources().getString(R.string.yes)), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    saveOrUpdate();
-                }
-            });
-            ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finishActivityWithAnimation();
-                }
-            });
-            ad.show();
-        }
     }
 
-    private void saveOrUpdate() {
-        Cycle sOu = (Cycle) iDescriptionFragment.getChangeableItem();
-        if (sOu.getTitle().trim().isEmpty()) {
-            Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        cycle.setComment(sOu.getComment());
-        cycle.setTitle(sOu.getTitle());
-        cycle.setFinishDate(sOu.getFinishDate());
-        cycle.setStartDate(sOu.getStartDate());
-        if (uriImage != null) {
-            System.out.println("юрай имидж" +
-                    "" + uriImage);
-            cycle.setImage(uriImage.toString());
-        }
-        if (cycle.getId() > 0) {
-            update(cycle);
-        } else save(cycle);
-    }
 
-    @Override
+   /* @Override
+    public void update(Cycle object) {*/
+
+//    }
+
+  /*  @Override
     public void save(Cycle cycle) {
         cycleDao = getCycleDao();
         if (cycleDao.create(cycle) != -1) {
             Toast.makeText(this, R.string.toast_cycle_saved, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
-        } else Toast.makeText(this,  R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
-    }
-
+        } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
+    }*/
 
     private void clear() {
         if (iItemFragment.clear()) {
@@ -354,30 +302,13 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
     }
 
-
-    private boolean itemIsNotChanged() {
-        Cycle changeableItem = (Cycle) iDescriptionFragment.getChangeableItem();
-
-        System.out.println(changeableItem);
-        if (!changeableItem.getTitle().equals(cycle.getTitle())) return false;
-        if (!changeableItem.getComment().equals(cycle.getComment())) return false;
-        if (!changeableItem.getStartStringFormatDate().equals(cycle.getStartStringFormatDate()))
-            return false;
-        if (!changeableItem.getFinishStringFormatDate().equals(cycle.getFinishStringFormatDate()))
-            return false;
-
-        if (uriImage != null) return false;
-        return true;
-    }
-
-
     protected void finishActivityWithAnimation() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();
     }
 
-
+/*
     @Override
     public void update(Cycle cycleSave) {
         cycleDao = getCycleDao();
@@ -385,7 +316,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
             Toast.makeText(this, R.string.toast_cycle_update, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
-    }
+    }*/
 
     @Override
     public void delete(long id) {
@@ -414,13 +345,13 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         return cycleDao;
     }
 
-    @Override
+  /*  @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (uriImage != null) {
             outState.putString(Constants.URI_IMG, uriImage.toString());
         }
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

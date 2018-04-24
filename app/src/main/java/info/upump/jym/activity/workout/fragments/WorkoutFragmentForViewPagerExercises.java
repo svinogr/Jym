@@ -158,6 +158,11 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
     }
 
     @Override
+    public void updateItem(long longExtra) {
+
+    }
+
+    @Override
     public Loader<List<Exercise>> onCreateLoader(int id, Bundle args) {
         ExerciseFragmentLoader exerciseFragmentLoader = new ExerciseFragmentLoader(getContext(), Constants.LOADER_BY_PARENT_ID, workout.getId());
         return exerciseFragmentLoader;

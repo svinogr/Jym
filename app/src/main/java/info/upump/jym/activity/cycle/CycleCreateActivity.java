@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Calendar;
@@ -35,6 +36,8 @@ import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
+
+import static info.upump.jym.activity.constant.Constants.ID;
 
 public class CycleCreateActivity extends AppCompatActivity implements View.OnClickListener {
     public static final int REQUEST_CODE_CREATE_CYCLE = 1;
@@ -52,6 +55,8 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         }
     };
     private Uri uriImage;
+    private String startData, finishData;
+    private Cycle fromIntent;
 
 
     @Override
@@ -62,7 +67,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        cycle = new Cycle();
+        cycle = getFromIntent();
 
         imageView = findViewById(R.id.cycle_create_activity_image_view);
         collapsingToolbarLayout = findViewById(R.id.cycle_create_activity_collapsing);
@@ -87,19 +92,30 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         finishDataLabel.setText(R.string.label_finish_cycle);
 
         if (savedInstanceState != null) {
-            cycle.setStartDate(savedInstanceState.getString(Constants.START_DATA));
-            cycle.setFinishDate(savedInstanceState.getString(Constants.FINISH_DATA));
-            if (savedInstanceState.getString(Constants.URI_IMG) != null) {
-                cycle.setImage(savedInstanceState.getString(Constants.URI_IMG));
+//            cycle.setStartDate(savedInstanceState.getString(Constants.START_DATA));
+//            cycle.setFinishDate(savedInstanceState.getString(Constants.FINISH_DATA));
+            if(savedInstanceState.getString(Constants.START_DATA) != null){
+                startData = savedInstanceState.getString(Constants.START_DATA);
             }
-        } else {
-            cycle.setStartDate(new Date());
-            cycle.setFinishDate(new Date());
-            // cycle.setTitle();
+            if(savedInstanceState.getString(Constants.FINISH_DATA) != null){
+                finishData = savedInstanceState.getString(Constants.FINISH_DATA);
+            }
+
+            if (savedInstanceState.getString(Constants.URI_IMG) != null) {
+            //    cycle.setImage(savedInstanceState.getString(Constants.URI_IMG));
+                uriImage = Uri.parse(cycle.getImage());
+            }
         }
+//        else {
+//            cycle.setStartDate(cycle.getStartDate());
+//            cycle.setFinishDate(cycle.getFinishDate());
+            // cycle.setTitle();
+//        }
 
 
+        System.out.println("onCrea " +cycle);
         createViewFrom(cycle);
+
         title.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -122,29 +138,55 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    private RequestOptions getOptionsGlide() {
+        RequestOptions options = new RequestOptions()
+                .transforms(new RoundedCorners(50))
+                .centerCrop()
+                .placeholder(R.drawable.view_place_holder_exercise)
+                .error(R.drawable.iview_place_erore_exercise)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH);
+        return options;
+    }
+
+    private void setDefaultPic() {
+        RequestOptions options = getOptionsGlide();
+        int ident = getResources().getIdentifier(cycle.getDefaultImg(), "drawable", getPackageName());
+        System.out.println(ident);
+        Glide.with(this).load(ident).apply(options).into(imageView);
+    }
+
     private void createViewFrom(Cycle cycle) {
-        Uri uri = null;
+        System.out.println("createViewFrom " +cycle);
+        if (uriImage == null) {
+            if (cycle.getDefaultImg() != null) {
+                setDefaultPic();
+            } else if (cycle.getImage() != null) {
+                setPic(Uri.parse(cycle.getImage()));
+            }
+        } else setPic(uriImage);
+      /*
         if (cycle.getImage() != null) {
             uri = Uri.parse(cycle.getImage().toString());
         }
-        setPic(uri);
+        setPic(uri);*/
         title.setText(cycle.getTitle());
-        System.out.println(cycle);
         if (cycle.getTitle() == null) {
             collapsingToolbarLayout.setTitle(title.getHint().toString());
-        } else  collapsingToolbarLayout.setTitle(cycle.getTitle());
-            startTextData.setText(cycle.getStartStringFormatDate());
-        finishTextData.setText(cycle.getFinishStringFormatDate());
+        } else collapsingToolbarLayout.setTitle(cycle.getTitle());
+
+        if(startData != null){
+            startTextData.setText(startData);
+        } else startTextData.setText(cycle.getStartStringFormatDate());
+        if(finishData != null){
+            finishTextData.setText(finishData);
+        } else finishTextData.setText(cycle.getFinishStringFormatDate());
+
         description.setText(cycle.getComment());
     }
 
     private void setPic(Uri uri) {
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.ic_add_black_24dp)
-                .error(R.drawable.ic_add_black_24dp)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH);
+        RequestOptions options = getOptionsGlide();
         Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
@@ -160,8 +202,11 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         return intent;
     }
 
-    public static Intent createIntent(Context context) {
+    public static Intent createIntent(Context context, Cycle cycle) {
         Intent intent = new Intent(context, CycleCreateActivity.class);
+        if (cycle != null) {
+            intent.putExtra(ID, cycle.getId());
+        }
         return intent;
     }
 
@@ -178,8 +223,10 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
-                        cycle.setStartDate(newDate.getTime());
-                        startTextData.setText(cycle.getStartStringFormatDate());
+//                        cycle.setStartDate(newDate.getTime());
+                        Cycle dataCycle = new Cycle();
+                        dataCycle.setStartDate(newDate.getTime());
+                        startTextData.setText(dataCycle.getStartStringFormatDate());
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -193,15 +240,16 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
-                        cycle.setFinishDate(newDate.getTime());
-                        finishTextData.setText(cycle.getFinishStringFormatDate());
+//                        cycle.setFinishDate(newDate.getTime());
+                        Cycle dataCycle = new Cycle();
+                        dataCycle.setStartDate(newDate.getTime());
+                        finishTextData.setText(dataCycle.getFinishStringFormatDate());
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
                 j.show();
                 break;
         }
-
     }
 
 
@@ -223,9 +271,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
         exit();
-
     }
 
     @Override
@@ -237,22 +283,73 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void exit() {
-        AlertDialog.Builder ad = new AlertDialog.Builder(this);
-        ad.setTitle(getResources().getString(R.string.save));
-        ad.setPositiveButton((getResources().getString(R.string.yes)), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                save();
-            }
-        });
-        ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finishActivityWithAnimation();
-            }
-        });
-        ad.show();
+        if (itemIsNotChanged()) {
+            finishActivityWithAnimation();
+        } else {
+            AlertDialog.Builder ad = new AlertDialog.Builder(this);
+            ad.setTitle(getResources().getString(R.string.save));
+            ad.setPositiveButton((getResources().getString(R.string.yes)), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (cycle.getId() != 0) {
+                        update();
+                    } else save();
+                }
+            });
+            ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finishActivityWithAnimation();
+                }
+            });
+            ad.show();
+        }
 
+    }
+
+    private boolean itemIsNotChanged() {
+        Cycle changeableItem = getChangeableItem();
+        System.out.println("ch1 "+changeableItem);
+        System.out.println("c1 "+cycle);
+        if (!changeableItem.getTitle().equals(cycle.getTitle())) return false;
+        if (!changeableItem.getComment().equals(cycle.getComment())) return false;
+        System.out.println(changeableItem.getStartStringFormatDate().equals(cycle.getStartStringFormatDate()));
+        if (!changeableItem.getStartStringFormatDate().equals(cycle.getStartStringFormatDate()))
+            return false;
+        if (!changeableItem.getFinishStringFormatDate().equals(cycle.getFinishStringFormatDate()))
+            return false;
+
+        if (uriImage != null) return false;
+        System.out.println("c "+cycle);
+        System.out.println("cha "+changeableItem);
+        return true;
+    }
+
+    private Cycle getChangeableItem() {
+        Cycle changeable = new Cycle();
+        changeable.setId(cycle.getId());
+        changeable.setTitle(title.getText().toString());
+        changeable.setComment(description.getText().toString());
+        changeable.setStartDate(startTextData.getText().toString());
+        changeable.setFinishDate(finishTextData.getText().toString());
+        if(uriImage != null){
+            changeable.setImage(uriImage.toString());
+            changeable.setDefaultImg(null);
+        }
+        return changeable;
+    }
+
+    private void update() {
+        CycleDao cycleDao = new CycleDao(this);
+        if (title.getText().toString().trim().isEmpty()) {
+            Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Cycle cycleUpdate = getChangeableItem();
+        if (cycleDao.update(cycleUpdate)) {
+            Toast.makeText(this, R.string.toast_cycle_update, Toast.LENGTH_SHORT).show();
+            finishActivityWithAnimation();
+        } else Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
     }
 
     private void save() {
@@ -261,16 +358,18 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
         }
-        cycle.setTitle(title.getText().toString());
+        Cycle cycleSave = getChangeableItem();
+       /* cycle.setTitle(title.getText().toString());
         cycle.setComment(description.getText().toString());
         cycle.setStartDate(startTextData.getText().toString());
         cycle.setFinishDate(finishTextData.getText().toString());
-
-        if (cycleDao.create(cycle) != -1) {
+*/
+        if (cycleDao.create(cycleSave) != -1) {
             Toast.makeText(this, R.string.toast_cycle_saved, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
     }
+
 
     private void finishActivityWithAnimation() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -283,8 +382,26 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         super.onSaveInstanceState(outState);
         outState.putString(Constants.START_DATA, startTextData.getText().toString());
         outState.putString(Constants.FINISH_DATA, finishTextData.getText().toString());
-        if (cycle.getImage() != null) {
-            outState.putString(Constants.URI_IMG, cycle.getImage());
+        if (uriImage != null) {
+//            outState.putString(Constants.URI_IMG, cycle.getImage());
+            outState.putString(Constants.URI_IMG, uriImage.toString());
         }
+    }
+
+    public Cycle getFromIntent() {
+        long id = getIntent().getLongExtra(ID, 0);
+        Cycle cycle;
+        if (id != 0) {
+            CycleDao cycleDao = new CycleDao(this);
+            cycle = cycleDao.getById(id);
+        } else {
+            cycle = new Cycle();
+            cycle.setStartDate(new Date());
+            cycle.setFinishDate(new Date());
+            cycle.setComment("");
+            cycle.setTitle("");
+        }
+        System.out.println(cycle);
+        return cycle;
     }
 }

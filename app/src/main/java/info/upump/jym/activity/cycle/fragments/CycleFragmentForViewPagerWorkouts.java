@@ -137,9 +137,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         });
         builder.setCancelable(true);
         builder.show();
-
     }
-
 
     @Override
     public Loader<List<Workout>> onCreateLoader(int id, Bundle args) {
@@ -219,5 +217,10 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         workoutList.add(workout);
         sortListByDay(workoutList);
         workoutAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateItem(long longExtra) {
+
     }
 }

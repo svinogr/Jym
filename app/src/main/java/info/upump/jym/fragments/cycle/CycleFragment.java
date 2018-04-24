@@ -140,7 +140,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
                 // TODO Auto-generated method stub
                 switch (item) {
                     case 0:
-                        Intent intent0 = CycleCreateActivity.createIntent(getContext());
+                        Intent intent0 = CycleCreateActivity.createIntent(getContext(), null);
                         startActivity(intent0);
                         break;
                     case 1:

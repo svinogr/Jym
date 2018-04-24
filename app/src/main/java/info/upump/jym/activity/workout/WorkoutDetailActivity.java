@@ -188,13 +188,13 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     }
 
 
-    @Override
+   /* @Override
     public void update(Workout object) {
     }
 
     @Override
     public void save(Workout object) {
-    }
+    }*/
 
 
     @Override

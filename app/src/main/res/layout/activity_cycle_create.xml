@@ -25,7 +25,7 @@
                         android:layout_height="280dp"
                         android:scaleType="centerCrop"
                         android:fitsSystemWindows="true"
-                        android:transitionName="cycle_card_layout_image"
+                        android:transitionName="cycle_activity_detail_edit_image_view"
                         app:layout_collapseMode="parallax" />
             <android.support.v7.widget.Toolbar
                 app:layout_collapseMode="pin"
