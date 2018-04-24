@@ -103,7 +103,8 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
 
             if (savedInstanceState.getString(Constants.URI_IMG) != null) {
             //    cycle.setImage(savedInstanceState.getString(Constants.URI_IMG));
-                uriImage = Uri.parse(cycle.getImage());
+//                uriImage = Uri.parse(cycle.getImage());
+                uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
             }
         }
 //        else {
