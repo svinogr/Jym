@@ -2,6 +2,7 @@ package info.upump.jym.adapters.holders;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.ContextThemeWrapper;
@@ -70,6 +71,7 @@ abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implemen
 
         Glide.with(itemView.getContext()).load(bitmap).into(imageView);
     }
+
     protected Context getAnimationContext(){
 
         if(context instanceof Activity){

@@ -45,6 +45,7 @@
     <string name="exercise_edit_enter_title">Введите название упражнения</string>
     <string name="exercise_detail_activity_edit_description">Описание</string>
     <string name="card_type_item">своя</string>
+    <string name="card_type_item_default">предустановленая</string>
     <!--permissions-->
     <string name="permission_description">Хранилище файлов</string>
     <string name="permission_description_camera">Камера</string>
@@ -271,5 +272,6 @@
     <string name="snack_exersice_delete_sets">Удалить подходы</string>
     <string name="snack_workout_delete_exercises">Удалить упражнения</string>
     <string name="snack_exit">Выйти из приложения?</string>
+
 
 </resources>

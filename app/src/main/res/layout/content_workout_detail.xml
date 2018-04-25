@@ -25,6 +25,8 @@
                 android:id="@+id/workout_activity_detail_tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:tabTextColor="@color/colorTextTab"
+                app:tabSelectedTextColor="@color/colorTextTab"
                 style="@style/MyTabLayout"
                 android:layout_gravity="top"
                 app:tabMode="fixed">

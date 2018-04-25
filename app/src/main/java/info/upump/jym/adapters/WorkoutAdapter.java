@@ -40,23 +40,30 @@ public class WorkoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_card_layout, parent, false);
+        View inflate;
+//        = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_card_layout, parent, false);
         System.out.println("vietype" + viewType);
         switch (viewType) {
             case DAY:
+                inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_card_layout, parent, false);
                 viewHolder = new WorkoutDayViewHolder(inflate);
                 break;
             case DAY_DEFAULT:
+                inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_card_layout, parent, false);
                 viewHolder = new WorkoutDayDefaultViewHolder(inflate);
                 break;
             case LOADER_BY_USER_TYPE:
+//                inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_card_layout, parent, false);
+                inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_default_card_layout, parent, false);
                 viewHolder = new WorkoutTemplateViewHolder(inflate);
                 break;
             case LOADER_BY_DEFAULT_TYPE:
+                inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_default_card_layout, parent, false);
                 viewHolder = new WorkoutDefaultViewHolder(inflate);
                 break;
             case DEFAULT_TYPE_CHOOSE:
-                viewHolder = new WorkoutDefaultChooseViewHolder(inflate); //
+                inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_card_layout, parent, false);
+                viewHolder = new WorkoutDefaultChooseViewHolder(inflate);
                 break;
         }
         return viewHolder;

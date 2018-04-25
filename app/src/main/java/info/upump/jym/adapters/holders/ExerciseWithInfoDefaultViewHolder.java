@@ -16,7 +16,9 @@ public class ExerciseWithInfoDefaultViewHolder extends ExerciseWithInfoViewHolde
     }
     @Override
     public Intent createIntent() {
+        System.out.println("ExerciseWithInfoDefaultViewHolder");
         Intent intent = ExerciseDetailDefaultActivity.createIntent(context, exercise);
         return intent;
     }
+
 }

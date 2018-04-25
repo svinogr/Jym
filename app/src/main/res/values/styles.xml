@@ -23,6 +23,12 @@
         <item name="android:typeface">monospace</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
+    <style name="TextViewLabelTopCard">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/colorTextTab</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
 
     <style name="TextViewLabel">
         <item name="android:textSize">12sp</item>
@@ -60,10 +66,10 @@
 
     <style name="MyTabLayout">
         <item name="android:background">@color/colorBackgroundTabLayout</item>
+        <item name="android:textColor">@color/colorTextTab</item>
         <item name="android:layout_marginStart">0dp</item>
         <item name="android:layout_marginEnd">0dp</item>>
     </style>
-
     <style name="MyConstrateLayout">
         <item name="android:background">@color/colorBackgroundConstrateLayout</item>
 

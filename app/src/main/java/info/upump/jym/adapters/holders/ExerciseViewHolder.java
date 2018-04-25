@@ -72,7 +72,7 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = image;
-            String transitionNameIm = "exercise_detail_template_activity_image";
+            String transitionNameIm = "exercise_activity_create_image";
             ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
                             getAnimationContext(),
                     Pair.create(sharedViewIm, transitionNameIm));

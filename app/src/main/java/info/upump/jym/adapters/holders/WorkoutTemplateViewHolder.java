@@ -23,9 +23,7 @@ public class WorkoutTemplateViewHolder extends WorkoutViewHolder {
 
     @Override
     public void setVariablyField() {
-        if (!workout.isDefaultType()) {
-            variably.setText(context.getResources().getString(R.string.card_type_item));
-        } else variably.setText("");
+
     }
 
     @Override
@@ -36,7 +34,7 @@ public class WorkoutTemplateViewHolder extends WorkoutViewHolder {
             View sharedViewIm = imageView;
             String transitionNameIm = "workout_card_layout_image";
             ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
-                            context,
+                            getAnimationContext(),
                     Pair.create(sharedViewIm, transitionNameIm));
             context.startActivity(intent, transitionActivityOptions.toBundle());
         } else context.startActivity(intent);

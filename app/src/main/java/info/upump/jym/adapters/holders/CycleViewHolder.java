@@ -29,11 +29,11 @@ import info.upump.jym.entity.Cycle;
  */
 
 public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private TextView title;
-    private TextView date;
-    private ImageView imageView;
+    protected TextView title;
+    protected TextView date;
+    protected ImageView imageView;
     protected Cycle cycle;
-    private View itemView;
+    protected View itemView;
     protected Context context;
 
     public CycleViewHolder(View itemView) {
@@ -75,7 +75,7 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
         return intent;
     }
 
-    private void setPic() {
+    protected void setPic() {
         Uri uri = null;
         if (cycle.getImage() != null) {
             uri = Uri.parse(cycle.getImage());
@@ -83,7 +83,7 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
-                .placeholder(R.drawable.view_place_holder_cycle)
+//                .placeholder(R.drawable.view_place_holder_cycle)
                 .error(R.drawable.iview_place_erore_cycle)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);

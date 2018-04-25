@@ -33,16 +33,20 @@ public class CycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_card_layout, parent, false);
+        View inflate;
+//        = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_card_layout, parent, false);
         RecyclerView.ViewHolder holder = null;
         switch (viewType){
             case LOADER_BY_DEFAULT_TYPE:
+                inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_default_card_layout, parent, false);
                 holder = new CycleDefaultViewHolder(inflate);
                 break;
             case LOADER_BY_USER_TYPE:
+                inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_card_layout, parent, false);
                 holder = new CycleViewHolder(inflate);
                 break;
             case DEFAULT_TYPE_CHOOSE:
+                inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_card_layout, parent, false);
                 holder = new CycleDefaultChooseViewHolder(inflate);
                 break;
         }
