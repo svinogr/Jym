@@ -44,7 +44,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
     private Spinner spinner;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ImageView imageView;
-    //    private AppBarLayout appBarLayout;
     private Exercise exercise;
     private Uri uriImage;
     private String[] nameOfValues;
@@ -68,17 +67,16 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //   exerciseDescription = new ImageForItem();
         exercise = getItemFromIntent();
 
         imageView = findViewById(R.id.exercise_activity_create_image_view);
         collapsingToolbarLayout = findViewById(R.id.exercise_activity_create_collapsing);
-//        appBarLayout = findViewById(R.id.exercise_activity_create_appbar);
         title = findViewById(R.id.content_exercise_create_activity_title);
         description = findViewById(R.id.content_exercise_create_activity_web);
         spinner = findViewById(R.id.content_exercise_create_activity_spinner);
 
         nameOfValues = getNameOfMuscle();
+
         ArrayAdapter<String> dayArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameOfValues);
         spinner.setAdapter(dayArrayAdapter);
         spinner.setFocusableInTouchMode(false);
@@ -124,14 +122,9 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             if (savedInstanceState.getString(Constants.URI_IMG) != null) {
                 uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
-//                setPic(uriImage);
             }
         }
         createViewFrom();
-
-//        if (exercise.getTitle() == null) {
-//            collapsingToolbarLayout.setTitle(title.getHint().toString());
-//        } else collapsingToolbarLayout.setTitle(exercise.getTitle());
     }
 
     private void createViewFrom() {
@@ -146,19 +139,7 @@ public class ExerciseCreateActivity extends AppCompatActivity {
 
         if (uriImage == null) {
             setPicUri(Uri.parse(exercise.getExerciseDescription().getImg()));
-           /* if (cycle.getDefaultImg() != null) {
-                setDefaultPic();
-            } else if (cycle.getImage() != null) {
-                setPic(Uri.parse(cycle.getImage()));
-            } else setPic(Uri.parse(""));*/
         } else setPicUri(uriImage);
-
-//        title.setText(exercise.getExerciseDescription().getTitle());
-     /*   if (cycle.getTitle() == null) {
-            collapsingToolbarLayout.setTitle(title.getHint().toString());
-        }*//* else collapsingToolbarLayout.setTitle(cycle.getTitle());*//*
-
-        if (uriImage == null) {*/
     }
 
     private void setPicUri(Uri uri) {
@@ -175,7 +156,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
     }
 
 
-    // можно убрать
     private Exercise getItemFromIntent() {
         long id = getIntent().getLongExtra(ID, 0);
         Exercise exercise;
@@ -233,7 +213,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_GALLERY_PHOTO:
                     uriImage = data.getData();
-//                    setPic(uriImage);
                     setPicUri(uriImage);
                     break;
             }
@@ -248,16 +227,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             outState.putString(Constants.URI_IMG, uriImage.toString());
         }
     }
-
-  /*  private void setPic(Uri uri) {
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.ic_add_black_24dp)
-                .error(R.drawable.ic_add_black_24dp)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH);
-        Glide.with(this).load(uri).apply(options).into(imageView);
-    }*/
 
     @Override
     public void onBackPressed() {
@@ -299,7 +268,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         }
     }
 
-
     private Intent createIntentForResult() {
         Intent intent = new Intent();
         intent.putExtra(ID, exercise.getId());
@@ -316,14 +284,12 @@ public class ExerciseCreateActivity extends AppCompatActivity {
        boolean id = exerciseDao.update(exerciseUpdate);
 
         if (id) {
-//            exercise.setId(id);
             Toast.makeText(this, R.string.toast_exercise_update, Toast.LENGTH_SHORT).show();
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).
                 show();
-
     }
 
     private void save() {
@@ -358,27 +324,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         if (uriImage != null) return false;
         return true;
     }
-/*
-    private Exercise getChangeableItem() {
-        ExerciseDescription exerciseDescription = new ExerciseDescription();
-        exerciseDescription.setTitle(title.getText().toString());
-        if (uriImage != null) {
-            exerciseDescription.setImg(uriImage.toString());
-        } else exerciseDescription.setImg("");
-
-        Exercise changeableExercise = new Exercise();
-        changeableExercise.setComment(description.getText().toString());
-        changeableExercise.setId(exercise.getId());
-        changeableExercise.setStartDate(new Date());
-        changeableExercise.setFinishDate(new Date());
-        changeableExercise.setTemplate(true);
-        changeableExercise.setDefaultType(false);
-        int selectedItem = spinner.getSelectedItemPosition();
-        TypeMuscle typeMuscle = getMuscle(selectedItem);
-        changeableExercise.setTypeMuscle(typeMuscle);
-        changeableExercise.setExerciseDescription(exerciseDescription);
-        return changeableExercise;
-    }*/
 
     private Exercise getChangeableItem() {
         ExerciseDescription changeableExerciseDescription = new ExerciseDescription();

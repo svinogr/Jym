@@ -91,7 +91,7 @@
     <string name="label_spinner_day">День недели</string>
     <string name="label_title_exercise">Название упражнения</string>
     <string name="title_exercise_hint">Новое упражнение</string>
-    <string name="label_spinner_type_muscle">группа мышц</string>
+    <string name="label_spinner_type_muscle">Группа мышц</string>
     <string name="card_type_item_exercise">свое</string>
     <string name="label_weight_set">Вес</string>
     <string name="label_reps_sets">Количество повторений</string>
