@@ -4,7 +4,7 @@
     <color name="colorPrimaryNet">#56030a</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorPrimaryDarkNet">#171c20</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ff4081</color>
     <color name="colorAccentNet">#d90919</color>
     <color name="colorTextLabel">#6c6c70</color>
     <color name="colorText">#000000</color>

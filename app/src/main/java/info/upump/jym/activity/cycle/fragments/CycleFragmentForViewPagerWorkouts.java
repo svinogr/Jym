@@ -37,7 +37,7 @@ import info.upump.jym.loaders.WorkoutFragmentLoader;
 
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
 
-public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Workout>>, IItemFragment<Workout> {
+public class CycleFragmentForViewPagerWorkouts extends Fragment implements LoaderManager.LoaderCallbacks<List<Workout>>, IItemFragment<Workout> {
     protected Cycle cycle;
     protected List<Workout> workoutList = new ArrayList<>();
     protected RecyclerView recyclerView;
@@ -77,66 +77,13 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         View inflate = inflater.inflate(R.layout.fragment_cycle_fragment_for_view_pager_workout, container, false);
         recyclerView = inflate.findViewById(R.id.cycle_fragment_for_view_pager_workouts_recycler);
         addFab = getActivity().findViewById(R.id.cycle_activity_detail_fab_main);
-        addFab.setOnClickListener(this);
         nestedScrollView = inflate.findViewById(R.id.nested);
 
-        setNestedScroll();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(workoutAdapter);
         return inflate;
-    }
-
-
-    protected void setNestedScroll() {
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY) {
-                    // Scroll Down
-                    if (addFab.isShown()) {
-                        addFab.hide();
-                    }
-                } else if (scrollY <= oldScrollY) {
-                    // Scroll Up
-                    if (!addFab.isShown()) {
-                        addFab.show();
-                    }
-                }
-
-            }
-        });
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        String[] inputs = {getString(R.string.workout_dialog_create_new), getString(R.string.workout_dialog_сhoose)};
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.workout_dialog_title); // заголовок для диалога
-        builder.setItems(inputs, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                // TODO Auto-generated method stub
-                Intent intent = null;
-                switch (item) {
-                    case 1:
-                        System.out.println(1);
-                        intent = WorkoutActivityForChoose.createIntent(getContext());
-                        getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
-                        break;
-                    case 0:
-                        System.out.println(2);
-                        intent = WorkoutCreateActivity.createIntent(getContext());
-                        getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
-                        break;
-                }
-
-            }
-        });
-        builder.setCancelable(true);
-        builder.show();
     }
 
     @Override
@@ -194,7 +141,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         workoutAdapter.notifyDataSetChanged();
     }
 
-
     @Override
     public boolean clear() {
         CycleDao cycleDao = new CycleDao(getContext());
@@ -204,7 +150,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
             workoutAdapter.notifyDataSetChanged();
             return true;
         } else return false;
-
     }
 
     @Override
@@ -217,10 +162,5 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements View.
         workoutList.add(workout);
         sortListByDay(workoutList);
         workoutAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void updateItem(long longExtra) {
-
     }
 }

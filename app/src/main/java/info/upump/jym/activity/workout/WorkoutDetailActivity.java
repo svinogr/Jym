@@ -198,6 +198,11 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
 
     @Override
+    public void updateDescription() {
+
+    }
+
+    @Override
     public void delete(long id) {
         WorkoutDao workoutDao = new WorkoutDao(this);
         if (workoutDao.delete(workout)) {

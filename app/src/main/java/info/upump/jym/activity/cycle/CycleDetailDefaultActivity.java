@@ -35,27 +35,5 @@ public class CycleDetailDefaultActivity extends CycleDetailActivity {
        finishActivityWithAnimation();
     }
 
-    @Override
-    protected void setTabSelected() {
-        setFabVisible(false);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0) {
-                    setFabVisible(false);
-                } else setFabVisible(false);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
 
 }

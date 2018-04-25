@@ -1,20 +1,23 @@
 package info.upump.jym.activity.cycle;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,23 +36,26 @@ import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IDescriptionFragment;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
+import info.upump.jym.activity.workout.WorkoutActivityForChoose;
+import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.PagerAdapterCycle;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 
-public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle> {
+import static info.upump.jym.activity.constant.Constants.UPDATE;
+
+public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle>, View.OnClickListener {
     protected ViewPager viewPager;
     protected CollapsingToolbarLayout collapsingToolbarLayout;
+    protected NestedScrollView nestedScrollView;
     protected ImageView imageView;
     protected Cycle cycle;
-    protected Uri uriImage;
     protected PagerAdapterCycle pagerAdapterCycleEdit;
-    protected CycleDao cycleDao;
     protected IDescriptionFragment iDescriptionFragment;
     protected IItemFragment iItemFragment;
     protected FloatingActionButton addFab;
     protected TabLayout tabLayout;
-
+    protected AppBarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,37 +72,33 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         imageView = findViewById(R.id.cycle_activity_detail_edit_image_view);
         addFab = findViewById(R.id.cycle_activity_detail_fab_main);
         collapsingToolbarLayout = findViewById(R.id.cycle_activity_detail_edit_collapsing);
+        nestedScrollView = findViewById(R.id.nested_scroll);
         tabLayout = findViewById(R.id.cycle_fragment_edit_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+        addFab.setOnClickListener(this);
+        appBarLayout = findViewById(R.id.cycle_activity_detail_edit_appbar);
 
         cycle = getItemFromIntent();
 
+        setFabVisible();
         setTabSelected();
         setPagerAdapter();
-
         viewPager.setAdapter(pagerAdapterCycleEdit);
         setPageTransform();
-
-       /* if (savedInstanceState != null) {
-            if (savedInstanceState.getString(Constants.URI_IMG) != null) {
-                uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
-                cycle.setImage(uriImage.toString());
-            }
-        }*/
-        createViewFrom(cycle);
+        createViewFrom();
     }
 
-    void setIconFab(int positionTab){
-        if(positionTab == 0){
+    void setIconFab(int positionTab) {
+        if (positionTab == 0) {
             addFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_add));
-        } else  addFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_edit));
+        } else addFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_edit));
     }
 
     protected void setTabSelected() {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-               setIconFab(tab.getPosition());
+                setIconFab(tab.getPosition());
             }
 
             @Override
@@ -112,10 +114,20 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
     }
 
-    protected void setFabVisible(boolean visible) {
-        if (visible) {
-            addFab.setVisibility(View.VISIBLE);
-        } else addFab.setVisibility(View.GONE);
+    protected void setFabVisible() {
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                System.out.println(verticalOffset);
+                if (verticalOffset < -20) {
+                    if (addFab.isShown()) {
+                        addFab.hide();
+                    }
+                } else if (!addFab.isShown()) {
+                    addFab.show();
+                }
+            }
+        });
     }
 
     protected void setPagerAdapter() {
@@ -177,7 +189,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         return intent;
     }
 
-    private void createViewFrom(Cycle cycle) {
+    private void createViewFrom() {
         if (cycle != null) {
             collapsingToolbarLayout.setTitle(cycle.getTitle());
         }
@@ -186,7 +198,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
             setDefaultPic();
         } else if (cycle.getImage() != null) {
             setPic(Uri.parse(cycle.getImage()));
-        }
+        } else setPic(Uri.parse(("")));
     }
 
     private void setDefaultPic() {
@@ -200,7 +212,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
-                .placeholder(R.drawable.view_place_holder_exercise)
+               /* .placeholder(R.drawable.view_place_holder_exercise)*/
                 .error(R.drawable.iview_place_erore_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
@@ -219,6 +231,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("onActivityResult " + requestCode + " " + resultCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_CHOOSE:
@@ -227,11 +240,19 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                 case Constants.REQUEST_CODE_CREATE:
                     iItemFragment.addItem(data.getLongExtra(Constants.ID, 0));
                     break;
-                case Constants.UPDATE:
-                    iItemFragment.updateItem(data.getLongExtra(Constants.ID, 0));
+                case UPDATE:
+                    updateDescription();
                     break;
             }
         }
+    }
+
+    @Override
+    public void updateDescription() {
+        CycleDao cycleDao = new CycleDao(this);
+        cycle = cycleDao.getById(cycle.getId());
+        collapsingToolbarLayout.setTitle(cycle.getTitle());
+        iDescriptionFragment.updateItem(cycle);
     }
 
 
@@ -239,7 +260,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         RequestOptions options = getOptionsGlide();
         Glide.with(this).load(uri).apply(options).into(imageView);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -274,27 +294,11 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     @Override
     public void onBackPressed() {
         exit();
-
     }
 
     protected void exit() {
-            finishActivityWithAnimation();
+        finishActivityWithAnimation();
     }
-
-
-   /* @Override
-    public void update(Cycle object) {*/
-
-//    }
-
-  /*  @Override
-    public void save(Cycle cycle) {
-        cycleDao = getCycleDao();
-        if (cycleDao.create(cycle) != -1) {
-            Toast.makeText(this, R.string.toast_cycle_saved, Toast.LENGTH_SHORT).show();
-            finishActivityWithAnimation();
-        } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
-    }*/
 
     private void clear() {
         if (iItemFragment.clear()) {
@@ -308,19 +312,9 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         } else finish();
     }
 
-/*
-    @Override
-    public void update(Cycle cycleSave) {
-        cycleDao = getCycleDao();
-        if (cycleDao.update(cycleSave)) {
-            Toast.makeText(this, R.string.toast_cycle_update, Toast.LENGTH_SHORT).show();
-            finishActivityWithAnimation();
-        } else Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
-    }*/
-
     @Override
     public void delete(long id) {
-        cycleDao = getCycleDao();
+        CycleDao cycleDao = new CycleDao(this);
         if (cycleDao.delete(cycle)) {
             Toast.makeText(this, R.string.toast_cycle_delete, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
@@ -338,26 +332,67 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         this.iItemFragment = interfaceForItem;
     }
 
-    private CycleDao getCycleDao() {
-        if (cycleDao == null) {
-            cycleDao = new CycleDao(this);
-        }
-        return cycleDao;
-    }
-
-  /*  @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (uriImage != null) {
-            outState.putString(Constants.URI_IMG, uriImage.toString());
-        }
-    }*/
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.edit_menu, menu);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.cycle_activity_detail_fab_main) {
+            int selectedTabPosition = tabLayout.getSelectedTabPosition();
+            switch (selectedTabPosition) {
+                case 0:
+                    showDialogCreateItems();
+                    break;
+                case 1:
+                    updateItem();
+                    break;
+            }
+        }
+    }
+
+    // update desc
+    private void updateItem() {
+        Intent intent = CycleCreateActivity.createIntent(this, cycle);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View sharedViewIm = imageView;
+            String transitionNameIm = "cycle_activity_detail_edit_image_view";
+            ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                    this,
+                    Pair.create(sharedViewIm, transitionNameIm));
+            startActivityForResult(intent, UPDATE, transitionActivityOptions.toBundle());
+        } else startActivityForResult(intent, UPDATE);
+    }
+
+    //    add new work
+    private void showDialogCreateItems() {
+        String[] inputs = {getString(R.string.workout_dialog_create_new), getString(R.string.workout_dialog_сhoose)};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.workout_dialog_title); // заголовок для диалога
+        builder.setItems(inputs, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                // TODO Auto-generated method stub
+                Intent intent;
+                switch (item) {
+                    case 1:
+                        System.out.println(1);
+                        intent = WorkoutActivityForChoose.createIntent(getApplicationContext());
+                        startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
+                        break;
+                    case 0:
+                        System.out.println(2);
+                        intent = WorkoutCreateActivity.createIntent(getApplicationContext());
+                        startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
+                        break;
+                }
+            }
+        });
+        builder.setCancelable(true);
+        builder.show();
     }
 
 }

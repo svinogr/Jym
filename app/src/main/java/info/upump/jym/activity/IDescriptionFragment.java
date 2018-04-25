@@ -6,4 +6,5 @@ package info.upump.jym.activity;
 
 public interface IDescriptionFragment<T> {
     T getChangeableItem();
+    void updateItem(T object);
 }

@@ -90,7 +90,25 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         });
         startDataLabel.setText(R.string.label_start_cycle);
         finishDataLabel.setText(R.string.label_finish_cycle);
+        title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handler.removeMessages(100);
+                if ((title.getText().toString().trim()).isEmpty()) {
+                    handler.sendMessageDelayed(handler.obtainMessage(100, title.getHint()), 250);
+                } else handler.sendMessageDelayed(handler.obtainMessage(100, title.getText()), 250);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         if (savedInstanceState != null) {
 //            cycle.setStartDate(savedInstanceState.getString(Constants.START_DATA));
 //            cycle.setFinishDate(savedInstanceState.getString(Constants.FINISH_DATA));
@@ -116,27 +134,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
 
         System.out.println("onCrea " +cycle);
         createViewFrom(cycle);
-
-        title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                handler.removeMessages(100);
-                if ((title.getText().toString().trim()).isEmpty()) {
-                    handler.sendMessageDelayed(handler.obtainMessage(100, title.getHint()), 250);
-                } else handler.sendMessageDelayed(handler.obtainMessage(100, title.getText()), 250);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
     }
 
     private RequestOptions getOptionsGlide() {
@@ -159,6 +156,11 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
 
     private void createViewFrom(Cycle cycle) {
         System.out.println("createViewFrom " +cycle);
+        title.setText(cycle.getTitle());
+        if (cycle.getTitle() == null) {
+            collapsingToolbarLayout.setTitle(title.getHint().toString());
+        }/* else collapsingToolbarLayout.setTitle(cycle.getTitle());*/
+
         if (uriImage == null) {
             if (cycle.getDefaultImg() != null) {
                 setDefaultPic();
@@ -171,10 +173,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             uri = Uri.parse(cycle.getImage().toString());
         }
         setPic(uri);*/
-        title.setText(cycle.getTitle());
-        if (cycle.getTitle() == null) {
-            collapsingToolbarLayout.setTitle(title.getHint().toString());
-        } else collapsingToolbarLayout.setTitle(cycle.getTitle());
+
 
         if(startData != null){
             startTextData.setText(startData);
@@ -243,7 +242,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
                         newDate.set(year, monthOfYear, dayOfMonth);
 //                        cycle.setFinishDate(newDate.getTime());
                         Cycle dataCycle = new Cycle();
-                        dataCycle.setStartDate(newDate.getTime());
+                        dataCycle.setFinishDate(newDate.getTime());
                         finishTextData.setText(dataCycle.getFinishStringFormatDate());
                     }
 
@@ -267,7 +266,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
                     break;
             }
         }
-
     }
 
     @Override
@@ -305,7 +303,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             });
             ad.show();
         }
-
     }
 
     private boolean itemIsNotChanged() {
@@ -349,6 +346,8 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         Cycle cycleUpdate = getChangeableItem();
         if (cycleDao.update(cycleUpdate)) {
             Toast.makeText(this, R.string.toast_cycle_update, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
     }
@@ -367,6 +366,8 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
 */
         if (cycleDao.create(cycleSave) != -1) {
             Toast.makeText(this, R.string.toast_cycle_saved, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
     }

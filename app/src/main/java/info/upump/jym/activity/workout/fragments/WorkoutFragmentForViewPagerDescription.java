@@ -151,6 +151,12 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
     }
 
     @Override
+    public void updateItem(Workout object) {
+
+    }
+
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         iChangeItem = (IChangeItem) context;
