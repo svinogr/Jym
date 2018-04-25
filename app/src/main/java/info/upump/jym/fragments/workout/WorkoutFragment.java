@@ -129,13 +129,15 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.workout_fragment_fab_add:
-                addItem();
+                createNewItem();
                 break;
         }
     }
 
-    private void addItem() {
-        Intent intent = WorkoutCreateActivity.createIntent(getContext());
+    private void createNewItem() {
+        Workout workout = new Workout();
+        workout.setId(-1);
+        Intent intent = WorkoutCreateActivity.createIntent(getContext(), workout);
         startActivity(intent);
     }
 }

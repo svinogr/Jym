@@ -133,7 +133,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
 
 
         System.out.println("onCrea " + cycle);
-        createViewFrom(cycle);
+        createViewFrom();
     }
 
     private RequestOptions getOptionsGlide() {
@@ -154,7 +154,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         Glide.with(this).load(ident).apply(options).into(imageView);
     }
 
-    private void createViewFrom(Cycle cycle) {
+    private void createViewFrom() {
         System.out.println("createViewFrom " + cycle);
         title.setText(cycle.getTitle());
         if (cycle.getTitle() == null) {

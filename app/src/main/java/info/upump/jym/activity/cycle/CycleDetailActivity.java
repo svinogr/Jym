@@ -41,6 +41,7 @@ import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.PagerAdapterCycle;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
+import info.upump.jym.entity.Workout;
 
 import static info.upump.jym.activity.constant.Constants.UPDATE;
 
@@ -234,7 +235,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("onActivityResult " + requestCode + " " + resultCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_CHOOSE:
@@ -389,7 +389,10 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                         break;
                     case 0:
                         System.out.println(2);
-                        intent = WorkoutCreateActivity.createIntent(getApplicationContext());
+                        Workout workout = new Workout();
+                        workout.setDefaultType(false);
+                        workout.setTemplate(false);
+                        intent = WorkoutCreateActivity.createIntent(getApplicationContext(),workout);
                         startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
                         break;
                 }

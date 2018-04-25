@@ -154,10 +154,12 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
 
     @Override
     public void addItem(long idItem) {
-        WorkoutDao workoutDao = new WorkoutDao(getContext());
+        System.out.println("id cycle "+cycle.getId());
+        WorkoutDao workoutDao = new WorkoutDao(getContext());;
         Workout workout = workoutDao.getById(idItem);
+        System.out.println(idItem+" "+ workout);
         workout.setParentId(cycle.getId());
-        workout.setTemplate(false);
+//        workout.setTemplate(false);
         workoutDao.update(workout);
         workoutList.add(workout);
         sortListByDay(workoutList);

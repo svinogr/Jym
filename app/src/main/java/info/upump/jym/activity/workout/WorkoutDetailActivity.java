@@ -226,7 +226,8 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     }
 
     protected void exit() {
-        if (itemIsNotChanged()) {
+        finishActivityWithAnimation();
+     /*   if (itemIsNotChanged()) {
             finishActivityWithAnimation();
         } else {
             AlertDialog.Builder ad = new AlertDialog.Builder(this);
@@ -244,7 +245,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                 }
             });
             ad.show();
-        }
+        }*/
 
     }
 
@@ -273,7 +274,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         } else finish();
     }
 
-    private boolean itemIsNotChanged() {
+   /* private boolean itemIsNotChanged() {
         Workout changeableItem = (Workout) iDescriptionFragment.getChangeableItem();
         System.out.println(changeableItem);
         if (!changeableItem.getTitle().equals(workout.getTitle())) return false;
@@ -282,7 +283,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         System.out.println(changeableItem.getDay().toString().equals(workout.getDay().toString()));
         if (!changeableItem.getDay().toString().equals(workout.getDay().toString())) return false;
         return true;
-    }
+    }*/
 
 
     @Override

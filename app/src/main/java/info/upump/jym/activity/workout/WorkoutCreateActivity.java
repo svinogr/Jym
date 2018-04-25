@@ -43,6 +43,8 @@ import info.upump.jym.entity.Day;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.utils.LetterBitmap;
 
+import static info.upump.jym.activity.constant.Constants.ID;
+
 public class WorkoutCreateActivity extends AppCompatActivity {
     private EditText title, description;
     private Spinner spinner;
@@ -79,11 +81,11 @@ public class WorkoutCreateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_create);
-        Toolbar toolbar =findViewById(R.id.workout_activity_create_toolbar);
+        Toolbar toolbar = findViewById(R.id.workout_activity_create_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        workout = new Workout();
+        workout = getFromIntent();
 
         imageView = findViewById(R.id.workout_activity_create_image_view);
         collapsingToolbarLayout = findViewById(R.id.workout_activity_create_collapsing);
@@ -128,9 +130,42 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             }
         });
 
-        if (workout.getTitle() == null) {
+        createViewFrom();
+    }
+
+    private void createViewFrom() {
+        System.out.println("createViewFrom " + workout);
+
+        if (workout.getId() != 0) {
             collapsingToolbarLayout.setTitle(title.getHint().toString());
-        } else collapsingToolbarLayout.setTitle(workout.getTitle());
+
+            spinner.setSelection(workout.getDay().ordinal());
+            description.setText(workout.getComment());
+        }
+        title.setText(workout.getTitle());
+
+    }
+
+
+    private Workout getFromIntent() {
+        long id = getIntent().getLongExtra(ID, 0);
+        Workout workout;
+        switch ((int)id){
+            case 0:
+                workout = new Workout();
+                break;
+            case -1:
+                workout = new Workout();
+                workout.setTemplate(true);
+                workout.setDefaultType(false);
+                break;
+           default:
+                WorkoutDao workoutDao = new WorkoutDao(this);
+                workout = workoutDao.getById(id);
+                break;
+        }
+        System.out.println(workout);
+        return workout;
     }
 
     private String[] getNameOfDays() {
@@ -147,8 +182,11 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         return values[i];
     }
 
-    public static Intent createIntent(Context context) {
+    public static Intent createIntent(Context context, Workout workout) {
         Intent intent = new Intent(context, WorkoutCreateActivity.class);
+        if (workout != null) {
+            intent.putExtra(ID, workout.getId());
+        }
         return intent;
     }
 
@@ -166,54 +204,107 @@ public class WorkoutCreateActivity extends AppCompatActivity {
     }
 
     private void exit() {
-        AlertDialog.Builder ad = new AlertDialog.Builder(this);
-        ad.setTitle(getResources().getString(R.string.save));
-        ad.setPositiveButton((getResources().getString(R.string.yes)), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                save();
-            }
-        });
-        ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = createIntentForResult(); // при создании из вне
-                setResult(RESULT_CANCELED, intent);
-                finishActivityWithAnimation();
-            }
-        });
-        ad.show();
+        if (itemIsNotChanged()) {
+            finishActivityWithAnimation();
+        } else {
+            AlertDialog.Builder ad = new AlertDialog.Builder(this);
+            ad.setTitle(getResources().getString(R.string.save));
+            ad.setPositiveButton((getResources().getString(R.string.yes)), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (workout.getId() != 0) {
+                        update();
+                    } else save();
+                }
+            });
+            ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = createIntentForResult(0); // при создании из вне
+                    setResult(RESULT_CANCELED, intent);
+                    finishActivityWithAnimation();
+                }
+            });
+            ad.show();
+        }
     }
 
-    private Intent createIntentForResult() {
+    private boolean itemIsNotChanged() {
+        Workout changeableItem = getChangeableItem();
+        System.out.println("itemIsNotChanged " + changeableItem);
+        if (!changeableItem.getTitle().equals(workout.getTitle())) return false;
+        if (!changeableItem.getComment().equals(workout.getComment())) return false;
+        System.out.println(workout.getDay() + " " + changeableItem.getDay());
+        System.out.println(changeableItem.getDay().toString().equals(workout.getDay().toString()));
+        if (!changeableItem.getDay().toString().equals(workout.getDay().toString())) return false;
+        return true;
+    }
+
+    public Workout getChangeableItem() {
+        Workout changeable = new Workout();
+        Day day = getDay(spinner.getSelectedItemPosition());
+        changeable.setId(workout.getId());
+        changeable.setTemplate(workout.isTemplate());
+        changeable.setDefaultType(workout.isDefaultType());
+        changeable.setDay(day);
+        if (workout.getId() == 0) {
+            changeable.setStartDate(new Date());
+            changeable.setFinishDate(new Date());
+        } else {
+            changeable.setStartDate(workout.getStartDate());
+            changeable.setFinishDate(workout.getFinishDate());
+        }
+        changeable.setTitle(title.getText().toString());
+        changeable.setComment(description.getText().toString());
+        return changeable;
+    }
+
+
+    private Intent createIntentForResult(long id) {
         Intent intent = new Intent();
-        intent.putExtra(Constants.ID, workout.getId());
+        intent.putExtra(ID, id);
         return intent;
     }
 
     private void save() {
-        WorkoutDao workoutDao = new WorkoutDao(this);
         if (title.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
         }
-        workout.setTitle(title.getText().toString());
-        workout.setComment(description.getText().toString());
-        workout.setStartDate(new Date());
-        workout.setFinishDate(new Date());
-        workout.setTemplate(true);
-        workout.setDefaultType(false);
-        int selectedItem = spinner.getSelectedItemPosition();
-        Day day = getDay(selectedItem);
-        workout.setDay(day);
-        long id = workoutDao.create(workout);
+        WorkoutDao workoutDao = new WorkoutDao(this);
+        Workout workoutSave = getChangeableItem();
+//        workout.setTitle(title.getText().toString());
+//        workout.setComment(description.getText().toString());
+
+//        workout.setTemplate(true);
+//        workout.setDefaultType(false);
+//        int selectedItem = spinner.getSelectedItemPosition();
+//        Day day = getDay(selectedItem);
+//        workout.setDay(day);
+        long id = workoutDao.create(workoutSave);
         if (id != -1) {
-            workout.setId(id);
+            workoutSave.setId(id);
             Toast.makeText(this, R.string.toast_workout_saved, Toast.LENGTH_SHORT).show();
-            Intent intent = createIntentForResult(); // при создании из вне
+            Intent intent = createIntentForResult(workoutSave.getId()); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
+    }
+
+    private void update() {
+        if (title.getText().toString().trim().isEmpty()) {
+            Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Workout workoutUpdate = getChangeableItem();
+        WorkoutDao workoutDao = new WorkoutDao(this);
+        if (workoutDao.update(workoutUpdate)) {
+            Toast.makeText(this, R.string.toast_workout_update, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finishActivityWithAnimation();
+        } else Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
+
     }
 
     private void finishActivityWithAnimation() {
