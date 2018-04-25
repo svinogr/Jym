@@ -17,43 +17,6 @@
         android:layout_height="match_parent"
         tools:context="info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerDescription">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/title_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/MyCardView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/workout_fragment_for_view_pager_description_label_title"
-                    style="@style/TextViewLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/label_title_workout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
-                    android:id="@+id/workout_fragment_for_view_pager_description_title"
-                    style="@style/TextViewText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:hint="@string/label_title_workout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/workout_fragment_for_view_pager_description_label_title" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/data_card"
@@ -79,17 +42,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
-                    android:id="@+id/cycle_fragment_for_view_pager_description_spinner"
+                <TextView
+                    android:id="@+id/cycle_fragment_for_view_pager_description_day"
                     style="@style/TextViewText"
                     android:layout_width="0sp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/workout_fragment_for_view_pager_description_label_spinner"
                     tools:text="10.10.2018" />
 
@@ -118,7 +82,7 @@
                     android:text="@string/label_description_cycle"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <EditText
+                <TextView
                     android:id="@+id/workout_fragment_for_view_pager_description_web"
                     style="@style/TextViewText"
                     android:layout_width="match_parent"
@@ -126,6 +90,7 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

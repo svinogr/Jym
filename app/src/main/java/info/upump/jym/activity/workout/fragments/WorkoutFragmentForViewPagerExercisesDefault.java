@@ -25,8 +25,4 @@ public class WorkoutFragmentForViewPagerExercisesDefault extends WorkoutFragment
     protected void setAdapter(){
         exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.INFO_DEFAULT);
     }
-
-    @Override
-    protected void setNestedScroll() {
-    }
 }

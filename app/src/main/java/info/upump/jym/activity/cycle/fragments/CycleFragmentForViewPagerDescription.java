@@ -58,7 +58,7 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements ID
         finishTextData = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_data_edit_finish);
         description = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_edit_web);
         editFab = getActivity().findViewById(R.id.cycle_activity_detail_fab_main);
-        nestedScrollView = inflate.findViewById(R.id.nested);
+//        nestedScrollView = inflate.findViewById(R.id.nested);
         creteViewFrom();
         return inflate;
     }

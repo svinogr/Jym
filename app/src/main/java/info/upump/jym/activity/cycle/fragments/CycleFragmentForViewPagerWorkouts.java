@@ -41,9 +41,9 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
     protected Cycle cycle;
     protected List<Workout> workoutList = new ArrayList<>();
     protected RecyclerView recyclerView;
-    protected FloatingActionButton addFab;
+//    protected FloatingActionButton addFab;
     protected WorkoutAdapter workoutAdapter;
-    protected NestedScrollView nestedScrollView;
+//    protected NestedScrollView nestedScrollView;
 
     public CycleFragmentForViewPagerWorkouts() {
         // Required empty public constructor
@@ -76,8 +76,8 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_cycle_fragment_for_view_pager_workout, container, false);
         recyclerView = inflate.findViewById(R.id.cycle_fragment_for_view_pager_workouts_recycler);
-        addFab = getActivity().findViewById(R.id.cycle_activity_detail_fab_main);
-        nestedScrollView = inflate.findViewById(R.id.nested);
+//        addFab = getActivity().findViewById(R.id.cycle_activity_detail_fab_main);
+//        nestedScrollView = inflate.findViewById(R.id.nested);
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -155,7 +155,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
     @Override
     public void addItem(long idItem) {
         System.out.println("id cycle "+cycle.getId());
-        WorkoutDao workoutDao = new WorkoutDao(getContext());;
+        WorkoutDao workoutDao = new WorkoutDao(getContext());
         Workout workout = workoutDao.getById(idItem);
         System.out.println(idItem+" "+ workout);
         workout.setParentId(cycle.getId());

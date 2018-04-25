@@ -40,7 +40,7 @@
         layout="@layout/content_workout_detail" />
     <android.support.design.widget.FloatingActionButton
         android:layout_gravity="bottom|end|right"
-        android:id="@+id/workout_fragment_for_view_pager_exercises_fab_main"
+        android:id="@+id/workout_activity_detail_fab_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"

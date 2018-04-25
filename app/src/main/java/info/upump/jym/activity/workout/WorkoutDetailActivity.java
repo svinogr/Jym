@@ -1,19 +1,20 @@
 package info.upump.jym.activity.workout;
 
+import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,13 +27,15 @@ import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IDescriptionFragment;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
+import info.upump.jym.activity.exercise.ExerciseActivityForChoose;
 import info.upump.jym.adapters.PagerAdapterWorkout;
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Workout;
 
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.UPDATE;
 
-public class WorkoutDetailActivity extends AppCompatActivity implements IChangeItem<Workout> {
+public class WorkoutDetailActivity extends AppCompatActivity implements IChangeItem<Workout>, View.OnClickListener {
     protected Workout workout;
     protected ImageView imageView;
     protected PagerAdapterWorkout pagerAdapterWorkout;
@@ -42,6 +45,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     protected IItemFragment iItemFragment;
     protected FloatingActionButton addFab;
     protected TabLayout tabLayout;
+    private AppBarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +58,21 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         workout = getItemFromIntent();
         setPagerAdapter();
 
-        addFab = findViewById(R.id.workout_fragment_for_view_pager_exercises_fab_main);
+        addFab = findViewById(R.id.workout_activity_detail_fab_main);
         imageView = findViewById(R.id.workout_activity_detail_edit_image_view);
         collapsingToolbarLayout = findViewById(R.id.workout_activity_detail_edit_collapsing);
         viewPager = findViewById(R.id.workout_activity_detail_viewpager);
         tabLayout = findViewById(R.id.workout_activity_detail_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+        appBarLayout = findViewById(R.id.workout_activity_detail_edit_appbar);
+
+        addFab.setOnClickListener(this);
 
         viewPager.setAdapter(pagerAdapterWorkout);
         setPageTransform();
+        setFabVisible();
+        setTabSelected();
+        setPagerAdapter();
         // setFabVisible(true);
 
        /* if (savedInstanceState != null) {
@@ -72,7 +82,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
             }
         }*/
         createViewFrom(workout);
-        setTabSelected();
 
 
     }
@@ -81,9 +90,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0) {
-                    setFabVisible(true);
-                } else setFabVisible(false);
+                setIconFab(tab.getPosition());
             }
 
             @Override
@@ -99,11 +106,28 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
     }
 
-    protected void setFabVisible(boolean visible) {
-        if (visible) {
-            addFab.setVisibility(View.VISIBLE);
-        } else addFab.setVisibility(View.GONE);
+    void setIconFab(int positionTab) {
+        if (positionTab == 0) {
+            addFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_add));
+        } else addFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_edit));
     }
+
+    protected void setFabVisible() {
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                System.out.println(verticalOffset);
+                if (verticalOffset < -20) {
+                    if (addFab.isShown()) {
+                        addFab.hide();
+                    }
+                } else if (!addFab.isShown()) {
+                    addFab.show();
+                }
+            }
+        });
+    }
+
 
     protected void setPagerAdapter() {
         pagerAdapterWorkout = new PagerAdapterWorkout(getSupportFragmentManager(), workout, this);
@@ -199,6 +223,11 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
     @Override
     public void updateDescription() {
+        WorkoutDao workoutDao = new WorkoutDao(this);
+        workout = workoutDao.getById(workout.getId());
+        collapsingToolbarLayout.setTitle(workout.getTitle());
+        setPic();
+        iDescriptionFragment.updateItem(workout);
 
     }
 
@@ -248,6 +277,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         }*/
 
     }
+/*
 
     private void update() {
         Workout sOU = (Workout) iDescriptionFragment.getChangeableItem();
@@ -267,6 +297,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
     }
+*/
 
     protected void finishActivityWithAnimation() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -336,8 +367,24 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                     System.out.println("interfaceForItem " + iItemFragment);
                     iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0));
                     break;
+                case Constants.UPDATE:
+                    System.out.println("interfaceForItem UPDATE " + iItemFragment);
+                    updateDescription();
+                    break;
             }
         }
+    }
+
+    private void updateItem() {
+        Intent intent = WorkoutCreateActivity.createIntent(this, workout);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View sharedViewIm = imageView;
+            String transitionNameIm = "cycle_activity_detail_edit_image_view";
+            ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                    this,
+                    Pair.create(sharedViewIm, transitionNameIm));
+            startActivityForResult(intent, UPDATE, transitionActivityOptions.toBundle());
+        } else startActivityForResult(intent, UPDATE);
     }
 
     @Override
@@ -345,5 +392,25 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.edit_menu, menu);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.workout_activity_detail_fab_main) {
+            int selectedTabPosition = tabLayout.getSelectedTabPosition();
+            switch (selectedTabPosition) {
+                case 0:
+                    showDialogCreateItems();
+                    break;
+                case 1:
+                    updateItem();
+                    break;
+            }
+        }
+    }
+
+    private void showDialogCreateItems() {
+        Intent intent = ExerciseActivityForChoose.createIntent(this);
+        startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
     }
 }

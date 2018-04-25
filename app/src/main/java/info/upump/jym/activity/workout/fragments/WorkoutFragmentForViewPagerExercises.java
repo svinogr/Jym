@@ -44,14 +44,14 @@ import static info.upump.jym.activity.constant.Constants.ID;
  * create an instance of this fragment.
  */
 public class WorkoutFragmentForViewPagerExercises extends Fragment implements IItemFragment<Workout>,
-        LoaderManager.LoaderCallbacks<List<Exercise>>, View.OnClickListener {
+        LoaderManager.LoaderCallbacks<List<Exercise>> {
    protected Workout workout;
    protected IChangeItem iChangeItem;
    protected RecyclerView recyclerView;
-   protected FloatingActionButton addFab;
+//   protected FloatingActionButton addFab;
    protected ExerciseAdapter exerciseAdapter;
    protected List<Exercise> exerciseList = new ArrayList<>();
-   protected NestedScrollView nestedScrollView;
+//   protected NestedScrollView nestedScrollView;
 
     public WorkoutFragmentForViewPagerExercises() {
         // Required empty public constructor
@@ -68,9 +68,9 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
+//        if (getArguments() != null) {
+//
+//        }
        setAdapter();
     }
 
@@ -83,51 +83,53 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_workout_fragment_for_view_pager_exercises, container, false);
-        addFab = getActivity().findViewById(R.id.workout_fragment_for_view_pager_exercises_fab_main);
+//        addFab = getActivity().findViewById(R.id.workout_fragment_for_view_pager_exercises_fab_main);
         recyclerView = inflate.findViewById(R.id.workout_fragment_for_view_pager_exercises_recycler);
-        nestedScrollView = inflate.findViewById(R.id.nested);
+//        nestedScrollView = inflate.findViewById(R.id.nested);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(exerciseAdapter);
 
-        addFab.setOnClickListener(this);
-        setNestedScroll();
+//        addFab.setOnClickListener(this);
+//        setNestedScroll();
 
         return inflate;
     }
-
-    protected void setNestedScroll() {
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY) {
-                    // Scroll Down
-                    if (addFab.isShown()) {
-                        addFab.hide();
-                    }
-                } else if (scrollY <= oldScrollY) {
-                    // Scroll Up
-                    if (!addFab.isShown()) {
-                        addFab.show();
-                    }
-                }
-
-            }
-        });
-    }
+//
+//    protected void setNestedScroll() {
+//        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                if (scrollY > oldScrollY) {
+//                    // Scroll Down
+//                    if (addFab.isShown()) {
+//                        addFab.hide();
+//                    }
+//                } else if (scrollY <= oldScrollY) {
+//                    // Scroll Up
+//                    if (!addFab.isShown()) {
+//                        addFab.show();
+//                    }
+//                }
+//
+//            }
+//        });
+//    }
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        iChangeItem = (IChangeItem) context;
+        iChangeItem.setInterfaceForItem(this);
+
         if (getArguments() != null) {
             workout = new Workout();
             workout.setId(getArguments().getLong(Constants.ID, 0));
         }
-        iChangeItem = (IChangeItem) context;
-        iChangeItem.setInterfaceForItem(this);
+
         getLoaderManager().initLoader(0, null, this);
 
     }
@@ -152,7 +154,6 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         } else return false;
     }
 
-
     @Override
     public void addItem(long longExtra) {
     }
@@ -174,10 +175,10 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
     @Override
     public void onLoaderReset(Loader<List<Exercise>> loader) {
     }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = ExerciseActivityForChoose.createIntent(getContext());
-        getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
-    }
+//
+//    @Override
+//    public void onClick(View v) {
+//        Intent intent = ExerciseActivityForChoose.createIntent(getContext());
+//        getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
+//    }
 }
