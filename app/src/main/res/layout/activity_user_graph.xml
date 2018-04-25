@@ -17,6 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <android.support.design.widget.TabLayout
+            app:tabTextColor="@color/colorTextTab"
+            app:tabSelectedTextColor="@color/colorTextTab"
             style="@style/MyTabLayout"
             android:id="@+id/user_graph_activity_tabLayout"
             android:layout_width="match_parent"
