@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.view.Menu;
+import android.view.View;
 
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.PagerAdapterCycleDefault;
@@ -35,5 +36,8 @@ public class CycleDetailDefaultActivity extends CycleDetailActivity {
        finishActivityWithAnimation();
     }
 
-
+    @Override
+    protected void setFabVisible() {
+        addFab.setVisibility(View.INVISIBLE);
+    }
 }

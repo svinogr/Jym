@@ -112,15 +112,15 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         if (savedInstanceState != null) {
 //            cycle.setStartDate(savedInstanceState.getString(Constants.START_DATA));
 //            cycle.setFinishDate(savedInstanceState.getString(Constants.FINISH_DATA));
-            if(savedInstanceState.getString(Constants.START_DATA) != null){
+            if (savedInstanceState.getString(Constants.START_DATA) != null) {
                 startData = savedInstanceState.getString(Constants.START_DATA);
             }
-            if(savedInstanceState.getString(Constants.FINISH_DATA) != null){
+            if (savedInstanceState.getString(Constants.FINISH_DATA) != null) {
                 finishData = savedInstanceState.getString(Constants.FINISH_DATA);
             }
 
             if (savedInstanceState.getString(Constants.URI_IMG) != null) {
-            //    cycle.setImage(savedInstanceState.getString(Constants.URI_IMG));
+                //    cycle.setImage(savedInstanceState.getString(Constants.URI_IMG));
 //                uriImage = Uri.parse(cycle.getImage());
                 uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
             }
@@ -128,11 +128,11 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
 //        else {
 //            cycle.setStartDate(cycle.getStartDate());
 //            cycle.setFinishDate(cycle.getFinishDate());
-            // cycle.setTitle();
+        // cycle.setTitle();
 //        }
 
 
-        System.out.println("onCrea " +cycle);
+        System.out.println("onCrea " + cycle);
         createViewFrom(cycle);
     }
 
@@ -155,7 +155,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void createViewFrom(Cycle cycle) {
-        System.out.println("createViewFrom " +cycle);
+        System.out.println("createViewFrom " + cycle);
         title.setText(cycle.getTitle());
         if (cycle.getTitle() == null) {
             collapsingToolbarLayout.setTitle(title.getHint().toString());
@@ -166,19 +166,13 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
                 setDefaultPic();
             } else if (cycle.getImage() != null) {
                 setPic(Uri.parse(cycle.getImage()));
-            }
+            } else setPic(Uri.parse(""));
         } else setPic(uriImage);
-      /*
-        if (cycle.getImage() != null) {
-            uri = Uri.parse(cycle.getImage().toString());
-        }
-        setPic(uri);*/
 
-
-        if(startData != null){
+        if (startData != null) {
             startTextData.setText(startData);
         } else startTextData.setText(cycle.getStartStringFormatDate());
-        if(finishData != null){
+        if (finishData != null) {
             finishTextData.setText(finishData);
         } else finishTextData.setText(cycle.getFinishStringFormatDate());
 
@@ -223,7 +217,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
-//                        cycle.setStartDate(newDate.getTime());
                         Cycle dataCycle = new Cycle();
                         dataCycle.setStartDate(newDate.getTime());
                         startTextData.setText(dataCycle.getStartStringFormatDate());
@@ -240,7 +233,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
-//                        cycle.setFinishDate(newDate.getTime());
                         Cycle dataCycle = new Cycle();
                         dataCycle.setFinishDate(newDate.getTime());
                         finishTextData.setText(dataCycle.getFinishStringFormatDate());
@@ -251,7 +243,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
                 break;
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -307,8 +298,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
 
     private boolean itemIsNotChanged() {
         Cycle changeableItem = getChangeableItem();
-        System.out.println("ch1 "+changeableItem);
-        System.out.println("c1 "+cycle);
         if (!changeableItem.getTitle().equals(cycle.getTitle())) return false;
         if (!changeableItem.getComment().equals(cycle.getComment())) return false;
         System.out.println(changeableItem.getStartStringFormatDate().equals(cycle.getStartStringFormatDate()));
@@ -318,8 +307,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             return false;
 
         if (uriImage != null) return false;
-        System.out.println("c "+cycle);
-        System.out.println("cha "+changeableItem);
         return true;
     }
 
@@ -330,10 +317,13 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         changeable.setComment(description.getText().toString());
         changeable.setStartDate(startTextData.getText().toString());
         changeable.setFinishDate(finishTextData.getText().toString());
-        if(uriImage != null){
+        if (uriImage != null) {
             changeable.setImage(uriImage.toString());
             changeable.setDefaultImg(null);
+        }else {
+            changeable.setDefaultImg(cycle.getDefaultImg());
         }
+
         return changeable;
     }
 
@@ -359,11 +349,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             return;
         }
         Cycle cycleSave = getChangeableItem();
-       /* cycle.setTitle(title.getText().toString());
-        cycle.setComment(description.getText().toString());
-        cycle.setStartDate(startTextData.getText().toString());
-        cycle.setFinishDate(finishTextData.getText().toString());
-*/
         if (cycleDao.create(cycleSave) != -1) {
             Toast.makeText(this, R.string.toast_cycle_saved, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
@@ -385,7 +370,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         outState.putString(Constants.START_DATA, startTextData.getText().toString());
         outState.putString(Constants.FINISH_DATA, finishTextData.getText().toString());
         if (uriImage != null) {
-//            outState.putString(Constants.URI_IMG, cycle.getImage());
             outState.putString(Constants.URI_IMG, uriImage.toString());
         }
     }

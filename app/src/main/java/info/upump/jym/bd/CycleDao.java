@@ -34,6 +34,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
 
     private ContentValues getContentValuesFrom(Cycle object) {
         ContentValues cv = new ContentValues();
+        System.out.println(object.getImage()+ " "+ object.getDefaultImg());
         if (object.getId() != 0) {
             cv.put(DBHelper.TABLE_KEY_ID, object.getId());
         }

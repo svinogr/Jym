@@ -163,10 +163,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    @Override
-    public void updateItem(long longExtra) {
-
-    }
 
     @Override
     public void onBackPressed() {

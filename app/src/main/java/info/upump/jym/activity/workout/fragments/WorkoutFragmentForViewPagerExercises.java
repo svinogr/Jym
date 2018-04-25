@@ -157,10 +157,6 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
     public void addItem(long longExtra) {
     }
 
-    @Override
-    public void updateItem(long longExtra) {
-
-    }
 
     @Override
     public Loader<List<Exercise>> onCreateLoader(int id, Bundle args) {
