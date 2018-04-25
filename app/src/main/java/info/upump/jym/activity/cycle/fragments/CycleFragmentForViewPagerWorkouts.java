@@ -41,9 +41,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
     protected Cycle cycle;
     protected List<Workout> workoutList = new ArrayList<>();
     protected RecyclerView recyclerView;
-//    protected FloatingActionButton addFab;
     protected WorkoutAdapter workoutAdapter;
-//    protected NestedScrollView nestedScrollView;
 
     public CycleFragmentForViewPagerWorkouts() {
         // Required empty public constructor
@@ -73,12 +71,8 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_cycle_fragment_for_view_pager_workout, container, false);
         recyclerView = inflate.findViewById(R.id.cycle_fragment_for_view_pager_workouts_recycler);
-//        addFab = getActivity().findViewById(R.id.cycle_activity_detail_fab_main);
-//        nestedScrollView = inflate.findViewById(R.id.nested);
-
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -159,7 +153,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
         Workout workout = workoutDao.getById(idItem);
         System.out.println(idItem+" "+ workout);
         workout.setParentId(cycle.getId());
-//        workout.setTemplate(false);
         workoutDao.update(workout);
         workoutList.add(workout);
         sortListByDay(workoutList);

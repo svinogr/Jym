@@ -123,7 +123,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.exercise_fragment_add_fab:
-                Intent intent =  ExerciseCreateActivity.createIntent(getContext());
+                Intent intent =  ExerciseCreateActivity.createIntent(getContext(), new Exercise());
                 startActivity(intent);
         }
     }

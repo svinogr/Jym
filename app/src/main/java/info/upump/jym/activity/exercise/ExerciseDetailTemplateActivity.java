@@ -1,5 +1,6 @@
 package info.upump.jym.activity.exercise;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,21 +11,18 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -43,15 +41,19 @@ import info.upump.jym.entity.ExerciseDescription;
 import info.upump.jym.entity.TypeMuscle;
 
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.UPDATE;
 
-public class ExerciseDetailTemplateActivity extends AppCompatActivity {
-    private EditText title, description;
-    private Spinner spinner;
+public class ExerciseDetailTemplateActivity extends AppCompatActivity implements View.OnClickListener {
+    private TextView muscle, description;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ImageView imageView;
     private AppBarLayout appBarLayout;
     private Exercise exercise;
     private Uri uriImage;
+    private FloatingActionButton editFab;
+    private String[] nameOfValues;
+
+
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -67,6 +69,41 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         Intent intent = new Intent(context, ExerciseDetailTemplateActivity.class);
         intent.putExtra(ID, exercise.getId());
         return intent;
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_exercise_detail_tempalte);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.exercise_detail_template_activity_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        exercise = getItemFromIntent();
+        nameOfValues = getNameOfMuscle();
+
+        imageView = findViewById(R.id.exercise_detail_template_activity_image_view);
+        collapsingToolbarLayout = findViewById(R.id.exercise_detail_template_activity_collapsing);
+        appBarLayout = findViewById(R.id.exercise_detail_template_activity_appbar);
+        description = findViewById(R.id.content_exercise_detail_template_activity_web);
+        muscle = findViewById(R.id.content_exercise_detail_template_activity_muscle);
+        editFab = findViewById(R.id.exercise_detail_template_activity_fab_main);
+        editFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_edit));
+        editFab.setOnClickListener(this);
+        if(exercise.isDefaultType()){
+            editFab.setVisibility(View.INVISIBLE);
+        }
+
+//        setChangePic();
+
+        createViewFrom();
+/*
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getString(Constants.URI_IMG) != null) {
+                uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
+                setPicUri(uriImage);
+            }
+        }*/
+
     }
 
     private Exercise getItemFromIntent() {
@@ -95,18 +132,18 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
     }
 
 
-    private Intent createIntentForGetPic() {
+  /*  private Intent createIntentForGetPic() {
         Intent intent;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         } else {
             intent = new Intent(Intent.ACTION_PICK);
         }
-        intent.setType("image/*");
+        intent.setType("image*//*");
         return intent;
-    }
+    }*/
 
-    private void setPic(Uri uri) {
+    private void setPicUri(Uri uri) {
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.drawable.view_place_holder_exercise)
@@ -119,13 +156,13 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         } else Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
-    @Override
+  /*  @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (uriImage != null) {
             outState.putString(Constants.URI_IMG, uriImage.toString());
         }
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -133,84 +170,25 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         System.out.println("onActivityResult  " + requestCode + "  " + resultCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case Constants.REQUEST_CODE_GALLERY_PHOTO:
-                    uriImage = data.getData();
-                    setPic(uriImage);
+                case Constants.UPDATE:
+                    updateDescription();
+                   /* uriImage = data.getData();
+                    setPicUri(uriImage);*/
                     break;
             }
         }
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exercise_detail_tempalte);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.exercise_detail_template_activity_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        exercise = getItemFromIntent();
-
-        imageView = findViewById(R.id.exercise_detail_template_activity_image_view);
-        collapsingToolbarLayout = findViewById(R.id.exercise_detail_template_activity_collapsing);
-        appBarLayout = findViewById(R.id.exercise_detail_template_activity_appbar);
-        title = findViewById(R.id.content_exercise_detail_template_activity_title);
-        description = findViewById(R.id.content_exercise_detail_template_activity_web);
-        spinner = findViewById(R.id.content_exercise_detail_template_activity_spinner);
-
-        title.setText(exercise.getTitle());
-
-        String[] nameOfValues = getNameOfMuscle();
-        ArrayAdapter<String> dayArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameOfValues);
-        spinner.setAdapter(dayArrayAdapter);
-        spinner.setFocusableInTouchMode(false);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
-            }
-
-            public void onNothingSelected(AdapterView<?> arg0) {
-            }
-        });
-
-        setChangePic();
-
-
-        title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                handler.removeMessages(100);
-                if ((title.getText().toString().trim()).isEmpty()) {
-                    handler.sendMessageDelayed(handler.obtainMessage(100, title.getHint()), 250);
-                } else
-                    handler.sendMessageDelayed(handler.obtainMessage(100, title.getText()), 250);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
+    private void updateDescription() {
+        ExerciseDao exerciseDao  = new ExerciseDao(this);
+        exercise = exerciseDao.getById(exercise.getId());
         createViewFrom();
-
-        if (savedInstanceState != null) {
-            if (savedInstanceState.getString(Constants.URI_IMG) != null) {
-                uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
-                setPic(uriImage);
-            }
-        }
-
     }
 
-    protected void setChangePic() {
+
+
+    /*protected void setChangePic() {
         if (!exercise.isDefaultType()) {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -220,20 +198,21 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
                 }
             });
         }
-    }
+    }*/
+
+
 
     private void createViewFrom() {
         collapsingToolbarLayout.setTitle(exercise.getExerciseDescription().getTitle());
-        title.setText(exercise.getExerciseDescription().getTitle());
+//        title.setText(exercise.getExerciseDescription().getTitle());
 
         if (exercise.getComment() != null) {
             description.setText(exercise.getComment());
         }
-
-        spinner.setSelection(exercise.getTypeMuscle().ordinal());
-        setPic(Uri.parse(exercise.getExerciseDescription().getImg()));
+        muscle.setText(nameOfValues[exercise.getTypeMuscle().ordinal()]);
+        System.out.println(exercise.getExerciseDescription().getImg());
+        setPicUri(Uri.parse(exercise.getExerciseDescription().getImg()));
     }
-
 
     @Override
     public void onBackPressed() {
@@ -268,7 +247,8 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
 
 
     private void exit() {
-        System.out.println(exercise.isDefaultType());
+        finishActivityWithAnimation();
+        /*System.out.println(exercise.isDefaultType());
         if (itemIsNotChanged() || exercise.isDefaultType()) {
             finishActivityWithAnimation();
         } else {
@@ -289,10 +269,10 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
                 }
             });
             ad.show();
-        }
+        }*/
     }
 
-    private boolean itemIsNotChanged() {
+   /* private boolean itemIsNotChanged() {
         Exercise changeableItem = getChangeableItem();
         System.out.println(changeableItem);
         if (!changeableItem.getExerciseDescription().getTitle().equals(exercise.getExerciseDescription().getTitle()))
@@ -302,9 +282,9 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
             return false;
         if (uriImage != null) return false;
         return true;
-    }
+    }*/
 
-    private Exercise getChangeableItem() {
+   /* private Exercise getChangeableItem() {
         ExerciseDescription changeableExerciseDescription = new ExerciseDescription();
         if (uriImage != null) {
             changeableExerciseDescription.setImg(uriImage.toString());
@@ -326,10 +306,10 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         changeableExercise.setTypeMuscle(typeMuscle);
         changeableExercise.setExerciseDescription(changeableExerciseDescription);
         return changeableExercise;
-    }
+    }*/
 
 
-    private void update() {
+   /* private void update() {
         ExerciseDao exerciseDao = new ExerciseDao(this);
         if (title.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
@@ -344,7 +324,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
-    }
+    }*/
 
     private void finishActivityWithAnimation() {
 
@@ -353,12 +333,12 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         } else finish();
     }
 
-
+/*
     private Intent createIntentForResult() {
         Intent intent = new Intent();
         intent.putExtra(Constants.ID, exercise.getId());
         return intent;
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -369,4 +349,17 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onClick(View v) {
+        Intent intent = ExerciseCreateActivity.createIntent(this, exercise);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View sharedViewIm = imageView;
+            String transitionNameIm = "exercise_activity_create_image";
+            ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                    this,
+                    Pair.create(sharedViewIm, transitionNameIm));
+            startActivityForResult(intent, UPDATE, transitionActivityOptions.toBundle());
+        } else startActivityForResult(intent, UPDATE);
+
+    }
 }

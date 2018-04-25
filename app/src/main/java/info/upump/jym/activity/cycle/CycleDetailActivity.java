@@ -194,10 +194,10 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         if (cycle != null) {
             collapsingToolbarLayout.setTitle(cycle.getTitle());
         }
-       setPic();
+        setPic();
     }
 
-    private void setPic(){
+    private void setPic() {
         if (cycle.getDefaultImg() != null) {
             setDefaultPic();
         } else if (cycle.getImage() != null) {
@@ -254,11 +254,11 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     public void updateDescription() {
         CycleDao cycleDao = new CycleDao(this);
         cycle = cycleDao.getById(cycle.getId());
-        collapsingToolbarLayout.setTitle(cycle.getTitle());
-        setPic();
+      /*  collapsingToolbarLayout.setTitle(cycle.getTitle());
+        setPic();*/
+        createViewFrom();
         iDescriptionFragment.updateItem(cycle);
     }
-
 
     private void setPicUri(Uri uri) {
         RequestOptions options = getOptionsGlide();
@@ -392,7 +392,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                         Workout workout = new Workout();
                         workout.setDefaultType(false);
                         workout.setTemplate(false);
-                        intent = WorkoutCreateActivity.createIntent(getApplicationContext(),workout);
+                        intent = WorkoutCreateActivity.createIntent(getApplicationContext(), workout);
                         startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
                         break;
                 }

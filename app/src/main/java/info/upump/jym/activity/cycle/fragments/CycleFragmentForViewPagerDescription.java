@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +25,8 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements ID
     private TextView description;
     private IChangeItem iChangeItem;
     private FloatingActionButton editFab;
-    private NestedScrollView nestedScrollView;
 
     public CycleFragmentForViewPagerDescription() {
-        // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
@@ -52,13 +49,11 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements ID
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_cycle_fragment_for_view_pager_description, container, false);
         startTextData = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_data_edit_start);
         finishTextData = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_data_edit_finish);
         description = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_edit_web);
         editFab = getActivity().findViewById(R.id.cycle_activity_detail_fab_main);
-//        nestedScrollView = inflate.findViewById(R.id.nested);
         creteViewFrom();
         return inflate;
     }

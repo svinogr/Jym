@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.View;
 
 import info.upump.jym.activity.constant.Constants;
+import info.upump.jym.adapters.PagerAdapterCycle;
 import info.upump.jym.adapters.PagerAdapterCycleDefault;
 import info.upump.jym.entity.Cycle;
 
@@ -28,7 +29,7 @@ public class CycleDetailDefaultActivity extends CycleDetailActivity {
 
     @Override
     protected void setPagerAdapter() {
-        pagerAdapterCycleEdit = new PagerAdapterCycleDefault(getSupportFragmentManager(), cycle,this);
+        pagerAdapterCycleEdit = new PagerAdapterCycle(getSupportFragmentManager(), cycle,this);
     }
 
     @Override

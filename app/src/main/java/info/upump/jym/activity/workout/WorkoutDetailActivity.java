@@ -73,16 +73,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         setFabVisible();
         setTabSelected();
         setPagerAdapter();
-        // setFabVisible(true);
-
-       /* if (savedInstanceState != null) {
-            if (savedInstanceState.getString(Constants.URI_IMG) != null) {
-                //   uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
-                // cycle.setImage(uriImage.toString());
-            }
-        }*/
         createViewFrom(workout);
-
 
     }
 
@@ -211,16 +202,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         imageView.setImageBitmap(bitmap);
     }
 
-
-   /* @Override
-    public void update(Workout object) {
-    }
-
-    @Override
-    public void save(Workout object) {
-    }*/
-
-
     @Override
     public void updateDescription() {
         WorkoutDao workoutDao = new WorkoutDao(this);
@@ -228,7 +209,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         collapsingToolbarLayout.setTitle(workout.getTitle());
         setPic();
         iDescriptionFragment.updateItem(workout);
-
     }
 
     @Override
@@ -256,65 +236,14 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
     protected void exit() {
         finishActivityWithAnimation();
-     /*   if (itemIsNotChanged()) {
-            finishActivityWithAnimation();
-        } else {
-            AlertDialog.Builder ad = new AlertDialog.Builder(this);
-            ad.setTitle(getResources().getString(R.string.save));
-            ad.setPositiveButton((getResources().getString(R.string.yes)), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    update();
-                }
-            });
-            ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finishActivityWithAnimation();
-                }
-            });
-            ad.show();
-        }*/
 
     }
-/*
-
-    private void update() {
-        Workout sOU = (Workout) iDescriptionFragment.getChangeableItem();
-
-        WorkoutDao workoutDao = new WorkoutDao(this);
-        if (sOU.getTitle().trim().isEmpty()) {
-            Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        workout.setTitle(sOU.getTitle());
-        workout.setComment(sOU.getComment());
-        workout.setDay(sOU.getDay());
-
-        boolean id = workoutDao.update(workout);
-        if (id) {
-            Toast.makeText(this, R.string.toast_workout_update, Toast.LENGTH_SHORT).show();
-            finishActivityWithAnimation();
-        } else Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
-    }
-*/
 
     protected void finishActivityWithAnimation() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();
     }
-
-   /* private boolean itemIsNotChanged() {
-        Workout changeableItem = (Workout) iDescriptionFragment.getChangeableItem();
-        System.out.println(changeableItem);
-        if (!changeableItem.getTitle().equals(workout.getTitle())) return false;
-        if (!changeableItem.getComment().equals(workout.getComment())) return false;
-        System.out.println(workout.getDay() + " " + changeableItem.getDay());
-        System.out.println(changeableItem.getDay().toString().equals(workout.getDay().toString()));
-        if (!changeableItem.getDay().toString().equals(workout.getDay().toString())) return false;
-        return true;
-    }*/
 
 
     @Override
@@ -375,7 +304,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         }
     }
 
-    private void updateItem() {
+    private void updateItem() { // call createactivity
         Intent intent = WorkoutCreateActivity.createIntent(this, workout);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;
