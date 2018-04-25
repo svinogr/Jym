@@ -322,6 +322,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             changeable.setDefaultImg(null);
         }else {
             changeable.setDefaultImg(cycle.getDefaultImg());
+            changeable.setImage(cycle.getImage());
         }
 
         return changeable;
