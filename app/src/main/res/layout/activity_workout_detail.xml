@@ -8,6 +8,7 @@
         android:fitsSystemWindows="true"
         android:id="@+id/workout_activity_detail_edit_appbar"
         android:layout_width="match_parent"
+        android:background="@color/colorBackgroundAppBar"
         android:layout_height="280dp"
         android:theme="@style/AppTheme.AppBarOverlay">
         <android.support.design.widget.CollapsingToolbarLayout

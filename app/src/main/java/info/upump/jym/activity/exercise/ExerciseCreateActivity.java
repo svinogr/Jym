@@ -155,6 +155,13 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         } else Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
+    private boolean onlyTypeMuscle() {
+        Exercise exercisec = getChangeableItem();
+        if(!exercisec.getExerciseDescription().getTitle().equals("")) return false;
+        if(!exercisec.getComment().equals("")) return false;
+        if(uriImage != null) return false;
+        return true;
+    }
 
     private Exercise getItemFromIntent() {
         long id = getIntent().getLongExtra(ID, 0);
@@ -242,7 +249,8 @@ public class ExerciseCreateActivity extends AppCompatActivity {
     }
 
     private void exit() {
-        if (itemIsNotChanged()) {
+
+        if (itemIsNotChanged() ||  onlyTypeMuscle()) {
            finishActivityWithAnimation();
         } else {
             AlertDialog.Builder ad = new AlertDialog.Builder(this);

@@ -9,6 +9,7 @@
         android:id="@+id/exercise_detail_template_activity_appbar"
         android:layout_width="match_parent"
         android:layout_height="280dp"
+        android:background="@color/colorBackgroundAppBar"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:expanded="true">

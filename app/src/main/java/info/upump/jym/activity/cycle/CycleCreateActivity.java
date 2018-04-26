@@ -36,6 +36,7 @@ import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
+import info.upump.jym.entity.Exercise;
 
 import static info.upump.jym.activity.constant.Constants.ID;
 
@@ -273,6 +274,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void exit() {
+
         if (itemIsNotChanged()) {
             finishActivityWithAnimation();
         } else {
@@ -295,6 +297,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             ad.show();
         }
     }
+
 
     private boolean itemIsNotChanged() {
         Cycle changeableItem = getChangeableItem();

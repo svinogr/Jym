@@ -204,7 +204,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
     }
 
     private void exit() {
-        if (itemIsNotChanged()) {
+        if (itemIsNotChanged() || onlyWeek()) {
             finishActivityWithAnimation();
         } else {
             AlertDialog.Builder ad = new AlertDialog.Builder(this);
@@ -227,6 +227,13 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             });
             ad.show();
         }
+    }
+
+    private boolean onlyWeek() {
+        Workout workoutC = getChangeableItem();
+        if(!workoutC.getTitle().equals("")) return false;
+        if(!workoutC.getComment().equals("")) return false;
+        return true;
     }
 
     private boolean itemIsNotChanged() {
@@ -273,14 +280,6 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         }
         WorkoutDao workoutDao = new WorkoutDao(this);
         Workout workoutSave = getChangeableItem();
-//        workout.setTitle(title.getText().toString());
-//        workout.setComment(description.getText().toString());
-
-//        workout.setTemplate(true);
-//        workout.setDefaultType(false);
-//        int selectedItem = spinner.getSelectedItemPosition();
-//        Day day = getDay(selectedItem);
-//        workout.setDay(day);
         long id = workoutDao.create(workoutSave);
         if (id != -1) {
             workoutSave.setId(id);
