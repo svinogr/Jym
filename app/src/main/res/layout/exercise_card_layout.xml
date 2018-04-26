@@ -5,8 +5,7 @@
     android:id="@+id/exercise_card_layout"
     style="@style/MyCardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-   >
+    android:layout_height="wrap_content">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -33,7 +32,7 @@
             android:transitionName=" exercise_card_layout_title"
             app:layout_constraintStart_toEndOf="@+id/exercise_card_layout_image"
             app:layout_constraintTop_toTopOf="@+id/exercise_card_layout_image"
-            tools:text="Навзание" />
+            tools:text="навзание" />
         <View
             android:id="@+id/com_div"
             android:layout_width="0dp"

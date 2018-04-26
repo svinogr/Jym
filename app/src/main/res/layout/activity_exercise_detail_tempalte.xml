@@ -29,10 +29,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
                 android:fitsSystemWindows="true"
+                android:layout_marginBottom="80dp"
                 android:scaleType="centerCrop"
                 android:transitionName="exercise_activity_create_image"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="1.0" />
+               />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/exercise_detail_template_activity_toolbar"

@@ -43,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_date"
@@ -75,6 +76,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <NumberPicker
+                    android:layout_marginTop="4dp"
                     android:id="@+id/content_user_create_weight_edit"
                     style="@style/TextViewText"
                     android:layout_width="0dp"
@@ -107,6 +109,7 @@
                 <NumberPicker
                     android:id="@+id/content_user_create_fat_edit"
                     style="@style/TextViewText"
+                    android:layout_marginTop="4dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -146,6 +149,7 @@
                 <NumberPicker
                     android:id="@+id/content_user_create_neck_edit"
                     style="@style/TextViewText"
+                    android:layout_marginTop="4dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -185,6 +189,7 @@
                     style="@style/TextViewText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -221,6 +226,7 @@
                 <NumberPicker
                     android:id="@+id/content_user_create_pectoral_edit"
                     style="@style/TextViewText"
+                    android:layout_marginTop="4dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -258,6 +264,7 @@
                 <NumberPicker
                     android:id="@+id/content_user_create_left_biceps_edit"
                     style="@style/TextViewText"
+                    android:layout_marginTop="4dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -291,6 +298,7 @@
                     android:id="@+id/content_user_create_right_biceps_edit"
                     style="@style/TextViewText"
                     android:layout_width="0dp"
+                    android:layout_marginTop="4dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
@@ -329,6 +337,7 @@
                 <NumberPicker
                     android:id="@+id/content_user_create_abs_edit"
                     style="@style/TextViewText"
+                    android:layout_marginTop="4dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -369,6 +378,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -399,6 +409,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -438,12 +449,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline4"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_user_create_label_left_calves" />
-
-
 
                 <android.support.constraint.Guideline
                     android:id="@+id/guideline4"
@@ -468,6 +478,7 @@
                     style="@style/TextViewText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     app:layout_constraintEnd_toEndOf="parent"

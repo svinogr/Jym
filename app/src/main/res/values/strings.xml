@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!--menu-->
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Настройки</string>
     <string name="action_delete">Удалить</string>
     <!---->
 
@@ -14,17 +14,17 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- перечисление-->
-    <string name="shoulder">плечи</string>
-    <string name="pectoral">грудные</string>
-    <string name="traps">трапеции</string>
-    <string name="neck">шея</string>
-    <string name="triceps">трицепс</string>
-    <string name="back">спина</string>
-    <string name="glutes">ягодицы</string>
-    <string name="quades">бицепс бедра</string>
-    <string name="hamstring">трицепс бедра</string>
-    <string name="calves">голень</string>
-    <string name="abs">пресс</string>
+    <string name="shoulder">Плечи</string>
+    <string name="pectoral">Грудные</string>
+    <string name="traps">Трапеции</string>
+    <string name="neck">Шея</string>
+    <string name="triceps">Трицепс</string>
+    <string name="back">Спина</string>
+    <string name="glutes">Ягодицы</string>
+    <string name="quades">Бицепс бедра</string>
+    <string name="hamstring">Трицепс бедра</string>
+    <string name="calves">Голень</string>
+    <string name="abs">Пресс</string>
     <!--titles-->
     <string name="exercise_fragment_title">Упражнения</string>
     <string name="exercise_title_sets">Подходы</string>
@@ -94,6 +94,7 @@
     <string name="title_exercise_hint">Новое упражнение</string>
     <string name="label_spinner_type_muscle">Группа мышц</string>
     <string name="card_type_item_exercise">свое</string>
+    <string name="card_type_item_default_exercise">предустановленное</string>
     <string name="label_weight_set">Вес</string>
     <string name="label_reps_sets">Количество повторений</string>
     <string name="label_reps_sets_short">Повторения</string>

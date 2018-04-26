@@ -62,7 +62,7 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
         setInfo();
         if (!exercise.isDefaultType()) {
             type.setText(context.getResources().getString(R.string.card_type_item_exercise));
-        } else type.setText("");
+        } else type.setText(context.getResources().getString(R.string.card_type_item_default_exercise));
     }
 
     abstract public void setInfo();
@@ -83,15 +83,12 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
     private void setPic() {
         Uri uri = null;
         if (exercise.getExerciseDescription().getImg() != null) {
-            System.out.println("exerciseDescription " + exercise.getExerciseDescription().getImg());
             uri = Uri.parse(exercise.getExerciseDescription().getImg());
-            System.out.println(".ura "+uri);
         }
 
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
-                .placeholder(R.drawable.view_place_holder_exercise)
                 .error(R.drawable.iview_place_erore_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
