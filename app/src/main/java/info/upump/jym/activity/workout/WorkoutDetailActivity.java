@@ -22,6 +22,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+
 import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IDescriptionFragment;
@@ -196,10 +201,18 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     }
 
     private void setPic() {
-        Bitmap bitmap = Bitmap.createBitmap(100, 100,
+        Bitmap bitmap = Bitmap.createBitmap(1080, 200,
                 Bitmap.Config.ARGB_8888);
+
         bitmap.eraseColor(getResources().getColor(workout.getDay().getColor()));
-        imageView.setImageBitmap(bitmap);
+//        imageView.setImageBitmap(bitmap);
+//        imageView.setImageBitmap(bitmap);
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .error(R.drawable.iview_place_erore_workout)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH);
+        Glide.with(this).load(bitmap).apply(options).into(imageView);
     }
 
     @Override

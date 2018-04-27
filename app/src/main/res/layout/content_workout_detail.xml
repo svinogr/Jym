@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     android:theme="@style/AppTheme"
     android:fillViewport="true"
+    android:id="@+id/nested_scroll"
+    android:paddingBottom="4dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <android.support.constraint.ConstraintLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

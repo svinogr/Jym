@@ -123,7 +123,7 @@ public class SetActivityCreate extends AppCompatActivity {
             SetDao setDao = new SetDao(this);
             sets = setDao.getById(id);
             setTitle(R.string.set_update_title);
-            cardView.setVisibility(View.GONE);
+            cardView.setVisibility(View.INVISIBLE);
         } else {
             sets = new Sets();
             setTitle(R.string.set_create_title);

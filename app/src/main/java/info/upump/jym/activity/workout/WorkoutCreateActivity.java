@@ -63,14 +63,13 @@ public class WorkoutCreateActivity extends AppCompatActivity {
     };
 
     private void setPic(int s) {
-        Bitmap bitmap = Bitmap.createBitmap(1200, 500,
+        Bitmap bitmap = Bitmap.createBitmap(1080, 200,
                 Bitmap.Config.ARGB_8888);
         bitmap.eraseColor(getResources().getColor(getDay(s).getColor()));
-        imageView.setImageBitmap(bitmap);
+//        imageView.setImageBitmap(bitmap);
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.ic_add_black_24dp)
-                .error(R.drawable.ic_add_black_24dp)
+                .error(R.drawable.iview_place_erore_workout)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
         Glide.with(this).load(bitmap).apply(options).into(imageView);

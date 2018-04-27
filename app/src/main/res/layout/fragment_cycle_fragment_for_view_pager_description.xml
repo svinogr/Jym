@@ -17,8 +17,6 @@
         android:layout_height="match_parent"
         tools:context="info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerDescription">
 
-
-
         <android.support.v7.widget.CardView
             android:id="@+id/data_card"
             android:layout_width="match_parent"
@@ -26,7 +24,8 @@
             style="@style/MyCardView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_card">
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"

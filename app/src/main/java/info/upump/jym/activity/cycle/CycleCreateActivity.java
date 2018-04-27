@@ -67,7 +67,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         Toolbar toolbar = (Toolbar) findViewById(R.id.cycle_create_activity_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         cycle = getFromIntent();
 
         imageView = findViewById(R.id.cycle_create_activity_image_view);

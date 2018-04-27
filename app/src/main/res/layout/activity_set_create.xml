@@ -10,23 +10,26 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/frameLayout"
         style="@style/MyConstrateLayout"
+        android:background="@color/colorBackgroundAppBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v7.widget.CardView
             android:id="@+id/data_card"
+            style="@style/MyCardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/MyCardView"
             app:layout_constraintBottom_toTopOf="@+id/data_card2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintVertical_weight="1">
+
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:id="@+id/set_create_activity_label_weight"
                     style="@style/TextViewLabel"
@@ -53,14 +56,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/set_create_activity_label_weight" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:id="@+id/data_card2"
+            style="@style/MyCardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/MyCardView"
             app:layout_constraintBottom_toTopOf="@+id/data_card3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/data_card"
             app:layout_constraintVertical_weight="1">
@@ -86,8 +89,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginTop="4dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -98,13 +101,12 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/data_card3"
+            style="@style/MyCardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            style="@style/MyCardView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/data_card2"
             app:layout_constraintVertical_weight="1">
@@ -131,8 +133,8 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:orientation="vertical"
                     android:layout_marginTop="4dp"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

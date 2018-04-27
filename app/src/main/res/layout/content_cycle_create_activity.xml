@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AppTheme"
+    android:paddingBottom="4dp"
     android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,17 +16,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerDescription">
+
     <android.support.v7.widget.CardView
         android:id="@+id/title_card"
+        style="@style/MyCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/MyCardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/content_cycle_create_activity_label_edit_title"
                 style="@style/TextViewLabel"
@@ -54,9 +58,9 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/data_card"
+        style="@style/MyCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        anstyle="@style/MyCardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_card">
@@ -125,12 +129,13 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/web_card"
+        style="@style/MyCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/MyCardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/data_card">
+        app:layout_constraintTop_toBottomOf="@+id/data_card"
+        app:layout_constraintVertical_weight="1">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
