@@ -33,6 +33,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
     private ContentValues getContentValuesFrom(Workout object) {
         ContentValues cv = new ContentValues();
+        System.out.println("getContentValuesFrom"+object);
         if (object.getId() != 0) {
             cv.put(DBHelper.TABLE_KEY_ID, object.getId());
         }
@@ -89,6 +90,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
     @Override
     public boolean update(Workout object) {
+        System.out.println(object);
         ContentValues cv = getContentValuesFrom(object);
         long id = sqLiteDatabase.update(DBHelper.TABLE_WORKOUT, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         return id > 0;

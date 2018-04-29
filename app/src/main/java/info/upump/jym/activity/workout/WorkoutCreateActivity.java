@@ -240,8 +240,8 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         System.out.println("itemIsNotChanged " + changeableItem);
         if (!changeableItem.getTitle().equals(workout.getTitle())) return false;
         if (!changeableItem.getComment().equals(workout.getComment())) return false;
-        System.out.println(workout.getDay() + " " + changeableItem.getDay());
-        System.out.println(changeableItem.getDay().toString().equals(workout.getDay().toString()));
+//        System.out.println(workout.getDay() + " " + changeableItem.getDay());
+//        System.out.println(changeableItem.getDay().toString().equals(workout.getDay().toString()));
         if (!changeableItem.getDay().toString().equals(workout.getDay().toString())) return false;
         return true;
     }
@@ -260,6 +260,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             changeable.setStartDate(workout.getStartDate());
             changeable.setFinishDate(workout.getFinishDate());
         }
+        changeable.setParentId(workout.getParentId());
         changeable.setTitle(title.getText().toString());
         changeable.setComment(description.getText().toString());
         return changeable;

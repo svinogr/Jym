@@ -56,7 +56,6 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
 
     public void bind(Exercise exercise) {
         this.exercise = exercise;
-        System.out.println(exercise);
         setPic();
         title.setText(exercise.getExerciseDescription().getTitle());
         setInfo();

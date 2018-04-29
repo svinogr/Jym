@@ -199,6 +199,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         exercise.setId(0);
         exercise.setParentId(id);
         exercise.setTemplate(false);
+        exercise.setDefaultType(false);
         long idNewExercise = create(exercise);
 
         for (Sets sets : setsList) {
