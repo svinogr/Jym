@@ -8,6 +8,15 @@ public class ExerciseDescription {
     private long id;
     private String img;
     private String title;
+    private String defaultImg;
+
+    public String getDefaultImg() {
+        return defaultImg;
+    }
+
+    public void setDefaultImg(String defaultImg) {
+        this.defaultImg = defaultImg;
+    }
 
     public String getTitle() {
         return title;

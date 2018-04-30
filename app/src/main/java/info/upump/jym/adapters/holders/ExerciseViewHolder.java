@@ -61,7 +61,8 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
         setInfo();
         if (!exercise.isDefaultType()) {
             type.setText(context.getResources().getString(R.string.card_type_item_exercise));
-        } else type.setText(context.getResources().getString(R.string.card_type_item_default_exercise));
+        } else
+            type.setText(context.getResources().getString(R.string.card_type_item_default_exercise));
     }
 
     abstract public void setInfo();
@@ -80,10 +81,6 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
     }
 
     private void setPic() {
-        Uri uri = null;
-        if (exercise.getExerciseDescription().getImg() != null) {
-            uri = Uri.parse(exercise.getExerciseDescription().getImg());
-        }
 
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
@@ -92,10 +89,25 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
 
-        if (exercise.isDefaultType()){
-            int ident =itemView.getContext().getApplicationContext().getResources().getIdentifier(exercise.getExerciseDescription().getImg(), "drawable",  itemView.getContext().getPackageName());
+        int ident=0;
+//        if (exercise.getExerciseDescription().getImg() != null) {
+//            uri = Uri.parse(exercise.getExerciseDescription().getImg());
+//        }
+        System.out.println("exercise.getExerciseDescription().getDefaultImg() "+exercise.getExerciseDescription().getDefaultImg());
+        if (exercise.getExerciseDescription().getDefaultImg() != null) {
+            ident = itemView.getContext().getApplicationContext().getResources().getIdentifier(exercise.getExerciseDescription().getDefaultImg(), "drawable", itemView.getContext().getPackageName());
+        }
+        System.out.println("ident "+ident);
+        if(ident !=0){
             Glide.with(itemView.getContext()).load(ident).apply(options).into(image);
-        }else Glide.with(itemView.getContext()).load(uri).apply(options).into(image);
+        } else {
+            Glide.with(itemView.getContext()).load(Uri.parse(exercise.getExerciseDescription().getImg())).apply(options).into(image);
+
+        }
+        /*if (exercise.isDefaultType() && exercise.isTemplate()) {
+            int ident = itemView.getContext().getApplicationContext().getResources().getIdentifier(exercise.getExerciseDescription().getImg(), "drawable", itemView.getContext().getPackageName());
+            Glide.with(itemView.getContext()).load(ident).apply(options).into(image);
+        } else Glide.with(itemView.getContext()).load(uri).apply(options).into(image);*/
     }
 
     protected Context getAnimationContext() {

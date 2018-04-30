@@ -145,10 +145,14 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
                 .error(R.drawable.iview_place_erore_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
-        if (exercise.isDefaultType()) {
+        if(uri == null){
+            int ident = getResources().getIdentifier(exercise.getExerciseDescription().getDefaultImg(), "drawable", getPackageName());
+            Glide.with(this).load(ident).apply(options).into(imageView);
+        } else  Glide.with(this).load(uri).apply(options).into(imageView);
+      /*  if (exercise.isDefaultType()) {
             int ident = getResources().getIdentifier(exercise.getExerciseDescription().getImg(), "drawable", getPackageName());
             Glide.with(this).load(ident).apply(options).into(imageView);
-        } else Glide.with(this).load(uri).apply(options).into(imageView);
+        } else Glide.with(this).load(uri).apply(options).into(imageView);*/
     }
 
     @Override
@@ -179,7 +183,9 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
         }
 
         muscle.setText(nameOfValues[exercise.getTypeMuscle().ordinal()]);
-        setPicUri(Uri.parse(exercise.getExerciseDescription().getImg()));
+        if(exercise.getExerciseDescription().getDefaultImg() != null){
+            setPicUri(null);
+        }else  setPicUri(Uri.parse(exercise.getExerciseDescription().getImg()));
     }
 
     @Override

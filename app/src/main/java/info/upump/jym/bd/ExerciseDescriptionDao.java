@@ -19,8 +19,10 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
 
     private final String[] keys = new String[]{
             DBHelper.TABLE_KEY_ID,
+            DBHelper.TABLE_KEY_DEFAULT_IMG,
             DBHelper.TABLE_KEY_TITLE,
-            DBHelper.TABLE_KEY_IMG};
+            DBHelper.TABLE_KEY_IMG
+      };
 
     private ContentValues getContentValuesFor(ExerciseDescription object) {
         ContentValues cv = new ContentValues();
@@ -29,6 +31,7 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
         }
         cv.put(DBHelper.TABLE_KEY_TITLE, object.getTitle());
         cv.put(DBHelper.TABLE_KEY_IMG, object.getImg());
+        cv.put(DBHelper.TABLE_KEY_DEFAULT_IMG, object.getDefaultImg());
 
         return cv;
     }
@@ -36,8 +39,9 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
     private ExerciseDescription getImageFromCursor(Cursor cursor) {
         ExerciseDescription imageForItem = new ExerciseDescription();
         imageForItem.setId(cursor.getLong(0));
-        imageForItem.setTitle(cursor.getString(1));
-        imageForItem.setImg(cursor.getString(2));
+        imageForItem.setDefaultImg(cursor.getString(1));
+        imageForItem.setTitle(cursor.getString(2));
+        imageForItem.setImg(cursor.getString(3));
         return imageForItem;
     }
 

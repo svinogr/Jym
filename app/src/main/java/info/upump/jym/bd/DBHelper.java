@@ -139,7 +139,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_EXERCISE_DESCRIPTION = "CREATE TABLE " + TABLE_EXERCISE_DESCRIPTION +
             "( " + TABLE_KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
             TABLE_KEY_IMG + " TEXT, " +
-            TABLE_KEY_TITLE + " TEXT)";
+            TABLE_KEY_TITLE + " TEXT, "+
+            TABLE_KEY_DEFAULT_IMG + " TEXT)";
 
 
     private static DBHelper instance;

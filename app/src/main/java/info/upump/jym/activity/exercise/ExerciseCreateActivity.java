@@ -173,6 +173,7 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             exercise = new Exercise();
             ExerciseDescription exerciseDescription = new ExerciseDescription();
             exerciseDescription.setImg("");
+            exerciseDescription.setDefaultImg(null);
             exercise.setExerciseDescription(exerciseDescription);
         }
         System.out.println(exercise);
@@ -338,6 +339,7 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         if (uriImage != null) {
             changeableExerciseDescription.setImg(uriImage.toString());
         } else changeableExerciseDescription.setImg(exercise.getExerciseDescription().getImg());
+        changeableExerciseDescription.setDefaultImg(exercise.getExerciseDescription().getDefaultImg());
 
         changeableExerciseDescription.setId(exercise.getExerciseDescription().getId());
         changeableExerciseDescription.setTitle(title.getText().toString());
