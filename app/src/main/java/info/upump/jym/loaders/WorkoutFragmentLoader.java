@@ -46,6 +46,7 @@ public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
                 break;
             case LOADER_BY_TEMPLATE_TYPE:
                 workoutList =  workoutDao.getAllTemplate();// для выбора всех темплейтов, в чуз воркаут
+
         }
         return workoutList;
     }

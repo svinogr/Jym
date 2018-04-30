@@ -35,6 +35,7 @@ import java.util.Map;
 
 import info.upump.jym.activity.SettingsActivity;
 import info.upump.jym.bd.DBHelper;
+import info.upump.jym.fragments.PravoFragment;
 import info.upump.jym.fragments.cycle.CycleFragment;
 import info.upump.jym.fragments.cycle.CycleFragmentDefault;
 import info.upump.jym.fragments.exercises.ExerciseFragment;
@@ -277,7 +278,8 @@ public class MainActivity extends AppCompatActivity
                 fragment = CycleFragmentDefault.newInstance();
                 break;
             case 4:
-                fragment = WorkoutDefaultFragment.newInstance();
+//                fragment = WorkoutDefaultFragment.newInstance();
+                fragment = PravoFragment.newInstance();
                 break;
             case 5:
                 fragment = ExerciseFragment.newInstance();
@@ -359,7 +361,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_programs:
                 fragment = 3;
                 break;
-            case R.id.nav_workouts:
+            case R.id.nav_pravo:
                 fragment = 4;
                 break;
             case R.id.nav_my_exercises:

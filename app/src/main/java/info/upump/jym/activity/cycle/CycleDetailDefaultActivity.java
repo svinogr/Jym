@@ -29,7 +29,7 @@ public class CycleDetailDefaultActivity extends CycleDetailActivity {
 
     @Override
     protected void setPagerAdapter() {
-        pagerAdapterCycleEdit = new PagerAdapterCycle(getSupportFragmentManager(), cycle,this);
+        pagerAdapterCycleEdit = new PagerAdapterCycleDefault(getSupportFragmentManager(), cycle,this);
     }
 
     @Override

@@ -7,9 +7,12 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import info.upump.jym.R;
+import info.upump.jym.adapters.SetsAdapter;
 import info.upump.jym.entity.Exercise;
 
+import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE;
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.USER_TYPE;
 
 /**
  * Created by explo on 06.04.2018.
@@ -41,5 +44,9 @@ public class ExerciseDetailDefaultActivity  extends ExerciseDetail{
         finishActivityWithAnimation();
     }
 
-
+    @Override
+    protected void setAdapter(){
+        setsAdapter = new SetsAdapter(setsList, DEFAULT_TYPE);
+        recyclerView.setAdapter(setsAdapter);
+    }
 }

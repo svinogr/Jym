@@ -33,6 +33,7 @@ import info.upump.jym.loaders.SetsLoader;
 
 import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
+import static info.upump.jym.activity.constant.Constants.USER_TYPE;
 
 // с просмотром подходов и добавлением кнопкой
 public class ExerciseDetail extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Sets>>, IItemFragment<Sets> {
@@ -53,16 +54,19 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         exercise = getItemFromIntent();
         getSupportLoaderManager().initLoader(0, null, this);
 
-        setsAdapter = new SetsAdapter(setsList);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.exercise_activity_detail_recycler_view);
         recyclerView.setLayoutManager(linearLayoutManager);
         addFab = findViewById(R.id.exercise_activity_detail_fab_add);
+        setAdapter();
         setFabVisible(true);
         addFab.setOnClickListener(this);
-        recyclerView.setAdapter(setsAdapter);
         setFab();
+    }
+
+    protected void setAdapter(){
+        setsAdapter = new SetsAdapter(setsList, USER_TYPE);
+        recyclerView.setAdapter(setsAdapter);
     }
 
     protected void setFabVisible(boolean visible) {

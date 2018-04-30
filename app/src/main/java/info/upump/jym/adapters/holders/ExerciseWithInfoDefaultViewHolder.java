@@ -21,4 +21,5 @@ public class ExerciseWithInfoDefaultViewHolder extends ExerciseWithInfoViewHolde
         return intent;
     }
 
+
 }

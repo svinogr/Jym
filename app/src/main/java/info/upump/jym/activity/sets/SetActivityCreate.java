@@ -275,8 +275,10 @@ public class SetActivityCreate extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.edit_set_menu, menu);
+        if(sets.getId()!=0) {
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(R.menu.edit_set_menu, menu);
+        }
         return true;
     }
 

@@ -59,11 +59,17 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
         setPic();
         title.setText(exercise.getExerciseDescription().getTitle());
         setInfo();
+//        setType();
+//
+    }
+/*
+    protected void setType() {
         if (!exercise.isDefaultType()) {
             type.setText(context.getResources().getString(R.string.card_type_item_exercise));
         } else
             type.setText(context.getResources().getString(R.string.card_type_item_default_exercise));
-    }
+    }*/
+
 
     abstract public void setInfo();
 

@@ -33,6 +33,11 @@ public class WorkoutDetailDefaultActivity extends WorkoutDetailActivity {
     }
 
     @Override
+    protected void setTabSelected() {
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }

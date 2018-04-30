@@ -169,10 +169,24 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         return workoutList;
     }
 
-
+/*
     public List<Workout> getAllTemplate() {//
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
                 DBHelper.TABLE_KEY_TEMPLATE + " =? or "+ DBHelper.TABLE_KEY_DEFAULT+" = ?", new String[]{String.valueOf(1), String.valueOf(1)}, null, null, null
+        );
+        workoutList = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                Workout workout = getWorkoutFromCursor(cursor);
+                workoutList.add(workout);
+            } while (cursor.moveToNext());
+        }
+
+        return workoutList;
+    }*/
+    public List<Workout> getAllTemplate() {//
+        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
+                DBHelper.TABLE_KEY_TEMPLATE + " =? " , new String[]{String.valueOf(1)}, null, null, null
         );
         workoutList = new ArrayList<>();
         if (cursor.moveToFirst()) {
