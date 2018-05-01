@@ -30,6 +30,7 @@
                 android:id="@+id/exercise_detail_template_activity_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 android:transitionName="exercise_activity_create_image"
                 app:layout_collapseMode="parallax"

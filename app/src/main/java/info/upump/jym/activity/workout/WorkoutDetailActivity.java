@@ -209,7 +209,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 //        imageView.setImageBitmap(bitmap);
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .error(R.drawable.iview_place_erore_workout)
+//                .error(R.color.colorTextLabel)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
         Glide.with(this).load(bitmap).apply(options).into(imageView);
@@ -303,14 +303,13 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("req 2 "+requestCode+ iDescriptionFragment );
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_CHOOSE:
-                    System.out.println("interfaceForItem " + iItemFragment);
-                    iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0));
+                    iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0)); // можно удалить
                     break;
                 case Constants.UPDATE:
-                    System.out.println("interfaceForItem UPDATE " + iItemFragment);
                     updateDescription();
                     break;
             }
@@ -352,7 +351,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     }
 
     private void showDialogCreateItems() {
-        Intent intent = ExerciseActivityForChoose.createIntent(this);
+        Intent intent = ExerciseActivityForChoose.createIntent(this, workout);
         startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
     }
 }

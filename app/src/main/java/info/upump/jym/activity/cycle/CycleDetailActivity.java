@@ -202,21 +202,19 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
             setDefaultPic();
         } else if (cycle.getImage() != null) {
             setPicUri(Uri.parse(cycle.getImage()));
-        } else setPicUri(Uri.parse(("")));
+        } else setPicUri(Uri.parse(("2513")));
     }
 
     private void setDefaultPic() {
         RequestOptions options = getOptionsGlide();
         int ident = getResources().getIdentifier(cycle.getDefaultImg(), "drawable", getPackageName());
         System.out.println(ident);
-        Glide.with(this).load(ident).apply(options).into(imageView);
+        Glide.with(this).load(ident).apply(new RequestOptions()).into(imageView);
     }
 
     private RequestOptions getOptionsGlide() {
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
-                .centerCrop()
-               /* .placeholder(R.drawable.view_place_holder_exercise)*/
                 .error(R.drawable.iview_place_erore_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
@@ -235,6 +233,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("req "+requestCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_CHOOSE:
@@ -262,6 +261,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
     private void setPicUri(Uri uri) {
         RequestOptions options = getOptionsGlide();
+        System.out.println("uri" + uri);
         Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
@@ -384,7 +384,8 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                 switch (item) {
                     case 1:
                         System.out.println(1);
-                        intent = WorkoutActivityForChoose.createIntent(getApplicationContext());
+//                        intent = WorkoutActivityForChoose.createIntent(getApplicationContext());
+                        intent = WorkoutActivityForChoose.createIntent(getApplicationContext(), cycle);
                         startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
                         break;
                     case 0:
@@ -392,6 +393,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                         Workout workout = new Workout();
                         workout.setDefaultType(false);
                         workout.setTemplate(false);
+                        workout.setParentId(cycle.getId());
                         intent = WorkoutCreateActivity.createIntent(getApplicationContext(), workout);
                         startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
                         break;

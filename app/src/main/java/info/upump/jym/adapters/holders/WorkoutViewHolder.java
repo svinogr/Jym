@@ -66,6 +66,7 @@ abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implemen
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
+                .error(R.color.colorTextLabel)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .priority(Priority.HIGH);
 

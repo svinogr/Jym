@@ -144,8 +144,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
 
     private void setPicUri(Uri uri) {
         RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.view_place_holder_exercise)
                 .error(R.drawable.iview_place_erore_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);

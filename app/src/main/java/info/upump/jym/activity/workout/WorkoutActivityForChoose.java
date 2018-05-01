@@ -17,16 +17,20 @@ import info.upump.jym.R;
 import info.upump.jym.activity.IChooseItem;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.WorkoutAdapter;
+import info.upump.jym.bd.WorkoutDao;
+import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
 
 import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_CHOOSE;
+import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
 
 public class WorkoutActivityForChoose extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Workout>>, IChooseItem<Workout> {
     private RecyclerView recyclerView;
     private WorkoutAdapter workoutAdapter;
     private List<Workout> workoutList =  new ArrayList<>();
+    private long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,7 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
         setContentView(R.layout.activity_workout_for_choose);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.workout_choose_title_add_workouts);
+        id = getIntent().getLongExtra(ID,0);
 
         getSupportLoaderManager().initLoader(0, null, this);
 
@@ -45,8 +50,9 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
         recyclerView.setAdapter(workoutAdapter);
     }
 
-    public static Intent createIntent(Context context){
+    public static Intent createIntent(Context context, Cycle cycle){
         Intent intent = new Intent(context, WorkoutActivityForChoose.class);
+        intent.putExtra(ID, cycle.getId());///
         return intent;
     }
 
@@ -79,7 +85,8 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
     @Override
     public void createIntentForChooseResult(Workout workout) {
         Intent intent = new Intent();
-        intent.putExtra(Constants.ID, workout.getId());
+        WorkoutDao workoutDao = new WorkoutDao(this);
+        workoutDao.copyFromTemplate(workout.getId(), id);
         setResult(RESULT_OK, intent);
         finish();
     }

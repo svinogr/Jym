@@ -28,6 +28,7 @@
                 android:id="@+id/cycle_activity_detail_edit_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 android:transitionName="cycle_card_layout_image"
                 app:layout_collapseMode="parallax" />

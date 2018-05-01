@@ -84,7 +84,7 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
 //                .placeholder(R.drawable.view_place_holder_cycle)
-                .error(R.drawable.iview_place_erore_cycle)
+                .error(R.color.colorTextLabel)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
         if(cycle.getDefaultImg() != null){

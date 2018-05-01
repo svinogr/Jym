@@ -44,6 +44,7 @@ import info.upump.jym.entity.Workout;
 import info.upump.jym.utils.LetterBitmap;
 
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.PARENT_ID;
 
 public class WorkoutCreateActivity extends AppCompatActivity {
     private EditText title, description;
@@ -69,7 +70,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
 //        imageView.setImageBitmap(bitmap);
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .error(R.drawable.iview_place_erore_workout)
+                .error(R.color.colorTextLabel)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
         Glide.with(this).load(bitmap).apply(options).into(imageView);
@@ -147,11 +148,13 @@ public class WorkoutCreateActivity extends AppCompatActivity {
 
 
     private Workout getFromIntent() {
-        long id = getIntent().getLongExtra(ID, 0);
+         long id = getIntent().getLongExtra(ID, 0);
+       long  idParent = getIntent().getLongExtra(PARENT_ID,0);
         Workout workout;
         switch ((int)id){
             case 0:
                 workout = new Workout();
+                workout.setParentId(idParent);
                 break;
             case -1:
                 workout = new Workout();
@@ -185,6 +188,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         Intent intent = new Intent(context, WorkoutCreateActivity.class);
         if (workout != null) {
             intent.putExtra(ID, workout.getId());
+            intent.putExtra(PARENT_ID, workout.getParentId());
         }
         return intent;
     }

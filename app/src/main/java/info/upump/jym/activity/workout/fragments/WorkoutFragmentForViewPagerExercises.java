@@ -87,10 +87,10 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
 
     @Override
     public void addChosenItem(long idItem) {
-        ExerciseDao exerciseDao = new ExerciseDao(getContext());
-        long id = exerciseDao.copyFromTemplate(idItem, workout.getId());
-        Exercise exercise = exerciseDao.getById(id);
-        exerciseList.add(exercise);
+  //      ExerciseDao exerciseDao = new ExerciseDao(getContext());
+  //      long id = exerciseDao.copyFromTemplate(idItem, workout.getId());
+     //   Exercise exercise = exerciseDao.getById(id);
+    //    exerciseList.add(exercise);
         exerciseAdapter.notifyDataSetChanged();
     }
 

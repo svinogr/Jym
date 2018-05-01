@@ -19,14 +19,17 @@ import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IChooseItem;
 import info.upump.jym.adapters.PagerAdapterExercise;
 import info.upump.jym.adapters.PagerAdapterExerciseForChoose;
+import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.entity.Exercise;
+import info.upump.jym.entity.Workout;
 
 import static info.upump.jym.activity.constant.Constants.ID;
 
-public class ExerciseActivityForChoose extends AppCompatActivity implements  IChooseItem<Exercise> {
+public class ExerciseActivityForChoose extends AppCompatActivity implements IChooseItem<Exercise> {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private PagerAdapterExerciseForChoose pagerAdapter;
+    private long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class ExerciseActivityForChoose extends AppCompatActivity implements  ICh
         setContentView(R.layout.activity_exercise_for_choose);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.exercise_choose_title_add_exercise);
-
+        id = getIntent().getLongExtra(ID, 0);
         viewPager = findViewById(R.id.activity_exercise_for_choose_viewpager);
         tabLayout = findViewById(R.id.activity_exercise_for_choose_tab_layout);
         pagerAdapter = new PagerAdapterExerciseForChoose(getSupportFragmentManager(), this);
@@ -95,17 +98,20 @@ public class ExerciseActivityForChoose extends AppCompatActivity implements  ICh
                 });
     }
 
-    public static Intent createIntent(Context context){
+    public static Intent createIntent(Context context, Workout workout) {
         System.out.println("crate inte");
         Intent intent = new Intent(context, ExerciseActivityForChoose.class);
+        intent.putExtra(ID, workout.getId());
         return intent;
     }
 
     @Override
     public void createIntentForChooseResult(Exercise exercise) {
-       Intent intent = new Intent();
-       intent.putExtra(ID, exercise.getId());
-       setResult(RESULT_OK, intent);
+        Intent intent = new Intent();
+        ExerciseDao exerciseDao = new ExerciseDao(this);
+        exerciseDao.copyFromTemplate(exercise.getId(), id);
+        intent.putExtra(ID, exercise.getId());
+        setResult(RESULT_OK, intent);
         finish();
     }
 

@@ -285,6 +285,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = ExerciseFragment.newInstance();
                 break;
         }
+        System.out.println(firstFragment);
         curFragment = fragment;
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commitAllowingStateLoss();

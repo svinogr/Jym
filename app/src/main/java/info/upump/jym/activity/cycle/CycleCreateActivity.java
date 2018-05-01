@@ -4,6 +4,9 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -139,8 +142,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
     private RequestOptions getOptionsGlide() {
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
-                .centerCrop()
-                .placeholder(R.drawable.view_place_holder_exercise)
                 .error(R.drawable.iview_place_erore_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);

@@ -91,7 +91,7 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
-                .error(R.drawable.iview_place_erore_exercise)
+                .error(R.color.colorTextLabel)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
 

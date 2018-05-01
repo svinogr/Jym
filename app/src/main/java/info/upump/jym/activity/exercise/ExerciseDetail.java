@@ -135,7 +135,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
 
     }
 
-
     @Override
     public boolean clear() {
         ExerciseDao exerciseDao = new ExerciseDao(this);
@@ -149,7 +148,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
             return false;
         }
-
     }
 
     @Override

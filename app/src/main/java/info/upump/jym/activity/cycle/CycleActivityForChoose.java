@@ -80,9 +80,9 @@ public class CycleActivityForChoose extends AppCompatActivity implements LoaderM
 
     @Override
     public void createIntentForChooseResult(Cycle cycle) {
-        System.out.println(cycle);
+       // System.out.println(cycle);
         Intent intent = new Intent();
-        intent.putExtra(Constants.ID, cycle.getId());
+     //   intent.putExtra(Constants.ID, cycle.getId());
         CycleDao cycleDao = new CycleDao(this);
         cycleDao.copyFromTemplate(cycle.getId(),0);
         setResult(RESULT_OK, intent);

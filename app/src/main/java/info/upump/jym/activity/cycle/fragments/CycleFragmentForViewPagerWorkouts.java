@@ -126,13 +126,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
 
     @Override
     public void addChosenItem(long idItem) {
-        WorkoutDao workoutDao = new WorkoutDao(getContext());
-        long id = workoutDao.copyFromTemplate(idItem, cycle.getId());
-        Workout workout = workoutDao.getById(id);
-        workoutList.add(workout);
-        System.out.println("addChosenItem after " + workoutList.size());
         sortListByDay(workoutList);
-        workoutAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -148,14 +142,14 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
 
     @Override
     public void addItem(long idItem) {
-        System.out.println("id cycle "+cycle.getId());
-        WorkoutDao workoutDao = new WorkoutDao(getContext());
-        Workout workout = workoutDao.getById(idItem);
-        System.out.println(idItem+" "+ workout);
-        workout.setParentId(cycle.getId());
-        workoutDao.update(workout);
-        workoutList.add(workout);
+//        System.out.println("id cycle "+cycle.getId());
+//        WorkoutDao workoutDao = new WorkoutDao(getContext());
+//        Workout workout = workoutDao.getById(idItem);
+//        System.out.println(idItem+" "+ workout);
+//        workout.setParentId(cycle.getId());
+//        workoutDao.update(workout);
+//        workoutList.add(workout);
         sortListByDay(workoutList);
-        workoutAdapter.notifyDataSetChanged();
+       // workoutAdapter.notifyDataSetChanged();
     }
 }

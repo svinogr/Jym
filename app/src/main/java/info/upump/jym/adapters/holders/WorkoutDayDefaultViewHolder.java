@@ -34,7 +34,7 @@ public class WorkoutDayDefaultViewHolder extends WorkoutViewHolder {
             View sharedViewIm = imageView;
             String transitionNameIm = "workout_card_layout_image";
             ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
-                            context,
+                            getAnimationContext(),
                     Pair.create(sharedViewIm, transitionNameIm));
             context.startActivity(intent, transitionActivityOptions.toBundle());
         } else context.startActivity(intent);
