@@ -70,6 +70,8 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
 
         imageView = findViewById(R.id.cycle_create_activity_image_view);
         collapsingToolbarLayout = findViewById(R.id.cycle_create_activity_collapsing);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsedAppBar);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.ExtenddAppBar);
         startDataLabel = findViewById(R.id.content_cycle_create_activity_label_edit_start);
         finishDataLabel = findViewById(R.id.content_cycle_create_activity_label_edit_finish);
         startTextData = findViewById(R.id.content_cycle_create_activity_data_edit_start);

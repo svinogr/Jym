@@ -71,6 +71,8 @@ public class ExerciseCreateActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.exercise_activity_create_image_view);
         collapsingToolbarLayout = findViewById(R.id.exercise_activity_create_collapsing);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsedAppBar);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.ExtenddAppBar);
         title = findViewById(R.id.content_exercise_create_activity_title);
         description = findViewById(R.id.content_exercise_create_activity_web);
         spinner = findViewById(R.id.content_exercise_create_activity_spinner);

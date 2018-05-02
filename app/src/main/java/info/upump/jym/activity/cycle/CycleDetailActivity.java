@@ -73,6 +73,8 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         imageView = findViewById(R.id.cycle_activity_detail_edit_image_view);
         addFab = findViewById(R.id.cycle_activity_detail_fab_main);
         collapsingToolbarLayout = findViewById(R.id.cycle_activity_detail_edit_collapsing);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsedAppBar);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.ExtenddAppBar);
         nestedScrollView = findViewById(R.id.nested_scroll);
         tabLayout = findViewById(R.id.cycle_fragment_edit_tab_layout);
         tabLayout.setupWithViewPager(viewPager);

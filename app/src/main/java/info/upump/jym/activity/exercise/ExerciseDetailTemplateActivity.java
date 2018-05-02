@@ -77,6 +77,8 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
 
         imageView = findViewById(R.id.exercise_detail_template_activity_image_view);
         collapsingToolbarLayout = findViewById(R.id.exercise_detail_template_activity_collapsing);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsedAppBar);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.ExtenddAppBar);
         appBarLayout = findViewById(R.id.exercise_detail_template_activity_appbar);
         description = findViewById(R.id.content_exercise_detail_template_activity_web);
         muscle = findViewById(R.id.content_exercise_detail_template_activity_muscle);

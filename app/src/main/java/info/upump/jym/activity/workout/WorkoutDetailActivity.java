@@ -66,6 +66,8 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         addFab = findViewById(R.id.workout_activity_detail_fab_main);
         imageView = findViewById(R.id.workout_activity_detail_edit_image_view);
         collapsingToolbarLayout = findViewById(R.id.workout_activity_detail_edit_collapsing);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsedAppBar);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.ExtenddAppBar);
         viewPager = findViewById(R.id.workout_activity_detail_viewpager);
         tabLayout = findViewById(R.id.workout_activity_detail_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
