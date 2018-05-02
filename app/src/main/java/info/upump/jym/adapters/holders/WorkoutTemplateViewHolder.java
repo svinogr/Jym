@@ -14,7 +14,6 @@ public class WorkoutTemplateViewHolder extends WorkoutViewHolder {
 
     public WorkoutTemplateViewHolder(View itemView) {
         super(itemView);
-        System.out.println("WorkoutTemplateViewHolder");
     }
 
     @Override

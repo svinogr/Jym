@@ -43,7 +43,6 @@ abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implemen
 
     public void bind(Workout workout) {
         this.workout = workout;
-        System.out.println(workout);
         setPic();
         title.setText(workout.getTitle());
         setVariablyField();

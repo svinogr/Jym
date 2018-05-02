@@ -81,7 +81,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         setTabSelected();
         setPagerAdapter();
         createViewFrom(workout);
-
     }
 
     protected void setTabSelected() {
