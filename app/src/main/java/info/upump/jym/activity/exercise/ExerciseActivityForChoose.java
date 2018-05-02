@@ -100,7 +100,9 @@ public class ExerciseActivityForChoose extends AppCompatActivity implements ICho
     public void createIntentForChooseResult(Exercise exercise) {
         Intent intent = new Intent();
         ExerciseDao exerciseDao = new ExerciseDao(this);
-        exerciseDao.copyFromTemplate(exercise.getId(), id);
+        //TODO 1
+       exerciseDao.copyFromTemplate(exercise.getId(), id);
+//        exerciseDao.alterCopy(exercise.getId(), id);
         intent.putExtra(ID, exercise.getId());
         setResult(RESULT_OK, intent);
         finish();

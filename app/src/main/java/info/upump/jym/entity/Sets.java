@@ -32,10 +32,13 @@ public class Sets extends Entity {
     @Override
     public String toString() {
         return "Sets{" +
-                "id=" + id +
-                ", weight=" + weight +
+                "weight=" + weight +
                 ", reps=" + reps +
-                ", exercise id=" +parentId+
+                ", formatDate='" + formatDate + '\'' +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", comment='" + comment + '\'' +
+                ", parentId=" + parentId +
                 '}';
     }
 }

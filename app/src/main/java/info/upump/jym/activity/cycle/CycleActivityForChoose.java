@@ -81,7 +81,9 @@ public class CycleActivityForChoose extends AppCompatActivity implements LoaderM
     public void createIntentForChooseResult(Cycle cycle) {
         Intent intent = new Intent();
         CycleDao cycleDao = new CycleDao(this);
-        cycleDao.copyFromTemplate(cycle.getId(),0);
+        //TODO 1
+//        cycleDao.copyFromTemplate(cycle.getId(),0);
+        cycleDao.alter(cycle.getId(),0);
         setResult(RESULT_OK, intent);
         finish();
     }

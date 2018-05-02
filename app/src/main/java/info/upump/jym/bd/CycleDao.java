@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import info.upump.jym.entity.Cycle;
+import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.Workout;
 
 public class CycleDao extends DBDao implements IData<Cycle> {
@@ -167,6 +168,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
 
     @Override
     public long copyFromTemplate(long idItem, long idParent) {
+        long start = System.currentTimeMillis();
         Cycle cycle = getById(idItem);
         WorkoutDao workoutDao = new WorkoutDao(context);
         List<Workout> workoutList = workoutDao.getByParentId(cycle.getId());
@@ -174,10 +176,37 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         cycle.setId(0);
         setActualDate(cycle);
         long idNewCycle = create(cycle);
+   /*     sqLiteDatabase.beginTransaction();
+        try {
+            for (Workout workout: workoutList){
+                workoutDao.copyFromTemplate(workout.getId(),idNewCycle);
+            }
+            sqLiteDatabase.setTransactionSuccessful();
+        } finally {
+            sqLiteDatabase.endTransaction();
+        }*/
+
+
         for (Workout workout: workoutList){
             workoutDao.copyFromTemplate(workout.getId(),idNewCycle);
         }
+        long finish = System.currentTimeMillis() - start;
+        System.out.println(Long.toString(finish) +" ms");
         return idNewCycle;
+    }
+
+    public void alter(long idFrom, long iP){
+        long start = System.currentTimeMillis();
+       Cycle  cycle  = getById(idFrom);
+        cycle.setDefaultType(false);
+        cycle.setId(0);
+        setActualDate(cycle);
+        long idNewCycle = create(cycle);
+        WorkoutDao workoutDao = new WorkoutDao(context);
+        workoutDao.alter(idFrom, idNewCycle);
+        long finish = System.currentTimeMillis() - start;
+        System.out.println(Long.toString(finish) +" ms");
+
     }
 
     private void setActualDate(Cycle cycle) {

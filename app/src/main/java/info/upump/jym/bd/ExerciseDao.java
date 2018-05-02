@@ -3,6 +3,7 @@ package info.upump.jym.bd;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +19,9 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
     public ExerciseDao(Context context) {
         super(context);
     }
+
+    private static String sql = "insert into " + DBHelper.TABLE_EXERCISE + " values(?,?,?,?,?,?,?,?,?);";
+    private static String sql2 = "insert into " + DBHelper.TABLE_SET + " values(?,?,?,?,?,?,?);";
 
     private final String[] keys = new String[]{
             DBHelper.TABLE_KEY_ID,
@@ -185,6 +189,66 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         return exerciseList;
     }
 
+
+
+    public void alterCopy(long idFrom, long idTarget) {
+        List<Exercise> list = getByParentId(idFrom);
+        SQLiteStatement sqLiteStatement = sqLiteDatabase.compileStatement(sql);
+        sqLiteDatabase.beginTransaction();
+        SetDao setDao = new SetDao(context);
+        try {
+            for (Exercise exercise : list) {
+                exercise.setParentId(idTarget);
+                exercise.setTemplate(false);
+                exercise.setDefaultType(false);
+                sqLiteStatement.clearBindings();
+                sqLiteStatement.bindString(2, exercise.getComment());
+                sqLiteStatement.bindLong(3, exercise.getDescriptionId());
+                sqLiteStatement.bindString(4, exercise.getTypeMuscle().toString());
+                sqLiteStatement.bindLong(5, exercise.isDefaultType() ? 1 : 0);
+                sqLiteStatement.bindLong(6, exercise.isTemplate() ? 1 : 0);
+                sqLiteStatement.bindString(7, exercise.getStartStringFormatDate());
+                sqLiteStatement.bindString(8, exercise.getFinishStringFormatDate());
+                sqLiteStatement.bindLong(9, idTarget);
+                long l = sqLiteStatement.executeInsert();
+                exercise.setParentId(exercise.getId());
+                exercise.setId(l);
+            }
+
+            for (Exercise exercise : list) {
+                System.out.println(idFrom + "dd" + idTarget);
+                List<Sets> setsList = setDao.getByParentId(exercise.getParentId());
+                System.out.println(setsList.size()+" SIZE0");
+                SQLiteStatement sqLiteStatement2 = sqLiteDatabase.compileStatement(sql2);
+              //  sqLiteDatabase.beginTransaction();
+
+                    for (Sets sets : setsList) {
+                        sqLiteStatement2.clearBindings();
+                        System.out.println(sets);
+                        // sqLiteStatement.bindNull(2);
+                        sqLiteStatement2.bindDouble(3, sets.getWeight());
+                        sqLiteStatement2.bindLong(4, sets.getReps());
+                        sqLiteStatement2.bindString(5, sets.getStartStringFormatDate());
+                        sqLiteStatement2.bindString(6, sets.getFinishStringFormatDate());
+                        sqLiteStatement2.bindLong(7, exercise.getId());
+                        sqLiteStatement2.executeInsert();
+                    }
+            }
+
+            sqLiteDatabase.setTransactionSuccessful();
+
+        } finally {
+            sqLiteDatabase.endTransaction();
+        }
+         /*   for (Exercise exercise : list) {
+                setDao.alterCopy(exercise.getParentId(), exercise.getId());
+            }
+*/
+
+
+
+        }
+
     @Override
     public long copyFromTemplate(long idItem, long id) {
         SetDao setDao = new SetDao(context);
@@ -197,8 +261,44 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         exercise.setTemplate(false);
         exercise.setDefaultType(false);
         long idNewExercise = create(exercise);
+/*
+
+        sqLiteDatabase.beginTransaction();
+        SQLiteStatement sqLiteStatement = sqLiteDatabase.compileStatement(sql);
+
+        long l;
+
+        try {
+            for (Sets sets : setsList) {
+
+                sqLiteStatement.clearBindings();
+                sqLiteStatement.bindNull(2);
+                sqLiteStatement.bindDouble(3, sets.getWeight());
+                sqLiteStatement.bindLong(4, sets.getReps());
+                sqLiteStatement.bindString(5, sets.getStartStringFormatDate());
+                sqLiteStatement.bindString(6, sets.getFinishStringFormatDate());
+                sqLiteStatement.bindLong(7, id);
+                l = sqLiteStatement.executeInsert();
+            }
+            sqLiteDatabase.setTransactionSuccessful();
+        } finally {
+            sqLiteDatabase.endTransaction();
+        }
+*/
+
+
+     /*   try {
+            for (Sets sets : setsList) {
+
+                setDao.copyFromTemplate(sets.getId(), idNewExercise);
+            }
+            sqLiteDatabase.setTransactionSuccessful();
+        } finally {
+            sqLiteDatabase.endTransaction();
+        }*/
 
         for (Sets sets : setsList) {
+
             setDao.copyFromTemplate(sets.getId(), idNewExercise);
         }
 
