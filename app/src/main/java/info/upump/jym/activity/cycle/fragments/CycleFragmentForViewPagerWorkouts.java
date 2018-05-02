@@ -81,7 +81,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
     public void onLoadFinished(Loader<List<Workout>> loader, List<Workout> data) {
         workoutList.clear();
         workoutList.addAll(data);
-        sortListByDay(workoutList);
+        sort(workoutList);
         workoutAdapter.notifyDataSetChanged();
     }
 
@@ -89,10 +89,24 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
         Collections.sort(list, new Comparator<Workout>() {
             @Override
             public int compare(Workout o1, Workout o2) {
-
                 return o1.getDay().ordinal() < o2.getDay().ordinal() ? -1 : o1.getDay().ordinal() == o2.getDay().ordinal() ? 0 : 1;
             }
         });
+    }
+
+    private void sort(List<Workout> list){
+        List<Workout> workoutListEven = new ArrayList<>();
+        List<Workout> workoutListNotEven = new ArrayList<>();
+        for (Workout w: list){
+            if(w.isWeekEven()){
+                workoutListEven.add(w);
+            }else workoutListNotEven.add(w);
+        }
+        sortListByDay(workoutListEven);
+        sortListByDay(workoutListNotEven);
+        list.clear();
+        list.addAll(workoutListNotEven);
+        list.addAll(workoutListEven);
     }
 
     @Override

@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +43,7 @@ import static info.upump.jym.activity.constant.Constants.PARENT_ID;
 public class WorkoutCreateActivity extends AppCompatActivity {
     private EditText title, description;
     private Spinner spinner;
+    private Switch aSwitch;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ImageView imageView;
     private AppBarLayout appBarLayout;
@@ -84,6 +86,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         spinner = findViewById(R.id.content_workout_create_activity_spinner);
         description = findViewById(R.id.content_workout_create_activity_web);
         title = findViewById(R.id.content_workout_create_activity_title);
+        aSwitch = findViewById(R.id.content_workout_create_activity_switch);
 
         String[] nameOfValues = getNameOfDays();
         ArrayAdapter<String> dayArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameOfValues);
@@ -131,6 +134,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             spinner.setSelection(workout.getDay().ordinal());
             description.setText(workout.getComment());
         }
+        aSwitch.setChecked(workout.isWeekEven());
         title.setText(workout.getTitle());
     }
 
@@ -229,6 +233,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         Workout changeableItem = getChangeableItem();
         if (!changeableItem.getTitle().equals(workout.getTitle())) return false;
         if (!changeableItem.getComment().equals(workout.getComment())) return false;
+        if(changeableItem.isWeekEven() != workout.isWeekEven()) return false;
         if (!changeableItem.getDay().toString().equals(workout.getDay().toString())) return false;
         return true;
     }
@@ -239,6 +244,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         changeable.setId(workout.getId());
         changeable.setTemplate(workout.isTemplate());
         changeable.setDefaultType(workout.isDefaultType());
+        changeable.setWeekEven(aSwitch.isChecked());
         changeable.setDay(day);
         if (workout.getId() == 0) {
             changeable.setStartDate(new Date());

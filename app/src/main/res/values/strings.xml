@@ -279,5 +279,8 @@
     <!--add-->
     <string name="idAdd">ca-app-pub-7715449191385617~1256202239</string>
     <string name="banner_ad_unit_id">ca-app-pub-7715449191385617/8047883437</string>
+    <string name="week_even">четная неделя</string>
+    <string name="week_not_even">нечентная неделя</string>
+    <string name="week_even_label">Четная неделя</string>
 
 </resources>

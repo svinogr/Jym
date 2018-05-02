@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.Pair;
 import android.view.View;
 
+import info.upump.jym.R;
 import info.upump.jym.activity.workout.WorkoutDetailActivity;
 
 
@@ -17,6 +18,9 @@ public class WorkoutDayViewHolder extends WorkoutViewHolder {
 
     @Override
     void setVariablyField() {
+        if(workout.isWeekEven()){
+            week.setText(R.string.week_even);
+        } else week.setText("");
         variably.setText(workout.getDay().getName());
     }
 
@@ -33,4 +37,5 @@ public class WorkoutDayViewHolder extends WorkoutViewHolder {
 
         } else context.startActivity(intent);
     }
+
 }

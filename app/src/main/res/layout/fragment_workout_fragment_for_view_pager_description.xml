@@ -30,6 +30,34 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/workout_fragment_for_view_pager_description_label_switch"
+                    style="@style/TextViewLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/week_even_label"
+                    app:layout_constraintStart_toStartOf="@+id/guideline1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Switch
+                    android:id="@+id/workout_fragment_for_view_pager_description_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline1"
+                    app:layout_constraintTop_toBottomOf="@+id/workout_fragment_for_view_pager_description_label_switch" />
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.60" />
 
                 <TextView
                     android:id="@+id/workout_fragment_for_view_pager_description_label_spinner"
@@ -52,7 +80,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guideline1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/workout_fragment_for_view_pager_description_label_spinner"
                     tools:text="10.10.2018" />

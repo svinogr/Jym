@@ -23,7 +23,7 @@
         <TextView
             android:id="@+id/exercise_card_layout_title"
             style="@style/TextViewText"
-            android:layout_width="@dimen/length_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"

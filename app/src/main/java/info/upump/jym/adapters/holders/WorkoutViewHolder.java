@@ -25,7 +25,7 @@ import info.upump.jym.entity.Workout;
 
 abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     protected ImageView imageView;
-    protected TextView title, variably;
+    protected TextView title, variably, week;
     protected View itemView;
     protected Workout workout;
     protected Context context;
@@ -36,6 +36,7 @@ abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implemen
         imageView = itemView.findViewById(R.id.workout_card_layout_image);
         title = itemView.findViewById(R.id.workout_card_layout_title);
         variably = itemView.findViewById(R.id.workout_card_layout_info_variably);
+        week = itemView.findViewById(R.id.workout_card_layout_info_week);
         itemView.setOnClickListener(this);
         context = itemView.getContext();
     }

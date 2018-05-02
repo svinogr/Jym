@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import info.upump.jym.R;
@@ -24,6 +25,7 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
     private IChangeItem iChangeItem;
     private TextView description, day;
     private String[] nameOfValues;
+    private Switch aSwitch;
 
     public WorkoutFragmentForViewPagerDescription() {
     }
@@ -58,6 +60,7 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
         View inflate = inflater.inflate(R.layout.fragment_workout_fragment_for_view_pager_description, container, false);
         description = inflate.findViewById(R.id.workout_fragment_for_view_pager_description_web);
         day = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_day);
+        aSwitch =  inflate.findViewById(R.id.workout_fragment_for_view_pager_description_switch);
         description.setText(workout.getComment());
         creteViewFrom();
         return inflate;
@@ -66,6 +69,7 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
     private void creteViewFrom() {
         day.setText(nameOfValues[workout.getDay().ordinal()]);
         description.setText(workout.getComment());
+        aSwitch.setChecked(workout.isWeekEven());
     }
 
     @Override

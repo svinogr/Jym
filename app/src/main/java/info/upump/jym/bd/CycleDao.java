@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import info.upump.jym.entity.Cycle;
@@ -171,10 +172,19 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         List<Workout> workoutList = workoutDao.getByParentId(cycle.getId());
         cycle.setDefaultType(false);
         cycle.setId(0);
+        setActualDate(cycle);
         long idNewCycle = create(cycle);
         for (Workout workout: workoutList){
             workoutDao.copyFromTemplate(workout.getId(),idNewCycle);
         }
         return idNewCycle;
+    }
+
+    private void setActualDate(Cycle cycle) {
+        Date start = cycle.getStartDate();
+        Date finish = cycle.getFinishDate();
+        long milesecund = finish.getTime() - start.getTime();
+        cycle.setStartDate(new Date());
+        cycle.setFinishDate(new Date (cycle.getStartDate().getTime() + milesecund));
     }
 }
