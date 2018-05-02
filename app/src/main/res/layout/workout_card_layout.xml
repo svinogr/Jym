@@ -27,16 +27,18 @@
 
         <TextView
             android:id="@+id/workout_card_layout_title"
-            android:transitionName="workout_card_layout_title"
+            style="@style/TextViewText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="8dp"
-            style="@style/TextViewText"
-            android:singleLine="true"
             android:ellipsize="end"
             android:maxLines="1"
-            app:layout_constraintStart_toEndOf="@+id/workout_card_layout_image"
+            android:singleLine="true"
+            android:transitionName="workout_card_layout_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/workout_card_layout_image"
             tools:text="Навзание" />
 

@@ -20,17 +20,20 @@
             android:transitionName="exercise_detail_template_activity_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/exercise_card_layout_title"
             style="@style/TextViewText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="23dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:transitionName=" exercise_card_layout_title"
-            app:layout_constraintStart_toEndOf="@+id/exercise_card_layout_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/exercise_card_layout_image"
             tools:text="навзание" />
         <View
