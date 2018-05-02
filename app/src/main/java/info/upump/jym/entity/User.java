@@ -5,9 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by explo on 12.03.2018.
- */
 
 public class User {
     private final String formatDate = "yyyy-MM-dd";

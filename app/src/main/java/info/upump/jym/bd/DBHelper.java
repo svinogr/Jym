@@ -11,9 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Created by explo on 05.03.2018.
- */
 
 public class DBHelper extends SQLiteOpenHelper {
     private Context context;
@@ -36,20 +33,19 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_KEY_FINISH_DATE = "finish_date";
 
 
-    public static final String TABLE_KEY_WEEK_EVEN = "week_even";// only for workout
-    public static final String TABLE_KEY_DEFAULT = "default_type";// only for workout
-    public static final String TABLE_KEY_PARENT_ID = "parent_id";// only for workout
-    public static final String TABLE_KEY_DAY = "day";// only for workout
+    public static final String TABLE_KEY_WEEK_EVEN = "week_even";
+    public static final String TABLE_KEY_DEFAULT = "default_type";
+    public static final String TABLE_KEY_PARENT_ID = "parent_id";
+    public static final String TABLE_KEY_DAY = "day";
 
-    public static final String TABLE_KEY_TYPE_EXERCISE = "type_exercise"; //for exercise, type of group muscles
+    public static final String TABLE_KEY_TYPE_EXERCISE = "type_exercise";
     public static final String TABLE_KEY_IMG = "img";
     public static final String TABLE_KEY_DEFAULT_IMG = "default_img";
     public static final String TABLE_KEY_TEMPLATE = "template";
 
-    public static final String TABLE_KEY_SET_WEIGHT = "weight";//for set
-    public static final String TABLE_KEY_SET_REPS = "reps";//for set
+    public static final String TABLE_KEY_SET_WEIGHT = "weight";
+    public static final String TABLE_KEY_SET_REPS = "reps";
 
-    /*for user*/
     public static final String TABLE_KEY_NAME = "name";
     public static final String TABLE_KEY_HEIGHT = "height";
     public static final String TABLE_KEY_FAT = "fat";
@@ -90,8 +86,6 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_START_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_PARENT_ID + " INTEGER)";
-    //     TABLE_KEY_PARENT_ID+" INTEGER, "+
-    //  "FOREIGN KEY("+TABLE_KEY_PARENT_ID+") REFERENCES "+TABLE_CYCLE+"("+TABLE_KEY_ID+") ON DELETE CASCADE)";
 
     private static final String CREATE_TABLE_EXERCISE = "CREATE TABLE " + TABLE_EXERCISE +
             "( " + TABLE_KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
@@ -103,8 +97,6 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_START_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_PARENT_ID + " INTEGER)";
-    //TABLE_KEY_PARENT_ID+" INTEGER, " +
-    //  "FOREIGN KEY("+TABLE_KEY_PARENT_ID+") REFERENCES "+TABLE_WORKOUT+"("+TABLE_KEY_ID+")ON DELETE CASCADE)";
 
     private static final String CREATE_TABLE_SET = "CREATE TABLE " + TABLE_SET +
             "( " + TABLE_KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
@@ -114,8 +106,6 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_START_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_PARENT_ID + " INTEGER)";
-    //   TABLE_KEY_PARENT_ID+" INTEGER, " +
-    //    "FOREIGN KEY("+ TABLE_KEY_PARENT_ID+") REFERENCES "+TABLE_EXERCISE+"("+TABLE_KEY_ID+") ON DELETE CASCADE)";
 
     private static final String CREATE_TABLE_USER = "CREATE TABLE " + TABLE_USER +
             "( " + TABLE_KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
@@ -142,17 +132,14 @@ public class DBHelper extends SQLiteOpenHelper {
             TABLE_KEY_TITLE + " TEXT, "+
             TABLE_KEY_DEFAULT_IMG + " TEXT)";
 
-
     private static DBHelper instance;
 
     private static final String DB_PATH = "data/data/info.upump.jym/databases/" + DATABASE_NAME;
-
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATA_BASE_VERSION);
         this.context = context;
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -160,18 +147,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_WORKOUT);
         db.execSQL(CREATE_TABLE_EXERCISE);
         db.execSQL(CREATE_TABLE_SET);
-        // db.execSQL("DROP TABLE " + TABLE_USER+";");
-
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_EXERCISE_DESCRIPTION);
-
-        //  db.execSQL(CREATE_TABLE_EXERCISE_DESCRIPTION);
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     public static synchronized DBHelper getHelper(Context context) {
@@ -212,11 +193,9 @@ public class DBHelper extends SQLiteOpenHelper {
             }
             seVersionDB();
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private void deleteBD() {
@@ -233,7 +212,6 @@ public class DBHelper extends SQLiteOpenHelper {
             sqLiteDatabase.setVersion(DATA_BASE_VERSION);
             sqLiteDatabase.close();
         } catch (SQLiteException e) {
-
         }
     }
 
@@ -251,5 +229,4 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-
 }

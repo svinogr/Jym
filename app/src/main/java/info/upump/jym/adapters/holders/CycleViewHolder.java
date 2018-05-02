@@ -9,7 +9,6 @@ import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,14 +18,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
-import info.upump.jym.IControlFragment;
 import info.upump.jym.R;
 import info.upump.jym.activity.cycle.CycleDetailActivity;
 import info.upump.jym.entity.Cycle;
 
-/**
- * Created by explo on 22.03.2018.
- */
 
 public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     protected TextView title;
@@ -52,8 +47,6 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
         title.setText(cycle.getTitle());
         date.setText(cycle.getStartStringFormatDate());
         setPic();
-
-
     }
 
     private void startActivity() {
@@ -83,13 +76,11 @@ public class CycleViewHolder extends RecyclerView.ViewHolder implements View.OnC
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
-//                .placeholder(R.drawable.view_place_holder_cycle)
                 .error(R.color.colorTextLabel)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
         if(cycle.getDefaultImg() != null){
             int ident =context.getResources().getIdentifier(cycle.getDefaultImg(), "drawable",  context.getPackageName());
-            System.out.println(ident);
             Glide.with(context).load(ident).apply(options).into(imageView);
         }else Glide.with(itemView.getContext()).load(uri).apply(options).into(imageView);
 

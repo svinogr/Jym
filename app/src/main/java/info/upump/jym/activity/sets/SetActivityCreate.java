@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,7 +36,6 @@ public class SetActivityCreate extends AppCompatActivity {
     private String[] valuesForWeight;
     private int quantitySetsValue = 1;
     private CardView cardView;
-    private int[] arrayId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +81,9 @@ public class SetActivityCreate extends AppCompatActivity {
     }
 
     public String[] getArrayWithSteps(double iMinValue, int iMaxValue, double iStep) {
-        int iStepsArray = 800; //get the lenght array that will return
+        int iStepsArray = 800;
 
-        String[] arrayValues = new String[iStepsArray]; //Create array with length of iStepsArray
+        String[] arrayValues = new String[iStepsArray];
 
         for (int i = 0; i < iStepsArray; i++) {
             arrayValues[i] = String.valueOf(iMinValue + (i * iStep));
@@ -128,7 +127,6 @@ public class SetActivityCreate extends AppCompatActivity {
             sets = new Sets();
             setTitle(R.string.set_create_title);
         }
-        System.out.println(sets);
         return sets;
     }
 
@@ -188,8 +186,6 @@ public class SetActivityCreate extends AppCompatActivity {
                     if (sets.getId() > 0) {
                         update();
                     } else save();
-
-
                 }
             });
             ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
@@ -214,12 +210,10 @@ public class SetActivityCreate extends AppCompatActivity {
 
             id = setDao.create(changeableItem);
             if (i == 0) {
-                sets.setId(id); // если делаем много одинаковых подходов то передаем только первый, чтоб получить остальные начиная с него ;)
+                sets.setId(id);
             }
-            System.out.println(id);
         }
         if (id != -1) {
-            // sets.setId(id);
             Toast.makeText(this, R.string.toast_set_saved, Toast.LENGTH_SHORT).show();
             Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
@@ -229,7 +223,6 @@ public class SetActivityCreate extends AppCompatActivity {
 
     private boolean itemIsNotChanged() {
         Sets changeableItem = getChangeableItem();
-        System.out.println(changeableItem);
         if (changeableItem.getWeight() != sets.getWeight()) return false;
         if (changeableItem.getReps() != sets.getReps()) return false;
         return true;
@@ -245,7 +238,6 @@ public class SetActivityCreate extends AppCompatActivity {
         changeableSets.setParentId(sets.getParentId());
         return changeableSets;
     }
-
 
     private void update() {
         SetDao setDao = new SetDao(this);

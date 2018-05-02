@@ -2,10 +2,10 @@ package info.upump.jym.activity.workout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -15,7 +15,6 @@ import java.util.List;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IChooseItem;
-import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Cycle;
@@ -55,7 +54,6 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
         intent.putExtra(ID, cycle.getId());///
         return intent;
     }
-
 
     @Override
     public Loader<List<Workout>> onCreateLoader(int id, Bundle args) {

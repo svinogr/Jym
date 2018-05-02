@@ -276,5 +276,8 @@
     <string name="pravo_text">MPAndroidChart.\nLicensed under the Apache License,\nVersion 2.0 (the "License")
 </string>
 
+    <!--add-->
+    <string name="idAdd">ca-app-pub-7715449191385617~1256202239</string>
+    <string name="banner_ad_unit_id">ca-app-pub-7715449191385617/8047883437</string>
 
 </resources>

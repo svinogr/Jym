@@ -2,9 +2,7 @@ package info.upump.jym.activity.exercise;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -22,14 +20,10 @@ import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.ExerciseAdapter;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
-import info.upump.jym.fragments.exercises.ExerciseListFragmentForViewPager;
 import info.upump.jym.loaders.ExerciseFragmentLoader;
 
 import static info.upump.jym.activity.constant.Constants.TYPE_MUSCLE;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ExerciseListFragmentForViewPagerChoose extends Fragment implements LoaderManager.LoaderCallbacks<List<Exercise>>{
     private TypeMuscle typeMuscle;
     private List<Exercise> exerciseList = new ArrayList<>();
@@ -38,7 +32,6 @@ public class ExerciseListFragmentForViewPagerChoose extends Fragment implements 
 
 
     public ExerciseListFragmentForViewPagerChoose() {
-        // Required empty public constructor
     }
     public static ExerciseListFragmentForViewPagerChoose newInstance(TypeMuscle typeMuscle) {
         ExerciseListFragmentForViewPagerChoose fragment = new ExerciseListFragmentForViewPagerChoose();
@@ -61,8 +54,6 @@ public class ExerciseListFragmentForViewPagerChoose extends Fragment implements 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        System.out.println("onCreateView внутренний");
         View inflate = inflater.inflate(R.layout.fragment_exercise_list_fragment_for_view_pager_choose, container, false);
         recyclerView = inflate.findViewById(R.id.exercise_list_fragment_for_view_pager_choose_recycler_view);
 
@@ -99,5 +90,4 @@ public class ExerciseListFragmentForViewPagerChoose extends Fragment implements 
         }
         getLoaderManager().initLoader(0, null, this);
     }
-
 }

@@ -9,9 +9,6 @@ import java.util.List;
 
 import info.upump.jym.entity.Sets;
 
-/**
- * Created by explo on 08.03.2018.
- */
 
 public class SetDao extends DBDao implements IData<Sets> {
 
@@ -99,8 +96,8 @@ public class SetDao extends DBDao implements IData<Sets> {
                 sets = getSetsFromCursor(cursor);
             } while (cursor.moveToNext());
         }
-        return sets;
 
+        return sets;
     }
 
     @Override
@@ -115,6 +112,7 @@ public class SetDao extends DBDao implements IData<Sets> {
                 setsList.add(sets);
             } while (cursor.moveToNext());
         }
+
         return setsList;
     }
 
@@ -144,6 +142,7 @@ public class SetDao extends DBDao implements IData<Sets> {
                 setsList.add(sets);
             } while (cursor.moveToNext());
         }
+
         return setsList;
     }
 }

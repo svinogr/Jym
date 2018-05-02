@@ -9,13 +9,8 @@ import java.util.List;
 
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.CycleDao;
-import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Cycle;
-import info.upump.jym.entity.Workout;
 
-/**
- * Created by explo on 22.03.2018.
- */
 
 public class CycleFragmentLoader extends AsyncTaskLoader<List<Cycle>> {
     private Context context;
@@ -42,7 +37,6 @@ public class CycleFragmentLoader extends AsyncTaskLoader<List<Cycle>> {
         }
 
         return cycleList;
-
     }
 
     @Override

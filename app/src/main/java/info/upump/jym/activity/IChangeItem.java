@@ -5,8 +5,6 @@ package info.upump.jym.activity;
  */
 
 public interface IChangeItem<T> {
-//    void update(T object);
-//    void save(T object);
     void updateDescription();
     void delete(long id);
     void setInterfaceForDescription(IDescriptionFragment interfaceForDescription);

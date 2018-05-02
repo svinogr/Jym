@@ -7,28 +7,21 @@ import android.os.Build;
 import android.util.Pair;
 import android.view.View;
 
-import info.upump.jym.R;
 import info.upump.jym.activity.workout.WorkoutDetailActivity;
 
-/**
- * Created by explo on 27.03.2018.
- */
 
 public class WorkoutTemplateViewHolder extends WorkoutViewHolder {
 
     public WorkoutTemplateViewHolder(View itemView) {
         super(itemView);
-        System.out.println("WorkoutTemplateViewHolder");
     }
 
     @Override
     public void setVariablyField() {
-
     }
 
     @Override
     public void onClick(View v) {
-        System.out.println("WorkoutTemplateViewHolder");
         Intent intent = WorkoutDetailActivity.createIntent(context,workout);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;

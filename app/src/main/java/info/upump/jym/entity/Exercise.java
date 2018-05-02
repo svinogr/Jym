@@ -3,9 +3,6 @@ package info.upump.jym.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by explo on 05.03.2018.
- */
 
 public class Exercise extends Entity {
     private TypeMuscle typeMuscle;
@@ -85,7 +82,4 @@ public class Exercise extends Entity {
                 ", parentId=" + parentId +
                 '}';
     }
-
-
-
 }

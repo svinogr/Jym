@@ -36,7 +36,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     protected FloatingActionButton addFab;
 
     public CycleFragment() {
-        // Required empty public constructor
     }
 
     public static CycleFragment newInstance() {
@@ -65,7 +64,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         setTitle();
         View inflate = inflater.inflate(R.layout.fragment_cycle, container, false);
 
@@ -147,7 +145,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
                         Intent intent1 = CycleActivityForChoose.createIntent(getContext());
                         startActivityForResult(intent1, Constants.REQUEST_CODE_CHOOSE);
                 }
-
             }
         });
         builder.setCancelable(true);
@@ -163,7 +160,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("lcefefefref");
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

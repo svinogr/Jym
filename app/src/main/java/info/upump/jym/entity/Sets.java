@@ -1,9 +1,5 @@
 package info.upump.jym.entity;
 
-/**
- * Created by explo on 05.03.2018.
- */
-
 public class Sets extends Entity {
     private double weight;
     private int reps;

@@ -6,9 +6,6 @@ import android.view.View;
 import info.upump.jym.R;
 import info.upump.jym.activity.exercise.ExerciseDetailTemplateActivity;
 
-/**
- * Created by explo on 31.03.2018.
- */
 
 public class ExerciseTemplateViewHolder extends ExerciseViewHolder {
     public ExerciseTemplateViewHolder(View itemView) {
@@ -27,6 +24,9 @@ public class ExerciseTemplateViewHolder extends ExerciseViewHolder {
             type.setText(context.getResources().getString(R.string.card_type_item_exercise));
         } else
             type.setText(context.getResources().getString(R.string.card_type_item_default_exercise));
+    }
 
+    @Override
+    protected void showExercise() {
     }
 }

@@ -6,16 +6,9 @@ import android.database.Cursor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import info.upump.jym.entity.Cycle;
-import info.upump.jym.entity.Exercise;
-import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.Workout;
-
-/**
- * Created by explo on 05.03.2018.
- */
 
 public class CycleDao extends DBDao implements IData<Cycle> {
     public CycleDao(Context context) {
@@ -34,7 +27,6 @@ public class CycleDao extends DBDao implements IData<Cycle> {
 
     private ContentValues getContentValuesFrom(Cycle object) {
         ContentValues cv = new ContentValues();
-        System.out.println(object.getImage()+ " "+ object.getDefaultImg());
         if (object.getId() != 0) {
             cv.put(DBHelper.TABLE_KEY_ID, object.getId());
         }
@@ -110,8 +102,6 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         return id;
     }
 
-
-
     @Override
     public boolean delete(Cycle object) {
         if (object.isDefaultType()) return false;
@@ -120,7 +110,6 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         if (delChild) {
             id = sqLiteDatabase.delete(DBHelper.TABLE_CYCLE, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         }
-        System.out.println(id);
         return id != 0;
     }
 
@@ -153,7 +142,6 @@ public class CycleDao extends DBDao implements IData<Cycle> {
                 cycle = getExerciseFromCursor(cursor);
             } while (cursor.moveToNext());
         }
-       // cycle.getWorkoutList().addAll(getAllChildren(id));
         return cycle;
     }
 
@@ -189,6 +177,4 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         }
         return idNewCycle;
     }
-
-
 }

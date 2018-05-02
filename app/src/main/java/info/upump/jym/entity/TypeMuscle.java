@@ -164,27 +164,4 @@ public enum TypeMuscle {
 
     public abstract int getImg();
     public abstract int getName();
-
-
-
-
-  /*  BICEPS(R.drawable.ic_menu_camera) {
-        int nane = R.string.biceps;
-
-        @Override
-        public int getName() {
-            return nane;
-        }
-    };
-    int resourceImg;
-
-    TypeMuscle(int resourceImg) {
-        this.resourceImg = resourceImg;
-    }
-
-    public int getResourceImg() {
-        return resourceImg;
-    }
-
-    public abstract int getName();*/
 }

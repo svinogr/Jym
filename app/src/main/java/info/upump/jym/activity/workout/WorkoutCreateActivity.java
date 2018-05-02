@@ -4,16 +4,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.SyncStateContract;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,7 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -35,13 +32,9 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.Date;
 
 import info.upump.jym.R;
-import info.upump.jym.activity.constant.Constants;
-import info.upump.jym.bd.CycleDao;
 import info.upump.jym.bd.WorkoutDao;
-import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Day;
 import info.upump.jym.entity.Workout;
-import info.upump.jym.utils.LetterBitmap;
 
 import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.PARENT_ID;
@@ -67,7 +60,6 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         Bitmap bitmap = Bitmap.createBitmap(1080, 200,
                 Bitmap.Config.ARGB_8888);
         bitmap.eraseColor(getResources().getColor(getDay(s).getColor()));
-//        imageView.setImageBitmap(bitmap);
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .error(R.color.colorTextLabel)
@@ -75,7 +67,6 @@ public class WorkoutCreateActivity extends AppCompatActivity {
                 .priority(Priority.HIGH);
         Glide.with(this).load(bitmap).apply(options).into(imageView);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,8 +125,6 @@ public class WorkoutCreateActivity extends AppCompatActivity {
     }
 
     private void createViewFrom() {
-        System.out.println("createViewFrom " + workout);
-
         if (workout.getId() != 0) {
             collapsingToolbarLayout.setTitle(title.getHint().toString());
 
@@ -143,9 +132,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             description.setText(workout.getComment());
         }
         title.setText(workout.getTitle());
-
     }
-
 
     private Workout getFromIntent() {
          long id = getIntent().getLongExtra(ID, 0);
@@ -166,7 +153,6 @@ public class WorkoutCreateActivity extends AppCompatActivity {
                 workout = workoutDao.getById(id);
                 break;
         }
-        System.out.println(workout);
         return workout;
     }
 
@@ -241,11 +227,8 @@ public class WorkoutCreateActivity extends AppCompatActivity {
 
     private boolean itemIsNotChanged() {
         Workout changeableItem = getChangeableItem();
-        System.out.println("itemIsNotChanged " + changeableItem);
         if (!changeableItem.getTitle().equals(workout.getTitle())) return false;
         if (!changeableItem.getComment().equals(workout.getComment())) return false;
-//        System.out.println(workout.getDay() + " " + changeableItem.getDay());
-//        System.out.println(changeableItem.getDay().toString().equals(workout.getDay().toString()));
         if (!changeableItem.getDay().toString().equals(workout.getDay().toString())) return false;
         return true;
     }
@@ -307,11 +290,9 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
-
     }
 
     private void finishActivityWithAnimation() {
-
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();

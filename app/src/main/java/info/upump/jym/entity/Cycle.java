@@ -1,15 +1,7 @@
 package info.upump.jym.entity;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-/**
- * Created by explo on 05.03.2018.
- */
 
 public class Cycle extends Entity {
     private List<Workout> workoutList = new ArrayList<>();
@@ -18,7 +10,6 @@ public class Cycle extends Entity {
     private String defaultImg;
 
     private int getDaysBetweenDates() {
-        //Todo getDaysBetweenDates
         return 0;
     }
 
@@ -70,8 +61,6 @@ public class Cycle extends Entity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Cycle)) return false;
-       // if (!super.equals(o)) return false;
-
         Cycle cycle = (Cycle) o;
 
         if (id != cycle.id) return false;

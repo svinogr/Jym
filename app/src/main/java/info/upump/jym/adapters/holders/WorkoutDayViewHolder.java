@@ -4,20 +4,15 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.view.ContextThemeWrapper;
 import android.util.Pair;
 import android.view.View;
 
 import info.upump.jym.activity.workout.WorkoutDetailActivity;
 
-/**
- * Created by explo on 27.03.2018.
- */
 
 public class WorkoutDayViewHolder extends WorkoutViewHolder {
     public WorkoutDayViewHolder(View itemView) {
         super(itemView);
-        System.out.println("WorkoutDayViewHolder");
     }
 
     @Override

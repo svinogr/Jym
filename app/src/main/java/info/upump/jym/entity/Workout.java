@@ -3,10 +3,6 @@ package info.upump.jym.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by explo on 05.03.2018.
- */
-
 public class Workout extends Entity {
     private boolean weekEven;
     private boolean defaultType;
@@ -54,7 +50,6 @@ public class Workout extends Entity {
         this.day = day;
     }
 
-
     @Override
     public String toString() {
         return "Workout{" +
@@ -68,5 +63,4 @@ public class Workout extends Entity {
                 ", exercises Size=" + exercises.size() +
                 '}';
     }
-
 }

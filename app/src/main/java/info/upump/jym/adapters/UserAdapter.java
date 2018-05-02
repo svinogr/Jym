@@ -11,10 +11,6 @@ import info.upump.jym.R;
 import info.upump.jym.adapters.holders.UserHolder;
 import info.upump.jym.entity.User;
 
-/**
- * Created by explo on 10.04.2018.
- */
-
 public class UserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<User> userList;
 

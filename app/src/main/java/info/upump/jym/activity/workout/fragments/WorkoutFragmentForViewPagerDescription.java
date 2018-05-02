@@ -26,7 +26,6 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
     private String[] nameOfValues;
 
     public WorkoutFragmentForViewPagerDescription() {
-        // Required empty public constructor
     }
 
     public static WorkoutFragmentForViewPagerDescription newInstance(Workout workout) {
@@ -43,7 +42,6 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
         nameOfValues = getNameOfDays();
         if (getArguments() != null) {
             getItemFromBundle();
-            System.out.println(workout);
         }
     }
 
@@ -90,11 +88,6 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
             nameOfValues[i] = getResources().getString(values[i].getName());
         }
         return nameOfValues;
-    }
-
-    @Override
-    public Workout getChangeableItem() {
-        return null;
     }
 
 }

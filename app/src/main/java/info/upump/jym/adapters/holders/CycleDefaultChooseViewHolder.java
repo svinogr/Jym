@@ -4,9 +4,6 @@ import android.view.View;
 
 import info.upump.jym.activity.IChooseItem;
 
-/**
- * Created by explo on 06.04.2018.
- */
 
 public class CycleDefaultChooseViewHolder extends CycleDefaultViewHolder {
     private IChooseItem iChooseItem;

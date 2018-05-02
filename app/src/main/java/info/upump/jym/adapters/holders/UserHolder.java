@@ -10,10 +10,6 @@ import info.upump.jym.R;
 import info.upump.jym.activity.user.UserCreateActivity;
 import info.upump.jym.entity.User;
 
-/**
- * Created by explo on 10.04.2018.
- */
-
 public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView weight,  fat, date;
     private User user;

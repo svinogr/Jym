@@ -9,9 +9,6 @@ import java.util.List;
 import info.upump.jym.bd.UserDao;
 import info.upump.jym.entity.User;
 
-/**
- * Created by explo on 10.04.2018.
- */
 
 public class UserFragmentLoader extends AsyncTaskLoader<List<User>> {
     private Context context;

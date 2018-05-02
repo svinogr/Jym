@@ -91,7 +91,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
@@ -112,7 +111,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                System.out.println(verticalOffset);
                 if (verticalOffset < -20) {
                     if (addFab.isShown()) {
                         addFab.hide();
@@ -123,7 +121,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
             }
         });
     }
-
 
     protected void setPagerAdapter() {
         pagerAdapterWorkout = new PagerAdapterWorkout(getSupportFragmentManager(), workout, this);
@@ -178,9 +175,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         });
     }
 
-
     public static Intent createIntent(Context context, Workout workout) {
-        System.out.println("WorkoutDetailActivity");
         Intent intent = new Intent(context, WorkoutDetailActivity.class);
         intent.putExtra(ID, workout.getId());
         return intent;
@@ -205,11 +200,8 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                 Bitmap.Config.ARGB_8888);
 
         bitmap.eraseColor(getResources().getColor(workout.getDay().getColor()));
-//        imageView.setImageBitmap(bitmap);
-//        imageView.setImageBitmap(bitmap);
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-//                .error(R.color.colorTextLabel)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
         Glide.with(this).load(bitmap).apply(options).into(imageView);
@@ -229,27 +221,22 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         WorkoutDao workoutDao = new WorkoutDao(this);
         if (workoutDao.delete(workout)) {
             Toast.makeText(this, R.string.toast_workout_delete, Toast.LENGTH_SHORT).show();
-            //exit();
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
     }
 
-
     @Override
     public void setInterfaceForDescription(IDescriptionFragment interfaceForDescription) {
-        System.out.println("interfaceForDescription " + interfaceForDescription);
         this.iDescriptionFragment = interfaceForDescription;
     }
 
     @Override
     public void setInterfaceForItem(IItemFragment interfaceForItem) {
-        System.out.println("interfaceForItem " + interfaceForItem);
         this.iItemFragment = interfaceForItem;
     }
 
     protected void exit() {
         finishActivityWithAnimation();
-
     }
 
     protected void finishActivityWithAnimation() {
@@ -303,7 +290,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("req 2 "+requestCode+ iDescriptionFragment );
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_CHOOSE:
@@ -316,7 +302,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         }
     }
 
-    private void updateItem() { // call createactivity
+    private void updateItem() {
         Intent intent = WorkoutCreateActivity.createIntent(this, workout);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;

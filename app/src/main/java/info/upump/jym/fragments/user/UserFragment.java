@@ -27,14 +27,9 @@ import info.upump.jym.ITitleble;
 import info.upump.jym.R;
 import info.upump.jym.activity.user.UserCreateActivity;
 import info.upump.jym.activity.user.UserGraphActivity;
-import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.UserAdapter;
 import info.upump.jym.entity.User;
-import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.UserFragmentLoader;
-import info.upump.jym.loaders.WorkoutFragmentLoader;
-
-import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
 
 public class UserFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<User>>, View.OnClickListener {
     protected ITitleble iTitleble;
@@ -44,7 +39,6 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
     protected FloatingActionButton addFab;
 
     public UserFragment() {
-        // Required empty public constructor
     }
 
     public static UserFragment newInstance() {
@@ -155,6 +149,7 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
                 startActivity(intent);
             }
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -169,7 +164,6 @@ public class UserFragment extends Fragment implements LoaderManager.LoaderCallba
          menu.clear();
          inflater.inflate(R.menu.user_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-
     }
 
     private void sortListByDate(List<User> list) {

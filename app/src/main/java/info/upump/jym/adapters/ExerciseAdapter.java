@@ -10,14 +10,11 @@ import java.util.List;
 import info.upump.jym.R;
 import info.upump.jym.adapters.holders.ExerciseTemplateChooseViewHolder;
 import info.upump.jym.adapters.holders.ExerciseTemplateViewHolder;
+import info.upump.jym.adapters.holders.ExerciseViewHolder;
 import info.upump.jym.adapters.holders.ExerciseWithInfoDefaultViewHolder;
 import info.upump.jym.adapters.holders.ExerciseWithInfoViewHolder;
-import info.upump.jym.adapters.holders.ExerciseViewHolder;
 import info.upump.jym.entity.Exercise;
 
-/**
- * Created by explo on 14.03.2018.
- */
 
 public class ExerciseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Exercise> exerciseList;
@@ -31,7 +28,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.exerciseList = exerciseList;
         this.type_holder = type_holder;
     }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

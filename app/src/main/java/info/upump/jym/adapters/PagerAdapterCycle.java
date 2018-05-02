@@ -11,15 +11,11 @@ import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerDescript
 import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerWorkouts;
 import info.upump.jym.entity.Cycle;
 
-/**
- * Created by explo on 22.03.2018.
- */
 
 public class PagerAdapterCycle extends FragmentStatePagerAdapter {
     protected String[] tabs;
     protected Cycle cycle;
     protected Context context;
-
 
     public PagerAdapterCycle(FragmentManager fm, Cycle cycle, Context context) {
         super(fm);
@@ -27,7 +23,6 @@ public class PagerAdapterCycle extends FragmentStatePagerAdapter {
         this.context = context;
         this.tabs = new String[]{context.getResources().getString(R.string.tab_workout), context.getResources().getString(R.string.tab_description)};
     }
-
 
     @Override
     public Fragment getItem(int position) {

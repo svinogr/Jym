@@ -6,12 +6,7 @@ import android.support.v4.app.FragmentManager;
 
 import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerDescription;
 import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerWorkoutDefault;
-import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerWorkouts;
 import info.upump.jym.entity.Cycle;
-
-/**
- * Created by explo on 06.04.2018.
- */
 
 public class PagerAdapterCycleDefault extends PagerAdapterCycle {
 
@@ -31,6 +26,4 @@ public class PagerAdapterCycleDefault extends PagerAdapterCycle {
         }
         return fragment;
     }
-
-
 }

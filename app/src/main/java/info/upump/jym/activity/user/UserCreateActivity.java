@@ -224,7 +224,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         return arrayValues;
     }
 
-
     private int getPozValue(double value) {
         return Arrays.asList(valueNumber).indexOf(String.valueOf(value));
     }
@@ -286,7 +285,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         } else dateText.setText(date);
     }
 
-
     private User getItemFromIntent() {
         Intent intent = getIntent();
         long id = intent.getLongExtra(ID, 0);
@@ -303,7 +301,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
                 user.setId(0);
                 user.setDate(new Date());
             } else user = new User();
-            System.out.println(user);
             setTitle(R.string.user_create_title);
         }
         return user;
@@ -321,8 +318,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
                     if (user.getId() > 0) {
                         update();
                     } else save();
-
-
                 }
             });
             ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
@@ -354,8 +349,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
 
     private boolean itemIsNotChanged() {
         User changeableItem = getChangeableItem();
-        System.out.println(changeableItem);
-        System.out.println(changeableItem.getDate() + "  " + user.getDate());
         if (changeableItem.getDate().compareTo(user.getDate()) != 0)
             return false;
         if (changeableItem.getWeight() != user.getWeight())
@@ -480,7 +473,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
             finishActivityWithAnimation();
         } else
             Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -502,7 +494,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
                 j.show();
-
                 break;
         }
     }

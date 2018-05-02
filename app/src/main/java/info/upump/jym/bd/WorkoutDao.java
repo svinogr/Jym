@@ -33,7 +33,6 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
     private ContentValues getContentValuesFrom(Workout object) {
         ContentValues cv = new ContentValues();
-        System.out.println("getContentValuesFrom"+object);
         if (object.getId() != 0) {
             cv.put(DBHelper.TABLE_KEY_ID, object.getId());
         }
@@ -75,8 +74,8 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
                 workoutList.add(workout);
             } while (cursor.moveToNext());
         }
-        return workoutList;
 
+        return workoutList;
     }
 
     @Override
@@ -90,7 +89,6 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
     @Override
     public boolean update(Workout object) {
-        System.out.println(object);
         ContentValues cv = getContentValuesFrom(object);
         long id = sqLiteDatabase.update(DBHelper.TABLE_WORKOUT, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         return id > 0;
@@ -136,7 +134,6 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         if (delChild) {
             id = sqLiteDatabase.delete(DBHelper.TABLE_WORKOUT, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         }
-        System.out.println(id);
         return id != 0;
     }
 
@@ -153,8 +150,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         return true;
     }
 
-
-    public List<Workout> getTemplateUser() { // только юзерские темплетйы, вторая вкладка t =  1, d =0
+    public List<Workout> getTemplateUser() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
                 DBHelper.TABLE_KEY_TEMPLATE + " =? and "+DBHelper.TABLE_KEY_DEFAULT+ " = ?", new String[]{String.valueOf(1),String.valueOf(0)}, null, null, null
         );
@@ -169,21 +165,6 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         return workoutList;
     }
 
-/*
-    public List<Workout> getAllTemplate() {//
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
-                DBHelper.TABLE_KEY_TEMPLATE + " =? or "+ DBHelper.TABLE_KEY_DEFAULT+" = ?", new String[]{String.valueOf(1), String.valueOf(1)}, null, null, null
-        );
-        workoutList = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Workout workout = getWorkoutFromCursor(cursor);
-                workoutList.add(workout);
-            } while (cursor.moveToNext());
-        }
-
-        return workoutList;
-    }*/
     public List<Workout> getAllTemplate() {//
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
                 DBHelper.TABLE_KEY_TEMPLATE + " =? " , new String[]{String.valueOf(1)}, null, null, null
@@ -201,7 +182,6 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
     @Override
     public long copyFromTemplate(long idItem, long id) {
-//        insert into cycles (title, comment, default_type, img, start_date, finish_date) select  title, 1, 0, img, start_date, finish_date from cycles where _id = 1
         Workout workout = getById(idItem);
         ExerciseDao exerciseDao = new ExerciseDao(context);
 
@@ -217,13 +197,11 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
             exerciseDao.copyFromTemplate(exercise.getId(), idNewWorkout);
 
         }
+
         return idNewWorkout;
-
-
     }
 
-
-    public List<Workout> getDefault() { // для готовых тренировок только дефолты d = 1 t = 0
+    public List<Workout> getDefault() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
                 DBHelper.TABLE_KEY_DEFAULT + " =? and "+ DBHelper.TABLE_KEY_TEMPLATE + " =?", new String[]{String.valueOf(1), String.valueOf(0)}, null, null, null
         );

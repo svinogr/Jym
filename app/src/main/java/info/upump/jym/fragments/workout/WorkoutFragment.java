@@ -34,7 +34,6 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     protected FloatingActionButton addFab;
 
     public WorkoutFragment() {
-        // Required empty public constructor
     }
 
     public static WorkoutFragment newInstance() {
@@ -55,7 +54,6 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         setTitle();
         View inflate = inflater.inflate(R.layout.fragment_workout, container, false);
 

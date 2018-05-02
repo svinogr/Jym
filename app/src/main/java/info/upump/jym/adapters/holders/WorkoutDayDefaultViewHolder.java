@@ -7,18 +7,12 @@ import android.os.Build;
 import android.util.Pair;
 import android.view.View;
 
-import info.upump.jym.activity.workout.WorkoutDetailActivity;
 import info.upump.jym.activity.workout.WorkoutDetailDefaultActivity;
-
-/**
- * Created by explo on 06.04.2018.
- */
 
 public class WorkoutDayDefaultViewHolder extends WorkoutViewHolder {
 
     public WorkoutDayDefaultViewHolder(View itemView) {
         super(itemView);
-        System.out.println("WorkoutDayDefaultViewHolder");
     }
 
     @Override
@@ -28,7 +22,6 @@ public class WorkoutDayDefaultViewHolder extends WorkoutViewHolder {
 
     @Override
     public void onClick(View v) {
-        System.out.println("WorkoutDayDefaultViewHolder");
         Intent intent = WorkoutDetailDefaultActivity.createIntent(context,workout);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;
@@ -38,6 +31,5 @@ public class WorkoutDayDefaultViewHolder extends WorkoutViewHolder {
                     Pair.create(sharedViewIm, transitionNameIm));
             context.startActivity(intent, transitionActivityOptions.toBundle());
         } else context.startActivity(intent);
-
     }
 }

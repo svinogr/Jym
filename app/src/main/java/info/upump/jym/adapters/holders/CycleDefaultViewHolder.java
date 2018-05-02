@@ -14,7 +14,6 @@ public class CycleDefaultViewHolder extends CycleViewHolder {
 
     @Override
     protected Intent createIntent() {
-        System.out.println("createIntent CycleDetailDefaultActivity");
         Intent intent = CycleDetailDefaultActivity.createIntent(context, cycle);
         return intent;
     }

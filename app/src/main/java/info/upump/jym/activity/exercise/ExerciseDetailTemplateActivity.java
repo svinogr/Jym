@@ -2,7 +2,6 @@ package info.upump.jym.activity.exercise;
 
 import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -13,7 +12,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
@@ -29,8 +27,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-
-import java.util.Date;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
@@ -64,7 +60,6 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
     };
 
     public static Intent createIntent(Context context, Exercise exercise) {
-        System.out.println("ExerciseDetailTemplateActivity");
         Intent intent = new Intent(context, ExerciseDetailTemplateActivity.class);
         intent.putExtra(ID, exercise.getId());
         return intent;
@@ -88,11 +83,11 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
         editFab = findViewById(R.id.exercise_detail_template_activity_fab_main);
         editFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_edit));
         editFab.setOnClickListener(this);
-        if(exercise.isDefaultType()){
+
+        if(exercise.isDefaultType() || !exercise.isTemplate()){
             editFab.setVisibility(View.INVISIBLE);
 
         }else setFabVisible();
-
 
         createViewFrom();
     }
@@ -101,7 +96,6 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                System.out.println(verticalOffset);
                 if (verticalOffset < -20) {
                     if (editFab.isShown()) {
                         editFab.hide();
@@ -147,16 +141,11 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
             int ident = getResources().getIdentifier(exercise.getExerciseDescription().getDefaultImg(), "drawable", getPackageName());
             Glide.with(this).load(ident).apply(options).into(imageView);
         } else  Glide.with(this).load(uri).apply(options).into(imageView);
-      /*  if (exercise.isDefaultType()) {
-            int ident = getResources().getIdentifier(exercise.getExerciseDescription().getImg(), "drawable", getPackageName());
-            Glide.with(this).load(ident).apply(options).into(imageView);
-        } else Glide.with(this).load(uri).apply(options).into(imageView);*/
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("onActivityResult  " + requestCode + "  " + resultCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.UPDATE:
@@ -164,7 +153,6 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
                     break;
             }
         }
-
     }
 
     private void updateDescription() {
@@ -217,7 +205,6 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
         } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
     }
 
-
     private void exit() {
         finishActivityWithAnimation();
     }
@@ -232,7 +219,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!exercise.isDefaultType()) {
+        if (!exercise.isDefaultType() && exercise.isTemplate() ) {
             MenuInflater menuInflater = getMenuInflater();
             menuInflater.inflate(R.menu.edit_template_exercise_menu, menu);
         }
@@ -250,6 +237,5 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
                     Pair.create(sharedViewIm, transitionNameIm));
             startActivityForResult(intent, UPDATE, transitionActivityOptions.toBundle());
         } else startActivityForResult(intent, UPDATE);
-
     }
 }

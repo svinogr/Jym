@@ -13,9 +13,6 @@ import info.upump.jym.entity.TypeMuscle;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
 
-/**
- * Created by explo on 14.03.2018.
- */
 
 public class ExerciseFragmentLoader extends AsyncTaskLoader<List<Exercise>> {
     private Context context;
@@ -48,6 +45,7 @@ public class ExerciseFragmentLoader extends AsyncTaskLoader<List<Exercise>> {
             case LOADER_BY_TEMPLATE_TYPE:
                 exerciseList = exerciseDao.getAllByTypeMuscleTemplate(typeMuscle);// все по типу мышцы и темплайты
         }
+
         return exerciseList;
     }
 

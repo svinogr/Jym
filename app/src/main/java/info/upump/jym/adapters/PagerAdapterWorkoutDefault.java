@@ -5,13 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import info.upump.jym.activity.workout.fragments.WorkoutFragmentForViewPagerDescription;
-import info.upump.jym.activity.workout.fragments.WorkoutFragmentForViewPagerExercises;
 import info.upump.jym.activity.workout.fragments.WorkoutFragmentForViewPagerExercisesDefault;
 import info.upump.jym.entity.Workout;
 
-/**
- * Created by explo on 06.04.2018.
- */
 
 public class PagerAdapterWorkoutDefault extends PagerAdapterWorkout {
     public PagerAdapterWorkoutDefault(FragmentManager fm, Workout workout, Context context) {
@@ -21,7 +17,6 @@ public class PagerAdapterWorkoutDefault extends PagerAdapterWorkout {
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = null;
-        System.out.println(1);
         switch (position) {
             case 1:
                 fragment = WorkoutFragmentForViewPagerDescription.newInstance(workout);

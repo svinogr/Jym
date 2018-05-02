@@ -7,9 +7,6 @@ import info.upump.jym.entity.Workout;
 
 import static info.upump.jym.activity.constant.Constants.ID;
 
-/**
- * Created by explo on 06.04.2018.
- */
 
 public class WorkoutFragmentForViewPagerExercisesDefault extends WorkoutFragmentForViewPagerExercises {
 

@@ -35,7 +35,6 @@ import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
 import static info.upump.jym.activity.constant.Constants.USER_TYPE;
 
-// с просмотром подходов и добавлением кнопкой
 public class ExerciseDetail extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Sets>>, IItemFragment<Sets> {
     protected Exercise exercise;
     protected List<Sets> setsList = new ArrayList<>();
@@ -46,7 +45,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("ExerciseDetail");
         setContentView(R.layout.activity_exercise_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.exercise_title_sets);
@@ -152,7 +150,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void addItem(long longExtra) {
-        System.out.println("addItem");
         if (longExtra > 0) {
             SetDao setDao = new SetDao(this);
             List<Sets> newSets = setDao.getSetsFromId(longExtra);
@@ -161,11 +158,9 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
                 setDao.update(s);
             }
             setsList.addAll(newSets);
-            System.out.println(newSets);
             setsAdapter.notifyDataSetChanged();
         }
     }
-
 
     @Override
     public void onBackPressed() {
@@ -203,10 +198,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     }
 
     protected void exit() {
-
         finishActivityWithAnimation();
-
-
     }
 
     protected void finishActivityWithAnimation() {
@@ -223,15 +215,12 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         return true;
     }
 
-
     public void delete(long id) {
         ExerciseDao exerciseDao = new ExerciseDao(this);
         if (exerciseDao.delete(exercise)) {
             Toast.makeText(this, R.string.toast_exercise_delete, Toast.LENGTH_SHORT).show();
-            //exit();
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
-
     }
 
     protected void setFab() {

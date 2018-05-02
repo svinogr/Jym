@@ -8,9 +8,6 @@ import java.util.List;
 
 import info.upump.jym.entity.ExerciseDescription;
 
-/**
- * Created by explo on 18.04.2018.
- */
 
 public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescription> {
     public ExerciseDescriptionDao(Context context) {
@@ -45,8 +42,6 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
         return imageForItem;
     }
 
-
-
     @Override
     public long create(ExerciseDescription object) {
         ContentValues cv = getContentValuesFor(object);
@@ -77,8 +72,8 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
                 imageForItem = getImageFromCursor(cursor);
             } while (cursor.moveToNext());
         }
-        return imageForItem;
 
+        return imageForItem;
     }
 
     @Override

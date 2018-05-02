@@ -4,9 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,7 +36,6 @@ import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
-import info.upump.jym.entity.Exercise;
 
 import static info.upump.jym.activity.constant.Constants.ID;
 
@@ -113,8 +109,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             }
         });
         if (savedInstanceState != null) {
-//            cycle.setStartDate(savedInstanceState.getString(Constants.START_DATA));
-//            cycle.setFinishDate(savedInstanceState.getString(Constants.FINISH_DATA));
             if (savedInstanceState.getString(Constants.START_DATA) != null) {
                 startData = savedInstanceState.getString(Constants.START_DATA);
             }
@@ -123,19 +117,9 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             }
 
             if (savedInstanceState.getString(Constants.URI_IMG) != null) {
-                //    cycle.setImage(savedInstanceState.getString(Constants.URI_IMG));
-//                uriImage = Uri.parse(cycle.getImage());
                 uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
             }
         }
-//        else {
-//            cycle.setStartDate(cycle.getStartDate());
-//            cycle.setFinishDate(cycle.getFinishDate());
-        // cycle.setTitle();
-//        }
-
-
-        System.out.println("onCrea " + cycle);
         createViewFrom();
     }
 
@@ -151,16 +135,14 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
     private void setDefaultPic() {
         RequestOptions options = getOptionsGlide();
         int ident = getResources().getIdentifier(cycle.getDefaultImg(), "drawable", getPackageName());
-        System.out.println(ident);
         Glide.with(this).load(ident).apply(options).into(imageView);
     }
 
     private void createViewFrom() {
-        System.out.println("createViewFrom " + cycle);
         title.setText(cycle.getTitle());
         if (cycle.getTitle() == null) {
             collapsingToolbarLayout.setTitle(title.getHint().toString());
-        }/* else collapsingToolbarLayout.setTitle(cycle.getTitle());*/
+        }
 
         if (uriImage == null) {
             if (cycle.getDefaultImg() != null) {
@@ -248,7 +230,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("onActivityResult  " + requestCode + "  " + resultCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_GALLERY_PHOTO:
@@ -303,12 +284,10 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         Cycle changeableItem = getChangeableItem();
         if (!changeableItem.getTitle().equals(cycle.getTitle())) return false;
         if (!changeableItem.getComment().equals(cycle.getComment())) return false;
-        System.out.println(changeableItem.getStartStringFormatDate().equals(cycle.getStartStringFormatDate()));
         if (!changeableItem.getStartStringFormatDate().equals(cycle.getStartStringFormatDate()))
             return false;
         if (!changeableItem.getFinishStringFormatDate().equals(cycle.getFinishStringFormatDate()))
             return false;
-
         if (uriImage != null) return false;
         return true;
     }
@@ -391,7 +370,6 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             cycle.setComment("");
             cycle.setTitle("");
         }
-        System.out.println(cycle);
         return cycle;
     }
 }

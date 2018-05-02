@@ -7,16 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import info.upump.jym.R;
-import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerDescription;
-import info.upump.jym.activity.cycle.fragments.CycleFragmentForViewPagerWorkouts;
 import info.upump.jym.activity.workout.fragments.WorkoutFragmentForViewPagerDescription;
 import info.upump.jym.activity.workout.fragments.WorkoutFragmentForViewPagerExercises;
-import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
 
-/**
- * Created by explo on 22.03.2018.
- */
 
 public class PagerAdapterWorkout extends FragmentStatePagerAdapter {
     protected String[] tabs ;
@@ -26,7 +20,6 @@ public class PagerAdapterWorkout extends FragmentStatePagerAdapter {
         super(fm);
         this.workout = workout;
         this.tabs = new String[]{context.getResources().getString(R.string.tab_exercise), context.getResources().getString(R.string.tab_description)};
-
     }
 
     @Override
@@ -38,7 +31,6 @@ public class PagerAdapterWorkout extends FragmentStatePagerAdapter {
                 fragment = WorkoutFragmentForViewPagerDescription.newInstance(workout);
                 break;
             case 0:
-               // fragment = WorkoutFragmentForViewPagerDescription.newInstance(workout);
                 fragment = WorkoutFragmentForViewPagerExercises.newInstance(workout);
         }
         return fragment;

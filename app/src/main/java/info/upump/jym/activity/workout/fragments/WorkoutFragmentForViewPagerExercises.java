@@ -20,7 +20,6 @@ import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.ExerciseAdapter;
-import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Workout;
@@ -82,15 +81,10 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         }
 
         getLoaderManager().initLoader(0, null, this);
-
     }
 
     @Override
     public void addChosenItem(long idItem) {
-  //      ExerciseDao exerciseDao = new ExerciseDao(getContext());
-  //      long id = exerciseDao.copyFromTemplate(idItem, workout.getId());
-     //   Exercise exercise = exerciseDao.getById(id);
-    //    exerciseList.add(exercise);
         exerciseAdapter.notifyDataSetChanged();
     }
 

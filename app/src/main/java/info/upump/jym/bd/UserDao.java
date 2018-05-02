@@ -55,27 +55,20 @@ public class UserDao extends DBDao implements IData<User> {
     private User getUserFromCursor(Cursor cursor) {
         User user = new User();
         user.setId(cursor.getLong(0));
-        System.out.println(cursor.getLong(0));
         user.setName(cursor.getString(1));
         user.setWeight(cursor.getDouble(2));
         user.setHeight(cursor.getDouble(3));
         user.setFat(cursor.getDouble(4));
-
         user.setNeck(cursor.getDouble(5));
         user.setShoulder(cursor.getDouble(6));
         user.setPectoral(cursor.getDouble(7));
-
         user.setRightBiceps(cursor.getDouble(8));
         user.setLeftBiceps(cursor.getDouble(9));
-
         user.setAbs(cursor.getDouble(10));
-
         user.setLeftLeg(cursor.getDouble(11));
         user.setRightLeg(cursor.getDouble(12));
-
         user.setRightCalves(cursor.getDouble(13));
         user.setLeftCalves(cursor.getDouble(14));
-
         user.setDate(cursor.getString(15));
         return user;
     }
@@ -90,7 +83,6 @@ public class UserDao extends DBDao implements IData<User> {
         List<User> userList = new ArrayList<>();
         User user;
         if (cursor.moveToFirst()) {
-            //   userList = new ArrayList<>();
             do {
                 user = getUserFromCursor(cursor);
                 userList.add(user);
@@ -158,7 +150,5 @@ public class UserDao extends DBDao implements IData<User> {
         }
         return user;
     }
-
-
 }
 

@@ -15,9 +15,6 @@ import info.upump.jym.entity.Sets;
 import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE;
 import static info.upump.jym.activity.constant.Constants.USER_TYPE;
 
-/**
- * Created by explo on 02.04.2018.
- */
 
 public class SetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Sets> setsList;

@@ -1,8 +1,5 @@
 package info.upump.jym.entity;
 
-/**
- * Created by explo on 18.04.2018.
- */
 
 public class ExerciseDescription {
     private long id;

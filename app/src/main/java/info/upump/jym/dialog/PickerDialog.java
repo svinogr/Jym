@@ -14,9 +14,6 @@ import java.util.Arrays;
 import info.upump.jym.R;
 import info.upump.jym.activity.user.IPicable;
 
-/**
- * Created by explo on 10.04.2018.
- */
 
 public class PickerDialog extends DialogFragment implements View.OnClickListener {
     private NumberPicker numberPicker;

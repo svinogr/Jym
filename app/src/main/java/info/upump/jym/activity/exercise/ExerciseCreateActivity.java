@@ -101,7 +101,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         title.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -115,7 +114,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -174,7 +172,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             exerciseDescription.setDefaultImg(null);
             exercise.setExerciseDescription(exerciseDescription);
         }
-        System.out.println(exercise);
         return exercise;
     }
 
@@ -223,7 +220,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
                     break;
             }
         }
-
     }
 
     @Override
@@ -322,7 +318,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
 
     private boolean itemIsNotChanged() {
         Exercise changeableItem = getChangeableItem();
-        System.out.println(changeableItem);
         if (!changeableItem.getExerciseDescription().getTitle().equals(exercise.getExerciseDescription().getTitle()))
             return false;
         if (!changeableItem.getComment().equals(exercise.getComment())) return false;

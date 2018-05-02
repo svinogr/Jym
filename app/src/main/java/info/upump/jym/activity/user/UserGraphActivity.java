@@ -11,17 +11,13 @@ import android.widget.Button;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -174,11 +170,9 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
                 break;
 
         }
-        System.out.println(iLineDataSets.toString());
         lineData = new LineData(iLineDataSets);
         graphView.setData(lineData);
         lineData.setValueFormatter(new MyValueFormatter());
-        //lineData.notifyDataChanged();
         graphView.invalidate();
     }
 
@@ -187,10 +181,8 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
         for (User u : allUser) {
             dates.add(u.getDate());
         }
-        System.out.println(dates.toString());
         iLineDataSets = new ArrayList<>();
         lineData = new LineData(iLineDataSets);
-        // lineData.setValueFormatter(new MyValueFormatter());
         graphView.setData(lineData);
         graphView.getDescription().setEnabled(false);
 
@@ -207,8 +199,6 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
         xAxis.setValueFormatter(formatter);
         xAxis.setGranularity(1.0f);
     }
-
-
 
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, UserGraphActivity.class);
@@ -234,12 +224,10 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
         Collections.sort(list, new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
-
                 return o1.getDate().compareTo(o2.getDate());
             }
         });
     }
-
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {

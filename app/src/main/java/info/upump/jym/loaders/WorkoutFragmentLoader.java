@@ -10,7 +10,10 @@ import java.util.List;
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Workout;
 
-import static info.upump.jym.activity.constant.Constants.*;
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_DEFAULT_TYPE;
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
 
 
 public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
@@ -38,16 +41,16 @@ public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
             case LOADER_BY_PARENT_ID:
                 workoutList = workoutDao.getByParentId(parentId);
                 break;
-                case LOADER_BY_DEFAULT_TYPE:  // для готовых тренировок
+                case LOADER_BY_DEFAULT_TYPE:
                 workoutList = workoutDao.getDefault();
                 break;
             case LOADER_BY_USER_TYPE:
-                workoutList = workoutDao.getTemplateUser();// эзерские темплетй
+                workoutList = workoutDao.getTemplateUser();
                 break;
             case LOADER_BY_TEMPLATE_TYPE:
-                workoutList =  workoutDao.getAllTemplate();// для выбора всех темплейтов, в чуз воркаут
-
+                workoutList =  workoutDao.getAllTemplate();
         }
+
         return workoutList;
     }
 

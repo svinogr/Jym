@@ -2,9 +2,7 @@ package info.upump.jym.fragments.exercises;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -19,7 +17,6 @@ import java.util.List;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
-import info.upump.jym.activity.exercise.ExerciseCreateActivity;
 import info.upump.jym.adapters.ExerciseAdapter;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
@@ -34,7 +31,6 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
     private RecyclerView recyclerView;
 
     public ExerciseListFragmentForViewPager() {
-        // Required empty public constructor
     }
     public static ExerciseListFragmentForViewPager newInstance(TypeMuscle typeMuscle) {
         ExerciseListFragmentForViewPager fragment = new ExerciseListFragmentForViewPager();
@@ -57,7 +53,6 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        System.out.println("onCreateView внутренний");
         View inflate = inflater.inflate(R.layout.exercise_list_fragment_for_view_pager, container, false);
         recyclerView = inflate.findViewById(R.id.exercise_list_fragment_for_view_pager_recycler_view);
 

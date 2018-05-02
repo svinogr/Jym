@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.view.ContextThemeWrapper;
-import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,12 +17,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import info.upump.jym.R;
+import info.upump.jym.activity.exercise.ExerciseDetailTemplateActivity;
 import info.upump.jym.entity.Day;
+import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Workout;
 
-/**
- * Created by explo on 23.03.2018.
- */
 
 abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     protected ImageView imageView;
@@ -35,7 +32,6 @@ abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implemen
 
     public WorkoutViewHolder(View itemView) {
         super(itemView);
-        System.out.println("abstract WorkoutViewHolder");
         this.itemView = itemView;
         imageView = itemView.findViewById(R.id.workout_card_layout_image);
         title = itemView.findViewById(R.id.workout_card_layout_title);
@@ -66,7 +62,6 @@ abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implemen
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
-                .error(R.color.colorTextLabel)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .priority(Priority.HIGH);
 

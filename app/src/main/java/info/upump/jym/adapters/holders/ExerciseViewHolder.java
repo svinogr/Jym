@@ -22,9 +22,8 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 import info.upump.jym.R;
-import info.upump.jym.bd.ExerciseDescriptionDao;
+import info.upump.jym.activity.exercise.ExerciseDetailTemplateActivity;
 import info.upump.jym.entity.Exercise;
-import info.upump.jym.entity.ExerciseDescription;
 
 
 public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -46,7 +45,6 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
         itemView.setOnClickListener(this);
     }
 
-
     @Override
     public void onClick(View v) {
         startActivity();
@@ -58,19 +56,19 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
         this.exercise = exercise;
         setPic();
         title.setText(exercise.getExerciseDescription().getTitle());
+        showExercise();
         setInfo();
-//        setType();
-//
     }
-/*
-    protected void setType() {
-        if (!exercise.isDefaultType()) {
-            type.setText(context.getResources().getString(R.string.card_type_item_exercise));
-        } else
-            type.setText(context.getResources().getString(R.string.card_type_item_default_exercise));
-    }*/
 
-
+    protected void showExercise() {
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = ExerciseDetailTemplateActivity.createIntent(context, exercise);
+                context.startActivity(intent);
+            }
+        });
+    }
     abstract public void setInfo();
 
     private void startActivity() {
@@ -96,24 +94,15 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
                 .priority(Priority.HIGH);
 
         int ident=0;
-//        if (exercise.getExerciseDescription().getImg() != null) {
-//            uri = Uri.parse(exercise.getExerciseDescription().getImg());
-//        }
-        System.out.println("exercise.getExerciseDescription().getDefaultImg() "+exercise.getExerciseDescription().getDefaultImg());
         if (exercise.getExerciseDescription().getDefaultImg() != null) {
             ident = itemView.getContext().getApplicationContext().getResources().getIdentifier(exercise.getExerciseDescription().getDefaultImg(), "drawable", itemView.getContext().getPackageName());
         }
-        System.out.println("ident "+ident);
         if(ident !=0){
             Glide.with(itemView.getContext()).load(ident).apply(options).into(image);
         } else {
             Glide.with(itemView.getContext()).load(Uri.parse(exercise.getExerciseDescription().getImg())).apply(options).into(image);
 
         }
-        /*if (exercise.isDefaultType() && exercise.isTemplate()) {
-            int ident = itemView.getContext().getApplicationContext().getResources().getIdentifier(exercise.getExerciseDescription().getImg(), "drawable", itemView.getContext().getPackageName());
-            Glide.with(itemView.getContext()).load(ident).apply(options).into(image);
-        } else Glide.with(itemView.getContext()).load(uri).apply(options).into(image);*/
     }
 
     protected Context getAnimationContext() {

@@ -1,23 +1,16 @@
 package info.upump.jym.activity.exercise;
 
-import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import info.upump.jym.IControlFragment;
-import info.upump.jym.ITitleble;
 import info.upump.jym.R;
-import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IChooseItem;
-import info.upump.jym.adapters.PagerAdapterExercise;
 import info.upump.jym.adapters.PagerAdapterExerciseForChoose;
 import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.entity.Exercise;
@@ -45,7 +38,6 @@ public class ExerciseActivityForChoose extends AppCompatActivity implements ICho
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         setPageTransform();
-
     }
 
     private void setPageTransform() {
@@ -99,7 +91,6 @@ public class ExerciseActivityForChoose extends AppCompatActivity implements ICho
     }
 
     public static Intent createIntent(Context context, Workout workout) {
-        System.out.println("crate inte");
         Intent intent = new Intent(context, ExerciseActivityForChoose.class);
         intent.putExtra(ID, workout.getId());
         return intent;

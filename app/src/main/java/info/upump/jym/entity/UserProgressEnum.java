@@ -2,7 +2,6 @@ package info.upump.jym.entity;
 
 import info.upump.jym.R;
 
-
 public enum UserProgressEnum {
 
     WEIGHT() {

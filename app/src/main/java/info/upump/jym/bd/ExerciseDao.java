@@ -100,7 +100,6 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         if (delChild) {
             id = sqLiteDatabase.delete(DBHelper.TABLE_EXERCISE, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         }
-        System.out.println(id);
         return id != 0;
     }
 
@@ -153,7 +152,6 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         return getListExercise(cursor);
     }
 
-
     public List<Exercise> getAllByTypeMuscle(TypeMuscle typeMuscle) {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
                 keys, DBHelper.TABLE_KEY_TYPE_EXERCISE + " = ? ", new String[]{typeMuscle.toString()}, null, null, null);
@@ -189,8 +187,6 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     @Override
     public long copyFromTemplate(long idItem, long id) {
-        //insert into cycles (title, comment, default_type, img, start_date, finish_date) select  title, 1, 0, img, start_date, finish_date from cycles where _id = 1
-
         SetDao setDao = new SetDao(context);
         Exercise exercise = getById(idItem);
 
@@ -205,9 +201,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         for (Sets sets : setsList) {
             setDao.copyFromTemplate(sets.getId(), idNewExercise);
         }
+
         return idNewExercise;
-
     }
-
-
 }

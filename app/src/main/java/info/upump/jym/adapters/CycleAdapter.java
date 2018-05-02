@@ -18,10 +18,6 @@ import static info.upump.jym.activity.constant.Constants.LOADER_BY_DEFAULT_TYPE;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
 
 
-/**
- * Created by explo on 22.03.2018.
- */
-
 public class CycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Cycle> cycleList;
     private int type;
@@ -34,7 +30,6 @@ public class CycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate;
-//        = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_card_layout, parent, false);
         RecyclerView.ViewHolder holder = null;
         switch (viewType){
             case LOADER_BY_DEFAULT_TYPE:

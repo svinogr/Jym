@@ -104,7 +104,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
@@ -112,14 +111,12 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
             }
         });
-
     }
 
     protected void setFabVisible() {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                System.out.println(verticalOffset);
                 if (verticalOffset < -20) {
                     if (addFab.isShown()) {
                         addFab.hide();
@@ -208,7 +205,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     private void setDefaultPic() {
         RequestOptions options = getOptionsGlide();
         int ident = getResources().getIdentifier(cycle.getDefaultImg(), "drawable", getPackageName());
-        System.out.println(ident);
         Glide.with(this).load(ident).apply(new RequestOptions()).into(imageView);
     }
 
@@ -233,7 +229,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("req "+requestCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_CHOOSE:
@@ -253,15 +248,12 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     public void updateDescription() {
         CycleDao cycleDao = new CycleDao(this);
         cycle = cycleDao.getById(cycle.getId());
-      /*  collapsingToolbarLayout.setTitle(cycle.getTitle());
-        setPic();*/
         createViewFrom();
         iDescriptionFragment.updateItem(cycle);
     }
 
     private void setPicUri(Uri uri) {
         RequestOptions options = getOptionsGlide();
-        System.out.println("uri" + uri);
         Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
@@ -358,7 +350,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         }
     }
 
-    // update desc
     private void updateItem() {
         Intent intent = CycleCreateActivity.createIntent(this, cycle);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -371,7 +362,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         } else startActivityForResult(intent, UPDATE);
     }
 
-    //    add new work
     private void showDialogCreateItems() {
         String[] inputs = {getString(R.string.workout_dialog_create_new), getString(R.string.workout_dialog_сhoose)};
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -383,13 +373,10 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                 Intent intent;
                 switch (item) {
                     case 1:
-                        System.out.println(1);
-//                        intent = WorkoutActivityForChoose.createIntent(getApplicationContext());
                         intent = WorkoutActivityForChoose.createIntent(getApplicationContext(), cycle);
                         startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
                         break;
                     case 0:
-                        System.out.println(2);
                         Workout workout = new Workout();
                         workout.setDefaultType(false);
                         workout.setTemplate(false);

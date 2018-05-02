@@ -2,10 +2,10 @@ package info.upump.jym.activity.cycle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -15,7 +15,6 @@ import java.util.List;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IChooseItem;
-import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.CycleAdapter;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
@@ -80,9 +79,7 @@ public class CycleActivityForChoose extends AppCompatActivity implements LoaderM
 
     @Override
     public void createIntentForChooseResult(Cycle cycle) {
-       // System.out.println(cycle);
         Intent intent = new Intent();
-     //   intent.putExtra(Constants.ID, cycle.getId());
         CycleDao cycleDao = new CycleDao(this);
         cycleDao.copyFromTemplate(cycle.getId(),0);
         setResult(RESULT_OK, intent);

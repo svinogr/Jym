@@ -40,7 +40,6 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("onCreate");
         super.onCreate(savedInstanceState);
         pagerAdapter = new PagerAdapterExercise(getActivity().getSupportFragmentManager(), getContext());
     }
@@ -50,8 +49,6 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         View inflate = inflater.inflate(R.layout.fragment_exercise, container, false);
-        System.out.println("onCreateView Exerso");
-
         iTitlable.setTitle(getResources().getString(R.string.exercise_fragment_title));
         viewPager = inflate.findViewById(R.id.exercise_fragment_viewpager);
         tabLayout = inflate.findViewById(R.id.exercise_fragment_tab_layout);

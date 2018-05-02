@@ -2,15 +2,10 @@ package info.upump.jym.activity.cycle.fragments;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,11 +21,8 @@ import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
-import info.upump.jym.activity.workout.WorkoutActivityForChoose;
-import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.bd.CycleDao;
-import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
@@ -64,7 +56,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
     }
 
     protected void setAdapter() {
-        System.out.println("CycleFragmentForViewPagerWorkout");
         workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DAY);
     }
 
@@ -142,14 +133,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
 
     @Override
     public void addItem(long idItem) {
-//        System.out.println("id cycle "+cycle.getId());
-//        WorkoutDao workoutDao = new WorkoutDao(getContext());
-//        Workout workout = workoutDao.getById(idItem);
-//        System.out.println(idItem+" "+ workout);
-//        workout.setParentId(cycle.getId());
-//        workoutDao.update(workout);
-//        workoutList.add(workout);
         sortListByDay(workoutList);
-       // workoutAdapter.notifyDataSetChanged();
     }
 }

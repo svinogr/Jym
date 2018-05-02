@@ -77,10 +77,6 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements ID
         iChangeItem.setInterfaceForDescription(this);
     }
 
-    @Override
-    public Cycle getChangeableItem() {
-        return null;
-    }
 
     @Override
     public void updateItem(Cycle object) {

@@ -7,16 +7,10 @@ import android.support.v4.content.AsyncTaskLoader;
 import java.util.List;
 
 import info.upump.jym.bd.SetDao;
-import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Sets;
-import info.upump.jym.entity.Workout;
 
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
-import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
 
-/**
- * Created by explo on 02.04.2018.
- */
 
 public class SetsLoader extends AsyncTaskLoader<List<Sets>> {
     private int operation;
