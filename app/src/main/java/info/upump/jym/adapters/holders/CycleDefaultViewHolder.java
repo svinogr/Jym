@@ -8,6 +8,7 @@ import android.util.Pair;
 import android.view.View;
 
 import info.upump.jym.activity.cycle.CycleDetailDefaultActivity;
+import info.upump.jym.activity.workout.WorkoutDetailDefaultActivity;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.fragments.cycle.CRUD;
 
@@ -16,8 +17,8 @@ import info.upump.jym.fragments.cycle.CRUD;
 * */
 public class CycleDefaultViewHolder extends AbstractCycleViewHolder {
 
-    public CycleDefaultViewHolder(View itemView, CRUD crud) {
-        super(itemView, crud);
+    public CycleDefaultViewHolder(View itemView) {
+        super(itemView);
     }
 
     @Override
@@ -34,15 +35,15 @@ public class CycleDefaultViewHolder extends AbstractCycleViewHolder {
 
     @Override
     void startActivity() {
-        System.out.printf(crud.toString());
+       Intent intent =CycleDetailDefaultActivity.createIntent(context,cycle);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;
             String transitionNameIm = "cycle_card_layout_image";
             ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
                             context,
                     Pair.create(sharedViewIm, transitionNameIm));
-            crud.createIntentForResult(transitionActivityOptions, cycle);
-        } else crud.createIntentForResult(null, cycle);
+            context.startActivity(intent, transitionActivityOptions.toBundle());
+        } else  context.startActivity(intent);
 
     }
 }

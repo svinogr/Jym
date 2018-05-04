@@ -12,7 +12,7 @@ import info.upump.jym.activity.workout.WorkoutDetailDefaultActivity;
 /*
 * holder for activity with default workouts in default cycle
 * */
-public class WorkoutDayDefaultViewHolder extends WorkoutViewHolder {
+public class WorkoutDayDefaultViewHolder extends AbstractWorkoutViewHolder {
 
     public WorkoutDayDefaultViewHolder(View itemView) {
         super(itemView);
@@ -27,7 +27,7 @@ public class WorkoutDayDefaultViewHolder extends WorkoutViewHolder {
     }
 
     @Override
-    public void onClick(View v) {
+    void startActivity() {
         Intent intent = WorkoutDetailDefaultActivity.createIntent(context,workout);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;

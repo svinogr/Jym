@@ -1,37 +1,110 @@
 package info.upump.jym.fragments.workout;
 
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import info.upump.jym.ITitleble;
 import info.upump.jym.R;
 import info.upump.jym.activity.workout.WorkoutCreateActivity;
+import info.upump.jym.activity.workout.WorkoutDetailActivity;
 import info.upump.jym.adapters.WorkoutAdapter;
+import info.upump.jym.bd.WorkoutDao;
+import info.upump.jym.entity.Day;
 import info.upump.jym.entity.Workout;
-import info.upump.jym.loaders.WorkoutFragmentLoader;
+import info.upump.jym.fragments.cycle.CRUD;
+import info.upump.jym.loaders.ASTWorkout;
 
+import static info.upump.jym.activity.constant.Constants.CREATE;
+import static info.upump.jym.activity.constant.Constants.DAY;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.DESCRIPTION;
+import static info.upump.jym.activity.constant.Constants.ERROR;
+import static info.upump.jym.activity.constant.Constants.FINISH_DATA;
+import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
+import static info.upump.jym.activity.constant.Constants.PARENT_ID;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CREATE;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.TEMPLATE_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.TITLE;
+import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
+import static info.upump.jym.activity.constant.Constants.WEEK_EVEN;
 
-public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Workout>>, View.OnClickListener {
+public class WorkoutFragment extends Fragment implements View.OnClickListener, CRUD<Workout> {
     protected ITitleble iTitleble;
     protected RecyclerView recyclerView;
     protected WorkoutAdapter workoutAdapter;
     protected List<Workout> workoutList = new ArrayList<>();
     protected FloatingActionButton addFab;
+    protected ASTWorkout astWorkout;
+    private int index = -1;
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == DELETE) {
+                Toast.makeText(getContext(), R.string.toast_cycle_delete, Toast.LENGTH_SHORT).show();
+            }
+
+            if (msg.what == UPDATE) {
+                Workout workout = (Workout) msg.obj;
+                long id = workout.getId();
+                int index = -1;
+                for (Workout delWorkout : workoutList) {
+                    if (delWorkout.getId() == id) {
+                        index = workoutList.indexOf(delWorkout);
+                        break;
+                    }
+                }
+                if (index != -1) {
+                    workoutList.set(index, workout);
+                    recyclerView.smoothScrollToPosition(index);
+                    workoutAdapter.notifyItemChanged(index);
+                }
+            }
+
+            if (msg.what == ERROR) {
+                long id = (long) msg.obj;
+                Toast.makeText(getContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+                insertDeletedItem(id);
+            }
+
+
+            if (msg.what == CREATE) {
+                Workout workout = (Workout) msg.obj;
+                workoutList.add(workout);
+                int position = workoutList.size() - 1;
+                workoutAdapter.notifyItemInserted(position);
+                recyclerView.smoothScrollToPosition(position);
+            }
+        }
+    };
+
+    private void insertDeletedItem(long id) {
+        WorkoutDao workoutDao = new WorkoutDao(getContext());
+        Workout workout = workoutDao.getById(id);
+        workoutList.add(index, workout);
+        workoutAdapter.notifyItemInserted(index);
+    }
 
     public WorkoutFragment() {
     }
@@ -48,7 +121,20 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+        createAsyncTask();
+        try {
+            workoutList = astWorkout.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         createAdapter();
+    }
+
+    protected void createAsyncTask() {
+        astWorkout = new ASTWorkout(getContext());
+        astWorkout.execute(LOADER_BY_USER_TYPE);
     }
 
     @Override
@@ -74,7 +160,7 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
 
 
     protected void createAdapter() {
-        workoutAdapter = new WorkoutAdapter(workoutList, LOADER_BY_USER_TYPE);
+        workoutAdapter = new WorkoutAdapter(workoutList, LOADER_BY_USER_TYPE, this);
     }
 
     protected void setFab() {
@@ -102,26 +188,9 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        getLoaderManager().initLoader(0, null, this);
         iTitleble = (ITitleble) context;
     }
 
-    @Override
-    public Loader<List<Workout>> onCreateLoader(int id, Bundle args) {
-        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(getContext(), LOADER_BY_USER_TYPE);
-        return workoutFragmentLoader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Workout>> loader, List<Workout> data) {
-        workoutList.clear();
-        workoutList.addAll(data);
-        workoutAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Workout>> loader) {
-    }
 
     @Override
     public void onClick(View v) {
@@ -136,6 +205,106 @@ public class WorkoutFragment extends Fragment implements LoaderManager.LoaderCal
         Workout workout = new Workout();
         workout.setId(-1);
         Intent intent = WorkoutCreateActivity.createIntent(getContext(), workout);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_CREATE);
+    }
+
+    @Override
+    public void createIntentForResult(ActivityOptions activityOptions, Workout workout) {
+        Intent intent = WorkoutDetailActivity.createIntent(getContext(), workout);
+        if (activityOptions != null) {
+            startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN, activityOptions.toBundle());
+        } else startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == -1) {
+            if (requestCode == REQUEST_CODE_CHANGE_OPEN) {
+                long id = data.getLongExtra(ID, 0);
+                int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
+                switch (changeOrDelete) {
+                    case UPDATE:
+                        updateItem(id);
+                        break;
+                    case DELETE:
+                        deleteItem(id);
+                        break;
+                }
+
+            }
+            if (requestCode == REQUEST_CODE_CREATE) {
+                addNewItem(data);
+            }
+        }
+    }
+
+    private void addNewItem(Intent data) {
+        final Workout workout = new Workout();
+        workout.setTitle(data.getStringExtra(TITLE));
+        workout.setComment(data.getStringExtra(DESCRIPTION));
+        workout.setWeekEven(data.getBooleanExtra(WEEK_EVEN, false));
+        workout.setDefaultType(data.getBooleanExtra(DEFAULT_TYPE_ITEM, false));
+        workout.setTemplate(data.getBooleanExtra(TEMPLATE_TYPE_ITEM, false));
+        workout.setDay(Day.valueOf(data.getStringExtra(DAY)));
+        workout.setStartDate(data.getStringExtra(START_DATA));
+        workout.setFinishDate(data.getStringExtra(FINISH_DATA));
+        workout.setParentId(data.getLongExtra(PARENT_ID, 0));
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getContext());
+                long id = workoutDao.create(workout);
+                if (id != -1) {
+                    workout.setId(id);
+                    handler.sendMessageDelayed(handler.obtainMessage(CREATE, workout), 0);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void updateItem(final long id) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getContext());
+                Workout workout = workoutDao.getById(id);
+                if (workout != null) {
+                    handler.sendMessageDelayed(handler.obtainMessage(UPDATE, workout), 0);
+                }
+            }
+        });
+        thread.start();
+
+    }
+
+    private void deleteItem(final long id) {
+        for (Workout delWorkout : workoutList) {
+            if (delWorkout.getId() == id) {
+                index = workoutList.indexOf(delWorkout);
+                break;
+            }
+        }
+
+        if (index != -1) {
+            workoutList.remove(index);
+            workoutAdapter.notifyItemRemoved(index);
+            workoutAdapter.notifyItemRangeChanged(index, workoutList.size());
+        }
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getContext());
+                Workout workout = new Workout();
+                workout.setId(id);
+                if (workoutDao.delete(workout)) {
+                    handler.sendMessageDelayed(handler.obtainMessage(DELETE, id), 0);
+                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR, id), 0);
+            }
+        });
+        thread.start();
     }
 }

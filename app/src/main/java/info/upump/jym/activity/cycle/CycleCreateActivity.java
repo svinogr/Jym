@@ -37,7 +37,13 @@ import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 
+import static info.upump.jym.activity.constant.Constants.DEFAULT_IMAGE;
+import static info.upump.jym.activity.constant.Constants.DESCRIPTION;
+import static info.upump.jym.activity.constant.Constants.FINISH_DATA;
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.IMAGE;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.TITLE;
 
 public class CycleCreateActivity extends AppCompatActivity implements View.OnClickListener {
     public static final int REQUEST_CODE_CREATE_CYCLE = 1;
@@ -335,14 +341,34 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             return;
         }
         Cycle cycleSave = getChangeableItem();
-        long id = cycleDao.create(cycleSave);
-        if (id != -1) {
+       // long id = cycleDao.create(cycleSave);
+     //   if (id != -1) {
             Toast.makeText(this, R.string.toast_cycle_saved, Toast.LENGTH_SHORT).show();
+         /*   changeable.setId(cycle.getId());
+            changeable.setTitle(title.getText().toString());
+            changeable.setComment(description.getText().toString());
+            changeable.setStartDate(startTextData.getText().toString());
+            changeable.setFinishDate(finishTextData.getText().toString());
+            if (uriImage != null) {
+                changeable.setImage(uriImage.toString());
+                changeable.setDefaultImg(null);
+            }else {
+                changeable.setDefaultImg(cycle.getDefaultImg());
+                changeable.setImage(cycle.getImage());
+            }*/
+
+
             Intent intent = new Intent();
-            intent.putExtra(ID,id );
+            intent.putExtra(TITLE, cycleSave.getTitle() );
+            intent.putExtra(DESCRIPTION, cycleSave.getComment());
+            intent.putExtra(START_DATA, cycleSave.getStartStringFormatDate());
+            intent.putExtra(FINISH_DATA, cycleSave.getFinishStringFormatDate());
+            intent.putExtra(IMAGE, cycleSave.getImage());
+            intent.putExtra(DEFAULT_IMAGE, cycleSave.getDefaultImg());
+//            intent.putExtra(ID,id );
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
-        } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
+        //} else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
     }
 
 

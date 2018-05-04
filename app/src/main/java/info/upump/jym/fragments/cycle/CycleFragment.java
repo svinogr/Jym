@@ -35,16 +35,22 @@ import info.upump.jym.entity.Cycle;
 import info.upump.jym.loaders.ASTCycle;
 
 import static info.upump.jym.activity.constant.Constants.CREATE;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_IMAGE;
 import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.DESCRIPTION;
 import static info.upump.jym.activity.constant.Constants.ERROR;
+import static info.upump.jym.activity.constant.Constants.FINISH_DATA;
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.IMAGE;
 import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
 import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHOOSE;
 import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CREATE;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.TITLE;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
 import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 
-public class CycleFragment extends Fragment implements View.OnClickListener, CRUD {
+public class CycleFragment extends Fragment implements View.OnClickListener, CRUD<Cycle> {
     protected ITitleble iTitlable;
     protected RecyclerView recyclerView;
     protected CycleAdapter cycleAdapter;
@@ -114,9 +120,9 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+
         createAsyncTask();
+
 
         try {
             cycleList = astCycle.get();
@@ -246,18 +252,28 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
             }
             if (requestCode == REQUEST_CODE_CREATE) {
                 long id = data.getLongExtra(ID, 0);
-                addNewItem(id);
+                addNewItem(data);
             }
         }
     }
 
-    private void addNewItem(final long id) {
+    private void addNewItem(Intent data) {
+        final Cycle cycle = new Cycle();
+        cycle.setTitle(data.getStringExtra(TITLE));
+        cycle.setComment(data.getStringExtra(DESCRIPTION));
+        cycle.setStartDate(data.getStringExtra(START_DATA));
+        cycle.setFinishDate(data.getStringExtra(FINISH_DATA));
+        cycle.setImage(data.getStringExtra(IMAGE));
+        cycle.setDefaultImg(data.getStringExtra(DEFAULT_IMAGE));
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+
                 CycleDao cycleDao = new CycleDao(getContext());
-                Cycle cycle = cycleDao.getById(id);
-                if (cycle != null) {
+                long id = cycleDao.create(cycle);
+                if (id != -1) {
+                        cycle.setId(id);
                     handler.sendMessageDelayed(handler.obtainMessage(CREATE, cycle), 0);
                 }
             }

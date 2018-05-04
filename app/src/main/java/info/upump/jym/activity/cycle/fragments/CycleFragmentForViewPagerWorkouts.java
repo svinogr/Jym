@@ -56,7 +56,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
     }
 
     protected void setAdapter() {
-        workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DAY);
+        workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DAY, null);
     }
 
     @Override

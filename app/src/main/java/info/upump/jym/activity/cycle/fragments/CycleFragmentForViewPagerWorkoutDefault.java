@@ -9,7 +9,7 @@ import info.upump.jym.entity.Cycle;
 public class CycleFragmentForViewPagerWorkoutDefault extends CycleFragmentForViewPagerWorkouts {
     @Override
     protected void setAdapter() {
-        workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DAY_DEFAULT);
+        workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DAY_DEFAULT, null);
     }
 
     public static CycleFragmentForViewPagerWorkoutDefault newInstance(Cycle cycle) {

@@ -6,7 +6,7 @@ import info.upump.jym.R;
 import info.upump.jym.activity.IChooseItem;
 
 
-public class WorkoutDefaultChooseViewHolder extends WorkoutTemplateViewHolder {
+public class WorkoutDefaultChooseViewHolder extends AbstractWorkoutViewHolder {
     private IChooseItem iChooseItem;
 
     public WorkoutDefaultChooseViewHolder(View itemView) {
@@ -14,8 +14,9 @@ public class WorkoutDefaultChooseViewHolder extends WorkoutTemplateViewHolder {
         iChooseItem = (IChooseItem) context;
     }
 
+
     @Override
-    public void onClick(View v) {
+    void startActivity() {
         iChooseItem.createIntentForChooseResult(workout);
     }
 

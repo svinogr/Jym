@@ -11,7 +11,7 @@ import info.upump.jym.R;
 import info.upump.jym.activity.workout.WorkoutDetailActivity;
 
 
-public class WorkoutDayViewHolder extends WorkoutViewHolder {
+public class WorkoutDayViewHolder extends AbstractWorkoutViewHolder {
     public WorkoutDayViewHolder(View itemView) {
         super(itemView);
     }
@@ -36,6 +36,11 @@ public class WorkoutDayViewHolder extends WorkoutViewHolder {
             context.startActivity(intent, transitionActivityOptions.toBundle());
 
         } else context.startActivity(intent);
+    }
+
+    @Override
+    void startActivity() {
+
     }
 
 }

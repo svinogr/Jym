@@ -9,6 +9,6 @@ import info.upump.jym.entity.Cycle;
  * Created by explo on 03.05.2018.
  */
 
-public interface CRUD {
-  void createIntentForResult(ActivityOptions activityOptions, Cycle cycle);
+public interface CRUD<T> {
+  void createIntentForResult(ActivityOptions activityOptions, T object);
 }

@@ -41,7 +41,7 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
 
         getSupportLoaderManager().initLoader(0, null, this);
 
-        workoutAdapter = new WorkoutAdapter(workoutList, DEFAULT_TYPE_CHOOSE);
+        workoutAdapter = new WorkoutAdapter(workoutList, DEFAULT_TYPE_CHOOSE, null);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
         recyclerView = findViewById(R.id.activity_workout_for_choose_recycler_view);

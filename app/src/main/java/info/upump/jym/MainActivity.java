@@ -42,7 +42,6 @@ import info.upump.jym.fragments.cycle.CycleFragment;
 import info.upump.jym.fragments.cycle.CycleFragmentDefault;
 import info.upump.jym.fragments.exercises.ExerciseFragment;
 import info.upump.jym.fragments.user.UserFragment;
-import info.upump.jym.fragments.workout.WorkoutDefaultFragment;
 import info.upump.jym.fragments.workout.WorkoutFragment;
 
 public class MainActivity extends AppCompatActivity

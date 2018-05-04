@@ -23,14 +23,14 @@ import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Workout;
 
 
-abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+abstract public class AbstractWorkoutViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     protected ImageView imageView;
     protected TextView title, variably, week;
     protected View itemView;
     protected Workout workout;
     protected Context context;
 
-    public WorkoutViewHolder(View itemView) {
+    public AbstractWorkoutViewHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
         imageView = itemView.findViewById(R.id.workout_card_layout_image);
@@ -50,8 +50,11 @@ abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implemen
 
     abstract void setVariablyField();
 
-    @Override
-    abstract public void onClick(View v);
+    public void onClick(View v) {
+        startActivity();
+    }
+
+    abstract void startActivity();
 
     protected void setPic() {
         Day day = workout.getDay();
@@ -68,11 +71,11 @@ abstract public class WorkoutViewHolder extends RecyclerView.ViewHolder implemen
         Glide.with(itemView.getContext()).load(bitmap).into(imageView);
     }
 
-    protected Context getAnimationContext(){
+    protected Context getAnimationContext() {
 
-        if(context instanceof Activity){
-            context = (Activity)context;
-        } else context =  ((ContextThemeWrapper) context).getBaseContext();
+        if (context instanceof Activity) {
+            context = (Activity) context;
+        } else context = ((ContextThemeWrapper) context).getBaseContext();
         return context;
     }
 }

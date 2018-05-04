@@ -43,7 +43,7 @@ public class CycleAdapter extends RecyclerView.Adapter<AbstractCycleViewHolder> 
         switch (viewType) {
             case LOADER_BY_DEFAULT_TYPE:
                 inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_default_card_layout, parent, false);
-                holder = new CycleDefaultViewHolder(inflate, crud);
+                holder = new CycleDefaultViewHolder(inflate);
                 break;
             case LOADER_BY_USER_TYPE:
                 inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_card_layout, parent, false);
@@ -51,7 +51,7 @@ public class CycleAdapter extends RecyclerView.Adapter<AbstractCycleViewHolder> 
                 break;
             case DEFAULT_TYPE_CHOOSE:
                 inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_card_layout, parent, false);
-                holder = new CycleDefaultChooseViewHolder(inflate, crud);
+                holder = new CycleDefaultChooseViewHolder(inflate);
                 break;
         }
         return holder;

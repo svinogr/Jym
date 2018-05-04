@@ -87,8 +87,8 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
         cycle = getItemFromIntent();
 
-        if(savedInstanceState  != null){
-            if(savedInstanceState.getBoolean(UPDATE_DELETE) != false){
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean(UPDATE_DELETE) != false) {
                 update = true;
             }
         }
@@ -316,7 +316,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     }
 
     protected void finishActivityWithAnimation() {
-        if(update){
+        if (update) {
             Intent intent = new Intent();
             intent.putExtra(ID, cycle.getId());
             intent.putExtra(UPDATE_DELETE, UPDATE);
@@ -329,11 +329,11 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
     @Override
     public void delete(long id) {
-            Intent intent = new Intent();
-            intent.putExtra(ID, id);
-            intent.putExtra(UPDATE_DELETE,DELETE);
-            setResult(RESULT_OK, intent);
-           finishActivityWithAnimation();
+        Intent intent = new Intent();
+        intent.putExtra(ID, id);
+        intent.putExtra(UPDATE_DELETE, DELETE);
+        setResult(RESULT_OK, intent);
+        finishActivityWithAnimation();
     }
 
     @Override
@@ -410,7 +410,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(UPDATE_DELETE, update);
     }

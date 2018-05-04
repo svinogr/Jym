@@ -37,8 +37,17 @@ import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Day;
 import info.upump.jym.entity.Workout;
 
+import static info.upump.jym.activity.constant.Constants.DAY;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.DESCRIPTION;
+import static info.upump.jym.activity.constant.Constants.FINISH_DATA;
 import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.PARENT_ID;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.TEMPLATE_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.TITLE;
+import static info.upump.jym.activity.constant.Constants.WEEK_EVEN;
 
 public class WorkoutCreateActivity extends AppCompatActivity {
     private EditText title, description;
@@ -141,10 +150,10 @@ public class WorkoutCreateActivity extends AppCompatActivity {
     }
 
     private Workout getFromIntent() {
-         long id = getIntent().getLongExtra(ID, 0);
-       long  idParent = getIntent().getLongExtra(PARENT_ID,0);
+        long id = getIntent().getLongExtra(ID, 0);
+        long idParent = getIntent().getLongExtra(PARENT_ID, 0);
         Workout workout;
-        switch ((int)id){
+        switch ((int) id) {
             case 0:
                 workout = new Workout();
                 workout.setParentId(idParent);
@@ -154,7 +163,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
                 workout.setTemplate(true);
                 workout.setDefaultType(false);
                 break;
-           default:
+            default:
                 WorkoutDao workoutDao = new WorkoutDao(this);
                 workout = workoutDao.getById(id);
                 break;
@@ -226,8 +235,8 @@ public class WorkoutCreateActivity extends AppCompatActivity {
 
     private boolean onlyWeek() {
         Workout workoutC = getChangeableItem();
-        if(!workoutC.getTitle().equals("")) return false;
-        if(!workoutC.getComment().equals("")) return false;
+        if (!workoutC.getTitle().equals("")) return false;
+        if (!workoutC.getComment().equals("")) return false;
         return true;
     }
 
@@ -235,7 +244,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         Workout changeableItem = getChangeableItem();
         if (!changeableItem.getTitle().equals(workout.getTitle())) return false;
         if (!changeableItem.getComment().equals(workout.getComment())) return false;
-        if(changeableItem.isWeekEven() != workout.isWeekEven()) return false;
+        if (changeableItem.isWeekEven() != workout.isWeekEven()) return false;
         if (!changeableItem.getDay().toString().equals(workout.getDay().toString())) return false;
         return true;
     }
@@ -273,16 +282,20 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
         }
-        WorkoutDao workoutDao = new WorkoutDao(this);
         Workout workoutSave = getChangeableItem();
-        long id = workoutDao.create(workoutSave);
-        if (id != -1) {
-            workoutSave.setId(id);
-            Toast.makeText(this, R.string.toast_workout_saved, Toast.LENGTH_SHORT).show();
-            Intent intent = createIntentForResult(workoutSave.getId()); // при создании из вне
-            setResult(RESULT_OK, intent);
-            finishActivityWithAnimation();
-        } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.toast_workout_saved, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.putExtra(TITLE, workoutSave.getTitle());
+        intent.putExtra(DESCRIPTION, workoutSave.getComment());
+        intent.putExtra(WEEK_EVEN, workoutSave.isWeekEven());
+        intent.putExtra(DEFAULT_TYPE_ITEM, workoutSave.isDefaultType());
+        intent.putExtra(TEMPLATE_TYPE_ITEM, workoutSave.isTemplate());
+        intent.putExtra(DAY, workoutSave.getDay().toString());
+        intent.putExtra(START_DATA, workoutSave.getStartStringFormatDate());
+        intent.putExtra(FINISH_DATA, workoutSave.getFinishStringFormatDate());
+        intent.putExtra(PARENT_ID, workoutSave.getParentId());
+        setResult(RESULT_OK, intent);
+        finishActivityWithAnimation();
     }
 
     private void update() {

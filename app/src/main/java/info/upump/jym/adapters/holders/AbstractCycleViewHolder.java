@@ -32,11 +32,10 @@ public abstract class AbstractCycleViewHolder extends RecyclerView.ViewHolder im
     protected Cycle cycle;
     protected View itemView;
     protected Context context;
-    protected CRUD crud; // interface for create intents
 
-    public AbstractCycleViewHolder(View itemView, CRUD crud) {
+
+    public AbstractCycleViewHolder(View itemView) {
         super(itemView);
-        this.crud = crud;
         this.itemView = itemView;
         this.context = itemView.getContext();
         title = itemView.findViewById(R.id.cycle_card_layout_title);

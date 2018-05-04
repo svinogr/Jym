@@ -37,8 +37,10 @@ import info.upump.jym.adapters.PagerAdapterWorkout;
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Workout;
 
+import static info.upump.jym.activity.constant.Constants.DELETE;
 import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 
 public class WorkoutDetailActivity extends AppCompatActivity implements IChangeItem<Workout>, View.OnClickListener {
     protected Workout workout;
@@ -51,6 +53,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     protected FloatingActionButton addFab;
     protected TabLayout tabLayout;
     private AppBarLayout appBarLayout;
+    private boolean update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,11 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         workout = getItemFromIntent();
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean(UPDATE_DELETE) != false) {
+                update = true;
+            }
+        }
         setPagerAdapter();
 
         addFab = findViewById(R.id.workout_activity_detail_fab_main);
@@ -219,11 +227,11 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
     @Override
     public void delete(long id) {
-        WorkoutDao workoutDao = new WorkoutDao(this);
-        if (workoutDao.delete(workout)) {
-            Toast.makeText(this, R.string.toast_workout_delete, Toast.LENGTH_SHORT).show();
-            finishActivityWithAnimation();
-        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.putExtra(ID, id);
+        intent.putExtra(UPDATE_DELETE, DELETE);
+        setResult(RESULT_OK, intent);
+        finishActivityWithAnimation();
     }
 
     @Override
@@ -241,6 +249,13 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     }
 
     protected void finishActivityWithAnimation() {
+        if (update) {
+            Intent intent = new Intent();
+            intent.putExtra(ID, workout.getId());
+            intent.putExtra(UPDATE_DELETE, UPDATE);
+            setResult(RESULT_OK, intent);
+        }
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();
@@ -297,6 +312,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                     iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0)); // можно удалить
                     break;
                 case Constants.UPDATE:
+                    update = true;
                     updateDescription();
                     break;
             }
@@ -340,5 +356,11 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     private void showDialogCreateItems() {
         Intent intent = ExerciseActivityForChoose.createIntent(this, workout);
         startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(UPDATE_DELETE, update);
     }
 }

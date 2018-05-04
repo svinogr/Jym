@@ -11,8 +11,8 @@ import info.upump.jym.fragments.cycle.CRUD;
 public class CycleDefaultChooseViewHolder extends AbstractCycleViewHolder {
     private IChooseItem iChooseItem;
 
-    public CycleDefaultChooseViewHolder(View itemView, CRUD crud) {
-        super(itemView, crud);
+    public CycleDefaultChooseViewHolder(View itemView) {
+        super(itemView);
         iChooseItem = (IChooseItem) context;
     }
 
