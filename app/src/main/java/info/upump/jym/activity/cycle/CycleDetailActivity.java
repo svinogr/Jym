@@ -43,6 +43,7 @@ import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
 
+import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
 
 public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle>, View.OnClickListener {
@@ -312,12 +313,10 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
     @Override
     public void delete(long id) {
-        CycleDao cycleDao = new CycleDao(this);
-        if (cycleDao.delete(cycle)) {
-            Toast.makeText(this, R.string.toast_cycle_delete, Toast.LENGTH_SHORT).show();
-            finishActivityWithAnimation();
-        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
-
+            Intent intent = new Intent();
+            intent.putExtra(ID, id);
+            setResult(RESULT_OK, intent);
+           finishActivityWithAnimation();
     }
 
     @Override

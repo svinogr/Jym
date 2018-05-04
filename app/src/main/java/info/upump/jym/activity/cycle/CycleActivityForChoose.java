@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,14 @@ import info.upump.jym.entity.Cycle;
 import info.upump.jym.loaders.CycleFragmentLoader;
 
 import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_CHOOSE;
+import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_DEFAULT_TYPE;
 
 public class CycleActivityForChoose extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Cycle>>, IChooseItem<Cycle> {
     private RecyclerView recyclerView;
     private CycleAdapter cycleAdapter;
     private List<Cycle> cycleList = new ArrayList<>();
+    private ProgressBar progressBar;
 
 
     @Override
@@ -41,6 +44,7 @@ public class CycleActivityForChoose extends AppCompatActivity implements LoaderM
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
         recyclerView = findViewById(R.id.activity_cycle_for_choose_recycler_view);
+        progressBar = findViewById(R.id.activity_cycle_for_choose_progress_bar);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(cycleAdapter);
     }
@@ -83,7 +87,7 @@ public class CycleActivityForChoose extends AppCompatActivity implements LoaderM
         CycleDao cycleDao = new CycleDao(this);
         //TODO 1
 //        cycleDao.copyFromTemplate(cycle.getId(),0);
-        cycleDao.alter(cycle.getId(),0);
+        intent.putExtra(ID, cycle.getId());
         setResult(RESULT_OK, intent);
         finish();
     }

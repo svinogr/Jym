@@ -18,9 +18,10 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     public WorkoutDao(Context context) {
         super(context);
     }
-    private static String sql  = "insert into "+ DBHelper.TABLE_WORKOUT + " values(?,?,?,?,?,?,?,?,?,?);";
-    private static String sql1 = "insert into " + DBHelper.TABLE_EXERCISE + " values(?,?,?,?,?,?,?,?,?);";
-    private static String sql2 = "insert into " + DBHelper.TABLE_SET + " values(?,?,?,?,?,?,?);";
+
+    private static String sqlForWorkout = "insert into " + DBHelper.TABLE_WORKOUT + " values(?,?,?,?,?,?,?,?,?,?);";
+    private static String sqlForExercise = "insert into " + DBHelper.TABLE_EXERCISE + " values(?,?,?,?,?,?,?,?,?);";
+    private static String sqlForSets = "insert into " + DBHelper.TABLE_SET + " values(?,?,?,?,?,?,?);";
 
     private List<Workout> workoutList;
 
@@ -91,7 +92,6 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     }
 
 
-
     @Override
     public boolean update(Workout object) {
         ContentValues cv = getContentValuesFrom(object);
@@ -130,12 +130,11 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     }
 
 
-
     @Override
     public boolean delete(Workout object) {
         if (object.isDefaultType()) return false;
         boolean delChild = clear(object.getId());
-        long id=0;
+        long id = 0;
         if (delChild) {
             id = sqLiteDatabase.delete(DBHelper.TABLE_WORKOUT, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         }
@@ -143,7 +142,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     }
 
     @Override
-   public  boolean clear(long id) {
+    public boolean clear(long id) {
         List<Exercise> exerciseList;
         ExerciseDao exerciseDao = new ExerciseDao(context);
         exerciseList = exerciseDao.getByParentId(id);
@@ -157,7 +156,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
     public List<Workout> getTemplateUser() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
-                DBHelper.TABLE_KEY_TEMPLATE + " =? and "+DBHelper.TABLE_KEY_DEFAULT+ " = ?", new String[]{String.valueOf(1),String.valueOf(0)}, null, null, null
+                DBHelper.TABLE_KEY_TEMPLATE + " =? and " + DBHelper.TABLE_KEY_DEFAULT + " = ?", new String[]{String.valueOf(1), String.valueOf(0)}, null, null, null
         );
         workoutList = new ArrayList<>();
         if (cursor.moveToFirst()) {
@@ -172,7 +171,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
     public List<Workout> getAllTemplate() {//
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
-                DBHelper.TABLE_KEY_TEMPLATE + " =? " , new String[]{String.valueOf(1)}, null, null, null
+                DBHelper.TABLE_KEY_TEMPLATE + " =? ", new String[]{String.valueOf(1)}, null, null, null
         );
         workoutList = new ArrayList<>();
         if (cursor.moveToFirst()) {
@@ -184,110 +183,83 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
         return workoutList;
     }
-/*
-     DBHelper.TABLE_KEY_ID,
-            DBHelper.TABLE_KEY_TITLE,
-            DBHelper.TABLE_KEY_COMMENT,
-            DBHelper.TABLE_KEY_WEEK_EVEN,
-            DBHelper.TABLE_KEY_DEFAULT,
-            DBHelper.TABLE_KEY_TEMPLATE,
-            DBHelper.TABLE_KEY_DAY,
-            DBHelper.TABLE_KEY_START_DATE,
-            DBHelper.TABLE_KEY_FINISH_DATE,
-            DBHelper.TABLE_KEY_PARENT_ID};*/
 
 
-public void  alter(long idFrom, long idTarget){
-    List<Workout> workoutList = getByParentId(idFrom);
-    ExerciseDao exerciseDao = new ExerciseDao(context);
-    SetDao setDao = new SetDao(context);
-    SQLiteStatement  sqLiteStatement = sqLiteDatabase.compileStatement(sql);
-    sqLiteDatabase.beginTransaction();
-    try {
+    public void alter(long idFrom, long idTarget) {
+        long start = System.currentTimeMillis();
+        SQLiteStatement sqLiteStatementWorkout = sqLiteDatabase.compileStatement(sqlForWorkout);
+        ExerciseDao exerciseDao = new ExerciseDao(context);
+        SetDao setDao = new SetDao(context);
 
-        for (Workout workout : workoutList) {
-            workout.setTemplate(false);
-            workout.setDefaultType(false);
-            workout.setParentId(idTarget);
-            sqLiteStatement.clearBindings();
-            sqLiteStatement.bindString(2, workout.getTitle());
-            sqLiteStatement.bindString(3, workout.getComment());
-            sqLiteStatement.bindLong(4, workout.isWeekEven() ? 1 : 0);
-            sqLiteStatement.bindLong(5,workout.isDefaultType() ? 1 : 0);
-            sqLiteStatement.bindLong(6, workout.isTemplate()? 1 : 0);
-            sqLiteStatement.bindString(7,workout.getDay().toString());
-            sqLiteStatement.bindString(8, workout.getStartStringFormatDate());
-            sqLiteStatement.bindString(9, workout.getFinishStringFormatDate());
-            sqLiteStatement.bindLong(10, idTarget);
-            long l = sqLiteStatement.executeInsert();
-            workout.setParentId(idFrom);
-            workout.setId(l);
-        }
+        Workout workout = getById(idFrom);
+        workout.setParentId(idTarget);
+        workout.setTemplate(false);
+        workout.setDefaultType(false);
+        sqLiteDatabase.beginTransaction();
+        try {
+            sqLiteStatementWorkout.clearBindings();
+            sqLiteStatementWorkout.bindString(2, workout.getTitle());
+            sqLiteStatementWorkout.bindString(3, workout.getComment());
+            sqLiteStatementWorkout.bindLong(4, workout.isWeekEven() ? 1 : 0);
+            sqLiteStatementWorkout.bindLong(5, workout.isDefaultType() ? 1 : 0);
+            sqLiteStatementWorkout.bindLong(6, workout.isTemplate() ? 1 : 0);
+            sqLiteStatementWorkout.bindString(7, workout.getDay().toString());
+            sqLiteStatementWorkout.bindString(8, workout.getStartStringFormatDate());
+            sqLiteStatementWorkout.bindString(9, workout.getFinishStringFormatDate());
+            sqLiteStatementWorkout.bindLong(10, idTarget);
+            long idNewWorkout = sqLiteStatementWorkout.executeInsert();
+            workout.setId(idNewWorkout);
 
-        for (Workout workout : workoutList) {
+            List<Exercise> list = exerciseDao.getByParentId(idFrom);
+            SQLiteStatement sqLiteStatementExercise = sqLiteDatabase.compileStatement(sqlForExercise);
 
-            List<Exercise> list = exerciseDao.getByParentId(workout.getParentId());
-            SQLiteStatement sqLiteStatement1 = sqLiteDatabase.compileStatement(sql1);
-
-            for (Exercise exercise : list) {
-                exercise.setParentId(workout.getId());
-                exercise.setTemplate(false);
-                exercise.setDefaultType(false);
-                sqLiteStatement1.clearBindings();
-                sqLiteStatement1.bindString(2, exercise.getComment());
-                sqLiteStatement1.bindLong(3, exercise.getDescriptionId());
-                sqLiteStatement1.bindString(4, exercise.getTypeMuscle().toString());
-                sqLiteStatement1.bindLong(5, exercise.isDefaultType() ? 1 : 0);
-                sqLiteStatement1.bindLong(6, exercise.isTemplate() ? 1 : 0);
-                sqLiteStatement1.bindString(7, exercise.getStartStringFormatDate());
-                sqLiteStatement1.bindString(8, exercise.getFinishStringFormatDate());
-                sqLiteStatement1.bindLong(9, exercise.getParentId());
-                long l = sqLiteStatement1.executeInsert();
-                exercise.setParentId(exercise.getId());
-                exercise.setId(l);
-            }
-
-            for (Exercise exercise : list) {
-                List<Sets> setsList = setDao.getByParentId(exercise.getParentId());
-                SQLiteStatement sqLiteStatement2 = sqLiteDatabase.compileStatement(sql2);
-                //  sqLiteDatabase.beginTransaction();
-
-                for (Sets sets : setsList) {
-                    sqLiteStatement2.clearBindings();
-                    sqLiteStatement2.bindDouble(3, sets.getWeight());
-                    sqLiteStatement2.bindLong(4, sets.getReps());
-                    sqLiteStatement2.bindString(5, sets.getStartStringFormatDate());
-                    sqLiteStatement2.bindString(6, sets.getFinishStringFormatDate());
-                    sqLiteStatement2.bindLong(7, exercise.getId());
-                    sqLiteStatement2.executeInsert();
+                for (Exercise exercise : list) {
+                    exercise.setParentId(workout.getId());
+                    exercise.setTemplate(false);
+                    exercise.setDefaultType(false);
+                    sqLiteStatementExercise.clearBindings();
+                    sqLiteStatementExercise.bindString(2, exercise.getComment());
+                    sqLiteStatementExercise.bindLong(3, exercise.getDescriptionId());
+                    sqLiteStatementExercise.bindString(4, exercise.getTypeMuscle().toString());
+                    sqLiteStatementExercise.bindLong(5, exercise.isDefaultType() ? 1 : 0);
+                    sqLiteStatementExercise.bindLong(6, exercise.isTemplate() ? 1 : 0);
+                    sqLiteStatementExercise.bindString(7, exercise.getStartStringFormatDate());
+                    sqLiteStatementExercise.bindString(8, exercise.getFinishStringFormatDate());
+                    sqLiteStatementExercise.bindLong(9, exercise.getParentId());
+                    long l = sqLiteStatementExercise.executeInsert();
+                    exercise.setParentId(exercise.getId());
+                    exercise.setId(l);
                 }
-            }
+
+                for (Exercise exercise : list) {
+                    List<Sets> setsList = setDao.getByParentId(exercise.getParentId());
+                    SQLiteStatement sqLiteStatementSets = sqLiteDatabase.compileStatement(sqlForSets);
+
+                    for (Sets sets : setsList) {
+                        sqLiteStatementSets.clearBindings();
+                        sqLiteStatementSets.bindDouble(3, sets.getWeight());
+                        sqLiteStatementSets.bindLong(4, sets.getReps());
+                        sqLiteStatementSets.bindString(5, sets.getStartStringFormatDate());
+                        sqLiteStatementSets.bindString(6, sets.getFinishStringFormatDate());
+                        sqLiteStatementSets.bindLong(7, exercise.getId());
+                        sqLiteStatementSets.executeInsert();
+                    }
+                }
+
+            sqLiteDatabase.setTransactionSuccessful();
+
+        } finally {
+            sqLiteDatabase.endTransaction();
         }
 
-        sqLiteDatabase.setTransactionSuccessful();
+        long finish = System.currentTimeMillis() - start;
+        System.out.println(Long.toString(finish) + " workout copy ms");
 
-    } finally {
-        sqLiteDatabase.endTransaction();
     }
-  /*  for (Workout exercise : workoutList) {
-        exercise.setId(0);
-        exercise.setTemplate(false);
-        exercise.setDefaultType(false);
-        exercise.setParentId(idTarget);
-        long l = create(exercise);
-        exercise.setId(l);
-        exercise.setParentId(idTarget);
-    }*/
- /*   ExerciseDao exerciseDao = new ExerciseDao(context);
-    for (Workout exercise : workoutList) {
-        exerciseDao.alterCopy(exercise.getParentId(), exercise.getId());
-    }*/
-
-
-}
 
     @Override
     public long copyFromTemplate(long idItem, long id) {
+        long start = System.currentTimeMillis();
         Workout workout = getById(idItem);
         ExerciseDao exerciseDao = new ExerciseDao(context);
 
@@ -297,39 +269,19 @@ public void  alter(long idFrom, long idTarget){
         workout.setDefaultType(false);
         workout.setParentId(id);
         long idNewWorkout = create(workout);
-    /*    sqLiteDatabase.beginTransaction();
-        SQLiteStatement sqLiteStatement = sqLiteDatabase.compileStatement(sql);
-
-        long l;
-
-        try {
-            for (Sets sets : setsList) {
-
-                sqLiteStatement.clearBindings();
-                sqLiteStatement.bindNull( 2);
-                sqLiteStatement.bindDouble( 3, sets.getWeight());
-                sqLiteStatement.bindLong( 4, sets.getReps());
-                sqLiteStatement.bindString( 5, sets.getStartStringFormatDate());
-                sqLiteStatement.bindString( 6, sets.getFinishStringFormatDate());
-                sqLiteStatement.bindLong( 7, id);
-                l =sqLiteStatement.executeInsert();
-            }
-            sqLiteDatabase.setTransactionSuccessful();
-        } finally {
-            sqLiteDatabase.endTransaction();
-        }*/
-
 
         for (Exercise exercise : exerciseList) {
             exerciseDao.copyFromTemplate(exercise.getId(), idNewWorkout);
         }
 
+        long finish = System.currentTimeMillis() - start;
+        System.out.println(Long.toString(finish) + " workout copy ms");
         return idNewWorkout;
     }
 
     public List<Workout> getDefault() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
-                DBHelper.TABLE_KEY_DEFAULT + " =? and "+ DBHelper.TABLE_KEY_TEMPLATE + " =?", new String[]{String.valueOf(1), String.valueOf(0)}, null, null, null
+                DBHelper.TABLE_KEY_DEFAULT + " =? and " + DBHelper.TABLE_KEY_TEMPLATE + " =?", new String[]{String.valueOf(1), String.valueOf(0)}, null, null, null
         );
         workoutList = new ArrayList<>();
         if (cursor.moveToFirst()) {

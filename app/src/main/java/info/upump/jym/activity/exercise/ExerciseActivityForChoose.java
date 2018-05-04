@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.List;
+
 import info.upump.jym.R;
 import info.upump.jym.activity.IChooseItem;
 import info.upump.jym.adapters.PagerAdapterExerciseForChoose;

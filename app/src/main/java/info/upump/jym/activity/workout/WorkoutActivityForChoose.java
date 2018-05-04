@@ -84,7 +84,10 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
     public void createIntentForChooseResult(Workout workout) {
         Intent intent = new Intent();
         WorkoutDao workoutDao = new WorkoutDao(this);
-        workoutDao.copyFromTemplate(workout.getId(), id);
+//        workoutDao.copyFromTemplate(workout.getId(), id);
+//        List<Workout> workoutList = new ArrayList<>();
+//        workoutList.add(workout);
+        workoutDao.alter(workout.getId(), id);
         setResult(RESULT_OK, intent);
         finish();
     }

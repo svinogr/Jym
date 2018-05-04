@@ -3,12 +3,14 @@ package info.upump.jym.bd;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import info.upump.jym.entity.Cycle;
+import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.Workout;
 
@@ -16,6 +18,11 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     public CycleDao(Context context) {
         super(context);
     }
+
+    private static final String sqlForCycle = "insert into " + DBHelper.TABLE_CYCLE + " values(?,?,?,?,?,?,?,?);";
+    private static final String sqlForWorkout = "insert into " + DBHelper.TABLE_WORKOUT + " values(?,?,?,?,?,?,?,?,?,?);";
+    private static final String sqlForExercise = "insert into " + DBHelper.TABLE_EXERCISE + " values(?,?,?,?,?,?,?,?,?);";
+    private static final String sqlForSets = "insert into " + DBHelper.TABLE_SET + " values(?,?,?,?,?,?,?);";
 
     private final String[] keys = new String[]{
             DBHelper.TABLE_KEY_ID,
@@ -36,9 +43,9 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         cv.put(DBHelper.TABLE_KEY_COMMENT, object.getComment());
         cv.put(DBHelper.TABLE_KEY_DEFAULT, object.isDefaultType());
         cv.put(DBHelper.TABLE_KEY_IMG, object.getImage());
-        if(object.getImage() != null){
+        if (object.getImage() != null) {
             cv.putNull(DBHelper.TABLE_KEY_DEFAULT_IMG);
-        } else  cv.put(DBHelper.TABLE_KEY_DEFAULT_IMG, object.getDefaultImg());
+        } else cv.put(DBHelper.TABLE_KEY_DEFAULT_IMG, object.getDefaultImg());
         cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
         cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
         return cv;
@@ -73,7 +80,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
 
     public List<Cycle> getAllDefault() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_CYCLE,
-                keys, DBHelper.TABLE_KEY_DEFAULT + " = ?",new String[]{"1"}, null, null, null);
+                keys, DBHelper.TABLE_KEY_DEFAULT + " = ?", new String[]{"1"}, null, null, null);
         List<Cycle> cycleList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -86,7 +93,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
 
     public List<Cycle> getAllUser() {
         Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_CYCLE,
-                keys, DBHelper.TABLE_KEY_DEFAULT + " = ?",new String[]{"0"}, null, null, null);
+                keys, DBHelper.TABLE_KEY_DEFAULT + " = ?", new String[]{"0"}, null, null, null);
         List<Cycle> cycleList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -108,7 +115,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     public boolean delete(Cycle object) {
         if (object.isDefaultType()) return false;
         boolean delChild = clear(object.getId());
-        long id=0;
+        long id = 0;
         if (delChild) {
             id = sqLiteDatabase.delete(DBHelper.TABLE_CYCLE, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         }
@@ -176,44 +183,127 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         cycle.setId(0);
         setActualDate(cycle);
         long idNewCycle = create(cycle);
-   /*     sqLiteDatabase.beginTransaction();
-        try {
-            for (Workout workout: workoutList){
-                workoutDao.copyFromTemplate(workout.getId(),idNewCycle);
-            }
-            sqLiteDatabase.setTransactionSuccessful();
-        } finally {
-            sqLiteDatabase.endTransaction();
-        }*/
 
-
-        for (Workout workout: workoutList){
-            workoutDao.copyFromTemplate(workout.getId(),idNewCycle);
+        for (Workout workout : workoutList) {
+            workoutDao.copyFromTemplate(workout.getId(), idNewCycle);
         }
+
         long finish = System.currentTimeMillis() - start;
-        System.out.println(Long.toString(finish) +" ms");
+        System.out.println(Long.toString(finish) + " ms");
         return idNewCycle;
     }
 
-    public void alter(long idFrom, long iP){
+    public Cycle alterCopyTemplate(long idFrom) {
         long start = System.currentTimeMillis();
-       Cycle  cycle  = getById(idFrom);
+        Cycle cycle = getById(idFrom);
         cycle.setDefaultType(false);
         cycle.setId(0);
         setActualDate(cycle);
-        long idNewCycle = create(cycle);
         WorkoutDao workoutDao = new WorkoutDao(context);
-        workoutDao.alter(idFrom, idNewCycle);
+        ExerciseDao exerciseDao = new ExerciseDao(context);
+        SetDao setDao = new SetDao(context);
+
+        sqLiteDatabase.beginTransaction();
+
+        try {
+            SQLiteStatement sqLiteStatementCycle = sqLiteDatabase.compileStatement(sqlForCycle);
+
+            sqLiteStatementCycle.bindString(2, cycle.getTitle());
+            sqLiteStatementCycle.bindString(3, cycle.getComment());
+            sqLiteStatementCycle.bindLong(4, cycle.isDefaultType() ? 1 : 0);
+            if( cycle.getImage() == null){
+                sqLiteStatementCycle.bindNull(5);
+            } else sqLiteStatementCycle.bindString(5, cycle.getImage());
+            sqLiteStatementCycle.bindString(6, cycle.getStartStringFormatDate());
+            sqLiteStatementCycle.bindString(7, cycle.getFinishStringFormatDate());
+            if( cycle.getDefaultImg() == null){
+                sqLiteStatementCycle.bindNull(8);
+            } else sqLiteStatementCycle.bindString(8, cycle.getDefaultImg());
+
+            long idNewCycle = sqLiteStatementCycle.executeInsert();
+            cycle.setId(idNewCycle);
+
+            List<Workout> workoutList = workoutDao.getByParentId(idFrom);
+
+            SQLiteStatement sqLiteStatementWorkout = sqLiteDatabase.compileStatement(sqlForWorkout);
+
+            for (Workout workout : workoutList) {
+                workout.setTemplate(false);
+                workout.setDefaultType(false);
+                workout.setParentId(idNewCycle);
+                sqLiteStatementWorkout.clearBindings();
+                sqLiteStatementWorkout.bindString(2, workout.getTitle());
+                sqLiteStatementWorkout.bindString(3, workout.getComment());
+                sqLiteStatementWorkout.bindLong(4, workout.isWeekEven() ? 1 : 0);
+                sqLiteStatementWorkout.bindLong(5, workout.isDefaultType() ? 1 : 0);
+                sqLiteStatementWorkout.bindLong(6, workout.isTemplate() ? 1 : 0);
+                sqLiteStatementWorkout.bindString(7, workout.getDay().toString());
+                sqLiteStatementWorkout.bindString(8, workout.getStartStringFormatDate());
+                sqLiteStatementWorkout.bindString(9, workout.getFinishStringFormatDate());
+                sqLiteStatementWorkout.bindLong(10, idNewCycle);
+                long l = sqLiteStatementWorkout.executeInsert();
+               cycle.getWorkoutList().add(workout); //do setparent
+                workout.setId(l);
+                workout.setParentId(idFrom);
+            }
+
+            for (Workout workout : workoutList) {
+
+                List<Exercise> list = exerciseDao.getByParentId(workout.getParentId());
+                SQLiteStatement sqLiteStatementExercise = sqLiteDatabase.compileStatement(sqlForExercise);
+
+                for (Exercise exercise : list) {
+                    exercise.setParentId(workout.getId());
+                    exercise.setTemplate(false);
+                    exercise.setDefaultType(false);
+                    sqLiteStatementExercise.clearBindings();
+                    sqLiteStatementExercise.bindString(2, exercise.getComment());
+                    sqLiteStatementExercise.bindLong(3, exercise.getDescriptionId());
+                    sqLiteStatementExercise.bindString(4, exercise.getTypeMuscle().toString());
+                    sqLiteStatementExercise.bindLong(5, exercise.isDefaultType() ? 1 : 0);
+                    sqLiteStatementExercise.bindLong(6, exercise.isTemplate() ? 1 : 0);
+                    sqLiteStatementExercise.bindString(7, exercise.getStartStringFormatDate());
+                    sqLiteStatementExercise.bindString(8, exercise.getFinishStringFormatDate());
+                    sqLiteStatementExercise.bindLong(9, exercise.getParentId());
+                    long l = sqLiteStatementExercise.executeInsert();
+                    exercise.setParentId(exercise.getId());
+                    exercise.setId(l);
+                }
+
+                for (Exercise exercise : list) {
+                    List<Sets> setsList = setDao.getByParentId(exercise.getParentId());
+                    SQLiteStatement sqLiteStatementSets = sqLiteDatabase.compileStatement(sqlForSets);
+
+                    for (Sets sets : setsList) {
+                        sqLiteStatementSets.clearBindings();
+                        sqLiteStatementSets.bindDouble(3, sets.getWeight());
+                        sqLiteStatementSets.bindLong(4, sets.getReps());
+                        sqLiteStatementSets.bindString(5, sets.getStartStringFormatDate());
+                        sqLiteStatementSets.bindString(6, sets.getFinishStringFormatDate());
+                        sqLiteStatementSets.bindLong(7, exercise.getId());
+                        sqLiteStatementSets.executeInsert();
+                    }
+                }
+            }
+
+            sqLiteDatabase.setTransactionSuccessful();
+
+        } finally {
+            sqLiteDatabase.endTransaction();
+        }
         long finish = System.currentTimeMillis() - start;
-        System.out.println(Long.toString(finish) +" ms");
+        System.out.println(Long.toString(finish) + " ms");
+        if(cycle.getId() != 0){
+            return cycle;
+        } else return null;
 
     }
 
     private void setActualDate(Cycle cycle) {
         Date start = cycle.getStartDate();
         Date finish = cycle.getFinishDate();
-        long milesecund = finish.getTime() - start.getTime();
+        long mSecond = finish.getTime() - start.getTime();
         cycle.setStartDate(new Date());
-        cycle.setFinishDate(new Date (cycle.getStartDate().getTime() + milesecund));
+        cycle.setFinishDate(new Date(cycle.getStartDate().getTime() + mSecond));
     }
 }

@@ -28,6 +28,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.stetho.Stetho;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +63,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+
+        Stetho.initializeWithDefaults(this);
+
         this.savedInstanceState = savedInstanceState;
         arrayPermissionDescription = new String[]{getResources().getString(R.string.permission_description), getResources().getString(R.string.permission_description_camera)};
 
@@ -243,9 +248,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println(resultCode +""+ requestCode);
         if (requestCode == REQUEST_PERMISSION_IN_SETTINGS) {
             getPermission();
-        }
+        } else  super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -314,4 +320,5 @@ public class MainActivity extends AppCompatActivity
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
     }
+
 }

@@ -142,7 +142,6 @@ public class CycleDaoTest {
         exercise.setComment("create comment");
         exercise.setDefaultType(true);
         exercise.setTemplate(true);
-        exercise.setDescription("description");
         exercise.setTypeMuscle(TypeMuscle.ABS);
         exercise.setStartDate("2020-03-03");
         exercise.setFinishDate("2020-03-03");
