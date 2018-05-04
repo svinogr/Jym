@@ -1,8 +1,12 @@
 package info.upump.jym.adapters.holders;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,22 +25,34 @@ import info.upump.jym.fragments.cycle.CRUD;
  * Created by explo on 04.05.2018.
  */
 
-abstract class AbstractCycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public abstract class AbstractCycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     protected TextView title;
     protected TextView date;
     protected ImageView imageView;
     protected Cycle cycle;
     protected View itemView;
     protected Context context;
-    private CRUD crud; // interface for create intents
+    protected CRUD crud; // interface for create intents
+
+    public AbstractCycleViewHolder(View itemView, CRUD crud) {
+        super(itemView);
+        this.crud = crud;
+        this.itemView = itemView;
+        this.context = itemView.getContext();
+        title = itemView.findViewById(R.id.cycle_card_layout_title);
+        date = itemView.findViewById(R.id.cycle_card_layout_info_date);
+        imageView = itemView.findViewById(R.id.cycle_card_layout_image);
+        itemView.setOnClickListener(this);
+    }
 
     public void bind(Cycle cycle) {
         this.cycle = cycle;
         title.setText(cycle.getTitle());
-        date.setText(cycle.getStartStringFormatDate());
+        setVariableViews();
         setPic();
     }
 
+    abstract void setVariableViews();
 
     protected void setPic() {
         Uri uri = null;
@@ -53,7 +69,12 @@ abstract class AbstractCycleViewHolder extends RecyclerView.ViewHolder implement
             int ident = context.getResources().getIdentifier(cycle.getDefaultImg(), "drawable", context.getPackageName());
             Glide.with(context).load(ident).apply(options).into(imageView);
         } else Glide.with(itemView.getContext()).load(uri).apply(options).into(imageView);
-
     }
 
+    @Override
+    public void onClick(View v) {
+        startActivity();
+    }
+
+    abstract void startActivity();
 }

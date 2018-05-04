@@ -43,8 +43,10 @@ import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
 
+import static info.upump.jym.activity.constant.Constants.DELETE;
 import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 
 public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle>, View.OnClickListener {
     protected ViewPager viewPager;
@@ -58,6 +60,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     protected FloatingActionButton addFab;
     protected TabLayout tabLayout;
     protected AppBarLayout appBarLayout;
+    private boolean update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,12 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         appBarLayout = findViewById(R.id.cycle_activity_detail_edit_appbar);
 
         cycle = getItemFromIntent();
+
+        if(savedInstanceState  != null){
+            if(savedInstanceState.getBoolean(UPDATE_DELETE) != false){
+                update = true;
+            }
+        }
 
         setFabVisible();
         setTabSelected();
@@ -241,6 +250,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                     iItemFragment.addItem(data.getLongExtra(Constants.ID, 0));
                     break;
                 case UPDATE:
+                    update = true;
                     updateDescription();
                     break;
             }
@@ -306,6 +316,12 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     }
 
     protected void finishActivityWithAnimation() {
+        if(update){
+            Intent intent = new Intent();
+            intent.putExtra(ID, cycle.getId());
+            intent.putExtra(UPDATE_DELETE, UPDATE);
+            setResult(RESULT_OK, intent);
+        }
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();
@@ -315,6 +331,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     public void delete(long id) {
             Intent intent = new Intent();
             intent.putExtra(ID, id);
+            intent.putExtra(UPDATE_DELETE,DELETE);
             setResult(RESULT_OK, intent);
            finishActivityWithAnimation();
     }
@@ -392,4 +409,9 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         builder.show();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(UPDATE_DELETE, update);
+    }
 }

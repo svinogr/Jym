@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import info.upump.jym.R;
+import info.upump.jym.adapters.holders.AbstractCycleViewHolder;
 import info.upump.jym.adapters.holders.CycleDefaultChooseViewHolder;
 import info.upump.jym.adapters.holders.CycleDefaultViewHolder;
 import info.upump.jym.adapters.holders.CycleViewHolder;
@@ -19,7 +20,7 @@ import static info.upump.jym.activity.constant.Constants.LOADER_BY_DEFAULT_TYPE;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
 
 
-public class CycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CycleAdapter extends RecyclerView.Adapter<AbstractCycleViewHolder> {
     private List<Cycle> cycleList;
     private int type;
     private CRUD crud;
@@ -28,19 +29,18 @@ public class CycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.cycleList = workouts;
         this.type = type;
         this.crud = crud;
-
     }
+
     public CycleAdapter(List<Cycle> workouts, int type) {
         this.cycleList = workouts;
         this.type = type;
-
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AbstractCycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate;
-        RecyclerView.ViewHolder holder = null;
-        switch (viewType){
+        AbstractCycleViewHolder holder = null;
+        switch (viewType) {
             case LOADER_BY_DEFAULT_TYPE:
                 inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycle_default_card_layout, parent, false);
                 holder = new CycleDefaultViewHolder(inflate, crud);
@@ -58,10 +58,9 @@ public class CycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof CycleViewHolder) {
-            ((CycleViewHolder)holder).bind(cycleList.get(position));
-        }
+    public void onBindViewHolder(AbstractCycleViewHolder holder, int position) {
+        holder.bind(cycleList.get(position));
+
     }
 
     @Override

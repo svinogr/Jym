@@ -322,6 +322,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         if (cycleDao.update(cycleUpdate)) {
             Toast.makeText(this, R.string.toast_cycle_update, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
+            intent.putExtra(ID, cycleUpdate.getId());
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
@@ -334,9 +335,11 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             return;
         }
         Cycle cycleSave = getChangeableItem();
-        if (cycleDao.create(cycleSave) != -1) {
+        long id = cycleDao.create(cycleSave);
+        if (id != -1) {
             Toast.makeText(this, R.string.toast_cycle_saved, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
+            intent.putExtra(ID,id );
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
