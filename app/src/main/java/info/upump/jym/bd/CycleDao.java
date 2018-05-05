@@ -230,7 +230,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
             for (Workout workout : workoutList) {
                 workout.setTemplate(false);
                 workout.setDefaultType(false);
-                workout.setParentId(idNewCycle);
+//                workout.setParentId(idNewCycle);
                 sqLiteStatementWorkout.clearBindings();
                 sqLiteStatementWorkout.bindString(2, workout.getTitle());
                 sqLiteStatementWorkout.bindString(3, workout.getComment());
@@ -242,9 +242,10 @@ public class CycleDao extends DBDao implements IData<Cycle> {
                 sqLiteStatementWorkout.bindString(9, workout.getFinishStringFormatDate());
                 sqLiteStatementWorkout.bindLong(10, idNewCycle);
                 long l = sqLiteStatementWorkout.executeInsert();
-               cycle.getWorkoutList().add(workout); //do setparent
+                cycle.getWorkoutList().add(workout); //do setparent
+                workout.setParentId(workout.getId());
                 workout.setId(l);
-                workout.setParentId(idFrom);
+
             }
 
             for (Workout workout : workoutList) {
