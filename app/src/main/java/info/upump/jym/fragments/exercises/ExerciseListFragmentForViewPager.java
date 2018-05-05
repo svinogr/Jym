@@ -47,7 +47,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements Loader
             String t = getArguments().getString(TYPE_MUSCLE);
             typeMuscle = TypeMuscle.valueOf(t);
         }
-        exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.DEFAULT_TYPE);
+        exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.DEFAULT_TYPE, null);
     }
 
     @Override

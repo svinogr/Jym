@@ -2,6 +2,7 @@ package info.upump.jym.activity.exercise;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -101,20 +102,24 @@ public class ExerciseActivityForChoose extends AppCompatActivity implements ICho
     @Override
     public void createIntentForChooseResult(Exercise exercise) {
         Intent intent = new Intent();
-        ExerciseDao exerciseDao = new ExerciseDao(this);
+      //  ExerciseDao exerciseDao = new ExerciseDao(this);
         //TODO 1
-       exerciseDao.copyFromTemplate(exercise.getId(), id);
-//        exerciseDao.alterCopy(exercise.getId(), id);
+    //    exerciseDao.copyFromTemplate(exercise.getId(), id);
+      //  exerciseDao.alterCopy(exercise.getId(), id);
         intent.putExtra(ID, exercise.getId());
         setResult(RESULT_OK, intent);
-        finish();
+        exit();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
+        exit();
         return super.onOptionsItemSelected(item);
+    }
+
+    private void exit() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        } else finish();
     }
 }

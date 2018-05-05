@@ -3,6 +3,7 @@ package info.upump.jym.activity.cycle.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,9 +23,13 @@ import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.WorkoutAdapter;
+import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
+import info.upump.jym.fragments.cycle.CRUD;
 import info.upump.jym.loaders.ASTWorkout;
+
+import static info.upump.jym.activity.constant.Constants.ID;
 
 public class CycleFragmentForViewPagerWorkouts extends Fragment implements /*LoaderManager.LoaderCallbacks<List<Workout>>,*/ IItemFragment<Workout> {
     protected Cycle cycle;
@@ -32,6 +37,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements /*Loa
     protected RecyclerView recyclerView;
     protected WorkoutAdapter workoutAdapter;
     protected ASTWorkout astWorkout;
+    protected int index = -1;
 
     public CycleFragmentForViewPagerWorkouts() {
         // Required empty public constructor
@@ -41,7 +47,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements /*Loa
         CycleFragmentForViewPagerWorkouts fragment = new CycleFragmentForViewPagerWorkouts();
         Bundle args = new Bundle();
         if (cycle != null) {
-            args.putLong(Constants.ID, cycle.getId());
+            args.putLong(ID, cycle.getId());
         }
         fragment.setArguments(args);
         return fragment;
@@ -68,7 +74,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements /*Loa
     }
 
     protected void setAdapter() {
-        workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DAY, null);
+        workoutAdapter = new WorkoutAdapter(workoutList, WorkoutAdapter.DAY, (CRUD) getActivity());
     }
 
     @Override
@@ -116,7 +122,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements /*Loa
 
         if (getArguments() != null) {
             cycle = new Cycle();
-            cycle.setId(getArguments().getLong(Constants.ID, 0));
+            cycle.setId(getArguments().getLong(ID, 0));
         }
 
     }
@@ -155,4 +161,66 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements /*Loa
             recyclerView.smoothScrollToPosition(index);
         }
     }
+
+    @Override
+    public void delete(long id) {
+        for (Workout delWorkout : workoutList) {
+            if (delWorkout.getId() == id) {
+                index = workoutList.indexOf(delWorkout);
+                break;
+            }
+        }
+        if (index != -1) {
+            workoutList.remove(index);
+            workoutAdapter.notifyItemRemoved(index);
+            workoutAdapter.notifyItemRangeChanged(index, workoutList.size());
+        }
+    }
+
+    @Override
+    public void insertDeletedItem(long id) {
+        WorkoutDao workoutDao = new WorkoutDao(getContext());
+        Workout workout = workoutDao.getById(id);
+        workoutList.add(index, workout);
+        workoutAdapter.notifyItemInserted(index);
+    }
+
+    @Override
+    public void update(Workout workout) {
+        long id = workout.getId();
+        int index = -1;
+        boolean f = false;
+        for (Workout updateWorkout : workoutList) {
+            if (updateWorkout.getId() == id) {
+                index = workoutList.indexOf(updateWorkout);
+                if (updateWorkout.isWeekEven() != workout.isWeekEven()) {
+                    f = true;
+                }
+                break;
+            }
+        }
+        if (index != -1) {
+            workoutList.set(index, workout);
+            workoutAdapter.notifyItemChanged(index);
+            recyclerView.smoothScrollToPosition(index);
+        }
+
+        if (f) {
+            sort(workoutList);
+            for (Workout updateWorkout : workoutList) {
+                if (updateWorkout.getId() == id) {
+                    index = workoutList.indexOf(updateWorkout);
+                    break;
+                }
+            }
+            if (index != -1) {
+                workoutList.set(index, workout);
+                workoutAdapter.notifyItemChanged(index);
+                recyclerView.smoothScrollToPosition(index);
+            }
+        }
+
+    }
+
+
 }

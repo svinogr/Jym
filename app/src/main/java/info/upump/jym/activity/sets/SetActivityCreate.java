@@ -20,10 +20,15 @@ import java.util.Arrays;
 import java.util.Date;
 
 import info.upump.jym.R;
+import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.SetDao;
 import info.upump.jym.entity.Sets;
 
+import static info.upump.jym.activity.constant.Constants.DELETE;
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.QUANTITY;
+import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 
 public class SetActivityCreate extends AppCompatActivity {
     private static final String WEIGHT = "weight";
@@ -166,12 +171,11 @@ public class SetActivityCreate extends AppCompatActivity {
     }
 
     public void delete(long id) {
-        SetDao setDao = new SetDao(this);
-        if (setDao.delete(sets)) {
-            Toast.makeText(this, R.string.toast_set_delete, Toast.LENGTH_SHORT).show();
-            finishActivityWithAnimation();
-        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
-
+        Intent intent = new Intent();
+        intent.putExtra(ID, id);
+        intent.putExtra(UPDATE_DELETE, DELETE);
+        setResult(RESULT_OK, intent);
+        finishActivityWithAnimation();
     }
 
     private void exit() {
@@ -201,10 +205,14 @@ public class SetActivityCreate extends AppCompatActivity {
     }
 
     private void save() {
-        SetDao setDao = new SetDao(this);
-
         Sets changeableItem = getChangeableItem();
         quantitySetsValue = quantitySets.getValue();
+
+        Intent intent = new Intent();
+        intent.putExtra(WEIGHT, changeableItem.getWeight());
+        intent.putExtra(REPS, changeableItem.getReps());
+        intent.putExtra(QUANTITY, quantitySetsValue);
+        /*
         long id = -1;
         for (int i = 0; i < quantitySetsValue; i++) {
 
@@ -212,13 +220,13 @@ public class SetActivityCreate extends AppCompatActivity {
             if (i == 0) {
                 sets.setId(id);
             }
-        }
-        if (id != -1) {
-            Toast.makeText(this, R.string.toast_set_saved, Toast.LENGTH_SHORT).show();
-            Intent intent = createIntentForResult(); // при создании из вне
+        }*/
+//        if (id != -1) {
+//            Toast.makeText(this, R.string.toast_set_saved, Toast.LENGTH_SHORT).show();
+//            Intent intent = createIntentForResult(); // при создании из вне
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
-        } else Toast.makeText(this,R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
+//        } else Toast.makeText(this,R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
     }
 
     private boolean itemIsNotChanged() {
@@ -240,7 +248,6 @@ public class SetActivityCreate extends AppCompatActivity {
     }
 
     private void update() {
-        SetDao setDao = new SetDao(this);
         if (weight.getValue() < 0) {
             Toast.makeText(this, R.string.toast_not_corect_value, Toast.LENGTH_SHORT).show();
             return;
@@ -249,14 +256,15 @@ public class SetActivityCreate extends AppCompatActivity {
             Toast.makeText(this, R.string.toast_not_corect_value, Toast.LENGTH_SHORT).show();
             return;
         }
-        Sets exerciseUpdate = getChangeableItem();
-        boolean id = setDao.update(exerciseUpdate);
-        if (id) {
-            Toast.makeText(this, R.string.toast_set_update, Toast.LENGTH_SHORT).show();
-            Intent intent = createIntentForResult(); // при создании из вне
+        Sets setsUpdate = getChangeableItem();
+
+        Intent intent = new Intent();
+        intent.putExtra(UPDATE_DELETE, UPDATE);
+        intent.putExtra(WEIGHT, setsUpdate.getWeight());
+        intent.putExtra(ID, setsUpdate.getId());
+        intent.putExtra(REPS, setsUpdate.getReps());
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
-        } else Toast.makeText(this,  R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
     }
 
     private void finishActivityWithAnimation() {
@@ -271,6 +279,7 @@ public class SetActivityCreate extends AppCompatActivity {
             MenuInflater menuInflater = getMenuInflater();
             menuInflater.inflate(R.menu.edit_set_menu, menu);
         }
+
         return true;
     }
 

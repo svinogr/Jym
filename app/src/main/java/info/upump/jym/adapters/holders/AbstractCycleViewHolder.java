@@ -76,4 +76,5 @@ public abstract class AbstractCycleViewHolder extends RecyclerView.ViewHolder im
     }
 
     abstract void startActivity();
+
 }

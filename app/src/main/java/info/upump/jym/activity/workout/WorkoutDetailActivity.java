@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -33,16 +35,25 @@ import info.upump.jym.activity.IDescriptionFragment;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.activity.exercise.ExerciseActivityForChoose;
+import info.upump.jym.activity.exercise.ExerciseDetail;
 import info.upump.jym.adapters.PagerAdapterWorkout;
+import info.upump.jym.bd.CycleDao;
+import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.bd.WorkoutDao;
+import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Workout;
+import info.upump.jym.fragments.cycle.CRUD;
 
+import static info.upump.jym.activity.constant.Constants.CLEAR;
+import static info.upump.jym.activity.constant.Constants.CREATE;
 import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.ERROR;
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
 import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 
-public class WorkoutDetailActivity extends AppCompatActivity implements IChangeItem<Workout>, View.OnClickListener {
+public class WorkoutDetailActivity extends AppCompatActivity implements IChangeItem<Workout>, View.OnClickListener, CRUD<Exercise> {
     protected Workout workout;
     protected ImageView imageView;
     protected PagerAdapterWorkout pagerAdapterWorkout;
@@ -54,6 +65,33 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     protected TabLayout tabLayout;
     private AppBarLayout appBarLayout;
     private boolean update;
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == DELETE) {
+                Toast.makeText(getApplicationContext(), R.string.toast_exercise_delete, Toast.LENGTH_SHORT).show();
+            }
+
+            if (msg.what == UPDATE) {
+                Exercise exercise = (Exercise) msg.obj;
+                iItemFragment.update(exercise);
+            }
+
+          /*  if (msg.what == ERROR) {
+                long id = (long) msg.obj;
+                Toast.makeText(getApplicationContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+                iItemFragment.insertDeletedItem(id);
+            }*/
+            if(msg.what == CLEAR){
+                iItemFragment.clear();
+            }
+
+            if (msg.what == CREATE) {
+                iItemFragment.addItem((Exercise)msg.obj);
+
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,6 +265,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
     @Override
     public void delete(long id) {
+        update = false;
         Intent intent = new Intent();
         intent.putExtra(ID, id);
         intent.putExtra(UPDATE_DELETE, DELETE);
@@ -293,9 +332,17 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     }
 
     private void clear() {
-     /*   if (iItemFragment.clear()) {
-            Toast.makeText(this, R.string.toast_workout_delete_exercises, Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();*/
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                boolean clear = workoutDao.clear(workout.getId());
+                if (clear) {
+                    handler.sendMessageDelayed(handler.obtainMessage(CLEAR), 0);
+                }
+            }
+        });
+        thread.start();
     }
 
     @Override
@@ -307,8 +354,24 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+            long id = data.getLongExtra(ID, 0);
+
             switch (requestCode) {
+                case  REQUEST_CODE_CHANGE_OPEN :
+                    id = data.getLongExtra(ID, 0);
+                    int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
+                    switch (changeOrDelete) {
+                        case UPDATE:
+                            System.out.println("update");
+                            updateInnerItem(id);
+                            break;
+                        case DELETE:
+                            deleteInnerItem(id);
+                            break;
+                    }
+                    break;
                 case Constants.REQUEST_CODE_CHOOSE:
+                    addItem(id);
 //                    iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0)); // можно удалить
                     break;
                 case Constants.UPDATE:
@@ -317,6 +380,51 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                     break;
             }
         }
+    }
+
+    private void updateInnerItem(final long id) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ExerciseDao exerciseDao = new ExerciseDao(getApplicationContext());
+                Exercise exercise  = exerciseDao.getById(id);
+                if (exercise != null) {
+                    handler.sendMessageDelayed(handler.obtainMessage(UPDATE, exercise), 0);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void deleteInnerItem(final long id) {
+        iItemFragment.delete(id);
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ExerciseDao  exerciseDao = new ExerciseDao(getApplicationContext());
+                Exercise exercise = new Exercise();
+                exercise.setId(id);
+                if (exerciseDao.delete(exercise)) {
+                    handler.sendMessageDelayed(handler.obtainMessage(DELETE, id), 0);
+                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR, id), 0);
+            }
+        });
+        thread.start();
+    }
+
+
+    private void addItem(final long id) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ExerciseDao exerciseDao = new ExerciseDao(getApplicationContext());
+                Exercise exercise  = exerciseDao.alterCopy(id, workout.getId());
+                if (exercise != null) {
+                    handler.sendMessageDelayed(handler.obtainMessage(CREATE, exercise), 0);
+                }
+            }
+        });
+        thread.start();
     }
 
     private void updateItem() {
@@ -362,5 +470,14 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(UPDATE_DELETE, update);
+    }
+
+    @Override
+    public void createIntentForResult(ActivityOptions activityOptions, Exercise exercise) {
+        Intent intent = ExerciseDetail.createIntent(this, exercise);
+        if (activityOptions != null) {
+            startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN, activityOptions.toBundle());
+        } else startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN);
+
     }
 }

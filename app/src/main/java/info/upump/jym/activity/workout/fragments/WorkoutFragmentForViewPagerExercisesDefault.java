@@ -20,6 +20,6 @@ public class WorkoutFragmentForViewPagerExercisesDefault extends WorkoutFragment
 
     @Override
     protected void setAdapter(){
-        exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.INFO_DEFAULT);
+        exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.INFO_DEFAULT, null);
     }
 }

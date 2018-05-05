@@ -11,28 +11,36 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.ExerciseAdapter;
+import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Workout;
+import info.upump.jym.fragments.cycle.CRUD;
+import info.upump.jym.loaders.ASTExercise;
+import info.upump.jym.loaders.ASTWorkout;
 import info.upump.jym.loaders.ExerciseFragmentLoader;
 
 import static info.upump.jym.activity.constant.Constants.ID;
-public class WorkoutFragmentForViewPagerExercises extends Fragment implements IItemFragment<Workout>,
-        LoaderManager.LoaderCallbacks<List<Exercise>> {
+public class WorkoutFragmentForViewPagerExercises extends Fragment implements IItemFragment<Exercise>/*,
+        LoaderManager.LoaderCallbacks<List<Exercise>>*/ {
     protected Workout workout;
     protected IChangeItem iChangeItem;
     protected RecyclerView recyclerView;
     protected ExerciseAdapter exerciseAdapter;
     protected List<Exercise> exerciseList = new ArrayList<>();
+    protected ASTExercise astExercise;
+    protected int index = -1;
 
     public WorkoutFragmentForViewPagerExercises() {
     }
@@ -48,11 +56,25 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createAsyncTask();
         setAdapter();
     }
 
+    private void createAsyncTask() {
+        astExercise = new ASTExercise(getContext());
+        astExercise.execute(Constants.LOADER_BY_PARENT_ID, (int) workout.getId());
+        try {
+            exerciseList = astExercise.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     protected void setAdapter() {
-        exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.INFO);
+        exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.INFO, (CRUD) getActivity());
     }
 
     @Override
@@ -80,7 +102,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
             workout.setId(getArguments().getLong(Constants.ID, 0));
         }
 
-        getLoaderManager().initLoader(0, null, this);
+       // getLoaderManager().initLoader(0, null, this);
     }
 
    /* @Override
@@ -90,33 +112,86 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
 */
     @Override
     public void clear() {
-    /*    WorkoutDao workoutDao = new WorkoutDao(getContext());
-        boolean clear = workoutDao.clear(workout.getId());
-        if (clear) {
-            exerciseList.clear();
-            exerciseAdapter.notifyDataSetChanged();
-            return true;
-        } else return false;*/
+        exerciseList.clear();
+        exerciseAdapter.notifyDataSetChanged();
+        if (exerciseList.isEmpty()) {
+            Toast.makeText(getContext(), R.string.toast_workout_delete_exercises, Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(getContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void addItem(Workout workout) {
+    public void addItem(Exercise exercise) {
+        exerciseList.add(exercise);
+        long id = exercise.getId();
+        int index = -1;
+        for (Exercise e : exerciseList) {
+            if (e.getId() == id) {
+                index = exerciseList.indexOf(e);
+                break;
+            }
+        }
+        if (index != -1) {
+            exerciseAdapter.notifyItemInserted(index);
+            recyclerView.smoothScrollToPosition(index);
+        }
     }
 
     @Override
+    public void delete(long id) {
+        for (Exercise delExercise : exerciseList) {
+            if (delExercise.getId() == id) {
+                index = exerciseList.indexOf(delExercise);
+                break;
+            }
+        }
+        if (index != -1) {
+            exerciseList.remove(index);
+            exerciseAdapter.notifyItemRemoved(index);
+            exerciseAdapter.notifyItemRangeChanged(index, exerciseList.size());
+        }
+    }
+
+    @Override
+    public void insertDeletedItem(long id) {
+        ExerciseDao exerciseDao = new ExerciseDao(getContext());
+        Exercise exercise = exerciseDao.getById(id);
+        exerciseList.add(index, exercise);
+        exerciseAdapter.notifyItemInserted(index);
+    }
+
+    @Override
+    public void update(Exercise exercise) {
+        long id = exercise.getId();
+        int index = -1;
+        for (Exercise updateExercise : exerciseList) {
+            if (updateExercise.getId() == id) {
+                index = exerciseList.indexOf(updateExercise);
+                break;
+            }
+        }
+        if (index != -1) {
+            exerciseList.set(index, exercise);
+            exerciseAdapter.notifyItemChanged(index);
+            recyclerView.smoothScrollToPosition(index);
+        }
+
+
+    }
+
+/*    @Override
     public Loader<List<Exercise>> onCreateLoader(int id, Bundle args) {
         ExerciseFragmentLoader exerciseFragmentLoader = new ExerciseFragmentLoader(getContext(), Constants.LOADER_BY_PARENT_ID, workout.getId());
         return exerciseFragmentLoader;
-    }
+    }*/
 
-    @Override
+/*    @Override
     public void onLoadFinished(Loader<List<Exercise>> loader, List<Exercise> data) {
         exerciseList.clear();
         exerciseList.addAll(data);
         exerciseAdapter.notifyDataSetChanged();
-    }
+    }*/
 
-    @Override
+  /*  @Override
     public void onLoaderReset(Loader<List<Exercise>> loader) {
-    }
+    }*/
 }

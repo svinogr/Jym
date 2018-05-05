@@ -8,33 +8,37 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import info.upump.jym.R;
+import info.upump.jym.adapters.holders.AbstractSetViewHolder;
 import info.upump.jym.adapters.holders.SetsViewHolder;
 import info.upump.jym.adapters.holders.SetsViewHolderDefault;
 import info.upump.jym.entity.Sets;
+import info.upump.jym.fragments.cycle.CRUD;
 
 import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE;
 import static info.upump.jym.activity.constant.Constants.USER_TYPE;
 
 
-public class SetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SetsAdapter extends RecyclerView.Adapter<AbstractSetViewHolder> {
     private List<Sets> setsList;
     private int type;
+    private CRUD crud;
 
-    public SetsAdapter(List<Sets> setsList, int type) {
+    public SetsAdapter(List<Sets> setsList, int type, CRUD crud) {
         this.setsList = setsList;
         this.type = type;
+        this.crud = crud;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AbstractSetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.sets_card_layout, parent, false);
-        SetsViewHolder setsViewHolder = null;
+        AbstractSetViewHolder setsViewHolder = null;
         switch (type) {
             case DEFAULT_TYPE:
                 setsViewHolder = new SetsViewHolderDefault(inflate);
                 break;
             case USER_TYPE:
-                setsViewHolder = new SetsViewHolder(inflate);
+                setsViewHolder = new SetsViewHolder(inflate, crud);
                 break;
         }
 
@@ -42,10 +46,8 @@ public class SetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof SetsViewHolder) {
-            ((SetsViewHolder) holder).bind(setsList.get(position));
-        }
+    public void onBindViewHolder(AbstractSetViewHolder holder, int position) {
+        holder.bind(setsList.get(position));
     }
 
     @Override

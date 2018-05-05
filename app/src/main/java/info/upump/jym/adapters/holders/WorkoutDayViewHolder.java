@@ -9,11 +9,15 @@ import android.view.View;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.workout.WorkoutDetailActivity;
+import info.upump.jym.fragments.cycle.CRUD;
 
 
 public class WorkoutDayViewHolder extends AbstractWorkoutViewHolder {
-    public WorkoutDayViewHolder(View itemView) {
+    protected CRUD crud;
+
+    public WorkoutDayViewHolder(View itemView, CRUD crud) {
         super(itemView);
+        this.crud = crud;
     }
 
     @Override
@@ -26,16 +30,14 @@ public class WorkoutDayViewHolder extends AbstractWorkoutViewHolder {
 
     @Override
     public void onClick(View v) {
-        Intent intent = WorkoutDetailActivity.createIntent(context,workout);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;
             String transitionNameIm = "workout_card_layout_image";
             ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
                             getAnimationContext(),
                     Pair.create(sharedViewIm, transitionNameIm));
-            context.startActivity(intent, transitionActivityOptions.toBundle());
-
-        } else context.startActivity(intent);
+            crud.createIntentForResult(transitionActivityOptions,workout);
+        } else   crud.createIntentForResult(null,workout);
     }
 
     @Override

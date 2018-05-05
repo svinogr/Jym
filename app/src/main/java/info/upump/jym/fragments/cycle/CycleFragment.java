@@ -78,8 +78,8 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
                 }
                 if (index != -1) {
                     cycleList.set(index, cycle);
-                    recyclerView.smoothScrollToPosition(index);
                     cycleAdapter.notifyItemChanged(index);
+                    recyclerView.smoothScrollToPosition(index);
                 }
             }
 
@@ -239,7 +239,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
                         deleteItem(id);
                         break;
                 }
-
             }
             if (requestCode == REQUEST_CODE_CHOOSE) {
                 long id = data.getLongExtra(ID, 0);

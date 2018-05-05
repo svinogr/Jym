@@ -26,7 +26,7 @@ import info.upump.jym.activity.exercise.ExerciseDetailTemplateActivity;
 import info.upump.jym.entity.Exercise;
 
 
-public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public abstract class AbstractExerciseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     protected List<Exercise> exerciseList;
     protected Context context;
     protected ImageView image;
@@ -35,7 +35,7 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
 
     protected Exercise exercise;
 
-    public ExerciseViewHolder(View itemView) {
+    public AbstractExerciseViewHolder(View itemView) {
         super(itemView);
         context = itemView.getContext();
         image = itemView.findViewById(R.id.exercise_card_layout_image);
@@ -50,7 +50,7 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
         startActivity();
     }
 
-    abstract public Intent createIntent();
+//    abstract public Intent createIntent();
 
     public void bind(Exercise exercise) {
         this.exercise = exercise;
@@ -71,8 +71,8 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
     }
     abstract public void setInfo();
 
-    private void startActivity() {
-        Intent intent = createIntent();
+    abstract void startActivity() ;
+   /*     Intent intent = createIntent();
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = image;
@@ -81,8 +81,8 @@ public abstract class ExerciseViewHolder extends RecyclerView.ViewHolder impleme
                             getAnimationContext(),
                     Pair.create(sharedViewIm, transitionNameIm));
             context.startActivity(intent, transitionActivityOptions.toBundle());
-        } else context.startActivity(intent);
-    }
+        } else context.startActivity(intent);*/
+//    }
 
     private void setPic() {
 

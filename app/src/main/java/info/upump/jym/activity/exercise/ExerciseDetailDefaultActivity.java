@@ -11,9 +11,6 @@ import info.upump.jym.entity.Exercise;
 import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE;
 import static info.upump.jym.activity.constant.Constants.ID;
 
-/**
- * Created by explo on 06.04.2018.
- */
 
 public class ExerciseDetailDefaultActivity  extends ExerciseDetail{
     @Override
@@ -42,7 +39,7 @@ public class ExerciseDetailDefaultActivity  extends ExerciseDetail{
 
     @Override
     protected void setAdapter(){
-        setsAdapter = new SetsAdapter(setsList, DEFAULT_TYPE);
+        setsAdapter = new SetsAdapter(setsList, DEFAULT_TYPE, null);
         recyclerView.setAdapter(setsAdapter);
     }
 }

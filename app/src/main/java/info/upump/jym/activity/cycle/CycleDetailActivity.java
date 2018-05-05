@@ -40,12 +40,14 @@ import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.activity.workout.WorkoutActivityForChoose;
 import info.upump.jym.activity.workout.WorkoutCreateActivity;
+import info.upump.jym.activity.workout.WorkoutDetailActivity;
 import info.upump.jym.adapters.PagerAdapterCycle;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Day;
 import info.upump.jym.entity.Workout;
+import info.upump.jym.fragments.cycle.CRUD;
 
 import static info.upump.jym.activity.constant.Constants.CLEAR;
 import static info.upump.jym.activity.constant.Constants.CREATE;
@@ -57,6 +59,7 @@ import static info.upump.jym.activity.constant.Constants.ERROR;
 import static info.upump.jym.activity.constant.Constants.FINISH_DATA;
 import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.PARENT_ID;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
 import static info.upump.jym.activity.constant.Constants.START_DATA;
 import static info.upump.jym.activity.constant.Constants.TEMPLATE_TYPE_ITEM;
 import static info.upump.jym.activity.constant.Constants.TITLE;
@@ -64,7 +67,7 @@ import static info.upump.jym.activity.constant.Constants.UPDATE;
 import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 import static info.upump.jym.activity.constant.Constants.WEEK_EVEN;
 
-public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle>, View.OnClickListener {
+public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle>, View.OnClickListener, CRUD<Workout> {
     protected ViewPager viewPager;
     protected CollapsingToolbarLayout collapsingToolbarLayout;
     protected NestedScrollView nestedScrollView;
@@ -80,33 +83,20 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-        /*    if (msg.what == DELETE) {
-                Toast.makeText(getContext(), R.string.toast_cycle_delete, Toast.LENGTH_SHORT).show();
-            }*/
-
-       /*     if (msg.what == UPDATE) {
-                Workout workout = (Workout) msg.obj;
-                long id = workout.getId();
-                int index = -1;
-                for (Workout delWorkout : workoutList) {
-                    if (delWorkout.getId() == id) {
-                        index = workoutList.indexOf(delWorkout);
-                        break;
-                    }
-                }
-                if (index != -1) {
-                    workoutList.set(index, workout);
-                    recyclerView.smoothScrollToPosition(index);
-                    workoutAdapter.notifyItemChanged(index);
-                }
-            }*/
-
-           /* if (msg.what == ERROR) {
-                long id = (long) msg.obj;
-                Toast.makeText(getContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
-                insertDeletedItem(id);
+            if (msg.what == DELETE) {
+                Toast.makeText(getApplicationContext(), R.string.toast_workout_delete, Toast.LENGTH_SHORT).show();
             }
-*/
+
+            if (msg.what == UPDATE) {
+                Workout workout = (Workout) msg.obj;
+                iItemFragment.update(workout);
+            }
+
+            if (msg.what == ERROR) {
+                long id = (long) msg.obj;
+                Toast.makeText(getApplicationContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+                iItemFragment.insertDeletedItem(id);
+            }
            if(msg.what == CLEAR){
                iItemFragment.clear();
            }
@@ -297,10 +287,24 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println(requestCode);
         if (resultCode == RESULT_OK) {
+            long id;
             switch (requestCode) {
+                case  REQUEST_CODE_CHANGE_OPEN :
+                    id = data.getLongExtra(ID, 0);
+                    int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
+                    switch (changeOrDelete) {
+                        case UPDATE:
+                            updateInnerItem(id);
+                            break;
+                        case DELETE:
+                            deleteInnerItem(id);
+                            break;
+                    }
+                    break;
                 case Constants.REQUEST_CODE_CHOOSE:
-                    long id = data.getLongExtra(ID, 0);
+                    id = data.getLongExtra(ID, 0);
                     addItem(id);
                     break;
                 case Constants.REQUEST_CODE_CREATE:
@@ -310,8 +314,41 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                     update = true;
                     updateDescription();
                     break;
+
             }
         }
+    }
+
+    private void updateInnerItem(final long id) {
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                Workout workout = workoutDao.getById(id);
+                if (workout != null) {
+                    handler.sendMessageDelayed(handler.obtainMessage(UPDATE, workout), 0);
+                }
+            }
+        });
+        thread.start();
+
+    }
+
+    private void deleteInnerItem(final long id) {
+        System.out.println("delere");
+        iItemFragment.delete(id);
+              final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                Workout workout = new Workout();
+                workout.setId(id);
+                if (workoutDao.delete(workout)) {
+                    handler.sendMessageDelayed(handler.obtainMessage(DELETE, id), 0);
+                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR, id), 0);
+            }
+        });
+        thread.start();
     }
 
     private void addItem(final long id) {
@@ -439,6 +476,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     public void delete(long id) {
         Intent intent = new Intent();
         intent.putExtra(ID, id);
+        update = false;
         intent.putExtra(UPDATE_DELETE, DELETE);
         setResult(RESULT_OK, intent);
         finishActivityWithAnimation();
@@ -470,13 +508,14 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                     showDialogCreateItems();
                     break;
                 case 1:
-                    updateItem();
+                    updateDescriptionItem();
                     break;
             }
         }
     }
 
-    private void updateItem() {
+
+    private void updateDescriptionItem() {
         Intent intent = CycleCreateActivity.createIntent(this, cycle);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;
@@ -523,5 +562,14 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         outState.putBoolean(UPDATE_DELETE, update);
     }
 
+
+    @Override
+    public void createIntentForResult(ActivityOptions activityOptions, Workout workout) {
+            Intent intent = WorkoutDetailActivity.createIntent(this, workout);
+            if (activityOptions != null) {
+                startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN, activityOptions.toBundle());
+            } else startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN);
+
+        }
 
 }

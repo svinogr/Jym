@@ -191,8 +191,8 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
 
 
-    public void alterCopy(long idFrom, long idTarget) {
-        List<Exercise> list = getByParentId(idFrom);
+    public Exercise alterCopy(long idFrom, long idTarget) {
+   /*     List<Exercise> list = getByParentId(idFrom);
         SQLiteStatement sqLiteStatement = sqLiteDatabase.compileStatement(sql);
         sqLiteDatabase.beginTransaction();
         SetDao setDao = new SetDao(context);
@@ -240,10 +240,27 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         } finally {
             sqLiteDatabase.endTransaction();
         }
-         /*   for (Exercise exercise : list) {
+        if()
+            for (Exercise exercise : list) {
                 setDao.alterCopy(exercise.getParentId(), exercise.getId());
-            }
-*/
+            }*/
+        SetDao setDao = new SetDao(context);
+        Exercise exercise = getById(idFrom);
+
+        List<Sets> setsList = setDao.getByParentId(exercise.getId());
+
+        exercise.setId(0);
+        exercise.setParentId(idTarget);
+        exercise.setTemplate(false);
+        exercise.setDefaultType(false);
+        long idNewExercise = create(exercise);
+        for (Sets sets : setsList) {
+
+            setDao.copyFromTemplate(sets.getId(), idNewExercise);
+        }
+        exercise.setId(idNewExercise);
+
+        return exercise;
 
 
 
@@ -261,6 +278,12 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         exercise.setTemplate(false);
         exercise.setDefaultType(false);
         long idNewExercise = create(exercise);
+        for (Sets sets : setsList) {
+
+            setDao.copyFromTemplate(sets.getId(), idNewExercise);
+        }
+
+        return idNewExercise;
 /*
 
         sqLiteDatabase.beginTransaction();
@@ -297,11 +320,6 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
             sqLiteDatabase.endTransaction();
         }*/
 
-        for (Sets sets : setsList) {
 
-            setDao.copyFromTemplate(sets.getId(), idNewExercise);
-        }
-
-        return idNewExercise;
     }
 }

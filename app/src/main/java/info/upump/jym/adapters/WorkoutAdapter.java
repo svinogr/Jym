@@ -21,7 +21,7 @@ import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_CHOOSE;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_DEFAULT_TYPE;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
 
-public class WorkoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class WorkoutAdapter extends RecyclerView.Adapter<AbstractWorkoutViewHolder> {
     private List<Workout> workoutList;
     public static final int DAY = 0;
     public static final int DAY_DEFAULT = 7;
@@ -39,13 +39,13 @@ public class WorkoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder = null;
+    public AbstractWorkoutViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        AbstractWorkoutViewHolder viewHolder = null;
         View inflate;
         switch (viewType) {
             case DAY:
                 inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_card_layout, parent, false);
-                viewHolder = new WorkoutDayViewHolder(inflate);
+                viewHolder = new WorkoutDayViewHolder(inflate, crud);
                 break;
             case DAY_DEFAULT:
                 inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.workout_card_layout, parent, false);
@@ -70,10 +70,9 @@ public class WorkoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof AbstractWorkoutViewHolder) {
-            ((AbstractWorkoutViewHolder) holder).bind(workoutList.get(position));
-        }
+    public void onBindViewHolder(AbstractWorkoutViewHolder holder, int position) {
+        holder.bind(workoutList.get(position));
+
     }
 
     @Override

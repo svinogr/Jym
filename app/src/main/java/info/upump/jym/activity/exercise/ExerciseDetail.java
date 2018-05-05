@@ -1,9 +1,12 @@
 package info.upump.jym.activity.exercise;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
@@ -18,7 +21,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IItemFragment;
@@ -26,20 +32,88 @@ import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.activity.sets.SetActivityCreate;
 import info.upump.jym.adapters.SetsAdapter;
 import info.upump.jym.bd.ExerciseDao;
+import info.upump.jym.bd.SetDao;
+import info.upump.jym.bd.WorkoutDao;
+import info.upump.jym.entity.Day;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Sets;
+import info.upump.jym.entity.Workout;
+import info.upump.jym.fragments.cycle.CRUD;
+import info.upump.jym.loaders.ASTExercise;
+import info.upump.jym.loaders.ASTSets;
 import info.upump.jym.loaders.SetsLoader;
 
+import static info.upump.jym.activity.constant.Constants.CLEAR;
+import static info.upump.jym.activity.constant.Constants.CREATE;
+import static info.upump.jym.activity.constant.Constants.DAY;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.DESCRIPTION;
+import static info.upump.jym.activity.constant.Constants.ERROR;
+import static info.upump.jym.activity.constant.Constants.FINISH_DATA;
 import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
+import static info.upump.jym.activity.constant.Constants.PARENT_ID;
+import static info.upump.jym.activity.constant.Constants.QUANTITY;
+import static info.upump.jym.activity.constant.Constants.REPS;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CREATE;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.TEMPLATE_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.TITLE;
+import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 import static info.upump.jym.activity.constant.Constants.USER_TYPE;
+import static info.upump.jym.activity.constant.Constants.WEEK_EVEN;
+import static info.upump.jym.activity.constant.Constants.WEIGHT;
 
-public class ExerciseDetail extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Sets>>, IItemFragment<Sets> {
+public class ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemFragment<Sets>, CRUD<Sets> {
     protected Exercise exercise;
     protected List<Sets> setsList = new ArrayList<>();
     protected RecyclerView recyclerView;
     protected FloatingActionButton addFab;
     protected SetsAdapter setsAdapter;
+    private ASTSets astSets;
+    private boolean update;
+    private int index=-1;
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == DELETE) {
+                Toast.makeText(getApplicationContext(), R.string.toast_set_delete, Toast.LENGTH_SHORT).show();
+            }
+
+            if (msg.what == UPDATE) {
+                Sets sets = (Sets) msg.obj;
+                update(sets);
+            }
+
+            if (msg.what == ERROR) {
+                long id = ((Sets) msg.obj).getId();
+                Toast.makeText(getApplicationContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+                insertDeletedItem(id);
+            }
+
+            if (msg.what == CLEAR) {
+                setsList.clear();
+                setsAdapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), R.string.toast_exercise_delete_sets, Toast.LENGTH_SHORT).show();
+
+            }
+
+            if (msg.what == CREATE) {
+                addItems((List<Sets>) msg.obj);
+
+            }
+        }
+    };
+
+    private void addItems(List<Sets> obj) {
+        setsList.addAll(obj);
+        setsAdapter.notifyDataSetChanged();
+        recyclerView.smoothScrollToPosition(setsList.size() - 1);
+        Toast.makeText(getApplicationContext(), R.string.toast_set_saved, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +121,14 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_exercise_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.exercise_title_sets);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean(UPDATE_DELETE) != false) {
+                update = true;
+            }
+        }
 
         exercise = getItemFromIntent();
-        getSupportLoaderManager().initLoader(0, null, this);
+        createAsyncTask();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.exercise_activity_detail_recycler_view);
@@ -59,10 +138,23 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         setFabVisible(true);
         addFab.setOnClickListener(this);
         setFab();
+        System.out.println(setsList.toString());
     }
 
-    protected void setAdapter(){
-        setsAdapter = new SetsAdapter(setsList, USER_TYPE);
+    private void createAsyncTask() {
+        astSets = new ASTSets(this);
+        astSets.execute(Constants.LOADER_BY_PARENT_ID, (int) exercise.getId());
+        try {
+            setsList = astSets.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void setAdapter() {
+        setsAdapter = new SetsAdapter(setsList, USER_TYPE, this);
         recyclerView.setAdapter(setsAdapter);
     }
 
@@ -70,9 +162,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         if (visible) {
             addFab.setVisibility(View.VISIBLE);
         } else addFab.setVisibility(View.GONE);
-
     }
-
 
     public static Intent createIntent(Context context, Exercise exercise) {
         Intent intent = new Intent(context, ExerciseDetail.class);
@@ -92,25 +182,8 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.exercise_activity_detail_fab_add:
                 Intent intent = SetActivityCreate.createIntent(this, new Sets());
-                startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
+                startActivityForResult(intent, REQUEST_CODE_CREATE);
         }
-
-    }
-
-    @Override
-    public Loader<List<Sets>> onCreateLoader(int id, Bundle args) {
-        return new SetsLoader(this, LOADER_BY_PARENT_ID, exercise.getId());
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Sets>> loader, List<Sets> data) {
-        setsList.clear();
-        setsList.addAll(data);
-        setsAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Sets>> loader) {
 
     }
 
@@ -118,33 +191,120 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+            long id = data.getLongExtra(ID, 0);
             switch (requestCode) {
-                case Constants.REQUEST_CODE_CREATE:
-                    long id = data.getLongExtra(ID, 0);
-               //     addItem(id);
+                case REQUEST_CODE_CREATE:
+                    update = true;
+                    addNewItem(data);
                     break;
+                case REQUEST_CODE_CHANGE_OPEN:
+                    int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
+                    switch (changeOrDelete) {
+                        case UPDATE:
+                        updateInnerItem(data);
+                        break;
+                        case DELETE:
+                            deleteInnerItem(id);
+                    }
             }
         }
     }
 
-  /*  @Override
-    public void addChosenItem(Sets sets) {
+    private void deleteInnerItem(final long id) {
+        update = true;
+        for (Sets setsDel: setsList) {
+            if (setsDel.getId() == id) {
+                index = setsList.indexOf(setsDel);
+            }
+        }
+            if(index != -1) {
+                setsList.remove(index);
+                setsAdapter.notifyItemRemoved(index);
+                setsAdapter.notifyItemRangeChanged(index, setsList.size());
+            }
 
-    }*/
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SetDao setDao = new SetDao(getApplicationContext());
+                Sets sets = new Sets();
+                sets.setId(id);
+                boolean id = setDao.delete(sets);
+                if (id) {
+                    handler.sendMessageDelayed(handler.obtainMessage(DELETE, sets), 0);
+                } else   handler.sendMessageDelayed(handler.obtainMessage(ERROR, sets), 0);
+            }
+        });
+        thread.start();
+    }
+
+    private void updateInnerItem(Intent data) {
+        update = true;
+        final Sets sets = new Sets();
+        sets.setId(data.getLongExtra(ID, 0));
+        sets.setWeight(data.getDoubleExtra(WEIGHT, 0));
+        sets.setReps(data.getIntExtra(REPS,0));
+        sets.setStartDate(new Date());
+        sets.setFinishDate(new Date());
+        sets.setParentId(exercise.getId());
+
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SetDao setDao = new SetDao(getApplicationContext());
+                 boolean id = setDao.update(sets);
+                if (id) {
+                    handler.sendMessageDelayed(handler.obtainMessage(UPDATE, sets), 0);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void addNewItem(Intent data) {
+        update = true;
+        final Sets sets = new Sets();
+        sets.setStartDate(new Date());
+        sets.setFinishDate(new Date());
+        sets.setWeight(data.getDoubleExtra(WEIGHT, 0));
+        sets.setReps(data.getIntExtra(REPS, 0));
+        final int q = data.getIntExtra(QUANTITY, 1);
+        sets.setParentId(exercise.getId());
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<Sets> setsList = new ArrayList<>();
+                SetDao setDao = new SetDao(getApplicationContext());
+                for (int i = 0; i < q; i++) {
+                    sets.setId(0);
+                    long l = setDao.create(sets);
+                    sets.setId(l);
+                    setsList.add(sets);
+                }
+                if (setsList.size() != 0) {
+                    handler.sendMessageDelayed(handler.obtainMessage(CREATE, setsList), 0);
+                }
+            }
+        });
+        thread.start();
+
+    }
 
     @Override
     public void clear() {
-       /* ExerciseDao exerciseDao = new ExerciseDao(this);
-        boolean clear = exerciseDao.clear(exercise.getId());
-        if (clear) {
-            setsList.clear();
-            setsAdapter.notifyDataSetChanged();
-            Toast.makeText(this, R.string.toast_exercise_delete_sets, Toast.LENGTH_SHORT).show();
-            return true;
-        } else {
-            Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
-            return false;
-        }*/
+        update = true;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ExerciseDao exerciseDao = new ExerciseDao(getApplicationContext());
+                boolean clear = exerciseDao.clear(exercise.getId());
+                if (clear) {
+                    handler.sendMessageDelayed(handler.obtainMessage(CLEAR), 0);
+                }
+            }
+        });
+        thread.start();
     }
 
     @Override
@@ -214,7 +374,12 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     }
 
     protected void finishActivityWithAnimation() {
-
+        if (update) {
+            Intent intent = new Intent();
+            intent.putExtra(UPDATE_DELETE, UPDATE);
+            intent.putExtra(ID, exercise.getId());
+            setResult(RESULT_OK, intent);
+        }
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();
@@ -228,11 +393,38 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     }
 
     public void delete(long id) {
-        ExerciseDao exerciseDao = new ExerciseDao(this);
-        if (exerciseDao.delete(exercise)) {
-            Toast.makeText(this, R.string.toast_exercise_delete, Toast.LENGTH_SHORT).show();
-            finishActivityWithAnimation();
-        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+        update = false;
+        Intent intent = new Intent();
+        intent.putExtra(UPDATE_DELETE, DELETE);
+        intent.putExtra(ID, id);
+        setResult(RESULT_OK, intent);
+        exit();
+    }
+
+    @Override
+    public void insertDeletedItem(long id) {
+        SetDao setDao = new SetDao(this);
+        Sets sets = setDao.getById(id);
+        setsList.add(index, sets);
+        setsAdapter.notifyItemInserted(index);
+    }
+
+    @Override
+    public  void  update(Sets object) {
+        int index = -1;
+        long id = object.getId();
+        for(Sets sUpdate: setsList){
+            if(sUpdate.getId() == id){
+                index = setsList.indexOf(sUpdate);
+                break;
+            }
+        }
+        if(index != -1) {
+            setsList.set(index, object);
+            setsAdapter.notifyItemChanged(index);
+            recyclerView.smoothScrollToPosition(index);
+            Toast.makeText(this, R.string.toast_set_update, Toast.LENGTH_SHORT).show();
+        }
     }
 
     protected void setFab() {
@@ -256,5 +448,21 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         });
 
         addFab.setOnClickListener(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(UPDATE_DELETE, update);
+    }
+
+
+    @Override
+    public void createIntentForResult(ActivityOptions activityOptions, Sets sets) {
+        Intent intent = SetActivityCreate.createIntent(this, sets);
+        if (activityOptions != null) {
+            startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN, activityOptions.toBundle());
+        } else startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN);
+
     }
 }

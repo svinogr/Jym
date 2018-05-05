@@ -72,7 +72,6 @@ abstract public class AbstractWorkoutViewHolder extends RecyclerView.ViewHolder 
     }
 
     protected Context getAnimationContext() {
-
         if (context instanceof Activity) {
             context = (Activity) context;
         } else context = ((ContextThemeWrapper) context).getBaseContext();

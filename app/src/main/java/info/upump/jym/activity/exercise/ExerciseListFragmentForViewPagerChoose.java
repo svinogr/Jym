@@ -48,7 +48,7 @@ public class ExerciseListFragmentForViewPagerChoose extends Fragment implements 
             String t = getArguments().getString(TYPE_MUSCLE);
             typeMuscle = TypeMuscle.valueOf(t);
         }
-        exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.CHOOSE);
+        exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.CHOOSE, null);
     }
 
     @Override
