@@ -122,6 +122,12 @@ public class WorkoutFragment extends Fragment implements View.OnClickListener, C
         if (getArguments() != null) {
         }
         createAsyncTask();
+        createAdapter();
+    }
+
+    protected void createAsyncTask() {
+        astWorkout = new ASTWorkout(getContext());
+        astWorkout.execute(LOADER_BY_USER_TYPE);
         try {
             workoutList = astWorkout.get();
         } catch (InterruptedException e) {
@@ -129,12 +135,6 @@ public class WorkoutFragment extends Fragment implements View.OnClickListener, C
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        createAdapter();
-    }
-
-    protected void createAsyncTask() {
-        astWorkout = new ASTWorkout(getContext());
-        astWorkout.execute(LOADER_BY_USER_TYPE);
     }
 
     @Override

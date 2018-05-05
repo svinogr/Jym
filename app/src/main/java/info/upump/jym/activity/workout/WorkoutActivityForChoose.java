@@ -2,6 +2,7 @@ package info.upump.jym.activity.workout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IChooseItem;
@@ -19,17 +21,19 @@ import info.upump.jym.adapters.WorkoutAdapter;
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
+import info.upump.jym.loaders.ASTWorkout;
 import info.upump.jym.loaders.WorkoutFragmentLoader;
 
 import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_CHOOSE;
 import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
 
-public class WorkoutActivityForChoose extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Workout>>, IChooseItem<Workout> {
+public class WorkoutActivityForChoose extends AppCompatActivity implements /*LoaderManager.LoaderCallbacks<List<Workout>>*/ IChooseItem<Workout> {
     private RecyclerView recyclerView;
     private WorkoutAdapter workoutAdapter;
     private List<Workout> workoutList =  new ArrayList<>();
-    private long id;
+    private ASTWorkout astWorkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +41,8 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
         setContentView(R.layout.activity_workout_for_choose);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.workout_choose_title_add_workouts);
-        id = getIntent().getLongExtra(ID,0);
 
-        getSupportLoaderManager().initLoader(0, null, this);
+        createAsyncTask();
 
         workoutAdapter = new WorkoutAdapter(workoutList, DEFAULT_TYPE_CHOOSE, null);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -49,29 +52,22 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
         recyclerView.setAdapter(workoutAdapter);
     }
 
-    public static Intent createIntent(Context context, Cycle cycle){
+    public static Intent createIntent(Context context){
         Intent intent = new Intent(context, WorkoutActivityForChoose.class);
-        intent.putExtra(ID, cycle.getId());///
         return intent;
     }
 
-    @Override
-    public Loader<List<Workout>> onCreateLoader(int id, Bundle args) {
-        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(this, LOADER_BY_TEMPLATE_TYPE);
-        return workoutFragmentLoader;
+    protected void createAsyncTask() {
+        astWorkout = new ASTWorkout(this);
+        astWorkout.execute(LOADER_BY_TEMPLATE_TYPE);
+        try {
+            workoutList = astWorkout.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
-
-    @Override
-    public void onLoadFinished(Loader<List<Workout>> loader, List<Workout> data) {
-        workoutList.clear();
-        workoutList.addAll(data);
-        workoutAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Workout>> loader) {
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home){
@@ -83,12 +79,10 @@ public class WorkoutActivityForChoose extends AppCompatActivity implements Loade
     @Override
     public void createIntentForChooseResult(Workout workout) {
         Intent intent = new Intent();
-        WorkoutDao workoutDao = new WorkoutDao(this);
-//        workoutDao.copyFromTemplate(workout.getId(), id);
-//        List<Workout> workoutList = new ArrayList<>();
-//        workoutList.add(workout);
-        workoutDao.alter(workout.getId(), id);
+        intent.putExtra(ID, workout.getId());
         setResult(RESULT_OK, intent);
-        finish();
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        } else finish();
     }
 }

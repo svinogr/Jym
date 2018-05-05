@@ -4,36 +4,34 @@ package info.upump.jym.activity.cycle.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IItemFragment;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.WorkoutAdapter;
-import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
-import info.upump.jym.loaders.WorkoutFragmentLoader;
+import info.upump.jym.loaders.ASTWorkout;
 
-import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
-
-public class CycleFragmentForViewPagerWorkouts extends Fragment implements LoaderManager.LoaderCallbacks<List<Workout>>, IItemFragment<Workout> {
+public class CycleFragmentForViewPagerWorkouts extends Fragment implements /*LoaderManager.LoaderCallbacks<List<Workout>>,*/ IItemFragment<Workout> {
     protected Cycle cycle;
     protected List<Workout> workoutList = new ArrayList<>();
     protected RecyclerView recyclerView;
     protected WorkoutAdapter workoutAdapter;
+    protected ASTWorkout astWorkout;
 
     public CycleFragmentForViewPagerWorkouts() {
         // Required empty public constructor
@@ -52,7 +50,21 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createAsyncTask();
+        sort(workoutList);
         setAdapter();
+    }
+
+    private void createAsyncTask() {
+        astWorkout = new ASTWorkout(getContext());
+        astWorkout.execute(Constants.LOADER_BY_PARENT_ID, (int) cycle.getId());
+        try {
+            workoutList = astWorkout.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void setAdapter() {
@@ -71,20 +83,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
         return inflate;
     }
 
-    @Override
-    public Loader<List<Workout>> onCreateLoader(int id, Bundle args) {
-        WorkoutFragmentLoader workoutFragmentLoader = new WorkoutFragmentLoader(getContext(), LOADER_BY_PARENT_ID, cycle.getId());
-        return workoutFragmentLoader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Workout>> loader, List<Workout> data) {
-        workoutList.clear();
-        workoutList.addAll(data);
-        sort(workoutList);
-        workoutAdapter.notifyDataSetChanged();
-    }
-
     private void sortListByDay(List<Workout> list) {
         Collections.sort(list, new Comparator<Workout>() {
             @Override
@@ -94,13 +92,13 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
         });
     }
 
-    private void sort(List<Workout> list){
+    private void sort(List<Workout> list) {
         List<Workout> workoutListEven = new ArrayList<>();
         List<Workout> workoutListNotEven = new ArrayList<>();
-        for (Workout w: list){
-            if(w.isWeekEven()){
+        for (Workout w : list) {
+            if (w.isWeekEven()) {
                 workoutListEven.add(w);
-            }else workoutListNotEven.add(w);
+            } else workoutListNotEven.add(w);
         }
         sortListByDay(workoutListEven);
         sortListByDay(workoutListNotEven);
@@ -108,11 +106,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
         list.addAll(workoutListNotEven);
         list.addAll(workoutListEven);
     }
-
-    @Override
-    public void onLoaderReset(Loader<List<Workout>> loader) {
-    }
-
 
     @Override
     public void onAttach(Context context) {
@@ -125,28 +118,41 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements Loade
             cycle = new Cycle();
             cycle.setId(getArguments().getLong(Constants.ID, 0));
         }
-        getLoaderManager().initLoader(0, null, this);
 
     }
 
-    @Override
-    public void addChosenItem(long idItem) {
+    /*@Override
+    public void addChosenItem(Workout workout) {
+        workoutList.add(workout);
+        int position = workoutList.size() - 1;
+        workoutAdapter.notifyItemInserted(position);
         sortListByDay(workoutList);
+    }*/
+
+    @Override
+    public void clear() {
+        workoutList.clear();
+        workoutAdapter.notifyDataSetChanged();
+        if (workoutList.isEmpty()) {
+            Toast.makeText(getContext(), R.string.toast_cycle_delete_workouts, Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(getContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public boolean clear() {
-        CycleDao cycleDao = new CycleDao(getContext());
-        boolean clear = cycleDao.clear(cycle.getId());
-        if (clear) {
-            workoutList.clear();
-            workoutAdapter.notifyDataSetChanged();
-            return true;
-        } else return false;
-    }
-
-    @Override
-    public void addItem(long idItem) {
-        sortListByDay(workoutList);
+    public void addItem(Workout workout) {
+        workoutList.add(workout);
+        sort(workoutList);
+        long id = workout.getId();
+        int index = -1;
+        for (Workout w : workoutList) {
+            if (w.getId() == id) {
+                index = workoutList.indexOf(w);
+                break;
+            }
+        }
+        if (index != -1) {
+            workoutAdapter.notifyItemInserted(index);
+            recyclerView.smoothScrollToPosition(index);
+        }
     }
 }

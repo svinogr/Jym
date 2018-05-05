@@ -3,6 +3,8 @@ package info.upump.jym.fragments.cycle;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.concurrent.ExecutionException;
+
 import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.CycleAdapter;
@@ -25,6 +27,13 @@ public class CycleFragmentDefault extends CycleFragment {
     protected void createAsyncTask() {
         astCycle = new ASTCycle(getContext());
         astCycle.execute(Constants.LOADER_BY_DEFAULT_TYPE);
+        try {
+            cycleList = astCycle.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

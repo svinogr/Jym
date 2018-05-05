@@ -185,7 +185,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     }
 
 
-    public void alter(long idFrom, long idTarget) {
+    public Workout alter(long idFrom, long idTarget) {
         long start = System.currentTimeMillis();
         SQLiteStatement sqLiteStatementWorkout = sqLiteDatabase.compileStatement(sqlForWorkout);
         ExerciseDao exerciseDao = new ExerciseDao(context);
@@ -252,9 +252,12 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
             sqLiteDatabase.endTransaction();
         }
 
+
         long finish = System.currentTimeMillis() - start;
         System.out.println(Long.toString(finish) + " workout copy ms");
-
+        if(workout.getId() != 0){
+            return workout;
+        } else return null;
     }
 
     @Override

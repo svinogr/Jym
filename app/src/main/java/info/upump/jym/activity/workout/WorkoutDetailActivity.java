@@ -293,9 +293,9 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     }
 
     private void clear() {
-        if (iItemFragment.clear()) {
+     /*   if (iItemFragment.clear()) {
             Toast.makeText(this, R.string.toast_workout_delete_exercises, Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();*/
     }
 
     @Override
@@ -309,7 +309,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_CHOOSE:
-                    iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0)); // можно удалить
+//                    iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0)); // можно удалить
                     break;
                 case Constants.UPDATE:
                     update = true;

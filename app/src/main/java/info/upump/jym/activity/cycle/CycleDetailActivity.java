@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -40,13 +42,27 @@ import info.upump.jym.activity.workout.WorkoutActivityForChoose;
 import info.upump.jym.activity.workout.WorkoutCreateActivity;
 import info.upump.jym.adapters.PagerAdapterCycle;
 import info.upump.jym.bd.CycleDao;
+import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Cycle;
+import info.upump.jym.entity.Day;
 import info.upump.jym.entity.Workout;
 
+import static info.upump.jym.activity.constant.Constants.CLEAR;
+import static info.upump.jym.activity.constant.Constants.CREATE;
+import static info.upump.jym.activity.constant.Constants.DAY;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_ITEM;
 import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.DESCRIPTION;
+import static info.upump.jym.activity.constant.Constants.ERROR;
+import static info.upump.jym.activity.constant.Constants.FINISH_DATA;
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.PARENT_ID;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.TEMPLATE_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.TITLE;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
 import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
+import static info.upump.jym.activity.constant.Constants.WEEK_EVEN;
 
 public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle>, View.OnClickListener {
     protected ViewPager viewPager;
@@ -61,6 +77,46 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     protected TabLayout tabLayout;
     protected AppBarLayout appBarLayout;
     private boolean update;
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+        /*    if (msg.what == DELETE) {
+                Toast.makeText(getContext(), R.string.toast_cycle_delete, Toast.LENGTH_SHORT).show();
+            }*/
+
+       /*     if (msg.what == UPDATE) {
+                Workout workout = (Workout) msg.obj;
+                long id = workout.getId();
+                int index = -1;
+                for (Workout delWorkout : workoutList) {
+                    if (delWorkout.getId() == id) {
+                        index = workoutList.indexOf(delWorkout);
+                        break;
+                    }
+                }
+                if (index != -1) {
+                    workoutList.set(index, workout);
+                    recyclerView.smoothScrollToPosition(index);
+                    workoutAdapter.notifyItemChanged(index);
+                }
+            }*/
+
+           /* if (msg.what == ERROR) {
+                long id = (long) msg.obj;
+                Toast.makeText(getContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+                insertDeletedItem(id);
+            }
+*/
+           if(msg.what == CLEAR){
+               iItemFragment.clear();
+           }
+
+            if (msg.what == CREATE) {
+                iItemFragment.addItem((Workout)msg.obj);
+
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -244,10 +300,11 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_CODE_CHOOSE:
-                    iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0));
+                    long id = data.getLongExtra(ID, 0);
+                    addItem(id);
                     break;
                 case Constants.REQUEST_CODE_CREATE:
-                    iItemFragment.addItem(data.getLongExtra(Constants.ID, 0));
+                    addNewItem(data);
                     break;
                 case UPDATE:
                     update = true;
@@ -256,6 +313,49 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
             }
         }
     }
+
+    private void addItem(final long id) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                Workout workout = workoutDao.alter(id, cycle.getId());
+                if (workout != null) {
+                    handler.sendMessageDelayed(handler.obtainMessage(CREATE, workout), 0);
+                }
+            }
+        });
+        thread.start();
+
+    }
+
+    private void addNewItem(Intent data) {
+        final Workout workout = new Workout();
+        workout.setTitle(data.getStringExtra(TITLE));
+        workout.setComment(data.getStringExtra(DESCRIPTION));
+        workout.setWeekEven(data.getBooleanExtra(WEEK_EVEN, false));
+        workout.setDefaultType(data.getBooleanExtra(DEFAULT_TYPE_ITEM, false));
+        workout.setTemplate(data.getBooleanExtra(TEMPLATE_TYPE_ITEM, false));
+        workout.setDay(Day.valueOf(data.getStringExtra(DAY)));
+        workout.setStartDate(data.getStringExtra(START_DATA));
+        workout.setFinishDate(data.getStringExtra(FINISH_DATA));
+        workout.setParentId(data.getLongExtra(PARENT_ID, 0));
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                long id = workoutDao.create(workout);
+                if (id != -1) {
+                    workout.setId(id);
+                    handler.sendMessageDelayed(handler.obtainMessage(CREATE, workout), 0);
+                }
+            }
+        });
+        thread.start();
+    }
+
+
 
     @Override
     public void updateDescription() {
@@ -310,9 +410,17 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
     }
 
     private void clear() {
-        if (iItemFragment.clear()) {
-            Toast.makeText(this, R.string.toast_cycle_delete_workouts, Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CycleDao cycleDao = new CycleDao(getApplicationContext());
+                boolean clear = cycleDao.clear(cycle.getId());
+                if (clear) {
+                    handler.sendMessageDelayed(handler.obtainMessage(CLEAR), 0);
+                }
+            }
+        });
+        thread.start();
     }
 
     protected void finishActivityWithAnimation() {
@@ -391,7 +499,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                 Intent intent;
                 switch (item) {
                     case 1:
-                        intent = WorkoutActivityForChoose.createIntent(getApplicationContext(), cycle);
+                        intent = WorkoutActivityForChoose.createIntent(getApplicationContext());
                         startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
                         break;
                     case 0:
@@ -414,4 +522,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         super.onSaveInstanceState(outState);
         outState.putBoolean(UPDATE_DELETE, update);
     }
+
+
 }

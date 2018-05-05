@@ -58,7 +58,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
     private int index = -1;
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected FloatingActionButton addFab;
-    protected ASTCycle astCycle;
+    protected static ASTCycle astCycle;
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -66,18 +66,18 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
                 Toast.makeText(getContext(), R.string.toast_cycle_delete, Toast.LENGTH_SHORT).show();
             }
 
-            if(msg.what == UPDATE){
+            if (msg.what == UPDATE) {
                 Cycle cycle = (Cycle) msg.obj;
                 long id = cycle.getId();
-                int index=-1;
+                int index = -1;
                 for (Cycle delCycle : cycleList) {
                     if (delCycle.getId() == id) {
                         index = cycleList.indexOf(delCycle);
                         break;
                     }
                 }
-                if(index != -1) {
-                    cycleList.set(index,cycle);
+                if (index != -1) {
+                    cycleList.set(index, cycle);
                     recyclerView.smoothScrollToPosition(index);
                     cycleAdapter.notifyItemChanged(index);
                 }
@@ -120,10 +120,13 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         createAsyncTask();
+        createAdapter();
+    }
 
-
+    protected void createAsyncTask() {
+        astCycle = new ASTCycle(getContext());
+        astCycle.execute(Constants.LOADER_BY_USER_TYPE);
         try {
             cycleList = astCycle.get();
         } catch (InterruptedException e) {
@@ -131,14 +134,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
-        createAdapter();
-
-    }
-
-    protected void createAsyncTask() {
-        astCycle = new ASTCycle(getContext());
-        astCycle.execute(Constants.LOADER_BY_USER_TYPE);
     }
 
     protected void createAdapter() {
@@ -273,7 +268,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
                 CycleDao cycleDao = new CycleDao(getContext());
                 long id = cycleDao.create(cycle);
                 if (id != -1) {
-                        cycle.setId(id);
+                    cycle.setId(id);
                     handler.sendMessageDelayed(handler.obtainMessage(CREATE, cycle), 0);
                 }
             }

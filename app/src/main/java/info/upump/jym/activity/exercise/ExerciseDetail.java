@@ -26,7 +26,6 @@ import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.activity.sets.SetActivityCreate;
 import info.upump.jym.adapters.SetsAdapter;
 import info.upump.jym.bd.ExerciseDao;
-import info.upump.jym.bd.SetDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Sets;
 import info.upump.jym.loaders.SetsLoader;
@@ -122,20 +121,20 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
             switch (requestCode) {
                 case Constants.REQUEST_CODE_CREATE:
                     long id = data.getLongExtra(ID, 0);
-                    addItem(id);
+               //     addItem(id);
                     break;
             }
         }
     }
 
-    @Override
-    public void addChosenItem(long idItem) {
+  /*  @Override
+    public void addChosenItem(Sets sets) {
 
-    }
+    }*/
 
     @Override
-    public boolean clear() {
-        ExerciseDao exerciseDao = new ExerciseDao(this);
+    public void clear() {
+       /* ExerciseDao exerciseDao = new ExerciseDao(this);
         boolean clear = exerciseDao.clear(exercise.getId());
         if (clear) {
             setsList.clear();
@@ -145,10 +144,23 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         } else {
             Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
             return false;
-        }
+        }*/
     }
 
     @Override
+    public void addItem(Sets sets) {
+   /*     if (longExtra > 0) {
+            SetDao setDao = new SetDao(this);
+            List<Sets> newSets = setDao.getSetsFromId(longExtra);
+            for (Sets s : newSets) {
+                s.setParentId(exercise.getId());
+                setDao.update(s);
+            }
+            setsList.addAll(newSets);
+            setsAdapter.notifyDataSetChanged();
+        }*/
+    }
+/*    @Override
     public void addItem(long longExtra) {
         if (longExtra > 0) {
             SetDao setDao = new SetDao(this);
@@ -160,7 +172,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
             setsList.addAll(newSets);
             setsAdapter.notifyDataSetChanged();
         }
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

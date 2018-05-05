@@ -83,24 +83,24 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
         getLoaderManager().initLoader(0, null, this);
     }
 
-    @Override
-    public void addChosenItem(long idItem) {
+   /* @Override
+    public void addChosenItem(Workout workout) {
         exerciseAdapter.notifyDataSetChanged();
     }
-
+*/
     @Override
-    public boolean clear() {
-        WorkoutDao workoutDao = new WorkoutDao(getContext());
+    public void clear() {
+    /*    WorkoutDao workoutDao = new WorkoutDao(getContext());
         boolean clear = workoutDao.clear(workout.getId());
         if (clear) {
             exerciseList.clear();
             exerciseAdapter.notifyDataSetChanged();
             return true;
-        } else return false;
+        } else return false;*/
     }
 
     @Override
-    public void addItem(long longExtra) {
+    public void addItem(Workout workout) {
     }
 
     @Override

@@ -1,7 +1,7 @@
 package info.upump.jym.activity;
 
 public interface IItemFragment<T> {
-    void addChosenItem(long idItem);
-    boolean clear();
-    void addItem(long longExtra);
+//    void addChosenItem(T object);
+    void clear();
+    void addItem(T object);
 }
