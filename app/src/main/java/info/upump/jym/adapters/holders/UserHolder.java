@@ -1,5 +1,6 @@
 package info.upump.jym.adapters.holders;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -9,15 +10,18 @@ import android.widget.TextView;
 import info.upump.jym.R;
 import info.upump.jym.activity.user.UserCreateActivity;
 import info.upump.jym.entity.User;
+import info.upump.jym.fragments.cycle.CRUD;
 
 public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private TextView weight,  fat, date;
+    private TextView weight, fat, date;
     private User user;
     private Context context;
     private View itemView;
+    private CRUD crud;
 
-    public UserHolder(View itemView) {
+    public UserHolder(View itemView, CRUD crud) {
         super(itemView);
+        this.crud = crud;
         context = itemView.getContext();
         this.itemView = itemView;
         weight = itemView.findViewById(R.id.user_card_layout_weight);
@@ -37,8 +41,8 @@ public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        Intent intent = UserCreateActivity.createIntent(context, user);
-        System.out.printf(user.toString());
-        context.startActivity(intent);
+        crud.createIntentForResult(null, user);
+
     }
+
 }

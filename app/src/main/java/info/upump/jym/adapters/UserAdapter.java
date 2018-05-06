@@ -10,18 +10,21 @@ import java.util.List;
 import info.upump.jym.R;
 import info.upump.jym.adapters.holders.UserHolder;
 import info.upump.jym.entity.User;
+import info.upump.jym.fragments.cycle.CRUD;
 
 public class UserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<User> userList;
+    private CRUD crud;
 
-    public UserAdapter(List<User> list) {
+    public UserAdapter(List<User> list, CRUD crud) {
         this.userList = list;
+        this.crud = crud;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_card_layout, parent, false);
-        RecyclerView.ViewHolder viewHolder = new UserHolder(inflate);
+        RecyclerView.ViewHolder viewHolder = new UserHolder(inflate, crud);
         return viewHolder;
     }
 

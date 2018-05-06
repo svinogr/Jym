@@ -62,7 +62,7 @@
         <activity android:name=".activity.user.UserCreateActivity" />
         <activity android:name=".activity.user.UserGraphActivity" />
         <activity android:name=".activity.SettingsActivity" />
-        <activity android:name=".activity.user.UserDatailActivity"></activity>
+        <activity android:name=".activity.user.UserDetailActivity"></activity>
     </application>
 
 </manifest>

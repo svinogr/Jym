@@ -423,12 +423,12 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         } else finish();
     }
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.edit_set_menu, menu);
         return true;
-    }
+    }*/
 
     private Intent createIntentForResult() {
         Intent intent = new Intent();
@@ -446,7 +446,7 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         if (item.getItemId() == android.R.id.home) {
             exit();
         }
-        if (item.getItemId() == R.id.edit_menu_delete) {
+       /* if (item.getItemId() == R.id.edit_menu_delete) {
             if (user.getId() > 0) {
                 switch (item.getItemId()) {
                     case R.id.edit_menu_delete:
@@ -462,18 +462,18 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
                 }
             } else
                 Toast.makeText(this,R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 
-    public void delete(long id) {
+ /*   public void delete(long id) {
         UserDao userDao = new UserDao(this);
         if (userDao.delete(user)) {
             Toast.makeText(this, R.string.toast_user_delete, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
         } else
             Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
-    }
+    }*/
 
     @Override
     public void onClick(View v) {

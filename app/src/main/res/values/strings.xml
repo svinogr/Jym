@@ -282,5 +282,6 @@
     <string name="week_even">четная неделя</string>
     <string name="week_not_even">нечентная неделя</string>
     <string name="week_even_label">Четная неделя</string>
+    <string name="title_activity_user">Параметры измерений</string>
 
 </resources>
