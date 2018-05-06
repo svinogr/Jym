@@ -1,3 +1,4 @@
+/*
 package info.upump.jym.loaders;
 
 import android.content.Context;
@@ -58,3 +59,4 @@ public class SetsLoader extends AsyncTaskLoader<List<Sets>> {
         super.onForceLoad();
     }
 }
+*/

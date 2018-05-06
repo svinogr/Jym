@@ -17,6 +17,7 @@ public class CycleViewHolder extends CycleDefaultViewHolder {
     public CycleViewHolder(View itemView, CRUD crud) {
         super(itemView);
         this.crud = crud;
+        System.out.println("12");
     }
 
     @Override

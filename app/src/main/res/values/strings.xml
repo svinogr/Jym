@@ -124,7 +124,7 @@
     <string name="label_title_user_right_biceps">Пр.Бицепс, см</string>
     <string name="label_title_user_abs">Талия, см</string>
     <string name="label_title_user_left_leg">Лев.Бедро, см</string>
-    <string name="label_title_user_right_leg">Лев.Бедро, см</string>
+    <string name="label_title_user_right_leg">Пр.Бедро, см</string>
     <string name="label_title_user_left_calves">Лев.Голень, см</string>
     <string name="label_title_user_right_calves">Пр.Голень, см</string>
     <string name="label_title_user_weight">Вес, кг</string>

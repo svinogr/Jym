@@ -1,3 +1,4 @@
+/*
 package info.upump.jym.loaders;
 
 import android.content.Context;
@@ -70,3 +71,4 @@ public class ExerciseFragmentLoader extends AsyncTaskLoader<List<Exercise>> {
         super.onForceLoad();
     }
 }
+*/

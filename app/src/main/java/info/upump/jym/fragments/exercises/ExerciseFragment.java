@@ -1,9 +1,12 @@
 package info.upump.jym.fragments.exercises;
 
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,15 +15,41 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.Date;
+
+import javax.xml.transform.Result;
 
 import info.upump.jym.IControlFragment;
 import info.upump.jym.ITitleble;
 import info.upump.jym.R;
+import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.activity.exercise.ExerciseCreateActivity;
 import info.upump.jym.adapters.PagerAdapterExercise;
+import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.entity.Exercise;
+import info.upump.jym.entity.ExerciseDescription;
+import info.upump.jym.entity.TypeMuscle;
+import info.upump.jym.fragments.cycle.CRUD;
 
-public class ExerciseFragment extends Fragment implements View.OnClickListener {
+import static info.upump.jym.activity.constant.Constants.CLEAR;
+import static info.upump.jym.activity.constant.Constants.CREATE;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_IMAGE;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.DESCRIPTION;
+import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.IMAGE;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CREATE;
+import static info.upump.jym.activity.constant.Constants.TEMPLATE_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.TITLE;
+import static info.upump.jym.activity.constant.Constants.TYPE_MUSCLE;
+import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
+
+public class ExerciseFragment extends Fragment {
     private ITitleble iTitlable;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -28,6 +57,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     private IControlFragment iControlFragment;
     private static final int ICON_FAB = R.drawable.ic_add_black_24dp;
     private FloatingActionButton addFab;
+
     public ExerciseFragment() {
     }
 
@@ -52,11 +82,10 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
         iTitlable.setTitle(getResources().getString(R.string.exercise_fragment_title));
         viewPager = inflate.findViewById(R.id.exercise_fragment_viewpager);
         tabLayout = inflate.findViewById(R.id.exercise_fragment_tab_layout);
-        addFab = inflate.findViewById(R.id.exercise_fragment_add_fab);
+//        addFab = inflate.findViewById(R.id.exercise_fragment_add_fab);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         setPageTransform();
-        addFab.setOnClickListener(this);
         return inflate;
     }
 
@@ -113,16 +142,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         iTitlable = (ITitleble) context;
-        iControlFragment = (IControlFragment) context;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.exercise_fragment_add_fab:
-                Intent intent =  ExerciseCreateActivity.createIntent(getContext(), new Exercise());
-                startActivity(intent);
-        }
+//        iControlFragment = (IControlFragment) context;
     }
 
 

@@ -22,16 +22,7 @@ public class CycleDefaultViewHolder extends AbstractCycleViewHolder {
     }
 
     @Override
-    public void bind(Cycle cycle) {
-        this.cycle = cycle;
-        title.setText(cycle.getTitle());
-        setPic();
-    }
-
-    @Override
-    void setVariableViews() {
-
-    }
+    void setVariableViews(){}
 
     @Override
     void startActivity() {

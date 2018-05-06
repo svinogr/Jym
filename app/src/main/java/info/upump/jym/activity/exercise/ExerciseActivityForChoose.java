@@ -32,7 +32,6 @@ public class ExerciseActivityForChoose extends AppCompatActivity implements ICho
         setContentView(R.layout.activity_exercise_for_choose);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.exercise_choose_title_add_exercise);
-//        id = getIntent().getLongExtra(ID, 0);
         viewPager = findViewById(R.id.activity_exercise_for_choose_viewpager);
         tabLayout = findViewById(R.id.activity_exercise_for_choose_tab_layout);
         pagerAdapter = new PagerAdapterExerciseForChoose(getSupportFragmentManager(), this);

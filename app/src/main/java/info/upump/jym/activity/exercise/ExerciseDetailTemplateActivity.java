@@ -28,6 +28,8 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.Date;
+
 import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.ExerciseDao;
@@ -36,8 +38,20 @@ import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.ExerciseDescription;
 import info.upump.jym.entity.TypeMuscle;
 
+import static info.upump.jym.activity.constant.Constants.CREATE;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_IMAGE;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.DESCRIPTION;
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.ID_DESCRIPTION;
+import static info.upump.jym.activity.constant.Constants.IMAGE;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
+import static info.upump.jym.activity.constant.Constants.TEMPLATE_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.TITLE;
+import static info.upump.jym.activity.constant.Constants.TYPE_MUSCLE;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 
 public class ExerciseDetailTemplateActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView muscle, description;
@@ -47,6 +61,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
     private Exercise exercise;
     private FloatingActionButton editFab;
     private String[] nameOfValues;
+    private boolean update;
 
 
     private final Handler handler = new Handler() {
@@ -54,6 +69,11 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
         public void handleMessage(Message msg) {
             if (msg.what == 100) {
                 collapsingToolbarLayout.setTitle(msg.obj.toString());
+            }
+            if (msg.what == UPDATE) {
+                exercise = (Exercise) msg.obj;
+                createViewFrom();
+                Toast.makeText(getApplicationContext(), R.string.toast_exercise_update, Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -64,6 +84,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
         intent.putExtra(ID, exercise.getId());
         return intent;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +93,11 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean(UPDATE_DELETE) != false) {
+                update = true;
+            }
+        }
         exercise = getItemFromIntent();
         nameOfValues = getNameOfMuscle();
 
@@ -86,10 +112,10 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
         editFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_edit));
         editFab.setOnClickListener(this);
 
-        if(exercise.isDefaultType() || !exercise.isTemplate()){
+        if (exercise.isDefaultType() || !exercise.isTemplate()) {
             editFab.setVisibility(View.INVISIBLE);
 
-        }else setFabVisible();
+        } else setFabVisible();
 
         createViewFrom();
     }
@@ -139,10 +165,10 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
                 .error(R.drawable.iview_place_erore_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
-        if(uri == null){
+        if (uri == null) {
             int ident = getResources().getIdentifier(exercise.getExerciseDescription().getDefaultImg(), "drawable", getPackageName());
             Glide.with(this).load(ident).apply(options).into(imageView);
-        } else  Glide.with(this).load(uri).apply(options).into(imageView);
+        } else Glide.with(this).load(uri).apply(options).into(imageView);
     }
 
     @Override
@@ -150,17 +176,56 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case Constants.UPDATE:
-                    updateDescription();
+                case REQUEST_CODE_CHANGE_OPEN:
+                    int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
+                    switch (changeOrDelete) {
+                        case UPDATE:
+                             update = true;
+                            updateDescription(data);
+                            System.out.println("up");
+                            break;
+                    }
                     break;
+
             }
         }
     }
 
-    private void updateDescription() {
-        ExerciseDao exerciseDao  = new ExerciseDao(this);
-        exercise = exerciseDao.getById(exercise.getId());
-        createViewFrom();
+    private void updateDescription(Intent data) {
+        ExerciseDescription exerciseDescription = new ExerciseDescription();
+        final Exercise exercise = new Exercise();
+        exercise.setExerciseDescription(exerciseDescription);
+
+        exerciseDescription.setTitle(data.getStringExtra(TITLE));
+        exerciseDescription.setDefaultImg(data.getStringExtra(DEFAULT_IMAGE));
+        exerciseDescription.setImg(data.getStringExtra(IMAGE));
+        long descriptionId = data.getLongExtra(ID_DESCRIPTION, 0);
+        exerciseDescription.setId(descriptionId);
+
+        exercise.setComment(data.getStringExtra(DESCRIPTION));
+        TypeMuscle typeMuscle = TypeMuscle.valueOf(data.getStringExtra(TYPE_MUSCLE));
+        exercise.setTypeMuscle(typeMuscle);
+        exercise.setId(data.getLongExtra(ID, 0));
+        exercise.setDescriptionId(descriptionId);
+        exercise.setDefaultType(data.getBooleanExtra(DEFAULT_TYPE_ITEM, false));
+        exercise.setTemplate(data.getBooleanExtra(TEMPLATE_TYPE_ITEM, true));
+        exercise.setStartDate(new Date());
+        exercise.setFinishDate(new Date());
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ExerciseDao exerciseDao = new ExerciseDao(getApplicationContext());
+                if (exerciseDao.update(exercise)) {
+                    handler.sendMessageDelayed(handler.obtainMessage(UPDATE, exercise), 0);
+                }
+            }
+        });
+        thread.start();
+//
+//        ExerciseDao exerciseDao = new ExerciseDao(this);
+//        exercise = exerciseDao.getById(exercise.getId());
+//        createViewFrom();
     }
 
     private void createViewFrom() {
@@ -171,9 +236,9 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
         }
 
         muscle.setText(nameOfValues[exercise.getTypeMuscle().ordinal()]);
-        if(exercise.getExerciseDescription().getDefaultImg() != null){
+        if (exercise.getExerciseDescription().getDefaultImg() != null) {
             setPicUri(null);
-        }else  setPicUri(Uri.parse(exercise.getExerciseDescription().getImg()));
+        } else setPicUri(Uri.parse(exercise.getExerciseDescription().getImg()));
     }
 
     @Override
@@ -200,14 +265,26 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
     }
 
     private void delete() {
-        ExerciseDao exerciseDao = new ExerciseDao(this);
+        Intent intent = new Intent();
+
+        intent.putExtra(UPDATE_DELETE, DELETE);
+        intent.putExtra(ID, exercise.getId());
+        setResult(RESULT_OK, intent);
+        exit();
+     /*   ExerciseDao exerciseDao = new ExerciseDao(this);
         if (exerciseDao.delete(exercise)) {
             Toast.makeText(this, R.string.toast_exercise_delete, Toast.LENGTH_SHORT).show();
             finishActivityWithAnimation();
-        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();*/
     }
 
     private void exit() {
+        if (update) {
+            Intent intent = new Intent();
+            intent.putExtra(ID, exercise.getId());
+            intent.putExtra(UPDATE_DELETE, UPDATE);
+            setResult(RESULT_OK, intent);
+        }
         finishActivityWithAnimation();
     }
 
@@ -221,7 +298,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!exercise.isDefaultType() && exercise.isTemplate() ) {
+        if (!exercise.isDefaultType() && exercise.isTemplate()) {
             MenuInflater menuInflater = getMenuInflater();
             menuInflater.inflate(R.menu.edit_template_exercise_menu, menu);
         }
@@ -237,7 +314,14 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
             ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
                     this,
                     Pair.create(sharedViewIm, transitionNameIm));
-            startActivityForResult(intent, UPDATE, transitionActivityOptions.toBundle());
-        } else startActivityForResult(intent, UPDATE);
+            startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN, transitionActivityOptions.toBundle());
+        } else startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(UPDATE_DELETE, update);
+    }
+
 }

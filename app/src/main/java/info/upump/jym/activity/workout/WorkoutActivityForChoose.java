@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,18 +16,14 @@ import java.util.concurrent.ExecutionException;
 import info.upump.jym.R;
 import info.upump.jym.activity.IChooseItem;
 import info.upump.jym.adapters.WorkoutAdapter;
-import info.upump.jym.bd.WorkoutDao;
-import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.loaders.ASTWorkout;
-import info.upump.jym.loaders.WorkoutFragmentLoader;
 
 import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_CHOOSE;
 import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
-import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
 
-public class WorkoutActivityForChoose extends AppCompatActivity implements /*LoaderManager.LoaderCallbacks<List<Workout>>*/ IChooseItem<Workout> {
+public class WorkoutActivityForChoose extends AppCompatActivity implements IChooseItem<Workout> {
     private RecyclerView recyclerView;
     private WorkoutAdapter workoutAdapter;
     private List<Workout> workoutList =  new ArrayList<>();

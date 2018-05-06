@@ -1,3 +1,4 @@
+/*
 package info.upump.jym.loaders;
 
 import android.content.Context;
@@ -60,3 +61,4 @@ public class CycleFragmentLoader extends AsyncTaskLoader<List<Cycle>> {
         super.onForceLoad();
     }
 }
+*/

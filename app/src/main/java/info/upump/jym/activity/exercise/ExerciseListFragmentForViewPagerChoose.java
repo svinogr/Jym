@@ -4,8 +4,6 @@ package info.upump.jym.activity.exercise;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +20,6 @@ import info.upump.jym.adapters.ExerciseAdapter;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
 import info.upump.jym.loaders.ASTExercise;
-import info.upump.jym.loaders.ExerciseFragmentLoader;
 
 import static info.upump.jym.activity.constant.Constants.TYPE_MUSCLE;
 

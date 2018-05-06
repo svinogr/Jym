@@ -372,7 +372,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                     break;
                 case Constants.REQUEST_CODE_CHOOSE:
                     addItem(id);
-//                    iItemFragment.addChosenItem(data.getLongExtra(Constants.ID, 0)); // можно удалить
                     break;
                 case Constants.UPDATE:
                     update = true;
@@ -411,7 +410,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         });
         thread.start();
     }
-
 
     private void addItem(final long id) {
         Thread thread = new Thread(new Runnable() {

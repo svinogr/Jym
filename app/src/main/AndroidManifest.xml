@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="info.upump.jym.SplashActivity"
+            android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
@@ -28,7 +28,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.exercise.ExerciseDetailTemplateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -62,6 +62,7 @@
         <activity android:name=".activity.user.UserCreateActivity" />
         <activity android:name=".activity.user.UserGraphActivity" />
         <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.user.UserDatailActivity"></activity>
     </application>
 
 </manifest>

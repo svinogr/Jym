@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println(resultCode +""+ requestCode);
+        System.out.println(resultCode +" in main "+ requestCode);
         if (requestCode == REQUEST_PERMISSION_IN_SETTINGS) {
             getPermission();
         } else  super.onActivityResult(requestCode, resultCode, data);

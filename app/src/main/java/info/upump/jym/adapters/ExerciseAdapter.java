@@ -45,7 +45,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<AbstractExerciseViewHo
                 break;
 
             case DEFAULT_TYPE:
-                viewHolder = new ExerciseTemplateViewHolder(inflate);
+                viewHolder = new ExerciseTemplateViewHolder(inflate, crud);
                 break;
             case CHOOSE:
                 viewHolder = new ExerciseTemplateChooseViewHolder(inflate);
