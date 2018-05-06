@@ -31,7 +31,7 @@ import info.upump.jym.loaders.ASTWorkout;
 
 import static info.upump.jym.activity.constant.Constants.ID;
 
-public class CycleFragmentForViewPagerWorkouts extends Fragment implements /*LoaderManager.LoaderCallbacks<List<Workout>>,*/ IItemFragment<Workout> {
+public class CycleFragmentForViewPagerWorkouts extends Fragment implements  IItemFragment<Workout> {
     protected Cycle cycle;
     protected List<Workout> workoutList = new ArrayList<>();
     protected RecyclerView recyclerView;
@@ -127,14 +127,6 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements /*Loa
 
     }
 
-    /*@Override
-    public void addChosenItem(Workout workout) {
-        workoutList.add(workout);
-        int position = workoutList.size() - 1;
-        workoutAdapter.notifyItemInserted(position);
-        sortListByDay(workoutList);
-    }*/
-
     @Override
     public void clear() {
         workoutList.clear();
@@ -219,8 +211,5 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements /*Loa
                 recyclerView.smoothScrollToPosition(index);
             }
         }
-
     }
-
-
 }

@@ -230,7 +230,6 @@ public class CycleDao extends DBDao implements IData<Cycle> {
             for (Workout workout : workoutList) {
                 workout.setTemplate(false);
                 workout.setDefaultType(false);
-//                workout.setParentId(idNewCycle);
                 sqLiteStatementWorkout.clearBindings();
                 sqLiteStatementWorkout.bindString(2, workout.getTitle());
                 sqLiteStatementWorkout.bindString(3, workout.getComment());
@@ -294,10 +293,10 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         }
         long finish = System.currentTimeMillis() - start;
         System.out.println(Long.toString(finish) + " ms");
+
         if(cycle.getId() != 0){
             return cycle;
         } else return null;
-
     }
 
     private void setActualDate(Cycle cycle) {

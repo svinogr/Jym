@@ -14,22 +14,24 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.adapters.ExerciseAdapter;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
+import info.upump.jym.loaders.ASTExercise;
 import info.upump.jym.loaders.ExerciseFragmentLoader;
 
 import static info.upump.jym.activity.constant.Constants.TYPE_MUSCLE;
 
-public class ExerciseListFragmentForViewPagerChoose extends Fragment implements LoaderManager.LoaderCallbacks<List<Exercise>>{
+public class ExerciseListFragmentForViewPagerChoose extends Fragment {
     private TypeMuscle typeMuscle;
     private List<Exercise> exerciseList = new ArrayList<>();
     private ExerciseAdapter exerciseAdapter;
     private RecyclerView recyclerView;
-
+    private ASTExercise astExercise;
 
     public ExerciseListFragmentForViewPagerChoose() {
     }
@@ -48,7 +50,20 @@ public class ExerciseListFragmentForViewPagerChoose extends Fragment implements 
             String t = getArguments().getString(TYPE_MUSCLE);
             typeMuscle = TypeMuscle.valueOf(t);
         }
+        createAsyncTask();
         exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.CHOOSE, null);
+    }
+
+    private void createAsyncTask() {
+        astExercise = new ASTExercise(getContext());
+        astExercise.execute(Constants.LOADER_BY_TEMPLATE_TYPE, typeMuscle.ordinal());
+        try {
+            exerciseList = astExercise.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -65,29 +80,11 @@ public class ExerciseListFragmentForViewPagerChoose extends Fragment implements 
     }
 
     @Override
-    public Loader<List<Exercise>> onCreateLoader(int id, Bundle args) {
-        ExerciseFragmentLoader exerciseLoader = new ExerciseFragmentLoader(getContext(), Constants.LOADER_BY_TEMPLATE_TYPE ,typeMuscle);
-        return exerciseLoader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Exercise>> loader, List<Exercise> data) {
-        exerciseList.clear();
-        exerciseList.addAll(data);
-        exerciseAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Exercise>> loader) {
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (getArguments() != null) {
             String t = getArguments().getString(TYPE_MUSCLE);
             typeMuscle = TypeMuscle.valueOf(t);
         }
-        getLoaderManager().initLoader(0, null, this);
     }
 }

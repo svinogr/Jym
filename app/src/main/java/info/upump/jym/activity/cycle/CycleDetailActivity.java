@@ -314,7 +314,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
                     update = true;
                     updateDescription();
                     break;
-
             }
         }
     }
@@ -363,7 +362,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
             }
         });
         thread.start();
-
     }
 
     private void addNewItem(Intent data) {
@@ -569,7 +567,5 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
             if (activityOptions != null) {
                 startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN, activityOptions.toBundle());
             } else startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN);
-
         }
-
 }

@@ -335,29 +335,11 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void save() {
-        CycleDao cycleDao = new CycleDao(this);
         if (title.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
         }
         Cycle cycleSave = getChangeableItem();
-       // long id = cycleDao.create(cycleSave);
-     //   if (id != -1) {
-            Toast.makeText(this, R.string.toast_cycle_saved, Toast.LENGTH_SHORT).show();
-         /*   changeable.setId(cycle.getId());
-            changeable.setTitle(title.getText().toString());
-            changeable.setComment(description.getText().toString());
-            changeable.setStartDate(startTextData.getText().toString());
-            changeable.setFinishDate(finishTextData.getText().toString());
-            if (uriImage != null) {
-                changeable.setImage(uriImage.toString());
-                changeable.setDefaultImg(null);
-            }else {
-                changeable.setDefaultImg(cycle.getDefaultImg());
-                changeable.setImage(cycle.getImage());
-            }*/
-
-
             Intent intent = new Intent();
             intent.putExtra(TITLE, cycleSave.getTitle() );
             intent.putExtra(DESCRIPTION, cycleSave.getComment());
@@ -365,12 +347,9 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             intent.putExtra(FINISH_DATA, cycleSave.getFinishStringFormatDate());
             intent.putExtra(IMAGE, cycleSave.getImage());
             intent.putExtra(DEFAULT_IMAGE, cycleSave.getDefaultImg());
-//            intent.putExtra(ID,id );
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
-        //} else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).show();
     }
-
 
     private void finishActivityWithAnimation() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

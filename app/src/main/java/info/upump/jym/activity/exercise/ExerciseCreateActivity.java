@@ -53,7 +53,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             if (msg.what == 200) {
                 collapsingToolbarLayout.setTitle(msg.obj.toString());
             }
-
         }
     };
 
@@ -315,7 +314,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             finishActivityWithAnimation();
         } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).
                 show();
-
     }
 
     private boolean itemIsNotChanged() {

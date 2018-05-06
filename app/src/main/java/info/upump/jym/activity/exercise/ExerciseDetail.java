@@ -309,30 +309,8 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void addItem(Sets sets) {
-   /*     if (longExtra > 0) {
-            SetDao setDao = new SetDao(this);
-            List<Sets> newSets = setDao.getSetsFromId(longExtra);
-            for (Sets s : newSets) {
-                s.setParentId(exercise.getId());
-                setDao.update(s);
-            }
-            setsList.addAll(newSets);
-            setsAdapter.notifyDataSetChanged();
-        }*/
     }
-/*    @Override
-    public void addItem(long longExtra) {
-        if (longExtra > 0) {
-            SetDao setDao = new SetDao(this);
-            List<Sets> newSets = setDao.getSetsFromId(longExtra);
-            for (Sets s : newSets) {
-                s.setParentId(exercise.getId());
-                setDao.update(s);
-            }
-            setsList.addAll(newSets);
-            setsAdapter.notifyDataSetChanged();
-        }
-    }*/
+
 
     @Override
     public void onBackPressed() {
