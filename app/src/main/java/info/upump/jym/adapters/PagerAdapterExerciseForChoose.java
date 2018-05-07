@@ -9,7 +9,7 @@ import info.upump.jym.activity.exercise.ExerciseListFragmentForViewPagerChoose;
 
 public class PagerAdapterExerciseForChoose extends PagerAdapterExercise {
     public PagerAdapterExerciseForChoose(FragmentManager fm, Context context) {
-        super(fm, context);
+        super(fm, context, null);
     }
 
     @Override

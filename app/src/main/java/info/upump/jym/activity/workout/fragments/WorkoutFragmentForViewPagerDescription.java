@@ -25,7 +25,7 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
     private IChangeItem iChangeItem;
     private TextView description, day;
     private String[] nameOfValues;
-    private Switch aSwitch;
+    private TextView enebWeekLabel;
 
     public WorkoutFragmentForViewPagerDescription() {
     }
@@ -60,7 +60,7 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
         View inflate = inflater.inflate(R.layout.fragment_workout_fragment_for_view_pager_description, container, false);
         description = inflate.findViewById(R.id.workout_fragment_for_view_pager_description_web);
         day = inflate.findViewById(R.id.cycle_fragment_for_view_pager_description_day);
-        aSwitch =  inflate.findViewById(R.id.workout_fragment_for_view_pager_description_switch);
+        enebWeekLabel = inflate.findViewById(R.id.workout_fragment_for_view_pager_description_label_switch);
         description.setText(workout.getComment());
         creteViewFrom();
         return inflate;
@@ -69,7 +69,9 @@ public class WorkoutFragmentForViewPagerDescription extends Fragment implements 
     private void creteViewFrom() {
         day.setText(nameOfValues[workout.getDay().ordinal()]);
         description.setText(workout.getComment());
-        aSwitch.setChecked(workout.isWeekEven());
+        if(workout.isWeekEven()){
+            enebWeekLabel.setVisibility(View.VISIBLE);
+        } else enebWeekLabel.setVisibility(View.INVISIBLE);
     }
 
     @Override

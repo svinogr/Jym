@@ -5,6 +5,8 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,11 +31,36 @@ import info.upump.jym.activity.user.UserCreateActivity;
 import info.upump.jym.activity.user.UserDetailActivity;
 import info.upump.jym.activity.user.UserGraphActivity;
 import info.upump.jym.adapters.UserAdapter;
+import info.upump.jym.bd.UserDao;
+import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.User;
 import info.upump.jym.fragments.cycle.CRUD;
 import info.upump.jym.loaders.ASTUser;
 
+import static android.app.Activity.RESULT_OK;
+import static info.upump.jym.activity.constant.Constants.ABS;
+import static info.upump.jym.activity.constant.Constants.CLEAR;
+import static info.upump.jym.activity.constant.Constants.CREATE;
+import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.ERROR;
+import static info.upump.jym.activity.constant.Constants.FAT;
+import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.L_BICEPS;
+import static info.upump.jym.activity.constant.Constants.L_CALVES;
+import static info.upump.jym.activity.constant.Constants.L_LEG;
+import static info.upump.jym.activity.constant.Constants.NECK;
+import static info.upump.jym.activity.constant.Constants.PECTORAL;
 import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CREATE;
+import static info.upump.jym.activity.constant.Constants.R_BICEPS;
+import static info.upump.jym.activity.constant.Constants.R_CALVES;
+import static info.upump.jym.activity.constant.Constants.R_LEG;
+import static info.upump.jym.activity.constant.Constants.SHOULDERS;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
+import static info.upump.jym.activity.constant.Constants.WEIGHT;
+
 
 public class UserFragment extends Fragment implements View.OnClickListener, CRUD<User> {
     protected ITitleble iTitleble;
@@ -42,6 +69,46 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
     protected List<User> userList = new ArrayList<>();
     protected FloatingActionButton addFab;
     private ASTUser astUser;
+    private int index = -1;
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == DELETE) {
+                Toast.makeText(getActivity(), R.string.toast_user_delete, Toast.LENGTH_SHORT).show();
+            }
+
+            if (msg.what == UPDATE) {
+                User user = (User) msg.obj;
+                update(user);
+            }
+
+            if (msg.what == ERROR) {
+                long id = ((Sets) msg.obj).getId();
+                Toast.makeText(getContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+                //  insertDeletedItem(id);
+            }
+
+       /*     if (msg.what == CLEAR) {
+                setsList.clear();
+                setsAdapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), R.string.toast_exercise_delete_sets, Toast.LENGTH_SHORT).show();
+
+            }*/
+
+            if (msg.what == CREATE) {
+                addItems((User) msg.obj);
+
+            }
+        }
+    };
+
+    private void addItems(User user) {
+        userList.add(user);
+        int index = userList.size() - 1;
+        userAdapter.notifyItemInserted(index);
+        recyclerView.smoothScrollToPosition(index);
+        Toast.makeText(getContext(), R.string.toast_user_saved, Toast.LENGTH_SHORT).show();
+    }
 
     public UserFragment() {
     }
@@ -158,12 +225,12 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
         startActivity(intent);
     }
 
-   /* @Override
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.user_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }*/
+    }
 
     private void sortListByDate(List<User> list) {
         Collections.sort(list, new Comparator<User>() {
@@ -183,4 +250,117 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
         } else startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN);
 
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+
+            switch (requestCode) {
+                case REQUEST_CODE_CREATE:
+                    addNewItem(data);
+                    break;
+                case REQUEST_CODE_CHANGE_OPEN:
+                    long id = data.getLongExtra(ID, 0);
+                    int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
+                    switch (changeOrDelete) {
+                        case UPDATE:
+                            updateInnerItem(id);
+                            break;
+                        case DELETE:
+                            deleteInnerItem(id);
+                    }
+            }
+        }
+    }
+
+    private void update(User user) {
+        int index = -1;
+        long id = user.getId();
+        for (User userUpdate : userList) {
+            if (userUpdate.getId() == id) {
+                index = userList.indexOf(userUpdate);
+                break;
+            }
+        }
+
+        if (index != -1) {
+            userList.set(index, user);
+            userAdapter.notifyItemChanged(index);
+            recyclerView.smoothScrollToPosition(index);
+            Toast.makeText(getContext(), R.string.toast_user_update, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateInnerItem(final long id) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserDao userDao = new UserDao(getContext());
+                User user = userDao.getById(id);
+                if (user != null) {
+                    handler.sendMessageDelayed(handler.obtainMessage(UPDATE, user), 0);
+                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR), 0);
+            }
+        });
+        thread.start();
+    }
+
+    private void deleteInnerItem(final long id) {
+        for (User user : userList) {
+            if (user.getId() == id) {
+                index = userList.indexOf(user);
+                break;
+            }
+        }
+        if (index != -1) {
+            userList.remove(index);
+            userAdapter.notifyItemRemoved(index);
+            userAdapter.notifyItemRangeChanged(index, userList.size());
+        }
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserDao userDao = new UserDao(getContext());
+                User user = new User();
+                user.setId(id);
+                boolean id = userDao.delete(user);
+                if (id) {
+                    handler.sendMessageDelayed(handler.obtainMessage(DELETE, user), 0);
+                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR), 0);
+            }
+        });
+        thread.start();
+
+    }
+
+    private void addNewItem(Intent data) {
+        final User user = new User();
+        user.setId(data.getLongExtra(ID, 0));
+        user.setDate(data.getStringExtra(START_DATA));
+        user.setWeight(data.getDoubleExtra(WEIGHT, 0));
+        user.setFat(data.getDoubleExtra(FAT, 0));
+        user.setNeck(data.getDoubleExtra(NECK, 0));
+        user.setShoulder(data.getDoubleExtra(SHOULDERS, 0));
+        user.setPectoral(data.getDoubleExtra(PECTORAL, 0));
+        user.setRightBiceps(data.getDoubleExtra(R_BICEPS, 0));
+        user.setLeftBiceps(data.getDoubleExtra(L_BICEPS, 0));
+        user.setAbs(data.getDoubleExtra(ABS, 0));
+        user.setRightLeg(data.getDoubleExtra(R_LEG, 0));
+        user.setLeftLeg(data.getDoubleExtra(L_LEG, 0));
+        user.setLeftCalves(data.getDoubleExtra(R_CALVES, 0));
+        user.setRightCalves(data.getDoubleExtra(L_CALVES, 0));
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserDao userDao = new UserDao(getContext());
+                long id = userDao.create(user);
+                if (id != -1) {
+                    handler.sendMessageDelayed(handler.obtainMessage(CREATE, user), 0);
+                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR), 0);
+            }
+        });
+        thread.start();
+    }
+
 }

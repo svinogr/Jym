@@ -3,10 +3,11 @@ package info.upump.jym.activity.user;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,17 +16,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import info.upump.jym.R;
-import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.constant.Constants;
-import info.upump.jym.bd.CycleDao;
 import info.upump.jym.bd.UserDao;
+import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.User;
 
-import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.*;
+import static info.upump.jym.activity.constant.Constants.ERROR;
 import static info.upump.jym.activity.constant.Constants.ID;
 import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
 import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
+import static info.upump.jym.activity.constant.Constants.WEIGHT;
 
 public class UserDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private boolean update;
@@ -33,6 +36,23 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
     private FloatingActionButton editFab;
     private TextView dateText, weightPicker, fatPicker, neckPicker, shoulderPicker, pectoralPicker,
             rightBicepsPicker, leftBicepsPicker, absPicker, leftLegPicker, rightLegPicker, leftCalvesPicker, rightCalvesPicker;
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+
+            if (msg.what == UPDATE) {
+                user = (User) msg.obj;
+                creteViewFrom();
+                Toast.makeText(getApplicationContext(), R.string.toast_user_update, Toast.LENGTH_SHORT).show();
+            }
+
+            if (msg.what == ERROR) {
+                long id = ((Sets) msg.obj).getId();
+                Toast.makeText(getApplicationContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    };
 
     public static Intent createIntent(Context context, User user) {
         Intent intent = new Intent(context, UserDetailActivity.class);
@@ -48,6 +68,11 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.title_activity_user);
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean(UPDATE_DELETE) != false) {
+                update = true;
+            }
+        }
         editFab = findViewById(R.id.user_activity_detail_fab_main);
         dateText = findViewById(R.id.content_user_detail_date_edit);
         weightPicker = findViewById(R.id.content_user_detail_weight_edit);
@@ -82,7 +107,6 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
         rightLegPicker.setText(String.valueOf(user.getRightLeg()));
         leftCalvesPicker.setText(String.valueOf(user.getLeftCalves()));
         rightCalvesPicker.setText(String.valueOf(user.getRightCalves()));
-
     }
 
     private void getItemFromBundle() {
@@ -97,10 +121,12 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
             exit();
         }
         if (item.getItemId() == R.id.edit_menu_delete) {
+            update = false;
             Intent intent = new Intent();
             intent.putExtra(UPDATE_DELETE, DELETE);
             intent.putExtra(ID, user.getId());
             setResult(RESULT_OK, intent);
+            exit();
         } else
             Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
 
@@ -136,6 +162,56 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         Intent intent = UserCreateActivity.createIntent(this, user);
         startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == -1) {
+            switch (requestCode) {
+                case REQUEST_CODE_CHANGE_OPEN:
+                    int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
+                    switch (changeOrDelete) {
+                        case UPDATE:
+                            update = true;
+                            updateInnerItem(data);
+                            break;
+                    }
+            }
+        }
+    }
+
+    private void updateInnerItem(Intent data) {
+        final User updateUser = new User();
+        updateUser.setId(data.getLongExtra(ID, 0));
+        updateUser.setDate(data.getStringExtra(START_DATA));
+        updateUser.setWeight(data.getDoubleExtra(WEIGHT, 0));
+        updateUser.setFat(data.getDoubleExtra(FAT, 0));
+        updateUser.setNeck(data.getDoubleExtra(NECK, 0));
+        updateUser.setShoulder(data.getDoubleExtra(SHOULDERS, 0));
+        updateUser.setPectoral(data.getDoubleExtra(PECTORAL, 0));
+        updateUser.setRightBiceps(data.getDoubleExtra(R_BICEPS, 0));
+        updateUser.setLeftBiceps(data.getDoubleExtra(L_BICEPS, 0));
+        updateUser.setAbs(data.getDoubleExtra(ABS, 0));
+        updateUser.setRightLeg(data.getDoubleExtra(R_LEG, 0));
+        updateUser.setLeftLeg(data.getDoubleExtra(L_LEG, 0));
+        updateUser.setLeftCalves(data.getDoubleExtra(R_CALVES, 0));
+        updateUser.setRightCalves(data.getDoubleExtra(L_CALVES, 0));
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserDao userDao = new UserDao(getApplicationContext());
+                if(userDao.update(updateUser)){
+                    handler.sendMessageDelayed(handler.obtainMessage(UPDATE, updateUser), 0);
+                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR), 0);
+            }
+        });
+        thread.start();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(UPDATE_DELETE, update);
     }
 }
 

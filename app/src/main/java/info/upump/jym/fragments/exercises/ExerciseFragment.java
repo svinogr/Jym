@@ -49,7 +49,7 @@ import static info.upump.jym.activity.constant.Constants.TYPE_MUSCLE;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
 import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 
-public class ExerciseFragment extends Fragment {
+public class ExerciseFragment extends Fragment implements TabChanger{
     private ITitleble iTitlable;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -71,7 +71,7 @@ public class ExerciseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pagerAdapter = new PagerAdapterExercise(getActivity().getSupportFragmentManager(), getContext());
+        pagerAdapter = new PagerAdapterExercise(getActivity().getSupportFragmentManager(), getContext(), this);
     }
 
     @Override
@@ -146,4 +146,8 @@ public class ExerciseFragment extends Fragment {
     }
 
 
+    @Override
+    public void setToFinalPositionRecyclerView() {
+        System.out.println("dugwdgwildgwgidigwgdf");
+    }
 }

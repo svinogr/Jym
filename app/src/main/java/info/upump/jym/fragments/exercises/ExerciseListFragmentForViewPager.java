@@ -50,13 +50,14 @@ import static info.upump.jym.activity.constant.Constants.TYPE_MUSCLE;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
 import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 
-public class ExerciseListFragmentForViewPager extends Fragment implements TabChanger, CRUD<Exercise>, View.OnClickListener {
+public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<Exercise>, View.OnClickListener {
     private TypeMuscle typeMuscle;
     private List<Exercise> exerciseList = new ArrayList<>();
     private ExerciseAdapter exerciseAdapter;
     private RecyclerView recyclerView;
     private ASTExercise astExercise;
     private FloatingActionButton addFab;
+    public TabChanger tabChanger;
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -142,13 +143,14 @@ public class ExerciseListFragmentForViewPager extends Fragment implements TabCha
                              Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.exercise_list_fragment_for_view_pager, container, false);
         recyclerView = inflate.findViewById(R.id.exercise_list_fragment_for_view_pager_recycler_view);
-        addFab = inflate.findViewById(R.id.exercise_fragment_add_fab);
+        addFab =  inflate.findViewById(R.id.exercise_fragment_add_fab);
         addFab.setOnClickListener(this);
         System.out.println("onCreateView "+ typeMuscle);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(exerciseAdapter);
+        tabChanger.setToFinalPositionRecyclerView();
         return inflate;
     }
 
@@ -163,10 +165,6 @@ public class ExerciseListFragmentForViewPager extends Fragment implements TabCha
     }
 
 
-    @Override
-    public void setToFinalPositionRecyclerView() {
-//TODO сделать когдаить
-    }
 
     @Override
     public void createIntentForResult(ActivityOptions activityOptions, Exercise object) {

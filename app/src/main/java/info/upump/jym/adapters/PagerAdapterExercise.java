@@ -15,19 +15,22 @@ import info.upump.jym.fragments.exercises.TabChanger;
 public class PagerAdapterExercise extends FragmentStatePagerAdapter {
     protected TypeMuscle[] typeMuscles = TypeMuscle.values();
     protected Context context;
+    private TabChanger tabChanger;
 
     public PagerAdapterExercise(FragmentManager fm) {
         super(fm);
     }
 
-    public PagerAdapterExercise(FragmentManager fm, Context context) {
+    public PagerAdapterExercise(FragmentManager fm, Context context, TabChanger tabChanger) {
         super(fm);
         this.context = context;
+        this.tabChanger = tabChanger;
     }
 
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = ExerciseListFragmentForViewPager.newInstance(typeMuscles[position]);
+        ((ExerciseListFragmentForViewPager) fragment).tabChanger = tabChanger;
         return fragment;
     }
 

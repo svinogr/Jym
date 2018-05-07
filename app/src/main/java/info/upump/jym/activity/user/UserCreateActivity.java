@@ -7,11 +7,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -30,22 +27,10 @@ import info.upump.jym.R;
 import info.upump.jym.bd.UserDao;
 import info.upump.jym.entity.User;
 
-import static info.upump.jym.activity.constant.Constants.ID;
-import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.*;
+
 
 public class UserCreateActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String WEIGHT = "weight";
-    private static final String FAT = "fat";
-    private static final String NECK = "neck";
-    private static final String SHOULDERS = "shoulders";
-    private static final String PECTORAL = "pectoral";
-    private static final String R_BICEPS = "r biceps";
-    private static final String L_BICEPS = "l biceps";
-    private static final String ABS = "abs";
-    private static final String R_LEG = "r leg";
-    private static final String L_LEG = "l leg";
-    private static final String R_CALVES = "r calves";
-    private static final String L_CALVES = "l calves";
     private User user;
     private NumberPicker weightPicker, fatPicker, neckPicker, shoulderPicker, pectoralPicker,
             rightBicepsPicker, leftBicepsPicker, absPicker, rightLegPicker, leftLegPicker, leftCalvesPicker, rightCalvesPicker;
@@ -271,7 +256,7 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
 
         if (leftCalvesValue != -1) {
             leftCalvesPicker.setValue(leftCalvesValue);
-        } else  leftCalvesPicker.setValue(getPozValue(user.getLeftCalves()));
+        } else leftCalvesPicker.setValue(getPozValue(user.getLeftCalves()));
 
         if (rightCalvesValue != -1) {
             rightCalvesPicker.setValue(rightCalvesValue);
@@ -323,7 +308,7 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
             ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = createIntentForResult(); // при создании из вне
+                    Intent intent = new Intent();
                     setResult(RESULT_CANCELED, intent);
                     finishActivityWithAnimation();
                 }
@@ -339,11 +324,11 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         if (id != -1) {
             user.setId(id);
             Toast.makeText(this, R.string.toast_user_saved, Toast.LENGTH_SHORT).show();
-            Intent intent = createIntentForResult(); // при создании из вне
+            Intent intent = getIntentForResult();
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
         } else
-            Toast.makeText(this,  R.string.toast_dont_save, Toast.LENGTH_SHORT).
+            Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).
                     show();
     }
 
@@ -403,18 +388,33 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         return changeableUser;
     }
 
+ private Intent getIntentForResult(){
+     User user = getChangeableItem();
+     System.out.println(user);
+     Intent intent = new Intent();
+     intent.putExtra(ID, user.getId());
+     intent.putExtra(START_DATA, user.getStringFormatDate());
+     intent.putExtra(WEIGHT, user.getWeight());
+     intent.putExtra(FAT, user.getFat());
+     intent.putExtra(NECK, user.getNeck());
+     intent.putExtra(SHOULDERS, user.getShoulder());
+     intent.putExtra(PECTORAL, user.getPectoral());
+     intent.putExtra(R_BICEPS, user.getRightBiceps());
+     intent.putExtra(L_BICEPS, user.getLeftBiceps());
+     intent.putExtra(ABS, user.getAbs());
+     intent.putExtra(L_LEG, user.getLeftLeg());
+     intent.putExtra(R_LEG, user.getRightLeg());
+     intent.putExtra(L_CALVES, user.getLeftCalves());
+     intent.putExtra(R_CALVES, user.getRightCalves());
+     setResult(RESULT_OK, intent);
+     return intent;
+ }
 
     private void update() {
-        User userUpdate = getChangeableItem();
-        UserDao userDao = new UserDao(this);
-        boolean id = userDao.update(userUpdate);
-        if (id) {
-            Toast.makeText(this, R.string.toast_user_update, Toast.LENGTH_SHORT).show();
-            Intent intent = createIntentForResult(); // при создании из вне
-            setResult(RESULT_OK, intent);
-            finishActivityWithAnimation();
-        } else
-            Toast.makeText(this, R.string.toast_dont_update, Toast.LENGTH_SHORT).show();
+       Intent intent = getIntentForResult();
+       intent.putExtra(UPDATE_DELETE, UPDATE);
+       setResult(RESULT_OK, intent);
+       finishActivityWithAnimation();
     }
 
     private void finishActivityWithAnimation() {
@@ -430,12 +430,12 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         return true;
     }*/
 
-    private Intent createIntentForResult() {
+   /* private Intent createIntentForResult() {
         Intent intent = new Intent();
         intent.putExtra(ID, user.getId());
         return intent;
     }
-
+*/
     @Override
     public void onBackPressed() {
         exit();
