@@ -79,14 +79,24 @@ public class UserDao extends DBDao implements IData<User> {
 
     @Override
     public List<User> getAll() {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_USER, keys, null, null, null, null, null);
+        Cursor cursor = null;
         List<User> userList = new ArrayList<>();
-        User user;
-        if (cursor.moveToFirst()) {
-            do {
-                user = getUserFromCursor(cursor);
-                userList.add(user);
-            } while (cursor.moveToNext());
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_USER, keys, null, null, null, null, null);
+
+            User user;
+            if (cursor.moveToFirst()) {
+                do {
+                    user = getUserFromCursor(cursor);
+                    userList.add(user);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return userList;
     }
@@ -112,12 +122,23 @@ public class UserDao extends DBDao implements IData<User> {
 
     @Override
     public User getById(long id) {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_USER, keys, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(id)}, null, null, null);
+        Cursor cursor = null;
         User user = null;
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_USER, keys, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(id)}, null, null, null);
+
+
         if (cursor.moveToFirst()) {
             do {
                 user = getUserFromCursor(cursor);
             } while (cursor.moveToNext());
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return user;
     }
@@ -138,15 +159,23 @@ public class UserDao extends DBDao implements IData<User> {
     }
 
     public User getByOldDate() {
-
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_USER, keys,
-                null, null, null, null,
-                " date(" + DBHelper.TABLE_KEY_DATE + ") desc Limit 1 ");
         User user = null;
+        Cursor cursor = null;
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_USER, keys,
+                    null, null, null, null,
+                    " date(" + DBHelper.TABLE_KEY_DATE + ") desc Limit 1 ");
         if (cursor.moveToFirst()) {
             do {
                 user = getUserFromCursor(cursor);
             } while (cursor.moveToNext());
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return user;
     }

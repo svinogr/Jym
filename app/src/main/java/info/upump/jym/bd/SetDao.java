@@ -55,15 +55,23 @@ public class SetDao extends DBDao implements IData<Sets> {
 
     @Override
     public List<Sets> getAll() {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_SET,
-                keys, null, null, null, null, null);
-
+        Cursor cursor = null;
         List<Sets> setsList = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Sets sets = getSetsFromCursor(cursor);
-                setsList.add(sets);
-            } while (cursor.moveToNext());
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_SET,
+                    keys, null, null, null, null, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Sets sets = getSetsFromCursor(cursor);
+                    setsList.add(sets);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return setsList;
     }
@@ -90,13 +98,23 @@ public class SetDao extends DBDao implements IData<Sets> {
 
     @Override
     public Sets getById(long id) {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_SET,
-                keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
+        Cursor cursor = null;
         Sets sets = null;
-        if (cursor.moveToFirst()) {
-            do {
-                sets = getSetsFromCursor(cursor);
-            } while (cursor.moveToNext());
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_SET,
+                    keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    sets = getSetsFromCursor(cursor);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return sets;
@@ -104,17 +122,26 @@ public class SetDao extends DBDao implements IData<Sets> {
 
     @Override
     public List<Sets> getByParentId(long id) {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_SET,
-                keys, DBHelper.TABLE_KEY_PARENT_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
-
+        Cursor cursor = null;
         List<Sets> setsList = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Sets sets = getSetsFromCursor(cursor);
-                setsList.add(sets);
-            } while (cursor.moveToNext());
-        }
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_SET,
+                    keys, DBHelper.TABLE_KEY_PARENT_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
 
+            if (cursor.moveToFirst()) {
+                do {
+                    Sets sets = getSetsFromCursor(cursor);
+                    setsList.add(sets);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
         return setsList;
     }
 
@@ -153,14 +180,14 @@ public class SetDao extends DBDao implements IData<Sets> {
     public void alterCopy(long idFrom, long idTarget) {
         System.out.println(idFrom + "dd" + idTarget);
         List<Sets> setsList = getByParentId(idFrom);
-        System.out.println(setsList.size()+" SIZE0");
+        System.out.println(setsList.size() + " SIZE0");
         SQLiteStatement sqLiteStatement = sqLiteDatabase.compileStatement(sql);
         sqLiteDatabase.beginTransaction();
         try {
             for (Sets sets : setsList) {
                 sqLiteStatement.clearBindings();
                 System.out.println(sets);
-               // sqLiteStatement.bindNull(2);
+                // sqLiteStatement.bindNull(2);
                 sqLiteStatement.bindDouble(3, sets.getWeight());
                 sqLiteStatement.bindLong(4, sets.getReps());
                 sqLiteStatement.bindString(5, sets.getStartStringFormatDate());
@@ -177,15 +204,24 @@ public class SetDao extends DBDao implements IData<Sets> {
 
 
     public List<Sets> getSetsFromId(long id) {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_SET,
-                keys, DBHelper.TABLE_KEY_ID + " >=? ", new String[]{String.valueOf(id)}, null, null, null);
-
+        Cursor cursor = null;
         List<Sets> setsList = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Sets sets = getSetsFromCursor(cursor);
-                setsList.add(sets);
-            } while (cursor.moveToNext());
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_SET,
+                    keys, DBHelper.TABLE_KEY_ID + " >=? ", new String[]{String.valueOf(id)}, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Sets sets = getSetsFromCursor(cursor);
+                    setsList.add(sets);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return setsList;

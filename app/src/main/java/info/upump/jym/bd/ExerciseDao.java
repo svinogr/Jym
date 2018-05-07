@@ -72,14 +72,23 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     @Override
     public List<Exercise> getAll() {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
-                keys, null, null, null, null, null);
+        Cursor cursor = null;
         List<Exercise> exerciseList = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Exercise exercise = getExerciseFromCursor(cursor);
-                exerciseList.add(exercise);
-            } while (cursor.moveToNext());
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
+                    keys, null, null, null, null, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Exercise exercise = getExerciseFromCursor(cursor);
+                    exerciseList.add(exercise);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return exerciseList;
     }
@@ -132,18 +141,29 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     @Override
     public Exercise getById(long id) {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
-                keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
+        Cursor cursor = null;
         Exercise exercise = null;
-        if (cursor.moveToFirst()) {
-            do {
-                exercise = getExerciseFromCursor(cursor);
-            } while (cursor.moveToNext());
-        }
-        if (exercise != null) {
-            ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
-            ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
-            exercise.setExerciseDescription(exerciseDescription);
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
+                    keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
+
+
+            if (cursor.moveToFirst()) {
+                do {
+                    exercise = getExerciseFromCursor(cursor);
+                } while (cursor.moveToNext());
+            }
+            if (exercise != null) {
+                ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+                ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
+                exercise.setExerciseDescription(exerciseDescription);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return exercise;
     }
@@ -172,23 +192,33 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     private List<Exercise> getListExercise(Cursor cursor) {
         List<Exercise> exerciseList = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Exercise exercise = getExerciseFromCursor(cursor);
-                exerciseList.add(exercise);
-            } while (cursor.moveToNext());
-        }
-        if (exerciseList.size() > 0) {
-            ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
-            for (Exercise exercise : exerciseList) {
-                ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
-                exercise.setExerciseDescription(exerciseDescription);
+        if (cursor != null) {
+            try {
+
+                if (cursor.moveToFirst()) {
+                    do {
+                        Exercise exercise = getExerciseFromCursor(cursor);
+                        exerciseList.add(exercise);
+                    } while (cursor.moveToNext());
+                }
+                if (exerciseList.size() > 0) {
+                    ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+                    for (Exercise exercise : exerciseList) {
+                        ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
+                        exercise.setExerciseDescription(exerciseDescription);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
             }
         }
 
         return exerciseList;
     }
-
 
 
     public Exercise alterCopy(long idFrom, long idTarget) {
@@ -263,8 +293,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         return exercise;
 
 
-
-        }
+    }
 
     @Override
     public long copyFromTemplate(long idItem, long id) {

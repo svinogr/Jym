@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -64,6 +65,17 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         Stetho.initializeWithDefaults(this);
+
+        if (BuildConfig.DEBUG) {
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
+        }
+
+
 
         this.savedInstanceState = savedInstanceState;
         arrayPermissionDescription = new String[]{getResources().getString(R.string.permission_description), getResources().getString(R.string.permission_description_camera)};

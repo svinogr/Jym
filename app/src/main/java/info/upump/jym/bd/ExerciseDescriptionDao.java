@@ -19,7 +19,7 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
             DBHelper.TABLE_KEY_DEFAULT_IMG,
             DBHelper.TABLE_KEY_TITLE,
             DBHelper.TABLE_KEY_IMG
-      };
+    };
 
     private ContentValues getContentValuesFor(ExerciseDescription object) {
         ContentValues cv = new ContentValues();
@@ -64,15 +64,26 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
 
     @Override
     public ExerciseDescription getById(long id) {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE_DESCRIPTION,
-                keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
         ExerciseDescription imageForItem = null;
-        if (cursor.moveToFirst()) {
-            do {
-                imageForItem = getImageFromCursor(cursor);
-            } while (cursor.moveToNext());
-        }
 
+        Cursor cursor = null;
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE_DESCRIPTION,
+                    keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
+
+
+            if (cursor.moveToFirst()) {
+                do {
+                    imageForItem = getImageFromCursor(cursor);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
         return imageForItem;
     }
 

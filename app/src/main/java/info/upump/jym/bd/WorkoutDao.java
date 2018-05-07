@@ -71,16 +71,26 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
     @Override
     public List<Workout> getAll() {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT,
-                keys, null, null, null, null, null);
+        Cursor cursor = null;
         workoutList = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Workout workout = getWorkoutFromCursor(cursor);
-                workoutList.add(workout);
-            } while (cursor.moveToNext());
-        }
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT,
+                    keys, null, null, null, null, null);
 
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Workout workout = getWorkoutFromCursor(cursor);
+                    workoutList.add(workout);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
         return workoutList;
     }
 
@@ -101,32 +111,48 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
     @Override
     public Workout getById(long id) {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT,
-                keys, DBHelper.TABLE_KEY_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
-
+        Cursor cursor = null;
         Workout workout = null;
-        if (cursor.moveToFirst()) {
-            do {
-                workout = getWorkoutFromCursor(cursor);
-            } while (cursor.moveToNext());
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT,
+                    keys, DBHelper.TABLE_KEY_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    workout = getWorkoutFromCursor(cursor);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return workout;
     }
 
     @Override
     public List<Workout> getByParentId(long id) {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT,
-                keys, DBHelper.TABLE_KEY_PARENT_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
-
+        Cursor cursor = null;
         workoutList = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Workout workout = getWorkoutFromCursor(cursor);
-                workoutList.add(workout);
-            } while (cursor.moveToNext());
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT,
+                    keys, DBHelper.TABLE_KEY_PARENT_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Workout workout = getWorkoutFromCursor(cursor);
+                    workoutList.add(workout);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
-        return workoutList;
 
+        return workoutList;
     }
 
 
@@ -138,6 +164,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         if (delChild) {
             id = sqLiteDatabase.delete(DBHelper.TABLE_WORKOUT, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
         }
+
         return id != 0;
     }
 
@@ -155,30 +182,47 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     }
 
     public List<Workout> getTemplateUser() {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
-                DBHelper.TABLE_KEY_TEMPLATE + " =? and " + DBHelper.TABLE_KEY_DEFAULT + " = ?", new String[]{String.valueOf(1), String.valueOf(0)}, null, null, null
-        );
+        Cursor cursor = null;
         workoutList = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Workout workout = getWorkoutFromCursor(cursor);
-                workoutList.add(workout);
-            } while (cursor.moveToNext());
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
+                    DBHelper.TABLE_KEY_TEMPLATE + " =? and " + DBHelper.TABLE_KEY_DEFAULT + " = ?", new String[]{String.valueOf(1), String.valueOf(0)}, null, null, null
+            );
+            if (cursor.moveToFirst()) {
+                do {
+                    Workout workout = getWorkoutFromCursor(cursor);
+                    workoutList.add(workout);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
-
         return workoutList;
     }
 
     public List<Workout> getAllTemplate() {//
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
-                DBHelper.TABLE_KEY_TEMPLATE + " =? ", new String[]{String.valueOf(1)}, null, null, null
-        );
+        Cursor cursor = null;
         workoutList = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Workout workout = getWorkoutFromCursor(cursor);
-                workoutList.add(workout);
-            } while (cursor.moveToNext());
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
+                    DBHelper.TABLE_KEY_TEMPLATE + " =? ", new String[]{String.valueOf(1)}, null, null, null
+            );
+            if (cursor.moveToFirst()) {
+                do {
+                    Workout workout = getWorkoutFromCursor(cursor);
+                    workoutList.add(workout);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return workoutList;
@@ -213,38 +257,38 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
             List<Exercise> list = exerciseDao.getByParentId(idFrom);
             SQLiteStatement sqLiteStatementExercise = sqLiteDatabase.compileStatement(sqlForExercise);
 
-                for (Exercise exercise : list) {
-                    exercise.setParentId(workout.getId());
-                    exercise.setTemplate(false);
-                    exercise.setDefaultType(false);
-                    sqLiteStatementExercise.clearBindings();
-                    sqLiteStatementExercise.bindString(2, exercise.getComment());
-                    sqLiteStatementExercise.bindLong(3, exercise.getDescriptionId());
-                    sqLiteStatementExercise.bindString(4, exercise.getTypeMuscle().toString());
-                    sqLiteStatementExercise.bindLong(5, exercise.isDefaultType() ? 1 : 0);
-                    sqLiteStatementExercise.bindLong(6, exercise.isTemplate() ? 1 : 0);
-                    sqLiteStatementExercise.bindString(7, exercise.getStartStringFormatDate());
-                    sqLiteStatementExercise.bindString(8, exercise.getFinishStringFormatDate());
-                    sqLiteStatementExercise.bindLong(9, exercise.getParentId());
-                    long l = sqLiteStatementExercise.executeInsert();
-                    exercise.setParentId(exercise.getId());
-                    exercise.setId(l);
-                }
+            for (Exercise exercise : list) {
+                exercise.setParentId(workout.getId());
+                exercise.setTemplate(false);
+                exercise.setDefaultType(false);
+                sqLiteStatementExercise.clearBindings();
+                sqLiteStatementExercise.bindString(2, exercise.getComment());
+                sqLiteStatementExercise.bindLong(3, exercise.getDescriptionId());
+                sqLiteStatementExercise.bindString(4, exercise.getTypeMuscle().toString());
+                sqLiteStatementExercise.bindLong(5, exercise.isDefaultType() ? 1 : 0);
+                sqLiteStatementExercise.bindLong(6, exercise.isTemplate() ? 1 : 0);
+                sqLiteStatementExercise.bindString(7, exercise.getStartStringFormatDate());
+                sqLiteStatementExercise.bindString(8, exercise.getFinishStringFormatDate());
+                sqLiteStatementExercise.bindLong(9, exercise.getParentId());
+                long l = sqLiteStatementExercise.executeInsert();
+                exercise.setParentId(exercise.getId());
+                exercise.setId(l);
+            }
 
-                for (Exercise exercise : list) {
-                    List<Sets> setsList = setDao.getByParentId(exercise.getParentId());
-                    SQLiteStatement sqLiteStatementSets = sqLiteDatabase.compileStatement(sqlForSets);
+            for (Exercise exercise : list) {
+                List<Sets> setsList = setDao.getByParentId(exercise.getParentId());
+                SQLiteStatement sqLiteStatementSets = sqLiteDatabase.compileStatement(sqlForSets);
 
-                    for (Sets sets : setsList) {
-                        sqLiteStatementSets.clearBindings();
-                        sqLiteStatementSets.bindDouble(3, sets.getWeight());
-                        sqLiteStatementSets.bindLong(4, sets.getReps());
-                        sqLiteStatementSets.bindString(5, sets.getStartStringFormatDate());
-                        sqLiteStatementSets.bindString(6, sets.getFinishStringFormatDate());
-                        sqLiteStatementSets.bindLong(7, exercise.getId());
-                        sqLiteStatementSets.executeInsert();
-                    }
+                for (Sets sets : setsList) {
+                    sqLiteStatementSets.clearBindings();
+                    sqLiteStatementSets.bindDouble(3, sets.getWeight());
+                    sqLiteStatementSets.bindLong(4, sets.getReps());
+                    sqLiteStatementSets.bindString(5, sets.getStartStringFormatDate());
+                    sqLiteStatementSets.bindString(6, sets.getFinishStringFormatDate());
+                    sqLiteStatementSets.bindLong(7, exercise.getId());
+                    sqLiteStatementSets.executeInsert();
                 }
+            }
 
             sqLiteDatabase.setTransactionSuccessful();
 
@@ -255,7 +299,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
         long finish = System.currentTimeMillis() - start;
         System.out.println(Long.toString(finish) + " workout copy ms");
-        if(workout.getId() != 0){
+        if (workout.getId() != 0) {
             return workout;
         } else return null;
     }
@@ -283,15 +327,24 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     }
 
     public List<Workout> getDefault() {
-        Cursor cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
-                DBHelper.TABLE_KEY_DEFAULT + " =? and " + DBHelper.TABLE_KEY_TEMPLATE + " =?", new String[]{String.valueOf(1), String.valueOf(0)}, null, null, null
-        );
+        Cursor cursor =  null;
         workoutList = new ArrayList<>();
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_WORKOUT, keys,
+                    DBHelper.TABLE_KEY_DEFAULT + " =? and " + DBHelper.TABLE_KEY_TEMPLATE + " =?", new String[]{String.valueOf(1), String.valueOf(0)}, null, null, null
+            );
         if (cursor.moveToFirst()) {
             do {
                 Workout workout = getWorkoutFromCursor(cursor);
                 workoutList.add(workout);
             } while (cursor.moveToNext());
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return workoutList;
