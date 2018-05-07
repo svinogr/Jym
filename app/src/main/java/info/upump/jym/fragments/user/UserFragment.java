@@ -96,17 +96,21 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
             }*/
 
             if (msg.what == CREATE) {
+                System.out.println(3);
                 addItems((User) msg.obj);
-
             }
         }
     };
 
     private void addItems(User user) {
         userList.add(user);
-        int index = userList.size() - 1;
+
+        sortListByDate(userList);
+        index = userList.indexOf(user);
         userAdapter.notifyItemInserted(index);
-        recyclerView.smoothScrollToPosition(index);
+        userAdapter.notifyItemRangeChanged(index, userList.size()-1);
+
+        recyclerView.smoothScrollToPosition(userList.size() - 1);
         Toast.makeText(getContext(), R.string.toast_user_saved, Toast.LENGTH_SHORT).show();
     }
 
@@ -126,6 +130,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
         if (getArguments() != null) {
         }
         createAsyncTask();
+        sortListByDate(userList);
         createAdapter();
     }
 
@@ -222,7 +227,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
     private void addItem() {
         //TODO сделать вызов для резалт активити, типа красиво вставляем
         Intent intent = UserCreateActivity.createIntent(getContext(), new User());
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_CREATE);
     }
 
     @Override
@@ -255,21 +260,23 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-
             switch (requestCode) {
                 case REQUEST_CODE_CREATE:
                     addNewItem(data);
                     break;
                 case REQUEST_CODE_CHANGE_OPEN:
-                    long id = data.getLongExtra(ID, 0);
+
                     int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
+                    long id = data.getLongExtra(ID, 0);
                     switch (changeOrDelete) {
                         case UPDATE:
                             updateInnerItem(id);
                             break;
                         case DELETE:
                             deleteInnerItem(id);
+                            break;
                     }
+                    break;
             }
         }
     }
@@ -277,9 +284,13 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
     private void update(User user) {
         int index = -1;
         long id = user.getId();
+        boolean f = false;
         for (User userUpdate : userList) {
             if (userUpdate.getId() == id) {
                 index = userList.indexOf(userUpdate);
+                if ((userUpdate.getDate().compareTo(user.getDate()) !=0) ) {
+                    f = true;
+                }
                 break;
             }
         }
@@ -290,6 +301,17 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
             recyclerView.smoothScrollToPosition(index);
             Toast.makeText(getContext(), R.string.toast_user_update, Toast.LENGTH_SHORT).show();
         }
+        if (f) {
+            sortListByDate(userList);
+            index = userList.indexOf(user);
+
+            if (index != -1) {
+                userList.set(index, user);
+                userAdapter.notifyItemChanged(index);
+                recyclerView.smoothScrollToPosition(index);
+            }
+        }
+
     }
 
     private void updateInnerItem(final long id) {
@@ -336,7 +358,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
 
     private void addNewItem(Intent data) {
         final User user = new User();
-        user.setId(data.getLongExtra(ID, 0));
+
         user.setDate(data.getStringExtra(START_DATA));
         user.setWeight(data.getDoubleExtra(WEIGHT, 0));
         user.setFat(data.getDoubleExtra(FAT, 0));
@@ -350,12 +372,14 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
         user.setLeftLeg(data.getDoubleExtra(L_LEG, 0));
         user.setLeftCalves(data.getDoubleExtra(R_CALVES, 0));
         user.setRightCalves(data.getDoubleExtra(L_CALVES, 0));
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 UserDao userDao = new UserDao(getContext());
                 long id = userDao.create(user);
                 if (id != -1) {
+                    user.setId(id);
                     handler.sendMessageDelayed(handler.obtainMessage(CREATE, user), 0);
                 } else handler.sendMessageDelayed(handler.obtainMessage(ERROR), 0);
             }

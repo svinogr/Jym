@@ -33,7 +33,6 @@ public class UserHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     public void bind(User user) {
         this.user = user;
-        System.out.println(user);
         weight.setText(String.valueOf(user.getWeight()));
         fat.setText(String.valueOf(user.getFat()));
         date.setText(user.getStringFormatDate());

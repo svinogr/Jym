@@ -67,7 +67,10 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
 
             if (msg.what == UPDATE) {
                 Exercise exercise = (Exercise) msg.obj;
-                update(exercise);
+                if(exercise.getTypeMuscle() == typeMuscle){
+                    update(exercise);
+                } else  { Toast.makeText(getContext(), R.string.toast_exercise_saved, Toast.LENGTH_SHORT).show();
+                    tabChanger.setToFinalPositionRecyclerView();}
 
             }
 
@@ -84,7 +87,8 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
                 Exercise exercise = (Exercise) msg.obj;
                 if(exercise.getTypeMuscle() == typeMuscle){
                     addItem(exercise);
-                } else   Toast.makeText(getContext(), R.string.toast_exercise_saved, Toast.LENGTH_SHORT).show();
+                } else  { Toast.makeText(getContext(), R.string.toast_exercise_saved, Toast.LENGTH_SHORT).show();
+                tabChanger.setToFinalPositionRecyclerView();}
 
             }
         }
@@ -94,14 +98,12 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
         exerciseList.add(exercise);
         exerciseAdapter.notifyItemInserted(exerciseList.size()-1);
         recyclerView.smoothScrollToPosition(exerciseList.size()-1);
+        tabChanger.setToFinalPositionRecyclerView();
     }
 
     private void insertDeletedItem(Exercise exercise) {
 
     }
-
-
-
 
     public ExerciseListFragmentForViewPager() {
     }
@@ -150,7 +152,6 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(exerciseAdapter);
-        tabChanger.setToFinalPositionRecyclerView();
         return inflate;
     }
 

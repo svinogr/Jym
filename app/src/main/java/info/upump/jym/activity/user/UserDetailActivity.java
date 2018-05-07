@@ -118,6 +118,7 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            setResult(RESULT_CANCELED);
             exit();
         }
         if (item.getItemId() == R.id.edit_menu_delete) {
@@ -127,8 +128,7 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
             intent.putExtra(ID, user.getId());
             setResult(RESULT_OK, intent);
             exit();
-        } else
-            Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+        }
 
 
         return super.onOptionsItemSelected(item);

@@ -52,12 +52,12 @@ import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 
 public class ExerciseCreateActivity extends AppCompatActivity {
     private EditText title, description;
-//    private Spinner spinner;
+    private Spinner spinner;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ImageView imageView;
     private Exercise exercise;
     private Uri uriImage;
-    private TextView spinner;
+//    private TextView spinner;
     private String[] nameOfValues;
     private final Handler handler = new Handler() {
         @Override
@@ -91,17 +91,16 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         nameOfValues = getNameOfMuscle();
 
         ArrayAdapter<String> dayArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameOfValues);
-//        spinner.setAdapter(dayArrayAdapter);
-//        spinner.setFocusableInTouchMode(false);
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-/*
+        spinner.setAdapter(dayArrayAdapter);
+        spinner.setFocusableInTouchMode(false);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
             }
-        });*/
+        });
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,10 +142,10 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             collapsingToolbarLayout.setTitle(exercise.getExerciseDescription().getTitle());
             title.setText(exercise.getExerciseDescription().getTitle());
             description.setText(exercise.getComment());
-//            spinner.setSelection(exercise.getTypeMuscle().ordinal());
-            spinner.setText(exercise.getTypeMuscle().getName());
+            spinner.setSelection(exercise.getTypeMuscle().ordinal());
+//            spinner.setText(exercise.getTypeMuscle().getName());
         } else {
-            spinner.setText(exercise.getTypeMuscle().getName());
+//            spinner.setText(exercise.getTypeMuscle().getName());
             collapsingToolbarLayout.setTitle(title.getHint().toString());
         }
 
@@ -303,8 +302,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             return;
         }
         Exercise exerciseUpdate = getChangeableItem();
-
-//            Intent intent = createIntentForResult(); // при создании из вне
             Intent intent = createIntentForResult(exerciseUpdate);
             intent.putExtra(UPDATE_DELETE, UPDATE);
             setResult(RESULT_OK, intent);
@@ -377,8 +374,8 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         if (!changeableItem.getExerciseDescription().getTitle().equals(exercise.getExerciseDescription().getTitle()))
             return false;
         if (!changeableItem.getComment().equals(exercise.getComment())) return false;
-      /*  if (!(changeableItem.getTypeMuscle().toString().equals(exercise.getTypeMuscle().toString())))
-            return false;*/
+        if (!(changeableItem.getTypeMuscle().toString().equals(exercise.getTypeMuscle().toString())))
+            return false;
         if (uriImage != null) return false;
         return true;
     }
@@ -403,10 +400,10 @@ public class ExerciseCreateActivity extends AppCompatActivity {
 
         changeableExercise.setTemplate(true);
         changeableExercise.setDefaultType(false);
-     //   int selectedItem = spinner.getSelectedItemPosition();
-      //  TypeMuscle typeMuscle = getMuscle(selectedItem);
-       // changeableExercise.setTypeMuscle(typeMuscle);
-        changeableExercise.setTypeMuscle(exercise.getTypeMuscle());//залоука
+        int selectedItem = spinner.getSelectedItemPosition();
+        TypeMuscle typeMuscle = getMuscle(selectedItem);
+        changeableExercise.setTypeMuscle(typeMuscle);
+//        changeableExercise.setTypeMuscle(exercise.getTypeMuscle());//залоука
         changeableExercise.setExerciseDescription(changeableExerciseDescription);
         return changeableExercise;
     }

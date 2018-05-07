@@ -222,10 +222,6 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
             }
         });
         thread.start();
-//
-//        ExerciseDao exerciseDao = new ExerciseDao(this);
-//        exercise = exerciseDao.getById(exercise.getId());
-//        createViewFrom();
     }
 
     private void createViewFrom() {

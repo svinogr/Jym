@@ -45,4 +45,8 @@ public class PagerAdapterExercise extends FragmentStatePagerAdapter {
         return  context.getResources().getString(typeMuscles[position].getName());
     }
 
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
+    }
 }

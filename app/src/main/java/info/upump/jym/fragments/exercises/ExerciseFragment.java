@@ -142,12 +142,12 @@ public class ExerciseFragment extends Fragment implements TabChanger{
     public void onAttach(Context context) {
         super.onAttach(context);
         iTitlable = (ITitleble) context;
-//        iControlFragment = (IControlFragment) context;
     }
 
 
     @Override
     public void setToFinalPositionRecyclerView() {
-        System.out.println("dugwdgwildgwgidigwgdf");
+        System.out.println("OK");
+        pagerAdapter.notifyDataSetChanged();
     }
 }

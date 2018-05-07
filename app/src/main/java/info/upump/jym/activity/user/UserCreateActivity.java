@@ -74,9 +74,6 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
 
         user = getItemFromIntent();
 
-        if (savedInstanceState != null) {
-
-        }
 
         if (savedInstanceState != null) {
             valuesFromSavedInstanceState(savedInstanceState);
@@ -285,10 +282,29 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
             if (user != null) {
                 user.setId(0);
                 user.setDate(new Date());
-            } else user = new User();
+            } else {
+                user = new User();
+                setDefaultParameters(user);
+            }
+
             setTitle(R.string.user_create_title);
         }
         return user;
+    }
+
+    private void setDefaultParameters(User user) {
+        user.setWeight(80);
+        user.setFat(20);
+        user.setNeck(20);
+        user.setShoulder(100);
+        user.setPectoral(100);
+        user.setRightBiceps(30);
+        user.setLeftBiceps(30);
+        user.setAbs(60);
+        user.setRightLeg(40);
+        user.setLeftLeg(40);
+        user.setRightCalves(35);
+        user.setLeftCalves(35);
     }
 
     private void exit() {
@@ -318,18 +334,9 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void save() {
-        UserDao userDao = new UserDao(this);
-        User changeableItem = getChangeableItem();
-        long id = userDao.create(changeableItem);
-        if (id != -1) {
-            user.setId(id);
-            Toast.makeText(this, R.string.toast_user_saved, Toast.LENGTH_SHORT).show();
             Intent intent = getIntentForResult();
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
-        } else
-            Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).
-                    show();
     }
 
     private boolean itemIsNotChanged() {
@@ -388,33 +395,31 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         return changeableUser;
     }
 
- private Intent getIntentForResult(){
-     User user = getChangeableItem();
-     System.out.println(user);
-     Intent intent = new Intent();
-     intent.putExtra(ID, user.getId());
-     intent.putExtra(START_DATA, user.getStringFormatDate());
-     intent.putExtra(WEIGHT, user.getWeight());
-     intent.putExtra(FAT, user.getFat());
-     intent.putExtra(NECK, user.getNeck());
-     intent.putExtra(SHOULDERS, user.getShoulder());
-     intent.putExtra(PECTORAL, user.getPectoral());
-     intent.putExtra(R_BICEPS, user.getRightBiceps());
-     intent.putExtra(L_BICEPS, user.getLeftBiceps());
-     intent.putExtra(ABS, user.getAbs());
-     intent.putExtra(L_LEG, user.getLeftLeg());
-     intent.putExtra(R_LEG, user.getRightLeg());
-     intent.putExtra(L_CALVES, user.getLeftCalves());
-     intent.putExtra(R_CALVES, user.getRightCalves());
-     setResult(RESULT_OK, intent);
-     return intent;
- }
+    private Intent getIntentForResult() {
+        User user = getChangeableItem();
+        Intent intent = new Intent();
+        intent.putExtra(ID, user.getId());
+        intent.putExtra(START_DATA, user.getStringFormatDate());
+        intent.putExtra(WEIGHT, user.getWeight());
+        intent.putExtra(FAT, user.getFat());
+        intent.putExtra(NECK, user.getNeck());
+        intent.putExtra(SHOULDERS, user.getShoulder());
+        intent.putExtra(PECTORAL, user.getPectoral());
+        intent.putExtra(R_BICEPS, user.getRightBiceps());
+        intent.putExtra(L_BICEPS, user.getLeftBiceps());
+        intent.putExtra(ABS, user.getAbs());
+        intent.putExtra(L_LEG, user.getLeftLeg());
+        intent.putExtra(R_LEG, user.getRightLeg());
+        intent.putExtra(L_CALVES, user.getLeftCalves());
+        intent.putExtra(R_CALVES, user.getRightCalves());
+        return intent;
+    }
 
     private void update() {
-       Intent intent = getIntentForResult();
-       intent.putExtra(UPDATE_DELETE, UPDATE);
-       setResult(RESULT_OK, intent);
-       finishActivityWithAnimation();
+        Intent intent = getIntentForResult();
+        intent.putExtra(UPDATE_DELETE, UPDATE);
+        setResult(RESULT_OK, intent);
+        finishActivityWithAnimation();
     }
 
     private void finishActivityWithAnimation() {
@@ -423,19 +428,7 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         } else finish();
     }
 
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.edit_set_menu, menu);
-        return true;
-    }*/
 
-   /* private Intent createIntentForResult() {
-        Intent intent = new Intent();
-        intent.putExtra(ID, user.getId());
-        return intent;
-    }
-*/
     @Override
     public void onBackPressed() {
         exit();
@@ -446,34 +439,8 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         if (item.getItemId() == android.R.id.home) {
             exit();
         }
-       /* if (item.getItemId() == R.id.edit_menu_delete) {
-            if (user.getId() > 0) {
-                switch (item.getItemId()) {
-                    case R.id.edit_menu_delete:
-                        Snackbar.make(getWindow().getDecorView(), R.string.snack_delete, Snackbar.LENGTH_LONG)
-                                .setAction(R.string.yes, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        delete(user.getId());
-
-                                    }
-                                }).show();
-                        break;
-                }
-            } else
-                Toast.makeText(this,R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
-        }*/
         return super.onOptionsItemSelected(item);
     }
-
- /*   public void delete(long id) {
-        UserDao userDao = new UserDao(this);
-        if (userDao.delete(user)) {
-            Toast.makeText(this, R.string.toast_user_delete, Toast.LENGTH_SHORT).show();
-            finishActivityWithAnimation();
-        } else
-            Toast.makeText(this, R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
-    }*/
 
     @Override
     public void onClick(View v) {
