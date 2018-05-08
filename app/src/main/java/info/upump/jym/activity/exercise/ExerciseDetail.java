@@ -84,6 +84,8 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
             }
 
             if (msg.what == CREATE) {
+                List<Sets> list = (List<Sets>) msg.obj;
+                System.out.println(list.toString());
                 addItems((List<Sets>) msg.obj);
 
             }
@@ -243,23 +245,23 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         thread.start();
     }
 
-    private void addNewItem(Intent data) {
+    private void addNewItem(final Intent data) {
         update = true;
-        final Sets sets = new Sets();
-        sets.setStartDate(new Date());
-        sets.setFinishDate(new Date());
-        sets.setWeight(data.getDoubleExtra(WEIGHT, 0));
-        sets.setReps(data.getIntExtra(REPS, 0));
-        final int q = data.getIntExtra(QUANTITY, 1);
-        sets.setParentId(exercise.getId());
 
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                int q = data.getIntExtra(QUANTITY, 1);
+                Sets sets = null;
                 List<Sets> setsList = new ArrayList<>();
                 SetDao setDao = new SetDao(getApplicationContext());
                 for (int i = 0; i < q; i++) {
-                    sets.setId(0);
+                    sets = new Sets();
+                    sets.setStartDate(new Date());
+                    sets.setFinishDate(new Date());
+                    sets.setWeight(data.getDoubleExtra(WEIGHT, 0));
+                    sets.setReps(data.getIntExtra(REPS, 0));
+                    sets.setParentId(exercise.getId());
                     long l = setDao.create(sets);
                     sets.setId(l);
                     setsList.add(sets);

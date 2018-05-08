@@ -29,13 +29,6 @@ public class ExerciseWithInfoViewHolder extends AbstractExerciseViewHolder {
 
     }
 
-  /*  @Override
-    public Intent createIntent() {
-        System.out.println("holder for exercise in my programs  template exercise activity");
-        Intent intent = ExerciseDetail.createIntent(context, exercise);
-        return intent;
-    }
-*/
     @Override
     public void setInfo() {
         SetDao setDao = new SetDao(context);
@@ -63,8 +56,7 @@ public class ExerciseWithInfoViewHolder extends AbstractExerciseViewHolder {
             ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity)
                             getAnimationContext(),
                     Pair.create(sharedViewIm, transitionNameIm));
-//            context.startActivity(intent, transitionActivityOptions.toBundle());
             crud.createIntentForResult(transitionActivityOptions, exercise);
-        } else /*context.startActivity(intent);*/ crud.createIntentForResult(null, exercise);
+        } else  crud.createIntentForResult(null, exercise);
     }
 }
