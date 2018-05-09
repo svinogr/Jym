@@ -89,7 +89,8 @@ public abstract class AbstractExerciseViewHolder extends RecyclerView.ViewHolder
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
-                .error(R.color.colorTextLabel)
+//                .error(R.color.colorTextLabel)
+                .error(R.drawable.iview_place_erore_exercise_50)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
 
@@ -97,6 +98,7 @@ public abstract class AbstractExerciseViewHolder extends RecyclerView.ViewHolder
         if (exercise.getExerciseDescription().getDefaultImg() != null) {
             ident = itemView.getContext().getApplicationContext().getResources().getIdentifier(exercise.getExerciseDescription().getDefaultImg(), "drawable", itemView.getContext().getPackageName());
         }
+
         if(ident !=0){
             Glide.with(itemView.getContext()).load(ident).apply(options).into(image);
         } else {

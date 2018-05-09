@@ -61,7 +61,7 @@ public abstract class AbstractCycleViewHolder extends RecyclerView.ViewHolder im
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()
-                .error(R.color.colorTextLabel)
+                .error(R.drawable.iview_place_erore_exercise_50)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
         if (cycle.getDefaultImg() != null) {
