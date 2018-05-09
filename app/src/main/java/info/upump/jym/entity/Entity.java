@@ -7,7 +7,7 @@ import java.util.Locale;
 
 
 public abstract class Entity {
-    protected final String formatDate = "yy-mm-dd";
+    protected final String formatDate = "yyyy-MM-dd";
     protected Date startDate;
     protected Date finishDate;
     protected long id;

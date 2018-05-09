@@ -182,7 +182,6 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
                         case UPDATE:
                              update = true;
                             updateDescription(data);
-                            System.out.println("up");
                             break;
                     }
                     break;

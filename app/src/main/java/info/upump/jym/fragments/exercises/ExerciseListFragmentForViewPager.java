@@ -1,6 +1,7 @@
 package info.upump.jym.fragments.exercises;
 
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +51,7 @@ import static info.upump.jym.activity.constant.Constants.TYPE_MUSCLE;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
 import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 
-public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<Exercise>, View.OnClickListener {
+public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<Exercise>, View.OnClickListener, IStartActivity {
     private TypeMuscle typeMuscle;
     private List<Exercise> exerciseList = new ArrayList<>();
     private ExerciseAdapter exerciseAdapter;
@@ -67,10 +68,12 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
 
             if (msg.what == UPDATE) {
                 Exercise exercise = (Exercise) msg.obj;
-                if(exercise.getTypeMuscle() == typeMuscle){
+                if (exercise.getTypeMuscle() == typeMuscle) {
                     update(exercise);
-                } else  { Toast.makeText(getContext(), R.string.toast_exercise_saved, Toast.LENGTH_SHORT).show();
-                    tabChanger.setToFinalPositionRecyclerView();}
+                } else {
+                    Toast.makeText(getContext(), R.string.toast_exercise_saved, Toast.LENGTH_SHORT).show();
+                    tabChanger.setToFinalPositionRecyclerView();
+                }
 
             }
 
@@ -85,10 +88,14 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
 
             if (msg.what == CREATE) {
                 Exercise exercise = (Exercise) msg.obj;
-                if(exercise.getTypeMuscle() == typeMuscle){
+                if (exercise.getTypeMuscle() == typeMuscle) {
                     addItem(exercise);
-                } else  { Toast.makeText(getContext(), R.string.toast_exercise_saved, Toast.LENGTH_SHORT).show();
-                tabChanger.setToFinalPositionRecyclerView();}
+                } else {
+                    Toast.makeText(getContext(), R.string.toast_exercise_saved, Toast.LENGTH_SHORT).show();
+                    if(tabChanger != null) {
+                        tabChanger.setToFinalPositionRecyclerView();
+                    }
+                }
 
             }
         }
@@ -96,8 +103,8 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
 
     private void addItem(Exercise exercise) {
         exerciseList.add(exercise);
-        exerciseAdapter.notifyItemInserted(exerciseList.size()-1);
-        recyclerView.smoothScrollToPosition(exerciseList.size()-1);
+        exerciseAdapter.notifyItemInserted(exerciseList.size() - 1);
+        recyclerView.smoothScrollToPosition(exerciseList.size() - 1);
         tabChanger.setToFinalPositionRecyclerView();
     }
 
@@ -119,6 +126,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             String t = getArguments().getString(TYPE_MUSCLE);
             typeMuscle = TypeMuscle.valueOf(t);
@@ -145,9 +153,8 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
                              Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.exercise_list_fragment_for_view_pager, container, false);
         recyclerView = inflate.findViewById(R.id.exercise_list_fragment_for_view_pager_recycler_view);
-        addFab =  inflate.findViewById(R.id.exercise_fragment_add_fab);
+        addFab = inflate.findViewById(R.id.exercise_fragment_add_fab);
         addFab.setOnClickListener(this);
-        System.out.println("onCreateView "+ typeMuscle);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -157,14 +164,8 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
 
     @Override
     public void onAttach(Context context) {
-        System.out.println("resu atacj "+ typeMuscle);
         super.onAttach(context);
-        if (getArguments() != null) {
-            String t = getArguments().getString(TYPE_MUSCLE);
-            typeMuscle = TypeMuscle.valueOf(t);
-        }
     }
-
 
 
     @Override
@@ -188,11 +189,9 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
                     switch (changeOrDelete) {
                         case UPDATE:
                             updateInnerItem(id);
-                            System.out.println("up");
                             break;
                         case DELETE:
                             deleteInnerItem(id);
-                            System.out.println("del");
                             break;
                     }
                     break;
@@ -237,7 +236,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
                 exercise.setId(id);
                 if (exerciseDao.delete(exercise)) {
                     handler.sendMessageDelayed(handler.obtainMessage(DELETE, exercise), 0);
-                }else handler.sendMessageDelayed(handler.obtainMessage(ERROR, exercise), 0);
+                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR, exercise), 0);
             }
         });
         thread.start();
@@ -261,6 +260,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
         }
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -269,7 +269,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
                 Exercise exercise = new Exercise();
                 exercise.setTypeMuscle(typeMuscle);
                 /**/
-                Intent intent = ExerciseCreateActivity.createIntent(getContext(),exercise);
+                Intent intent = ExerciseCreateActivity.createIntent(getContext(), exercise);
                 startActivityForResult(intent, REQUEST_CODE_CREATE);
         }
     }
@@ -304,4 +304,10 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
         });
         thread.start();
     }
+
+    @Override
+    public void startActivity(Context context) {
+
+    }
+
 }

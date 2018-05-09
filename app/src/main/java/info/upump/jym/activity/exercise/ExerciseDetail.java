@@ -84,10 +84,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
             }
 
             if (msg.what == CREATE) {
-                List<Sets> list = (List<Sets>) msg.obj;
-                System.out.println(list.toString());
                 addItems((List<Sets>) msg.obj);
-
             }
         }
     };
@@ -113,7 +110,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
 
         exercise = getItemFromIntent();
         createAsyncTask();
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.exercise_activity_detail_recycler_view);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -122,7 +118,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         setFabVisible(true);
         addFab.setOnClickListener(this);
         setFab();
-        System.out.println(setsList.toString());
     }
 
     private void createAsyncTask() {
