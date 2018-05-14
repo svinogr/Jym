@@ -24,7 +24,7 @@
     <string name="hamstring">Трицепс бедра</string>
     <string name="calves">Голень</string>
     <string name="abs">Пресс</string>
-    <string name="biceps">бицепс</string>
+    <string name="biceps">Бицепс</string>
     <!--titles-->
     <string name="exercise_fragment_title">Упражнения</string>
     <string name="exercise_title_sets">Подходы</string>
