@@ -1,17 +1,27 @@
 package info.upump.jym.activity.cycle;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,37 +30,88 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.util.Date;
-
 import info.upump.jym.R;
+import info.upump.jym.activity.IChangeItem;
+import info.upump.jym.activity.IDescriptionFragment;
+import info.upump.jym.activity.IItemFragment;
+import info.upump.jym.activity.constant.Constants;
+import info.upump.jym.activity.workout.WorkoutActivityForChoose;
+import info.upump.jym.activity.workout.WorkoutCreateActivity;
+import info.upump.jym.activity.workout.WorkoutDetailActivity;
 import info.upump.jym.adapters.PagerAdapterCycle;
 import info.upump.jym.bd.CycleDao;
+import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Cycle;
+import info.upump.jym.entity.Day;
+import info.upump.jym.entity.Workout;
+import info.upump.jym.fragments.cycle.CRUD;
 
-public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle> {
-    private static final String ID_CYCLE = "id";
-    private static final int REQUEST_CODE_GALLERY_PHOTO = 1;
-    private static final String URI_IMG = "uri";
-    private ViewPager viewPager;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
-    private ImageView imageView;
-    private Cycle cycle;
-    private Uri uriImage;
-    private PagerAdapterCycle pagerAdapterCycleEdit;
-    private CycleDao cycleDao;
-    private IDescriptionFragment iDescriptionFragment;
+import static info.upump.jym.activity.constant.Constants.CLEAR;
+import static info.upump.jym.activity.constant.Constants.CREATE;
+import static info.upump.jym.activity.constant.Constants.DAY;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.DESCRIPTION;
+import static info.upump.jym.activity.constant.Constants.ERROR;
+import static info.upump.jym.activity.constant.Constants.FINISH_DATA;
+import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.PARENT_ID;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.TEMPLATE_TYPE_ITEM;
+import static info.upump.jym.activity.constant.Constants.TITLE;
+import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
+import static info.upump.jym.activity.constant.Constants.WEEK_EVEN;
 
+public class CycleDetailActivity extends AppCompatActivity implements IChangeItem<Cycle>, View.OnClickListener, CRUD<Workout> {
+    protected ViewPager viewPager;
+    protected CollapsingToolbarLayout collapsingToolbarLayout;
+    protected NestedScrollView nestedScrollView;
+    protected ImageView imageView;
+    protected Cycle cycle;
+    protected PagerAdapterCycle pagerAdapterCycleEdit;
+    protected IDescriptionFragment iDescriptionFragment;
+    protected IItemFragment iItemFragment;
+    protected FloatingActionButton addFab;
+    protected TabLayout tabLayout;
+    protected AppBarLayout appBarLayout;
+    private boolean update;
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == DELETE) {
+                Toast.makeText(getApplicationContext(), R.string.toast_workout_delete, Toast.LENGTH_SHORT).show();
+            }
+
+            if (msg.what == UPDATE) {
+                Workout workout = (Workout) msg.obj;
+                iItemFragment.update(workout);
+            }
+
+            if (msg.what == ERROR) {
+                long id = (long) msg.obj;
+                Toast.makeText(getApplicationContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+                iItemFragment.insertDeletedItem(id);
+            }
+           if(msg.what == CLEAR){
+               iItemFragment.clear();
+           }
+
+            if (msg.what == CREATE) {
+                iItemFragment.addItem((Workout)msg.obj);
+
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            if (savedInstanceState.getString(URI_IMG) != null) {
-                uriImage = Uri.parse(savedInstanceState.getString(URI_IMG));
-            }
-        }
+
         setContentView(R.layout.activity_cycle_detail);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.cycle_activity_detail_edit_toolbar);
@@ -59,27 +120,74 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
         viewPager = findViewById(R.id.cycle_fragment_edit_viewpager);
         viewPager = findViewById(R.id.cycle_fragment_edit_viewpager);
-        imageView = findViewById(R.id.exercise_activity_detail_edit_image_view);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent photoPic = createIntentForGetPic();
-                startActivityForResult(photoPic, REQUEST_CODE_GALLERY_PHOTO);
-            }
-        });
+        imageView = findViewById(R.id.cycle_activity_detail_edit_image_view);
+        addFab = findViewById(R.id.cycle_activity_detail_fab_main);
         collapsingToolbarLayout = findViewById(R.id.cycle_activity_detail_edit_collapsing);
-
-        TabLayout tabLayout = findViewById(R.id.cycle_fragment_edit_tab_layout);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsedAppBar);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.ExtenddAppBar);
+        nestedScrollView = findViewById(R.id.nested_scroll);
+        tabLayout = findViewById(R.id.cycle_fragment_edit_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+        addFab.setOnClickListener(this);
+        appBarLayout = findViewById(R.id.cycle_activity_detail_edit_appbar);
 
-        cycle = getCycleFromIntent();
+        cycle = getItemFromIntent();
 
-        pagerAdapterCycleEdit = new PagerAdapterCycle(getSupportFragmentManager(), cycle);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean(UPDATE_DELETE) != false) {
+                update = true;
+            }
+        }
+
+        setFabVisible();
+        setTabSelected();
+        setPagerAdapter();
         viewPager.setAdapter(pagerAdapterCycleEdit);
         setPageTransform();
+        createViewFrom();
+    }
 
-        createViewFrom(cycle);
+    void setIconFab(int positionTab) {
+        if (positionTab == 0) {
+            addFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_add));
+        } else addFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_edit));
+    }
 
+    protected void setTabSelected() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                setIconFab(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    protected void setFabVisible() {
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset < -20) {
+                    if (addFab.isShown()) {
+                        addFab.hide();
+                    }
+                } else if (!addFab.isShown()) {
+                    addFab.show();
+                }
+            }
+        });
+    }
+
+    protected void setPagerAdapter() {
+        pagerAdapterCycleEdit = new PagerAdapterCycle(getSupportFragmentManager(), cycle, this);
     }
 
     private void setPageTransform() {
@@ -133,178 +241,243 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
     public static Intent createIntent(Context context, Cycle cycle) {
         Intent intent = new Intent(context, CycleDetailActivity.class);
-        intent.putExtra(ID_CYCLE, cycle.getId());
+        intent.putExtra(Constants.ID, cycle.getId());
         return intent;
     }
 
-    private void createViewFrom(Cycle cycle) {
+    private void createViewFrom() {
         if (cycle != null) {
             collapsingToolbarLayout.setTitle(cycle.getTitle());
-            if (cycle.getImage() != null) {
-                setPic(Uri.parse(cycle.getImage()));
-            }
         }
-
-
+        setPic();
     }
 
-    private Cycle getCycleFromIntent() {
+    private void setPic() {
+        if (cycle.getDefaultImg() != null) {
+            setDefaultPic();
+        } else if (cycle.getImage() != null) {
+            setPicUri(Uri.parse(cycle.getImage()));
+        } else setPicUri(Uri.parse(("2513")));
+    }
+
+    private void setDefaultPic() {
+        RequestOptions options = getOptionsGlide();
+        int ident = getResources().getIdentifier(cycle.getDefaultImg(), "drawable", getPackageName());
+        Glide.with(this).load(ident).apply(new RequestOptions()).into(imageView);
+    }
+
+    private RequestOptions getOptionsGlide() {
+        RequestOptions options = new RequestOptions()
+                .transforms(new RoundedCorners(50))
+                .error(R.drawable.iview_place_erore_exercise)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH);
+        return options;
+    }
+
+    private Cycle getItemFromIntent() {
         Intent intent = getIntent();
-        long id = intent.getLongExtra(ID_CYCLE, 0);
-        Cycle cycle = new Cycle();
-        if(uriImage != null){
-            cycle.setImage(uriImage.toString());
-        }
-        if (id >0) {
-            CycleDao cycleDao = new CycleDao(this);
-            cycle = cycleDao.getById(id);
-        } else {
-            cycle.setTitle(" ");
-            cycle.setComment("");
-            cycle.setStartDate(new Date());
-            cycle.setFinishDate(new Date());
-        }
+        long id = intent.getLongExtra(Constants.ID, 0);
+        Cycle cycle = null;
+        CycleDao cycleDao = new CycleDao(this);
+        cycle = cycleDao.getById(id);
         return cycle;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println(requestCode);
         if (resultCode == RESULT_OK) {
+            long id;
             switch (requestCode) {
-                case REQUEST_CODE_GALLERY_PHOTO:
-                    uriImage = data.getData();
-                    setPic(uriImage);
+                case  REQUEST_CODE_CHANGE_OPEN :
+                    id = data.getLongExtra(ID, 0);
+                    int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
+                    switch (changeOrDelete) {
+                        case UPDATE:
+                            updateInnerItem(id);
+                            break;
+                        case DELETE:
+                            deleteInnerItem(id);
+                            break;
+                    }
+                    break;
+                case Constants.REQUEST_CODE_CHOOSE:
+                    id = data.getLongExtra(ID, 0);
+                    addItem(id);
+                    break;
+                case Constants.REQUEST_CODE_CREATE:
+                    addNewItem(data);
+                    break;
+                case UPDATE:
+                    update = true;
+                    updateDescription();
+                    break;
             }
         }
+    }
+
+    private void updateInnerItem(final long id) {
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                Workout workout = workoutDao.getById(id);
+                if (workout != null) {
+                    handler.sendMessageDelayed(handler.obtainMessage(UPDATE, workout), 0);
+                }
+            }
+        });
+        thread.start();
 
     }
 
+    private void deleteInnerItem(final long id) {
+        System.out.println("delere");
+        iItemFragment.delete(id);
+              final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                Workout workout = new Workout();
+                workout.setId(id);
+                if (workoutDao.delete(workout)) {
+                    handler.sendMessageDelayed(handler.obtainMessage(DELETE, id), 0);
+                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR, id), 0);
+            }
+        });
+        thread.start();
+    }
 
-    private void setPic(Uri uri) {
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.ic_add_black_24dp)
-                .error(R.drawable.ic_add_black_24dp)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH);
+    private void addItem(final long id) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                Workout workout = workoutDao.alter(id, cycle.getId());
+                if (workout != null) {
+                    handler.sendMessageDelayed(handler.obtainMessage(CREATE, workout), 0);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void addNewItem(Intent data) {
+        final Workout workout = new Workout();
+        workout.setTitle(data.getStringExtra(TITLE));
+        workout.setComment(data.getStringExtra(DESCRIPTION));
+        workout.setWeekEven(data.getBooleanExtra(WEEK_EVEN, false));
+        workout.setDefaultType(data.getBooleanExtra(DEFAULT_TYPE_ITEM, false));
+        workout.setTemplate(data.getBooleanExtra(TEMPLATE_TYPE_ITEM, false));
+        workout.setDay(Day.valueOf(data.getStringExtra(DAY)));
+        workout.setStartDate(data.getStringExtra(START_DATA));
+        workout.setFinishDate(data.getStringExtra(FINISH_DATA));
+        workout.setParentId(data.getLongExtra(PARENT_ID, 0));
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                long id = workoutDao.create(workout);
+                if (id != -1) {
+                    workout.setId(id);
+                    handler.sendMessageDelayed(handler.obtainMessage(CREATE, workout), 0);
+                }
+            }
+        });
+        thread.start();
+    }
+
+
+
+    @Override
+    public void updateDescription() {
+        CycleDao cycleDao = new CycleDao(this);
+        cycle = cycleDao.getById(cycle.getId());
+        createViewFrom();
+        iDescriptionFragment.updateItem(cycle);
+    }
+
+    private void setPicUri(Uri uri) {
+        RequestOptions options = getOptionsGlide();
         Glide.with(this).load(uri).apply(options).into(imageView);
-    }
-
-    private Intent createIntentForGetPic() {
-        Intent intent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        } else {
-            intent = new Intent(Intent.ACTION_PICK);
-        }
-        intent.setType("image/*");
-        return intent;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-          exit();
+        switch (item.getItemId()) {
+            case R.id.edit_menu_delete:
+                Snackbar.make(this.imageView, R.string.snack_delete, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.yes, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                delete(cycle.getId());
+                            }
+                        }).show();
+                break;
+            case R.id.edit_menu_clear:
+                Snackbar.make(this.imageView, R.string.snack_cycle_delete_workouts, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.yes, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                clear();
+                            }
+                        }).show();
+                break;
         }
+
+        if (item.getItemId() == android.R.id.home) {
+            exit();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-       // super.onBackPressed();
-      exit();
-
+        exit();
     }
-    private void exit(){
-        if (itemIsNotChanged()) {
-            finishActivityWithAnimation();
-        } else {
-            AlertDialog.Builder ad = new AlertDialog.Builder(this);
-            ad.setTitle("Сохранить изменения описания?");
-            ad.setPositiveButton("Да и выйти", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    saveOrUpdate();
+
+    protected void exit() {
+        finishActivityWithAnimation();
+    }
+
+    private void clear() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CycleDao cycleDao = new CycleDao(getApplicationContext());
+                boolean clear = cycleDao.clear(cycle.getId());
+                if (clear) {
+                    handler.sendMessageDelayed(handler.obtainMessage(CLEAR), 0);
                 }
-            });
-            ad.setNegativeButton("Нет и выйти", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finishActivityWithAnimation();
-                }
-            });
-            ad.show();
+            }
+        });
+        thread.start();
+    }
 
+    protected void finishActivityWithAnimation() {
+        if (update) {
+            Intent intent = new Intent();
+            intent.putExtra(ID, cycle.getId());
+            intent.putExtra(UPDATE_DELETE, UPDATE);
+            setResult(RESULT_OK, intent);
         }
-    }
-    private void saveOrUpdate() {
-        Cycle sOu = (Cycle) iDescriptionFragment.getChangeableItem();
-        if (sOu.getTitle().trim().isEmpty()) {
-            Toast.makeText(this, "необходимо имя", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        cycle.setComment(sOu.getComment());
-        cycle.setTitle(sOu.getTitle());
-        cycle.setFinishDate(sOu.getFinishDate());
-        cycle.setStartDate(sOu.getStartDate());
-        if (uriImage != null) {
-            System.out.println("юрай имидж" +
-                    "" + uriImage);
-            cycle.setImage(uriImage.toString());
-        }
-        if (cycle.getId() > 0) {
-            update(cycle);
-        } else save(cycle);
-    }
-
-    @Override
-    public void save(Cycle cycle) {
-        cycleDao = getCycleDao();
-        if (cycleDao.create(cycle) != -1) {
-            Toast.makeText(this, "времен, программа сохранена", Toast.LENGTH_SHORT).show();
-            finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
-    }
-
-
-    private boolean itemIsNotChanged() {
-        System.out.println(cycle);
-        Cycle changeableItem = (Cycle) iDescriptionFragment.getChangeableItem();
-        System.out.println(changeableItem);
-        if (!changeableItem.getTitle().equals(cycle.getTitle())) return false;
-        if (!changeableItem.getComment().equals(cycle.getComment())) return false;
-        if (!changeableItem.getStartStringFormatDate().equals(cycle.getStartStringFormatDate()))
-            return false;
-        if (!changeableItem.getFinishStringFormatDate().equals(cycle.getFinishStringFormatDate()))
-            return false;
-
-        if (uriImage != null) return false;
-        // if (!getChangeableItem.getImage().equals(cycle.getImage())) return false;
-
-        return true;
-    }
-
-
-    private void finishActivityWithAnimation() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             finishAfterTransition();
         } else finish();
     }
 
-
-    @Override
-    public void update(Cycle cycleSave) {
-        cycleDao = getCycleDao();
-        if (cycleDao.update(cycleSave)) {
-            Toast.makeText(this, "времен, программа изменена", Toast.LENGTH_SHORT).show();
-            finishActivityWithAnimation();
-        } else Toast.makeText(this, "времен, не возможно сохранить", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void delete(long id) {
-
+        Intent intent = new Intent();
+        intent.putExtra(ID, id);
+        update = false;
+        intent.putExtra(UPDATE_DELETE, DELETE);
+        setResult(RESULT_OK, intent);
+        finishActivityWithAnimation();
     }
 
     @Override
@@ -312,20 +485,87 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         this.iDescriptionFragment = interfaceForDescription;
     }
 
-    private CycleDao getCycleDao() {
-        if (cycleDao == null) {
-            cycleDao = new CycleDao(this);
-        }
-        return cycleDao;
+    @Override
+    public void setInterfaceForItem(IItemFragment interfaceForItem) {
+        this.iItemFragment = interfaceForItem;
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (uriImage != null) {
-            outState.putString(URI_IMG, uriImage.toString());
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.edit_menu, menu);
+        return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.cycle_activity_detail_fab_main) {
+            int selectedTabPosition = tabLayout.getSelectedTabPosition();
+            switch (selectedTabPosition) {
+                case 0:
+                    showDialogCreateItems();
+                    break;
+                case 1:
+                    updateDescriptionItem();
+                    break;
+            }
         }
     }
 
 
+    private void updateDescriptionItem() {
+        Intent intent = CycleCreateActivity.createIntent(this, cycle);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View sharedViewIm = imageView;
+            String transitionNameIm = "cycle_activity_detail_edit_image_view";
+            ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                    this,
+                    Pair.create(sharedViewIm, transitionNameIm));
+            startActivityForResult(intent, UPDATE, transitionActivityOptions.toBundle());
+        } else startActivityForResult(intent, UPDATE);
+    }
+
+    private void showDialogCreateItems() {
+        String[] inputs = {getString(R.string.workout_dialog_create_new), getString(R.string.workout_dialog_сhoose)};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.workout_dialog_title); // заголовок для диалога
+        builder.setItems(inputs, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                // TODO Auto-generated method stub
+                Intent intent;
+                switch (item) {
+                    case 1:
+                        intent = WorkoutActivityForChoose.createIntent(getApplicationContext());
+                        startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
+                        break;
+                    case 0:
+                        Workout workout = new Workout();
+                        workout.setDefaultType(false);
+                        workout.setTemplate(false);
+                        workout.setParentId(cycle.getId());
+                        intent = WorkoutCreateActivity.createIntent(getApplicationContext(), workout);
+                        startActivityForResult(intent, Constants.REQUEST_CODE_CREATE);
+                        break;
+                }
+            }
+        });
+        builder.setCancelable(true);
+        builder.show();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(UPDATE_DELETE, update);
+    }
+
+
+    @Override
+    public void createIntentForResult(ActivityOptions activityOptions, Workout workout) {
+            Intent intent = WorkoutDetailActivity.createIntent(this, workout);
+            if (activityOptions != null) {
+                startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN, activityOptions.toBundle());
+            } else startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN);
+        }
 }

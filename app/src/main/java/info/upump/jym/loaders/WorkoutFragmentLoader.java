@@ -1,45 +1,57 @@
+/*
 package info.upump.jym.loaders;
 
-import android.support.v4.content.AsyncTaskLoader;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.AsyncTaskLoader;
 
 import java.util.List;
 
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Workout;
 
-/**
- * Created by explo on 23.03.2018.
- */
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_DEFAULT_TYPE;
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_TEMPLATE_TYPE;
+import static info.upump.jym.activity.constant.Constants.LOADER_BY_USER_TYPE;
+
 
 public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
     private Context context;
-    public final static int BY_PARENT_ID = 1;
     private int operation;
-    private long id;
+    private long parentId;
 
     public WorkoutFragmentLoader(@NonNull Context context, int operation) {
         super(context);
         this.context = context;
         this.operation = operation;
     }
+
     public WorkoutFragmentLoader(@NonNull Context context, int operation, long id) {
-        this(context,operation);
-        this.id = id;
+        this(context, operation);
+        this.parentId = id;
     }
 
     @Nullable
     @Override
     public List<Workout> loadInBackground() {
         WorkoutDao workoutDao = new WorkoutDao(context);
-        List<Workout> workoutList =null;
-        switch (operation){
-            case BY_PARENT_ID:
-               workoutList =  workoutDao.getByParentId(id);
+        List<Workout> workoutList = null;
+        switch (operation) {
+            case LOADER_BY_PARENT_ID:
+                workoutList = workoutDao.getByParentId(parentId);
                 break;
+                case LOADER_BY_DEFAULT_TYPE:
+                workoutList = workoutDao.getDefault();
+                break;
+            case LOADER_BY_USER_TYPE:
+                workoutList = workoutDao.getTemplateUser();
+                break;
+            case LOADER_BY_TEMPLATE_TYPE:
+                workoutList =  workoutDao.getAllTemplate();
         }
+
         return workoutList;
     }
 
@@ -64,3 +76,4 @@ public class WorkoutFragmentLoader extends AsyncTaskLoader<List<Workout>> {
         super.onForceLoad();
     }
 }
+*/

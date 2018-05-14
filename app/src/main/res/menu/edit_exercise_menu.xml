@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/edit_menu_delete"
+        android:orderInCategory="100"
+        android:title="@string/action_delete_exercise"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/edit_menu_clear"
+        android:orderInCategory="100"
+        android:title="@string/action_exercise_clear"
+        app:showAsAction="never" />
+  <!--  <item
+        android:id="@+id/edit_menu_change_weight"
+        android:orderInCategory="100"
+        android:title="@string/action_exercise_change_weight"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/edit_menu_change_reps"
+        android:orderInCategory="100"
+        android:title="@string/action_exercise_change_reps"
+        app:showAsAction="never" />-->
+
+</menu>

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -34,10 +35,13 @@ public class UserDaoTest {
         user.setHeight(183);
         user.setNeck(100.3);
         user.setPectoral(100.3);
-        user.setHand(100.3);
+        user.setLeftBiceps(100.3);
         user.setAbs(100.3);
-        user.setLeg(100.3);
-        user.setDate(new Date());
+        user.setRightLeg(100.3);
+        Calendar calendar = Calendar.getInstance();
+           calendar.add(Calendar.DATE, -5);
+
+        user.setDate(calendar.getTime());
 
     }
 
@@ -65,7 +69,7 @@ public class UserDaoTest {
         user.setId(create);
         Assert.assertNotEquals(create, -1);
 
-        Assert.assertTrue(userDao.delete(user));
+     //   Assert.assertTrue(userDao.delete(user));
     }
 
     @Test
@@ -88,9 +92,9 @@ public class UserDaoTest {
         user.setHeight(180);
         user.setNeck(100.56);
         user.setPectoral(100.56);
-        user.setHand(100.56);
+        user.setRightLeg(100.56);
         user.setAbs(100.56);
-        user.setLeg(100.56);
+        user.setRightLeg(100.56);
         user.setDate(new Date());
         Assert.assertTrue(userDao.update(user));
 
@@ -109,9 +113,9 @@ public class UserDaoTest {
         Assert.assertEquals(user.getHeight(), byId.getHeight(),0.0);
         Assert.assertEquals(user.getNeck(), byId.getNeck(),0.0);
         Assert.assertEquals(user.getPectoral(), byId.getPectoral(),0.0);
-        Assert.assertEquals(user.getHand(), byId.getHand(),0.0);
+        Assert.assertEquals(user.getRightBiceps(), byId.getRightBiceps(),0.0);
         Assert.assertEquals(user.getAbs(), byId.getAbs(),0.0);
-        Assert.assertEquals(user.getLeg(), byId.getLeg(),0.0);
+        Assert.assertEquals(user.getLeftLeg(), byId.getLeftLeg(),0.0);
         Assert.assertEquals(user.getStringFormatDate(), byId.getStringFormatDate());
 
         Assert.assertTrue(userDao.delete(user));

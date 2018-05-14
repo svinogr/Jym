@@ -1,41 +1,113 @@
 package info.upump.jym.fragments.cycle;
 
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import info.upump.jym.ITitlable;
+import info.upump.jym.ITitleble;
 import info.upump.jym.R;
+import info.upump.jym.activity.constant.Constants;
+import info.upump.jym.activity.cycle.CycleActivityForChoose;
+import info.upump.jym.activity.cycle.CycleCreateActivity;
 import info.upump.jym.activity.cycle.CycleDetailActivity;
-import info.upump.jym.activity.cycle.IChangeItem;
-import info.upump.jym.activity.cycle.IDescriptionFragment;
 import info.upump.jym.adapters.CycleAdapter;
 import info.upump.jym.bd.CycleDao;
 import info.upump.jym.entity.Cycle;
-import info.upump.jym.loaders.CycleFragmentLoader;
+import info.upump.jym.loaders.ASTCycle;
 
-public class CycleFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Cycle>>, IChangeItem<Cycle> {
-    private ITitlable iTitlable;
-    private RecyclerView recyclerView;
-    private CycleAdapter cycleAdapter;
-    private List<Cycle> cycleList = new ArrayList<>();
-    private FloatingActionButton fabAdd;
+import static info.upump.jym.activity.constant.Constants.CREATE;
+import static info.upump.jym.activity.constant.Constants.DEFAULT_IMAGE;
+import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.DESCRIPTION;
+import static info.upump.jym.activity.constant.Constants.ERROR;
+import static info.upump.jym.activity.constant.Constants.FINISH_DATA;
+import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.IMAGE;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHOOSE;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CREATE;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.TITLE;
+import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
+
+public class CycleFragment extends Fragment implements View.OnClickListener, CRUD<Cycle> {
+    protected ITitleble iTitlable;
+    protected RecyclerView recyclerView;
+    protected CycleAdapter cycleAdapter;
+    protected List<Cycle> cycleList = new ArrayList<>();
+    private int index = -1;
+    protected SwipeRefreshLayout swipeRefreshLayout;
+    protected FloatingActionButton addFab;
+    protected static ASTCycle astCycle;
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == DELETE) {
+                Toast.makeText(getContext(), R.string.toast_cycle_delete, Toast.LENGTH_SHORT).show();
+            }
+
+            if (msg.what == UPDATE) {
+                Cycle cycle = (Cycle) msg.obj;
+                long id = cycle.getId();
+                int index = -1;
+                for (Cycle delCycle : cycleList) {
+                    if (delCycle.getId() == id) {
+                        index = cycleList.indexOf(delCycle);
+                        break;
+                    }
+                }
+                if (index != -1) {
+                    cycleList.set(index, cycle);
+                    cycleAdapter.notifyItemChanged(index);
+                    recyclerView.smoothScrollToPosition(index);
+                }
+            }
+
+            if (msg.what == ERROR) {
+                long id = (long) msg.obj;
+                Toast.makeText(getContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
+                insertDeletedItem(id);
+            }
+
+
+            if (msg.what == CREATE) {
+                Cycle cycle = (Cycle) msg.obj;
+                cycleList.add(cycle);
+                int position = cycleList.size() - 1;
+                cycleAdapter.notifyItemInserted(position);
+                recyclerView.smoothScrollToPosition(position);
+            }
+        }
+    };
+
+    private void insertDeletedItem(long id) {
+        CycleDao cycleDao = new CycleDao(getContext());
+        Cycle cycle = cycleDao.getById(id);
+        cycleList.add(index, cycle);
+        cycleAdapter.notifyItemInserted(index);
+    }
 
     public CycleFragment() {
-        // Required empty public constructor
     }
 
     public static CycleFragment newInstance() {
@@ -48,131 +120,227 @@ public class CycleFragment extends Fragment implements View.OnClickListener, Loa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-        cycleAdapter = new CycleAdapter(cycleList);
+        createAsyncTask();
+        createAdapter();
+    }
 
+    protected void createAsyncTask() {
+        astCycle = new ASTCycle(getContext());
+        astCycle.execute(Constants.LOADER_BY_USER_TYPE);
+        try {
+            cycleList = astCycle.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void createAdapter() {
+        cycleAdapter = new CycleAdapter(cycleList, Constants.LOADER_BY_USER_TYPE, this);
+    }
+
+    protected void setTitle() {
+        iTitlable.setTitle(getResources().getString(R.string.cycle_fragment_title));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        setTitle();
         View inflate = inflater.inflate(R.layout.fragment_cycle, container, false);
-        recyclerView = inflate.findViewById(R.id.cycle_fragment_recycler_view);
-        fabAdd = inflate.findViewById(R.id.cycle_fragment_fab_add);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
+        recyclerView = inflate.findViewById(R.id.cycle_fragment_recycler_view);
+        addFab = inflate.findViewById(R.id.cycle_fragment_fab_add);
+        swipeRefreshLayout = inflate.findViewById(R.id.refresh);
+        swipeRefreshLayout.setEnabled(false);
+        setFab();
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(cycleAdapter);
-      /*  recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx,int dy){
-                    super.onScrolled(recyclerView, dx, dy);
 
-                    if (dy >0) {
-                        // Scroll Down
-                        if (fabAdd.isShown()) {
-                            fabAdd.hide();
-                        }
-                    }
-                    else if (dy <=0) {
-                        // Scroll Up
-                        if (!fabAdd.isShown()) {
-                            fabAdd.show();
-                        }
-                    }
-                }
-        });*/
-
-        fabAdd.setOnClickListener(this);
-
-        iTitlable.setTitle(getResources().getString(R.string.cycle_title));
         return inflate;
     }
 
-    @Override
-    public Loader<List<Cycle>> onCreateLoader(int id, Bundle args) {
-        CycleFragmentLoader cycleLoader = new CycleFragmentLoader(getContext());
-        return cycleLoader;
-    }
+    protected void setFab() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-    @Override
-    public void onLoadFinished(Loader<List<Cycle>> loader, List<Cycle> data) {
-        cycleList.clear();
-        cycleList.addAll(data);
-        cycleAdapter.notifyDataSetChanged();
+                if (dy > 0) {
+                    // Scroll Down
+                    if (addFab.isShown()) {
+                        addFab.hide();
+                    }
+                } else if (dy <= 0) {
+                    // Scroll Up
+                    if (!addFab.isShown()) {
+                        addFab.show();
+                    }
+                }
+            }
+        });
 
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Cycle>> loader) {
-
+        addFab.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cycle_fragment_fab_add:
-                addItem();
+                createItem();
                 break;
         }
-
     }
 
-    private void addItem() {
-   /*     Cycle cycle = new Cycle();
-        cycle.setId(0);*/
-        Intent intent = CycleDetailActivity.createIntent(getContext(), new Cycle());
-        startActivity(intent);
+    private void createItem() {
+        String[] inputs = {getString(R.string.cycle_dialog_create_new), getString(R.string.cycle_dialog_сhoose)};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.cycle_dialog_title); // заголовок для диалога
+        builder.setItems(inputs, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                // TODO Auto-generated method stub
+                Intent intent;
+                switch (item) {
+                    case 0:
+                        intent = CycleCreateActivity.createIntent(getContext(), null);
+                        startActivityForResult(intent, REQUEST_CODE_CREATE);
+                        break;
+                    case 1:
+                        intent = CycleActivityForChoose.createIntent(getContext());
+                        startActivityForResult(intent, Constants.REQUEST_CODE_CHOOSE);
+                }
+            }
+        });
+        builder.setCancelable(true);
+        builder.show();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        getLoaderManager().initLoader(0, null, this);
-        iTitlable = (ITitlable) context;
-
+        iTitlable = (ITitleble) context;
     }
 
     @Override
-    public void update(Cycle object) {
-
-    }
-
-    @Override
-    public void save(Cycle object) {
-
-    }
-
-    @Override
-    public void delete(long id) {
-        CycleDao cycleDao = new CycleDao(getContext());
-        Cycle cycle = new Cycle();
-        cycle.setId(id);
-
-        if (cycleDao.delete(cycle)) {
-            if (cycleList != null) {
-                int index;
-                for (Cycle m : cycleList) {
-                    if (m.getId() == cycle.getId()) {
-                        index = cycleList.indexOf(m);
-                        cycleList.remove(index);
-                        cycleAdapter.notifyItemRemoved(index);
-                        //  showSnackBar();
-                        return;
-                    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == -1) {
+            if (requestCode == REQUEST_CODE_CHANGE_OPEN) {
+                long id = data.getLongExtra(ID, 0);
+                int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
+                switch (changeOrDelete) {
+                    case UPDATE:
+                        updateItem(id);
+                        break;
+                    case DELETE:
+                        deleteItem(id);
+                        break;
                 }
-
-                System.out.println("удалили итем");
             }
-
+            if (requestCode == REQUEST_CODE_CHOOSE) {
+                long id = data.getLongExtra(ID, 0);
+                addItem(id);
+            }
+            if (requestCode == REQUEST_CODE_CREATE) {
+                long id = data.getLongExtra(ID, 0);
+                addNewItem(data);
+            }
         }
     }
 
-    @Override
-    public void setInterfaceForDescription(IDescriptionFragment interfaceForDescription) {
-        //nop
+    private void addNewItem(Intent data) {
+        final Cycle cycle = new Cycle();
+        cycle.setTitle(data.getStringExtra(TITLE));
+        cycle.setComment(data.getStringExtra(DESCRIPTION));
+        cycle.setStartDate(data.getStringExtra(START_DATA));
+        cycle.setFinishDate(data.getStringExtra(FINISH_DATA));
+        cycle.setImage(data.getStringExtra(IMAGE));
+        cycle.setDefaultImg(data.getStringExtra(DEFAULT_IMAGE));
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                CycleDao cycleDao = new CycleDao(getContext());
+                long id = cycleDao.create(cycle);
+                if (id != -1) {
+                    cycle.setId(id);
+                    handler.sendMessageDelayed(handler.obtainMessage(CREATE, cycle), 0);
+                }
+            }
+        });
+        thread.start();
+
     }
 
+    private void updateItem(final long id) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CycleDao cycleDao = new CycleDao(getContext());
+                Cycle cycle = cycleDao.getById(id);
+                if (cycle != null) {
+                    handler.sendMessageDelayed(handler.obtainMessage(UPDATE, cycle), 0);
+                }
+            }
+        });
+        thread.start();
+
+    }
+
+    private void addItem(final long id) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CycleDao cycleDao = new CycleDao(getContext());
+                Cycle cycle = cycleDao.alterCopyTemplate(id);
+                if (cycle != null) {
+                    handler.sendMessageDelayed(handler.obtainMessage(CREATE, cycle), 0);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void deleteItem(final long id) {
+        for (Cycle delCycle : cycleList) {
+            if (delCycle.getId() == id) {
+                index = cycleList.indexOf(delCycle);
+                break;
+            }
+        }
+
+        if (index != -1) {
+            System.out.println(index + " " + cycleList.size());
+            cycleList.remove(index);
+            cycleAdapter.notifyItemRemoved(index);
+            cycleAdapter.notifyItemRangeChanged(index, cycleList.size());
+        }
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CycleDao cycleDao = new CycleDao(getContext());
+                Cycle cycle = new Cycle();
+                cycle.setId(id);
+                if (cycleDao.delete(cycle)) {
+                    handler.sendMessageDelayed(handler.obtainMessage(DELETE, id), 0);
+                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR, id), 0);
+            }
+        });
+        thread.start();
+
+    }
+
+    @Override
+    public void createIntentForResult(ActivityOptions activityOptions, Cycle cycle) {
+        Intent intent = CycleDetailActivity.createIntent(getContext(), cycle);
+        if (activityOptions != null) {
+            startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN, activityOptions.toBundle());
+        } else startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN);
+
+    }
 }

@@ -15,9 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,16 +26,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.exercise.ExerciseDetailActivity"
-            android:label="@string/title_activity_exercise_detail"
+            android:name=".MainActivity"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.exercise.ExerciseDetailActivityEdit"
-            android:label="@string/title_activity_exercise_detail_edit"
+            android:name=".activity.exercise.ExerciseDetailTemplateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.cycle.CycleDetailActivity"
-            android:label="@string/title_activity_workout_detail_edit"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.cycle.CycleDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.cycle.CycleDetailDefaultActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.workout.WorkoutActivityForChoose" />
+        <activity
+            android:name=".activity.cycle.CycleCreateActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.workout.WorkoutCreateActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.workout.WorkoutDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.workout.WorkoutDetailDefaultActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.exercise.ExerciseCreateActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.exercise.ExerciseActivityForChoose" />
+        <activity android:name=".activity.exercise.ExerciseDetail" />
+        <activity android:name=".activity.exercise.ExerciseDetailDefaultActivity" />
+        <activity android:name=".activity.sets.SetActivityCreate" />
+        <activity android:name=".activity.cycle.CycleActivityForChoose" />
+        <activity android:name=".activity.user.UserCreateActivity" />
+        <activity android:name=".activity.user.UserGraphActivity" />
+        <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.user.UserDetailActivity"></activity>
     </application>
 
 </manifest>

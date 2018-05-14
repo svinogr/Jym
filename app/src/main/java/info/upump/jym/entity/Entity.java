@@ -5,9 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by explo on 05.03.2018.
- */
 
 public abstract class Entity {
     protected final String formatDate = "yyyy-MM-dd";
@@ -92,5 +89,18 @@ public abstract class Entity {
         this.parentId = parentId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Entity)) return false;
 
+        Entity entity = (Entity) o;
+
+        return id == entity.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
 }

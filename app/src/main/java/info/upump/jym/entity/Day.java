@@ -2,9 +2,6 @@ package info.upump.jym.entity;
 
 import info.upump.jym.R;
 
-/**
- * Created by explo on 23.03.2018.
- */
 
 public enum Day {
     MONDAY(){

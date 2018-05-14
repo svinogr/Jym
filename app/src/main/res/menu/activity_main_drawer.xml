@@ -2,37 +2,63 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_programs"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Программы" />
-        <item
-            android:id="@+id/nav_workouts"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Тренировки" />
-        <item
-            android:id="@+id/nav_exercises"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Упражнения" />
-        <item
-            android:id="@+id/nav_progress"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Мой прогресс" />
-    </group>
-
-    <item android:title="Communicate">
-        <menu>
+        <group
+            android:id="@+id/nav_g1"
+            android:checkableBehavior="single">
             <item
+                android:id="@+id/nav_my_programs"
+                android:icon="@drawable/ic_bookmark_black_24dp"
+                android:title="@string/my_programs" />
+            <item
+                android:id="@+id/nav_my_workouts"
+                android:icon="@drawable/ic_bookmark_black_24dp"
+                android:title="@string/my_workouts" />
+
+            <item
+                android:id="@+id/nav_progress"
+                android:icon="@drawable/ic_insert_chart_black_24dp"
+                android:title="@string/my_progress" />
+        </group>
+        <group
+            android:id="@+id/nav_g2"
+            android:checkableBehavior="single"
+            >
+            <item
+                android:id="@+id/nav_programs"
+                android:icon="@drawable/ic_book_black_24dp"
+                android:title="@string/programs" />
+            <!--<item
+                android:id="@+id/nav_workouts"
+                android:icon="@drawable/ic_book_black_24dp"
+                android:title="@string/workouts" />-->
+            <item
+                android:id="@+id/nav_my_exercises"
+                android:icon="@drawable/ic_fitness_center_black_24dp"
+                android:title="@string/exercises" />
+        </group>
+        <group
+            android:id="@+id/nav_g3"
+            android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Настройки" />
+            <item
+                android:id="@+id/nav_pravo"
+                android:icon="@drawable/ic_notifications_black_24dp"
+                android:title="@string/pref_header_pravo" />
+           <!-- <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="О приложении" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Инструкция" />
-        </menu>
-    </item>
+                android:title="Инструкция" />-->
+
+        </group>
+
+    </group>
 
 </menu>

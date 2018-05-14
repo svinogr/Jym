@@ -5,21 +5,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by explo on 12.03.2018.
- */
 
 public class User {
     private final String formatDate = "yyyy-MM-dd";
     private long id;
     private String name;
     private double weight;
+    private double fat;
     private double height;
     private double neck;
     private double pectoral;
-    private double hand;
+
+    private double shoulder;
+    private double leftBiceps;
+    private double rightBiceps;
+
     private double abs;
-    private double leg;
+    private double leftLeg;
+    private double rightLeg;
+    private double leftCalves;
+    private double rightCalves;
     private Date date;
 
     public long getId() {
@@ -46,6 +51,14 @@ public class User {
         this.weight = weight;
     }
 
+    public double getFat() {
+        return fat;
+    }
+
+    public void setFat(double fat) {
+        this.fat = fat;
+    }
+
     public double getHeight() {
         return height;
     }
@@ -62,12 +75,36 @@ public class User {
         this.neck = neck;
     }
 
-    public double getHand() {
-        return hand;
+    public double getPectoral() {
+        return pectoral;
     }
 
-    public void setHand(double hand) {
-        this.hand = hand;
+    public void setPectoral(double pectoral) {
+        this.pectoral = pectoral;
+    }
+
+    public double getShoulder() {
+        return shoulder;
+    }
+
+    public void setShoulder(double shoulder) {
+        this.shoulder = shoulder;
+    }
+
+    public double getLeftBiceps() {
+        return leftBiceps;
+    }
+
+    public void setLeftBiceps(double leftBiceps) {
+        this.leftBiceps = leftBiceps;
+    }
+
+    public double getRightBiceps() {
+        return rightBiceps;
+    }
+
+    public void setRightBiceps(double rightBiceps) {
+        this.rightBiceps = rightBiceps;
     }
 
     public double getAbs() {
@@ -78,20 +115,36 @@ public class User {
         this.abs = abs;
     }
 
-    public double getLeg() {
-        return leg;
+    public double getLeftLeg() {
+        return leftLeg;
     }
 
-    public void setLeg(double leg) {
-        this.leg = leg;
+    public void setLeftLeg(double leftLeg) {
+        this.leftLeg = leftLeg;
     }
 
-    public double getPectoral() {
-        return pectoral;
+    public double getRightLeg() {
+        return rightLeg;
     }
 
-    public void setPectoral(double pectoral) {
-        this.pectoral = pectoral;
+    public void setRightLeg(double rightLeg) {
+        this.rightLeg = rightLeg;
+    }
+
+    public double getLeftCalves() {
+        return leftCalves;
+    }
+
+    public void setLeftCalves(double leftCalves) {
+        this.leftCalves = leftCalves;
+    }
+
+    public double getRightCalves() {
+        return rightCalves;
+    }
+
+    public void setRightCalves(double rightCalves) {
+        this.rightCalves = rightCalves;
     }
 
     public String getStringFormatDate() {
@@ -114,5 +167,28 @@ public class User {
 
     public Date getDate() {
         return date;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "formatDate='" + formatDate + '\'' +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", weight=" + weight +
+                ", fat=" + fat +
+                ", height=" + height +
+                ", neck=" + neck +
+                ", pectoral=" + pectoral +
+                ", shoulder=" + shoulder +
+                ", leftBiceps=" + leftBiceps +
+                ", rightBiceps=" + rightBiceps +
+                ", abs=" + abs +
+                ", leftLeg=" + leftLeg +
+                ", rightLeg=" + rightLeg +
+                ", leftCalves=" + leftCalves +
+                ", rightCalves=" + rightCalves +
+                ", date=" + date +
+                '}';
     }
 }

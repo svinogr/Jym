@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "439613319485",
+    "firebase_url": "https://upumpandroid.firebaseio.com",
+    "project_id": "upumpandroid",
+    "storage_bucket": "upumpandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439613319485:android:dd9df62fcc47df84",
+        "android_client_info": {
+          "package_name": "info.upump.jym"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439613319485-9g2okilud9h9fpl34tt9lmhjdjvuatg9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "info.upump.jym",
+            "certificate_hash": "bc9ce795cb088a273ccb0f76d003ba3e75955195"
+          }
+        },
+        {
+          "client_id": "439613319485-siu3ds96ctd53ujt0h7tbmcof5rebbuk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAib1U6-l3iI4GoK4SXY2rf1TsHnaD02-o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439613319485-siu3ds96ctd53ujt0h7tbmcof5rebbuk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

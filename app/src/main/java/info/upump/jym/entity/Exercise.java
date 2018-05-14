@@ -1,20 +1,34 @@
 package info.upump.jym.entity;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by explo on 05.03.2018.
- */
 
 public class Exercise extends Entity {
     private TypeMuscle typeMuscle;
     private boolean defaultType;
     private boolean template;
     private List<Sets> setsList = new ArrayList<>();
-    private String img;
-    private String description;
+    private long descriptionId;
+    private ExerciseDescription exerciseDescription;
+    public Exercise() {
+    }
+
+    public ExerciseDescription getExerciseDescription() {
+        return exerciseDescription;
+    }
+
+    public void setExerciseDescription(ExerciseDescription exerciseDescription) {
+        this.exerciseDescription = exerciseDescription;
+    }
+
+    public long getDescriptionId() {
+        return descriptionId;
+    }
+
+    public void setDescriptionId(long descriptionId) {
+        this.descriptionId = descriptionId;
+    }
 
     public TypeMuscle getTypeMuscle() {
         return typeMuscle;
@@ -40,21 +54,7 @@ public class Exercise extends Entity {
         this.defaultType = defaultType;
     }
 
-    public String getImg() {
-        return img;
-    }
 
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public boolean isTemplate() {
         return template;
@@ -64,15 +64,18 @@ public class Exercise extends Entity {
         this.template = template;
     }
 
+    public String createInfo(){
+        return "инфо";
+    }
+
     @Override
     public String toString() {
         return "Exercise{" +
                 "template"+ template+
-                ", desc "+ description+
+                ", desc "+ descriptionId +
                 ", typeMuscle=" + typeMuscle +
                 ", defaultType=" + defaultType +
                 ", setsList=" + setsList.size() +
-                ", img='" + img + '\'' +
                 ", id=" + id +
                 ", title='" + title + '\'' +
                 ", comment='" + comment + '\'' +

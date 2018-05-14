@@ -1,9 +1,5 @@
 package info.upump.jym.entity;
 
-/**
- * Created by explo on 05.03.2018.
- */
-
 public class Sets extends Entity {
     private double weight;
     private int reps;
@@ -36,10 +32,13 @@ public class Sets extends Entity {
     @Override
     public String toString() {
         return "Sets{" +
-                "id=" + id +
-                ", weight=" + weight +
+                "weight=" + weight +
                 ", reps=" + reps +
-                ", exercise id=" +parentId+
+                ", formatDate='" + formatDate + '\'' +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", comment='" + comment + '\'' +
+                ", parentId=" + parentId +
                 '}';
     }
 }

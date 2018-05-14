@@ -2,10 +2,13 @@ package info.upump.jym;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -26,28 +29,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.stetho.Stetho;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import info.upump.jym.activity.cycle.IChangeItem;
+import info.upump.jym.activity.SettingsActivity;
 import info.upump.jym.bd.DBHelper;
-import info.upump.jym.fragments.exercises.ExerciseFragment;
+import info.upump.jym.fragments.PravoFragment;
 import info.upump.jym.fragments.cycle.CycleFragment;
+import info.upump.jym.fragments.cycle.CycleFragmentDefault;
+import info.upump.jym.fragments.exercises.ExerciseFragment;
+import info.upump.jym.fragments.user.UserFragment;
+import info.upump.jym.fragments.workout.WorkoutFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ITitlable, IControlFragment {
+        implements NavigationView.OnNavigationItemSelectedListener, ITitleble, IControlFragment {
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private Fragment curFragment;
-    private final static String[] arrayPermissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-    private final static String[] arrayPermissionDescription = {"Хранилище файлов", "Камера"};
-    private static Map<String, String> mapPermission = new HashMap<>();
+    private final String[] arrayPermissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+    private String[] arrayPermissionDescription;
+    private Map<String, String> mapPermission = new HashMap<>();
     private static final int PERMISSION_CODE = 1;
     private static final int REQUEST_PERMISSION_IN_SETTINGS = 10;
     private Bundle savedInstanceState;
-    public IChangeItem iChangeItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,54 +63,34 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-        this.savedInstanceState = savedInstanceState;
 
-       // fab = findViewById(R.id.main_fab);
-       /* fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-*/
+        Stetho.initializeWithDefaults(this);
 
-
-        // TypeMuscle typeMuscle = TypeMuscle.valueOf("BICEPS");
-        // System.out.println(getResources().getString(typeMuscle.getName())+" "+ typeMuscle.getColor());
-     /*  TypeMuscle[] values = TypeMuscle.values();
-        for (TypeMuscle t:values){
-            System.out.println(t.toString());
-        }*/
-      /*  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date date = new Date();
-        System.out.println(date);
-        System.out.println(simpleDateFormat.format(date));
-        Date date1 = null;
-        try {
-            date1 = simpleDateFormat.parse(simpleDateFormat.format(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (BuildConfig.DEBUG) {
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
         }
-        System.out.println(date1);*/
-//         InflaiterDB inflaiterDB = new InflaiterDB(getApplicationContext());
-//        inflaiterDB.insertInBasicExercise();
+
+
+
+        this.savedInstanceState = savedInstanceState;
+        arrayPermissionDescription = new String[]{getResources().getString(R.string.permission_description), getResources().getString(R.string.permission_description_camera)};
 
         for (int i = 0; i < arrayPermissions.length; i++) {
             mapPermission.put(arrayPermissions[i], arrayPermissionDescription[i]);
         }
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            System.out.println("запрос PERMISSION на версии SDK " + android.os.Build.VERSION.SDK_INT);
             getPermission();
 
         } else init(savedInstanceState);
-
     }
 
     public void getPermission() {
-        System.out.println("getPermission");
-
         List<String> permissions = new ArrayList<>();
 
         for (int i = 0; i < arrayPermissions.length; i++) {
@@ -115,7 +103,6 @@ public class MainActivity extends AppCompatActivity
         if (permissions.size() > 0) {
             showSnackBarWithNeededPermissionS(permissions);
 
-
             String[] permissionsToGet = new String[permissions.size()];
             permissions.toArray(permissionsToGet);
 
@@ -123,15 +110,10 @@ public class MainActivity extends AppCompatActivity
                     permissionsToGet,
                     PERMISSION_CODE);
         } else init(savedInstanceState);
-
-
     }
 
-    //    проверяем получено ли уже разрешение
     private boolean hasPermission(String permission) {
-        System.out.println("hasPermission  " + permission);
         if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
-            System.out.println("hasPermission inside  " + permission);
             return true;
         } else return false;
     }
@@ -159,20 +141,16 @@ public class MainActivity extends AppCompatActivity
             case PERMISSION_CODE:
                 List<String> permissionDeny = new ArrayList<>();
                 List<String> permissionDontAsk = new ArrayList<>();
-                System.out.println("G " + grantResults.toString());
-                System.out.println("P " + permissions.toString());
 
                 if (grantResults.length > 0) {
 
                     for (int i = 0; i < permissions.length; i++) {
 
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i])) {
-                            System.out.println("1" + true);
                             permissionDeny.add(permissions[i]);
 
                         } else {
                             if (!hasPermission(permissions[i])) {
-                                System.out.println("2" + false);
                                 permissionDontAsk.add(permissions[i]);
                             }
                         }
@@ -191,7 +169,6 @@ public class MainActivity extends AppCompatActivity
                             if (count < size) {
                                 stringBuilder.append(", ");
                             } else stringBuilder.append(".");
-
                         }
 
                         Snackbar snackbar = Snackbar.make(findViewById(R.id.drawer_layout), stringBuilder,
@@ -217,9 +194,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void init(Bundle savedInstanceState) {
-        System.out.println("init");
-        System.out.println(savedInstanceState);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -231,81 +205,85 @@ public class MainActivity extends AppCompatActivity
         DBHelper dbHelper = DBHelper.getHelper(this);
         dbHelper.getWritableDatabase();
 
-        System.out.println(dbHelper.getDatabaseName());
+        int firstFragment = Integer.parseInt(getPrefs());
+
         if (savedInstanceState == null) {
-          //  ExerciseFragment exerciseFragment = ExerciseFragment.newInstance();
-            CycleFragment exerciseFragment = CycleFragment.newInstance();
-            createFragment(exerciseFragment);
+            createFragment(firstFragment);
         }
+    }
+
+    private String getPrefs() {
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+        String listPreference = prefs.getString("screen_choose", "3");
+        return listPreference;
     }
 
 
     @Override
-    public void createFragment(Fragment fragment) {
-        curFragment = fragment;
-        if(fragment instanceof IChangeItem){
-            iChangeItem = (IChangeItem) fragment;
-        }
+    public void createFragment(int firstFragment) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        Fragment fragment = null;
+        switch (firstFragment) {
+            case 0:
+                fragment = CycleFragment.newInstance();
+                break;
+            case 1:
+                fragment = WorkoutFragment.newInstance();
+                break;
+            case 2:
+                fragment = UserFragment.newInstance();
+                break;
+            case 3:
+                fragment = CycleFragmentDefault.newInstance();
+                break;
+            case 4:
+                fragment = PravoFragment.newInstance();
+                break;
+            case 5:
+                fragment = ExerciseFragment.newInstance();
+                break;
+        }
+        curFragment = fragment;
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commitAllowingStateLoss();
-        //fragmentTransaction.commit();
-    }
-
-    @Override
-    public void delete(long id) {
-        iChangeItem.delete(id);
-
     }
 
     private void openApplicationSettings() {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.parse("package:"+ getPackageName());
+        Uri uri = Uri.parse("package:" + getPackageName());
         intent.setData(uri);
         startActivityForResult(intent, REQUEST_PERMISSION_IN_SETTINGS);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if(requestCode == REQUEST_PERMISSION_IN_SETTINGS){
-                getPermission();
-            }
-
-
-      //  super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_PERMISSION_IN_SETTINGS) {
+            getPermission();
+        } else  super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            Snackbar.make(findViewById(R.id.coordinator), R.string.snack_exit, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.yes, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    }).show();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -313,28 +291,35 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_programs) {
-            if(!(curFragment instanceof CycleFragment)){
-                curFragment = CycleFragment.newInstance();
-            }
-            // Handle the camera action
-        } else if (id == R.id.nav_exercises) {
-            if(!(curFragment instanceof ExerciseFragment)){
-                curFragment = ExerciseFragment.newInstance();
-            }
-
-        } else if (id == R.id.nav_workouts) {
-
-
-        } else if (id == R.id.nav_progress) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        int fragment = -1;
+        switch (id) {
+            case R.id.nav_my_programs:
+                fragment = 0;
+                break;
+            case R.id.nav_my_workouts:
+                fragment = 1;
+                break;
+            case R.id.nav_progress:
+                fragment = 2;
+                break;
+            case R.id.nav_programs:
+                fragment = 3;
+                break;
+            case R.id.nav_pravo:
+                fragment = 4;
+                break;
+            case R.id.nav_my_exercises:
+                fragment = 5;
+                break;
         }
-        createFragment(curFragment);
+
+        if (fragment != -1) {
+            createFragment(fragment);
+        }
+        if (id == R.id.nav_settings) {
+            Intent intent = SettingsActivity.createIntent(this);
+            startActivity(intent);
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -345,6 +330,5 @@ public class MainActivity extends AppCompatActivity
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
     }
-
 
 }
