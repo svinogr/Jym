@@ -109,6 +109,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         }
 
         exercise = getItemFromIntent();
+        System.out.println(exercise.getId());
         createAsyncTask();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.exercise_activity_detail_recycler_view);
