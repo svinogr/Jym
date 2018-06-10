@@ -46,6 +46,7 @@ public class ExerciseListFragmentForViewPagerChoose extends Fragment {
         if (getArguments() != null) {
             String t = getArguments().getString(TYPE_MUSCLE);
             typeMuscle = TypeMuscle.valueOf(t);
+            System.out.println(typeMuscle.toString());
         }
         createAsyncTask();
         exerciseAdapter = new ExerciseAdapter(exerciseList, ExerciseAdapter.CHOOSE, null);
@@ -53,9 +54,10 @@ public class ExerciseListFragmentForViewPagerChoose extends Fragment {
 
     private void createAsyncTask() {
         astExercise = new ASTExercise(getContext());
-        astExercise.execute(Constants.LOADER_BY_TEMPLATE_TYPE, typeMuscle.ordinal());
+        astExercise.execute(Constants.LOADER_BY_TEMPLATE_TYPE, 0, typeMuscle.ordinal());
         try {
             exerciseList = astExercise.get();
+            System.out.println(2+" "+exerciseList.size());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
