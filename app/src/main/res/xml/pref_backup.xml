@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/pref_backup_write_list_titles"
+        android:entryValues="@array/pref_backup_write__values"
+        android:key="export_choose"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="Экспорт"
+        android:title="@string/pref_settings_title_write_to_fille" />
+
+    <Preference
+        android:key="@string/pref_title_write_to_fille"
+        android:title="@string/pref_title_write_to_fille" />
+    <Preference
+        android:key="@string/pref_title_read_from_db"
+        android:title="@string/pref_title_read_from_db" />
+
+
+</PreferenceScreen>

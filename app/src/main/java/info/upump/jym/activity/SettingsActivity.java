@@ -3,6 +3,7 @@ package info.upump.jym.activity;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -21,6 +22,8 @@ import android.view.MenuItem;
 import java.util.List;
 
 import info.upump.jym.R;
+import info.upump.jym.kotlinClasses.backupDb.Backupable;
+import info.upump.jym.kotlinClasses.backupDb.implBackup.Backup;
 
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
@@ -33,6 +36,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
+
+            System.out.println(stringValue);
 
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
@@ -136,9 +141,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
-                || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
-                || NotificationPreferenceFragment.class.getName().equals(fragmentName);
+                || BackupPrefferenceFragment.class.getName().equals(fragmentName);
     }
+
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
@@ -161,13 +166,46 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class NotificationPreferenceFragment extends PreferenceFragment {
+    public static class BackupPrefferenceFragment extends PreferenceFragment {
+        private Backupable backupable;
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_notification);
+            addPreferencesFromResource(R.xml.pref_backup);
             setHasOptionsMenu(true);
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+
+            backupable = new Backup();
+
+            Preference exportBtn = findPreference(getString(R.string.pref_title_write_to_fille));
+            exportBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    SharedPreferences prefs = PreferenceManager
+                            .getDefaultSharedPreferences(getActivity());
+                    String listPreference = prefs.getString("export_choose", "0");
+                    switch (Integer.parseInt(listPreference)) {
+                        case 0:
+                            backupable.toBackup(Backupable.WRITE_TO_FILE);
+                            break;
+                        case 1:
+                            backupable.toBackup(Backupable.WRITE_TO_MAIL);
+                            break;
+                    }
+
+                    return true;
+                }
+            });
+
+            Preference importBtn = findPreference(getString(R.string.pref_title_read_from_db));
+            importBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    backupable.fromBackup();
+                    return true;
+                }
+            });
+
         }
 
         @Override
@@ -181,23 +219,5 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class DataSyncPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_data_sync);
-            setHasOptionsMenu(true);
-        }
 
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
 }
