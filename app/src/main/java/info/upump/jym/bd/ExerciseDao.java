@@ -3,7 +3,6 @@ package info.upump.jym.bd;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -350,5 +349,40 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
         }*/
 
 
+    }
+
+
+    public List<Exercise> getAllUserTemplateExercises() {
+        Cursor cursor = null;
+        List<Exercise> exerciseList = new ArrayList<>();
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE,
+                    keys, DBHelper.TABLE_KEY_DEFAULT + " = ? and "
+                            + DBHelper.TABLE_KEY_TEMPLATE + " = ?"
+                    , new String[]{String.valueOf(0), String.valueOf(1)}, null, null, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Exercise exercise = getExerciseFromCursor(cursor);
+                    exerciseList.add(exercise);
+                } while (cursor.moveToNext());
+            }
+
+            if (exerciseList.size() > 0) {
+                ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+                for (Exercise exercise : exerciseList) {
+                    ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
+                    exercise.setExerciseDescription(exerciseDescription);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+
+        return exerciseList;
     }
 }

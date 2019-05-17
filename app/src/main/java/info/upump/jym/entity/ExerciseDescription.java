@@ -1,6 +1,8 @@
 package info.upump.jym.entity;
 
 
+import java.util.Objects;
+
 public class ExerciseDescription {
     private long id;
     private String img;
@@ -37,6 +39,22 @@ public class ExerciseDescription {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ExerciseDescription that = (ExerciseDescription) o;
+        return id == that.id &&
+                Objects.equals(img, that.img) &&
+                title.equals(that.title) &&
+                Objects.equals(defaultImg, that.defaultImg);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, img, title, defaultImg);
     }
 
     @Override

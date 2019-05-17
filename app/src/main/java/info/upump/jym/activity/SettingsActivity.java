@@ -174,7 +174,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_backup);
             setHasOptionsMenu(true);
 
-            backupable = new Backup();
+            backupable = new Backup(getActivity());
 
             Preference exportBtn = findPreference(getString(R.string.pref_title_write_to_fille));
             exportBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

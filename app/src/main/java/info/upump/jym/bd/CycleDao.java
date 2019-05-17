@@ -110,6 +110,53 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         return cycleList;
     }
 
+    //TODO пернеписать это говно по правильному через правильные SQL запросы
+    public List<Cycle> getAllUserInflated() {
+        Cursor cursor = null;
+        List<Cycle> cycleList = new ArrayList<>();
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_CYCLE,
+                    keys, DBHelper.TABLE_KEY_DEFAULT + " = ?", new String[]{"0"}, null, null, null);
+
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Cycle cycle = getExerciseFromCursor(cursor);
+                    cycleList.add(cycle);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        WorkoutDao workoutDao = new WorkoutDao(context);
+        for (Cycle cycle : cycleList) {
+            List<Workout> workoutList = workoutDao.getByParentId(cycle.getId());
+            cycle.setWorkoutList(workoutList);
+
+            ExerciseDao exerciseDao = new ExerciseDao(context);
+            for (Workout workout : workoutList) {
+                List<Exercise> exerciseList = exerciseDao.getByParentId(workout.getId());
+                workout.setExercises(exerciseList);
+
+                SetDao setDao = new SetDao(context);
+                for (Exercise exercise : exerciseList) {
+                    List<Sets> sets = setDao.getByParentId(exercise.getId());
+                    exercise.setSetsList(sets);
+                }
+            }
+
+
+        }
+
+        return cycleList;
+
+    }
+
     public List<Cycle> getAllUser() {
         Cursor cursor = null;
         List<Cycle> cycleList = new ArrayList<>();
@@ -214,7 +261,6 @@ public class CycleDao extends DBDao implements IData<Cycle> {
 
     @Override
     public long copyFromTemplate(long idItem, long idParent) {
-        long start = System.currentTimeMillis();
         Cycle cycle = getById(idItem);
         WorkoutDao workoutDao = new WorkoutDao(context);
         List<Workout> workoutList = workoutDao.getByParentId(cycle.getId());
@@ -227,8 +273,6 @@ public class CycleDao extends DBDao implements IData<Cycle> {
             workoutDao.copyFromTemplate(workout.getId(), idNewCycle);
         }
 
-        long finish = System.currentTimeMillis() - start;
-        System.out.println(Long.toString(finish) + " ms");
         return idNewCycle;
     }
 
@@ -331,7 +375,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
             sqLiteDatabase.endTransaction();
         }
         long finish = System.currentTimeMillis() - start;
-        System.out.println(Long.toString(finish) + " ms");
+        System.out.println(finish + " ms");
 
         if (cycle.getId() != 0) {
             return cycle;

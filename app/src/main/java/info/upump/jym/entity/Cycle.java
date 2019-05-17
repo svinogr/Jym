@@ -67,8 +67,7 @@ public class Cycle extends Entity {
         if (!title.equals(cycle.title)) return false;
         if (!getStartStringFormatDate().equals(cycle.getStartStringFormatDate())) return false;
         if (!getFinishStringFormatDate().equals(cycle.getFinishStringFormatDate())) return false;
-        if (!comment.equals(cycle.getComment())) return false;
-        return true;
+        return comment.equals(cycle.getComment());
     }
 
     @Override

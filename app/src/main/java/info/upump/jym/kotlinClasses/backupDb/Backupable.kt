@@ -6,6 +6,6 @@ interface Backupable {
         const val WRITE_TO_MAIL = 2
     }
 
-    fun toBackup(to: Int)
+    fun toBackup(toDestinationType: Int)
     fun fromBackup()
 }
