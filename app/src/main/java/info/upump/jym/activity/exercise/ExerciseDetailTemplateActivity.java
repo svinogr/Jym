@@ -31,14 +31,12 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.Date;
 
 import info.upump.jym.R;
-import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.bd.ExerciseDescriptionDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.ExerciseDescription;
 import info.upump.jym.entity.TypeMuscle;
 
-import static info.upump.jym.activity.constant.Constants.CREATE;
 import static info.upump.jym.activity.constant.Constants.DEFAULT_IMAGE;
 import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_ITEM;
 import static info.upump.jym.activity.constant.Constants.DELETE;
@@ -89,7 +87,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_detail_tempalte);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.exercise_detail_template_activity_toolbar);
+        Toolbar toolbar = findViewById(R.id.exercise_detail_template_activity_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -138,9 +136,9 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
     private Exercise getItemFromIntent() {
         Intent intent = getIntent();
         long id = intent.getLongExtra(ID, 0);
-        ExerciseDao exerciseDao = new ExerciseDao(this);
+        ExerciseDao exerciseDao = ExerciseDao.getInstance(this, null);
         Exercise exercise = exerciseDao.getById(id);
-        ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(this);
+        ExerciseDescriptionDao exerciseDescriptionDao = ExerciseDescriptionDao.getInstance(this, null);
         ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
         exercise.setExerciseDescription(exerciseDescription);
         return exercise;
@@ -214,7 +212,7 @@ public class ExerciseDetailTemplateActivity extends AppCompatActivity implements
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ExerciseDao exerciseDao = new ExerciseDao(getApplicationContext());
+                ExerciseDao exerciseDao = ExerciseDao.getInstance(getApplicationContext(), null);
                 if (exerciseDao.update(exercise)) {
                     handler.sendMessageDelayed(handler.obtainMessage(UPDATE, exercise), 0);
                 }

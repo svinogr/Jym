@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.Date;
 
 import info.upump.jym.R;
-import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.SetDao;
 import info.upump.jym.entity.Sets;
 
@@ -124,7 +123,7 @@ public class SetActivityCreate extends AppCompatActivity {
         long id = intent.getLongExtra(ID, 0);
         Sets sets;
         if (id > 0) {
-            SetDao setDao = new SetDao(this);
+            SetDao setDao = SetDao.getInstance(this, null);
             sets = setDao.getById(id);
             setTitle(R.string.set_update_title);
             cardView.setVisibility(View.INVISIBLE);
@@ -232,8 +231,7 @@ public class SetActivityCreate extends AppCompatActivity {
     private boolean itemIsNotChanged() {
         Sets changeableItem = getChangeableItem();
         if (changeableItem.getWeight() != sets.getWeight()) return false;
-        if (changeableItem.getReps() != sets.getReps()) return false;
-        return true;
+        return changeableItem.getReps() == sets.getReps();
     }
 
     private Sets getChangeableItem() {

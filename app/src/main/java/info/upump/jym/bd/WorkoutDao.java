@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,12 @@ import info.upump.jym.entity.Workout;
 
 
 public class WorkoutDao extends DBDao implements IData<Workout> {
-    public WorkoutDao(Context context) {
-        super(context);
+    private WorkoutDao(Context context) {
+        super(context, null);
+    }
+
+    private WorkoutDao(Context context, Uri uri) {
+        super(context, uri);
     }
 
     private static String sqlForWorkout = "insert into " + DBHelper.TABLE_WORKOUT + " values(?,?,?,?,?,?,?,?,?,?);";
@@ -24,6 +29,10 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     private static String sqlForSets = "insert into " + DBHelper.TABLE_SET + " values(?,?,?,?,?,?,?);";
 
     private List<Workout> workoutList;
+
+    public static WorkoutDao getInstance(Context context, Uri uri) {
+        return new WorkoutDao(context, uri);
+    }
 
     private final String[] keys = new String[]{
             DBHelper.TABLE_KEY_ID,
@@ -171,7 +180,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     @Override
     public boolean clear(long id) {
         List<Exercise> exerciseList;
-        ExerciseDao exerciseDao = new ExerciseDao(context);
+        ExerciseDao exerciseDao = ExerciseDao.getInstance(context, uri);
         exerciseList = exerciseDao.getByParentId(id);
         if (exerciseList.size() > 0) {
             for (Exercise exercise : exerciseList) {
@@ -232,8 +241,8 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     public Workout alter(long idFrom, long idTarget) {
         long start = System.currentTimeMillis();
         SQLiteStatement sqLiteStatementWorkout = sqLiteDatabase.compileStatement(sqlForWorkout);
-        ExerciseDao exerciseDao = new ExerciseDao(context);
-        SetDao setDao = new SetDao(context);
+        ExerciseDao exerciseDao = ExerciseDao.getInstance(context, uri);
+        SetDao setDao = SetDao.getInstance(context, uri);
 
         Workout workout = getById(idFrom);
         workout.setParentId(idTarget);
@@ -298,7 +307,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
 
 
         long finish = System.currentTimeMillis() - start;
-        System.out.println(Long.toString(finish) + " workout copy ms");
+        System.out.println(finish + " workout copy ms");
         if (workout.getId() != 0) {
             return workout;
         } else return null;
@@ -308,7 +317,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
     public long copyFromTemplate(long idItem, long id) {
         long start = System.currentTimeMillis();
         Workout workout = getById(idItem);
-        ExerciseDao exerciseDao = new ExerciseDao(context);
+        ExerciseDao exerciseDao = ExerciseDao.getInstance(context, uri);
 
         List<Exercise> exerciseList = exerciseDao.getByParentId(workout.getId());
         workout.setId(0);
@@ -322,7 +331,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         }
 
         long finish = System.currentTimeMillis() - start;
-        System.out.println(Long.toString(finish) + " workout copy ms");
+        System.out.println(finish + " workout copy ms");
         return idNewWorkout;
     }
 

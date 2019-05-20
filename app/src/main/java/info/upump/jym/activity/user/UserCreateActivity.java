@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,7 +26,22 @@ import info.upump.jym.R;
 import info.upump.jym.bd.UserDao;
 import info.upump.jym.entity.User;
 
-import static info.upump.jym.activity.constant.Constants.*;
+import static info.upump.jym.activity.constant.Constants.ABS;
+import static info.upump.jym.activity.constant.Constants.FAT;
+import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.L_BICEPS;
+import static info.upump.jym.activity.constant.Constants.L_CALVES;
+import static info.upump.jym.activity.constant.Constants.L_LEG;
+import static info.upump.jym.activity.constant.Constants.NECK;
+import static info.upump.jym.activity.constant.Constants.PECTORAL;
+import static info.upump.jym.activity.constant.Constants.R_BICEPS;
+import static info.upump.jym.activity.constant.Constants.R_CALVES;
+import static info.upump.jym.activity.constant.Constants.R_LEG;
+import static info.upump.jym.activity.constant.Constants.SHOULDERS;
+import static info.upump.jym.activity.constant.Constants.START_DATA;
+import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
+import static info.upump.jym.activity.constant.Constants.WEIGHT;
 
 
 public class UserCreateActivity extends AppCompatActivity implements View.OnClickListener {
@@ -273,11 +287,11 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
         User user;
         UserDao userDao;
         if (id > 0) {
-            userDao = new UserDao(this);
+            userDao = UserDao.getInstance(this, null);
             user = userDao.getById(id);
             setTitle(R.string.user_update_title);
         } else {
-            userDao = new UserDao(this);
+            userDao = UserDao.getInstance(this, null);
             user = userDao.getByOldDate();
             if (user != null) {
                 user.setId(0);
@@ -367,9 +381,7 @@ public class UserCreateActivity extends AppCompatActivity implements View.OnClic
             return false;
         if (changeableItem.getLeftCalves() != user.getLeftCalves())
             return false;
-        if (changeableItem.getRightCalves() != user.getRightCalves())
-            return false;
-        return true;
+        return changeableItem.getRightCalves() == user.getRightCalves();
     }
 
     private User getChangeableItem() {

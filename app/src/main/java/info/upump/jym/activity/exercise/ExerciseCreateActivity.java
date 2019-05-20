@@ -21,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -74,7 +73,7 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_create);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.exercise_activity_create_toolbar);
+        Toolbar toolbar = findViewById(R.id.exercise_activity_create_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -169,15 +168,14 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         Exercise exercisec = getChangeableItem();
         if (!exercisec.getExerciseDescription().getTitle().equals("")) return false;
         if (!exercisec.getComment().equals("")) return false;
-        if (uriImage != null) return false;
-        return true;
+        return uriImage == null;
     }
 
     private Exercise getItemFromIntent() {
         long id = getIntent().getLongExtra(ID, 0);
         Exercise exercise;
         if (id != 0) {
-            ExerciseDao exerciseDao = new ExerciseDao(this);
+            ExerciseDao exerciseDao = ExerciseDao.getInstance(this, null);
             exercise = exerciseDao.getById(id);
         } else {
             exercise = new Exercise();
@@ -376,8 +374,7 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         if (!changeableItem.getComment().equals(exercise.getComment())) return false;
         if (!(changeableItem.getTypeMuscle().toString().equals(exercise.getTypeMuscle().toString())))
             return false;
-        if (uriImage != null) return false;
-        return true;
+        return uriImage == null;
     }
 
     private Exercise getChangeableItem() {

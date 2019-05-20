@@ -1,7 +1,6 @@
 package info.upump.jym.fragments.exercises;
 
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -204,7 +202,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ExerciseDao exerciseDao = new ExerciseDao(getActivity());
+                ExerciseDao exerciseDao = ExerciseDao.getInstance(getContext(), null);
                 Exercise exercise = exerciseDao.getById(id);
                 if (exercise != null) {
                     handler.sendMessageDelayed(handler.obtainMessage(UPDATE, exercise), 0);
@@ -231,7 +229,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ExerciseDao exerciseDao = new ExerciseDao(getActivity());
+                ExerciseDao exerciseDao = ExerciseDao.getInstance(getContext(), null);
                 Exercise exercise = new Exercise();
                 exercise.setId(id);
                 if (exerciseDao.delete(exercise)) {
@@ -294,7 +292,7 @@ public class ExerciseListFragmentForViewPager extends Fragment implements CRUD<E
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ExerciseDao exerciseDao = new ExerciseDao(getContext());
+                ExerciseDao exerciseDao = ExerciseDao.getInstance(getContext(), null);
                 long id = exerciseDao.create(exercise);
                 exercise.setId(id);
                 if (id != -1) {

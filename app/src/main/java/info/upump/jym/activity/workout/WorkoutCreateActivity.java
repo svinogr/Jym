@@ -38,7 +38,6 @@ import info.upump.jym.entity.Day;
 import info.upump.jym.entity.Workout;
 
 import static info.upump.jym.activity.constant.Constants.DAY;
-import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE;
 import static info.upump.jym.activity.constant.Constants.DEFAULT_TYPE_ITEM;
 import static info.upump.jym.activity.constant.Constants.DESCRIPTION;
 import static info.upump.jym.activity.constant.Constants.FINISH_DATA;
@@ -164,7 +163,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
                 workout.setDefaultType(false);
                 break;
             default:
-                WorkoutDao workoutDao = new WorkoutDao(this);
+                WorkoutDao workoutDao = WorkoutDao.getInstance(this, null);
                 workout = workoutDao.getById(id);
                 break;
         }
@@ -236,8 +235,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
     private boolean onlyWeek() {
         Workout workoutC = getChangeableItem();
         if (!workoutC.getTitle().equals("")) return false;
-        if (!workoutC.getComment().equals("")) return false;
-        return true;
+        return workoutC.getComment().equals("");
     }
 
     private boolean itemIsNotChanged() {
@@ -245,8 +243,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
         if (!changeableItem.getTitle().equals(workout.getTitle())) return false;
         if (!changeableItem.getComment().equals(workout.getComment())) return false;
         if (changeableItem.isWeekEven() != workout.isWeekEven()) return false;
-        if (!changeableItem.getDay().toString().equals(workout.getDay().toString())) return false;
-        return true;
+        return changeableItem.getDay().toString().equals(workout.getDay().toString());
     }
 
     public Workout getChangeableItem() {
@@ -304,7 +301,7 @@ public class WorkoutCreateActivity extends AppCompatActivity {
             return;
         }
         Workout workoutUpdate = getChangeableItem();
-        WorkoutDao workoutDao = new WorkoutDao(this);
+        WorkoutDao workoutDao = WorkoutDao.getInstance(this, null);
         if (workoutDao.update(workoutUpdate)) {
             Toast.makeText(this, R.string.toast_workout_update, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();

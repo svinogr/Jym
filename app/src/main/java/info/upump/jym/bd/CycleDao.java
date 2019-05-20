@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,8 +16,16 @@ import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.Workout;
 
 public class CycleDao extends DBDao implements IData<Cycle> {
-    public CycleDao(Context context) {
-        super(context);
+    private CycleDao(Context context) {
+        super(context, null);
+    }
+
+    private CycleDao(Context context, Uri uri) {
+        super(context, uri);
+    }
+
+    public static CycleDao getInstance(Context context, Uri uri) {
+        return new CycleDao(context, uri);
     }
 
     private static final String sqlForCycle = "insert into " + DBHelper.TABLE_CYCLE + " values(?,?,?,?,?,?,?,?);";
@@ -133,17 +142,17 @@ public class CycleDao extends DBDao implements IData<Cycle> {
             }
         }
 
-        WorkoutDao workoutDao = new WorkoutDao(context);
+        WorkoutDao workoutDao = WorkoutDao.getInstance(context, uri);
         for (Cycle cycle : cycleList) {
             List<Workout> workoutList = workoutDao.getByParentId(cycle.getId());
             cycle.setWorkoutList(workoutList);
 
-            ExerciseDao exerciseDao = new ExerciseDao(context);
+            ExerciseDao exerciseDao = ExerciseDao.getInstance(context, uri);
             for (Workout workout : workoutList) {
                 List<Exercise> exerciseList = exerciseDao.getByParentId(workout.getId());
                 workout.setExercises(exerciseList);
 
-                SetDao setDao = new SetDao(context);
+                SetDao setDao = SetDao.getInstance(context, uri);
                 for (Exercise exercise : exerciseList) {
                     List<Sets> sets = setDao.getByParentId(exercise.getId());
                     exercise.setSetsList(sets);
@@ -156,6 +165,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         return cycleList;
 
     }
+
 
     public List<Cycle> getAllUser() {
         Cursor cursor = null;
@@ -201,7 +211,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
 
     private boolean deleteChildren(long id) {
         List<Workout> workoutList;
-        WorkoutDao workoutDao = new WorkoutDao(context);
+        WorkoutDao workoutDao = WorkoutDao.getInstance(context, uri);
         workoutList = workoutDao.getByParentId(id);
         if (workoutList.size() > 0) {
             for (Workout workout : workoutList) {
@@ -248,7 +258,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     @Override
     public boolean clear(long id) {
         List<Workout> workoutList;
-        WorkoutDao workoutDao = new WorkoutDao(context);
+        WorkoutDao workoutDao = WorkoutDao.getInstance(context, uri);
         workoutList = workoutDao.getByParentId(id);
         if (workoutList.size() > 0) {
             for (Workout workout : workoutList) {
@@ -262,7 +272,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     @Override
     public long copyFromTemplate(long idItem, long idParent) {
         Cycle cycle = getById(idItem);
-        WorkoutDao workoutDao = new WorkoutDao(context);
+        WorkoutDao workoutDao = WorkoutDao.getInstance(context, uri);
         List<Workout> workoutList = workoutDao.getByParentId(cycle.getId());
         cycle.setDefaultType(false);
         cycle.setId(0);
@@ -282,9 +292,9 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         cycle.setDefaultType(false);
         cycle.setId(0);
         setActualDate(cycle);
-        WorkoutDao workoutDao = new WorkoutDao(context);
-        ExerciseDao exerciseDao = new ExerciseDao(context);
-        SetDao setDao = new SetDao(context);
+        WorkoutDao workoutDao = WorkoutDao.getInstance(context, uri);
+        ExerciseDao exerciseDao = ExerciseDao.getInstance(context, uri);
+        SetDao setDao = SetDao.getInstance(context, uri);
 
         sqLiteDatabase.beginTransaction();
 

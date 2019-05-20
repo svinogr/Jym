@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,16 @@ import info.upump.jym.entity.Sets;
 public class SetDao extends DBDao implements IData<Sets> {
     private static String sql = "insert into " + DBHelper.TABLE_SET + " values(?,?,?,?,?,?,?);";
 
-    public SetDao(Context context) {
-        super(context);
+    private SetDao(Context context) {
+        super(context, null);
+    }
+
+    private SetDao(Context context, Uri uri) {
+        super(context, uri);
+    }
+
+    public static SetDao getInstance(Context context, Uri uri) {
+        return new SetDao(context, uri);
     }
 
     private final String[] keys = new String[]{

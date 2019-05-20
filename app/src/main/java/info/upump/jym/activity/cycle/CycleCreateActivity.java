@@ -69,7 +69,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cycle_create);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.cycle_create_activity_toolbar);
+        Toolbar toolbar = findViewById(R.id.cycle_create_activity_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         cycle = getFromIntent();
@@ -296,8 +296,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
             return false;
         if (!changeableItem.getFinishStringFormatDate().equals(cycle.getFinishStringFormatDate()))
             return false;
-        if (uriImage != null) return false;
-        return true;
+        return uriImage == null;
     }
 
     private Cycle getChangeableItem() {
@@ -319,7 +318,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void update() {
-        CycleDao cycleDao = new CycleDao(this);
+        CycleDao cycleDao = CycleDao.getInstance(this, null);
         if (title.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
@@ -371,7 +370,7 @@ public class CycleCreateActivity extends AppCompatActivity implements View.OnCli
         long id = getIntent().getLongExtra(ID, 0);
         Cycle cycle;
         if (id != 0) {
-            CycleDao cycleDao = new CycleDao(this);
+            CycleDao cycleDao = CycleDao.getInstance(this, null);
             cycle = cycleDao.getById(id);
         } else {
             cycle = new Cycle();

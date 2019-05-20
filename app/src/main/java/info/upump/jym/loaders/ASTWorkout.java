@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
-import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Workout;
 
@@ -33,7 +32,7 @@ public class ASTWorkout extends AsyncTask<Integer, Void, List<Workout>> {
             parentId = integers[1];
         }
 
-        WorkoutDao workoutDao = new WorkoutDao(context);
+        WorkoutDao workoutDao = WorkoutDao.getInstance(context, null);
         List<Workout> workoutList = null;
         switch (type) {
             case LOADER_BY_PARENT_ID:

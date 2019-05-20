@@ -22,7 +22,7 @@ public class ASTCycle extends AsyncTask<Integer,Void, List<Cycle>> {
     @Override
     protected List<Cycle> doInBackground(Integer... integers) {
         int type = integers[0];
-        CycleDao cycleDao = new CycleDao(context);
+        CycleDao cycleDao = CycleDao.getInstance(context, null);
         List<Cycle> cycleList = null;
         switch (type) {
             case Constants.LOADER_BY_DEFAULT_TYPE:

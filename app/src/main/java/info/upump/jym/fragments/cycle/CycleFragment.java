@@ -101,7 +101,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
     };
 
     private void insertDeletedItem(long id) {
-        CycleDao cycleDao = new CycleDao(getContext());
+        CycleDao cycleDao = CycleDao.getInstance(getContext(), null);
         Cycle cycle = cycleDao.getById(id);
         cycleList.add(index, cycle);
         cycleAdapter.notifyItemInserted(index);
@@ -264,7 +264,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
             @Override
             public void run() {
 
-                CycleDao cycleDao = new CycleDao(getContext());
+                CycleDao cycleDao = CycleDao.getInstance(getContext(), null);
                 long id = cycleDao.create(cycle);
                 if (id != -1) {
                     cycle.setId(id);
@@ -280,7 +280,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                CycleDao cycleDao = new CycleDao(getContext());
+                CycleDao cycleDao = CycleDao.getInstance(getContext(), null);
                 Cycle cycle = cycleDao.getById(id);
                 if (cycle != null) {
                     handler.sendMessageDelayed(handler.obtainMessage(UPDATE, cycle), 0);
@@ -295,7 +295,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                CycleDao cycleDao = new CycleDao(getContext());
+                CycleDao cycleDao = CycleDao.getInstance(getContext(), null);
                 Cycle cycle = cycleDao.alterCopyTemplate(id);
                 if (cycle != null) {
                     handler.sendMessageDelayed(handler.obtainMessage(CREATE, cycle), 0);
@@ -323,7 +323,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                CycleDao cycleDao = new CycleDao(getContext());
+                CycleDao cycleDao = CycleDao.getInstance(getContext(), null);
                 Cycle cycle = new Cycle();
                 cycle.setId(id);
                 if (cycleDao.delete(cycle)) {

@@ -140,7 +140,7 @@ public class WorkoutFragmentForViewPagerExercises extends Fragment implements II
 
     @Override
     public void insertDeletedItem(long id) {
-        ExerciseDao exerciseDao = new ExerciseDao(getContext());
+        ExerciseDao exerciseDao = ExerciseDao.getInstance(getContext(), null);
         Exercise exercise = exerciseDao.getById(id);
         exerciseList.add(index, exercise);
         exerciseAdapter.notifyItemInserted(index);

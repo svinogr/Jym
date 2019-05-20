@@ -3,6 +3,7 @@ package info.upump.jym.bd;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,8 +16,16 @@ import info.upump.jym.entity.TypeMuscle;
 
 
 public class ExerciseDao extends DBDao implements IData<Exercise> {
-    public ExerciseDao(Context context) {
-        super(context);
+    private ExerciseDao(Context context) {
+        super(context, null);
+    }
+
+    private ExerciseDao(Context context, Uri uri) {
+        super(context, uri);
+    }
+
+    public static ExerciseDao getInstance(Context context, Uri uri) {
+        return new ExerciseDao(context, uri);
     }
 
     private static String sql = "insert into " + DBHelper.TABLE_EXERCISE + " values(?,?,?,?,?,?,?,?,?);";
@@ -95,7 +104,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
     @Override
     public long create(Exercise object) {
         if (object.getExerciseDescription().getId() == 0) {
-            ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+            ExerciseDescriptionDao exerciseDescriptionDao = ExerciseDescriptionDao.getInstance(context, uri);
             long l = exerciseDescriptionDao.create(object.getExerciseDescription());
             object.setDescriptionId(l);
         }
@@ -118,7 +127,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
     @Override
     public boolean clear(long id) {
         List<Sets> setsList;
-        SetDao setDao = new SetDao(context);
+        SetDao setDao = SetDao.getInstance(context, uri);
         setsList = setDao.getByParentId(id);
         if (setsList.size() > 0) {
             for (Sets set : setsList) {
@@ -131,7 +140,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     @Override
     public boolean update(Exercise object) {
-        ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+        ExerciseDescriptionDao exerciseDescriptionDao = ExerciseDescriptionDao.getInstance(context, uri);
         exerciseDescriptionDao.update(object.getExerciseDescription());
         ContentValues cv = getContentValuesFrom(object);
         long id = sqLiteDatabase.update(DBHelper.TABLE_EXERCISE, cv, DBHelper.TABLE_KEY_ID + " = ?", new String[]{String.valueOf(object.getId())});
@@ -153,7 +162,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
                 } while (cursor.moveToNext());
             }
             if (exercise != null) {
-                ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+                ExerciseDescriptionDao exerciseDescriptionDao = ExerciseDescriptionDao.getInstance(context, uri);
                 ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
                 exercise.setExerciseDescription(exerciseDescription);
             }
@@ -201,7 +210,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
                     } while (cursor.moveToNext());
                 }
                 if (exerciseList.size() > 0) {
-                    ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+                    ExerciseDescriptionDao exerciseDescriptionDao = ExerciseDescriptionDao.getInstance(context, uri);
                     for (Exercise exercise : exerciseList) {
                         ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
                         exercise.setExerciseDescription(exerciseDescription);
@@ -273,7 +282,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
             for (Exercise exercise : list) {
                 setDao.alterCopy(exercise.getParentId(), exercise.getId());
             }*/
-        SetDao setDao = new SetDao(context);
+        SetDao setDao = SetDao.getInstance(context, uri);
         Exercise exercise = getById(idFrom);
 
         List<Sets> setsList = setDao.getByParentId(exercise.getId());
@@ -296,7 +305,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
     @Override
     public long copyFromTemplate(long idItem, long id) {
-        SetDao setDao = new SetDao(context);
+        SetDao setDao = SetDao.getInstance(context, uri);
         Exercise exercise = getById(idItem);
 
         List<Sets> setsList = setDao.getByParentId(exercise.getId());
@@ -368,7 +377,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
             }
 
             if (exerciseList.size() > 0) {
-                ExerciseDescriptionDao exerciseDescriptionDao = new ExerciseDescriptionDao(context);
+                ExerciseDescriptionDao exerciseDescriptionDao = ExerciseDescriptionDao.getInstance(context, uri);
                 for (Exercise exercise : exerciseList) {
                     ExerciseDescription exerciseDescription = exerciseDescriptionDao.getById(exercise.getDescriptionId());
                     exercise.setExerciseDescription(exerciseDescription);

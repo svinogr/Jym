@@ -16,15 +16,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import info.upump.jym.R;
-import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.bd.UserDao;
 import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.User;
 
-import static info.upump.jym.activity.constant.Constants.*;
+import static info.upump.jym.activity.constant.Constants.ABS;
+import static info.upump.jym.activity.constant.Constants.DELETE;
 import static info.upump.jym.activity.constant.Constants.ERROR;
+import static info.upump.jym.activity.constant.Constants.FAT;
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.L_BICEPS;
+import static info.upump.jym.activity.constant.Constants.L_CALVES;
+import static info.upump.jym.activity.constant.Constants.L_LEG;
+import static info.upump.jym.activity.constant.Constants.NECK;
+import static info.upump.jym.activity.constant.Constants.PECTORAL;
 import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
+import static info.upump.jym.activity.constant.Constants.R_BICEPS;
+import static info.upump.jym.activity.constant.Constants.R_CALVES;
+import static info.upump.jym.activity.constant.Constants.R_LEG;
+import static info.upump.jym.activity.constant.Constants.SHOULDERS;
 import static info.upump.jym.activity.constant.Constants.START_DATA;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
 import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
@@ -111,7 +121,7 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
 
     private void getItemFromBundle() {
         long id = getIntent().getLongExtra(ID, 0);
-        UserDao userDao = new UserDao(this);
+        UserDao userDao = UserDao.getInstance(this, null);
         user = userDao.getById(id);
     }
 
@@ -199,7 +209,7 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                UserDao userDao = new UserDao(getApplicationContext());
+                UserDao userDao = UserDao.getInstance(getApplicationContext(), null);
                 if(userDao.update(updateUser)){
                     handler.sendMessageDelayed(handler.obtainMessage(UPDATE, updateUser), 0);
                 } else handler.sendMessageDelayed(handler.obtainMessage(ERROR), 0);

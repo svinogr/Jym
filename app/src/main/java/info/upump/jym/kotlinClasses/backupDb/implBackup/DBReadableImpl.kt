@@ -57,7 +57,7 @@ class DBReadableImpl(val context: Context) : DBReadable {
 
         val mapOfExerciseDescriptionToListExercise = HashMap<ExerciseDescription, List<Exercise>>()
 
-        val exerciseDao = ExerciseDao(context)
+        val exerciseDao = ExerciseDao.getInstance(context, fromUri)
         val exerciseUserOnlyTemplateList = exerciseDao.allUserTemplateExercises
 
         //добавляем в мапу ключем описание упражнения(ex desc)
@@ -69,7 +69,7 @@ class DBReadableImpl(val context: Context) : DBReadable {
         print("razmer userList template  exercise ${exerciseUserOnlyTemplateList.size}")
 
         // получаем пользовательские программы
-        val cycleDao = CycleDao(context)
+        val cycleDao = CycleDao.getInstance(context, fromUri)
         val userCycleList = cycleDao.allUserInflated
 
         for (cycle in userCycleList) {

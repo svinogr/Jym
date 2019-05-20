@@ -214,7 +214,7 @@ public class UserGraphActivity extends AppCompatActivity implements TabLayout.On
     }
 
     public List<User> getAllUser() {
-        UserDao userDao = new UserDao(this);
+        UserDao userDao = UserDao.getInstance(this, null);
         List<User> users = userDao.getAll();
 
         return users;

@@ -39,7 +39,6 @@ import info.upump.jym.loaders.ASTUser;
 
 import static android.app.Activity.RESULT_OK;
 import static info.upump.jym.activity.constant.Constants.ABS;
-import static info.upump.jym.activity.constant.Constants.CLEAR;
 import static info.upump.jym.activity.constant.Constants.CREATE;
 import static info.upump.jym.activity.constant.Constants.DELETE;
 import static info.upump.jym.activity.constant.Constants.ERROR;
@@ -318,7 +317,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                UserDao userDao = new UserDao(getContext());
+                UserDao userDao = UserDao.getInstance(getContext(), null);
                 User user = userDao.getById(id);
                 if (user != null) {
                     handler.sendMessageDelayed(handler.obtainMessage(UPDATE, user), 0);
@@ -343,7 +342,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                UserDao userDao = new UserDao(getContext());
+                UserDao userDao = UserDao.getInstance(getContext(), null);
                 User user = new User();
                 user.setId(id);
                 boolean id = userDao.delete(user);
@@ -376,7 +375,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, CRUD
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                UserDao userDao = new UserDao(getContext());
+                UserDao userDao = UserDao.getInstance(getContext(), null);
                 long id = userDao.create(user);
                 if (id != -1) {
                     user.setId(id);

@@ -37,7 +37,6 @@ import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.activity.exercise.ExerciseActivityForChoose;
 import info.upump.jym.activity.exercise.ExerciseDetail;
 import info.upump.jym.adapters.PagerAdapterWorkout;
-import info.upump.jym.bd.CycleDao;
 import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Exercise;
@@ -87,7 +86,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
             }
 
             if (msg.what == CREATE) {
-                iItemFragment.addItem((Exercise)msg.obj);
+                iItemFragment.addItem(msg.obj);
 
             }
         }
@@ -97,7 +96,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.workout_activity_detail_edit_toolbar);
+        Toolbar toolbar = findViewById(R.id.workout_activity_detail_edit_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -231,7 +230,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     private Workout getItemFromIntent() {
         Intent intent = getIntent();
         long id = intent.getLongExtra(ID, 0);
-        WorkoutDao workoutDao = new WorkoutDao(this);
+        WorkoutDao workoutDao = WorkoutDao.getInstance(this, null);
         return workoutDao.getById(id);
     }
 
@@ -256,7 +255,8 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
 
     @Override
     public void updateDescription() {
-        WorkoutDao workoutDao = new WorkoutDao(this);
+        WorkoutDao workoutDao = WorkoutDao.getInstance(this, null
+        );
         workout = workoutDao.getById(workout.getId());
         collapsingToolbarLayout.setTitle(workout.getTitle());
         setPic();
@@ -335,7 +335,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                WorkoutDao workoutDao = WorkoutDao.getInstance(getApplicationContext(), null);
                 boolean clear = workoutDao.clear(workout.getId());
                 if (clear) {
                     handler.sendMessageDelayed(handler.obtainMessage(CLEAR), 0);
@@ -385,7 +385,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ExerciseDao exerciseDao = new ExerciseDao(getApplicationContext());
+                ExerciseDao exerciseDao = ExerciseDao.getInstance(getApplicationContext(), null);
                 Exercise exercise  = exerciseDao.getById(id);
                 if (exercise != null) {
                     handler.sendMessageDelayed(handler.obtainMessage(UPDATE, exercise), 0);
@@ -400,7 +400,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ExerciseDao  exerciseDao = new ExerciseDao(getApplicationContext());
+                ExerciseDao exerciseDao = ExerciseDao.getInstance(getApplicationContext(), null);
                 Exercise exercise = new Exercise();
                 exercise.setId(id);
                 if (exerciseDao.delete(exercise)) {
@@ -415,7 +415,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ExerciseDao exerciseDao = new ExerciseDao(getApplicationContext());
+                ExerciseDao exerciseDao = ExerciseDao.getInstance(getApplicationContext(), null);
                 Exercise exercise  = exerciseDao.alterCopy(id, workout.getId());
                 if (exercise != null) {
                     handler.sendMessageDelayed(handler.obtainMessage(CREATE, exercise), 0);

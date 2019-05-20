@@ -3,7 +3,6 @@ package info.upump.jym.activity.cycle.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -171,7 +170,7 @@ public class CycleFragmentForViewPagerWorkouts extends Fragment implements  IIte
 
     @Override
     public void insertDeletedItem(long id) {
-        WorkoutDao workoutDao = new WorkoutDao(getContext());
+        WorkoutDao workoutDao = WorkoutDao.getInstance(getContext(), null);
         Workout workout = workoutDao.getById(id);
         workoutList.add(index, workout);
         workoutAdapter.notifyItemInserted(index);

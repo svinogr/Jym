@@ -134,7 +134,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static DBHelper instance;
 
-    private static final String DB_PATH = "data/data/info.upump.jym/databases/" + DATABASE_NAME;
+    public static final String DB_PATH = "data/data/info.upump.jym/databases/" + DATABASE_NAME;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATA_BASE_VERSION);

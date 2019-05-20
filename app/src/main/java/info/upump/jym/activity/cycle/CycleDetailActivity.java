@@ -102,7 +102,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
            }
 
             if (msg.what == CREATE) {
-                iItemFragment.addItem((Workout)msg.obj);
+                iItemFragment.addItem(msg.obj);
 
             }
         }
@@ -114,7 +114,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
         setContentView(R.layout.activity_cycle_detail);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.cycle_activity_detail_edit_toolbar);
+        Toolbar toolbar = findViewById(R.id.cycle_activity_detail_edit_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -279,7 +279,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         Intent intent = getIntent();
         long id = intent.getLongExtra(Constants.ID, 0);
         Cycle cycle = null;
-        CycleDao cycleDao = new CycleDao(this);
+        CycleDao cycleDao = CycleDao.getInstance(this, null);
         cycle = cycleDao.getById(id);
         return cycle;
     }
@@ -322,7 +322,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                WorkoutDao workoutDao = WorkoutDao.getInstance(getApplicationContext(), null);
                 Workout workout = workoutDao.getById(id);
                 if (workout != null) {
                     handler.sendMessageDelayed(handler.obtainMessage(UPDATE, workout), 0);
@@ -339,7 +339,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
               final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                WorkoutDao workoutDao = WorkoutDao.getInstance(getApplicationContext(), null);
                 Workout workout = new Workout();
                 workout.setId(id);
                 if (workoutDao.delete(workout)) {
@@ -354,7 +354,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                WorkoutDao workoutDao = WorkoutDao.getInstance(getApplicationContext(), null);
                 Workout workout = workoutDao.alter(id, cycle.getId());
                 if (workout != null) {
                     handler.sendMessageDelayed(handler.obtainMessage(CREATE, workout), 0);
@@ -379,7 +379,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                WorkoutDao workoutDao = new WorkoutDao(getApplicationContext());
+                WorkoutDao workoutDao = WorkoutDao.getInstance(getApplicationContext(), null);
                 long id = workoutDao.create(workout);
                 if (id != -1) {
                     workout.setId(id);
@@ -394,7 +394,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
 
     @Override
     public void updateDescription() {
-        CycleDao cycleDao = new CycleDao(this);
+        CycleDao cycleDao = CycleDao.getInstance(this, null);
         cycle = cycleDao.getById(cycle.getId());
         createViewFrom();
         iDescriptionFragment.updateItem(cycle);
@@ -448,7 +448,7 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                CycleDao cycleDao = new CycleDao(getApplicationContext());
+                CycleDao cycleDao = CycleDao.getInstance(getApplicationContext(), null);
                 boolean clear = cycleDao.clear(cycle.getId());
                 if (clear) {
                     handler.sendMessageDelayed(handler.obtainMessage(CLEAR), 0);

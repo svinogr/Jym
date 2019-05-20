@@ -3,6 +3,7 @@ package info.upump.jym.bd;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,8 +74,16 @@ public class UserDao extends DBDao implements IData<User> {
         return user;
     }
 
-    public UserDao(Context context) {
-        super(context);
+    private UserDao(Context context) {
+        super(context, null);
+    }
+
+    private UserDao(Context context, Uri uri) {
+        super(context, uri);
+    }
+
+    public static UserDao getInstance(Context context, Uri uri) {
+        return new UserDao(context, uri);
     }
 
     @Override

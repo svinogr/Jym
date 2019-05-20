@@ -153,7 +153,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     private Exercise getItemFromIntent() {
         Intent intent = getIntent();
         long id = intent.getLongExtra(ID, 0);
-        ExerciseDao exerciseDao = new ExerciseDao(this);
+        ExerciseDao exerciseDao = ExerciseDao.getInstance(this, null);
         return exerciseDao.getById(id);
     }
 
@@ -206,7 +206,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                SetDao setDao = new SetDao(getApplicationContext());
+                SetDao setDao = SetDao.getInstance(getApplicationContext(), null);
                 Sets sets = new Sets();
                 sets.setId(id);
                 boolean id = setDao.delete(sets);
@@ -231,7 +231,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                SetDao setDao = new SetDao(getApplicationContext());
+                SetDao setDao = SetDao.getInstance(getApplicationContext(), null);
                  boolean id = setDao.update(sets);
                 if (id) {
                     handler.sendMessageDelayed(handler.obtainMessage(UPDATE, sets), 0);
@@ -250,7 +250,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
                 int q = data.getIntExtra(QUANTITY, 1);
                 Sets sets = null;
                 List<Sets> setsList = new ArrayList<>();
-                SetDao setDao = new SetDao(getApplicationContext());
+                SetDao setDao = SetDao.getInstance(getApplicationContext(), null);
                 for (int i = 0; i < q; i++) {
                     sets = new Sets();
                     sets.setStartDate(new Date());
@@ -277,7 +277,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ExerciseDao exerciseDao = new ExerciseDao(getApplicationContext());
+                ExerciseDao exerciseDao = ExerciseDao.getInstance(getApplicationContext(), null);
                 boolean clear = exerciseDao.clear(exercise.getId());
                 if (clear) {
                     handler.sendMessageDelayed(handler.obtainMessage(CLEAR), 0);
@@ -361,7 +361,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void insertDeletedItem(long id) {
-        SetDao setDao = new SetDao(this);
+        SetDao setDao = SetDao.getInstance(this, null);
         Sets sets = setDao.getById(id);
         setsList.add(index, sets);
         setsAdapter.notifyItemInserted(index);

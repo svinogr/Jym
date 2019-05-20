@@ -3,6 +3,7 @@ package info.upump.jym.bd;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 
 import java.util.List;
 
@@ -10,8 +11,12 @@ import info.upump.jym.entity.ExerciseDescription;
 
 
 public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescription> {
-    public ExerciseDescriptionDao(Context context) {
-        super(context);
+    private ExerciseDescriptionDao(Context context) {
+        super(context, null);
+    }
+
+    private ExerciseDescriptionDao(Context context, Uri uri) {
+        super(context, uri);
     }
 
     private final String[] keys = new String[]{
@@ -20,6 +25,10 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
             DBHelper.TABLE_KEY_TITLE,
             DBHelper.TABLE_KEY_IMG
     };
+
+    public static ExerciseDescriptionDao getInstance(Context context, Uri uri) {
+        return new ExerciseDescriptionDao(context, uri);
+    }
 
     private ContentValues getContentValuesFor(ExerciseDescription object) {
         ContentValues cv = new ContentValues();

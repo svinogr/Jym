@@ -100,7 +100,7 @@ public class WorkoutFragment extends Fragment implements View.OnClickListener, C
     };
 
     private void insertDeletedItem(long id) {
-        WorkoutDao workoutDao = new WorkoutDao(getContext());
+        WorkoutDao workoutDao = WorkoutDao.getInstance(getContext(), null);
         Workout workout = workoutDao.getById(id);
         workoutList.add(index, workout);
         workoutAdapter.notifyItemInserted(index);
@@ -254,7 +254,7 @@ public class WorkoutFragment extends Fragment implements View.OnClickListener, C
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                WorkoutDao workoutDao = new WorkoutDao(getContext());
+                WorkoutDao workoutDao = WorkoutDao.getInstance(getContext(), null);
                 long id = workoutDao.create(workout);
                 if (id != -1) {
                     workout.setId(id);
@@ -269,7 +269,7 @@ public class WorkoutFragment extends Fragment implements View.OnClickListener, C
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                WorkoutDao workoutDao = new WorkoutDao(getContext());
+                WorkoutDao workoutDao = WorkoutDao.getInstance(getContext(), null);
                 Workout workout = workoutDao.getById(id);
                 if (workout != null) {
                     handler.sendMessageDelayed(handler.obtainMessage(UPDATE, workout), 0);
@@ -297,7 +297,7 @@ public class WorkoutFragment extends Fragment implements View.OnClickListener, C
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                WorkoutDao workoutDao = new WorkoutDao(getContext());
+                WorkoutDao workoutDao = WorkoutDao.getInstance(getContext(), null);
                 Workout workout = new Workout();
                 workout.setId(id);
                 if (workoutDao.delete(workout)) {

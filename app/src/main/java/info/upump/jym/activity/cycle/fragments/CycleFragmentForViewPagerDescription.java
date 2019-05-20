@@ -66,7 +66,7 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements ID
 
     private void getItemFromBundle() {
         long id = getArguments().getLong(ID);
-        CycleDao cycleDao = new CycleDao(getContext());
+        CycleDao cycleDao = CycleDao.getInstance(getContext(), null);
         cycle = cycleDao.getById(id);
     }
 

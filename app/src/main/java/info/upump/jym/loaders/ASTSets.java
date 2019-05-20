@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import java.util.List;
 
 import info.upump.jym.bd.SetDao;
-import info.upump.jym.entity.Cycle;
 import info.upump.jym.entity.Sets;
 
 import static info.upump.jym.activity.constant.Constants.LOADER_BY_PARENT_ID;
@@ -29,7 +28,7 @@ public class ASTSets extends AsyncTask<Integer, Void, List<Sets>> {
         if (integers.length > 1) {
             parentId = integers[1];
         }
-        SetDao setDao = new SetDao(context);
+        SetDao setDao = SetDao.getInstance(context, null);
         List<Sets> setsList = null;
         switch (type) {
             case LOADER_BY_PARENT_ID:

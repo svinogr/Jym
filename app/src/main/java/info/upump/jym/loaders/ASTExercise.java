@@ -35,7 +35,7 @@ public class ASTExercise extends AsyncTask<Integer, Void, List<Exercise>> {
             typeMuscle = integers[2];
         }
         TypeMuscle typeMuscle2 = TypeMuscle.values()[typeMuscle];
-        ExerciseDao exerciseDao = new ExerciseDao(context);
+        ExerciseDao exerciseDao = ExerciseDao.getInstance(context, null);
         List<Exercise> exerciseList = null;// TODO только темпейты
         switch (type){
             case LOADER_BY_PARENT_ID:
