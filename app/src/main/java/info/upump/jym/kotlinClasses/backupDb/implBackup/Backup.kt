@@ -1,6 +1,7 @@
 package info.upump.jym.kotlinClasses.backupDb.implBackup
 
 import android.content.Context
+import android.net.Uri
 import info.upump.jym.kotlinClasses.backupDb.Backupable
 import info.upump.jym.kotlinClasses.backupDb.Backupable.const.WRITE_TO_FILE
 import info.upump.jym.kotlinClasses.backupDb.Backupable.const.WRITE_TO_MAIL
@@ -26,8 +27,9 @@ class Backup(val context: Context) : Backupable {
 
     }
 
-    override fun fromBackup() {
+    //для получения базы из файла бекапа
+    override fun fromBackup(uri: Uri) {
         println("press button import")
-        dbReader.readFrom()
+        dbReader.readFrom(uri)
     }
 }

@@ -1,5 +1,7 @@
 package info.upump.jym.kotlinClasses.backupDb
 
+import android.net.Uri
+
 interface Backupable {
     companion object const {
         const val WRITE_TO_FILE = 1
@@ -7,5 +9,5 @@ interface Backupable {
     }
 
     fun toBackup(toDestinationType: Int)
-    fun fromBackup()
+    fun fromBackup(fromUri: Uri)
 }

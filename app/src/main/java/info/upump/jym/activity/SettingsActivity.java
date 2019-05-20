@@ -81,6 +81,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return true;
         }
     };
+
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, SettingsActivity.class);
         return intent;
@@ -138,6 +139,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
+
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
@@ -158,7 +160,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
-               startActivity(new Intent(getActivity(), SettingsActivity.class));
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
             }
             return super.onOptionsItemSelected(item);
@@ -167,7 +169,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class BackupPrefferenceFragment extends PreferenceFragment {
+        private static final int GET_FILE_INTENT = 1;
         private Backupable backupable;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -201,10 +205,24 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
 
-                    backupable.fromBackup();
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.setType("*/*");
+                    startActivityForResult(intent, GET_FILE_INTENT);
                     return true;
                 }
             });
+
+        }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == GET_FILE_INTENT) {
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    backupable.fromBackup(uri);
+                }
+            }
+
 
         }
 
