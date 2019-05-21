@@ -39,11 +39,11 @@ abstract class DBDao {
 
         File cacheDir = context.getCacheDir(); //получаем директорию приложения куда будем копировать временную базу
         String outFileName = cacheDir.getPath() + "/jym.db";
-
+        File fileOutput = new File(outFileName);
         try {
             //получаем файл через ContextResolver!!!
             myInput = context.getContentResolver().openInputStream(uri);
-            myOutput = new FileOutputStream(outFileName);
+            myOutput = new FileOutputStream(fileOutput);
             // побайтово копируем данные
             byte[] buffer = new byte[1024];
             int length;
@@ -62,6 +62,9 @@ abstract class DBDao {
             e1.printStackTrace();
         }
 
+        if (fileOutput.exists()) {
+            this.sqLiteDatabase = SQLiteDatabase.openDatabase(fileOutput.getPath(), null, SQLiteDatabase.OPEN_READONLY);
+        }
 
     }
 

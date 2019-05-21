@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import info.upump.jym.entity.ExerciseDescription;
@@ -98,7 +99,30 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
 
     @Override
     public List<ExerciseDescription> getAll() {
-        return null;
+        List<ExerciseDescription> exerciseDescriptionList = null;
+
+        Cursor cursor = null;
+        try {
+            cursor = sqLiteDatabase.query(DBHelper.TABLE_EXERCISE_DESCRIPTION,
+                    keys, null, null, null, null, null);
+
+
+            if (cursor.moveToFirst()) {
+                exerciseDescriptionList = new ArrayList<>();
+
+                do {
+                    ExerciseDescription exerciseDescription = getImageFromCursor(cursor);
+                    exerciseDescriptionList.add(exerciseDescription);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return exerciseDescriptionList;
     }
 
 
@@ -116,4 +140,6 @@ public class ExerciseDescriptionDao extends DBDao implements IData<ExerciseDescr
     public long copyFromTemplate(long idItem, long idPrent) {
         return 0;
     }
+
+
 }

@@ -14,7 +14,7 @@ class Backup(val context: Context) : Backupable {
 
     init {
         this.dbReader = DBReadableImpl(context)
-        this.dbWriter = DBWritableImpl()
+        this.dbWriter = DBWritableImpl(context)
     }
 
     override fun toBackup(toDestinationType: Int) {
@@ -30,6 +30,8 @@ class Backup(val context: Context) : Backupable {
     //для получения базы из файла бекапа
     override fun fromBackup(uri: Uri) {
         println("press button import")
-        dbReader.readFrom(uri)
+        //TODO прикрутить прогшрес бар или нет
+        val listCyle = dbReader.readFrom(uri)
+        dbWriter.writeToDB(listCyle)
     }
 }

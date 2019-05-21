@@ -46,15 +46,15 @@ public class ExerciseDescription {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ExerciseDescription that = (ExerciseDescription) o;
-        return id == that.id &&
-                Objects.equals(img, that.img) &&
-                title.equals(that.title) &&
+        return Objects.equals(img, that.img) &&
+                Objects.equals(title, that.title) &&
                 Objects.equals(defaultImg, that.defaultImg);
     }
 
+    //без ID чтобы правильно сравнивать обьекты из текущей базы и базы бекапа
     @Override
     public int hashCode() {
-        return Objects.hash(id, img, title, defaultImg);
+        return Objects.hash(img, title, defaultImg);
     }
 
     @Override
