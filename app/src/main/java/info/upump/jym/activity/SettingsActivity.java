@@ -205,7 +205,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
 
-                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("*/*");
                     startActivityForResult(intent, GET_FILE_INTENT);
                     return true;
@@ -218,8 +218,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (requestCode == GET_FILE_INTENT) {
                 if (resultCode == RESULT_OK) {
-                    Uri uri = data.getData();
-                    backupable.fromBackup(uri);
+                    String path = data.getData().getPath();
+                    System.out.println(path);
+                    backupable.fromBackup(data.getData());
                 }
             }
 

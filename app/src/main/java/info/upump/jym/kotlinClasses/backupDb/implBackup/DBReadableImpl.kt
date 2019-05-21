@@ -51,10 +51,6 @@ class DBReadableImpl(val context: Context) : DBReadable {
 
     override fun readFrom(fromUri: Uri): Pair<List<Cycle>, Map<ExerciseDescription, List<Exercise>>>? {
 
-        ///проверить на наличе файла
-        val file = File(fromUri.path)
-        print("абсол $file.absolutePath")
-
         val mapOfExerciseDescriptionToListExercise = HashMap<ExerciseDescription, List<Exercise>>()
 
         val exerciseDao = ExerciseDao.getInstance(context, fromUri)
