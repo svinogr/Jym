@@ -4,23 +4,18 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 
 abstract class DBDao {
 
     protected SQLiteDatabase sqLiteDatabase;
     protected DBHelper dbHelper;
+    protected DBHelperForBackup dbHelperForBeckup;
     protected Context context;
     protected Uri uri;
 
     public DBDao(Context context, Uri uri) {
         this.dbHelper = DBHelper.getHelper(context);
+        this.dbHelperForBeckup = DBHelperForBackup.getHelper(context);
         this.context = context;
         this.uri = uri;
         if (uri == null) {
@@ -34,7 +29,11 @@ abstract class DBDao {
     }
 
     protected void open(Uri uri) {
-        InputStream myInput = null;
+
+        this.sqLiteDatabase = dbHelperForBeckup.getWritableDatabase();
+        sqLiteDatabase.execSQL("PRAGMA foreign_keys=ON;");
+
+        /*InputStream myInput = null;
         OutputStream myOutput = null;
 
         File cacheDir = context.getCacheDir(); //получаем директорию приложения куда будем копировать временную базу
@@ -63,9 +62,12 @@ abstract class DBDao {
         }
 
         if (fileOutput.exists()) {
-            this.sqLiteDatabase = SQLiteDatabase.openDatabase(fileOutput.getPath(), null, SQLiteDatabase.OPEN_READONLY);
-        }
 
+                this.sqLiteDatabase =
+                        SQLiteDatabase.openDatabase(fileOutput.getPath(),
+                                null, SQLiteDatabase.OPEN_READONLY);
+
+        }*/
     }
 
 

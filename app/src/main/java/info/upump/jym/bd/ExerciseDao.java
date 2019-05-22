@@ -107,6 +107,7 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
             ExerciseDescriptionDao exerciseDescriptionDao = ExerciseDescriptionDao.getInstance(context, uri);
             long l = exerciseDescriptionDao.create(object.getExerciseDescription());
             object.setDescriptionId(l);
+
         }
         ContentValues cv = getContentValuesFrom(object);
         long id = sqLiteDatabase.insert(DBHelper.TABLE_EXERCISE, null, cv);

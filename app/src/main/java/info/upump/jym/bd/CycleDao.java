@@ -159,7 +159,6 @@ public class CycleDao extends DBDao implements IData<Cycle> {
                 }
             }
 
-
         }
 
         return cycleList;
