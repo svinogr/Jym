@@ -1,5 +1,6 @@
 package info.upump.jym.kotlinClasses.backupDb
 
+import android.content.Intent
 import android.net.Uri
 
 interface Backupable {
@@ -8,6 +9,6 @@ interface Backupable {
         const val WRITE_TO_MAIL = 2
     }
 
-    fun toBackup(toDestinationType: Int)
+    fun toBackup(toDestinationType: Int): Intent?
     fun fromBackup(fromUri: Uri)
 }

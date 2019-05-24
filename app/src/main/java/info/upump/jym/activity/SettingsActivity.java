@@ -3,7 +3,6 @@ package info.upump.jym.activity;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -24,6 +23,7 @@ import java.util.List;
 import info.upump.jym.R;
 import info.upump.jym.kotlinClasses.backupDb.Backupable;
 import info.upump.jym.kotlinClasses.backupDb.implBackup.Backup;
+import lib.folderpicker.FolderPicker;
 
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
@@ -169,6 +169,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class BackupPrefferenceFragment extends PreferenceFragment {
         private static final int GET_FILE_INTENT = 1;
+        private static final int FOLDER_PICKER = 2;
         private Backupable backupable;
 
         @Override
@@ -179,22 +180,22 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             backupable = new Backup(getActivity());
 
+            Preference exportBtnToemail = findPreference(getString(R.string.pref_title_write_to_email));
+            exportBtnToemail.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = backupable.toBackup(Backup.WRITE_TO_MAIL);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+
             Preference exportBtn = findPreference(getString(R.string.pref_title_write_to_fille));
             exportBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    SharedPreferences prefs = PreferenceManager
-                            .getDefaultSharedPreferences(getActivity());
-                    String listPreference = prefs.getString("export_choose", "0");
-                    switch (Integer.parseInt(listPreference)) {
-                        case 0:
-                            backupable.toBackup(Backupable.WRITE_TO_FILE);
-                            break;
-                        case 1:
-                            backupable.toBackup(Backupable.WRITE_TO_MAIL);
-                            break;
-                    }
-
+                    Intent intent = new Intent(getActivity(), FolderPicker.class);
+                    startActivityForResult(intent, FOLDER_PICKER);
                     return true;
                 }
             });
@@ -203,7 +204,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             importBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("*/*");
                     startActivityForResult(intent, GET_FILE_INTENT);
@@ -215,11 +215,16 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (requestCode == GET_FILE_INTENT) {
-                if (resultCode == RESULT_OK) {
-                    String path = data.getData().getPath();
-                    System.out.println(path);
+            if (requestCode == RESULT_OK) {
+                if (resultCode == GET_FILE_INTENT) {
                     backupable.fromBackup(data.getData());
+                }
+
+                if (requestCode == FOLDER_PICKER) {
+                    String extras = data.getExtras().getString("data");
+                    Uri uri = Uri.parse(extras)
+                    backupable.toBackup(Backupable.WRITE_TO_FILE, uri);
+
                 }
             }
 

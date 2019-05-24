@@ -9,5 +9,4 @@ public interface IChangeItem<T> {
     void delete(long id);
     void setInterfaceForDescription(IDescriptionFragment interfaceForDescription);
     void setInterfaceForItem(IItemFragment interfaceForItem);
-
 }

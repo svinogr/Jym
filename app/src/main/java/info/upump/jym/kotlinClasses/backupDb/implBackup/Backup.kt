@@ -1,6 +1,7 @@
 package info.upump.jym.kotlinClasses.backupDb.implBackup
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import info.upump.jym.kotlinClasses.backupDb.Backupable
 import info.upump.jym.kotlinClasses.backupDb.Backupable.const.WRITE_TO_FILE
@@ -17,15 +18,13 @@ class Backup(val context: Context) : Backupable {
         this.dbWriter = DBWritableImpl(context)
     }
 
-    override fun toBackup(toDestinationType: Int) {
+    override fun toBackup(toDestinationType: Int): Intent? =
         when (toDestinationType) {
             WRITE_TO_FILE -> dbWriter.writeToFile()
             WRITE_TO_MAIL -> dbWriter.writeToMail()
-
+            else -> null
         }
 
-
-    }
 
     //для получения базы из файла бекапа
     override fun fromBackup(uri: Uri) {

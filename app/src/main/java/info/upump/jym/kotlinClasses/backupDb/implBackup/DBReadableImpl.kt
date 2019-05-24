@@ -55,44 +55,6 @@ class DBReadableImpl(val context: Context) : DBReadable {
         }
         return list
 
-//        val mapOfExerciseDescriptionToListExercise = HashMap<ExerciseDescription, List<Exercise>>()
-//
-//        val exerciseDao = ExerciseDao.getInstance(context, fromUri)
-//        val exerciseUserOnlyTemplateList = exerciseDao.allUserTemplateExercises
-//
-//        //добавляем в мапу ключем описание упражнения(ex desc)
-//        // и пустой лист для упражнени(пустой так как это темплайты описаний)
-//        for (exercise in exerciseUserOnlyTemplateList) {
-//            mapOfExerciseDescriptionToListExercise[exercise.exerciseDescription] = ArrayList()
-//        }
-//
-//        print("razmer userList template  exercise ${exerciseUserOnlyTemplateList.size}")
-//
-//        // получаем пользовательские программы
-//        val cycleDao = CycleDao.getInstance(context, fromUri)
-//        val userCycleList = cycleDao.allUserInflated
-//
-//        for (cycle in userCycleList) {
-//            //получаем лист всех тренировок
-//            val exercisesList = (cycle.workoutList).flatMap { it.exercises }
-//
-//            print("razmer listExDesc ${exercisesList.size}")
-//
-//            //добавляем в мапу по ключу описание тренировки саму тренировку
-//            for (exercise in exercisesList) {
-//                val listExerciseForDescription = mapOfExerciseDescriptionToListExercise[exercise.exerciseDescription]
-//
-//                if (listExerciseForDescription.isNullOrEmpty()) {
-//                    mapOfExerciseDescriptionToListExercise[exercise.exerciseDescription] = listOf(exercise)
-//                } else listExerciseForDescription.plus(exercise)
-//            }
-//
-//        }
-//
-//        println("razmer map ${mapOfExerciseDescriptionToListExercise.size}")
-//
-//        return Pair(userCycleList, mapOfExerciseDescriptionToListExercise)
-
     }
 
     private fun copyFileDb(fromUri: Uri): Boolean {

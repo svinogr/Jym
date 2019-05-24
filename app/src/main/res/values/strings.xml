@@ -194,17 +194,18 @@
 
     </string-array><!-- Export import settings -->
 
-    <string name="pref_settings_title_write_to_fille">Настройка экспорта</string>
+    <!--<string name="pref_settings_title_write_to_fille">Настройка экспорта</string>-->
     <string name="pref_title_read_from_db">Импорт базы</string>
-    <string name="pref_title_write_to_fille">Экспорт базы</string>
-    <string-array name="pref_backup_write_list_titles">
-        <item>В файл</item>
-        <item>Отправить на почту</item>
-    </string-array>
-    <string-array name="pref_backup_write__values">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
+    <string name="pref_title_write_to_email">Экспорт базы на Email</string>
+    <string name="pref_title_write_to_fille">Экспорт базы в файл</string>
+    <!--<string-array name="pref_backup_write_list_titles">-->
+    <!--<item>В файл</item>-->
+    <!--<item>Отправить на почту</item>-->
+    <!--</string-array>-->
+    <!--<string-array name="pref_backup_write__values">-->
+    <!--<item>0</item>-->
+    <!--<item>1</item>-->
+    <!--</string-array>-->
 
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
@@ -298,5 +299,6 @@
     <string name="week_even_label">Четная неделя</string>
     <string name="title_activity_user">Параметры измерений</string>
     <string name="pref_header_backup">Перенос базы данных</string>
+    <string name="email_subject_for_beackup">Бекап БД</string>
 
 </resources>
