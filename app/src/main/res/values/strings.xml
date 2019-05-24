@@ -11,8 +11,7 @@
     <!---->
 
 
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- list muscles-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- перечисление-->
     <string name="shoulder">Плечи</string>

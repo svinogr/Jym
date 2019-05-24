@@ -29,7 +29,6 @@ public class CycleFragmentForViewPagerDescription extends Fragment implements ID
     public CycleFragmentForViewPagerDescription() {
     }
 
-    // TODO: Rename and change types and number of parameters
     public static CycleFragmentForViewPagerDescription newInstance(Cycle cycle) {
         CycleFragmentForViewPagerDescription fragment = new CycleFragmentForViewPagerDescription();
         Bundle args = new Bundle();

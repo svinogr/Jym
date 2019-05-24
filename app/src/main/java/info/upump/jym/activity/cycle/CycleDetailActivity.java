@@ -532,7 +532,6 @@ public class CycleDetailActivity extends AppCompatActivity implements IChangeIte
         builder.setItems(inputs, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                // TODO Auto-generated method stub
                 Intent intent;
                 switch (item) {
                     case 1:

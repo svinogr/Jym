@@ -123,12 +123,24 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
         createAsyncTask();
         createAdapter();
     }
+//TODO сделай блять нормльное обновление
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        createAsyncTask();
+//        cycleAdapter.no
+//        System.out.println("resume " + cycleList.size());
+//    }
+
 
     protected void createAsyncTask() {
-        astCycle = new ASTCycle(getContext());
+        if (astCycle == null) {
+            astCycle = new ASTCycle(getContext());
+        }
         astCycle.execute(Constants.LOADER_BY_USER_TYPE);
         try {
             cycleList = astCycle.get();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -202,7 +214,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
         builder.setItems(inputs, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                // TODO Auto-generated method stub
                 Intent intent;
                 switch (item) {
                     case 0:

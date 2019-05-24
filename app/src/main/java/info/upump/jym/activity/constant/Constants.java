@@ -53,12 +53,4 @@ public class Constants {
     public static final int ERROR = 404;
     public static final int CLEAR = 9;
 
-
-/*//    TODO
-*       1. Сделать для всех адаптеры и вьюхолдеры
-*
-*
-*
-*
-* */
 }
