@@ -1,10 +1,10 @@
 package info.upump.jym.kotlinClasses.backupDb
 
-import android.content.Intent
+import android.net.Uri
 import info.upump.jym.entity.Cycle
 
 interface DBWritable {
     fun writeToDB(from: List<Cycle>)
-    fun writeToFile(): Intent
-    fun writeToMail(): Intent
+    fun writeToFile(to: Uri)
+    fun writeToMail()
 }

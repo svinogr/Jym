@@ -4,6 +4,6 @@ import android.net.Uri
 import info.upump.jym.entity.Cycle
 
 interface DBReadable {
-    fun readFrom()
+
     fun readFrom(uri: Uri): List<Cycle>
 }

@@ -23,7 +23,6 @@ import java.util.List;
 import info.upump.jym.R;
 import info.upump.jym.kotlinClasses.backupDb.Backupable;
 import info.upump.jym.kotlinClasses.backupDb.implBackup.Backup;
-import lib.folderpicker.FolderPicker;
 
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
@@ -184,7 +183,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             exportBtnToemail.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = backupable.toBackup(Backup.WRITE_TO_MAIL);
+                    Intent intent = backupable.getIntentToBackup(Backup.WRITE_TO_MAIL);
                     startActivity(intent);
                     return true;
                 }
@@ -194,8 +193,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             exportBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = new Intent(getActivity(), FolderPicker.class);
-                    startActivityForResult(intent, FOLDER_PICKER);
+                    Intent intentToBackup = backupable.getIntentToBackup(Backupable.WRITE_TO_FILE);
+                    startActivityForResult(intentToBackup, FOLDER_PICKER);
                     return true;
                 }
             });
@@ -204,9 +203,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             importBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("*/*");
-                    startActivityForResult(intent, GET_FILE_INTENT);
+                    Intent intentFromBackup = backupable.getIntentFromBackup();
+                    startActivityForResult(intentFromBackup, GET_FILE_INTENT);
                     return true;
                 }
             });
@@ -215,15 +213,16 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (requestCode == RESULT_OK) {
-                if (resultCode == GET_FILE_INTENT) {
-                    backupable.fromBackup(data.getData());
+            if (resultCode == RESULT_OK) {
+                if (requestCode == GET_FILE_INTENT) {
+                    Uri uri = data.getData();
+                    backupable.importTo(uri);
                 }
 
                 if (requestCode == FOLDER_PICKER) {
                     String extras = data.getExtras().getString("data");
-                    Uri uri = Uri.parse(extras)
-                    backupable.toBackup(Backupable.WRITE_TO_FILE, uri);
+                    Uri uri = Uri.parse(extras);
+                    backupable.export(Backup.WRITE_TO_FILE, uri);
 
                 }
             }

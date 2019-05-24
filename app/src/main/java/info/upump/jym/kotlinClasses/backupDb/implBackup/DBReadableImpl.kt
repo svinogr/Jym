@@ -3,7 +3,6 @@ package info.upump.jym.kotlinClasses.backupDb.implBackup
 import android.content.Context
 import android.net.Uri
 import info.upump.jym.bd.CycleDao
-import info.upump.jym.bd.DBHelper
 import info.upump.jym.bd.DBHelperForBackup
 import info.upump.jym.entity.Cycle
 import info.upump.jym.kotlinClasses.backupDb.DBReadable
@@ -31,18 +30,6 @@ class DBReadableImpl(val context: Context) : DBReadable {
         }
 */
 
-
-    override fun readFrom() {
-        val file = File(DBHelper.DB_PATH)
-        if (!file.exists()) {
-            println("File DB  wasnt createde ")
-            return
-        }
-
-        println("${file.totalSpace} ${file.absolutePath} ${file.totalSpace}")
-
-
-    }
 
     override fun readFrom(fromUri: Uri): List<Cycle> {
         val copyFileDb = copyFileDb(fromUri)
@@ -83,15 +70,16 @@ class DBReadableImpl(val context: Context) : DBReadable {
                   myOutput!!.write(buffer, 0, length)
               }*/
 
-            myOutput.flush()
-            myOutput.close()
-            myInput!!.close()
             write = true
 
         } catch (e1: FileNotFoundException) {
             e1.printStackTrace()
         } catch (e1: IOException) {
             e1.printStackTrace()
+        } finally {
+            myOutput?.flush()
+            myOutput?.close()
+            myInput?.close()
         }
         return write
 

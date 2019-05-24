@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name=".utils.fileprovider.MyFileProvider"
             android:authorities="info.upump.jym"
             android:exported="false"
             android:grantUriPermissions="true">

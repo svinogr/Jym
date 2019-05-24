@@ -1,6 +1,14 @@
 <paths>
     <files-path
-        path="database/"
-        name="files_name" />
+        path="../databases/"
+        name="mydatabases" />
+
+    <files-path
+        path=""
+        name="migrations" />
+
+    <external-path
+        path=""
+        name="external" />
 
 </paths>

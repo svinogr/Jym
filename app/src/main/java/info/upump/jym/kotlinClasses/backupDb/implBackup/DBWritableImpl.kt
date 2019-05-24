@@ -1,39 +1,54 @@
 package info.upump.jym.kotlinClasses.backupDb.implBackup
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.support.v4.content.FileProvider
-import info.upump.jym.R
 import info.upump.jym.bd.*
 import info.upump.jym.entity.Cycle
 import info.upump.jym.entity.Exercise
 import info.upump.jym.entity.ExerciseDescription
 import info.upump.jym.kotlinClasses.backupDb.DBWritable
-import java.io.File
+import info.upump.jym.utils.fileprovider.MyFileProvider
+import java.io.*
 
 class DBWritableImpl(val context: Context) : DBWritable {
-    override fun writeToMail(): Intent {
-        val intentToSendToBd = Intent(Intent.ACTION_SEND)
-        val uri = Uri.parse(DBHelper.DB_PATH)
-        println(uri)
+    override fun writeToFile(to: Uri) {
+        val fileTo = File(to.path, "backupUpump.bd")
+        val provider = MyFileProvider()
+        val ura = provider.getDatabaseURI(context)
+        var inputStream: InputStream? = null
+        var myOutput: OutputStream? = null
 
-        val file = File(context.filesDir, "database/jym.db")
-        println("dedededed ${file.exists()}")
+        try {
 
-        val ur = FileProvider.getUriForFile(context, "info.upump.jym", file)
-        //val ur = Uri.parse("file://"+file.absolutePath)
-        println(ur)
-        intentToSendToBd.type = "text/plain"
-        intentToSendToBd.putExtra(Intent.EXTRA_STREAM, ur)
-        //   intentToSendToBd.putExtra(Intent.EXTRA_STREAM, uri)
-//intentToSendToBd.data = ur
-        // intentToSendToBd.flags= Intent.FLAG_ACTIVITY_NEW_TASK
-        intentToSendToBd.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        intentToSendToBd.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-        intentToSendToBd.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.email_subject_for_beackup))
-        return intentToSendToBd
+            inputStream = context.contentResolver.openInputStream(ura)
+            // inputStream = context.contentResolver.openInputStream(Uri.parse("/data/data/info.upump.jym/database/jym.db"))
+            println(inputStream == null)
+            myOutput = FileOutputStream(fileTo)
+            // побайтово копируем данные
+            val buffer = ByteArray(1024)
+            var length: Int
+
+            do {
+                length = inputStream.read(buffer)
+                if (length < 1) break
+                myOutput.write(buffer, 0, length)
+            } while (length > 0)
+
+        } catch (e1: FileNotFoundException) {
+            e1.printStackTrace()
+        } catch (e1: IOException) {
+            e1.printStackTrace()
+        } finally {
+            myOutput?.flush()
+            myOutput?.close()
+            inputStream?.close()
+        }
     }
+
+    override fun writeToMail() {
+        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
     override fun writeToDB(from: List<Cycle>) {
         if (from.isEmpty()) return
@@ -150,12 +165,4 @@ class DBWritableImpl(val context: Context) : DBWritable {
     }
 
 
-    override fun writeToFile(): Intent {
-
-        val intentToSend = Intent(Intent.ACTION_SEND)
-
-        return Intent()
-        println("do write to file")
-
-    }
 }

@@ -9,6 +9,8 @@ interface Backupable {
         const val WRITE_TO_MAIL = 2
     }
 
-    fun toBackup(toDestinationType: Int): Intent?
-    fun fromBackup(fromUri: Uri)
+    fun getIntentToBackup(toDestinationType: Int): Intent?
+    fun getIntentFromBackup(): Intent?
+    fun importTo(from: Uri)
+    fun export(to: Int, from: Uri)
 }
