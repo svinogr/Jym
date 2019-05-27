@@ -213,6 +213,22 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
         return workoutList;
     }
 
+
+    public List<Workout> getAllUserInflated(long byParentId) {
+
+        List<Workout> list = getByParentId(byParentId);
+
+        ExerciseDao exerciseDao = ExerciseDao.getInstance(context, uri);
+        for (Workout workout : list) {
+            List<Exercise> exerciseList = exerciseDao.getAllInflated(workout.getId());
+            workout.setExercises(exerciseList);
+        }
+
+        return list;
+    }
+
+
+
     public List<Workout> getAllTemplate() {//
         Cursor cursor = null;
         workoutList = new ArrayList<>();

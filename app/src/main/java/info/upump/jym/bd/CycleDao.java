@@ -119,14 +119,12 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         return cycleList;
     }
 
-    //TODO пернеписать это говно по правильному через правильные SQL запросы
     public List<Cycle> getAllUserInflated() {
         Cursor cursor = null;
         List<Cycle> cycleList = new ArrayList<>();
         try {
             cursor = sqLiteDatabase.query(DBHelper.TABLE_CYCLE,
                     keys, DBHelper.TABLE_KEY_DEFAULT + " = ?", new String[]{"0"}, null, null, null);
-
 
             if (cursor.moveToFirst()) {
                 do {
@@ -144,25 +142,11 @@ public class CycleDao extends DBDao implements IData<Cycle> {
 
         WorkoutDao workoutDao = WorkoutDao.getInstance(context, uri);
         for (Cycle cycle : cycleList) {
-            List<Workout> workoutList = workoutDao.getByParentId(cycle.getId());
+            List<Workout> workoutList = workoutDao.getAllUserInflated(cycle.getId());
             cycle.setWorkoutList(workoutList);
-
-            ExerciseDao exerciseDao = ExerciseDao.getInstance(context, uri);
-            for (Workout workout : workoutList) {
-                List<Exercise> exerciseList = exerciseDao.getByParentId(workout.getId());
-                workout.setExercises(exerciseList);
-
-                SetDao setDao = SetDao.getInstance(context, uri);
-                for (Exercise exercise : exerciseList) {
-                    List<Sets> sets = setDao.getByParentId(exercise.getId());
-                    exercise.setSetsList(sets);
-                }
-            }
-
         }
 
         return cycleList;
-
     }
 
 
@@ -174,12 +158,12 @@ public class CycleDao extends DBDao implements IData<Cycle> {
                     keys, DBHelper.TABLE_KEY_DEFAULT + " = ?", new String[]{"0"}, null, null, null);
 
 
-        if (cursor.moveToFirst()) {
-            do {
-                Cycle cycle = getExerciseFromCursor(cursor);
-                cycleList.add(cycle);
-            } while (cursor.moveToNext());
-        }
+            if (cursor.moveToFirst()) {
+                do {
+                    Cycle cycle = getExerciseFromCursor(cursor);
+                    cycleList.add(cycle);
+                } while (cursor.moveToNext());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -234,11 +218,11 @@ public class CycleDao extends DBDao implements IData<Cycle> {
         try {
             cursor = sqLiteDatabase.query(DBHelper.TABLE_CYCLE,
                     keys, DBHelper.TABLE_KEY_ID + " = ? ", new String[]{String.valueOf(id)}, null, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                cycle = getExerciseFromCursor(cursor);
-            } while (cursor.moveToNext());
-        }
+            if (cursor.moveToFirst()) {
+                do {
+                    cycle = getExerciseFromCursor(cursor);
+                } while (cursor.moveToNext());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

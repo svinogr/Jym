@@ -64,8 +64,6 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
         public void handleMessage(Message msg) {
             if (msg.what == DELETE) {
                 Toast.makeText(getContext(), R.string.toast_cycle_delete, Toast.LENGTH_SHORT).show();
-                // int index =(int) msg.obj;
-                //cycleAdapter.notifyItemRemoved(index);
                 Cycle cycle = (Cycle) msg.obj;
                 long id = cycle.getId();
                 int index = -1;
@@ -135,21 +133,14 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //    createAsyncTask();
-        System.out.println("crretate");
         createAdapter();
-        //  createAsyncTask();
     }
 
-//TODO сделай блять нормльное обновление
-@Override
-public void onResume() {
-    super.onResume();
-    createAsyncTask();
-
-    System.out.println("resume " + cycleList.size());
-}
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        createAsyncTask();
+    }
 
     protected void createAsyncTask() {
         astCycle = new ASTCycle(getContext());
@@ -158,7 +149,6 @@ public void onResume() {
             cycleList = astCycle.get();
             cycleAdapter.setItems(cycleList);
             cycleAdapter.notifyDataSetChanged();
-            System.out.println("from async create" + cycleList.size());
 
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -395,4 +395,14 @@ public class ExerciseDao extends DBDao implements IData<Exercise> {
 
         return exerciseList;
     }
+
+    public List<Exercise> getAllInflated(long byParentId) {
+        SetDao setDao = SetDao.getInstance(context, uri);
+        List<Exercise> exerciseList = getByParentId(byParentId);
+        for (Exercise exercise : exerciseList) {
+            List<Sets> sets = setDao.getByParentId(exercise.getId());
+            exercise.setSetsList(sets);
+        }
+        return exerciseList;
+    }
 }

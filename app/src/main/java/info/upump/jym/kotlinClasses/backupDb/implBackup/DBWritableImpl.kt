@@ -46,7 +46,7 @@ class DBWritableImpl(val context: Context) : DBWritable {
     }
 
     override fun writeToMail() {
-        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // NOP
     }
 
 
@@ -73,7 +73,11 @@ class DBWritableImpl(val context: Context) : DBWritable {
 
         for (cycle in from) {
             cycle.id = 0
-            val cycleId = cycleDao.create(cycle)
+
+            var cycleId = 0L // назначем ноль чтобы не было записи в базу Cycle
+            if (!cycle.isDefaultType) {
+                cycleId = cycleDao.create(cycle)
+            }
 
             for (workout in cycle.workoutList) {
                 workout.id = 0
@@ -91,7 +95,6 @@ class DBWritableImpl(val context: Context) : DBWritable {
                         setDao.create(sets)
                     }
                 }
-
             }
         }
     }
