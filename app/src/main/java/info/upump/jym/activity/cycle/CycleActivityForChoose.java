@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ public class CycleActivityForChoose extends AppCompatActivity implements /*Loade
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.cycle_fragment_title_add_cycle);
 
-        createAsyncTask();
+
 //        getSupportLoaderManager().initLoader(0, null, this);
 
         cycleAdapter = new CycleAdapter(cycleList, DEFAULT_TYPE_CHOOSE);
@@ -47,6 +46,7 @@ public class CycleActivityForChoose extends AppCompatActivity implements /*Loade
         recyclerView = findViewById(R.id.activity_cycle_for_choose_recycler_view);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(cycleAdapter);
+        createAsyncTask();
     }
 
     public static Intent createIntent(Context context) {
@@ -59,6 +59,8 @@ public class CycleActivityForChoose extends AppCompatActivity implements /*Loade
         astCycle.execute(LOADER_BY_DEFAULT_TYPE);
         try {
             cycleList = astCycle.get();
+            cycleAdapter.setItems(cycleList);
+            cycleAdapter.notifyDataSetChanged();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

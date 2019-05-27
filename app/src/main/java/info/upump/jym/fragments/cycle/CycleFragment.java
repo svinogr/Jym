@@ -64,6 +64,21 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
         public void handleMessage(Message msg) {
             if (msg.what == DELETE) {
                 Toast.makeText(getContext(), R.string.toast_cycle_delete, Toast.LENGTH_SHORT).show();
+                // int index =(int) msg.obj;
+                //cycleAdapter.notifyItemRemoved(index);
+                Cycle cycle = (Cycle) msg.obj;
+                long id = cycle.getId();
+                int index = -1;
+                for (Cycle delCycle : cycleList) {
+                    if (delCycle.getId() == id) {
+                        index = cycleList.indexOf(delCycle);
+                        break;
+                    }
+                }
+                if (index != -1) {
+                    cycleList.remove(index);
+                    cycleAdapter.notifyItemRemoved(index);
+                }
             }
 
             if (msg.what == UPDATE) {
@@ -120,26 +135,30 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createAsyncTask();
+        //    createAsyncTask();
+        System.out.println("crretate");
         createAdapter();
+        //  createAsyncTask();
     }
+
 //TODO сделай блять нормльное обновление
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        createAsyncTask();
-//        cycleAdapter.no
-//        System.out.println("resume " + cycleList.size());
-//    }
+@Override
+public void onResume() {
+    super.onResume();
+    createAsyncTask();
+
+    System.out.println("resume " + cycleList.size());
+}
 
 
     protected void createAsyncTask() {
-        if (astCycle == null) {
-            astCycle = new ASTCycle(getContext());
-        }
+        astCycle = new ASTCycle(getContext());
         astCycle.execute(Constants.LOADER_BY_USER_TYPE);
         try {
             cycleList = astCycle.get();
+            cycleAdapter.setItems(cycleList);
+            cycleAdapter.notifyDataSetChanged();
+            System.out.println("from async create" + cycleList.size());
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -338,7 +357,7 @@ public class CycleFragment extends Fragment implements View.OnClickListener, CRU
                 Cycle cycle = new Cycle();
                 cycle.setId(id);
                 if (cycleDao.delete(cycle)) {
-                    handler.sendMessageDelayed(handler.obtainMessage(DELETE, id), 0);
+                    handler.sendMessageDelayed(handler.obtainMessage(DELETE, cycle), 0);
                 } else handler.sendMessageDelayed(handler.obtainMessage(ERROR, id), 0);
             }
         });

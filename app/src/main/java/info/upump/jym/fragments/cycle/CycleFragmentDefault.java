@@ -24,11 +24,14 @@ public class CycleFragmentDefault extends CycleFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     protected void createAsyncTask() {
         astCycle = new ASTCycle(getContext());
         astCycle.execute(Constants.LOADER_BY_DEFAULT_TYPE);
         try {
             cycleList = astCycle.get();
+            cycleAdapter.setItems(cycleList);
+            cycleAdapter.notifyDataSetChanged();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

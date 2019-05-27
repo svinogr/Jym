@@ -72,4 +72,8 @@ public class CycleAdapter extends RecyclerView.Adapter<AbstractCycleViewHolder> 
     public int getItemCount() {
         return cycleList.size();
     }
+
+    public void setItems(List<Cycle> listCycle) {
+        cycleList = listCycle;
+    }
 }
