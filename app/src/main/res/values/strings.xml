@@ -301,5 +301,7 @@
     <string name="title_activity_user">Параметры измерений</string>
     <string name="pref_header_backup">Перенос базы данных</string>
     <string name="email_subject_for_beackup">Бекап БД</string>
+    <string name="backupToFileDone">Экспорт завершен</string>
+    <string name="backupToCurentBD">Импорт завершен</string>
 
 </resources>

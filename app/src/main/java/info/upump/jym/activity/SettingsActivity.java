@@ -17,6 +17,7 @@ import android.preference.RingtonePreference;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -35,7 +36,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
-
 
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
@@ -217,17 +217,17 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 if (requestCode == GET_FILE_INTENT) {
                     Uri uri = data.getData();
                     backupable.importTo(uri);
+                    Toast.makeText(getActivity(), getActivity().getString(R.string.backupToCurentBD), Toast.LENGTH_LONG).show();
                 }
 
                 if (requestCode == FOLDER_PICKER) {
                     String extras = data.getExtras().getString("data");
                     Uri uri = Uri.parse(extras);
                     backupable.export(Backup.WRITE_TO_FILE, uri);
+                    Toast.makeText(getActivity(), getActivity().getString(R.string.backupToFileDone), Toast.LENGTH_LONG).show();
 
                 }
             }
-
-
         }
 
         @Override
