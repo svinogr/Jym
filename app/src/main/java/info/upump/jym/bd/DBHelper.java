@@ -61,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_KEY_RIGHT_CALVES = "left_calves";
     public static final String TABLE_KEY_DATE = "date";
     public static final String TABLE_KEY_IMG_ID = "id_image";
+    public static final String TABLE_KEY_SET_PAST_SET = "past_set";
 
     public static final String TABLE_KEY_DESCRIPTION_ID = "description_id";
 
@@ -143,6 +144,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        System.out.println("OnCreate bd");
         db.execSQL(CREATE_TABLE_CYCLE);
         db.execSQL(CREATE_TABLE_WORKOUT);
         db.execSQL(CREATE_TABLE_EXERCISE);
@@ -153,6 +155,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        System.out.println("OBNOVLENIE " + oldVersion + "  " + newVersion);
+       /* if(oldVersion < DATA_BASE_VERSION){
+            db.execSQL("ALTER TABLE " + TABLE_SET + " ADD COLUMN " + TABLE_KEY_SET_PAST_SET + " INTEGER;");
+            db.setVersion(newVersion);
+        }*/
     }
 
     public static synchronized DBHelper getHelper(Context context) {
@@ -161,6 +168,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return instance;
     }
+
     public void create_db() {
         InputStream myInput = null;
         OutputStream myOutput = null;
