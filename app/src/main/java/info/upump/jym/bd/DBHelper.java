@@ -14,7 +14,8 @@ import java.io.OutputStream;
 
 public class DBHelper extends SQLiteOpenHelper {
     private Context context;
-    public final static int DATA_BASE_VERSION = 1;
+    public final static int DATA_BASE_VERSION = 2;
+    public final static int START_DATA_BASE_VERSION = 1;
     public final static String DATABASE_NAME = "jym.db";
     public final static String TABLE_SET = "sets";
     public final static String TABLE_EXERCISE = "exercises";
@@ -156,10 +157,11 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         System.out.println("OBNOVLENIE " + oldVersion + "  " + newVersion);
-       /* if(oldVersion < DATA_BASE_VERSION){
+        if (oldVersion < 2) {
             db.execSQL("ALTER TABLE " + TABLE_SET + " ADD COLUMN " + TABLE_KEY_SET_PAST_SET + " INTEGER;");
-            db.setVersion(newVersion);
-        }*/
+
+        }
+        db.setVersion(newVersion);
     }
 
     public static synchronized DBHelper getHelper(Context context) {
@@ -209,6 +211,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private void deleteBD() {
         File file = new File(DB_PATH);
         if (file.exists()) {
+            System.out.println("deleeeeeet");
             file.delete();
         }
     }
@@ -229,7 +232,7 @@ public class DBHelper extends SQLiteOpenHelper {
             sqLiteDatabase = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
             int version = sqLiteDatabase.getVersion();
             sqLiteDatabase.close();
-            if (version < DATA_BASE_VERSION) {
+            if (version < START_DATA_BASE_VERSION) {
                 deleteBD();
                 return false;
             } else return true;
