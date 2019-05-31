@@ -40,6 +40,7 @@ import static info.upump.jym.activity.constant.Constants.CREATE;
 import static info.upump.jym.activity.constant.Constants.DELETE;
 import static info.upump.jym.activity.constant.Constants.ERROR;
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.PAST_WEIGHT;
 import static info.upump.jym.activity.constant.Constants.QUANTITY;
 import static info.upump.jym.activity.constant.Constants.REPS;
 import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
@@ -57,7 +58,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     protected SetsAdapter setsAdapter;
     private ASTSets astSets;
     private boolean update;
-    private int index=-1;
+    private int index = -1;
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -99,7 +100,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exercise_detail);
+        setContentView(R.layout.activity_exercise_detail_v2);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.exercise_title_sets);
         if (savedInstanceState != null) {
@@ -181,10 +182,11 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
                     int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
                     switch (changeOrDelete) {
                         case UPDATE:
-                        updateInnerItem(data);
-                        break;
+                            updateInnerItem(data);
+                            break;
                         case DELETE:
                             deleteInnerItem(id);
+                            break;
                     }
             }
         }
@@ -192,16 +194,16 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
 
     private void deleteInnerItem(final long id) {
         update = true;
-        for (Sets setsDel: setsList) {
+        for (Sets setsDel : setsList) {
             if (setsDel.getId() == id) {
                 index = setsList.indexOf(setsDel);
             }
         }
-            if(index != -1) {
-                setsList.remove(index);
-                setsAdapter.notifyItemRemoved(index);
-                setsAdapter.notifyItemRangeChanged(index, setsList.size());
-            }
+        if (index != -1) {
+            setsList.remove(index);
+            setsAdapter.notifyItemRemoved(index);
+            setsAdapter.notifyItemRangeChanged(index, setsList.size());
+        }
 
         final Thread thread = new Thread(new Runnable() {
             @Override
@@ -212,7 +214,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
                 boolean id = setDao.delete(sets);
                 if (id) {
                     handler.sendMessageDelayed(handler.obtainMessage(DELETE, sets), 0);
-                } else   handler.sendMessageDelayed(handler.obtainMessage(ERROR, sets), 0);
+                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR, sets), 0);
             }
         });
         thread.start();
@@ -223,7 +225,8 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         final Sets sets = new Sets();
         sets.setId(data.getLongExtra(ID, 0));
         sets.setWeight(data.getDoubleExtra(WEIGHT, 0));
-        sets.setReps(data.getIntExtra(REPS,0));
+        sets.setReps(data.getIntExtra(REPS, 0));
+        sets.setWeightPast(data.getDoubleExtra(PAST_WEIGHT, 0));
         sets.setStartDate(new Date());
         sets.setFinishDate(new Date());
         sets.setParentId(exercise.getId());
@@ -232,7 +235,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
             @Override
             public void run() {
                 SetDao setDao = SetDao.getInstance(getApplicationContext(), null);
-                 boolean id = setDao.update(sets);
+                boolean id = setDao.update(sets);
                 if (id) {
                     handler.sendMessageDelayed(handler.obtainMessage(UPDATE, sets), 0);
                 }
@@ -256,6 +259,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
                     sets.setStartDate(new Date());
                     sets.setFinishDate(new Date());
                     sets.setWeight(data.getDoubleExtra(WEIGHT, 0));
+                    sets.setWeightPast(data.getDoubleExtra(PAST_WEIGHT, 0));
                     sets.setReps(data.getIntExtra(REPS, 0));
                     sets.setParentId(exercise.getId());
                     long l = setDao.create(sets);
@@ -368,16 +372,16 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public  void  update(Sets object) {
+    public void update(Sets object) {
         int index = -1;
         long id = object.getId();
-        for(Sets sUpdate: setsList){
-            if(sUpdate.getId() == id){
+        for (Sets sUpdate : setsList) {
+            if (sUpdate.getId() == id) {
                 index = setsList.indexOf(sUpdate);
                 break;
             }
         }
-        if(index != -1) {
+        if (index != -1) {
             setsList.set(index, object);
             setsAdapter.notifyItemChanged(index);
             recyclerView.smoothScrollToPosition(index);

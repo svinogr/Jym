@@ -34,7 +34,8 @@ public class SetDao extends DBDao implements IData<Sets> {
             DBHelper.TABLE_KEY_SET_REPS,
             DBHelper.TABLE_KEY_START_DATE,
             DBHelper.TABLE_KEY_FINISH_DATE,
-            DBHelper.TABLE_KEY_PARENT_ID};
+            DBHelper.TABLE_KEY_PARENT_ID,
+            DBHelper.TABLE_KEY_SET_PAST_WEIGHT};
 
     private ContentValues getContentValuesFor(Sets object) {
         ContentValues cv = new ContentValues();
@@ -47,6 +48,7 @@ public class SetDao extends DBDao implements IData<Sets> {
         cv.put(DBHelper.TABLE_KEY_START_DATE, object.getStartStringFormatDate());
         cv.put(DBHelper.TABLE_KEY_FINISH_DATE, object.getFinishStringFormatDate());
         cv.put(DBHelper.TABLE_KEY_PARENT_ID, object.getParentId());
+        cv.put(DBHelper.TABLE_KEY_SET_PAST_WEIGHT, object.getWeightPast());
         return cv;
     }
 
@@ -59,6 +61,7 @@ public class SetDao extends DBDao implements IData<Sets> {
         sets.setStartDate((cursor.getString(4)));
         sets.setFinishDate((cursor.getString(5)));
         sets.setParentId(cursor.getLong(6));
+        sets.setWeightPast(cursor.getDouble(7));
         return sets;
     }
 

@@ -304,5 +304,6 @@
     <string name="email_subject_for_beackup">Бекап БД</string>
     <string name="backupToFileDone">Экспорт завершен</string>
     <string name="backupToCurentBD">Импорт завершен</string>
+    <string name="label_weight_set_past">Пред. вес</string>
 
 </resources>

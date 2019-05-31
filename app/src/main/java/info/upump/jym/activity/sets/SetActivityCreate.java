@@ -25,14 +25,15 @@ import info.upump.jym.entity.Sets;
 
 import static info.upump.jym.activity.constant.Constants.DELETE;
 import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.PAST_WEIGHT;
 import static info.upump.jym.activity.constant.Constants.QUANTITY;
+import static info.upump.jym.activity.constant.Constants.QUANTITY_SETS;
+import static info.upump.jym.activity.constant.Constants.REPS;
 import static info.upump.jym.activity.constant.Constants.UPDATE;
 import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
+import static info.upump.jym.activity.constant.Constants.WEIGHT;
 
 public class SetActivityCreate extends AppCompatActivity {
-    private static final String WEIGHT = "weight";
-    private static final String REPS = "reps";
-    private static final String QUANTITY_SETS = "quantity";
     private Sets sets;
     private NumberPicker weight, reps;
     private NumberPicker quantitySets;
@@ -239,6 +240,7 @@ public class SetActivityCreate extends AppCompatActivity {
         changeableSets.setId(sets.getId());
         changeableSets.setStartDate(new Date());
         changeableSets.setFinishDate(new Date());
+        changeableSets.setWeightPast(sets.getWeight());
         changeableSets.setWeight(Double.parseDouble(valuesForWeight[weight.getValue()]));
         changeableSets.setReps(reps.getValue());
         changeableSets.setParentId(sets.getParentId());
@@ -261,6 +263,8 @@ public class SetActivityCreate extends AppCompatActivity {
         intent.putExtra(WEIGHT, setsUpdate.getWeight());
         intent.putExtra(ID, setsUpdate.getId());
         intent.putExtra(REPS, setsUpdate.getReps());
+        System.out.println("we" + setsUpdate.getWeightPast());
+        intent.putExtra(PAST_WEIGHT, setsUpdate.getWeightPast());
             setResult(RESULT_OK, intent);
             finishActivityWithAnimation();
     }

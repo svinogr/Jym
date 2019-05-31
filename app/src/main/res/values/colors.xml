@@ -12,6 +12,7 @@
     <color name="colorBackgroundCardView">#feffff</color>
     <color name="colorBackgroundTabLayout">#252420</color>
     <color name="colorTextTab">#d9d9d9</color>
+    <color name="colorPastSet">#6c6c70</color>
     <color name="colorBackgroundConstrateLayout">#d9d9d9</color>
     <color name="colorBackgroundAppBar">#d9d9d9</color>
     <color name="colorTestExercise">#00c6fc</color>

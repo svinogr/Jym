@@ -24,6 +24,13 @@
         <item name="android:typeface">monospace</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
+
+    <style name="TextViewTextPast">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorPastSet</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
     <style name="TextViewLabelTopCard">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/colorTextTab</item>

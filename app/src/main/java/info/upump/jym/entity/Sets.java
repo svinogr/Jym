@@ -3,6 +3,7 @@ package info.upump.jym.entity;
 public class Sets extends Entity {
     private double weight;
     private int reps;
+    private double weightPast;
 
     public long getId() {
         return id;
@@ -28,6 +29,13 @@ public class Sets extends Entity {
         this.reps = reps;
     }
 
+    public double getWeightPast() {
+        return weightPast;
+    }
+
+    public void setWeightPast(double weightPast) {
+        this.weightPast = weightPast;
+    }
 
     @Override
     public String toString() {

@@ -31,7 +31,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
     private static final String sqlForCycle = "insert into " + DBHelper.TABLE_CYCLE + " values(?,?,?,?,?,?,?,?);";
     private static final String sqlForWorkout = "insert into " + DBHelper.TABLE_WORKOUT + " values(?,?,?,?,?,?,?,?,?,?);";
     private static final String sqlForExercise = "insert into " + DBHelper.TABLE_EXERCISE + " values(?,?,?,?,?,?,?,?,?);";
-    private static final String sqlForSets = "insert into " + DBHelper.TABLE_SET + " values(?,?,?,?,?,?,?);";
+    private static final String sqlForSets = "insert into " + DBHelper.TABLE_SET + " values(?,?,?,?,?,?,?,?);";
 
     private final String[] keys = new String[]{
             DBHelper.TABLE_KEY_ID,
@@ -357,6 +357,7 @@ public class CycleDao extends DBDao implements IData<Cycle> {
                         sqLiteStatementSets.bindString(5, sets.getStartStringFormatDate());
                         sqLiteStatementSets.bindString(6, sets.getFinishStringFormatDate());
                         sqLiteStatementSets.bindLong(7, exercise.getId());
+                        sqLiteStatementSets.bindDouble(8, sets.getWeightPast());
                         sqLiteStatementSets.executeInsert();
                     }
                 }

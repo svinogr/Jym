@@ -62,7 +62,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_KEY_RIGHT_CALVES = "left_calves";
     public static final String TABLE_KEY_DATE = "date";
     public static final String TABLE_KEY_IMG_ID = "id_image";
-    public static final String TABLE_KEY_SET_PAST_SET = "past_set";
+    public static final String TABLE_KEY_SET_PAST_WEIGHT = "past_set";
 
     public static final String TABLE_KEY_DESCRIPTION_ID = "description_id";
 
@@ -158,7 +158,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         System.out.println("OBNOVLENIE " + oldVersion + "  " + newVersion);
         if (oldVersion < 2) {
-            db.execSQL("ALTER TABLE " + TABLE_SET + " ADD COLUMN " + TABLE_KEY_SET_PAST_SET + " INTEGER;");
+            db.execSQL("ALTER TABLE " + TABLE_SET + " ADD COLUMN " + TABLE_KEY_SET_PAST_WEIGHT + " REAL DEFAULT 0;");
 
         }
         db.setVersion(newVersion);

@@ -31,7 +31,7 @@ public class SetsAdapter extends RecyclerView.Adapter<AbstractSetViewHolder> {
 
     @Override
     public AbstractSetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.sets_card_layout, parent, false);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.sets_card_layout_v2, parent, false);
         AbstractSetViewHolder setsViewHolder = null;
         switch (type) {
             case DEFAULT_TYPE:

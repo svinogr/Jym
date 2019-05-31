@@ -19,6 +19,8 @@ public class Constants {
     public static final String TYPE_USER_PROGRESS = "type user progress";
     public static final String TITLE = "title";
     public static final String WEIGHT = "weight";
+    public static final String PAST_WEIGHT = "past_weight";
+    public static final String QUANTITY_SETS = "quantity";
     public static final String REPS = "reps";
     public static final String QUANTITY = "quantity";
     public static final String FAT = "fat";
