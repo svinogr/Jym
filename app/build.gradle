@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "info.upump.jym"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 31
         versionCode 9
         versionName "1.02"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
