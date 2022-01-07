@@ -75,8 +75,6 @@ public class MainActivity extends AppCompatActivity
                     .build());
         }
 
-
-
         this.savedInstanceState = savedInstanceState;
         arrayPermissionDescription = new String[]{getResources().getString(R.string.permission_description), getResources().getString(R.string.permission_description_camera)};
 
