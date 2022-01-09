@@ -52,7 +52,7 @@ class DBReadableImpl(val context: Context) : DBReadable {
             var length: Int
 
             do {
-                length = myInput.read(buffer)
+                length = myInput!!.read(buffer)
                 if (length < 1) break
                 myOutput.write(buffer, 0, length)
             } while (length > 0)

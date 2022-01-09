@@ -29,7 +29,7 @@ class DBWritableImpl(val context: Context) : DBWritable {
             var length: Int
 
             do {
-                length = inputStream.read(buffer)
+                length = inputStream!!.read(buffer)
                 if (length < 1) break
                 myOutput.write(buffer, 0, length)
             } while (length > 0)

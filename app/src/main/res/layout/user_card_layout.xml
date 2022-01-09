@@ -67,7 +67,6 @@
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideline3"
-            app:layout_constraintTop_toTopOf="@+id/com_div"
             tools:text="03.18.2026" />
 
     </android.support.constraint.ConstraintLayout>

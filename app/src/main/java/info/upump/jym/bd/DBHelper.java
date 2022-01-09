@@ -175,10 +175,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onConfigure(SQLiteDatabase db) {
-        super.onConfigure(db);
-        if(android.os.Build.VERSION.SDK_INT == 28) {
+        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.P) {
             db.disableWriteAheadLogging();
         }
+
+        super.onConfigure(db);
     }
 
     public void create_db() {
