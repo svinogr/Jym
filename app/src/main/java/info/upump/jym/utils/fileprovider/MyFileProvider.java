@@ -6,7 +6,7 @@ import android.os.Environment;
 
 import java.io.File;
 
-public class MyFileProvider extends android.support.v4.content.FileProvider {
+public class MyFileProvider extends androidx.core.content.FileProvider {
     public Uri getDatabaseURI(Context c) {
         File data = Environment.getDataDirectory();
         String dbName = "jym.db";

@@ -1,12 +1,10 @@
 package info.upump.jym.adapters.holders;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +17,6 @@ import com.bumptech.glide.request.RequestOptions;
 
 import info.upump.jym.R;
 import info.upump.jym.entity.Cycle;
-import info.upump.jym.fragments.cycle.CRUD;
 
 /**
  * Created by explo on 04.05.2018.

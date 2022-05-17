@@ -1,7 +1,8 @@
+/*
 package info.upump.jym.bd;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -17,9 +18,11 @@ import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.TypeMuscle;
 import info.upump.jym.entity.Workout;
 
+*/
 /**
  * Created by explo on 07.03.2018.
- */
+ *//*
+
 @RunWith(AndroidJUnit4.class)
 public class CycleDaoTest {
     private CycleDao cycleDao;
@@ -156,4 +159,4 @@ public class CycleDaoTest {
     }
 
 
-}
+}*/

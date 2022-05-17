@@ -1,5 +1,5 @@
 
-<android.support.v4.widget.NestedScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,7 +10,7 @@
     android:id="@+id/nested_scroll"
     android:paddingBottom="4dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,12 +18,12 @@
         style="@style/MyConstrateLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/workout_activity_detail_viewpager"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent">
-            <android.support.design.widget.TabLayout
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/workout_activity_detail_tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,8 +32,8 @@
                 style="@style/MyTabLayout"
                 android:layout_gravity="top"
                 app:tabMode="fixed">
-            </android.support.design.widget.TabLayout>
-        </android.support.v4.view.ViewPager>
-    </android.support.constraint.ConstraintLayout>
+            </com.google.android.material.tabs.TabLayout>
+        </androidx.viewpager.widget.ViewPager>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

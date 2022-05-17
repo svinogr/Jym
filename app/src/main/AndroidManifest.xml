@@ -23,9 +23,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -41,6 +43,10 @@
         <activity
             android:name=".activity.exercise.ExerciseDetailTemplateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.WorkoutViewActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
         <activity
             android:name=".activity.cycle.CycleDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -71,7 +77,7 @@
         <activity android:name=".activity.user.UserCreateActivity" />
         <activity android:name=".activity.user.UserGraphActivity" />
         <activity android:name=".activity.SettingsActivity" />
-        <activity android:name=".activity.user.UserDetailActivity"></activity>
+        <activity android:name=".activity.user.UserDetailActivity" />
     </application>
 
 </manifest>

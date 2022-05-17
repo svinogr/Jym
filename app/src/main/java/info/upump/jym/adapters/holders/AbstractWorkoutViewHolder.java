@@ -2,9 +2,8 @@ package info.upump.jym.adapters.holders;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,9 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import info.upump.jym.R;
-import info.upump.jym.activity.exercise.ExerciseDetailTemplateActivity;
 import info.upump.jym.entity.Day;
-import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Workout;
 
 

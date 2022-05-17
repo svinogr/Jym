@@ -1,7 +1,8 @@
+/*
 package info.upump.jym.bd;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -12,14 +13,13 @@ import org.junit.runner.RunWith;
 import java.util.List;
 
 import info.upump.jym.entity.Exercise;
-import info.upump.jym.entity.Sets;
 import info.upump.jym.entity.TypeMuscle;
 
-import static org.junit.Assert.*;
-
+*/
 /**
  * Created by explo on 08.03.2018.
- */
+ *//*
+
 @RunWith(AndroidJUnit4.class)
 public class ExerciseDaoTest {
     private Exercise exercise;
@@ -146,4 +146,4 @@ public class ExerciseDaoTest {
         Assert.assertTrue(exerciseDao.delete(exercise));
     }
 
-}
+}*/

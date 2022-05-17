@@ -137,6 +137,7 @@ public class WorkoutDao extends DBDao implements IData<Workout> {
                 cursor.close();
             }
         }
+
         return workout;
     }
 

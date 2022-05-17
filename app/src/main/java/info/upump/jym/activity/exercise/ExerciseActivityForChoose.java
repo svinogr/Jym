@@ -4,18 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-
-import java.util.List;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IChooseItem;
 import info.upump.jym.adapters.PagerAdapterExerciseForChoose;
-import info.upump.jym.bd.ExerciseDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Workout;
 

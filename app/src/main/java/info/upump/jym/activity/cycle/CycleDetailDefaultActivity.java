@@ -2,12 +2,10 @@ package info.upump.jym.activity.cycle;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
 import android.view.Menu;
 import android.view.View;
 
 import info.upump.jym.activity.constant.Constants;
-import info.upump.jym.adapters.PagerAdapterCycle;
 import info.upump.jym.adapters.PagerAdapterCycleDefault;
 import info.upump.jym.entity.Cycle;
 

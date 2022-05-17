@@ -1,5 +1,14 @@
 package info.upump.jym.activity.workout;
 
+import static info.upump.jym.activity.constant.Constants.CLEAR;
+import static info.upump.jym.activity.constant.Constants.CREATE;
+import static info.upump.jym.activity.constant.Constants.DELETE;
+import static info.upump.jym.activity.constant.Constants.ERROR;
+import static info.upump.jym.activity.constant.Constants.ID;
+import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
+import static info.upump.jym.activity.constant.Constants.UPDATE;
+import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
+
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -8,14 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,15 +25,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IChangeItem;
 import info.upump.jym.activity.IDescriptionFragment;
 import info.upump.jym.activity.IItemFragment;
+import info.upump.jym.activity.WorkoutViewActivity;
 import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.activity.exercise.ExerciseActivityForChoose;
 import info.upump.jym.activity.exercise.ExerciseDetail;
@@ -42,15 +53,6 @@ import info.upump.jym.bd.WorkoutDao;
 import info.upump.jym.entity.Exercise;
 import info.upump.jym.entity.Workout;
 import info.upump.jym.fragments.cycle.CRUD;
-
-import static info.upump.jym.activity.constant.Constants.CLEAR;
-import static info.upump.jym.activity.constant.Constants.CREATE;
-import static info.upump.jym.activity.constant.Constants.DELETE;
-import static info.upump.jym.activity.constant.Constants.ERROR;
-import static info.upump.jym.activity.constant.Constants.ID;
-import static info.upump.jym.activity.constant.Constants.REQUEST_CODE_CHANGE_OPEN;
-import static info.upump.jym.activity.constant.Constants.UPDATE;
-import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 
 public class WorkoutDetailActivity extends AppCompatActivity implements IChangeItem<Workout>, View.OnClickListener, CRUD<Exercise> {
     protected Workout workout;
@@ -81,7 +83,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                 Toast.makeText(getApplicationContext(), R.string.toast_dont_delete, Toast.LENGTH_SHORT).show();
                 iItemFragment.insertDeletedItem(id);
             }*/
-            if(msg.what == CLEAR){
+            if (msg.what == CLEAR) {
                 iItemFragment.clear();
             }
 
@@ -181,15 +183,11 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                 final float MIN_SCALE = 0.85f;
                 float MIN_ALPHA = 0.5f;
 
-                if (position < -1)
-
-                { // [-Infinity,-1)
+                if (position < -1) { // [-Infinity,-1)
                     // This page is way off-screen to the left.
                     view.setAlpha(0);
 
-                } else if (position <= 1)
-
-                { // [-1,1]
+                } else if (position <= 1) { // [-1,1]
                     // Modify the default slide transition to shrink the page as well
                     float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
                     float vertMargin = pageHeight * (1 - scaleFactor) / 2;
@@ -209,9 +207,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                             (scaleFactor - MIN_SCALE) /
                                     (1 - MIN_SCALE) * (1 - MIN_ALPHA));
 
-                } else
-
-                { // (1,+Infinity]
+                } else { // (1,+Infinity]
                     // This page is way off-screen to the right.
                     view.setAlpha(0);
                 }
@@ -304,6 +300,12 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.edit_now:
+                Intent intent = WorkoutViewActivity.newInstance(
+                        workout.getId(), this);
+                startActivity(intent);
+                break;
+
             case R.id.edit_menu_delete:
                 Snackbar.make(this.imageView, R.string.snack_delete, Snackbar.LENGTH_LONG)
                         .setAction(R.string.yes, new View.OnClickListener() {
@@ -357,7 +359,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
             long id = data.getLongExtra(ID, 0);
 
             switch (requestCode) {
-                case  REQUEST_CODE_CHANGE_OPEN :
+                case REQUEST_CODE_CHANGE_OPEN:
                     id = data.getLongExtra(ID, 0);
                     int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
                     switch (changeOrDelete) {
@@ -386,7 +388,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
             @Override
             public void run() {
                 ExerciseDao exerciseDao = ExerciseDao.getInstance(getApplicationContext(), null);
-                Exercise exercise  = exerciseDao.getById(id);
+                Exercise exercise = exerciseDao.getById(id);
                 if (exercise != null) {
                     handler.sendMessageDelayed(handler.obtainMessage(UPDATE, exercise), 0);
                 }
@@ -416,7 +418,7 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
             @Override
             public void run() {
                 ExerciseDao exerciseDao = ExerciseDao.getInstance(getApplicationContext(), null);
-                Exercise exercise  = exerciseDao.alterCopy(id, workout.getId());
+                Exercise exercise = exerciseDao.alterCopy(id, workout.getId());
                 if (exercise != null) {
                     handler.sendMessageDelayed(handler.obtainMessage(CREATE, exercise), 0);
                 }

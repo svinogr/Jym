@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/linearLayout"
@@ -14,12 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/exercise_fragment_viewpager"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent">
-            <android.support.design.widget.TabLayout
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/exercise_fragment_tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,9 +28,9 @@
                 style="@style/MyTabLayout"
                 android:layout_gravity="top"
                 app:tabMode="scrollable">
-            </android.support.design.widget.TabLayout>
-        </android.support.v4.view.ViewPager>
-    </android.support.constraint.ConstraintLayout>
+            </com.google.android.material.tabs.TabLayout>
+        </androidx.viewpager.widget.ViewPager>
+    </androidx.constraintlayout.widget.ConstraintLayout>
   <!--  <android.support.design.widget.FloatingActionButton
         android:id="@+id/exercise_fragment_add_fab2"
         android:layout_width="wrap_content"
@@ -48,4 +48,4 @@
         app:layout_behavior="info.upump.jym.utils.ScrollAwareFABBehavior"
         app:srcCompat="@android:drawable/ic_menu_add" />-->
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -305,5 +305,6 @@
     <string name="backupToFileDone">Экспорт завершен</string>
     <string name="backupToCurentBD">Импорт завершен</string>
     <string name="label_weight_set_past">Пред. вес</string>
+    <string name="to_view_workout">Просмотр</string>
 
 </resources>

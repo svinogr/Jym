@@ -1,14 +1,12 @@
 package info.upump.jym.adapters.holders;
 
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import info.upump.jym.R;
-import info.upump.jym.activity.user.UserCreateActivity;
 import info.upump.jym.entity.User;
 import info.upump.jym.fragments.cycle.CRUD;
 
