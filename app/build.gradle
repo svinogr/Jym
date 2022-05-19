@@ -98,7 +98,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //graph
 //    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
 }
 
 
