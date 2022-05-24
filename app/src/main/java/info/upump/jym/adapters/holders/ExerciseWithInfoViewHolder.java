@@ -23,7 +23,6 @@ public class ExerciseWithInfoViewHolder extends AbstractExerciseViewHolder {
     public ExerciseWithInfoViewHolder(View itemView, CRUD crud) {
         super(itemView);
         this.crud = crud;
-
     }
 
     @Override

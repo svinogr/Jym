@@ -47,6 +47,7 @@ public class Constants {
     public final static int LOADER_BY_USER_TYPE = 3;
     public final static int LOADER_BY_DEFAULT_TYPE = 4;
     public final static int DEFAULT_TYPE = 8;
+    public final static int NOW_TIME_SET = 3;
     public final static int USER_TYPE = 9;
     public static final int DEFAULT_TYPE_CHOOSE = 5;
     public static final int UPDATE = 6;
