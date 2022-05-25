@@ -1,18 +1,23 @@
 package info.upump.jym.activity
 
+import android.app.ActionBar
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import info.upump.jym.R
 import info.upump.jym.activity.constant.Constants
 import info.upump.jym.adapters.SetAdapterForNowTime
 import info.upump.jym.bd.ExerciseDao
@@ -51,7 +56,7 @@ class WorkoutViewActivity : AppCompatActivity() {
 
         workout = workoutDao.getById(workoutId!!)
 
-        setyingsActionBar()
+        settingsActionBar()
 
         startBtn = binding.workoutNowStartBut
         stopBtn = binding.workoutNowStopBut
@@ -66,10 +71,12 @@ class WorkoutViewActivity : AppCompatActivity() {
         setWorkoutView()
     }
 
-    private fun setyingsActionBar() {
-        setSupportActionBar(binding.workoutNowToolbar)
+    private fun settingsActionBar() {
+        val toolBar = binding.workoutNowToolbar
+        toolBar.title = workout.title
+        setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = workout.title
+
         supportActionBar?.setBackgroundDrawable(ColorDrawable(getResources().getColor(workout.day.color)))
     }
 
@@ -94,7 +101,6 @@ class WorkoutViewActivity : AppCompatActivity() {
             }
         }
 
-
         val adapter = SetAdapterForNowTime(
             listSets,
             Constants.USER_TYPE,
@@ -118,7 +124,6 @@ class WorkoutViewActivity : AppCompatActivity() {
             }
         })
 
-
         stopBtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 stopStopWatch()
@@ -141,19 +146,18 @@ class WorkoutViewActivity : AppCompatActivity() {
 
     private fun pauseStopWatch() {
         jobSeconds?.cancel()
-        startBtn.text = "START"
+        startBtn.text = getString(R.string.btn_start_stopwatch_title)
     }
 
     private fun startStopWatch() {
         stopBtn.visibility = View.VISIBLE
-        startBtn.text = "PAUSE"
+        startBtn.text = getString(R.string.btn_stop_stopwatch_title)
 
         jobSeconds?.cancel()
 
         jobSeconds = GlobalScope.launch(Dispatchers.Main) {
             while (true) {
                 seconds += 1
-                Log.d("TAG", seconds.toString())
                 if (seconds >= limitUpTime) {
                     seconds = 0
                     minutes += 1
@@ -204,14 +208,47 @@ class WorkoutViewActivity : AppCompatActivity() {
         jobSeconds?.cancel()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.workout_now_time_menu, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 this.onBackPressed()
                 return true
             }
+            R.id.action_comments -> {
+                commentPopUp()
+                return true
+            }
         }
+
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun commentPopUp() {
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val viewPopUp = inflater.inflate(R.layout.popup_now_time_activity, null)
+        val text  = viewPopUp.findViewById<TextView>(R.id.popup_now_activity_text)
+        text.text = workout.comment
+        val height = LinearLayout.LayoutParams.MATCH_PARENT
+        val wight = LinearLayout.LayoutParams.MATCH_PARENT
+        val focusable = true
+
+        val popUp = PopupWindow(viewPopUp, height, wight, focusable)
+        popUp.showAtLocation(viewPopUp, Gravity.CENTER, 0, 0)
+
+        popUp.elevation = 20F
+
+
+        viewPopUp.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
+                popUp.dismiss()
+                return true
+            }
+        })
     }
 }
 

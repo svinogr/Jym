@@ -22,7 +22,6 @@
             app:expandedTitleMarginEnd="16dp"
             app:expandedTitleMarginStart="16dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
                     <ImageView
                         android:id="@+id/workout_activity_create_image_view"
                         android:layout_width="match_parent"

@@ -6,15 +6,18 @@
         <entry key="..\:/Users/explo/StudioProjects/Jym/app/src/main/res/layout/activity_main.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/explo/StudioProjects/Jym/app/src/main/res/layout/sets_card_layout.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/explo/StudioProjects/Jym/app/src/main/res/layout/user_card_layout.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_cycle_for_choose.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_exercise_create.xml" value="0.19658119658119658" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_exercise_detail.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_exercise_detail_tempalte.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_exercise_detail_v2.xml" value="0.264945652173913" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_main.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_set_create.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_user_datail.xml" value="0.21693840579710144" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_workout_create.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_workout_detail.xml" value="0.264945652173913" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_workout_for_choose.xml" value="0.264945652173913" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_workout_view.xml" value="0.16" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_workout_view.xml" value="0.33" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/content_cycle_create_activity.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/content_cycle_detail.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/content_exercise_create.xml" value="0.21693840579710144" />
@@ -35,12 +38,21 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/fragment_workout_fragment_for_view_pager_exercises.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/fragment_workout_now.xml" value="0.2453125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/fragment_workout_now_detail.xml" value="0.24125874125874125" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/popup_now_time_activity.xml" value="0.259375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/sets_card_layout.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/sets_card_layout_for_now_time.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/sets_card_layout_v2.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/user_card_layout.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/workout_card_layout.xml" value="0.25" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/activity_main_drawer.xml" value="0.259375" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/edit_exercise_menu.xml" value="0.259375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/edit_menu.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/edit_menu_exercise.xml" value="0.259375" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/edit_set_menu.xml" value="0.259375" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/edit_template_exercise_menu.xml" value="0.259375" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/main.xml" value="0.259375" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/user_menu.xml" value="0.259375" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/workout_noe_time_menu.xml" value="0.259375" />
       </map>
     </option>
   </component>

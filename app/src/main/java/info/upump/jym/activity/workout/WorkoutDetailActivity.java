@@ -440,7 +440,8 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.edit_menu, menu);
+       // menuInflater.inflate(R.menu.edit_menu, menu); изменил на новое меню с глазом
+        menuInflater.inflate(R.menu.edit_menu_exercise, menu);
         return true;
     }
 

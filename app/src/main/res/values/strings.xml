@@ -309,5 +309,7 @@
     <string name="start_time_00">00</string>
     <string name="stopwatch_btn_stop">STOP</string>
     <string name="stopwatch_btn_start">START</string>
+    <string name="btn_start_stopwatch_title">START</string>
+    <string name="btn_stop_stopwatch_title">PAUSE</string>
 
 </resources>
