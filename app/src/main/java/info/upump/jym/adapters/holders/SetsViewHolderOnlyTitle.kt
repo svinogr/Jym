@@ -1,5 +1,6 @@
 package info.upump.jym.adapters.holders
 
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import info.upump.jym.R
@@ -12,6 +13,7 @@ class SetsViewHolderOnlyTitle(val itemView: View?) : AbstractSetViewHolder(itemV
     }
 
     override fun startActivity() {
+
     }
 
 }

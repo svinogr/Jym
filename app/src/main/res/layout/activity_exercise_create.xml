@@ -21,14 +21,7 @@
         app:expandedTitleMarginEnd="16dp"
         app:expandedTitleMarginStart="16dp"
         app:layout_scrollFlags="scroll|exitUntilCollapsed">
-                <ImageView
-                    android:id="@+id/exercise_activity_create_image_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    android:fitsSystemWindows="true"
-                    android:transitionName="exercise_activity_create_image"
-                    app:layout_collapseMode="parallax" />
+
         <androidx.appcompat.widget.Toolbar
             app:layout_collapseMode="pin"
             android:id="@+id/exercise_activity_create_toolbar"
@@ -39,4 +32,15 @@
     </com.google.android.material.appbar.AppBarLayout>
     <include
         layout="@layout/content_exercise_create"/>
+
+    <ImageView
+        android:id="@+id/exercise_activity_create_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:fitsSystemWindows="true"
+        android:scaleType="centerCrop"
+        android:transitionName="exercise_activity_create_image"
+        app:layout_anchor="@+id/exercise_activity_create_appbar"
+        app:layout_anchorGravity="center"
+        app:layout_collapseMode="parallax" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

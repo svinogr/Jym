@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import info.upump.jym.R
 import info.upump.jym.activity.constant.Constants
-import info.upump.jym.adapters.holders.AbstractSetViewHolder
-import info.upump.jym.adapters.holders.SetsViewHolder
-import info.upump.jym.adapters.holders.SetsViewHolderDefault
-import info.upump.jym.adapters.holders.SetsViewHolderOnlyTitle
+import info.upump.jym.adapters.holders.*
 import info.upump.jym.entity.Exercise
 import info.upump.jym.entity.Sets
 import info.upump.jym.fragments.cycle.CRUD
@@ -33,7 +30,7 @@ class SetAdapterForNowTime(val list: List<Sets>, val type: Int, val crud: CRUD<S
         Log.d("TAG", "${type}")
         when (viewType) {
             Constants.DEFAULT_TYPE -> setsViewHolder = SetsViewHolderDefault(inflate)
-            Constants.USER_TYPE -> setsViewHolder = SetsViewHolder(inflate, crud)
+            Constants.USER_TYPE -> setsViewHolder = SetsViewHolderNoAction(inflate)
             Constants.NOW_TIME_SET -> {
                 inflate = LayoutInflater.from(parent.context)
                     .inflate(R.layout.sets_card_layout_for_now_time, parent, false)

@@ -212,8 +212,6 @@ public class WorkoutDetailActivity extends AppCompatActivity implements IChangeI
                     view.setAlpha(0);
                 }
             }
-
-
         });
     }
 

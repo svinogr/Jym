@@ -46,7 +46,7 @@
         <activity
             android:name=".activity.WorkoutViewActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:exported="false" />
+         />
         <activity
             android:name=".activity.cycle.CycleDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
