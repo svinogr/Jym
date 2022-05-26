@@ -216,9 +216,9 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getBaseContext());
         String listPreference = prefs.getString("screen_choose", "3");
+
         return listPreference;
     }
-
 
     @Override
     public void createFragment(int firstFragment) {
@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Snackbar.make(findViewById(R.id.coordinator), R.string.snack_exit, Snackbar.LENGTH_LONG)
+            Snackbar.make(findViewById(R.id.coordinator), R.string.snack_exit_app, Snackbar.LENGTH_LONG)
                     .setAction(R.string.yes, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

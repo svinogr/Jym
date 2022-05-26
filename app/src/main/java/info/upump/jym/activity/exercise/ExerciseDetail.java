@@ -271,7 +271,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
             }
         });
         thread.start();
-
     }
 
     @Override
@@ -294,7 +293,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
     public void addItem(Sets sets) {
     }
 
-
     @Override
     public void onBackPressed() {
         exit();
@@ -305,6 +303,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         if (item.getItemId() == android.R.id.home) {
             exit();
         }
+
         switch (item.getItemId()) {
             case R.id.edit_menu_delete:
                 Snackbar.make(getCurrentFocus(), R.string.snack_delete, Snackbar.LENGTH_LONG)
@@ -312,7 +311,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
                             @Override
                             public void onClick(View v) {
                                 delete(exercise.getId());
-
                             }
                         }).show();
                 break;
@@ -380,6 +378,7 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
                 break;
             }
         }
+
         if (index != -1) {
             setsList.set(index, object);
             setsAdapter.notifyItemChanged(index);
@@ -423,6 +422,5 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
         if (activityOptions != null) {
             startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN, activityOptions.toBundle());
         } else startActivityForResult(intent, REQUEST_CODE_CHANGE_OPEN);
-
     }
 }

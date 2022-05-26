@@ -39,6 +39,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/fragment_workout_now.xml" value="0.2453125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/fragment_workout_now_detail.xml" value="0.24125874125874125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/popup_now_time_activity.xml" value="0.259375" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/popup_now_time_activity2.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/sets_card_layout.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/sets_card_layout_for_now_time.xml" value="0.21693840579710144" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/layout/sets_card_layout_v2.xml" value="0.21693840579710144" />
@@ -53,6 +54,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/main.xml" value="0.259375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/user_menu.xml" value="0.259375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/workout_noe_time_menu.xml" value="0.259375" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jym/app/src/main/res/menu/workout_now_time_menu.xml" value="0.22604166666666667" />
       </map>
     </option>
   </component>

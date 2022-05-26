@@ -133,6 +133,7 @@ public class ExerciseCreateActivity extends AppCompatActivity {
                 uriImage = Uri.parse(savedInstanceState.getString(Constants.URI_IMG));
             }
         }
+
         createViewFrom();
     }
 
@@ -165,9 +166,10 @@ public class ExerciseCreateActivity extends AppCompatActivity {
     }
 
     private boolean onlyTypeMuscle() {
-        Exercise exercisec = getChangeableItem();
-        if (!exercisec.getExerciseDescription().getTitle().equals("")) return false;
-        if (!exercisec.getComment().equals("")) return false;
+        Exercise exercises = getChangeableItem();
+        if (!exercises.getExerciseDescription().getTitle().equals("")) return false;
+        if (!exercises.getComment().equals("")) return false;
+
         return uriImage == null;
     }
 
@@ -276,6 +278,7 @@ public class ExerciseCreateActivity extends AppCompatActivity {
 
                 }
             });
+
             ad.setNegativeButton((getResources().getString(R.string.no)), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -287,12 +290,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             ad.show();
         }
     }
-
- /*   private Intent createIntentForResult() {
-        Intent intent = new Intent();
-        intent.putExtra(ID, exercise.getId());
-        return intent;
-    }*/
 
     private void update() {
         if (title.getText().toString().trim().isEmpty()) {
@@ -306,29 +303,7 @@ public class ExerciseCreateActivity extends AppCompatActivity {
             finishActivityWithAnimation();
     }
 
-  /*  ExerciseDescription changeableExerciseDescription = new ExerciseDescription();
-        if (uriImage != null) {
-        changeableExerciseDescription.setImg(uriImage.toString());
-    } else changeableExerciseDescription.setImg(exercise.getExerciseDescription().getImg());
-        changeableExerciseDescription.setDefaultImg(exercise.getExerciseDescription().getDefaultImg());
 
-        changeableExerciseDescription.setId(exercise.getExerciseDescription().getId());
-        changeableExerciseDescription.setTitle(title.getText().toString());
-
-    Exercise changeableExercise = new Exercise();
-        changeableExercise.setId(exercise.getId());
-        changeableExercise.setComment(description.getText().toString());
-        changeableExercise.setDescriptionId(exercise.getDescriptionId());
-
-        changeableExercise.setStartDate(new Date());
-        changeableExercise.setFinishDate(new Date());
-
-        changeableExercise.setTemplate(true);
-        changeableExercise.setDefaultType(false);
-    int selectedItem = spinner.getSelectedItemPosition();
-    TypeMuscle typeMuscle = getMuscle(selectedItem);
-        changeableExercise.setTypeMuscle(typeMuscle);
-        changeableExercise.setExerciseDescription(changeableExerciseDescription);*/
 
     private Intent createIntentForResult(Exercise exercise) {
         Intent intent = new Intent();
@@ -345,26 +320,17 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         return intent;
     }
 
-
     private void save() {
         if (title.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, R.string.toast_write_name, Toast.LENGTH_SHORT).show();
             return;
         }
-//        ExerciseDao exerciseDao = new ExerciseDao(this);
 
         exercise = getChangeableItem();
-//        long id = exerciseDao.create(exercise);
-
-//            exercise.setId(id);
-//            Toast.makeText(this, R.string.toast_exercise_saved, Toast.LENGTH_SHORT).show();
-//           Intent intent = createIntentForResult(); // при создании из вне
 
         Intent  intent = createIntentForResult(exercise);
         setResult(RESULT_OK, intent);
         finishActivityWithAnimation();
-//        } else Toast.makeText(this, R.string.toast_dont_save, Toast.LENGTH_SHORT).
-//                show();
     }
 
     private boolean itemIsNotChanged() {
@@ -400,7 +366,6 @@ public class ExerciseCreateActivity extends AppCompatActivity {
         int selectedItem = spinner.getSelectedItemPosition();
         TypeMuscle typeMuscle = getMuscle(selectedItem);
         changeableExercise.setTypeMuscle(typeMuscle);
-//        changeableExercise.setTypeMuscle(exercise.getTypeMuscle());//залоука
         changeableExercise.setExerciseDescription(changeableExerciseDescription);
         return changeableExercise;
     }

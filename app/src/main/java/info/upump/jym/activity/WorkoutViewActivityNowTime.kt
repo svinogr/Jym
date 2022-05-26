@@ -1,11 +1,8 @@
 package info.upump.jym.activity
 
-import android.app.ActionBar
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -15,8 +12,11 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import info.upump.jym.R
 import info.upump.jym.activity.constant.Constants
 import info.upump.jym.adapters.SetAdapterForNowTime
@@ -158,12 +158,12 @@ class WorkoutViewActivity : AppCompatActivity() {
         jobSeconds = GlobalScope.launch(Dispatchers.Main) {
             while (true) {
                 seconds += 1
-                if (seconds >= limitUpTime) {
+                if (seconds > limitUpTime) {
                     seconds = 0
                     minutes += 1
                 }
 
-                if (minutes >= limitUpTime) {
+                if (minutes > limitUpTime) {
                     seconds = 0
                     minutes = 0
                     hours += 1
@@ -186,6 +186,8 @@ class WorkoutViewActivity : AppCompatActivity() {
                 }
 
                 secondsTextView.text = secText
+                minutesTextView.text = minText
+                hoursTextView.text = hourText
 
                 delay(1000)
             }
@@ -216,7 +218,7 @@ class WorkoutViewActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                this.onBackPressed()
+                exit()
                 return true
             }
             R.id.action_comments -> {
@@ -228,20 +230,32 @@ class WorkoutViewActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        exit()
+    }
+
+    private fun exit() {
+        Snackbar.make(
+            findViewById(R.id.orkout_now_time_coord_layout),
+            R.string.snack_exit_workout,
+            Snackbar.LENGTH_LONG
+        )
+            .setAction(R.string.yes) { finish() }.show()
+    }
+
     private fun commentPopUp() {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val viewPopUp = inflater.inflate(R.layout.popup_now_time_activity, null)
-        val text  = viewPopUp.findViewById<TextView>(R.id.popup_now_activity_text)
-        text.text = workout.comment
+        val viewPopUp = inflater.inflate(R.layout.popup_now_time_activity2, null)
+        val text = viewPopUp.findViewById<TextView>(R.id.popup_now_activity_text)
         val height = LinearLayout.LayoutParams.MATCH_PARENT
         val wight = LinearLayout.LayoutParams.MATCH_PARENT
         val focusable = true
+        text.text = workout.comment
 
         val popUp = PopupWindow(viewPopUp, height, wight, focusable)
-        popUp.showAtLocation(viewPopUp, Gravity.CENTER, 0, 0)
+        popUp.showAtLocation(binding.root, Gravity.CENTER, 0, 0)
 
         popUp.elevation = 20F
-
 
         viewPopUp.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {

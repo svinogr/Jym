@@ -286,7 +286,8 @@
     <string name="snack_cycle_delete_workouts">Удалить тренировки</string>
     <string name="snack_exersice_delete_sets">Удалить подходы</string>
     <string name="snack_workout_delete_exercises">Удалить упражнения</string>
-    <string name="snack_exit">Выйти из приложения?</string>
+    <string name="snack_exit_app">Выйти из приложения?</string>
+    <string name="snack_exit_workout">Выйти из тренировки?</string>
     <string name="pref_header_pravo">Правовые уведомления</string>
     <string name="pravo_lable">Отдельные компоненты приложения содержат материалы и ссылки программного обеспечения распространяемого на условиях лицензирования:</string>
     <string name="pravo_text">MPAndroidChart.\nLicensed under the Apache License,\nVersion 2.0 (the "License")</string>
