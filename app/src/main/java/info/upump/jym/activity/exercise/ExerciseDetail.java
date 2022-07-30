@@ -50,7 +50,8 @@ import static info.upump.jym.activity.constant.Constants.UPDATE_DELETE;
 import static info.upump.jym.activity.constant.Constants.USER_TYPE;
 import static info.upump.jym.activity.constant.Constants.WEIGHT;
 
-public class ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemFragment<Sets>, CRUD<Sets> {
+public class
+ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemFragment<Sets>, CRUD<Sets> {
     protected Exercise exercise;
     protected List<Sets> setsList = new ArrayList<>();
     protected RecyclerView recyclerView;
@@ -164,7 +165,6 @@ public class ExerciseDetail extends AppCompatActivity implements View.OnClickLis
                 Intent intent = SetActivityCreate.createIntent(this, new Sets());
                 startActivityForResult(intent, REQUEST_CODE_CREATE);
         }
-
     }
 
     @Override

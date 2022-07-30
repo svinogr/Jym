@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
@@ -12,8 +13,6 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -29,6 +28,7 @@ import info.upump.jym.entity.Workout
 import kotlinx.coroutines.*
 
 class WorkoutViewActivity : AppCompatActivity() {
+    private val TAG = "WorkoutViewActivity"
     private var isStart = false
     private lateinit var workout: Workout
     private lateinit var binding: ActivityWorkoutViewBinding
@@ -43,6 +43,9 @@ class WorkoutViewActivity : AppCompatActivity() {
     private var seconds = 0
     private var minutes = 0
     private var hours = 0
+    private val secondsState = "second"
+    private val minuteState = "minutes"
+    private val hoursState = "hours"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -203,6 +206,29 @@ class WorkoutViewActivity : AppCompatActivity() {
             Intent(context, WorkoutViewActivity::class.java).apply {
                 putExtra(WorkoutViewActivity.ID, id)
             }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        seconds = savedInstanceState.getInt(secondsState, 0)
+        minutes = savedInstanceState.getInt(minuteState, 0)
+        hours = savedInstanceState.getInt(hoursState, 0)
+
+        if (seconds != 0 || minutes != 0 || hours != 0) {
+            startStopWatch()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        println("saves")
+        Log.d(TAG, "save")
+        Log.d(TAG, seconds.toString())
+        outState.putInt(secondsState, seconds)
+        outState.putInt(minuteState, minutes)
+        outState.putInt(
+            hoursState, hours
+        )
+        super.onSaveInstanceState(outState)
     }
 
     override fun onDestroy() {
