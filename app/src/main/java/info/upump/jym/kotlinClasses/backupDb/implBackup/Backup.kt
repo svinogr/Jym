@@ -10,7 +10,8 @@ import info.upump.jym.kotlinClasses.backupDb.Backupable.const.WRITE_TO_MAIL
 import info.upump.jym.kotlinClasses.backupDb.DBReadable
 import info.upump.jym.kotlinClasses.backupDb.DBWritable
 import info.upump.jym.utils.fileprovider.MyFileProvider
-import lib.folderpicker.FolderPicker
+import info.upump.jym.picker.FolderPicker
+
 
 class Backup(val context: Context) : Backupable {
     override fun importTo(from: Uri) {

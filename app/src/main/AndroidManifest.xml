@@ -41,6 +41,10 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name="info.upump.jym.picker.FolderPicker"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activity.exercise.ExerciseDetailTemplateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

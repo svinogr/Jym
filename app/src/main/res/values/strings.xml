@@ -313,4 +313,15 @@
     <string name="btn_start_stopwatch_title">START</string>
     <string name="btn_stop_stopwatch_title">PAUSE</string>
 
+    <string name="up">Up</string>
+
+    <string name="neww">New</string>
+
+    <string name="select">Select</string>
+
+    <string name="cancel">Cancel</string>
+
+    <string name="title">Select Folder</string>
+
+    <string name="location">Location</string>
 </resources>

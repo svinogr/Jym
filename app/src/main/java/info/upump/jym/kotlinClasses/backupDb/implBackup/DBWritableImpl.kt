@@ -9,10 +9,10 @@ import info.upump.jym.entity.ExerciseDescription
 import info.upump.jym.kotlinClasses.backupDb.DBWritable
 import info.upump.jym.utils.fileprovider.MyFileProvider
 import java.io.*
-
+private const val NAME_FOR_BACKUP_DB = "backupUpump.db"
 class DBWritableImpl(val context: Context) : DBWritable {
     override fun writeToFile(to: Uri) {
-        val fileTo = File(to.path, "backupUpump.bd")
+        val fileTo = File(to.path, NAME_FOR_BACKUP_DB)
         val provider = MyFileProvider()
         val ura = provider.getDatabaseURI(context)
         var inputStream: InputStream? = null

@@ -210,13 +210,16 @@ public class DBHelper extends SQLiteOpenHelper {
                 myOutput.flush();
                 myOutput.close();
                 myInput.close();
-                close();
 
             }
             seVersionDB();
 
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            System.out.println("finaly");
+            close();
+
         }
     }
 
@@ -232,6 +235,9 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase;
         try {
             sqLiteDatabase = getWritableDatabase();
+           // фиксим косяк добавляем в копируемую базу новый столбец
+            sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_SET + " ADD COLUMN " + TABLE_KEY_SET_PAST_WEIGHT + " REAL DEFAULT 0;");
+
             sqLiteDatabase.setVersion(DATA_BASE_VERSION);
             sqLiteDatabase.close();
         } catch (SQLiteException e) {

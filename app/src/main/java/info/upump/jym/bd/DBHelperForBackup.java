@@ -10,7 +10,7 @@ import java.io.File;
 
 public class DBHelperForBackup extends SQLiteOpenHelper {
     private Context context;
-    public final static int DATA_BASE_VERSION = 1;
+    public final static int DATA_BASE_VERSION = DBHelper.DATA_BASE_VERSION;
     public final static String DATABASE_NAME = "jymBackup.db";
     public final static String TABLE_SET = "sets";
     public final static String TABLE_EXERCISE = "exercises";
@@ -57,7 +57,7 @@ public class DBHelperForBackup extends SQLiteOpenHelper {
     public static final String TABLE_KEY_RIGHT_CALVES = "left_calves";
     public static final String TABLE_KEY_DATE = "date";
     public static final String TABLE_KEY_IMG_ID = "id_image";
-
+    public static final String TABLE_KEY_SET_PAST_WEIGHT = "past_set";
     public static final String TABLE_KEY_DESCRIPTION_ID = "description_id";
 
 
@@ -101,7 +101,8 @@ public class DBHelperForBackup extends SQLiteOpenHelper {
             TABLE_KEY_SET_REPS + " INTEGER, " +
             TABLE_KEY_START_DATE + " TEXT NOT NULL, " +
             TABLE_KEY_FINISH_DATE + " TEXT NOT NULL, " +
-            TABLE_KEY_PARENT_ID + " INTEGER)";
+            TABLE_KEY_PARENT_ID + " INTEGER, "+
+            TABLE_KEY_SET_PAST_WEIGHT + " INTEGER)";
 
     private static final String CREATE_TABLE_USER = "CREATE TABLE " + TABLE_USER +
             "( " + TABLE_KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
