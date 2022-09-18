@@ -313,6 +313,7 @@
     <string name="btn_start_stopwatch_title">START</string>
     <string name="btn_stop_stopwatch_title">PAUSE</string>
 
+    <!--use for android-folder-picker-library-->
     <string name="up">Up</string>
 
     <string name="neww">New</string>
