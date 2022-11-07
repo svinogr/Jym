@@ -11,7 +11,7 @@ android {
         applicationId "info.upump.jym"
         minSdk 27
         targetSdk 32
-        versionCode 17
+        versionCode 18
         versionName "2.01"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
