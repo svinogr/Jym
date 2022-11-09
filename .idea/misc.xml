@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User/AndroidStudioProjects/Jym/app/src/main/res/layout/activity_exercise_detail_v2.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Jym/app/src/main/res/menu/edit_exercise_menu.xml" value="0.20364583333333333" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Jym/app/src/main/res/menu/edit_menu.xml" value="0.20364583333333333" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Jym/app/src/main/res/menu/edit_menu_exercise.xml" value="0.20364583333333333" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Jym/app/src/main/res/menu/edit_set_menu.xml" value="0.20364583333333333" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Jym/app/src/main/res/menu/edit_template_exercise_menu.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/explo/AndroidStudioProjects/Jym/app/src/main/res/drawable/fp_outline_black_1dp.xml" value="0.1" />
         <entry key="..\:/Users/explo/AndroidStudioProjects/Jym/app/src/main/res/layout/fp_filerow.xml" value="0.1" />
         <entry key="..\:/Users/explo/AndroidStudioProjects/Jym/app/src/main/res/layout/fp_main_layout.xml" value="0.1" />

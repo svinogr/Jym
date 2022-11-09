@@ -59,4 +59,12 @@ public class SetsAdapter extends RecyclerView.Adapter<AbstractSetViewHolder> {
     public int getItemCount() {
         return setsList.size();
     }
+
+    public List<Sets> getSetsList() {
+        return setsList;
+    }
+
+    public void setSetsList(List<Sets> setsList) {
+        this.setsList = setsList;
+    }
 }

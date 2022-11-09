@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/edit_menu_delete"
+        android:id="@+id/edit_menu_delete_exercise"
         android:orderInCategory="100"
         android:title="@string/action_delete_exercise"
         app:showAsAction="never" />
     <item
-        android:id="@+id/edit_menu_clear"
+        android:id="@+id/edit_menu_clear_exercise"
         android:orderInCategory="100"
         android:title="@string/action_exercise_clear"
         app:showAsAction="never" />

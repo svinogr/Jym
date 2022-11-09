@@ -7,11 +7,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,11 +27,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import info.upump.jym.R;
 import info.upump.jym.activity.IItemFragment;
-import info.upump.jym.activity.constant.Constants;
 import info.upump.jym.activity.sets.SetActivityCreate;
 import info.upump.jym.adapters.SetsAdapter;
 import info.upump.jym.bd.ExerciseDao;
@@ -60,6 +64,8 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
     private ASTSets astSets;
     private boolean update;
     private int index = -1;
+    private ExerciseVM exerciseVM;
+/*
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -90,6 +96,7 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
             }
         }
     };
+*/
 
     private void addItems(List<Sets> obj) {
         setsList.addAll(obj);
@@ -110,32 +117,48 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
             }
         }
 
+        setViewModel();
+
         exercise = getItemFromIntent();
-        createAsyncTask();
+
+        //  createAsyncTask();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.exercise_activity_detail_recycler_view);
         recyclerView.setLayoutManager(linearLayoutManager);
         addFab = findViewById(R.id.exercise_activity_detail_fab_add);
+
         setAdapter();
         setFabVisible(true);
         addFab.setOnClickListener(this);
         setFab();
+        exerciseVM.getSetsByExerciseId(exercise.getId(), this);
+
     }
 
-    private void createAsyncTask() {
-        astSets = new ASTSets(this);
-        astSets.execute(Constants.LOADER_BY_PARENT_ID, (int) exercise.getId());
-        try {
-            setsList = astSets.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+    private void setViewModel() {
+        exerciseVM = new ViewModelProvider(this).get(ExerciseVM.class);
+        exerciseVM.getSet().observe(this, new Observer<List<Sets>>() {
+            @Override
+            public void onChanged(List<Sets> sets) {
+                setsAdapter.setSetsList(sets);
+                setsAdapter.notifyDataSetChanged();
+            }
+        });
+
+        exerciseVM.getIdItem().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer id) {
+                setsAdapter.notifyItemRemoved(id);
+                exerciseVM.getSetsByExerciseId(exercise.getId(), getApplicationContext());
+            }
+        });
+
+
     }
 
     protected void setAdapter() {
-        setsAdapter = new SetsAdapter(setsList, USER_TYPE, this);
+        setsAdapter = new SetsAdapter(new ArrayList<>(), USER_TYPE, this);
+        //  setsAdapter = new SetsAdapter(setsList, USER_TYPE, this);
         recyclerView.setAdapter(setsAdapter);
     }
 
@@ -191,37 +214,14 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
         }
     }
 
-    private void deleteInnerItem(final long id) {
+    private void deleteInnerItem(long id) {
         update = true;
-        for (Sets setsDel : setsList) {
-            if (setsDel.getId() == id) {
-                index = setsList.indexOf(setsDel);
-            }
-        }
-        if (index != -1) {
-            setsList.remove(index);
-            setsAdapter.notifyItemRemoved(index);
-            setsAdapter.notifyItemRangeChanged(index, setsList.size());
-        }
-
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SetDao setDao = SetDao.getInstance(getApplicationContext(), null);
-                Sets sets = new Sets();
-                sets.setId(id);
-                boolean id = setDao.delete(sets);
-                if (id) {
-                    handler.sendMessageDelayed(handler.obtainMessage(DELETE, sets), 0);
-                } else handler.sendMessageDelayed(handler.obtainMessage(ERROR, sets), 0);
-            }
-        });
-        thread.start();
+        exerciseVM.deleteOneSets(this, id);
     }
 
     private void updateInnerItem(Intent data) {
         update = true;
-        final Sets sets = new Sets();
+     /*   final Sets sets = new Sets();
         sets.setId(data.getLongExtra(ID, 0));
         sets.setWeight(data.getDoubleExtra(WEIGHT, 0));
         sets.setReps(data.getIntExtra(REPS, 0));
@@ -240,53 +240,18 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
                 }
             }
         });
-        thread.start();
+        thread.start();*/
     }
 
     private void addNewItem(final Intent data) {
         update = true;
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int q = data.getIntExtra(QUANTITY, 1);
-                Sets sets = null;
-                List<Sets> setsList = new ArrayList<>();
-                SetDao setDao = SetDao.getInstance(getApplicationContext(), null);
-                for (int i = 0; i < q; i++) {
-                    sets = new Sets();
-                    sets.setStartDate(new Date());
-                    sets.setFinishDate(new Date());
-                    sets.setWeight(data.getDoubleExtra(WEIGHT, 0));
-                    sets.setWeightPast(data.getDoubleExtra(PAST_WEIGHT, 0));
-                    sets.setReps(data.getIntExtra(REPS, 0));
-                    sets.setParentId(exercise.getId());
-                    long l = setDao.create(sets);
-                    sets.setId(l);
-                    setsList.add(sets);
-                }
-                if (setsList.size() != 0) {
-                    handler.sendMessageDelayed(handler.obtainMessage(CREATE, setsList), 0);
-                }
-            }
-        });
-        thread.start();
+        exerciseVM.addNewSets(data, this, exercise.getId());
     }
 
     @Override
     public void clear() {
         update = true;
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ExerciseDao exerciseDao = ExerciseDao.getInstance(getApplicationContext(), null);
-                boolean clear = exerciseDao.clear(exercise.getId());
-                if (clear) {
-                    handler.sendMessageDelayed(handler.obtainMessage(CLEAR), 0);
-                }
-            }
-        });
-        thread.start();
+        exerciseVM.deleteSets(this, exercise.getId());
     }
 
     @Override
@@ -305,8 +270,8 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
         }
 
         switch (item.getItemId()) {
-            case R.id.edit_menu_delete:
-                Snackbar.make(getCurrentFocus(), R.string.snack_delete, Snackbar.LENGTH_LONG)
+            case R.id.edit_menu_delete_exercise:
+                Snackbar.make(recyclerView, R.string.snack_delete, Snackbar.LENGTH_LONG)
                         .setAction(R.string.yes, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -314,8 +279,8 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
                             }
                         }).show();
                 break;
-            case R.id.edit_menu_clear:
-                Snackbar.make(getCurrentFocus(), R.string.snack_exersice_delete_sets, Snackbar.LENGTH_LONG)
+            case R.id.edit_menu_clear_exercise:
+                Snackbar.make(recyclerView, R.string.snack_exersice_delete_sets, Snackbar.LENGTH_LONG)
                         .setAction(R.string.yes, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
