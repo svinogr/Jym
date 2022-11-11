@@ -63,6 +63,7 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
     protected SetsAdapter setsAdapter;
     private ASTSets astSets;
     private boolean update;
+    private boolean delete;
     private int index = -1;
     private ExerciseVM exerciseVM;
 /*
@@ -132,7 +133,6 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
         addFab.setOnClickListener(this);
         setFab();
         exerciseVM.getSetsByExerciseId(exercise.getId(), this);
-
     }
 
     private void setViewModel() {
@@ -148,12 +148,15 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
         exerciseVM.getIdItem().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer id) {
-                setsAdapter.notifyItemRemoved(id);
+                if (!delete) {
+                    setsAdapter.notifyItemChanged(id);
+                } else {
+                    setsAdapter.notifyItemRemoved(id);
+                }
+
                 exerciseVM.getSetsByExerciseId(exercise.getId(), getApplicationContext());
             }
         });
-
-
     }
 
     protected void setAdapter() {
@@ -204,9 +207,11 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
                     int changeOrDelete = data.getIntExtra(UPDATE_DELETE, -1);
                     switch (changeOrDelete) {
                         case UPDATE:
+                            delete = false;
                             updateInnerItem(data);
                             break;
                         case DELETE:
+                            delete = true;
                             deleteInnerItem(id);
                             break;
                     }
@@ -217,41 +222,27 @@ ExerciseDetail extends AppCompatActivity implements View.OnClickListener, IItemF
     private void deleteInnerItem(long id) {
         update = true;
         exerciseVM.deleteOneSets(this, id);
+        Toast.makeText(getApplicationContext(), R.string.toast_set_delete, Toast.LENGTH_SHORT).show();
     }
 
     private void updateInnerItem(Intent data) {
         update = true;
-     /*   final Sets sets = new Sets();
-        sets.setId(data.getLongExtra(ID, 0));
-        sets.setWeight(data.getDoubleExtra(WEIGHT, 0));
-        sets.setReps(data.getIntExtra(REPS, 0));
-        sets.setWeightPast(data.getDoubleExtra(PAST_WEIGHT, 0));
-        sets.setStartDate(new Date());
-        sets.setFinishDate(new Date());
-        sets.setParentId(exercise.getId());
+        exerciseVM.update(data, this, exercise.getId());
+        Toast.makeText(getApplicationContext(), R.string.toast_set_update, Toast.LENGTH_SHORT).show();
 
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SetDao setDao = SetDao.getInstance(getApplicationContext(), null);
-                boolean id = setDao.update(sets);
-                if (id) {
-                    handler.sendMessageDelayed(handler.obtainMessage(UPDATE, sets), 0);
-                }
-            }
-        });
-        thread.start();*/
     }
 
     private void addNewItem(final Intent data) {
         update = true;
         exerciseVM.addNewSets(data, this, exercise.getId());
+        Toast.makeText(getApplicationContext(), R.string.toast_set_saved, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void clear() {
         update = true;
         exerciseVM.deleteSets(this, exercise.getId());
+        Toast.makeText(getApplicationContext(), R.string.toast_exercise_delete_sets, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -18,7 +18,7 @@ class ExerciseVM : ViewModel() {
     private var _sets = MutableLiveData<MutableList<Sets>>()
     val set: LiveData<MutableList<Sets>> = _sets
 
-    private var _idItem =  MutableLiveData<Int>()
+    private var _idItem = MutableLiveData<Int>()
     val idItem = _idItem
 
     fun getSetsByExerciseId(id: Long, context: Context) {
@@ -30,7 +30,7 @@ class ExerciseVM : ViewModel() {
         }
     }
 
-    fun deleteSets(context: Context, exId: Long ) {
+    fun deleteSets(context: Context, exId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             val exerciseDao = ExerciseDao.getInstance(context, null)
             val isClear = exerciseDao.clear(exId)
@@ -53,45 +53,14 @@ class ExerciseVM : ViewModel() {
 
             for (i in 0 until listSets.size step 1) {
                 if (listSets[i].id == sId) {
-                    listSets.removeAt(i)
+                  //  listSets.removeAt(i)
                     _idItem.postValue(i)
                     break
                 }
             }
-
-
-
-
         }
-
     }
 
-    /* Thread thread = new Thread(new Runnable() {
-             @Override
-             public void run() {
-                 int q = data.getIntExtra(QUANTITY, 1);
-                 Sets sets = null;
-                 List<Sets> setsList = new ArrayList<>();
-                 SetDao setDao = SetDao.getInstance(getApplicationContext(), null);
-                 for (int i = 0; i < q; i++) {
-                     sets = new Sets();
-                     sets.setStartDate(new Date());
-                     sets.setFinishDate(new Date());
-                     sets.setWeight(data.getDoubleExtra(WEIGHT, 0));
-                     sets.setWeightPast(data.getDoubleExtra(PAST_WEIGHT, 0));
-                     sets.setReps(data.getIntExtra(REPS, 0));
-                     sets.setParentId(exercise.getId());
-                     long l = setDao.create(sets);
-                     sets.setId(l);
-                     setsList.add(sets);
-                 }
-
-                 if (setsList.size() != 0) {
-                     handler.sendMessageDelayed(handler.obtainMessage(CREATE, setsList), 0);
-                 }
-             }
-         });
-         thread.start();*/
     fun addNewSets(data: Intent, context: Context, exId: Long) {
         println(" exid $exId")
         viewModelScope.launch(Dispatchers.IO) {
@@ -106,7 +75,8 @@ class ExerciseVM : ViewModel() {
                 sets.weightPast = data.getDoubleExtra(PAST_WEIGHT, 0.0)
                 sets.reps = data.getIntExtra(REPS, 0)
                 sets.parentId = exId
-                setsDao.create(sets)
+                val createId = setsDao.create(sets)
+                sets.id = createId
 
                 if (listSets == null) {
                     listSets = mutableListOf()
@@ -116,6 +86,36 @@ class ExerciseVM : ViewModel() {
             }
 
             _sets.postValue(listSets!!)
+        }
+    }
+
+    fun update(data: Intent, context: Context, exId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val sets = Sets()
+            sets.id = data.getLongExtra(ID, 0)
+            sets.weight = data.getDoubleExtra(WEIGHT, 0.0)
+            sets.reps = data.getIntExtra(REPS, 0)
+            sets.weightPast = data.getDoubleExtra(PAST_WEIGHT, 0.0)
+            sets.startDate = Date()
+            sets.finishDate = Date()
+            sets.parentId = exId
+
+            val setDao = SetDao.getInstance(context, null)
+            setDao.update(sets)
+
+            val listSets = _sets.value
+
+            if (listSets == null) {
+                return@launch
+            }
+
+            for (i in 0 until listSets.size step 1) {
+                if (listSets[i].id == sets.id) {
+                //    listSets.removeAt(i)
+                    _idItem.postValue(i)
+                    break
+                }
+            }
         }
     }
 }
