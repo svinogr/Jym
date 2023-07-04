@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import info.upump.jym.bd.DBHelper;
+import info.upump.mycompose.*;
 
 public class SplashActivity extends AppCompatActivity {
     @Override
@@ -22,6 +23,7 @@ public class SplashActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         Intent intent = new Intent(this, MainActivity.class);
+     //  Intent intent = new Intent(this, MainActivityCompose.class);
         startActivity(intent);
         finish();
     }

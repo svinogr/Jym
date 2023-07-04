@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="info.upump.mycompose">
+
+    <application>
+        <activity
+            android:name=".MainActivityCompose"
+            android:exported="false"
+            android:label="@string/title_activity_main_compose"
+            android:theme="@style/Theme.Jym" />
+    </application>
+
+</manifest>
