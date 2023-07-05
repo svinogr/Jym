@@ -22,8 +22,8 @@ public class SplashActivity extends AppCompatActivity {
             Log.d("db", "ошибка");
             e.printStackTrace();
         }
-        Intent intent = new Intent(this, MainActivity.class);
-     //  Intent intent = new Intent(this, MainActivityCompose.class);
+       // Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivityCompose.class);
         startActivity(intent);
         finish();
     }

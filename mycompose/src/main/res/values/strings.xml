@@ -1,3 +1,7 @@
 <resources>
     <string name="title_activity_main_compose">MainActivityCompose</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_of_myworkouts_screen">Мои программы</string>
+    <string name="title_of_defaultworkouts_screen">Готовые программы</string>
+    <string name="title_of_profile_screen">Профиль</string>
 </resources>

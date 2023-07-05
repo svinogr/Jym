@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="my_workouts_rout">my_workouts_rout</string>
+    <string name="default_workouts_rout">default_workouts_rout</string>
+    <string name="profile_rout">profile_rout</string>
+</resources>
