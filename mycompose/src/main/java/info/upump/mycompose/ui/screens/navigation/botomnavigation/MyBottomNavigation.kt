@@ -25,8 +25,9 @@ fun MyBottomNavigation(navController: NavController = rememberNavController() ) 
    // fun MyBottomNavigation() {
     //val navController = rememberNavController()
     val listScreens = listOf(
-        BottomItem.MyWorkout,
-        BottomItem.DefaultWorkouts,
+        //BottomItem.MyCycle,
+        BottomItem.MyStartCycleScreen,
+        BottomItem.DefaultCycle,
         BottomItem.Profile
     )
 

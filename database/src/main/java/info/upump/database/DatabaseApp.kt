@@ -19,6 +19,8 @@ class DatabaseApp (val context: Context) {
         lateinit var db: RoomDB
 
         fun initilizeDb(context: Context) {
+
+
             val file = File(RoomDB.DB_PATH)
 
             if (!file.exists()) {
