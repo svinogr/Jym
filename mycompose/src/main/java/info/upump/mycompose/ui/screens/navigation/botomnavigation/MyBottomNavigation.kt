@@ -25,10 +25,9 @@ fun MyBottomNavigation(navController: NavController = rememberNavController() ) 
    // fun MyBottomNavigation() {
     //val navController = rememberNavController()
     val listScreens = listOf(
-        //BottomItem.MyCycle,
-        BottomItem.MyStartCycleScreen,
-        BottomItem.DefaultCycle,
-        BottomItem.Profile
+        NavigationItem.MyCycleNavigationItem,
+        NavigationItem.DefaultCycleNavigationItem,
+        NavigationItem.ProfileNavigationItem
     )
 
     BottomNavigation() {
@@ -38,8 +37,8 @@ fun MyBottomNavigation(navController: NavController = rememberNavController() ) 
         val context = LocalContext.current
         listScreens.forEach { item ->
             BottomNavigationItem(modifier = Modifier.background(Color.White),
-                selected = currentRout == context.resources.getString(item.rout),
-                onClick = { navController.navigate(context.resources.getString(item.rout)) },
+                selected = currentRout == item.rout,
+                onClick = { navController.navigate(item.rout) },
                 label = {
                     Text(text = stringResource(id = item.title), fontSize = 10.sp)
                 },

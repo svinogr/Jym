@@ -5,6 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
 @Composable
-fun  MyExerciseScreen(navHostController: NavHostController) {
-    Text(text = "MyExerciseScreen")
+fun MySetsScreen(navHostController: NavHostController) {
+    Text(text = "SETS")
 }

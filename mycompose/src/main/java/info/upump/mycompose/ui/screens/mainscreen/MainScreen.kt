@@ -21,9 +21,9 @@ fun MainScreen() {
         {
             MyBottomNavigation(navController)
 
-            }
-    ){
-         NavGraph(navController)
         }
+    ) {
+        NavGraph(navController)
+    }
 
 }
