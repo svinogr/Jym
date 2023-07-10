@@ -1,12 +1,15 @@
 package info.upump.mycompose.models.entity
 
-class Exercise : Entity() {
-    var typeMuscle: TypeMuscle? = null
-    var isDefaultType = false
-    var isTemplate = false
-    var setsList: List<Sets> = ArrayList()
-    var descriptionId: Long = 0
+class Exercise(
+    var title: String?,
+    var typeMuscle: TypeMuscle? = null,
+    var isDefaultType: Boolean = false,
+    var isTemplate: Boolean = false,
+    var setsList: List<Sets> = ArrayList(),
+    var descriptionId: Long = 0,
     var exerciseDescription: ExerciseDescription? = null
+) : Entity() {
+
     fun createInfo(): String {
         return "инфо"
     }

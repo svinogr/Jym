@@ -5,18 +5,15 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-abstract class Entity {
-    protected val formatDate = "yyyy-MM-dd"
-    var startDate: Date? = null
-    var finishDate: Date? = null
-
-    open var id: Long = 0
-    @JvmField
-    var title: String? = null
-    @JvmField
-    var comment: String? = null
-    @JvmField
+abstract class Entity(
+    open var id: Long = 0,
+    val formatDate: String = "yyyy-MM-dd",
+    var startDate: Date? = Date(),
+    var finishDate: Date? = Date(),
+    var comment: String? = null,
     var parentId: Long = 0
+) {
+
     val startStringFormatDate: String
         get() {
             val simpleDateFormat = SimpleDateFormat(formatDate, Locale.getDefault())

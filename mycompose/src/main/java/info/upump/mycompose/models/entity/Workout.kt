@@ -1,11 +1,14 @@
 package info.upump.mycompose.models.entity
 
-class Workout : Entity() {
-    var isWeekEven = false
-    var isDefaultType = false
-    var isTemplate = false
-    var day: Day? = null
+class Workout(
+    var title: String?,
+    var isWeekEven: Boolean = false,
+    var isDefaultType: Boolean = false,
+    var isTemplate: Boolean = false,
+    var day: Day? = null,
     var exercises: List<Exercise> = ArrayList()
+) : Entity() {
+
     override fun toString(): String {
         return "Workout{" +
                 "id=" + id +

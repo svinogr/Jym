@@ -1,12 +1,15 @@
 package info.upump.mycompose.models.entity
 
-class Cycle : Entity() {
-    var workoutList: List<Workout> = ArrayList()
-    var isDefaultType = false
-    var image: String? = null
+class Cycle(
+    val title: String?,
+    var workoutList: List<Workout> = ArrayList(),
+    var isDefaultType: Boolean = false,
+    var image: String? = null,
     var defaultImg: String? = null
+) : Entity() {
+
     private val daysBetweenDates: Int
-        private get() = 0
+        get() = 0
 
     override fun toString(): String {
         return "Cycle{" +

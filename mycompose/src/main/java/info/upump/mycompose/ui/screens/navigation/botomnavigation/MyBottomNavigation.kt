@@ -39,9 +39,9 @@ fun MyBottomNavigation(navController: NavController = rememberNavController() ) 
             BottomNavigationItem(modifier = Modifier.background(Color.White),
                 selected = currentRout == item.rout,
                 onClick = { navController.navigate(item.rout) },
-                label = {
+            /*    label = {
                     Text(text = stringResource(id = item.title), fontSize = 10.sp)
-                },
+                },*/
                 icon = {
                     Icon(
                         painter = painterResource(id = item.iconId),

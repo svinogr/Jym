@@ -20,8 +20,7 @@ fun MyCycleScreen(navHostController: NavHostController) {
    LazyColumn {
        item {
            for (i in 1..20) {
-               val cycle = Cycle()
-               cycle.title = "pipec $i"
+               val cycle = Cycle(title = "pipec $i")
                cycle.image = "uk1"
                cycle.startDate = Date()
                cycle.finishDate = Date()

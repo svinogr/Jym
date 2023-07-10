@@ -1,9 +1,11 @@
 package info.upump.mycompose.models.entity
 
-class Sets : Entity() {
-    var weight = 0.0
-    var reps = 0
-    var weightPast = 0.0
+class Sets(
+    var weight: Double = 0.0,
+    var reps: Int = 0,
+    var weightPast: Double = 0.0
+) : Entity() {
+
     override var id: Long
         get() = id
         set(id) {
@@ -16,7 +18,6 @@ class Sets : Entity() {
                 ", reps=" + reps +
                 ", formatDate='" + formatDate + '\'' +
                 ", id=" + id +
-                ", title='" + title + '\'' +
                 ", comment='" + comment + '\'' +
                 ", parentId=" + parentId +
                 '}'

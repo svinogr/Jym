@@ -1,5 +1,9 @@
 package info.upump.mycompose.ui.screens.navigation.botomnavigation
 
+import android.content.Context
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -12,7 +16,9 @@ import info.upump.mycompose.ui.screens.myworkouts.MyWorkoutsScreen
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
 
 fun NavGraphBuilder.myCycleGraph(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    appBarTitle: MutableState<String>,
+    context: Context
 ) {
     navigation(
         startDestination = NavigationItem.MyCycleNavigationItem.rout,
@@ -20,6 +26,7 @@ fun NavGraphBuilder.myCycleGraph(
     ) {
         composable(route = NavigationItem.MyCycleNavigationItem.rout) {
             MyCycleScreen(navHostController)
+            appBarTitle.value = context.resources.getString(NavigationItem.MyCycleNavigationItem.title)
         }
 
         composable(route = NavigationItem.MyWorkoutNavigationItem.rout) {
