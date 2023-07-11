@@ -35,9 +35,10 @@ class MainActivityCompose : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-                ) {
-                  MainScreen()
+                ){
+                    MainScreen()
                 }
+
             }
         }
     }

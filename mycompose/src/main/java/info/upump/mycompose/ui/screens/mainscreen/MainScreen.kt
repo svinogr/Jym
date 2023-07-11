@@ -39,6 +39,6 @@ fun MainScreen() {
             )
         }
     ) {
-        NavGraph(navController, appBarTitle)
+        NavGraph(navController, appBarTitle, it)
     }
 }

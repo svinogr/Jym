@@ -1,6 +1,7 @@
 package info.upump.mycompose.ui.screens.navigation.botomnavigation
 
 import android.content.Context
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.ui.platform.LocalContext
@@ -18,14 +19,15 @@ const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
 fun NavGraphBuilder.myCycleGraph(
     navHostController: NavHostController,
     appBarTitle: MutableState<String>,
-    context: Context
+    context: Context,
+    paddingValues: PaddingValues
 ) {
     navigation(
         startDestination = NavigationItem.MyCycleNavigationItem.rout,
         route = MY_CYCLE_ROOT_ROUTE
     ) {
         composable(route = NavigationItem.MyCycleNavigationItem.rout) {
-            MyCycleScreen(navHostController)
+            MyCycleScreen(navHostController, paddingValues)
             appBarTitle.value = context.resources.getString(NavigationItem.MyCycleNavigationItem.title)
         }
 
