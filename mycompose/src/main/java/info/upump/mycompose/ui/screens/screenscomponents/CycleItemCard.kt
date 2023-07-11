@@ -40,7 +40,7 @@ class SampleCycleProvider : PreviewParameterProvider<Cycle> {
 @Composable
 fun CycleItemCard(@PreviewParameter(SampleCycleProvider::class) cycle: Cycle) {
     val context = LocalContext.current
-    //   val id = context.resources.getIdentifier(cycle.image, "drawable", context.packageName)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -79,7 +79,6 @@ fun CycleItemCard(@PreviewParameter(SampleCycleProvider::class) cycle: Cycle) {
                         color = Color(0xFF6c6c70) )
                 }
             }
-
         }
     }
 }
