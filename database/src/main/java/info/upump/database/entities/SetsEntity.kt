@@ -1,4 +1,4 @@
-package info.upump.jym.db.entities
+package info.upump.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

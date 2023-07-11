@@ -26,7 +26,7 @@ public class CycleDefaultViewHolder extends AbstractCycleViewHolder {
 
     @Override
     void startActivity() {
-       Intent intent =CycleDetailDefaultActivity.createIntent(context,cycle);
+       Intent intent = CycleDetailDefaultActivity.createIntent(context,cycle);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View sharedViewIm = imageView;
             String transitionNameIm = "cycle_card_layout_image";

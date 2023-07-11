@@ -35,12 +35,10 @@ class SampleCycleProvider : PreviewParameterProvider<Cycle> {
 
 }
 
-//@PreviewParameter((SampleCycleProvider::class) cycle: Cycle)
 @Preview(showBackground = true)
 @Composable
 fun CycleItemCard(@PreviewParameter(SampleCycleProvider::class) cycle: Cycle) {
     val context = LocalContext.current
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -49,7 +47,17 @@ fun CycleItemCard(@PreviewParameter(SampleCycleProvider::class) cycle: Cycle) {
         shape = RoundedCornerShape(0.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            val id = context.resources.getIdentifier(cycle.image, "drawable", context.packageName)
+
+            val id: Int?
+
+            if(cycle.isDefaultType) {
+              id = context.resources.getIdentifier(cycle.defaultImg, "drawable", context.packageName)
+            } else if(cycle.image !== null){
+                id = context.resources.getIdentifier(cycle.image, "drawable", context.packageName)
+            } else{
+                id = context.resources.getIdentifier(cycle.defaultImg, "drawable", context.packageName)
+            }
+
             Image(
                 modifier = Modifier
                     .padding(8.dp)
@@ -68,15 +76,18 @@ fun CycleItemCard(@PreviewParameter(SampleCycleProvider::class) cycle: Cycle) {
                     .height(1.dp)
                     .padding(end = 8.dp)
                     .background(Color.Black))
-
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(end = 8.dp, top = 4.dp)
-                ) {
-                    Text(text = cycle.finishStringFormatDate,
-                        fontSize = 12.sp,
-                        color = Color(0xFF6c6c70) )
+                if (!cycle.isDefaultType) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .padding(end = 8.dp, top = 4.dp)
+                    ) {
+                        Text(
+                            text = cycle.finishStringFormatDate,
+                            fontSize = 12.sp,
+                            color = Color(0xFF6c6c70)
+                        )
+                    }
                 }
             }
         }

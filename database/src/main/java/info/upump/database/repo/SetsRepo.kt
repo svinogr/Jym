@@ -1,12 +1,13 @@
-package info.upump.jym.db.repo
+package info.upump.database.repo
 
 import android.content.Context
 import info.upump.database.DatabaseApp
-import info.upump.jym.db.RepoActions
-import info.upump.jym.db.RoomDB
-import info.upump.jym.db.entities.SetsEntity
+import info.upump.database.RepoActions
+import info.upump.database.RoomDB
+import info.upump.database.entities.SetsEntity
 
-class SetsRepo private constructor(private var context: Context, db: RoomDB) : RepoActions<SetsEntity> {
+class SetsRepo private constructor(private var context: Context, db: RoomDB) :
+    RepoActions<SetsEntity> {
     private val setsDao = DatabaseApp.db.setsDao()
 
     companion object {
@@ -25,6 +26,14 @@ class SetsRepo private constructor(private var context: Context, db: RoomDB) : R
 
     override fun getAll(): List<SetsEntity> {
         return setsDao.getAll()
+    }
+
+    override fun getAllPersonal(): List<SetsEntity> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllDefault(): List<SetsEntity> {
+        TODO("Not yet implemented")
     }
 
     override fun save(item: SetsEntity): SetsEntity {

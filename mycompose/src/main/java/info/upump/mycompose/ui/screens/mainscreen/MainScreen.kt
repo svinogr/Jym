@@ -22,7 +22,7 @@ import androidx.compose.runtime.remember
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    val appBarTitle =  remember {
+    val appBarTitle = remember {
         mutableStateOf("")
     }
 
@@ -34,7 +34,7 @@ fun MainScreen() {
         topBar = {
             TopAppBar(
                 title = {
-                   Text(appBarTitle.value)
+                    Text(appBarTitle.value)
                 }
             )
         }

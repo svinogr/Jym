@@ -1,8 +1,8 @@
-package info.upump.jym.db.dao
+package info.upump.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import info.upump.jym.db.entities.ExerciseEntity
+import info.upump.database.entities.ExerciseEntity
 
 @Dao
 interface ExerciseDao {

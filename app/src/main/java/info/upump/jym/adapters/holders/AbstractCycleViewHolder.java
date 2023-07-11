@@ -55,6 +55,7 @@ public abstract class AbstractCycleViewHolder extends RecyclerView.ViewHolder im
         if (cycle.getImage() != null) {
             uri = Uri.parse(cycle.getImage());
         }
+        
         RequestOptions options = new RequestOptions()
                 .transforms(new RoundedCorners(50))
                 .centerCrop()

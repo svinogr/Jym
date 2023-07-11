@@ -1,12 +1,12 @@
-package info.upump.jym.db.repo
+package info.upump.database.repo
 
 import android.content.Context
-import info.upump.database.DatabaseApp
-import info.upump.jym.db.RepoActions
-import info.upump.jym.db.RoomDB
-import info.upump.jym.db.entities.ExerciseDescriptionEntity
+import info.upump.database.RepoActions
+import info.upump.database.RoomDB
+import info.upump.database.entities.ExerciseDescriptionEntity
 
-class ExerciseDescriptionRepo private constructor(private val context: Context, db: RoomDB): RepoActions<ExerciseDescriptionEntity> {
+class ExerciseDescriptionRepo private constructor(private val context: Context, db: RoomDB):
+    RepoActions<ExerciseDescriptionEntity> {
     private val exerciseDescriptionRepo =  db.exerciseDescriptionDao()
 
     companion object {
@@ -18,13 +18,21 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
             }
         }
         fun get(): RepoActions<ExerciseDescriptionEntity> {
-            return ExerciseDescriptionRepo.instance ?: throw IllegalStateException(" first need initialize repo")
+            return instance ?: throw IllegalStateException(" first need initialize repo")
         }
     }
 
 
     override fun getAll(): List<ExerciseDescriptionEntity> {
       return exerciseDescriptionRepo.getAll()
+    }
+
+    override fun getAllPersonal(): List<ExerciseDescriptionEntity> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllDefault(): List<ExerciseDescriptionEntity> {
+        TODO("Not yet implemented")
     }
 
     override fun save(item: ExerciseDescriptionEntity): ExerciseDescriptionEntity {

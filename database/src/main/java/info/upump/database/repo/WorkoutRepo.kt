@@ -1,12 +1,10 @@
-package info.upump.jym.db.repo
+package info.upump.database.repo
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.room.RoomDatabase
-import info.upump.database.DatabaseApp
-import info.upump.jym.db.RepoActions
-import info.upump.jym.db.RoomDB
-import info.upump.jym.db.entities.WorkoutEntity
+import info.upump.database.RepoActions
+import info.upump.database.RoomDB
+import info.upump.database.entities.WorkoutEntity
 
 class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<WorkoutEntity> {
     private val workoutDao = db.workoutDao()
@@ -30,7 +28,17 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
         return workoutDao.getAllWorkouts()
     }
 
+    override fun getAllPersonal(): List<WorkoutEntity> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllDefault(): List<WorkoutEntity> {
+        TODO("Not yet implemented")
+    }
+
     override fun save(item: WorkoutEntity): WorkoutEntity {
         TODO("Not yet implemented")
     }
+
+
 }

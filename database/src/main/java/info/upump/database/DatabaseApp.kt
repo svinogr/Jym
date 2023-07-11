@@ -4,12 +4,11 @@ package info.upump.database
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
-import info.upump.jym.db.RoomDB
-import info.upump.jym.db.repo.CycleRepo
-import info.upump.jym.db.repo.ExerciseDescriptionRepo
-import info.upump.jym.db.repo.ExerciseRepo
-import info.upump.jym.db.repo.SetsRepo
-import info.upump.jym.db.repo.WorkoutRepo
+import info.upump.database.repo.CycleRepo
+import info.upump.database.repo.ExerciseDescriptionRepo
+import info.upump.database.repo.ExerciseRepo
+import info.upump.database.repo.SetsRepo
+import info.upump.database.repo.WorkoutRepo
 
 import java.io.File
 

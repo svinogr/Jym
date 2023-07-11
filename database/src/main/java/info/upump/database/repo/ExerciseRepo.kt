@@ -1,12 +1,12 @@
-package info.upump.jym.db.repo
+package info.upump.database.repo
 
 import android.content.Context
-import info.upump.database.DatabaseApp
-import info.upump.jym.db.RepoActions
-import info.upump.jym.db.RoomDB
-import info.upump.jym.db.entities.ExerciseEntity
+import info.upump.database.RepoActions
+import info.upump.database.RoomDB
+import info.upump.database.entities.ExerciseEntity
 
-class ExerciseRepo private constructor(private val context: Context, db: RoomDB) : RepoActions<ExerciseEntity> {
+class ExerciseRepo private constructor(private val context: Context, db: RoomDB) :
+    RepoActions<ExerciseEntity> {
     private val exerciseRepo = db.exerciseDao()
 
     companion object {
@@ -25,6 +25,14 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
 
     override fun getAll(): List<ExerciseEntity> {
         return exerciseRepo.getAll()
+    }
+
+    override fun getAllPersonal(): List<ExerciseEntity> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllDefault(): List<ExerciseEntity> {
+        TODO("Not yet implemented")
     }
 
     override fun save(item: ExerciseEntity): ExerciseEntity {

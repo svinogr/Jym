@@ -1,18 +1,17 @@
-package info.upump.jym.db
+package info.upump.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import info.upump.jym.db.dao.CycleDao
-import info.upump.jym.db.dao.ExerciseDao
-import info.upump.jym.db.dao.ExerciseDescriptionDao
-import info.upump.jym.db.dao.SetsDao
-import info.upump.jym.db.dao.WorkoutDao
-import info.upump.jym.db.entities.CycleEntity
-import info.upump.jym.db.entities.ExerciseDescriptionEntity
-import info.upump.jym.db.entities.ExerciseEntity
-import info.upump.jym.db.entities.SetsEntity
-import info.upump.jym.db.entities.WorkoutEntity
-
+import info.upump.database.dao.CycleDao
+import info.upump.database.dao.ExerciseDao
+import info.upump.database.dao.ExerciseDescriptionDao
+import info.upump.database.dao.SetsDao
+import info.upump.database.dao.WorkoutDao
+import info.upump.database.entities.CycleEntity
+import info.upump.database.entities.ExerciseDescriptionEntity
+import info.upump.database.entities.ExerciseEntity
+import info.upump.database.entities.SetsEntity
+import info.upump.database.entities.WorkoutEntity
 
 @Database(
     version = 1, entities = [

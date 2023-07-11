@@ -1,5 +1,7 @@
 package info.upump.mycompose.models.entity
 
+import info.upump.database.entities.CycleEntity
+
 class Cycle(
     val title: String?,
     var workoutList: List<Workout> = ArrayList(),
@@ -37,4 +39,17 @@ class Cycle(
         result = 31 * result + if (image != null) image.hashCode() else 0
         return result
     }
+
+    companion object{
+        fun mapFromDbEntity(entity: CycleEntity) : Cycle {
+            val cycle = Cycle(title = entity.title, workoutList = listOf(), isDefaultType = entity.default_type == 1, image = entity.img, defaultImg = entity.default_img )
+            cycle.id = entity._id
+            cycle.setStartDate(entity.start_date)
+            cycle.setFinishDate(entity.finish_date)
+            cycle.comment = entity.comment
+
+            return cycle
+        }
+    }
 }
+

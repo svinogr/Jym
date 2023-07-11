@@ -1,12 +1,12 @@
-package info.upump.jym.db.repo
+package info.upump.database.repo
 
 import android.content.Context
-import info.upump.database.DatabaseApp
-import info.upump.jym.db.RepoActions
-import info.upump.jym.db.RoomDB
-import info.upump.jym.db.entities.CycleEntity
+import info.upump.database.RepoActions
+import info.upump.database.RoomDB
+import info.upump.database.entities.CycleEntity
 
-class CycleRepo private constructor(private val context: Context, db: RoomDB) : RepoActions<CycleEntity> {
+class CycleRepo private constructor(private val context: Context, db: RoomDB) :
+    RepoActions<CycleEntity> {
     private val cycleDao = db.cycleDao()
 
     companion object {
@@ -32,4 +32,11 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) : 
         return item.apply { _id = newId }
     }
 
+    override fun getAllPersonal() : List<CycleEntity> {
+       return cycleDao.getAllPersonalCycles()
+    }
+
+    override fun getAllDefault() : List<CycleEntity> {
+        return cycleDao.getAllDefaultCycles()
+    }
 }
