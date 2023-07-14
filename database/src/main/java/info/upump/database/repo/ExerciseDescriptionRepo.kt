@@ -22,7 +22,6 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
         }
     }
 
-
     override fun getAll(): List<ExerciseDescriptionEntity> {
       return exerciseDescriptionRepo.getAll()
     }
@@ -32,6 +31,14 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
     }
 
     override fun getAllDefault(): List<ExerciseDescriptionEntity> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getBy(id: Long): ExerciseDescriptionEntity {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllByParent(id: Long): List<ExerciseDescriptionEntity> {
         TODO("Not yet implemented")
     }
 

@@ -39,4 +39,12 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
     override fun getAllDefault() : List<CycleEntity> {
         return cycleDao.getAllDefaultCycles()
     }
+
+    override fun getBy(id: Long): CycleEntity {
+        return cycleDao.getBy(id)
+    }
+
+    override fun getAllByParent(id: Long): List<CycleEntity> {
+        TODO("Not yet implemented")
+    }
 }

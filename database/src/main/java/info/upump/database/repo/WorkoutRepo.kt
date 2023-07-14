@@ -2,6 +2,7 @@ package info.upump.database.repo
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.room.Query
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
 import info.upump.database.entities.WorkoutEntity
@@ -34,6 +35,14 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
 
     override fun getAllDefault(): List<WorkoutEntity> {
         TODO("Not yet implemented")
+    }
+
+    override fun getBy(id: Long): WorkoutEntity {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllByParent(id: Long): List<WorkoutEntity>{
+        return workoutDao.getAllByParent(id)
     }
 
     override fun save(item: WorkoutEntity): WorkoutEntity {

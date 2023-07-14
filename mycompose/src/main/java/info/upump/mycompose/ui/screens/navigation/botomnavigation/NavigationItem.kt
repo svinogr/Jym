@@ -10,13 +10,18 @@ const val MY_WORKOUT_ROUTE = "myWorkoutRoute"
 const val MY_EXERCISE_ROUTE = "myExerciseRoute"
 const val MY_SET_ROUTE = "mySetRoute"
 
-const val DEFAULT_WORKOUT_ROUTE = "defaultWorkoutRoute"
-const val DEFAULT_EXERCISE_ROUTE = "deafultExerciseRoute"
+const val DEFAULT_CYCLE_DETAIL_ROUTE = "defaultCycleDetail"
+const val DETAIL_ARGUMENT_KEY_ID = "{id}"
+const val DEFAULT_EXERCISE_ROUTE = "defaultExerciseRoute"
 const val DEFAULT_SET_ROUTE = "defaultSetRoute"
 
 const val PROFILE_SETTING_ROUTE = "myWorkoutRoute"
 
-sealed class NavigationItem(val title: Int, val rout: String, val iconId: Int = -1) {
+
+/*sealed class NavigationDetailItem(v, val route: String, val iconId: Int = -1, val ){
+
+}*/
+sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: Int = -1) {
 
     object MyCycleNavigationItem : NavigationItem(
         R.string.title_of_mystartcycle_screen,
@@ -44,6 +49,14 @@ sealed class NavigationItem(val title: Int, val rout: String, val iconId: Int = 
         DEFAULT_START_CYCLE_ROUTE,
         R.drawable.default_cycle
     )
+
+    object DefaultDetailCycleNavigationItem : NavigationItem(
+        route = "$DEFAULT_CYCLE_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
+    ) {
+        fun routeWithId(id: Long): String {
+            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+        }
+    }
 
     object ProfileNavigationItem :
         NavigationItem(

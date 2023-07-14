@@ -19,4 +19,7 @@ interface CycleDao {
 
     @Query("select * from cycles where default_type = 1")
     fun getAllDefaultCycles(): List<CycleEntity>
+    @Query("select * from cycles where _id = :id")
+    fun getBy(id: Long): CycleEntity
+
 }

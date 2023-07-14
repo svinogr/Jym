@@ -50,10 +50,8 @@ import java.util.Date
 @Composable
 fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingValues) {
 
-
     Box(
         Modifier
-            .background(Color.Red)
             .fillMaxWidth()
             .fillMaxHeight()
             .padding(paddingValues)
@@ -70,7 +68,7 @@ fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingVa
                 cycle.finishDate = Date()
                 item {
 
-                    CycleItemCard(cycle = cycle)
+                    CycleItemCard(cycle = cycle, navHostController)
                 }
             }
         }

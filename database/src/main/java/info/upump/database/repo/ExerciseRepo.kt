@@ -35,6 +35,14 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
         TODO("Not yet implemented")
     }
 
+    override fun getBy(id: Long): ExerciseEntity {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllByParent(id: Long): List<ExerciseEntity> {
+        TODO("Not yet implemented")
+    }
+
     override fun save(item: ExerciseEntity): ExerciseEntity {
         TODO("Not yet implemented")
     }
