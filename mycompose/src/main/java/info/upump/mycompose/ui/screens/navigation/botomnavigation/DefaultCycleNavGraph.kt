@@ -41,7 +41,7 @@ fun NavGraphBuilder.defaultCycleGraph(
         ) {
             val id =  it.arguments?.getLong("id")
 
-           DefaultDetailCycleScreen(id = id!!)
+           DefaultDetailCycleScreen(id = id!!, navHostController)
             topBarState.value = false
             appBarTitle.value = context.resources.getString(NavigationItem.DefaultCycleNavigationItem.title)
         }

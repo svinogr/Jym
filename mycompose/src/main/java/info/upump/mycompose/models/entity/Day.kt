@@ -9,7 +9,7 @@ enum class Day {
             return R.color.monday
         }
 
-        override fun getName(): Int {
+        override fun title(): Int {
             return R.string.day_monday
         }
     },
@@ -18,7 +18,7 @@ enum class Day {
             return R.color.tuesday
         }
 
-        override fun getName(): Int {
+        override fun title(): Int {
             return R.string.day_tuesday
         }
     },
@@ -27,7 +27,7 @@ enum class Day {
             return R.color.wednesday
         }
 
-        override fun getName(): Int {
+        override fun title(): Int {
             return R.string.day_wednesday
         }
     },
@@ -36,7 +36,7 @@ enum class Day {
             return R.color.thursday
         }
 
-        override fun getName(): Int {
+        override fun title(): Int {
             return R.string.day_thursday
         }
     },
@@ -45,7 +45,7 @@ enum class Day {
             return R.color.friday
         }
 
-        override fun getName(): Int {
+        override fun title(): Int {
             return R.string.day_friday
         }
     },
@@ -54,7 +54,7 @@ enum class Day {
             return R.color.saturday
         }
 
-        override fun getName(): Int {
+        override fun title(): Int {
             return R.string.day_saturday
         }
     },
@@ -63,11 +63,11 @@ enum class Day {
             return R.color.sunday
         }
 
-        override fun getName(): Int {
+        override fun title(): Int {
             return R.string.day_sunday
         }
     };
 
     abstract fun getColor(): Int
-    abstract fun getName(): Int
+    abstract fun title(): Int
 }

@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.navigation.botomnavigation
 
+import androidx.compose.runtime.Composable
 import info.upump.mycompose.R
 
 const val MY_START_CYCLE_ROUTE = "myStartCycleRoute"
@@ -21,12 +22,13 @@ const val PROFILE_SETTING_ROUTE = "myWorkoutRoute"
 /*sealed class NavigationDetailItem(v, val route: String, val iconId: Int = -1, val ){
 
 }*/
+
 sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: Int = -1) {
 
     object MyCycleNavigationItem : NavigationItem(
         R.string.title_of_mystartcycle_screen,
         MY_START_CYCLE_ROUTE,
-        R.drawable.my_cycle
+        R.drawable.my_cycle,
     )
 
     object MyWorkoutNavigationItem : NavigationItem(

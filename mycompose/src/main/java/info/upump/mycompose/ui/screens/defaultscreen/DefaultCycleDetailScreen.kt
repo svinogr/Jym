@@ -4,10 +4,15 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.consumedWindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -21,17 +26,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.widget.Guideline
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
+import info.upump.mycompose.models.entity.Day
+import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleDetailVM
+import info.upump.mycompose.ui.screens.screenscomponents.CycleItemCard
+import info.upump.mycompose.ui.screens.screenscomponents.WorkoutItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
 import kotlinx.coroutines.launch
 
@@ -39,7 +52,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class)
 @Composable
 fun DefaultDetailCycleScreen(
-    id: Long
+    id: Long,
+    navHostController: NavHostController
 ) {
     val cycleVM: CycleDetailVM = viewModel()
     val cycle by cycleVM.cycle.collectAsState()
@@ -48,7 +62,7 @@ fun DefaultDetailCycleScreen(
         TabsItems.TitleCycleTab,
         TabsItems.DescriptionCycleTab
     )
-    val pagerState = rememberPagerState(initialPage = tabList.size)
+    val pagerState = rememberPagerState(initialPage = 0)
     val scope = rememberCoroutineScope()
     Log.d("DefaultDetailDescriptionCycleScreen", "таг        $cycle")
     Column() {
@@ -71,7 +85,11 @@ fun DefaultDetailCycleScreen(
                 )
 
             }) {
+            Log.d("currentPage", "${tabList.size}")
             tabList.forEachIndexed { index, tab ->
+                Log.d("currentPage", "равно  ${pagerState.currentPage == 2}")
+                Log.d("currentPage", "текущ ${pagerState.currentPage}")
+                Log.d("currentPage", "index = ${index}")
                 LeadingIconTab(
                     selected = pagerState.currentPage == index,
                     icon = {},
@@ -86,7 +104,15 @@ fun DefaultDetailCycleScreen(
                 )
             }
         }
-        TabsContent(tabs = tabList, pagerState = pagerState, cycle)
+
+        TabsContent(
+            tabs = tabList,
+            pagerState = pagerState,
+            cycle,
+            navHostController = navHostController
+        )
+        Log.d("currentPage", "init = ${pagerState.initialPage}")
+
     }
     cycleVM.getDefaultCycleBy(id)
 }
@@ -94,10 +120,17 @@ fun DefaultDetailCycleScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @ExperimentalPagerApi
 @Composable
-fun TabsContent(tabs: List<TabsItems>, pagerState: PagerState, cycle: Cycle) {
+fun TabsContent(
+    tabs: List<TabsItems>,
+    pagerState: PagerState,
+    cycle: Cycle,
+    navHostController: NavHostController
+) {
     HorizontalPager(pageCount = tabs.size, state = pagerState) {
-        if (pagerState.currentPage == 0) DefaultDetailTitleCycleScreen(cycle)
-        else DefaultDetailDescriptionCycleScreen(cycle)
+        when (pagerState.currentPage) {
+            0 -> DefaultDetailTitleCycleScreen(cycle, navHostController)
+            1 -> DefaultDetailDescriptionCycleScreen(cycle)
+        }
     }
 }
 
@@ -105,41 +138,92 @@ fun TabsContent(tabs: List<TabsItems>, pagerState: PagerState, cycle: Cycle) {
 @Preview
 @Composable
 fun PreviewDefaultDetailCycleScreen() {
-
-    DefaultDetailCycleScreen(1)
+    val nav = NavHostController(LocalContext.current)
+    DefaultDetailCycleScreen(1, nav)
 }
 
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun DefaultDetailTitleCycleScreen(cycle: Cycle) {
+fun DefaultDetailTitleCycleScreen(cycle: Cycle, navHostController: NavHostController) {
     Log.d("TAG", "DefaultDetailTitleCycleScreen")
-    Column(Modifier.padding(top = 80.dp)) {
-
-        Text(text = "${cycle.title}")
+    Box(modifier = Modifier.fillMaxWidth()) {
+        LazyColumn() {
+            cycle.workoutList.forEach {
+                item {
+                    WorkoutItemCard(workout = it, navHost = navHostController)
+                }
+            }
+        }
     }
 }
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
-    Log.d("TAG", "DefaultDetailDescriptionCycleScreen")
     Log.d("DefaultDetailDescriptionCycleScreen", "таг        $cycle")
-    Column(Modifier.padding(top = 80.dp)) {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Column() {
 
-        Text(text = "${cycle.comment}")
+            ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+                val text = createRef()
+                val gui = createGuidelineFromStart(0.5f)
+                Text(modifier = Modifier.padding(start = 8.dp), text = "11111111111")
+                Text(modifier = Modifier.constrainAs(text) {
+                    start.linkTo(gui, margin = 8.dp)
+                }, text = "22222")
+            }
+            Text(modifier = Modifier.padding(8.dp), text = "${cycle.comment}")
+        }
+
+
     }
+
 }
+
 
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewDefaultDetailTitleCycleScreen() {
-    //DefaultDetailTitleCycleScreen(id = 1)
+    val cycle = Cycle(
+        title = "ПРограмма", workoutList = listOf(),
+        isDefaultType = true, image = "nach1",
+        defaultImg = "nach1"
+    )
+
+    val list = listOf(
+        Workout(
+            title = "Новая",
+            isWeekEven = false, isDefaultType = false,
+            isTemplate = false, day = Day.FRIDAY, exercises = listOf()
+        ), Workout(
+            title = "Новая1",
+            isWeekEven = false, isDefaultType = false,
+            isTemplate = false, day = Day.THURSDAY, exercises = listOf()
+        ), Workout(
+            title = "Новая2",
+            isWeekEven = false, isDefaultType = false,
+            isTemplate = false, day = Day.MONDAY, exercises = listOf()
+        )
+    )
+
+    cycle.workoutList = list
+    val nav = NavHostController(LocalContext.current)
+
+    DefaultDetailTitleCycleScreen(cycle, nav)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewDefaultDetailDescriptionCycleScreen() {
-   // DefaultDetailTitleCycleScreen(id = 1)
+    val cycle = Cycle(
+        title = "ПРограмма", workoutList = listOf(),
+        isDefaultType = true, image = "nach1",
+        defaultImg = "nach1"
+    )
+    cycle.comment =
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget"
+
+    DefaultDetailDescriptionCycleScreen(cycle)
 }
