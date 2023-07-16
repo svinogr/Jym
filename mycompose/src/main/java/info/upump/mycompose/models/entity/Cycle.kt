@@ -1,5 +1,6 @@
 package info.upump.mycompose.models.entity
 
+import android.util.Log
 import info.upump.database.entities.CycleEntity
 
 class Cycle(
@@ -21,6 +22,8 @@ class Cycle(
                 " startDate=" + startStringFormatDate +
                 ", finishDate=" + finishStringFormatDate +
                 ", userList=" + workoutList.size +
+                ", image=" + image +
+                ", defaultImg=" + defaultImg +
                 '}'
     }
 
@@ -42,12 +45,15 @@ class Cycle(
 
     companion object{
         fun mapFromDbEntity(entity: CycleEntity) : Cycle {
+            Log.d("TAG", entity.default_img!!)
             val cycle = Cycle(title = entity.title, workoutList = listOf(), isDefaultType = entity.default_type == 1, image = entity.img, defaultImg = entity.default_img )
             cycle.id = entity._id
             cycle.setStartDate(entity.start_date)
             cycle.setFinishDate(entity.finish_date)
             cycle.comment = entity.comment
-
+            cycle.image = entity.img
+            cycle.defaultImg = entity.default_img
+            Log.d("TAG", "c ${cycle.defaultImg!!}")
             return cycle
         }
     }

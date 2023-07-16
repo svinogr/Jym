@@ -1,6 +1,7 @@
 package info.upump.mycompose.ui.screens.defaultscreen
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -24,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -45,7 +47,7 @@ import info.upump.mycompose.ui.screens.tabs.TabsItems
 import info.upump.mycompose.ui.theme.MyTextLabel
 import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "DiscouragedApi")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class)
 @Composable
 fun DefaultDetailCycleScreen(
@@ -54,6 +56,7 @@ fun DefaultDetailCycleScreen(
 ) {
     val cycleVM: CycleDetailVM = viewModel()
     val cycle by cycleVM.cycle.collectAsState()
+    val load by cycleVM.stateLoading.collectAsState(true)
 
     val tabList = listOf(
         TabsItems.TitleCycleTab,
@@ -61,57 +64,65 @@ fun DefaultDetailCycleScreen(
     )
     val pagerState = rememberPagerState(initialPage = 0)
     val scope = rememberCoroutineScope()
-    Log.d("DefaultDetailDescriptionCycleScreen", "таг        $cycle")
-    Column() {
-        Image(
-            painter = painterResource(id = R.drawable.my_cycle),
-            contentDescription = "",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-        )
-        TabRow(
-            selectedTabIndex = pagerState.currentPage,
-            backgroundColor = colorResource(
-                id = R.color.colorPrimary,
-            ),
-            contentColor = Color.White,
-            indicator = { tabPositions ->
-                TabRowDefaults.Indicator(
-                    Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
-                )
-
-            }) {
-            Log.d("currentPage", "${tabList.size}")
-            tabList.forEachIndexed { index, tab ->
-                Log.d("currentPage", "равно  ${pagerState.currentPage == 2}")
-                Log.d("currentPage", "текущ ${pagerState.currentPage}")
-                Log.d("currentPage", "index = ${index}")
-                LeadingIconTab(
-                    selected = pagerState.currentPage == index,
-                    icon = {},
-                    text = {
-                        Text(text = stringResource(id = tab.title))
-                    },
-                    onClick = {
-                        scope.launch {
-                            pagerState.animateScrollToPage(index)
-                        }
-                    },
-                )
-            }
-        }
-
-        TabsContent(
-            tabs = tabList,
-            pagerState = pagerState,
-            cycle,
-            navHostController = navHostController
-        )
-        Log.d("currentPage", "init = ${pagerState.initialPage}")
-
-    }
     cycleVM.getDefaultCycleBy(id)
+    Log.d("DefaultDetailDescriptionCycleScreen", "таг   $id     $cycle")
+    val context = LocalContext.current
+    val name = context.packageName
+    Log.d("DefaultDetailDescriptionCycleScreen", "таг        $name")
+    if(!load) {
+        val identifier = context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
+
+        Column() {
+            Image(
+                painter = painterResource(id = identifier),
+                contentDescription = "",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                contentScale = ContentScale.Crop
+            )
+            TabRow(
+                selectedTabIndex = pagerState.currentPage,
+                backgroundColor = colorResource(
+                    id = R.color.colorPrimary,
+                ),
+                contentColor = Color.White,
+                indicator = { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                    )
+
+                }) {
+                Log.d("currentPage", "${tabList.size}")
+                tabList.forEachIndexed { index, tab ->
+                    Log.d("currentPage", "равно  ${pagerState.currentPage == 2}")
+                    Log.d("currentPage", "текущ ${pagerState.currentPage}")
+                    Log.d("currentPage", "index = ${index}")
+                    LeadingIconTab(
+                        selected = pagerState.currentPage == index,
+                        icon = {},
+                        text = {
+                            Text(text = stringResource(id = tab.title))
+                        },
+                        onClick = {
+                            scope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
+                    )
+                }
+            }
+
+            TabsContent(
+                tabs = tabList,
+                pagerState = pagerState,
+                cycle,
+                navHostController = navHostController
+            )
+            Log.d("currentPage", "init = ${pagerState.initialPage}")
+
+        }
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -175,10 +186,10 @@ fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
                     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                         val text = createRef()
                         val gui = createGuidelineFromStart(0.5f)
-                        Text(modifier = Modifier.padding(start = 8.dp), text = "11111111111")
+                        Text(modifier = Modifier.padding(start = 8.dp), text = cycle.startStringFormatDate)
                         Text(modifier = Modifier.constrainAs(text) {
                             start.linkTo(gui, margin = 8.dp)
-                        }, text = "22222")
+                        }, text = cycle.finishStringFormatDate)
                     }
                 }
             }
@@ -227,7 +238,7 @@ fun PreviewDefaultDetailTitleCycleScreen() {
 fun PreviewDefaultDetailDescriptionCycleScreen() {
     val cycle = Cycle(
         title = "ПРограмма", workoutList = listOf(),
-        isDefaultType = true, image = "nach1",
+        isDefaultType = true, image = "uk2",
         defaultImg = "nach1"
     )
     cycle.comment =
