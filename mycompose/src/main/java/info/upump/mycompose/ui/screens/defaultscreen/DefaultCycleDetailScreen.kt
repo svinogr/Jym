@@ -6,9 +6,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.consumedWindowInsets
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.Card
 import androidx.compose.material.LeadingIconTab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
@@ -33,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.widget.Guideline
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -43,9 +40,9 @@ import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleDetailVM
-import info.upump.mycompose.ui.screens.screenscomponents.CycleItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.WorkoutItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
+import info.upump.mycompose.ui.theme.MyTextLabel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -164,23 +161,34 @@ fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
     Log.d("DefaultDetailDescriptionCycleScreen", "таг        $cycle")
     Box(modifier = Modifier.fillMaxWidth()) {
         Column() {
+            Card(modifier = Modifier.fillMaxWidth()) {
 
-            ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                val text = createRef()
-                val gui = createGuidelineFromStart(0.5f)
-                Text(modifier = Modifier.padding(start = 8.dp), text = "11111111111")
-                Text(modifier = Modifier.constrainAs(text) {
-                    start.linkTo(gui, margin = 8.dp)
-                }, text = "22222")
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+                        val text = createRef()
+                        val gui = createGuidelineFromStart(0.5f)
+                        Text(modifier = Modifier.padding(start = 8.dp), style = MyTextLabel, text = "Дата начала")
+                        Text(modifier = Modifier.constrainAs(text) {
+                            start.linkTo(gui, margin = 8.dp)
+                        }, style = MyTextLabel, text = "Дата окончания")
+                    }
+                    ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+                        val text = createRef()
+                        val gui = createGuidelineFromStart(0.5f)
+                        Text(modifier = Modifier.padding(start = 8.dp), text = "11111111111")
+                        Text(modifier = Modifier.constrainAs(text) {
+                            start.linkTo(gui, margin = 8.dp)
+                        }, text = "22222")
+                    }
+                }
             }
-            Text(modifier = Modifier.padding(8.dp), text = "${cycle.comment}")
+            Card() {
+                Text(modifier = Modifier.padding(8.dp), text = "${cycle.comment}")
+            }
         }
-
-
     }
 
 }
-
 
 
 @Preview(showBackground = true)
