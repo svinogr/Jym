@@ -11,14 +11,13 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -29,47 +28,36 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Cycle
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
 import info.upump.mycompose.ui.screens.screenscomponents.CycleItemCard
-import java.util.Date
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingValues) {
 
-    Box(
-        Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .padding(paddingValues)
-    ) {
-        val listState = rememberLazyListState()
+    val listState = rememberLazyListState()
+    val cycleVM: CycleVM = viewModel()
+    val listCycle by cycleVM.cycles.collectAsState()
 
+    Box(modifier = Modifier.fillMaxWidth().padding(paddingValues)) {
         LazyColumn(
             state = listState
         ) {
-            for (i in 1..20) {
-                val cycle = Cycle(title = "pipec $i")
-                cycle.image = "uk1"
-                cycle.startDate = Date()
-                cycle.finishDate = Date()
-                item {
 
-                    CycleItemCard(cycle = cycle, navHostController)
-                }
+            itemsIndexed(listCycle) { _, it ->
+                CycleItemCard(cycle = it, navHostController)
             }
         }
 
@@ -85,7 +73,8 @@ fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingVa
         AnimatedVisibility(modifier = Modifier
             .padding(end = 16.dp, bottom = 16.dp)
             .align(Alignment.BottomEnd),
-            visible = fabVisibility,
+            //visible = fabVisibility,
+            visible = true,
             enter = slideInVertically {
                 // Slide in from 40 dp from the top.
                 with(density) { 40.dp.roundToPx() }
@@ -108,15 +97,19 @@ fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingVa
                 )
             }
         }
+
+
+        /*   AddPaymentFab(
+               modifier = Modifier
+                  //.align(Alignment.BottomEnd)
+                   .padding(bottom = 40.dp),
+               isVisibleBecauseOfScrolling = fabVisibility
+           )*/
+        LaunchedEffect(key1 = true) {
+            cycleVM.getAllPersonal()
+        }
     }
-
-    /*   AddPaymentFab(
-           modifier = Modifier
-              //.align(Alignment.BottomEnd)
-               .padding(bottom = 40.dp),
-           isVisibleBecauseOfScrolling = fabVisibility
-       )*/
-
+    Log.d("TAG", "${listCycle.size}")
 }
 
 

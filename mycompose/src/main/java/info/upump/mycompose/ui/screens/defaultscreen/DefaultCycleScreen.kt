@@ -6,33 +6,29 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.AppBarDefaults
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.models.entity.Cycle
+import info.upump.mycompose.ui.screens.defaultscreen.viewmodel.CycleDefaultVM
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
 import info.upump.mycompose.ui.screens.screenscomponents.CycleItemCard
-import java.util.Date
 
 
 @Composable
 fun DefaultCycleScreen(navHostController: NavHostController, paddingValues: PaddingValues) {
-    val vm: CycleVM = viewModel()
+    val vm: CycleDefaultVM = viewModel()
     val cycles by vm.cycles.collectAsState()
-    val load by vm.stateLoading.collectAsState()
+    val isLoading by vm.isLoading.collectAsState()
 
-    vm.getAllDefaultCycles()
 
     Box(
         Modifier
@@ -40,20 +36,20 @@ fun DefaultCycleScreen(navHostController: NavHostController, paddingValues: Padd
             .fillMaxHeight()
             .padding(paddingValues)
     ) {
-
         LazyColumn() {
-            cycles.forEach {
-                item {
-                    CycleItemCard(cycle = it, navHostController)
-                }
+            itemsIndexed(cycles) {index, it ->
+                CycleItemCard(cycle = it, navHostController)
             }
         }
-        if (load) {
+
+        if (isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(alignment = Alignment.Center))
         }
     }
 
-
+    LaunchedEffect(key1 = true, block ={
+        vm.getAllDefaultCycles()
+    } )
 }
 
 @Preview(showBackground = true)

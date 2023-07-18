@@ -11,14 +11,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -37,25 +40,19 @@ class SampleCycleProvider : PreviewParameterProvider<Cycle> {
     override val values =  sequenceOf(Cycle(title = "Новая", image = "uk1"))
 }
 
-/*class SampleRouteCycleProvider : PreviewParameterProvider<(s: String)-> Unit> {
-    override val values =  sequenceOf(("s"))
-}*/
-
-//@Preview(showBackground = true)
 @Composable
 fun CycleItemCard(@PreviewParameter(SampleCycleProvider::class) cycle: Cycle, navHost: NavHostController) {
     val context = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
-         //   .padding(4.dp).clickable {navHost.navigate( DEFAULT_CYCLE_DETAIL_ROUTE + "/${cycle.id}" )
-            .padding(4.dp).clickable {navHost.navigate( NavigationItem.DefaultDetailCycleNavigationItem.routeWithId(cycle.id) )
-           // .padding(4.dp).clickable {navHost.navigate( NavigationItem.DefaultDetailCycleNavigationItem.route )
+            .padding(1.dp).clickable {navHost.navigate( NavigationItem.DefaultDetailCycleNavigationItem.routeWithId(cycle.id) )
                 },
-        elevation = CardDefaults.cardElevation(4.dp),
+        elevation = CardDefaults.cardElevation(2.dp),
         shape = RoundedCornerShape(0.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
 
             val id: Int?
 
@@ -71,19 +68,24 @@ fun CycleItemCard(@PreviewParameter(SampleCycleProvider::class) cycle: Cycle, na
                 modifier = Modifier
                     .padding(8.dp)
                     .height(50.dp)
-                    .width(50.dp),
+                    .width(50.dp).
+                    clip(CircleShape),
                 painter = painterResource(id = id), contentDescription = "image",
                 contentScale = ContentScale.Crop
                 // painter = painterResource(id = R.drawable.my_cycle), contentDescription = "sdwdwd"
             )
 
-            Column() {
+            Column(modifier = Modifier
+                .fillMaxWidth()) {
                 Text(text = cycle.title!!, modifier = Modifier, fontSize = 16.sp, maxLines = 1)
-                Divider(modifier = Modifier
-                    .fillMaxWidth()
+
+                if (!cycle.isDefaultType) { Divider(modifier = Modifier
+
                     .height(1.dp)
                     .padding(end = 8.dp)
                     .background(Color.Black))
+                }
+
                 if (!cycle.isDefaultType) {
                     Box(
                         modifier = Modifier

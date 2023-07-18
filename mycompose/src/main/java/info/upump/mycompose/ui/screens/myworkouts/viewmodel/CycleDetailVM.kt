@@ -16,6 +16,7 @@ class CycleDetailVM : BaseVMWithStateLoad() {
     private val _cycle = MutableStateFlow(Cycle(title = ""))
     val cycle: StateFlow<Cycle> = _cycle.asStateFlow()
 
+
     fun getDefaultCycleBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             _stateLoading.value = true

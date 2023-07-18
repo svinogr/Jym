@@ -1,7 +1,7 @@
 package info.upump.mycompose.ui.screens.defaultscreen
 
 import android.annotation.SuppressLint
-import android.net.Uri
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -14,24 +14,36 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
-import androidx.compose.material.LeadingIconTab
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -48,7 +60,7 @@ import info.upump.mycompose.ui.theme.MyTextLabel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "DiscouragedApi")
-@OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class, ExperimentalTextApi::class)
 @Composable
 fun DefaultDetailCycleScreen(
     id: Long,
@@ -56,73 +68,91 @@ fun DefaultDetailCycleScreen(
 ) {
     val cycleVM: CycleDetailVM = viewModel()
     val cycle by cycleVM.cycle.collectAsState()
-    val load by cycleVM.stateLoading.collectAsState(true)
+
+    val isLoading = cycleVM.isLoading.collectAsState(true)
 
     val tabList = listOf(
         TabsItems.TitleCycleTab,
         TabsItems.DescriptionCycleTab
     )
-    val pagerState = rememberPagerState(initialPage = 0)
+    val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
-    cycleVM.getDefaultCycleBy(id)
-    Log.d("DefaultDetailDescriptionCycleScreen", "таг   $id     $cycle")
-    val context = LocalContext.current
-    val name = context.packageName
-    Log.d("DefaultDetailDescriptionCycleScreen", "таг        $name")
-    if(!load) {
-        val identifier = context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
+    Log.d("TAG", "${isLoading.value}")
 
-        Column() {
+    LaunchedEffect(key1 = true) {
+        cycleVM.getDefaultCycleBy(id)
+    }
+
+    Column {
+        Box() {
+            val identificatorImg = remember {
+                mutableStateOf<Int>(R.drawable.logo_upump_round)
+            }
+            if (!isLoading.value) {
+                identificatorImg.value = getImage(cycle, LocalContext.current)
+            }
+
             Image(
-                painter = painterResource(id = identifier),
+                painter = painterResource(id = identificatorImg.value),
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp),
                 contentScale = ContentScale.Crop
             )
-            TabRow(
+            TabRow(modifier = Modifier
+                .align(alignment = Alignment.BottomCenter)
+                .fillMaxWidth(),
                 selectedTabIndex = pagerState.currentPage,
-                backgroundColor = colorResource(
-                    id = R.color.colorPrimary,
-                ),
+                backgroundColor = Color.Transparent,
                 contentColor = Color.White,
                 indicator = { tabPositions ->
                     TabRowDefaults.Indicator(
                         Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
                     )
-
-                }) {
-                Log.d("currentPage", "${tabList.size}")
+                })
+            {
                 tabList.forEachIndexed { index, tab ->
-                    Log.d("currentPage", "равно  ${pagerState.currentPage == 2}")
-                    Log.d("currentPage", "текущ ${pagerState.currentPage}")
-                    Log.d("currentPage", "index = ${index}")
-                    LeadingIconTab(
+                    Tab(
                         selected = pagerState.currentPage == index,
-                        icon = {},
                         text = {
-                            Text(text = stringResource(id = tab.title))
+                            Text(
+                                text = stringResource(id = tab.title), style =
+                                TextStyle.Default.copy(
+                                    fontSize = 20.sp,
+                                    drawStyle = Stroke(
+                                        miter = 1f, width = 4f, join = StrokeJoin.Round
+                                    )
+                                )
+                            )
                         },
                         onClick = {
                             scope.launch {
-                                pagerState.animateScrollToPage(index)
+                                pagerState.animateScrollToPage(page = index)
                             }
                         },
                     )
                 }
             }
-
-            TabsContent(
-                tabs = tabList,
-                pagerState = pagerState,
-                cycle,
-                navHostController = navHostController
-            )
-            Log.d("currentPage", "init = ${pagerState.initialPage}")
-
         }
+
+        TabsContent(
+            tabs = tabList,
+            pagerState = pagerState,
+            cycle,
+            navHostController = navHostController
+        )
     }
+
+
+    if (isLoading.value) {
+        CircularProgressIndicator()
+    }
+}
+
+fun getImage(cycle: Cycle, context: Context): Int {
+    val name = context.packageName
+    return context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -134,16 +164,17 @@ fun TabsContent(
     cycle: Cycle,
     navHostController: NavHostController
 ) {
-    HorizontalPager(pageCount = tabs.size, state = pagerState) {
-        when (pagerState.currentPage) {
+    HorizontalPager(pageCount = tabs.size, state = pagerState, verticalAlignment = Alignment.Top) {
+        when (it) {
             0 -> DefaultDetailTitleCycleScreen(cycle, navHostController)
             1 -> DefaultDetailDescriptionCycleScreen(cycle)
         }
     }
 }
 
+
 @OptIn(ExperimentalFoundationApi::class)
-@Preview
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewDefaultDetailCycleScreen() {
     val nav = NavHostController(LocalContext.current)
@@ -171,14 +202,18 @@ fun DefaultDetailTitleCycleScreen(cycle: Cycle, navHostController: NavHostContro
 fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
     Log.d("DefaultDetailDescriptionCycleScreen", "таг        $cycle")
     Box(modifier = Modifier.fillMaxWidth()) {
-        Column() {
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Card(modifier = Modifier.fillMaxWidth()) {
 
                 Column(modifier = Modifier.fillMaxWidth()) {
                     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                         val text = createRef()
                         val gui = createGuidelineFromStart(0.5f)
-                        Text(modifier = Modifier.padding(start = 8.dp), style = MyTextLabel, text = "Дата начала")
+                        Text(
+                            modifier = Modifier.padding(start = 8.dp),
+                            style = MyTextLabel,
+                            text = "Дата начала"
+                        )
                         Text(modifier = Modifier.constrainAs(text) {
                             start.linkTo(gui, margin = 8.dp)
                         }, style = MyTextLabel, text = "Дата окончания")
@@ -186,7 +221,10 @@ fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
                     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                         val text = createRef()
                         val gui = createGuidelineFromStart(0.5f)
-                        Text(modifier = Modifier.padding(start = 8.dp), text = cycle.startStringFormatDate)
+                        Text(
+                            modifier = Modifier.padding(start = 8.dp),
+                            text = cycle.startStringFormatDate
+                        )
                         Text(modifier = Modifier.constrainAs(text) {
                             start.linkTo(gui, margin = 8.dp)
                         }, text = cycle.finishStringFormatDate)
@@ -196,13 +234,14 @@ fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
             Card() {
                 Text(modifier = Modifier.padding(8.dp), text = "${cycle.comment}")
             }
+
         }
     }
 
 }
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewDefaultDetailTitleCycleScreen() {
     val cycle = Cycle(
@@ -233,7 +272,7 @@ fun PreviewDefaultDetailTitleCycleScreen() {
     DefaultDetailTitleCycleScreen(cycle, nav)
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewDefaultDetailDescriptionCycleScreen() {
     val cycle = Cycle(
@@ -242,7 +281,7 @@ fun PreviewDefaultDetailDescriptionCycleScreen() {
         defaultImg = "nach1"
     )
     cycle.comment =
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget"
-
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing . Aelit" +
+                "enean commodo ligula eget dolor. Aenean massa. "
     DefaultDetailDescriptionCycleScreen(cycle)
 }
