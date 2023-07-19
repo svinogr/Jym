@@ -22,7 +22,7 @@ fun NavGraph(
         startDestination = MY_CYCLE_ROOT_ROUTE,
         route = NAVGRAPH_ROOT_ROUTE
     ) {
-        myCycleGraph(navHostController, appBarTitle, context, paddingValues)
+        myCycleGraph(navHostController, appBarTitle, context, paddingValues, topBarState)
 
         defaultCycleGraph(navHostController, appBarTitle, context, paddingValues, topBarState)
 

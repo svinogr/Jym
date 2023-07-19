@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "sets")
 data class SetsEntity(
     @PrimaryKey(autoGenerate = true)
-    var _id: Long = 0
+    var _id: Long
 ) {
     @ColumnInfo
     var comment: String? = ""
@@ -26,4 +26,7 @@ data class SetsEntity(
 
     @ColumnInfo
     var parent_id: Long? = 0
+
+    @ColumnInfo
+    var past_set: Double? = 0.0
 }

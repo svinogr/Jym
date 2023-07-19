@@ -46,7 +46,7 @@ fun CycleItemCard(@PreviewParameter(SampleCycleProvider::class) cycle: Cycle, na
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(1.dp).clickable {navHost.navigate( NavigationItem.DefaultDetailCycleNavigationItem.routeWithId(cycle.id) )
+            .padding(1.dp).clickable {navHost.navigate( NavigationItem.DetailCycleNavigationItem.routeWithId(cycle.id) )
                 },
         elevation = CardDefaults.cardElevation(2.dp),
         shape = RoundedCornerShape(0.dp)
@@ -54,16 +54,13 @@ fun CycleItemCard(@PreviewParameter(SampleCycleProvider::class) cycle: Cycle, na
         Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
 
-            val id: Int?
+            var id: Int?
 
-            if(cycle.isDefaultType) {
-              id = context.resources.getIdentifier(cycle.defaultImg, "drawable", context.packageName)
-            } else if(cycle.image !== null){
-                id = context.resources.getIdentifier(cycle.image, "drawable", context.packageName)
-            } else{
+
+            if (cycle.defaultImg != null){
                 id = context.resources.getIdentifier(cycle.defaultImg, "drawable", context.packageName)
-            }
-
+            } else id = context.resources.getIdentifier("drew", "drawable", context.packageName)
+            
             Image(
                 modifier = Modifier
                     .padding(8.dp)

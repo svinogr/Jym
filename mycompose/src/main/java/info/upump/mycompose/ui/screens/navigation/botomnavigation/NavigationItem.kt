@@ -12,7 +12,9 @@ const val MY_EXERCISE_ROUTE = "myExerciseRoute"
 const val MY_SET_ROUTE = "mySetRoute"
 
 const val DEFAULT_CYCLE_DETAIL_ROUTE = "defaultCycleDetail"
+const val CYCLE_DETAIL_ROUTE = "cycleDetail"
 const val DETAIL_ARGUMENT_KEY_ID = "{id}"
+
 const val DEFAULT_EXERCISE_ROUTE = "defaultExerciseRoute"
 const val DEFAULT_SET_ROUTE = "defaultSetRoute"
 
@@ -54,6 +56,13 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
 
     object DefaultDetailCycleNavigationItem : NavigationItem(
         route = "$DEFAULT_CYCLE_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
+    ) {
+        fun routeWithId(id: Long): String {
+            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+        }
+    }
+   object DetailCycleNavigationItem : NavigationItem(
+        route = "$CYCLE_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
     ) {
         fun routeWithId(id: Long): String {
             return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())

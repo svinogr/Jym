@@ -14,6 +14,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,8 +35,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -51,7 +54,9 @@ fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingVa
     val cycleVM: CycleVM = viewModel()
     val listCycle by cycleVM.cycles.collectAsState()
 
-    Box(modifier = Modifier.fillMaxWidth().padding(paddingValues)) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(paddingValues)) {
         LazyColumn(
             state = listState
         ) {
@@ -62,19 +67,17 @@ fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingVa
         }
 
         val fabVisibility by remember {
-
             derivedStateOf {
-                listState.firstVisibleItemIndex > 0
+                listState.isScrollInProgress != true
             }
         }
-        Log.d("TAG", "$fabVisibility ${listState.firstVisibleItemIndex}")
 
         val density = LocalDensity.current
         AnimatedVisibility(modifier = Modifier
             .padding(end = 16.dp, bottom = 16.dp)
             .align(Alignment.BottomEnd),
-            //visible = fabVisibility,
-            visible = true,
+            visible = fabVisibility,
+            //visible = true,
             enter = slideInVertically {
                 // Slide in from 40 dp from the top.
                 with(density) { 40.dp.roundToPx() }
@@ -98,43 +101,15 @@ fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingVa
             }
         }
 
-
-        /*   AddPaymentFab(
-               modifier = Modifier
-                  //.align(Alignment.BottomEnd)
-                   .padding(bottom = 40.dp),
-               isVisibleBecauseOfScrolling = fabVisibility
-           )*/
         LaunchedEffect(key1 = true) {
             cycleVM.getAllPersonal()
         }
     }
-    Log.d("TAG", "${listCycle.size}")
 }
 
-
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
-private fun AddPaymentFab(
-    modifier: Modifier,
-    isVisibleBecauseOfScrolling: Boolean,
-) {
-    val density = LocalDensity.current
-    AnimatedVisibility(
-        modifier = modifier,
-        visible = isVisibleBecauseOfScrolling,
-        enter = slideInVertically {
-            with(density) { 40.dp.roundToPx() }
-        } + fadeIn(),
-        exit = fadeOut(
-            animationSpec = keyframes {
-                this.durationMillis = 120
-            }
-        )
-    ) {
-        ExtendedFloatingActionButton(
-            text = { Text(text = "Add Payment") },
-            onClick = { },
-            icon = { Icon(Icons.Filled.Add, "Add Payment") }
-        )
-    }
+fun PreviewCycleScreen() {
+    MyCycleScreen(navHostController = NavHostController(LocalContext.current), paddingValues = PaddingValues(16.dp))
 }
+

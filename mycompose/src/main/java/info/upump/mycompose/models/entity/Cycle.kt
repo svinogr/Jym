@@ -45,7 +45,7 @@ class Cycle(
 
     companion object{
         fun mapFromDbEntity(entity: CycleEntity) : Cycle {
-            Log.d("TAG", entity.default_img!!)
+//            Log.d("TAG", entity.default_img!!)
             val cycle = Cycle(title = entity.title, workoutList = listOf(), isDefaultType = entity.default_type == 1, image = entity.img, defaultImg = entity.default_img )
             cycle.id = entity._id
             cycle.setStartDate(entity.start_date)
@@ -53,7 +53,7 @@ class Cycle(
             cycle.comment = entity.comment
             cycle.image = entity.img
             cycle.defaultImg = entity.default_img
-            Log.d("TAG", "c ${cycle.defaultImg!!}")
+//            Log.d("TAG", "c ${cycle.defaultImg!!}")
             return cycle
         }
     }

@@ -23,7 +23,7 @@ class CycleVM : BaseVMWithStateLoad() {
         viewModelScope.launch(
             Dispatchers.IO
         ) {
-            val list = CycleRepo.get().getAllDefault()
+            val list = CycleRepo.get().getAllPersonal()
             _cycles.value = list.map {Cycle.mapFromDbEntity(it) }
             _stateLoading.value = false
         }

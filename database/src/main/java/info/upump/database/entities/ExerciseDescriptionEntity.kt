@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "exercise_description")
 data class ExerciseDescriptionEntity(
     @PrimaryKey(autoGenerate = true)
-    var _id: Long = 0
+    var _id: Long
 ) {
     @ColumnInfo
     var default_img: String? = ""

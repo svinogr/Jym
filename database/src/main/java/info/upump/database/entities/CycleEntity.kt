@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "cycles")
 data class CycleEntity(
     @PrimaryKey(autoGenerate = true)
-    var _id: Long = 0,
+    var _id: Long,
 ) {
     @ColumnInfo
     var title: String = ""
