@@ -1,12 +1,27 @@
 package info.upump.mycompose.ui.screens.mainscreen
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.estimateAnimationDurationMillis
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
@@ -18,6 +33,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,16 +50,51 @@ fun MainScreen() {
     val topBarState = remember {
         mutableStateOf(true)
     }
-
+    val density = LocalDensity.current
     Scaffold(
         bottomBar =
         {
-            if (topBarState.value) {
+
+            AnimatedVisibility(modifier = Modifier.fillMaxWidth(),
+                visible = topBarState.value,
+                //visible = true,
+                enter = slideInVertically() {
+                    // Slide in from 40 dp from the top.
+                    with(density) { 60.dp.roundToPx() }
+                } /*+ expandHorizontally(
+                    // Expand from the top.
+                    expandFrom = Alignment.End
+                ) */+ fadeIn(
+                    // Fade in with the initial alpha of 0.3f.
+                    initialAlpha = 0.3f
+                ),
+                exit = slideOutVertically(){ with(density){60.dp.roundToPx()} }
+                // + shrinkHorizontally()
+            ) {
                 MyBottomNavigation(navController)
             }
+
         },
         topBar = {
-            if (topBarState.value) {
+
+            AnimatedVisibility(modifier = Modifier.fillMaxWidth(),
+                visible = topBarState.value,
+                //visible = true,
+
+                enter = slideInVertically() {
+                    // Slide in from 40 dp from the top.
+                    with(density) { -60.dp.roundToPx() }
+                } /*+ expandHorizontally(
+                    // Expand from the top.
+                    expandFrom = Alignment.End
+                ) */+ fadeIn(
+                    // Fade in with the initial alpha of 0.3f.
+                    initialAlpha = 0.3f
+                ),
+                exit = slideOutVertically(){
+                    // Slide in from 40 dp from the top.
+                    with(density) { -60.dp.roundToPx() } }
+            ) {
                 TopAppBar(
                     title = {
                         Text(appBarTitle.value)
@@ -53,3 +107,4 @@ fun MainScreen() {
         NavGraph(navController, appBarTitle, padding, topBarState)
     }
 }
+

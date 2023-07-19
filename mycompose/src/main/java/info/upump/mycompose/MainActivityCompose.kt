@@ -47,7 +47,7 @@ class MainActivityCompose : ComponentActivity() {
 suspend fun j(contex: Context){
     coroutineScope {
         lazy {
-            val db = DatabaseApp(contex)
+            DatabaseApp(contex)
             DatabaseApp.db.cycleDao().getAllCycles() }
     }
 }
