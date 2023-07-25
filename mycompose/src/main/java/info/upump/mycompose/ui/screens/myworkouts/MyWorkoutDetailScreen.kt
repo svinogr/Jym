@@ -5,6 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
 @Composable
-fun MyWorkoutsScreen(navHostController: NavHostController) {
-    Text(text = "MyWorkoutsScreen")
+fun MyWorkoutDetailScreen(id: Long, navHostController: NavHostController) {
+    Text(text = "MyWorkoutsScreen $id")
 }

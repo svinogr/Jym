@@ -54,15 +54,17 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
             .fillMaxWidth()
             .padding(8.dp)
             .clickable {
-                navHost.navigate(NavigationItem.DefaultDetailCycleNavigationItem.routeWithId(workout.id))
+                navHost.navigate(NavigationItem.DetailWorkoutNavigationItem.routeWithId(workout.id))
             },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.background(MaterialTheme.colorScheme.background
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.background(
+                MaterialTheme.colorScheme.background
             )
-           ) {
+        ) {
 
             val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
             bitmap.eraseColor(context.getColor(workout.day!!.getColor()))
@@ -70,8 +72,8 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
                 modifier = Modifier
                     .padding(8.dp)
                     .height(50.dp)
-                    .width(50.dp).
-                    clip(CircleShape),
+                    .width(50.dp)
+                    .clip(CircleShape),
                 bitmap = bitmap.asImageBitmap(), contentDescription = "image"
                 // painter = painterResource(id = R.drawable.my_cycle), contentDescription = "sdwdwd"
             )
@@ -85,17 +87,15 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
                         .padding(end = 8.dp)
                         .background(Color.Black)
                 )
-                if (workout.isDefaultType) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.End)
-                            .padding(end = 8.dp, top = 4.dp)
-                    ) {
-                        Text(
-                            text = context.getString(workout.day!!.title()),
-                            style = MyTextLabel
-                        )
-                    }
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .padding(end = 8.dp, top = 4.dp)
+                ) {
+                    Text(
+                        text = context.getString(workout.day!!.title()),
+                        style = MyTextLabel
+                    )
                 }
             }
         }
