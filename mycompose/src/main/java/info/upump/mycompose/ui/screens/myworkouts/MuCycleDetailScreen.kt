@@ -3,11 +3,7 @@ package info.upump.mycompose.ui.screens.myworkouts
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -41,7 +37,6 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -60,7 +55,6 @@ import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.defaultscreen.DefaultDetailCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleDetailVM
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.MyBottomNavigation
 import info.upump.mycompose.ui.screens.screenscomponents.WorkoutItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
 import info.upump.mycompose.ui.theme.MyTextLabel
@@ -100,7 +94,7 @@ fun MyCycleDetailScreen(
             }
 
             if (!isLoading.value) {
-                identificatorImg.value = getImage(cycle, LocalContext.current)
+                identificatorImg.value = getCycleImage(cycle, LocalContext.current)
             }
 
             Image(
@@ -156,15 +150,13 @@ fun MyCycleDetailScreen(
     }
 
 
-
-
     if (isLoading.value) {
         CircularProgressIndicator()
     }
 }
 
 
-fun getImage(cycle: Cycle, context: Context): Int {
+fun getCycleImage(cycle: Cycle, context: Context): Int {
     val name = context.packageName
     val id: Int
 

@@ -1,7 +1,10 @@
 package info.upump.mycompose.models.entity
 
+import info.upump.database.entities.CycleEntity
+import info.upump.database.entities.ExerciseEntity
+
 class Exercise(
-    var title: String?,
+    var title: String = "",
     var typeMuscle: TypeMuscle? = null,
     var isDefaultType: Boolean = false,
     var isTemplate: Boolean = false,
@@ -26,5 +29,17 @@ class Exercise(
                 ", comment='" + comment + '\'' +
                 ", parentId=" + parentId +
                 '}'
+    }
+
+    companion object{
+        fun mapFromDbEntity(entity: ExerciseEntity) : Exercise {
+            val exercise = Exercise()
+            exercise.id = entity._id
+            exercise.parentId = entity.parent_id!!
+            exercise.descriptionId = entity.description_id!!
+          //TODO проверить
+
+            return exercise
+        }
     }
 }

@@ -75,7 +75,6 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
                     .width(50.dp)
                     .clip(CircleShape),
                 bitmap = bitmap.asImageBitmap(), contentDescription = "image"
-                // painter = painterResource(id = R.drawable.my_cycle), contentDescription = "sdwdwd"
             )
 
             Column() {

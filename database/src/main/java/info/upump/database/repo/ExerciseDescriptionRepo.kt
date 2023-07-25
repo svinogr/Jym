@@ -7,7 +7,7 @@ import info.upump.database.entities.ExerciseDescriptionEntity
 
 class ExerciseDescriptionRepo private constructor(private val context: Context, db: RoomDB):
     RepoActions<ExerciseDescriptionEntity> {
-    private val exerciseDescriptionRepo =  db.exerciseDescriptionDao()
+    private val exerciseDescriptionDao =  db.exerciseDescriptionDao()
 
     companion object {
         private var instance: ExerciseDescriptionRepo? = null
@@ -23,7 +23,7 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
     }
 
     override fun getAll(): List<ExerciseDescriptionEntity> {
-      return exerciseDescriptionRepo.getAll()
+      return exerciseDescriptionDao.getAll()
     }
 
     override fun getAllPersonal(): List<ExerciseDescriptionEntity> {
@@ -35,11 +35,14 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
     }
 
     override fun getBy(id: Long): ExerciseDescriptionEntity {
-        TODO("Not yet implemented")
+       return exerciseDescriptionDao.getBy(id)
     }
 
     override fun getAllByParent(id: Long): List<ExerciseDescriptionEntity> {
         TODO("Not yet implemented")
+    }
+     fun getByParent(id: Long): ExerciseDescriptionEntity {
+         TODO("Not yet implemented")
     }
 
     override fun save(item: ExerciseDescriptionEntity): ExerciseDescriptionEntity {

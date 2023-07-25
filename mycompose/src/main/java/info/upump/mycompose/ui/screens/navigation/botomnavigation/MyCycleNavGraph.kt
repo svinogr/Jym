@@ -1,6 +1,7 @@
 package info.upump.mycompose.ui.screens.navigation.botomnavigation
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.MutableState
@@ -68,6 +69,7 @@ fun NavGraphBuilder.myCycleGraph(
         ) {
             val id = it.arguments?.getLong("id")
             //topBarState.value = false он уже должен был быть убран
+            Log.d("TAG", "id = $id")
 
             MyWorkoutDetailScreen(id = id!!, navHostController)
 

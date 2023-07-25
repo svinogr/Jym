@@ -35,6 +35,8 @@ class Workout(
                 //TODO вставить настоящис список
                 exercises = listOf<Exercise>()
             )
+            workout.id = workoutEntity._id
+
             return workout
         }
     }

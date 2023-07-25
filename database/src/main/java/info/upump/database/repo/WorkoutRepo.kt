@@ -38,7 +38,7 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
     }
 
     override fun getBy(id: Long): WorkoutEntity {
-        TODO("Not yet implemented")
+      return workoutDao.getById(id)
     }
 
     override fun getAllByParent(id: Long): List<WorkoutEntity>{

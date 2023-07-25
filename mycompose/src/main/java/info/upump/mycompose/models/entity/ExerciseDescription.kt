@@ -1,5 +1,7 @@
 package info.upump.mycompose.models.entity
 
+import info.upump.database.entities.ExerciseDescriptionEntity
+import info.upump.database.entities.ExerciseEntity
 import java.util.Objects
 
 class ExerciseDescription(
@@ -26,5 +28,16 @@ class ExerciseDescription(
                 ", img='" + img + '\'' +
                 ", title='" + title + '\'' +
                 '}'
+    }
+
+    companion object {
+        fun mapFromDbEntity(entity: ExerciseDescriptionEntity): ExerciseDescription {
+            val exercDescription = ExerciseDescription(entity._id)
+            exercDescription.img = entity.img
+            exercDescription.defaultImg = entity.default_img
+            exercDescription.title = entity.title
+
+            return exercDescription
+        }
     }
 }

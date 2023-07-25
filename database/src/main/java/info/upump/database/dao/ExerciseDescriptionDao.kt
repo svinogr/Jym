@@ -8,4 +8,8 @@ import info.upump.database.entities.ExerciseDescriptionEntity
 interface ExerciseDescriptionDao {
     @Query("select * from exercise_description")
     fun getAll(): List<ExerciseDescriptionEntity>
+
+    @Query("select * from exercise_description where _id= :id")
+    fun getBy(id: Long): ExerciseDescriptionEntity
+
 }
