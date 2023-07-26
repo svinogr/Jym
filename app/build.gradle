@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "info.upump.jym"
         minSdk 27
-        targetSdk 33
+        targetSdk 34
         versionCode 18
         versionName "2.01"
 
@@ -61,6 +61,8 @@ dependencies {
     implementation project(path: ':mycompose')
     implementation project(path: ':database')
     implementation 'androidx.room:room-ktx:2.5.2'
+    implementation 'androidx.core:core-ktx:+'
+   // implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     //implementation files('src\\lib\\folderpicker.jar')
     //implementation files('lib/android-folder-info.upump.jym.picker-library-2.4.jar')
    // implementation files('lib\\android-folder-info.upump.jym.picker-library-master.jar')

@@ -29,13 +29,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.theme.MyTextLabel
-import info.upump.mycompose.ui.theme.MyTextTitleLabel
+import info.upump.mycompose.ui.theme.MyTextLabel12
+import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 
 class SampleWorkoutProvider : PreviewParameterProvider<Workout> {
     override val values = sequenceOf(
@@ -82,7 +81,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
             Column() {
                 Text(
                     text = workout.title!!,
-                    style = MyTextTitleLabel,
+                    style = MyTextTitleLabel16,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -100,7 +99,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
                 ) {
                     Text(
                         text = context.getString(workout.day!!.title()),
-                        style = MyTextLabel
+                        style = MyTextLabel12
                     )
                 }
             }

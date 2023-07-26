@@ -1,6 +1,5 @@
 package info.upump.mycompose.ui.screens.screenscomponents
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,16 +26,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.DEFAULT_CYCLE_DETAIL_ROUTE
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.theme.MyTextTitleLabel
+import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 
 class SampleCycleProvider : PreviewParameterProvider<Cycle> {
     override val values = sequenceOf(Cycle(title = "Новая", image = "uk1"))
@@ -55,7 +52,7 @@ fun CycleItemCard(
             .clickable {
                 navHost.navigate(NavigationItem.DetailCycleNavigationItem.routeWithId(cycle.id))
             },
-        elevation = CardDefaults.cardElevation(2.dp),
+        elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp)
     ) {
         Row(
@@ -96,7 +93,7 @@ fun CycleItemCard(
             ) {
                 Text(
                     text = cycle.title!!,
-                    style = MyTextTitleLabel,
+                    style = MyTextTitleLabel16,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

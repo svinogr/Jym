@@ -27,8 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,7 +55,7 @@ import info.upump.mycompose.ui.screens.defaultscreen.DefaultDetailCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.WorkoutItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
-import info.upump.mycompose.ui.theme.MyTextLabel
+import info.upump.mycompose.ui.theme.MyTextLabel12
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "DiscouragedApi")
@@ -89,14 +87,6 @@ fun MyCycleDetailScreen(
 
     Column {
         Box() {
-            /*    val identificatorImg = remember {
-                    mutableStateOf<Int>(R.drawable.logo_upump_round)
-                }
-
-                if (!isLoading.value) {
-                    identificatorImg.value = getCycleImage(cycle, LocalContext.current)
-                }
-    */
             Image(
                 painter = if (isLoading.value) {
                     painterResource(id = R.drawable.logo_upump_round)
@@ -234,12 +224,12 @@ fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
                         val gui = createGuidelineFromStart(0.5f)
                         Text(
                             modifier = Modifier.padding(start = 8.dp),
-                            style = MyTextLabel,
+                            style = MyTextLabel12,
                             text = "Дата начала"
                         )
                         Text(modifier = Modifier.constrainAs(text) {
                             start.linkTo(gui, margin = 8.dp)
-                        }, style = MyTextLabel, text = "Дата окончания")
+                        }, style = MyTextLabel12, text = "Дата окончания")
                     }
                     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                         val text = createRef()

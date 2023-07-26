@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace 'info.upump.database'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 24
-        targetSdk 33
+        targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -41,6 +41,8 @@ dependencies {
    // androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     /*room*/
     implementation("androidx.room:room-runtime:2.5.2")
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     annotationProcessor("androidx.room:room-compiler:2.5.2")
     // To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:2.5.2")

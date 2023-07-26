@@ -18,7 +18,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
@@ -56,7 +55,7 @@ import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.WorkoutItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
-import info.upump.mycompose.ui.theme.MyTextLabel
+import info.upump.mycompose.ui.theme.MyTextLabel12
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "DiscouragedApi")
@@ -211,12 +210,12 @@ fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
                         val gui = createGuidelineFromStart(0.5f)
                         Text(
                             modifier = Modifier.padding(start = 8.dp),
-                            style = MyTextLabel,
+                            style = MyTextLabel12,
                             text = "Дата начала"
                         )
                         Text(modifier = Modifier.constrainAs(text) {
                             start.linkTo(gui, margin = 8.dp)
-                        }, style = MyTextLabel, text = "Дата окончания")
+                        }, style = MyTextLabel12, text = "Дата окончания")
                     }
                     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                         val text = createRef()

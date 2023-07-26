@@ -16,7 +16,8 @@ const val CYCLE_DETAIL_ROUTE = "cycleDetail"
 
 const val DEFAULT_WORKOUT_DETAIL_ROUTE = "defaultWorkoutDetail"
 const val WORKOUT_DETAIL_ROUTE = "workoutDetail"
-
+const val EXERCISE_DETAIL_ROUTE = "workoutDetail"
+const val SETS_DETAIL_ROUTE = "setsDetail"
 const val DETAIL_ARGUMENT_KEY_ID = "{id}"
 
 const val DEFAULT_EXERCISE_ROUTE = "defaultExerciseRoute"
@@ -86,4 +87,13 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
             PROFILE_START_CYCLE_ROUTE,
             R.drawable.profile
         )
+
+    object DetailSetDetailNavigationItem : NavigationItem(
+        route = "$SETS_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
+    ){
+        fun routeWithId(id: Long): String {
+            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+        }
+    }
+
 }
