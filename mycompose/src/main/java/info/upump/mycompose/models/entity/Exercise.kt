@@ -27,7 +27,7 @@ class Exercise(
                 ", id=" + id +
                 ", title='" + title + '\'' +
                 ", comment='" + comment + '\'' +
-                ", parentId=" + parentId +
+                ", parentId=" + parentId + "descr" + exerciseDescription.toString()
                 '}'
     }
 
@@ -37,6 +37,8 @@ class Exercise(
             exercise.id = entity._id
             exercise.parentId = entity.parent_id!!
             exercise.descriptionId = entity.description_id!!
+            exercise.typeMuscle = TypeMuscle.valueOf(entity.type_exercise!!)
+            exercise.isTemplate = entity.template == 1
           //TODO проверить
 
             return exercise

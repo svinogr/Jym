@@ -53,6 +53,7 @@ import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
+import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.ExerciseItemCard
@@ -85,16 +86,6 @@ fun MyWorkoutDetailScreen(id: Long, navHostController: NavHostController) {
 
         Box {
             val context = LocalContext.current
-
-         /*   val bitmap = remember {
-                mutableStateOf(getDefaultImage(context = context))
-            }
-
-            if (!isLoading.value) {
-                Log.d("workout", "${isLoading.value}")
-                Log.d("workout", " 3 $workout")
-                bitmap.value = getWorkoutImage(workout, LocalContext.current)
-            }*/
 
             Image(
                 bitmap = if(!isLoading.value) {
@@ -152,17 +143,14 @@ fun MyWorkoutDetailScreen(id: Long, navHostController: NavHostController) {
             navHostController = navHostController
         )
 
-
         if (isLoading.value) {
             CircularProgressIndicator()
         }
     }
-
 }
 
 fun getWorkoutImage(workout: Workout, context: Context): Bitmap {
     val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
- //   Log.d("workout", "$workout")
     bitmap.eraseColor(context.getColor(workout.day!!.getColor()))
 
     return bitmap
@@ -173,7 +161,6 @@ fun getDefaultImage(context: Context): Bitmap {
     bitmap.eraseColor(context.getColor(Day.THURSDAY.getColor()))
     return bitmap
 }
-
 
 @OptIn(ExperimentalFoundationApi::class)
 @ExperimentalPagerApi
@@ -229,9 +216,7 @@ fun DetailDescriptionWorkoutScreen(workout: Workout) {
 
         }
     }
-
 }
-
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -242,19 +227,24 @@ fun PreviewDetailTitleWorkoutScreen() {
     )
 
     val exerdescription = ExerciseDescription(img = "nach1", defaultImg = "nach1")
+    val listSets = listOf(
+        Sets(20.0, 10, 15.0),
+        Sets(20.0, 10, 15.0),
+        Sets(20.0, 10, 15.0)
+    )
     val list = listOf(
         Exercise(
             title = "Новое упраж",
             isDefaultType = false,
-            isTemplate = false, exerciseDescription = exerdescription
+            isTemplate = false, exerciseDescription = exerdescription, setsList = listSets
         ), Exercise(
             title = "Новое упраж 2",
             isDefaultType = false,
-            isTemplate = false, exerciseDescription = exerdescription
+            isTemplate = false, exerciseDescription = exerdescription, setsList = listSets
         ), Exercise(
             title = "Новое упраж 3",
             isDefaultType = false,
-            isTemplate = false, exerciseDescription = exerdescription
+            isTemplate = false, exerciseDescription = exerdescription, setsList = listSets
         )
     )
 

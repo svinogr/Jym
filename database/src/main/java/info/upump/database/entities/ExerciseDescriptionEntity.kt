@@ -17,4 +17,5 @@ data class ExerciseDescriptionEntity(
 
     @ColumnInfo
     var title: String? = ""
+
 }

@@ -41,7 +41,7 @@ class SetsRepo private constructor(private var context: Context, db: RoomDB) :
     }
 
     override fun getAllByParent(id: Long): List<SetsEntity> {
-        TODO("Not yet implemented")
+      return setsDao.getByParent(id)
     }
 
     override fun save(item: SetsEntity): SetsEntity {

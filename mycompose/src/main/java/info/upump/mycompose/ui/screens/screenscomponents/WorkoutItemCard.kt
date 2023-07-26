@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,7 @@ import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.theme.MyTextLabel
+import info.upump.mycompose.ui.theme.MyTextTitleLabel
 
 class SampleWorkoutProvider : PreviewParameterProvider<Workout> {
     override val values = sequenceOf(
@@ -78,7 +80,12 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
             )
 
             Column() {
-                Text(text = workout.title!!, fontSize = 16.sp, maxLines = 1)
+                Text(
+                    text = workout.title!!,
+                    style = MyTextTitleLabel,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
                 Divider(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -101,7 +108,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun PreviewWorkoutCard() {
     val workout = Workout(

@@ -36,6 +36,7 @@ class Workout(
                 exercises = listOf<Exercise>()
             )
             workout.id = workoutEntity._id
+            workout.comment = workoutEntity.comment
 
             return workout
         }

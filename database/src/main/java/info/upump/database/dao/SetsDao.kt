@@ -8,4 +8,7 @@ import info.upump.database.entities.SetsEntity
 interface SetsDao {
     @Query("select * from sets")
     fun getAll(): List<SetsEntity>
+
+    @Query("select * from sets where parent_id= :id")
+    fun getByParent(id: Long): List<SetsEntity>
 }

@@ -89,16 +89,20 @@ fun MyCycleDetailScreen(
 
     Column {
         Box() {
-            val identificatorImg = remember {
-                mutableStateOf<Int>(R.drawable.logo_upump_round)
-            }
+            /*    val identificatorImg = remember {
+                    mutableStateOf<Int>(R.drawable.logo_upump_round)
+                }
 
-            if (!isLoading.value) {
-                identificatorImg.value = getCycleImage(cycle, LocalContext.current)
-            }
-
+                if (!isLoading.value) {
+                    identificatorImg.value = getCycleImage(cycle, LocalContext.current)
+                }
+    */
             Image(
-                painter = painterResource(id = identificatorImg.value),
+                painter = if (isLoading.value) {
+                    painterResource(id = R.drawable.logo_upump_round)
+                } else {
+                    painterResource(getCycleImage(cycle, LocalContext.current))
+                },
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth()

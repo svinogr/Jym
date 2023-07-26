@@ -24,16 +24,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
+import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.theme.MyTextLabel
+import info.upump.mycompose.ui.theme.MyTextTitleLabel
 
 const val DEFAULT_IMAGE = "drew"
 
@@ -56,23 +60,6 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController) {
                 MaterialTheme.colorScheme.background
             )
         ) {
-            val id: Int
-
-
-            if (exercise.isDefaultType) {
-                id = context.resources.getIdentifier(
-                    exercise.exerciseDescription!!.defaultImg,
-                    "drawable",
-                    context.packageName
-                )
-            } else if(exercise.exerciseDescription!!.img != null){
-                id= context.resources.getIdentifier(
-                    exercise.exerciseDescription!!.img,
-                    "drawable",
-                    context.packageName
-                )
-            } else id = context.resources.getIdentifier(DEFAULT_IMAGE, "drawable", context.packageName)
-
 
             Image(
                 modifier = Modifier
@@ -80,17 +67,43 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController) {
                     .height(50.dp)
                     .width(50.dp)
                     .clip(CircleShape),
-                painter = painterResource(id = id), contentDescription = "image"
+                painter = if (exercise.exerciseDescription!!.defaultImg != null) {
+                    painterResource(
+                        context.resources.getIdentifier(
+                            exercise.exerciseDescription!!.defaultImg,
+                            "drawable",
+                            context.packageName
+                        )
+                    )
+                } else {
+                    painterResource(
+                        id = context.resources.getIdentifier(
+                            exercise.exerciseDescription!!.img,
+                            "drawable",
+                            context.packageName
+                        )
+                    )
+                },
+
+                contentDescription = "image",
+                contentScale = ContentScale.Crop
 
             )
 
             Column() {
-                Text(text = exercise.title!!, fontSize = 16.sp, maxLines = 1)
+                val modifier = Modifier.padding(end = 8.dp)
+                Text(
+                    text = exercise.exerciseDescription!!.title!!,
+                    style = MyTextTitleLabel,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = modifier
+
+                )
                 Divider(
-                    modifier = Modifier
+                    modifier = modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .padding(end = 8.dp)
                         .background(Color.Black)
                 )
                 Box(
@@ -135,14 +148,21 @@ fun getExerciseString(exercise: Exercise): String {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun PreviewExerciseItemCard() {
-    val exerdescription = ExerciseDescription(img = "nach1", defaultImg = "nach1" )
+    val exerdescription = ExerciseDescription(img = "nach1", defaultImg = "nach1")
 
-   val  exercise =    Exercise(
-            title = "Новое упраж",
-            isDefaultType = false,
-            isTemplate = false, exerciseDescription = exerdescription)
+    val listSets = listOf(
+        Sets(20.0, 10, 15.0),
+        Sets(20.0, 10, 15.0),
+        Sets(20.0, 10, 15.0)
+    )
 
+    val exercise = Exercise(
+        title = "Новое упраж",
+        isDefaultType = false,
+        isTemplate = false, exerciseDescription = exerdescription
+    )
 
+    exercise.setsList = listSets
     ExerciseItemCard(exercise = exercise, navHost = NavController(LocalContext.current))
 
 }
