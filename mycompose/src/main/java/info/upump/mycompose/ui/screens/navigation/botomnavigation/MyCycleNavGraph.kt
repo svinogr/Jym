@@ -14,6 +14,7 @@ import androidx.navigation.navigation
 import info.upump.mycompose.ui.screens.myworkouts.MyCycleDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyExerciseDetailScreen
+import info.upump.mycompose.ui.screens.myworkouts.MySetsDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyWorkoutDetailScreen
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
@@ -39,10 +40,6 @@ fun NavGraphBuilder.myCycleGraph(
             topBarState.value = true
         }
 
-
-       /* composable(route = NavigationItem.MySetsNavigationItem.route) {
-            MySetsScreen(navHostController, paddingValues)
-        }*/
         composable(
             route = NavigationItem.DetailCycleNavigationItem.route,
             arguments = listOf(navArgument("id") {
@@ -81,6 +78,19 @@ fun NavGraphBuilder.myCycleGraph(
             Log.d("TAG", "id = $id")
 
             MyExerciseDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
+        }
+
+        composable(
+            route = NavigationItem.DetailSetsNavigationItem.route,
+            arguments = listOf(navArgument("id") {
+                type = NavType.LongType
+            })
+        ) {
+            val id = it.arguments?.getLong("id")
+            //topBarState.value = false он уже должен был быть убран
+            Log.d("TAG", "id = $id")
+
+            MySetsDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
         }
     }
 }
