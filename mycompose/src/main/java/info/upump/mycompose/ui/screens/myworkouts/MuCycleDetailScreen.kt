@@ -8,6 +8,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -66,7 +68,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun MyCycleDetailScreen(
     id: Long,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    paddingValues: PaddingValues,
+    appBarTitle: MutableState<String>
 ) {
     val cycleVM: CycleDetailVM = viewModel()
     val cycle by cycleVM.cycle.collectAsState()
@@ -81,11 +85,13 @@ fun MyCycleDetailScreen(
     val scope = rememberCoroutineScope()
     Log.d("TAG", "${isLoading.value}")
 
+    appBarTitle.value = cycle.title!!
+
     LaunchedEffect(key1 = true) {
         cycleVM.getDefaultCycleBy(id)
     }
 
-    Column {
+    Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
         Box() {
             Image(
                 painter = if (isLoading.value) {
@@ -213,7 +219,6 @@ fun DefaultDetailTitleCycleScreen(cycle: Cycle, navHostController: NavHostContro
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
-    Log.d("DefaultDetailDescriptionCycleScreen", "таг        $cycle")
     Box(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Card(modifier = Modifier.fillMaxWidth()) {

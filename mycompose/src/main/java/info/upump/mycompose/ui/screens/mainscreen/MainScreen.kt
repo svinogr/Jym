@@ -54,7 +54,6 @@ fun MainScreen() {
     Scaffold(
         bottomBar =
         {
-
             AnimatedVisibility(modifier = Modifier.fillMaxWidth(),
                 visible = topBarState.value,
                 //visible = true,
@@ -78,8 +77,8 @@ fun MainScreen() {
         topBar = {
 
             AnimatedVisibility(modifier = Modifier.fillMaxWidth(),
-                visible = topBarState.value,
-                //visible = true,
+                //visible = topBarState.value,
+                visible = true,
 
                 enter = slideInVertically() {
                     // Slide in from 40 dp from the top.

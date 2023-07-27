@@ -46,7 +46,7 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController) {
             .fillMaxWidth()
             .padding(8.dp)
             .clickable {
-                navHost.navigate(NavigationItem.DetailWorkoutNavigationItem.routeWithId(exercise.id))
+                navHost.navigate(NavigationItem.DetailExerciseNavigationItem.routeWithId(exercise.id))
             },
         elevation = CardDefaults.cardElevation(2.dp),
         shape = RoundedCornerShape(0.dp)

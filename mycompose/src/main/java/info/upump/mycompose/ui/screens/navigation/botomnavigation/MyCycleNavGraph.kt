@@ -13,8 +13,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import info.upump.mycompose.ui.screens.myworkouts.MyCycleDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyCycleScreen
-import info.upump.mycompose.ui.screens.myworkouts.MyExerciseScreen
-import info.upump.mycompose.ui.screens.myworkouts.MySetsScreen
+import info.upump.mycompose.ui.screens.myworkouts.MyExerciseDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyWorkoutDetailScreen
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
@@ -41,13 +40,9 @@ fun NavGraphBuilder.myCycleGraph(
         }
 
 
-        composable(route = NavigationItem.MyExerciseNavigationItem.route) {
-            MyExerciseScreen(navHostController)
-        }
-
-        composable(route = NavigationItem.MySetsNavigationItem.route) {
-            MySetsScreen(navHostController)
-        }
+       /* composable(route = NavigationItem.MySetsNavigationItem.route) {
+            MySetsScreen(navHostController, paddingValues)
+        }*/
         composable(
             route = NavigationItem.DetailCycleNavigationItem.route,
             arguments = listOf(navArgument("id") {
@@ -57,7 +52,7 @@ fun NavGraphBuilder.myCycleGraph(
             val id = it.arguments?.getLong("id")
             topBarState.value = false
 
-            MyCycleDetailScreen(id = id!!, navHostController)
+            MyCycleDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
 
         }
 
@@ -71,13 +66,21 @@ fun NavGraphBuilder.myCycleGraph(
             //topBarState.value = false он уже должен был быть убран
             Log.d("TAG", "id = $id")
 
-            MyWorkoutDetailScreen(id = id!!, navHostController)
+            MyWorkoutDetailScreen(id = id!!, navHostController,paddingValues, appBarTitle)
 
         }
 
+        composable(
+            route = NavigationItem.DetailExerciseNavigationItem.route,
+            arguments = listOf(navArgument("id") {
+                type = NavType.LongType
+            })
+        ) {
+            val id = it.arguments?.getLong("id")
+            //topBarState.value = false он уже должен был быть убран
+            Log.d("TAG", "id = $id")
 
-
+            MyExerciseDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
+        }
     }
-
-
 }

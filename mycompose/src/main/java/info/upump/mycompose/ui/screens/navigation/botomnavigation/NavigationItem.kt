@@ -16,7 +16,7 @@ const val CYCLE_DETAIL_ROUTE = "cycleDetail"
 
 const val DEFAULT_WORKOUT_DETAIL_ROUTE = "defaultWorkoutDetail"
 const val WORKOUT_DETAIL_ROUTE = "workoutDetail"
-const val EXERCISE_DETAIL_ROUTE = "workoutDetail"
+const val EXERCISE_DETAIL_ROUTE = "exerciseDetail"
 const val SETS_DETAIL_ROUTE = "setsDetail"
 const val DETAIL_ARGUMENT_KEY_ID = "{id}"
 
@@ -25,10 +25,6 @@ const val DEFAULT_SET_ROUTE = "defaultSetRoute"
 
 const val PROFILE_SETTING_ROUTE = "myWorkoutRoute"
 
-
-/*sealed class NavigationDetailItem(v, val route: String, val iconId: Int = -1, val ){
-
-}*/
 
 sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: Int = -1) {
     object DetailWorkoutNavigationItem : NavigationItem(
@@ -91,6 +87,15 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
     object DetailSetDetailNavigationItem : NavigationItem(
         route = "$SETS_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
     ){
+        fun routeWithId(id: Long): String {
+            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+        }
+    }
+
+    object DetailExerciseNavigationItem : NavigationItem(
+        route = "$EXERCISE_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
+    )
+    {
         fun routeWithId(id: Long): String {
             return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
         }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -54,11 +56,18 @@ import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.ExerciseItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class, ExperimentalTextApi::class)
 @Composable
-fun MyWorkoutDetailScreen(id: Long, navHostController: NavHostController) {
+fun MyWorkoutDetailScreen(
+    id: Long,
+    navHostController: NavHostController,
+    paddingValues: PaddingValues,
+    appBarTitle: MutableState<String>
+) {
     val workoutVM: WorkoutDetailVM = viewModel()
     val workout by workoutVM.workout.collectAsState()
 
@@ -72,19 +81,21 @@ fun MyWorkoutDetailScreen(id: Long, navHostController: NavHostController) {
     val scope = rememberCoroutineScope()
     Log.d("TAG", "${isLoading.value}")
 
+    appBarTitle.value = workout.title!!
+
     LaunchedEffect(key1 = true) {
         workoutVM.getWorkoutBy(id)
     }
 
-    Column {
-
-
+    Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()) ){
         Box {
+
             val context = LocalContext.current
 
             Image(
-                bitmap = if(!isLoading.value) {
-                getWorkoutImage(workout, LocalContext.current).asImageBitmap()}else{
+                bitmap = if (!isLoading.value) {
+                    getWorkoutImage(workout, LocalContext.current).asImageBitmap()
+                } else {
                     getDefaultImage(context = context).asImageBitmap()
                 },
 
@@ -180,7 +191,10 @@ fun TabsWorkoutContent(
 @Composable
 fun PreviewDefaultDetailWorkoutScreen() {
     val nav = NavHostController(LocalContext.current)
-    MyWorkoutDetailScreen(1, nav)
+    val m: MutableState<String> =
+        MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
+
+    MyWorkoutDetailScreen(1, nav, PaddingValues(20.dp), m)
 }
 
 @SuppressLint("StateFlowValueCalledInComposition")

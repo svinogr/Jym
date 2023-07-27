@@ -46,7 +46,6 @@ class SampleWorkoutProvider : PreviewParameterProvider<Workout> {
     )
 }
 
-
 @Composable
 fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
     val context = LocalContext.current
@@ -58,7 +57,8 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
                 navHost.navigate(NavigationItem.DetailWorkoutNavigationItem.routeWithId(workout.id))
             },
         elevation = CardDefaults.cardElevation(0.dp),
-        shape = RoundedCornerShape(0.dp)
+        shape = RoundedCornerShape(0.dp),
+
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

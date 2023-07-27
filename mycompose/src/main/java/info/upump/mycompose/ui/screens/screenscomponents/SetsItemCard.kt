@@ -18,10 +18,10 @@ import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextLabel16
+import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 
 @Composable
 fun SetsItemCard(sets: Sets, navHost: NavHostController, number: Int) {
-    val context = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,20 +37,20 @@ fun SetsItemCard(sets: Sets, navHost: NavHostController, number: Int) {
             val textWeight = createRef()
             val textPasWeight = createRef()
             val textReps = createRef()
-            val guiOne = createGuidelineFromStart(0.05f)
-            val guiTwo = createGuidelineFromStart(0.25f)
-            val guiThree = createGuidelineFromStart(0.5f)
-            val guiFour = createGuidelineFromStart(0.80f)
+            val guiOne = createGuidelineFromStart(0.02f)
+            val guiTwo = createGuidelineFromStart(0.20f)
+            val guiThree = createGuidelineFromStart(0.40f)
+            val guiFour = createGuidelineFromStart(0.72f)
             val modifierOneThree = Modifier.padding(start = 2.dp)
             Text(text = "$number.",
                 modifier = modifierOneThree.constrainAs(textNumber) {
                     start.linkTo(guiOne)
-                }, style = MyTextLabel16)
+                }, style = MyTextTitleLabel16)
 
             Text(text = sets.weight.toString(),
                 modifier = modifierOneThree.constrainAs(textWeight) {
                     start.linkTo(guiTwo)
-                }, style = MyTextLabel16)
+                }, style = MyTextTitleLabel16)
 
             Text(text = sets.weightPast.toString(),
                 modifier = modifierOneThree.constrainAs(textPasWeight) {
@@ -60,27 +60,16 @@ fun SetsItemCard(sets: Sets, navHost: NavHostController, number: Int) {
             Text(text = sets.reps.toString(),
                 modifier = modifierOneThree.constrainAs(textReps) {
                     start.linkTo(guiFour)
-                },  style = MyTextLabel16)
-
+                },  style = MyTextTitleLabel16)
         }
-        /* Row(
-             verticalAlignment = Alignment.CenterVertically,
-             modifier = Modifier.background(
-                 MaterialTheme.colorScheme.background
-             )
-         ) {
-
-
-         }*/
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview( showBackground = true)
 @Composable
 fun PreviewSetItemCard() {
     val set = Sets(weight = 20.0, reps = 5, weightPast = 18.0)
     set.id = 1
 
     SetsItemCard(sets = set, navHost = NavHostController(LocalContext.current), 1)
-
 }
