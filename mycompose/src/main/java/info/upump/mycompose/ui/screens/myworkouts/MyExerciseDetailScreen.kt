@@ -86,7 +86,7 @@ fun MyExerciseDetailScreen(
     }
 
     LaunchedEffect(key1 = true) {
-        setsVm.getSets(id)
+        setsVm.getSetsByParent(id)
     }
 }
 

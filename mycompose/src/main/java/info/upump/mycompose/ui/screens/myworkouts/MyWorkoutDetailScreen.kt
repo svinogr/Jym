@@ -157,7 +157,7 @@ fun MyWorkoutDetailScreen(
 
 fun getWorkoutImage(workout: Workout, context: Context): Bitmap {
     val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
-    bitmap.eraseColor(context.getColor(workout.day!!.getColor()))
+    bitmap.eraseColor(context.getColor(workout.day!!.getColor())) //TODO здесь иногда вылетае не понятно почему
 
     return bitmap
 }

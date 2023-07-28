@@ -11,4 +11,6 @@ interface SetsDao {
 
     @Query("select * from sets where parent_id= :id")
     fun getByParent(id: Long): List<SetsEntity>
+   @Query("select * from sets where _id= :id")
+    fun getBy(id: Long): SetsEntity
 }
