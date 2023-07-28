@@ -22,7 +22,7 @@ fun NumberPicker(min: Int, max: Int, initialState: Int) {
             picker.maxValue = max
             picker.descendantFocusability = NumberPicker.FOCUS_BEFORE_DESCENDANTS
 
-            val valuesForDisplay = Array<String>(size = max +1) {
+            val valuesForDisplay = Array<String>(size = max + 1) {
                 (min + (it )).toString()
             }
             picker.displayedValues = valuesForDisplay
