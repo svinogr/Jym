@@ -28,7 +28,6 @@ class MainActivityCompose : ComponentActivity() {
              Log.d("TAG", "${DatabaseApp.db.workoutDao().getAllWorkouts().size}")
          }
 
-
         setContent {
             JymTheme {
                 // A surface container using the 'background' color from the theme

@@ -30,6 +30,13 @@ class SetsVM : BaseVMWithStateLoad(){
     }
 
     fun getSetsBy(id: Long) {
+        if (id == 0L){
+            val set = Sets()
+            _set.value = set
+
+            return
+        }
+
         viewModelScope.launch(Dispatchers.IO) {
             _stateLoading.value = true
             val setsRepo = SetsRepo.get()

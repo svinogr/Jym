@@ -47,7 +47,8 @@ fun MySetsDetailScreen(
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(top = paddingValues.calculateTopPadding())) {
-        Card(modifier = Modifier.weight(1f),
+        Card(
+            modifier = Modifier.weight(1f),
             elevation = CardDefaults.cardElevation(0.dp),
             shape = RoundedCornerShape(0.dp)
         ) {
@@ -57,21 +58,27 @@ fun MySetsDetailScreen(
             }
         }
 
-        Card(modifier = Modifier.weight(1f),
+        Card(
+            modifier = Modifier.weight(1f),
             elevation = CardDefaults.cardElevation(0.dp),
-            shape = RoundedCornerShape(0.dp)) {
+            shape = RoundedCornerShape(0.dp)
+        ) {
             Column() {
                 Text(text = stringResource(id = R.string.label_reps_sets))
                 NumberPicker(0, 100, set.reps)
             }
         }
 
-        Card(modifier = Modifier.weight(1f),
-            elevation = CardDefaults.cardElevation(0.dp),
-            shape = RoundedCornerShape(0.dp)) {
-            Column() {
-                Text(text = stringResource(id = R.string.label_sets))
-                NumberPicker(0, 200, 0)
+        if (set.id == 0L) {
+            Card(
+                modifier = Modifier.weight(1f),
+                elevation = CardDefaults.cardElevation(0.dp),
+                shape = RoundedCornerShape(0.dp)
+            ) {
+                Column() {
+                    Text(text = stringResource(id = R.string.label_sets))
+                    NumberPicker(0, 200, 0)
+                }
             }
         }
     }
@@ -84,6 +91,19 @@ fun PreviewMySetsDetailScreen() {
         MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
     MySetsDetailScreen(
         id = 1,
+        navHostController = NavHostController(LocalContext.current),
+        paddingValues = PaddingValues(20.dp),
+        appBarTitle = m
+    )
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun PreviewMySetsDetailEditScreen() {
+    val m: MutableState<String> =
+        MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
+    MySetsDetailScreen(
+        id = 0,
         navHostController = NavHostController(LocalContext.current),
         paddingValues = PaddingValues(20.dp),
         appBarTitle = m
