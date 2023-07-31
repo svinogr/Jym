@@ -6,6 +6,7 @@ import androidx.room.Query
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
 import info.upump.database.entities.WorkoutEntity
+import kotlinx.coroutines.flow.Flow
 
 class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<WorkoutEntity> {
     private val workoutDao = db.workoutDao()
@@ -37,12 +38,16 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
         TODO("Not yet implemented")
     }
 
-    override fun getBy(id: Long): WorkoutEntity {
+    override fun getBy(id: Long): Flow<WorkoutEntity> {
       return workoutDao.getById(id)
     }
 
-    override fun getAllByParent(id: Long): List<WorkoutEntity>{
+    override fun getAllByParent(id: Long): Flow<List<WorkoutEntity>>{
         return workoutDao.getAllByParent(id)
+    }
+
+    override fun update(setsGet: WorkoutEntity): WorkoutEntity {
+        TODO("Not yet implemented")
     }
 
     override fun save(item: WorkoutEntity): WorkoutEntity {

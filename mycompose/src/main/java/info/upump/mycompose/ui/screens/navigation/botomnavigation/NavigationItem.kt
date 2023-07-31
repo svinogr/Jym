@@ -1,6 +1,5 @@
 package info.upump.mycompose.ui.screens.navigation.botomnavigation
 
-import androidx.compose.runtime.Composable
 import info.upump.mycompose.R
 
 const val MY_START_CYCLE_ROUTE = "myStartCycleRoute"
@@ -19,6 +18,7 @@ const val WORKOUT_DETAIL_ROUTE = "workoutDetail"
 const val EXERCISE_DETAIL_ROUTE = "exerciseDetail"
 const val SETS_DETAIL_ROUTE = "setsDetail"
 const val DETAIL_ARGUMENT_KEY_ID = "{id}"
+const val DETAIL_ARGUMENT_KEY_PARENT_ID = "{parentId}"
 
 const val DEFAULT_EXERCISE_ROUTE = "defaultExerciseRoute"
 const val DEFAULT_SET_ROUTE = "defaultSetRoute"
@@ -101,7 +101,7 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
         }
     }
 
-    object DetailSetsNavigationItem : NavigationItem(
+    object CreateSetsNavigationItem : NavigationItem(
         route = "$SETS_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
     ) {
         fun routeWithId(id: Long): String {

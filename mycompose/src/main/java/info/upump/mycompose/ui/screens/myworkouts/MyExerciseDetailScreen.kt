@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.myworkouts
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -36,9 +38,12 @@ fun MyExerciseDetailScreen(
     val setsVm: SetsVM = viewModel()
     val load = setsVm.isLoading.collectAsState()
     val sets = setsVm.sets.collectAsState()
+    val rem = rememberCoroutineScope()
+
+
     val modifier = Modifier.fillMaxWidth()
     appBarTitle.value = stringResource(id = R.string.exercise_title_sets)
-
+Log.d("saveItem", "$id")
     Column(modifier = modifier.padding(top = paddingValues.calculateTopPadding())) {
         ConstraintLayout(modifier = modifier) {
             val textNumber = createRef()
@@ -85,7 +90,7 @@ fun MyExerciseDetailScreen(
         }
     }
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = rem) {
         setsVm.getSetsByParent(id)
     }
 }

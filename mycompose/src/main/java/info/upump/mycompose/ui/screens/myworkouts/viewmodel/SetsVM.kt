@@ -8,6 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectIndexed
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class SetsVM : BaseVMWithStateLoad(){
@@ -22,14 +24,20 @@ class SetsVM : BaseVMWithStateLoad(){
         viewModelScope.launch(Dispatchers.IO){
             _stateLoading.value = true
             val setsRepo = SetsRepo.get()
-            val setsGet = setsRepo.getAllByParent(id).map { Sets.mapFromDbEntity(it) }
+            setsRepo.getAllByParent(id).map {
 
-            _sets.value = setsGet
+                it.map { item -> Sets.mapFromDbEntity(item) }
+            }.collect{
+                _sets.value = it
+            }
+
+
+          //  _sets.value = setsGet
             _stateLoading.value = false
         }
     }
 
-    fun getSetsBy(id: Long) {
+ /*   fun getSetsBy(id: Long) {
         if (id == 0L){
             val set = Sets()
             _set.value = set
@@ -46,5 +54,18 @@ class SetsVM : BaseVMWithStateLoad(){
             _set.value = setsGet
             _stateLoading.value = false
         }
-    }
+    }*/
+
+ /*   fun saveItem(item: Sets) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val setsRepo = SetsRepo.get()
+            val setsGet = Sets.mapTontity(item)
+            if (item.id != 0L) {
+                setsRepo.update(setsGet)
+            } else {
+                setsRepo.save(setsGet)
+            }
+            Log.d("saveItem", "$setsGet ")
+        }
+    }*/
 }

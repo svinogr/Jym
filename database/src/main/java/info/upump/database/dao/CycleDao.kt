@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import info.upump.database.entities.CycleEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CycleDao {
@@ -20,6 +21,6 @@ interface CycleDao {
     @Query("select * from cycles where default_type = 1")
     fun getAllDefaultCycles(): List<CycleEntity>
     @Query("select * from cycles where _id = :id")
-    fun getBy(id: Long): CycleEntity
+    fun getBy(id: Long): Flow<CycleEntity>
 
 }

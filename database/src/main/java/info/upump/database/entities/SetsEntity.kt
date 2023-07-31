@@ -29,4 +29,9 @@ data class SetsEntity(
 
     @ColumnInfo
     var past_set: Double? = 0.0
+    override fun toString(): String {
+        return "SetsEntity(_id=$_id, comment=$comment, weight=$weight, reps=$reps, start_date='$start_date', finish_date='$finish_date', parent_id=$parent_id, past_set=$past_set)"
+    }
+
+
 }

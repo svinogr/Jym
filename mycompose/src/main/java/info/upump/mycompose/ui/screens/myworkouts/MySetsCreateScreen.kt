@@ -1,7 +1,6 @@
 package info.upump.mycompose.ui.screens.myworkouts
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,12 +11,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -33,10 +29,11 @@ import info.upump.mycompose.ui.screens.screenscomponents.NumberPickerWithStep
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun MySetsDetailScreen(
-    id: Long,
+fun MySetsCreateScreen(
+    parentId: Long,
     navHostController: NavHostController,
     paddingValues: PaddingValues,
     appBarTitle: MutableState<String>
@@ -44,10 +41,9 @@ fun MySetsDetailScreen(
     val setVM: SetsVM = viewModel()
     val set by setVM.set.collectAsState()
     val isLoad = setVM.isLoading.collectAsState()
-
-    LaunchedEffect(key1 = true) {
-        //setVM.getSetsBy(id)
-    }
+    val newSets = Sets()
+    newSets.parentId = parentId
+    var quantity = 0
 
     Column(
         modifier = Modifier
@@ -55,7 +51,7 @@ fun MySetsDetailScreen(
             .padding(top = paddingValues.calculateTopPadding())
     ) {
         val weightFun: (Double) -> Unit = {
-            set.weight = it
+            newSets.weight = it
         }
 
         Card(
@@ -70,9 +66,7 @@ fun MySetsDetailScreen(
         }
 
         val repFun: (Int) -> Unit = {
-            Log.d("saveItem", "$it")
-           set.reps = it
-            Log.d("saveItem", "rep ${set.reps}  $set")
+            newSets.reps = it
         }
 
         Card(
@@ -86,11 +80,25 @@ fun MySetsDetailScreen(
             }
         }
 
+        val quantityFun: (Int) -> Unit = {
+            quantity = it
+        }
+
+            Card(
+                modifier = Modifier.weight(1f),
+                elevation = CardDefaults.cardElevation(0.dp),
+                shape = RoundedCornerShape(0.dp)
+            ) {
+                Column() {
+                    Text(text = stringResource(id = R.string.label_sets))
+                    NumberPicker(0, 200, 0, quantityFun)
+                }
+            }
+
     }
 
     BackHandler {
-        Log.d("saveItem", "save ${set}")
-    //     setVM.saveItem(set)
+        //setVM.saveItem(newSets)
 
         navHostController.navigateUp()
     }
@@ -98,24 +106,11 @@ fun MySetsDetailScreen(
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun PreviewMySetsDetailScreen() {
+fun MySetsDetailScreen() {
     val m: MutableState<String> =
         MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
     MySetsDetailScreen(
         id = 1,
-        navHostController = NavHostController(LocalContext.current),
-        paddingValues = PaddingValues(20.dp),
-        appBarTitle = m
-    )
-}
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun PreviewMySetsDetailEditScreen() {
-    val m: MutableState<String> =
-        MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
-    MySetsDetailScreen(
-        id = 0,
         navHostController = NavHostController(LocalContext.current),
         paddingValues = PaddingValues(20.dp),
         appBarTitle = m

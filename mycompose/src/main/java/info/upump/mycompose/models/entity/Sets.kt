@@ -28,6 +28,18 @@ class Sets(
                 weightPast = entity.past_set!!
             )
             sets.id = entity._id
+            sets.parentId = entity.parent_id!!
+
+            return sets
+        }
+
+        fun mapTontity(newSets: Sets): SetsEntity {
+            val sets = SetsEntity(
+                _id = newSets.id)
+            sets.parent_id = newSets.parentId
+            sets.weight = newSets.weight
+            sets.reps = newSets.reps
+            sets.past_set = newSets.weightPast
 
             return sets
         }

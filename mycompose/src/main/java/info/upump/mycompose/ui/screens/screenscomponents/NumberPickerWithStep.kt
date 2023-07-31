@@ -1,20 +1,24 @@
 package info.upump.mycompose.ui.screens.screenscomponents
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.NumberPicker
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.room.util.EMPTY_STRING_ARRAY
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Sets
 
 @SuppressLint("InflateParams")
 @Composable
-fun NumberPickerWithStep(min: Double, max: Int, step: Double, initialState: Sets) {
+fun NumberPickerWithStep(
+    min: Double,
+    max: Int,
+    step: Double,
+    initialState: Double,
+    weightFun: (Double) -> Unit
+) {
     AndroidView(
         modifier = Modifier.fillMaxWidth(),
         factory = { context ->
@@ -31,11 +35,14 @@ fun NumberPickerWithStep(min: Double, max: Int, step: Double, initialState: Sets
             picker.maxValue = 200
             picker.displayedValues = valuesForDisplay
             picker.descendantFocusability = NumberPicker.FOCUS_BEFORE_DESCENDANTS
+            picker.setOnValueChangedListener {p0, p1, p2 ->
+
+                weightFun(picker.displayedValues[p2].toDouble()) }
 
             return@AndroidView picker
         },
         update = {
-            val i = it.displayedValues.indexOf(initialState.weight.toString())
+            val i = it.displayedValues.indexOf(initialState.toString())
             it.value = i
         }
     )

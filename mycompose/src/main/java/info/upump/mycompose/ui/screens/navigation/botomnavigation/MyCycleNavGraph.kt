@@ -14,6 +14,7 @@ import androidx.navigation.navigation
 import info.upump.mycompose.ui.screens.myworkouts.MyCycleDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyExerciseDetailScreen
+import info.upump.mycompose.ui.screens.myworkouts.MySetsCreateScreen
 import info.upump.mycompose.ui.screens.myworkouts.MySetsDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyWorkoutDetailScreen
 
@@ -81,16 +82,29 @@ fun NavGraphBuilder.myCycleGraph(
         }
 
         composable(
-            route = NavigationItem.DetailSetsNavigationItem.route,
-            arguments = listOf(navArgument("id") {
+            route = NavigationItem.CreateSetsNavigationItem.route,
+            arguments = listOf(navArgument("parentId"){
                 type = NavType.LongType
-            })
+            }),
         ) {
-            val id = it.arguments?.getLong("id")
             //topBarState.value = false он уже должен был быть убран
+            val parentId = it.arguments?.getLong("parentId")
+
+            MySetsCreateScreen(parentId!!, navHostController, paddingValues, appBarTitle)
+        }
+
+        composable(
+            route = NavigationItem.DetailSetDetailNavigationItem.route,
+            arguments = listOf(navArgument("id"){
+                type = NavType.LongType
+            }),
+        ) {
+
+            //topBarState.value = false он уже должен был быть убран
+            val id = it.arguments?.getLong("id")
             Log.d("TAG", "id = $id")
 
-            MySetsDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
+            MySetsDetailScreen(id!!, navHostController, paddingValues, appBarTitle)
         }
     }
 }

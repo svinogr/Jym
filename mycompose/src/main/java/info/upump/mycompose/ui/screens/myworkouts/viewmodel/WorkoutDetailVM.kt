@@ -13,6 +13,7 @@ import info.upump.mycompose.models.entity.Workout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class WorkoutDetailVM : BaseVMWithStateLoad() {
@@ -21,7 +22,14 @@ class WorkoutDetailVM : BaseVMWithStateLoad() {
 
     fun getWorkoutBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            _stateLoading.value = true
+            val workoutRepo = WorkoutRepo.get().getBy(id).map {
+                Workout.mapFromDbEntity(it)
+            }.collect{
+                _workout.value = it
+            }
+
+            //было до
+    /*        _stateLoading.value = true
             val workoutRepo = WorkoutRepo.get()
             val workout = Workout.mapFromDbEntity(workoutRepo.getBy(id))
 
@@ -49,7 +57,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad() {
             workout.exercises = exercises
             Log.d("workout", "2 $workout")
             _workout.value = workout
-            _stateLoading.value = false
+            _stateLoading.value = false*/
         }
     }
 
