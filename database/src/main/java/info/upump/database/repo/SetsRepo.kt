@@ -29,7 +29,7 @@ class SetsRepo private constructor(private var context: Context, db: RoomDB) :
         return setsDao.getAll()
     }
 
-    override fun getAllPersonal(): List<SetsEntity> {
+    override fun getAllPersonal(): Flow<List<SetsEntity>> {
         TODO("Not yet implemented")
     }
 

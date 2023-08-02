@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class CycleVM : BaseVMWithStateLoad() {
@@ -20,12 +21,19 @@ class CycleVM : BaseVMWithStateLoad() {
 
     fun getAllPersonal() {
         _stateLoading.value = true
+
         viewModelScope.launch(
             Dispatchers.IO
         ) {
             val list = CycleRepo.get().getAllPersonal()
-            _cycles.value = list.map {Cycle.mapFromDbEntity(it) }
-            _stateLoading.value = false
+            list.map {
+                it.map {
+                    Cycle.mapFromDbEntity(it)
+                }
+            }.collect{
+                _cycles.value = it
         }
+        _stateLoading.value = false
     }
+}
 }

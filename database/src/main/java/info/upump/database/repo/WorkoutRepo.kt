@@ -30,7 +30,7 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
         return workoutDao.getAllWorkouts()
     }
 
-    override fun getAllPersonal(): List<WorkoutEntity> {
+    override fun getAllPersonal(): Flow<List<WorkoutEntity>> {
         TODO("Not yet implemented")
     }
 

@@ -70,7 +70,7 @@ fun MyWorkoutDetailScreen(
 ) {
     val workoutVM: WorkoutDetailVM = viewModel()
     val workout by workoutVM.workout.collectAsState()
-
+    val exercise by workoutVM.exercises.collectAsState()
     val isLoading = workoutVM.isLoading.collectAsState(true)
 
     val tabList = listOf(
@@ -93,11 +93,16 @@ fun MyWorkoutDetailScreen(
             val context = LocalContext.current
 
             Image(
-                bitmap = if (!isLoading.value) {
+               /* bitmap = if (!isLoading.value) {
                     getWorkoutImage(workout, LocalContext.current).asImageBitmap()
                 } else {
                     getDefaultImage(context = context).asImageBitmap()
                 },
+
+*/
+                bitmap =
+                    getDefaultImage(context = context).asImageBitmap()
+                ,
 
                 contentDescription = "",
                 modifier = Modifier
@@ -146,6 +151,7 @@ fun MyWorkoutDetailScreen(
             tabs = tabList,
             pagerState = pagerState,
             workout,
+            exercise,
             navHostController = navHostController
         )
 
@@ -175,11 +181,13 @@ fun TabsWorkoutContent(
     tabs: List<TabsItems>,
     pagerState: PagerState,
     workout: Workout,
+    exercises: List<Exercise>,
     navHostController: NavHostController
 ) {
     HorizontalPager(pageCount = tabs.size, state = pagerState, verticalAlignment = Alignment.Top) {
+        Log.d("HorizontalPager", "${workout.exercises}")
         when (it) {
-            0 -> DetailTitleWorkoutScreen(workout, navHostController)
+            0 -> DetailTitleWorkoutScreen(exercises, navHostController)
             1 -> DetailDescriptionWorkoutScreen(workout)
         }
     }
@@ -199,11 +207,11 @@ fun PreviewDefaultDetailWorkoutScreen() {
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun DetailTitleWorkoutScreen(workout: Workout, navHostController: NavHostController) {
+fun DetailTitleWorkoutScreen(exercises: List<Exercise>, navHostController: NavHostController) {
     Log.d("TAG", "DefaultDetailTitleCycleScreen")
     Box(modifier = Modifier.fillMaxWidth()) {
         LazyColumn() {
-            workout.exercises.forEach {
+            exercises.forEach {
                 item {
                     ExerciseItemCard(exercise = it, navHost = navHostController)
                 }
@@ -260,7 +268,7 @@ fun PreviewDetailTitleWorkoutScreen() {
     workout.exercises = list
     val nav = NavHostController(LocalContext.current)
 
-    DetailTitleWorkoutScreen(workout, nav)
+    DetailTitleWorkoutScreen(list, nav)
 }
 
 @Preview(showBackground = true, showSystemUi = true)

@@ -33,7 +33,7 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
         return item.apply { _id = newId }
     }
 
-    override fun getAllPersonal() : List<CycleEntity> {
+    override fun getAllPersonal() : Flow<List<CycleEntity>> {
        return cycleDao.getAllPersonalCycles()
     }
 

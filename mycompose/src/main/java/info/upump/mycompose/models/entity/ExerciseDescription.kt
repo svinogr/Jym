@@ -26,8 +26,7 @@ class ExerciseDescription(
         return "ExerciseDescription{" +
                 "id=" + id +
                 ", img='" + img + '\'' +
-                ", title='" + title + '\'' +
-                '}'
+                ", title='" + title + " $defaultImg}"
     }
 
     companion object {

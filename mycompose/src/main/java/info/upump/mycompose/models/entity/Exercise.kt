@@ -10,7 +10,10 @@ class Exercise(
     var isTemplate: Boolean = false,
     var setsList: List<Sets> = ArrayList(),
     var descriptionId: Long = 0,
-    var exerciseDescription: ExerciseDescription? = null
+    var exerciseDescription: ExerciseDescription? = null,
+    // update
+   // var img: String? = null,
+    //var defaultImg: String? = null
 ) : Entity() {
 
     fun createInfo(): String {

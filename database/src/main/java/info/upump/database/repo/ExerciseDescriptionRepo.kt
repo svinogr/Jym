@@ -27,7 +27,7 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
       return exerciseDescriptionDao.getAll()
     }
 
-    override fun getAllPersonal(): List<ExerciseDescriptionEntity> {
+    override fun getAllPersonal(): Flow<List<ExerciseDescriptionEntity>> {
         TODO("Not yet implemented")
     }
 

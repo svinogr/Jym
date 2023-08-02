@@ -74,6 +74,7 @@ fun MyCycleDetailScreen(
 ) {
     val cycleVM: CycleDetailVM = viewModel()
     val cycle by cycleVM.cycle.collectAsState()
+    val workout by cycleVM.workout.collectAsState()
 
     val isLoading = cycleVM.isLoading.collectAsState(true)
 
@@ -145,6 +146,7 @@ fun MyCycleDetailScreen(
             tabs = tabList,
             pagerState = pagerState,
             cycle,
+            workout,
             navHostController = navHostController
         )
     }
@@ -181,11 +183,12 @@ fun TabsContent(
     tabs: List<TabsItems>,
     pagerState: PagerState,
     cycle: Cycle,
+    workout: List<Workout>,
     navHostController: NavHostController
 ) {
     HorizontalPager(pageCount = tabs.size, state = pagerState, verticalAlignment = Alignment.Top) {
         when (it) {
-            0 -> DefaultDetailTitleCycleScreen(cycle, navHostController)
+            0 -> DefaultDetailTitleCycleScreen(workout, navHostController)
             1 -> DefaultDetailDescriptionCycleScreen(cycle)
         }
     }
@@ -203,12 +206,13 @@ fun PreviewDefaultDetailCycleScreen() {
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun DefaultDetailTitleCycleScreen(cycle: Cycle, navHostController: NavHostController) {
+fun DefaultDetailTitleCycleScreen(workout: List<Workout>, navHostController: NavHostController) {
     Log.d("TAG", "DefaultDetailTitleCycleScreen")
     Box(modifier = Modifier.fillMaxWidth()) {
         LazyColumn() {
-            cycle.workoutList.forEach {
+            workout.forEach {
                 item {
+                    Log.d("DefaultDetailTitleCycleScreen","${it.title}")
                     WorkoutItemCard(workout = it, navHost = navHostController)
                 }
             }
@@ -287,7 +291,7 @@ fun PreviewDefaultDetailTitleCycleScreen() {
     cycle.workoutList = list
     val nav = NavHostController(LocalContext.current)
 
-    DefaultDetailTitleCycleScreen(cycle, nav)
+    DefaultDetailTitleCycleScreen(list, nav)
 }
 
 @Preview(showBackground = true, showSystemUi = true)
