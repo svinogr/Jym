@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.room.Query
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
+import info.upump.database.entities.ExerciseDescriptionEntity
 import info.upump.database.entities.WorkoutEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -44,6 +45,10 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
 
     override fun getAllByParent(id: Long): Flow<List<WorkoutEntity>>{
         return workoutDao.getAllByParent(id)
+    }
+
+    override fun test(id: Long): Flow<Map<WorkoutEntity, ExerciseDescriptionEntity>> {
+        TODO("Not yet implemented")
     }
 
     override fun update(setsGet: WorkoutEntity): WorkoutEntity {

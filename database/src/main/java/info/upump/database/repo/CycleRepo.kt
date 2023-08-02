@@ -4,6 +4,7 @@ import android.content.Context
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
 import info.upump.database.entities.CycleEntity
+import info.upump.database.entities.ExerciseDescriptionEntity
 import kotlinx.coroutines.flow.Flow
 
 class CycleRepo private constructor(private val context: Context, db: RoomDB) :
@@ -46,6 +47,10 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
     }
 
     override fun getAllByParent(id: Long): Flow<List<CycleEntity>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun test(id: Long): Flow<Map<CycleEntity, ExerciseDescriptionEntity>> {
         TODO("Not yet implemented")
     }
 

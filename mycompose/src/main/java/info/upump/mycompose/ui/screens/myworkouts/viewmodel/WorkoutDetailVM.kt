@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.fold
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
@@ -36,22 +37,32 @@ class WorkoutDetailVM : BaseVMWithStateLoad() {
     fun getWorkoutBy(id: Long) {
         //  _stateLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            /*    WorkoutRepo.get().getBy(id).map {
-                    Workout.mapFromDbEntity(it)
-                }
-                    .collect {
-                        _workout.value = it
-                    }*/
-
-            val o = ExerciseRepo.get().getAllByParent(id).map{
-                it.forEach{
-                    Exercise.mapFromDbEntity(it)
-                }
-
-            }.onEach {
-                it
+            val w = WorkoutRepo.get().getBy(id).map {
+                Workout.mapFromDbEntity(it)
             }
 
+            val e = ExerciseRepo.get().test(id).map {
+              //  val map = mutableMapOf<Exercise, ExerciseDescription>()
+                val listExercise = mutableListOf<Exercise>()
+                it.forEach { entry ->
+                    val e = Exercise.mapFromDbEntity(entry.key)
+                    val d = ExerciseDescription.mapFromDbEntity(entry.value)
+                    Log.d("forEach", "$e")
+                    Log.d("forEach", "$d")
+                    e.exerciseDescription = d
+                    Log.d("forEach", "$e")
+                    listExercise.add(e)
+                }
+                return@map listExercise
+            }
+
+            w.zip(e) { workou, exercise ->
+                workou.exercises = exercise
+                return@zip workou
+            }.collect{
+                _workout.value = it
+                _exercises.value = it.exercises
+            }
 
 
             /*      w.zip(e) { workoutM, exercises ->

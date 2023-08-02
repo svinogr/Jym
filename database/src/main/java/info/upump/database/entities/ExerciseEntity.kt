@@ -1,7 +1,6 @@
 package info.upump.database.entities
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -33,5 +32,4 @@ data class ExerciseEntity(
 
     @ColumnInfo
     var parent_id: Long? = 0
-
 }
