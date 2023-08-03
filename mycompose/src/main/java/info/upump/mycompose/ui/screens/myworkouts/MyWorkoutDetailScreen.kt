@@ -93,16 +93,15 @@ fun MyWorkoutDetailScreen(
             val context = LocalContext.current
 
             Image(
-               /* bitmap = if (!isLoading.value) {
+                bitmap = if (!isLoading.value) {
                     getWorkoutImage(workout, LocalContext.current).asImageBitmap()
                 } else {
                     getDefaultImage(context = context).asImageBitmap()
                 },
 
-*/
-                bitmap =
+        /*        bitmap =
                     getDefaultImage(context = context).asImageBitmap()
-                ,
+                ,*/
 
                 contentDescription = "",
                 modifier = Modifier
@@ -187,7 +186,7 @@ fun TabsWorkoutContent(
     HorizontalPager(pageCount = tabs.size, state = pagerState, verticalAlignment = Alignment.Top) {
         Log.d("HorizontalPager", "${workout.exercises}")
         when (it) {
-            0 -> DetailTitleWorkoutScreen(exercises, navHostController)
+            0 -> DetailTitleWorkoutScreen(workout.exercises, navHostController)
             1 -> DetailDescriptionWorkoutScreen(workout)
         }
     }

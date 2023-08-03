@@ -1,7 +1,9 @@
 package info.upump.mycompose.models.entity
 
+import android.util.Log
 import info.upump.database.entities.CycleEntity
 import info.upump.database.entities.ExerciseEntity
+import info.upump.database.entities.ExerciseFullEntity
 
 class Exercise(
     var title: String = "",
@@ -43,6 +45,23 @@ class Exercise(
             exercise.typeMuscle = TypeMuscle.valueOf(entity.type_exercise!!)
             exercise.isTemplate = entity.template == 1
           //TODO проверить
+
+            return exercise
+        }
+
+        fun mapFromFullDbEntity(entity: ExerciseFullEntity): Exercise {
+            val exercise = mapFromDbEntity(entity.exercise)
+            val exerciseDescription = ExerciseDescription.mapFromDbEntity(entity.exerciseDescriptionEntity)
+            val listSets = mutableListOf<Sets>()
+            Log.d("mapFromFullDbEntity", "-------- exe ${exercise.id}")
+            entity.listSet.forEach{
+                val set = Sets.mapFromDbEntity(it)
+                Log.d("mapFromFullDbEntity", "$it")
+                listSets.add(set)
+            }
+            Log.d("mapFromFullDbEntity", "-------- exe end}")
+            exercise.exerciseDescription = exerciseDescription
+            exercise.setsList = listSets
 
             return exercise
         }

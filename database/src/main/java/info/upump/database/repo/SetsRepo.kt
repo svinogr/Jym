@@ -5,6 +5,7 @@ import info.upump.database.DatabaseApp
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
 import info.upump.database.entities.ExerciseDescriptionEntity
+import info.upump.database.entities.ExerciseFullEntity
 import info.upump.database.entities.SetsEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -46,7 +47,7 @@ class SetsRepo private constructor(private var context: Context, db: RoomDB) :
       return setsDao.getByParent(id)
     }
 
-    override fun test(id: Long): Flow<Map<SetsEntity, ExerciseDescriptionEntity>> {
+    override fun test(id: Long): Flow<List<ExerciseFullEntity>> {
         TODO("Not yet implemented")
     }
 

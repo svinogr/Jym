@@ -4,6 +4,7 @@ import android.content.Context
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
 import info.upump.database.entities.ExerciseDescriptionEntity
+import info.upump.database.entities.ExerciseFullEntity
 import kotlinx.coroutines.flow.Flow
 
 class ExerciseDescriptionRepo private constructor(private val context: Context, db: RoomDB):
@@ -43,7 +44,7 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
         TODO("Not yet implemented")
     }
 
-    override fun test(id: Long): Flow<Map<ExerciseDescriptionEntity, ExerciseDescriptionEntity>> {
+    override fun test(id: Long): Flow<List<ExerciseFullEntity>> {
         TODO("Not yet implemented")
     }
 

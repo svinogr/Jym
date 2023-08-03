@@ -4,6 +4,7 @@ import info.upump.database.dao.ExerciseDescriptionDao
 import info.upump.database.entities.CycleEntity
 import info.upump.database.entities.ExerciseDescriptionEntity
 import info.upump.database.entities.ExerciseEntity
+import info.upump.database.entities.ExerciseFullEntity
 import info.upump.database.entities.SetsEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -16,6 +17,6 @@ interface RepoActions<T> {
     fun getAllByParent(id: Long): Flow<List<T>>
     fun update(setsGet: T): T
 
-    fun test(id: Long): Flow<Map<T, ExerciseDescriptionEntity>>
+    fun test(id: Long): Flow<List<ExerciseFullEntity>>
 }
 
