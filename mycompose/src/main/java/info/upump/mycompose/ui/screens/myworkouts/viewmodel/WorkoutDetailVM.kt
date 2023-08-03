@@ -29,7 +29,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad() {
                 Workout.mapFromDbEntity(it)
             }
 
-            val eflow = ExerciseRepo.get().test(id).map {
+            val eflow = ExerciseRepo.get().getAllFullEntityByParent(id).map {
                 it.map {
                     Exercise.mapFromFullDbEntity(it)
                 }

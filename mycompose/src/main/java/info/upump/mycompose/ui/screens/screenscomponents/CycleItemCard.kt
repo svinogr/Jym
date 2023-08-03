@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
@@ -38,6 +39,7 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 class SampleCycleProvider : PreviewParameterProvider<Cycle> {
     override val values = sequenceOf(Cycle(title = "Новая", image = "uk1"))
 }
+
 
 @Composable
 fun CycleItemCard(
@@ -124,4 +126,11 @@ fun CycleItemCard(
             }
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun PreviewCycleItemCard() {
+    val c = Cycle(title = "Новая", image = "uk1")
+    CycleItemCard(c, NavHostController(LocalContext.current))
 }

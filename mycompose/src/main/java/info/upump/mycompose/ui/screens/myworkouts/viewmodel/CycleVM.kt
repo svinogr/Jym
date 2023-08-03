@@ -19,6 +19,8 @@ class CycleVM : BaseVMWithStateLoad() {
     private val _cycles = MutableStateFlow<List<Cycle>>(listOf())
     val cycles: StateFlow<List<Cycle>> = _cycles.asStateFlow()
 
+    private val _cycle = MutableStateFlow(Cycle(""))
+    val cycle: StateFlow<Cycle> = _cycle.asStateFlow()
     fun getAllPersonal() {
         _stateLoading.value = true
 
@@ -30,10 +32,10 @@ class CycleVM : BaseVMWithStateLoad() {
                 it.map {
                     Cycle.mapFromDbEntity(it)
                 }
-            }.collect{
+            }.collect {
                 _cycles.value = it
+            }
+            _stateLoading.value = false
         }
-        _stateLoading.value = false
     }
-}
 }

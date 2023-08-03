@@ -16,7 +16,5 @@ interface RepoActions<T> {
     fun getBy(id: Long): Flow<T>
     fun getAllByParent(id: Long): Flow<List<T>>
     fun update(setsGet: T): T
-
-    fun test(id: Long): Flow<List<ExerciseFullEntity>>
 }
 

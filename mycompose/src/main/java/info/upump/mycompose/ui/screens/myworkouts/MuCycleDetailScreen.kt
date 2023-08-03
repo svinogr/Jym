@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,19 +18,22 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
+import androidx.compose.material3.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +41,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -223,42 +228,65 @@ fun DefaultDetailTitleCycleScreen(workout: List<Workout>, navHostController: Nav
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
-    Box(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-            Card(modifier = Modifier.fillMaxWidth()) {
+  //  Box(modifier = Modifier.fillMaxWidth()) {
+    val modifier = Modifier
+        .fillMaxWidth()
+        .background(Color.Transparent)
+    val modifierValue = Modifier.padding(start = 10.dp, top = 4.dp)
+    val modifierLabel = Modifier.padding(start = 8.dp)
+    val modifierCard = Modifier
+        .fillMaxWidth()
+        .padding(start = 4.dp, end = 4.dp, top = 4.dp)
+        Column(modifier =  Modifier
+            .verticalScroll(rememberScrollState())
+            .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout))) {
+            Card(modifier = modifierCard,
+                elevation = CardDefaults.cardElevation(1.dp),
+                shape = RoundedCornerShape(0.dp),
+                colors = CardDefaults.cardColors(containerColor =
+                colorResource(id = R.color.colorBackgroundCardView)
+                )) {
 
                 Column(modifier = Modifier.fillMaxWidth()) {
                     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                         val text = createRef()
                         val gui = createGuidelineFromStart(0.5f)
                         Text(
-                            modifier = Modifier.padding(start = 8.dp),
+                            modifier = modifierLabel,
                             style = MyTextLabel12,
-                            text = "Дата начала"
+                            text = stringResource(id = R.string.label_start_cycle)
                         )
-                        Text(modifier = Modifier.constrainAs(text) {
+                        Text(modifier = modifierLabel.constrainAs(text)
+                        {
                             start.linkTo(gui, margin = 8.dp)
-                        }, style = MyTextLabel12, text = "Дата окончания")
+                        }, style = MyTextLabel12, text = stringResource(id = R.string.label_finish_cycle))
                     }
                     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                         val text = createRef()
                         val gui = createGuidelineFromStart(0.5f)
                         Text(
-                            modifier = Modifier.padding(start = 8.dp),
+                            modifier = modifierValue,
                             text = cycle.startStringFormatDate
                         )
-                        Text(modifier = Modifier.constrainAs(text) {
+                        Text(modifier =modifierValue.constrainAs(text) {
                             start.linkTo(gui, margin = 8.dp)
                         }, text = cycle.finishStringFormatDate)
                     }
                 }
             }
-            Card() {
-                Text(modifier = Modifier.padding(8.dp), text = "${cycle.comment}")
+            Card(modifier = modifierCard,
+                elevation = CardDefaults.cardElevation(1.dp),
+                shape = RoundedCornerShape(0.dp),
+                colors = CardDefaults.cardColors(containerColor =
+                colorResource(id = R.color.colorBackgroundCardView))) {
+                Column {
+                    Text(modifier = modifierLabel, style = MyTextLabel12, text = stringResource(id = R.string.label_description_cycle))
+                    Text(modifier = modifierValue, text = "${cycle.comment}")
+                }
             }
 
         }
-    }
+  //  }
 
 }
 

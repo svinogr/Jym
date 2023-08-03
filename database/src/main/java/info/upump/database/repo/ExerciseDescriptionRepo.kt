@@ -8,7 +8,7 @@ import info.upump.database.entities.ExerciseFullEntity
 import kotlinx.coroutines.flow.Flow
 
 class ExerciseDescriptionRepo private constructor(private val context: Context, db: RoomDB):
-    RepoActions<ExerciseDescriptionEntity> {
+    RepoActions<ExerciseDescriptionEntity,> {
     private val exerciseDescriptionDao =  db.exerciseDescriptionDao()
 
     companion object {
@@ -41,10 +41,6 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
     }
 
     override fun getAllByParent(id: Long): Flow<List<ExerciseDescriptionEntity>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun test(id: Long): Flow<List<ExerciseFullEntity>> {
         TODO("Not yet implemented")
     }
 

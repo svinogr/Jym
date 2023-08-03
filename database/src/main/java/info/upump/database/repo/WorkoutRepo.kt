@@ -48,10 +48,6 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
         return workoutDao.getAllByParent(id)
     }
 
-    override fun test(id: Long):  Flow<List<ExerciseFullEntity>> {
-        TODO("Not yet implemented")
-    }
-
     override fun update(setsGet: WorkoutEntity): WorkoutEntity {
         TODO("Not yet implemented")
     }
@@ -59,6 +55,4 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
     override fun save(item: WorkoutEntity): WorkoutEntity {
         TODO("Not yet implemented")
     }
-
-
 }

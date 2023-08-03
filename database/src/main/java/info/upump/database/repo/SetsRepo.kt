@@ -47,10 +47,6 @@ class SetsRepo private constructor(private var context: Context, db: RoomDB) :
       return setsDao.getByParent(id)
     }
 
-    override fun test(id: Long): Flow<List<ExerciseFullEntity>> {
-        TODO("Not yet implemented")
-    }
-
     override fun update(item: SetsEntity): SetsEntity {
         setsDao.update(item)
         return item
