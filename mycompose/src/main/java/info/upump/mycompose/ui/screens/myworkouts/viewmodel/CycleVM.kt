@@ -38,4 +38,21 @@ class CycleVM : BaseVMWithStateLoad() {
             _stateLoading.value = false
         }
     }
+
+    fun getCycle(id: Long) {
+       viewModelScope.launch(Dispatchers.IO) {
+           if (id == 0L) {
+               _cycle.value = Cycle("")
+               return@launch
+           }
+
+       }
+    }
+
+    fun saveCycle() {
+        viewModelScope.launch(Dispatchers.IO) {
+            CycleRepo.get().save(Cycle.mapToEntity(cycle.value))
+        }
+    }
+
 }

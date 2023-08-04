@@ -11,6 +11,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import info.upump.mycompose.ui.screens.myworkouts.CreateEditeCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyCycleDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyExerciseDetailScreen
@@ -105,6 +106,19 @@ fun NavGraphBuilder.myCycleGraph(
             Log.d("TAG", "id = $id")
 
             MySetsDetailScreen(id!!, navHostController, paddingValues, appBarTitle)
+        }
+        composable(
+            route = NavigationItem.CreateEditeCycleNavigationItem.route,
+            arguments = listOf(navArgument("id"){
+                type = NavType.LongType
+            }),
+        ) {
+
+            //topBarState.value = false он уже должен был быть убран
+            val id = it.arguments?.getLong("id")
+            Log.d("TAG", "id = $id")
+
+            CreateEditeCycleScreen(id!!, navHostController, paddingValues, appBarTitle)
         }
     }
 }

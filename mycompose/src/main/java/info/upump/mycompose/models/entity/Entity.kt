@@ -10,20 +10,20 @@ abstract class Entity(
     val formatDate: String = "yyyy-MM-dd",
     var startDate: Date? = Date(),
     var finishDate: Date? = Date(),
-    var comment: String? = null,
+    var comment: String? = "",
     var parentId: Long = 0
 ) {
 
     val startStringFormatDate: String
         get() {
             val simpleDateFormat = SimpleDateFormat(formatDate, Locale.getDefault())
-            return simpleDateFormat.format(startDate)
+            return simpleDateFormat.format(startDate!!)
         }
 
     fun setStartDate(stringDate: String?) {
         val simpleDateFormat = SimpleDateFormat(formatDate, Locale.getDefault())
         try {
-            startDate = simpleDateFormat.parse(stringDate)
+            startDate = simpleDateFormat.parse(stringDate!!)
         } catch (e: ParseException) {
             e.printStackTrace()
         }

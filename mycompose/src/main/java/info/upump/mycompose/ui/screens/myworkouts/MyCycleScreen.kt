@@ -44,6 +44,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.CycleItemCard
 
 @SuppressLint("UnrememberedMutableState")
@@ -91,7 +92,7 @@ fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingVa
             exit = slideOutVertically() + shrinkVertically() + fadeOut()
         ) {
             FloatingActionButton(
-                onClick = {},
+                onClick = {navHostController.navigate(NavigationItem.CreateEditeCycleNavigationItem.routeWithId(0))},
                 shape = CircleShape,
             ) {
                 Icon(

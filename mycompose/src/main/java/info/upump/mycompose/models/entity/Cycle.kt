@@ -56,6 +56,16 @@ class Cycle(
 //            Log.d("TAG", "c ${cycle.defaultImg!!}")
             return cycle
         }
+
+        fun mapToEntity(cycle: Cycle): CycleEntity{
+            val cycleEntity = CycleEntity(cycle.id)
+
+            //TODO map to entity
+            return cycleEntity
+
+        }
+
+
     }
 }
 
