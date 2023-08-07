@@ -1,6 +1,7 @@
 package info.upump.mycompose.ui.screens.myworkouts.viewmodel
 
 import android.os.StatFs
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -42,15 +43,22 @@ class CycleVM : BaseVMWithStateLoad() {
     fun getCycle(id: Long) {
        viewModelScope.launch(Dispatchers.IO) {
            if (id == 0L) {
-               _cycle.value = Cycle("")
+               _cycle.value = Cycle("Новая программа")
+               Log.d("getCycle", "${cycle.value}")
                return@launch
            }
 
+           CycleRepo.get().getBy(id).map {
+               Cycle.mapFromDbEntity(it)
+           }.collect{
+             _cycle.value = it
+           }
        }
     }
 
     fun saveCycle() {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d("save", "${cycle.value}")
             CycleRepo.get().save(Cycle.mapToEntity(cycle.value))
         }
     }

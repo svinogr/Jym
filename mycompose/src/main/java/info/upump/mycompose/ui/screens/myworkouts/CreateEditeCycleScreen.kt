@@ -3,14 +3,21 @@ package info.upump.mycompose.ui.screens.myworkouts
 import android.app.DatePickerDialog
 import android.content.Context
 import android.icu.util.Calendar
+import android.net.Uri
 import android.util.Log
 import android.widget.DatePicker
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,12 +38,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -46,17 +57,13 @@ import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
 import info.upump.mycompose.ui.theme.MyTextLabel12
+import info.upump.mycompose.ui.theme.MyTextTitleLabel20StrokeText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.Date
 
-fun getImage(cycle: Cycle, context: Context): Int {
 
-    val name = context.packageName
-    val id = context.resources.getIdentifier("drew", "drawable", name)
-    return id
-}
-
+@OptIn(ExperimentalTextApi::class)
 @Composable
 fun CreateEditeCycleScreen(
     id: Long, navHostController: NavHostController,
@@ -75,7 +82,7 @@ fun CreateEditeCycleScreen(
     val modifier = Modifier
         .fillMaxWidth()
         .background(Color.Transparent)
-    val modifierValue = Modifier.padding(start = 10.dp, top = 4.dp, end = 8.dp)
+    val modifierValue = Modifier.padding(start = 10.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
     val modifierLabel = Modifier.padding(start = 8.dp)
     val modifierCard = Modifier
         .fillMaxWidth()
@@ -87,15 +94,72 @@ fun CreateEditeCycleScreen(
             .verticalScroll(rememberScrollState())
             .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
     ) {
-        Image(
-            modifier = modifier
-                .height(200.dp)
-                .clickable {
-                    chageImage()
-                },
-            painter = painterResource(id = getImage(cycle, context)),
-            contentDescription = "image",
-        )
+        var title by remember {
+            mutableStateOf(cycle.title)
+        }
+
+        Box(modifier = Modifier.fillMaxSize()) {
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.PickVisualMedia()
+            ){
+                Log.d("IRU", "$it")
+            }
+            Image(
+                modifier = modifier
+                    .height(200.dp)
+                    .clickable {
+                        chageImage(launcher)
+                    },
+                painter = painterResource(id = getImage(cycle, context)),
+              //  painter =   getImage2(cycle, context),
+                contentDescription = "image",
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(bottom = 16.dp, start = 10.dp),
+                style = MyTextTitleLabel20StrokeText,
+                text = if (title!!.isBlank()) {
+                    stringResource(id = R.string.title_cycle_hint)
+                } else {
+                    title!!
+                }
+            )
+        }
+
+        Card(
+            modifier = modifierCard,
+            elevation = CardDefaults.cardElevation(1.dp),
+            shape = RoundedCornerShape(0.dp),
+            colors = CardDefaults.cardColors(
+                containerColor =
+                colorResource(id = R.color.colorBackgroundCardView)
+            )
+        ) {
+
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    modifier = modifierLabel,
+                    style = MyTextLabel12,
+                    text = stringResource(id = R.string.label_title_cycle)
+                )
+
+                TextField(modifier = modifierValue.fillMaxWidth(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = colorResource(R.color.colorBackgroundCardView)
+                    ),
+                    value = title!!,
+                    onValueChange = {
+                        cycle.title = title
+                        title = it
+                    }, placeholder = {
+                        Text(stringResource(id = R.string.title_cycle_hint))
+                    }
+                )
+            }
+        }
+
         Card(
             modifier = modifierCard,
             elevation = CardDefaults.cardElevation(1.dp),
@@ -125,22 +189,37 @@ fun CreateEditeCycleScreen(
                     )
                 }
 
-                 val dateState = remember{
-                     mutableStateOf(cycle.startStringFormatDate)
-                 }
+                val dateStateStart = remember {
+                    mutableStateOf(cycle.startStringFormatDate)
+                }
+
+                val dateStateFinish = remember {
+                    mutableStateOf(cycle.startStringFormatDate)
+                }
 
                 ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                     val text = createRef()
                     val gui = createGuidelineFromStart(0.5f)
                     Text(
                         modifier = modifierValue.clickable {
-                            datePickerDialog(cycle, dateState, context).show()
+                            datePickerDialog(cycle.startDate!!, context) { date ->
+                                cycle.startDate = date
+                                dateStateStart.value = cycle.startStringFormatDate
+                            }.show()
                         },
-                        text = dateState.value
+                        text = dateStateStart.value
                     )
-                    Text(modifier = modifierValue.constrainAs(text) {
-                        start.linkTo(gui)
-                    }, text = cycle.finishStringFormatDate)
+                    Text(modifier = modifierValue
+                        .constrainAs(text) {
+                            start.linkTo(gui)
+                        }
+                        .clickable {
+                            datePickerDialog(cycle.finishDate!!, context) { date ->
+                                cycle.finishDate = date
+                                dateStateFinish.value = cycle.finishStringFormatDate
+                            }.show()
+                        }, text = dateStateFinish.value
+                    )
                 }
             }
         }
@@ -154,7 +233,7 @@ fun CreateEditeCycleScreen(
                 colorResource(id = R.color.colorBackgroundCardView)
             )
         ) {
-            var text by rememberSaveable {
+            var comment by rememberSaveable {
                 mutableStateOf(cycle.comment)
             }
 
@@ -165,45 +244,63 @@ fun CreateEditeCycleScreen(
                     text = stringResource(id = R.string.label_description_cycle)
                 )
 
-                TextField(modifier = modifierValue.fillMaxWidth(), colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = colorResource(R.color.colorBackgroundCardView)
-                ), value = text!!, onValueChange = {
-                    text = it
-                })
+                TextField(modifier = modifierValue.fillMaxWidth(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = colorResource(R.color.colorBackgroundCardView)
+                    ),
+                    value = comment!!,
+                    onValueChange = {
+                        cycle.comment = it
+                        comment = it
+                    })
             }
         }
     }
     BackHandler {
         Log.d("date", "save ${cycle}")
-        //     setVM.saveItem(set)
+        cycleVM.saveCycle()
 
         navHostController.navigateUp()
     }
 }
 
+/*
+fun getImage2(cycle: Cycle, context: Context): Painter {
 
 
-fun datePickerDialog(cycle: Cycle, dateSatte: MutableState<String>, context: Context): DatePickerDialog {
+}
+*/
+
+
+fun getImage(cycle: Cycle, context: Context): Int {
+
+    val name = context.packageName
+    val id = context.resources.getIdentifier("drew", "drawable", name)
+    return id
+}
+
+fun datePickerDialog(date: Date, context: Context, updateText: (Date) -> Unit): DatePickerDialog {
     val c = Calendar.getInstance()
-    c.time = cycle.startDate
+    c.time = date
     val y = c.get(Calendar.YEAR)
     val m = c.get(Calendar.MONTH)
     val d = c.get(Calendar.DAY_OF_MONTH)
 
-    val di = DatePickerDialog(context,
+    val di = DatePickerDialog(
+        context,
         { _: DatePicker, mY: Int, mM: Int, mD: Int ->
             c.set(mY, mM, mD)
-            cycle.startDate = c.time
-            dateSatte.value = cycle.startStringFormatDate
-            Log.d("date", "${cycle.startDate}")
+            updateText(c.time)
         }, y, m, d
     )
 
     return di
 }
 
-fun chageImage() {
-    TODO("Not yet implemented")
+fun chageImage(launcher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>) {
+    launcher.launch(PickVisualMediaRequest(
+        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+    ))
 }
 
 @Preview(showBackground = true, showSystemUi = true)

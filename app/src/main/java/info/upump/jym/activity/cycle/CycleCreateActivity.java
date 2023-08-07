@@ -225,6 +225,7 @@
 //                        Calendar newDate = Calendar.getInstance();
 //                        newDate.set(year, monthOfYear, dayOfMonth);
 //                        Cycle dataCycle = new Cycle();
+
 //                        dataCycle.setFinishDate(newDate.getTime());
 //                        finishTextData.setText(dataCycle.getFinishStringFormatDate());
 //                    }
