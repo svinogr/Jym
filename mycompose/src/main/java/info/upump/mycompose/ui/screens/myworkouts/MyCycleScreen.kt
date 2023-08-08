@@ -2,7 +2,9 @@ package info.upump.mycompose.ui.screens.myworkouts
 
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.expandVertically
@@ -47,6 +49,7 @@ import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.CycleItemCard
 
+@RequiresApi(Build.VERSION_CODES.P)
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingValues) {
@@ -77,8 +80,8 @@ fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingVa
         AnimatedVisibility(modifier = Modifier
             .padding(end = 16.dp, bottom = 16.dp)
             .align(Alignment.BottomEnd),
-            visible = fabVisibility,
-            //visible = true,
+            //visible = fabVisibility,
+            visible = true,
             enter = slideInVertically {
                 // Slide in from 40 dp from the top.
                 with(density) { 40.dp.roundToPx() }

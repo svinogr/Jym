@@ -22,6 +22,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
@@ -37,9 +38,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Preview
 @Composable
 fun MainScreen() {
@@ -50,6 +53,17 @@ fun MainScreen() {
     val topBarState = remember {
         mutableStateOf(true)
     }
+    val cameraPermission =
+        rememberPermissionState(permission = "android.permission.CAMERA")
+    val storagePermission =
+        rememberPermissionState(permission = "android.permission.READ_EXTERNAL_STORAGE")
+
+    SideEffect {
+
+        cameraPermission.launchPermissionRequest()
+        storagePermission.launchPermissionRequest()
+    }
+
     val density = LocalDensity.current
     Scaffold(
         bottomBar =
@@ -63,11 +77,11 @@ fun MainScreen() {
                 } /*+ expandHorizontally(
                     // Expand from the top.
                     expandFrom = Alignment.End
-                ) */+ fadeIn(
+                ) */ + fadeIn(
                     // Fade in with the initial alpha of 0.3f.
                     initialAlpha = 0.3f
                 ),
-                exit = slideOutVertically(){ with(density){60.dp.roundToPx()} }
+                exit = slideOutVertically() { with(density) { 60.dp.roundToPx() } }
                 // + shrinkHorizontally()
             ) {
                 MyBottomNavigation(navController)
@@ -86,13 +100,14 @@ fun MainScreen() {
                 } /*+ expandHorizontally(
                     // Expand from the top.
                     expandFrom = Alignment.End
-                ) */+ fadeIn(
+                ) */ + fadeIn(
                     // Fade in with the initial alpha of 0.3f.
                     initialAlpha = 0.3f
                 ),
-                exit = slideOutVertically(){
+                exit = slideOutVertically() {
                     // Slide in from 40 dp from the top.
-                    with(density) { -60.dp.roundToPx() } }
+                    with(density) { -60.dp.roundToPx() }
+                }
             ) {
                 TopAppBar(
                     title = {

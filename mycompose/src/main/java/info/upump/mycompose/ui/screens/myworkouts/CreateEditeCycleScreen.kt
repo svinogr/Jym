@@ -2,8 +2,12 @@ package info.upump.mycompose.ui.screens.myworkouts
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.icu.util.Calendar
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.widget.DatePicker
 import androidx.activity.compose.BackHandler
@@ -11,6 +15,7 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -41,6 +46,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -63,6 +69,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.util.Date
 
 
+@RequiresApi(Build.VERSION_CODES.P)
 @OptIn(ExperimentalTextApi::class)
 @Composable
 fun CreateEditeCycleScreen(
@@ -74,6 +81,9 @@ fun CreateEditeCycleScreen(
     val cycle by cycleVM.cycle.collectAsState()
     val isLoad by cycleVM.isLoading.collectAsState()
     val context = LocalContext.current
+    val bitmap =  remember {
+        mutableStateOf<Bitmap?>(null)
+    }
 
     LaunchedEffect(key1 = true) {
         cycleVM.getCycle(id)
@@ -102,6 +112,7 @@ fun CreateEditeCycleScreen(
             val launcher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.PickVisualMedia()
             ){
+                cycle.image = it.toString()
                 Log.d("IRU", "$it")
             }
             Image(
@@ -110,8 +121,8 @@ fun CreateEditeCycleScreen(
                     .clickable {
                         chageImage(launcher)
                     },
-                painter = painterResource(id = getImage(cycle, context)),
-              //  painter =   getImage2(cycle, context),
+              //  painter = painterResource(id = getImage(cycle, context)),
+                bitmap =   getImage2(cycle, context, bitmap).asImageBitmap(),
                 contentDescription = "image",
                 contentScale = ContentScale.Crop
             )
@@ -264,12 +275,29 @@ fun CreateEditeCycleScreen(
     }
 }
 
-/*
-fun getImage2(cycle: Cycle, context: Context): Painter {
+@RequiresApi(Build.VERSION_CODES.P)
+fun getImage2(cycle: Cycle, context: Context, bitmap: MutableState<Bitmap?>): Bitmap {
+    val name = context.packageName
+    var source: ImageDecoder.Source
+    Log.d("getImage", "${cycle.defaultImg}")
+    Log.d("getImage", "${cycle.image}")
+    try {
+        if (cycle.image != null) {
+            source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.image))
 
+        } else {
+            val id = context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
+            source = ImageDecoder.createSource(context.resources, id)
 
+        }
+    } catch (e: NullPointerException) {
+        val id = context.resources.getIdentifier("drew", "drawable", name)
+        source = ImageDecoder.createSource(context.resources, id)
+
+    }
+
+    return ImageDecoder.decodeBitmap(source)
 }
-*/
 
 
 fun getImage(cycle: Cycle, context: Context): Int {
@@ -303,6 +331,7 @@ fun chageImage(launcher: ManagedActivityResultLauncher<PickVisualMediaRequest, U
     ))
 }
 
+@RequiresApi(Build.VERSION_CODES.P)
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewCreateEditeCycleScreen() {
