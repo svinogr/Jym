@@ -2,12 +2,13 @@ package info.upump.mycompose.ui.screens.myworkouts
 
 import android.app.DatePickerDialog
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.DatePicker
 import androidx.activity.compose.BackHandler
@@ -47,11 +48,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.tooling.preview.Preview
@@ -81,7 +80,10 @@ fun CreateEditeCycleScreen(
     val cycle by cycleVM.cycle.collectAsState()
     val isLoad by cycleVM.isLoading.collectAsState()
     val context = LocalContext.current
-    val bitmap =  remember {
+    val imagePickerModifier = Modifier.height(200.dp)
+
+
+    val bitmap = remember {
         mutableStateOf<Bitmap?>(null)
     }
 
@@ -105,28 +107,18 @@ fun CreateEditeCycleScreen(
             .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
     ) {
         var title by remember {
-            mutableStateOf(cycle.title)
+            mutableStateOf(cycle.title!!)
         }
 
         Box(modifier = Modifier.fillMaxSize()) {
-            val launcher = rememberLauncherForActivityResult(
-                contract = ActivityResultContracts.PickVisualMedia()
-            ){
-                cycle.image = it.toString()
-                Log.d("IRU", "$it")
-            }
-            Image(
-                modifier = modifier
-                    .height(200.dp)
-                    .clickable {
-                        chageImage(launcher)
-                    },
-              //  painter = painterResource(id = getImage(cycle, context)),
-                bitmap =   getImage2(cycle, context, bitmap).asImageBitmap(),
-                contentDescription = "image",
-                contentScale = ContentScale.Crop
-            )
-            Text(
+
+            ImageWithPicker(cycle,  context, imagePickerModifier)
+            val labelTitleBoxModifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(bottom = 16.dp, start = 10.dp)
+            LabelTitleForImage(title = title, modifier = labelTitleBoxModifier)
+
+        /*    Text(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .padding(bottom = 16.dp, start = 10.dp),
@@ -136,7 +128,7 @@ fun CreateEditeCycleScreen(
                 } else {
                     title!!
                 }
-            )
+            )*/
         }
 
         Card(
@@ -275,7 +267,7 @@ fun CreateEditeCycleScreen(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.P)
+/*@RequiresApi(Build.VERSION_CODES.P)
 fun getImage2(cycle: Cycle, context: Context, bitmap: MutableState<Bitmap?>): Bitmap {
     val name = context.packageName
     var source: ImageDecoder.Source
@@ -297,15 +289,53 @@ fun getImage2(cycle: Cycle, context: Context, bitmap: MutableState<Bitmap?>): Bi
     }
 
     return ImageDecoder.decodeBitmap(source)
+}*/
+
+ fun getImage(cycle: Cycle, context: Context): Bitmap {
+    var bitmap: Bitmap
+    val name = context.packageName
+
+     var source: ImageDecoder.Source
+    try {
+        if (cycle.image != null) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.image))
+                bitmap = ImageDecoder.decodeBitmap(source)
+            } else {
+                bitmap = MediaStore.Images.Media.getBitmap(
+                    context.contentResolver,
+                    Uri.parse(cycle.image)
+                );
+            }
+
+        } else {
+            val id = context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                source = ImageDecoder.createSource(context.resources, id)
+                bitmap = ImageDecoder.decodeBitmap(source)
+            } else {
+                bitmap = BitmapFactory.decodeResource(context.resources, id);
+            }
+        }
+    } catch (e: NullPointerException) {
+        val id = context.resources.getIdentifier("drew", "drawable", name)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            source = ImageDecoder.createSource(context.resources, id)
+            bitmap = ImageDecoder.decodeBitmap(source)
+        } else {
+            bitmap = BitmapFactory.decodeResource(context.resources, id);
+        }
+    }
+    return bitmap
 }
 
-
-fun getImage(cycle: Cycle, context: Context): Int {
+/*fun getImage(cycle: Cycle, context: Context): Int {
 
     val name = context.packageName
     val id = context.resources.getIdentifier("drew", "drawable", name)
     return id
-}
+}*/
 
 fun datePickerDialog(date: Date, context: Context, updateText: (Date) -> Unit): DatePickerDialog {
     val c = Calendar.getInstance()
@@ -325,11 +355,7 @@ fun datePickerDialog(date: Date, context: Context, updateText: (Date) -> Unit): 
     return di
 }
 
-fun chageImage(launcher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>) {
-    launcher.launch(PickVisualMediaRequest(
-        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-    ))
-}
+
 
 @RequiresApi(Build.VERSION_CODES.P)
 @Preview(showBackground = true, showSystemUi = true)
@@ -345,3 +371,59 @@ fun PreviewCreateEditeCycleScreen() {
     )
 }
 
+@Composable
+fun ImageWithPicker(cycle: Cycle, context: Context, modifier: Modifier) {
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) {
+        cycle.image = it.toString()
+        Log.d("IRU", "$it")
+    }
+
+    Image(
+        modifier = modifier
+            .clickable {
+                launcher.launch(
+                    PickVisualMediaRequest(
+                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
+                )
+            },
+
+        bitmap = getImage(cycle, context).asImageBitmap(),
+        contentDescription = "image",
+        contentScale = ContentScale.Crop
+    )
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun ImageWithPickerPreview(){
+    val cycle = Cycle("title")
+    cycle.defaultImg = "drew"
+    val imagePickerModifier = Modifier
+        .fillMaxWidth()
+        .height(200.dp)
+    ImageWithPicker(cycle = cycle, context = LocalContext.current , modifier = imagePickerModifier )
+}
+
+@Composable
+fun LabelTitleForImage(title: String, modifier: Modifier) {
+    Text(
+        modifier = modifier,
+        style = MyTextTitleLabel20StrokeText,
+        text = if (title!!.isBlank()) {
+            stringResource(id = R.string.title_cycle_hint)
+        } else {
+            title
+        }
+    )
+}
+
+@Preview(showBackground = true, backgroundColor = 1)
+@Composable
+fun LabelTitleForImagePreview(){
+    val labelTitleBoxModifier = Modifier.fillMaxWidth()
+        .padding(bottom = 16.dp, start = 10.dp, end = 10.dp)
+    LabelTitleForImage(title = "Новая программа", modifier = labelTitleBoxModifier )
+}

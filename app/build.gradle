@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "info.upump.jym"
-        minSdk 27
+        minSdk 26
         targetSdk 34
         versionCode 18
         versionName "2.01"
