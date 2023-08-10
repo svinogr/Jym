@@ -65,7 +65,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class SampleCycleProvider : PreviewParameterProvider<Cycle> {
-    override val values = sequenceOf(Cycle(title = "Новая", image = "uk1"))
+    override val values = sequenceOf(Cycle( image = "uk1").apply { title = "Новая" })
 }
 
 
@@ -240,6 +240,6 @@ fun CycleItemCard(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewCycleItemCard() {
-    val c = Cycle(title = "Новая", defaultImg = "uk2")
+    val c = Cycle(defaultImg = "uk2").apply { title = "Новая" }
     CycleItemCard(c, NavHostController(LocalContext.current))
 }

@@ -6,7 +6,6 @@ import info.upump.database.entities.ExerciseEntity
 import info.upump.database.entities.ExerciseFullEntity
 
 class Exercise(
-    var title: String = "",
     var typeMuscle: TypeMuscle? = null,
     var isDefaultType: Boolean = false,
     var isTemplate: Boolean = false,

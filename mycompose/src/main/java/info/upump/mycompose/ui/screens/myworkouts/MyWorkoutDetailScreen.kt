@@ -87,7 +87,7 @@ fun MyWorkoutDetailScreen(
         workoutVM.getWorkoutBy(id)
     }
 
-    Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()) ){
+    Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
         Box {
 
             val context = LocalContext.current
@@ -99,9 +99,9 @@ fun MyWorkoutDetailScreen(
                     getDefaultImage(context = context).asImageBitmap()
                 },
 
-        /*        bitmap =
-                    getDefaultImage(context = context).asImageBitmap()
-                ,*/
+                /*        bitmap =
+                            getDefaultImage(context = context).asImageBitmap()
+                        ,*/
 
                 contentDescription = "",
                 modifier = Modifier
@@ -238,9 +238,9 @@ fun DetailDescriptionWorkoutScreen(workout: Workout) {
 @Composable
 fun PreviewDetailTitleWorkoutScreen() {
     val workout = Workout(
-        title = "ПРограмма", exercises = listOf(),
+        exercises = listOf(),
         isDefaultType = true
-    )
+    ).apply { title = "Новая" }
 
     val exerdescription = ExerciseDescription(img = "nach1", defaultImg = "nach1")
     val listSets = listOf(
@@ -250,18 +250,16 @@ fun PreviewDetailTitleWorkoutScreen() {
     )
     val list = listOf(
         Exercise(
-            title = "Новое упраж",
             isDefaultType = false,
             isTemplate = false, exerciseDescription = exerdescription, setsList = listSets
-        ), Exercise(
-            title = "Новое упраж 2",
+        ).apply { title = "Новое упраж" }, Exercise(
             isDefaultType = false,
             isTemplate = false, exerciseDescription = exerdescription, setsList = listSets
-        ), Exercise(
-            title = "Новое упраж 3",
+        ).apply { title = "Новое упраж2" }, Exercise(
+
             isDefaultType = false,
             isTemplate = false, exerciseDescription = exerdescription, setsList = listSets
-        )
+        ).apply { title = "Новое упраж3" }
     )
 
     workout.exercises = list
@@ -274,9 +272,9 @@ fun PreviewDetailTitleWorkoutScreen() {
 @Composable
 fun PreviewDetailDescriptionWorkoutScreen() {
     val workout = Workout(
-        title = "ПРограмма", exercises = listOf(),
+        exercises = listOf(),
         isDefaultType = true
-    )
+    ).apply { title = "Программа" }
 
     workout.comment =
         "Lorem ipsum dolor sit amet, consectetuer adipiscing . Aelit" +

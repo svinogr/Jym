@@ -153,10 +153,9 @@ fun PreviewExerciseItemCard() {
     )
 
     val exercise = Exercise(
-        title = "Новое упраж",
-        isDefaultType = false,
+                isDefaultType = false,
         isTemplate = false, exerciseDescription = exerdescription
-    )
+    ).apply { title = "Новое упраж" }
 
     exercise.setsList = listSets
     ExerciseItemCard(exercise = exercise, navHost = NavController(LocalContext.current))

@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class CycleDetailVM : BaseVMWithStateLoad() {
-    private var _cycle = MutableStateFlow(Cycle(""))
+    private var _cycle = MutableStateFlow(Cycle())
     val cycle: StateFlow<Cycle> = _cycle.asStateFlow()
 
     private var _workout = MutableStateFlow<List<Workout>>(mutableListOf())

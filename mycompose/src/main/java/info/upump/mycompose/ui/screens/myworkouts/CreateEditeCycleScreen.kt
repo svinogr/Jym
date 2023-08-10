@@ -12,7 +12,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.DatePicker
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -60,7 +59,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
+import info.upump.mycompose.models.entity.Entity
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
+import info.upump.mycompose.ui.screens.screenscomponents.CardTitle
+import info.upump.mycompose.ui.screens.screenscomponents.DateCardWithDatePicker
+import info.upump.mycompose.ui.screens.screenscomponents.DescriptionCard
+import info.upump.mycompose.ui.screens.screenscomponents.ImageWithPicker
+import info.upump.mycompose.ui.screens.screenscomponents.LabelTitleForImage
 import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextTitleLabel20StrokeText
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -79,26 +84,10 @@ fun CreateEditeCycleScreen(
     val cycleVM: CycleVM = viewModel()
     val cycle by cycleVM.cycle.collectAsState()
     val isLoad by cycleVM.isLoading.collectAsState()
-    val context = LocalContext.current
-    val imagePickerModifier = Modifier.height(200.dp)
-
-
-    val bitmap = remember {
-        mutableStateOf<Bitmap?>(null)
-    }
 
     LaunchedEffect(key1 = true) {
         cycleVM.getCycle(id)
     }
-
-    val modifier = Modifier
-        .fillMaxWidth()
-        .background(Color.Transparent)
-    val modifierValue = Modifier.padding(start = 10.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
-    val modifierLabel = Modifier.padding(start = 8.dp)
-    val modifierCard = Modifier
-        .fillMaxWidth()
-        .padding(start = 4.dp, end = 4.dp, top = 4.dp)
 
     Column(
         modifier = Modifier
@@ -111,153 +100,21 @@ fun CreateEditeCycleScreen(
         }
 
         Box(modifier = Modifier.fillMaxSize()) {
-
-            ImageWithPicker(cycle,  context, imagePickerModifier)
+            // Image
+            ImageWithPicker(cycle)
+            // Label for image
             val labelTitleBoxModifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(bottom = 16.dp, start = 10.dp)
-            LabelTitleForImage(title = title, modifier = labelTitleBoxModifier)
-
-        /*    Text(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(bottom = 16.dp, start = 10.dp),
-                style = MyTextTitleLabel20StrokeText,
-                text = if (title!!.isBlank()) {
-                    stringResource(id = R.string.title_cycle_hint)
-                } else {
-                    title!!
-                }
-            )*/
+            LabelTitleForImage(cycle, modifier = labelTitleBoxModifier)
         }
 
-        Card(
-            modifier = modifierCard,
-            elevation = CardDefaults.cardElevation(1.dp),
-            shape = RoundedCornerShape(0.dp),
-            colors = CardDefaults.cardColors(
-                containerColor =
-                colorResource(id = R.color.colorBackgroundCardView)
-            )
-        ) {
+        CardTitle(cycle)
 
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    modifier = modifierLabel,
-                    style = MyTextLabel12,
-                    text = stringResource(id = R.string.label_title_cycle)
-                )
+        DateCardWithDatePicker(cycle)
 
-                TextField(modifier = modifierValue.fillMaxWidth(),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = colorResource(R.color.colorBackgroundCardView)
-                    ),
-                    value = title!!,
-                    onValueChange = {
-                        cycle.title = title
-                        title = it
-                    }, placeholder = {
-                        Text(stringResource(id = R.string.title_cycle_hint))
-                    }
-                )
-            }
-        }
-
-        Card(
-            modifier = modifierCard,
-            elevation = CardDefaults.cardElevation(1.dp),
-            shape = RoundedCornerShape(0.dp),
-            colors = CardDefaults.cardColors(
-                containerColor =
-                colorResource(id = R.color.colorBackgroundCardView)
-            )
-        ) {
-
-            Column(modifier = Modifier.fillMaxWidth()) {
-                ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                    val text = createRef()
-                    val gui = createGuidelineFromStart(0.5f)
-                    Text(
-                        modifier = modifierLabel,
-                        style = MyTextLabel12,
-                        text = stringResource(id = R.string.label_start_cycle)
-                    )
-                    Text(
-                        modifier = modifierLabel.constrainAs(text)
-                        {
-                            start.linkTo(gui)
-                        },
-                        style = MyTextLabel12,
-                        text = stringResource(id = R.string.label_finish_cycle)
-                    )
-                }
-
-                val dateStateStart = remember {
-                    mutableStateOf(cycle.startStringFormatDate)
-                }
-
-                val dateStateFinish = remember {
-                    mutableStateOf(cycle.startStringFormatDate)
-                }
-
-                ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                    val text = createRef()
-                    val gui = createGuidelineFromStart(0.5f)
-                    Text(
-                        modifier = modifierValue.clickable {
-                            datePickerDialog(cycle.startDate!!, context) { date ->
-                                cycle.startDate = date
-                                dateStateStart.value = cycle.startStringFormatDate
-                            }.show()
-                        },
-                        text = dateStateStart.value
-                    )
-                    Text(modifier = modifierValue
-                        .constrainAs(text) {
-                            start.linkTo(gui)
-                        }
-                        .clickable {
-                            datePickerDialog(cycle.finishDate!!, context) { date ->
-                                cycle.finishDate = date
-                                dateStateFinish.value = cycle.finishStringFormatDate
-                            }.show()
-                        }, text = dateStateFinish.value
-                    )
-                }
-            }
-        }
-
-        Card(
-            modifier = modifierCard,
-            elevation = CardDefaults.cardElevation(1.dp),
-            shape = RoundedCornerShape(0.dp),
-            colors = CardDefaults.cardColors(
-                containerColor =
-                colorResource(id = R.color.colorBackgroundCardView)
-            )
-        ) {
-            var comment by rememberSaveable {
-                mutableStateOf(cycle.comment)
-            }
-
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    modifier = modifierLabel,
-                    style = MyTextLabel12,
-                    text = stringResource(id = R.string.label_description_cycle)
-                )
-
-                TextField(modifier = modifierValue.fillMaxWidth(),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = colorResource(R.color.colorBackgroundCardView)
-                    ),
-                    value = comment!!,
-                    onValueChange = {
-                        cycle.comment = it
-                        comment = it
-                    })
-            }
-        }
+        // description aka comment
+        DescriptionCard(cycle)
     }
     BackHandler {
         Log.d("date", "save ${cycle}")
@@ -267,93 +124,6 @@ fun CreateEditeCycleScreen(
     }
 }
 
-/*@RequiresApi(Build.VERSION_CODES.P)
-fun getImage2(cycle: Cycle, context: Context, bitmap: MutableState<Bitmap?>): Bitmap {
-    val name = context.packageName
-    var source: ImageDecoder.Source
-    Log.d("getImage", "${cycle.defaultImg}")
-    Log.d("getImage", "${cycle.image}")
-    try {
-        if (cycle.image != null) {
-            source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.image))
-
-        } else {
-            val id = context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
-            source = ImageDecoder.createSource(context.resources, id)
-
-        }
-    } catch (e: NullPointerException) {
-        val id = context.resources.getIdentifier("drew", "drawable", name)
-        source = ImageDecoder.createSource(context.resources, id)
-
-    }
-
-    return ImageDecoder.decodeBitmap(source)
-}*/
-
- fun getImage(cycle: Cycle, context: Context): Bitmap {
-    var bitmap: Bitmap
-    val name = context.packageName
-
-     var source: ImageDecoder.Source
-    try {
-        if (cycle.image != null) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.image))
-                bitmap = ImageDecoder.decodeBitmap(source)
-            } else {
-                bitmap = MediaStore.Images.Media.getBitmap(
-                    context.contentResolver,
-                    Uri.parse(cycle.image)
-                );
-            }
-
-        } else {
-            val id = context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                source = ImageDecoder.createSource(context.resources, id)
-                bitmap = ImageDecoder.decodeBitmap(source)
-            } else {
-                bitmap = BitmapFactory.decodeResource(context.resources, id);
-            }
-        }
-    } catch (e: NullPointerException) {
-        val id = context.resources.getIdentifier("drew", "drawable", name)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            source = ImageDecoder.createSource(context.resources, id)
-            bitmap = ImageDecoder.decodeBitmap(source)
-        } else {
-            bitmap = BitmapFactory.decodeResource(context.resources, id);
-        }
-    }
-    return bitmap
-}
-
-/*fun getImage(cycle: Cycle, context: Context): Int {
-
-    val name = context.packageName
-    val id = context.resources.getIdentifier("drew", "drawable", name)
-    return id
-}*/
-
-fun datePickerDialog(date: Date, context: Context, updateText: (Date) -> Unit): DatePickerDialog {
-    val c = Calendar.getInstance()
-    c.time = date
-    val y = c.get(Calendar.YEAR)
-    val m = c.get(Calendar.MONTH)
-    val d = c.get(Calendar.DAY_OF_MONTH)
-
-    val di = DatePickerDialog(
-        context,
-        { _: DatePicker, mY: Int, mM: Int, mD: Int ->
-            c.set(mY, mM, mD)
-            updateText(c.time)
-        }, y, m, d
-    )
-
-    return di
-}
 
 
 
@@ -371,59 +141,30 @@ fun PreviewCreateEditeCycleScreen() {
     )
 }
 
+
 @Composable
-fun ImageWithPicker(cycle: Cycle, context: Context, modifier: Modifier) {
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia()
-    ) {
-        cycle.image = it.toString()
-        Log.d("IRU", "$it")
+fun ImageTitleImageTitle(cycle: Cycle) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            ImageWithPicker(cycle)
+            val labelTitleBoxModifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(bottom = 16.dp, start = 10.dp)
+            LabelTitleForImage(entity = cycle, labelTitleBoxModifier)
+        }
+
+        CardTitle(cycle = cycle)
     }
-
-    Image(
-        modifier = modifier
-            .clickable {
-                launcher.launch(
-                    PickVisualMediaRequest(
-                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-                    )
-                )
-            },
-
-        bitmap = getImage(cycle, context).asImageBitmap(),
-        contentDescription = "image",
-        contentScale = ContentScale.Crop
-    )
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun ImageWithPickerPreview(){
-    val cycle = Cycle("title")
-    cycle.defaultImg = "drew"
-    val imagePickerModifier = Modifier
-        .fillMaxWidth()
-        .height(200.dp)
-    ImageWithPicker(cycle = cycle, context = LocalContext.current , modifier = imagePickerModifier )
+fun ImageTitleImageTitlePreview() {
+    val cycle = Cycle().apply {
+        title = "Новая программа"
+    }
+    ImageTitleImageTitle(cycle)
 }
 
-@Composable
-fun LabelTitleForImage(title: String, modifier: Modifier) {
-    Text(
-        modifier = modifier,
-        style = MyTextTitleLabel20StrokeText,
-        text = if (title!!.isBlank()) {
-            stringResource(id = R.string.title_cycle_hint)
-        } else {
-            title
-        }
-    )
-}
 
-@Preview(showBackground = true, backgroundColor = 1)
-@Composable
-fun LabelTitleForImagePreview(){
-    val labelTitleBoxModifier = Modifier.fillMaxWidth()
-        .padding(bottom = 16.dp, start = 10.dp, end = 10.dp)
-    LabelTitleForImage(title = "Новая программа", modifier = labelTitleBoxModifier )
-}
+

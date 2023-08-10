@@ -4,7 +4,6 @@ import android.util.Log
 import info.upump.database.entities.CycleEntity
 
 class Cycle(
-    var title: String?,
     var workoutList: List<Workout> = ArrayList(),
     var isDefaultType: Boolean = false,
     var image: String? = null,
@@ -45,7 +44,8 @@ class Cycle(
 
     companion object{
         fun mapFromDbEntity(entity: CycleEntity) : Cycle {
-            val cycle = Cycle(title = entity.title, workoutList = listOf(), isDefaultType = entity.default_type == 1, image = entity.img, defaultImg = entity.default_img )
+            val cycle = Cycle( workoutList = listOf(), isDefaultType = entity.default_type == 1, image = entity.img, defaultImg = entity.default_img )
+            cycle.title = entity.title
             cycle.id = entity._id
             cycle.setStartDate(entity.start_date)
             cycle.setFinishDate(entity.finish_date)

@@ -7,6 +7,7 @@ import java.util.Locale
 
 abstract class Entity(
     var id: Long = 0,
+    var title: String? = "",
     val formatDate: String = "yyyy-MM-dd",
     var startDate: Date? = Date(),
     var finishDate: Date? = Date(),

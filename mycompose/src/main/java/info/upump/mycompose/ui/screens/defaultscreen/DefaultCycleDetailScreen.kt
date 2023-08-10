@@ -244,25 +244,24 @@ fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
 @Composable
 fun PreviewDefaultDetailTitleCycleScreen() {
     val cycle = Cycle(
-        title = "ПРограмма", workoutList = listOf(),
+        workoutList = listOf(),
         isDefaultType = true, image = "nach1",
         defaultImg = "nach1"
     )
+    cycle.title = "ПРограмма"
 
     val list = listOf(
         Workout(
-            title = "Новая",
             isWeekEven = false, isDefaultType = false,
             isTemplate = false, day = Day.FRIDAY, exercises = listOf()
-        ), Workout(
-            title = "Новая1",
+        ).apply { title = "Новая" }, Workout(
             isWeekEven = false, isDefaultType = false,
             isTemplate = false, day = Day.THURSDAY, exercises = listOf()
-        ), Workout(
-            title = "Новая2",
+        ).apply { title = "Новая1" }, Workout(
+
             isWeekEven = false, isDefaultType = false,
             isTemplate = false, day = Day.MONDAY, exercises = listOf()
-        )
+        ).apply { title = "Новая2" }
     )
 
     cycle.workoutList = list
@@ -275,10 +274,10 @@ fun PreviewDefaultDetailTitleCycleScreen() {
 @Composable
 fun PreviewDefaultDetailDescriptionCycleScreen() {
     val cycle = Cycle(
-        title = "ПРограмма", workoutList = listOf(),
+        workoutList = listOf(),
         isDefaultType = true, image = "uk2",
         defaultImg = "nach1"
-    )
+    ).apply { title = "Новая" }
     cycle.comment =
         "Lorem ipsum dolor sit amet, consectetuer adipiscing . Aelit" +
                 "enean commodo ligula eget dolor. Aenean massa. "

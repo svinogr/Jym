@@ -20,7 +20,7 @@ class CycleVM : BaseVMWithStateLoad() {
     private val _cycles = MutableStateFlow<List<Cycle>>(listOf())
     val cycles: StateFlow<List<Cycle>> = _cycles.asStateFlow()
 
-    private val _cycle = MutableStateFlow(Cycle(""))
+    private val _cycle = MutableStateFlow(Cycle())
     val cycle: StateFlow<Cycle> = _cycle.asStateFlow()
     fun getAllPersonal() {
         _stateLoading.value = true
@@ -43,7 +43,7 @@ class CycleVM : BaseVMWithStateLoad() {
     fun getCycle(id: Long) {
        viewModelScope.launch(Dispatchers.IO) {
            if (id == 0L) {
-               _cycle.value = Cycle("Новая программа")
+               _cycle.value = Cycle().apply { title = "Новая программа" }
                Log.d("getCycle", "${cycle.value}")
                return@launch
            }

@@ -4,7 +4,6 @@ import info.upump.database.entities.WorkoutEntity
 import kotlinx.coroutines.flow.map
 
 class Workout(
-    var title: String?,
     var isWeekEven: Boolean = false,
     var isDefaultType: Boolean = false,
     var isTemplate: Boolean = false,
@@ -41,7 +40,6 @@ class Workout(
                     comment = it.comment
                 }*/
             val workout = Workout(
-                title = workoutEntity.title,
                 isWeekEven = workoutEntity.week_even == 1,
                 isDefaultType = workoutEntity.default_type == 1,
                 isTemplate = workoutEntity.default_type == 1,
@@ -49,6 +47,7 @@ class Workout(
                 //TODO вставить настоящис список
                 exercises = listOf<Exercise>()
             )
+            workout.title = workoutEntity.title
             workout.id = workoutEntity._id
             workout.comment = workoutEntity.comment
 

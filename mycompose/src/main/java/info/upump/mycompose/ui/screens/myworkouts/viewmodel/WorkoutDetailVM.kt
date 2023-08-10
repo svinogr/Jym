@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 
 class WorkoutDetailVM : BaseVMWithStateLoad() {
-    private val _workout = MutableStateFlow(Workout(""))
+    private val _workout = MutableStateFlow(Workout())
     val workout = _workout.asStateFlow()
 
     private val _exercises = MutableStateFlow<List<Exercise>>(mutableListOf())
