@@ -15,10 +15,10 @@ class Cycle(
 
     override fun toString(): String {
         return "Cycle{" +
-                "id" + id +
-                "com " + comment +
-                "title " + title +
-                " startDate=" + startStringFormatDate +
+                "id= " + id +
+                ", coment= " + comment +
+                ", title= " + title +
+                ", startDate=" + startStringFormatDate +
                 ", finishDate=" + finishStringFormatDate +
                 ", userList=" + workoutList.size +
                 ", image=" + image +

@@ -1,5 +1,6 @@
-package info.upump.mycompose.ui.screens.screenscomponents
+package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,9 +11,10 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -21,20 +23,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.models.entity.Entity
 import info.upump.mycompose.ui.theme.MyTextLabel12
 
+@Preview(showBackground = true)
 @Composable
-fun DescriptionCard(
-    entity: Entity,
+fun CardTitlePreview() {
+    val cycle = Cycle()
+    CardTitle(cycle)
+}
+
+@Composable
+fun CardTitle(cycle: Cycle,
     modifierCard: Modifier = Modifier
         .fillMaxWidth()
         .padding(start = 4.dp, end = 4.dp, top = 4.dp),
     modifierLabel: Modifier = Modifier.padding(start = 8.dp),
-    modifierValue: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(start = 10.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
-) {
+    modifierValue: Modifier = Modifier.padding(start = 10.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)) {
     Card(
         modifier = modifierCard,
         elevation = CardDefaults.cardElevation(1.dp),
@@ -44,35 +48,29 @@ fun DescriptionCard(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
+
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
                 modifier = modifierLabel,
                 style = MyTextLabel12,
-                text = stringResource(id = R.string.label_description_cycle)
+                text = stringResource(id = R.string.label_title_cycle)
             )
-
-            var comment by rememberSaveable {
-                mutableStateOf(entity.comment)
+            var title by remember {
+                mutableStateOf(cycle.title!!)
             }
-
-            TextField(modifier = modifierValue,
+            TextField(modifier = modifierValue.fillMaxWidth(),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = colorResource(R.color.colorBackgroundCardView)
                 ),
-                value = comment!!,
+                value = title,
                 onValueChange = {
-                    entity.comment = it
-                    comment = it
-                })
+                    title = it
+                    cycle.title = it
+                }, placeholder = {
+                    Text(stringResource(id = R.string.title_cycle_hint))
+                }
+            )
         }
     }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun DescriptionCardPreview() {
-    val description = "bla bla bla blab lab alb bla bla bla blab lab albbla bla bla blab lab alb "
-    val cycle = Cycle()
-    cycle.comment = description
-    DescriptionCard(cycle)
 }

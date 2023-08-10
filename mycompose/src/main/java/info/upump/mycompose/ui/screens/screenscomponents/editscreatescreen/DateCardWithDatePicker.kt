@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents
+package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -41,7 +41,9 @@ fun DateCardWithDatePicker(
         .fillMaxWidth()
         .padding(start = 4.dp, end = 4.dp, top = 4.dp),
     modifierLabel: Modifier = Modifier.padding(start = 8.dp),
-    modifierValue: Modifier = Modifier,
+    modifierValue: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(start = 10.dp, top = 4.dp, end = 8.dp, bottom = 4.dp),
     context: Context = LocalContext.current
 ) {
     Card(

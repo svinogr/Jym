@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents
+package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -13,14 +13,12 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import info.upump.mycompose.models.entity.Cycle
 @Preview(showBackground = true)
 @Composable
@@ -30,7 +28,7 @@ fun ImageWithPickerPreview() {
     ImageWithPicker(cycle = cycle)
 }
 @Composable
-fun ImageWithPicker(cycle: Cycle, modifier: Modifier =  Modifier.height(200.dp)) {
+fun ImageWithPicker(cycle: Cycle) {
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
@@ -39,8 +37,7 @@ fun ImageWithPicker(cycle: Cycle, modifier: Modifier =  Modifier.height(200.dp))
         Log.d("IRU", "$it")
     }
 
-    Image(
-        modifier = modifier
+    Image(modifier = Modifier
             .clickable {
                 launcher.launch(
                     PickVisualMediaRequest(
