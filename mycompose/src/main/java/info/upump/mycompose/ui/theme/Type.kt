@@ -72,6 +72,18 @@ val MyTextTitleLabel16: TextStyle
         )
     }
 
+val MyTextTitleLabelWithColor: TextStyle
+    @Composable
+    get() {
+        return TextStyle(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Normal,
+            color = Color(0xFF6c6c70),
+            fontSize = 12.sp,
+        )
+    }
+
+
 val MyTextTitleLabel20: TextStyle
     @Composable
     get() {
