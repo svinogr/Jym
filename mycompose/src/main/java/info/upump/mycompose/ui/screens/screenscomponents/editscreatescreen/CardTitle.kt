@@ -1,7 +1,5 @@
 package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,11 +9,8 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -23,24 +18,27 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.theme.MyTextLabel12
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMInterface
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 
 @Preview(showBackground = true)
 @Composable
 fun CardTitlePreview() {
-    val cycle = Cycle()
+    val cycle = CycleVM.vmOnlyForPreview
+
     CardTitle(cycle)
 }
 
 @Composable
 fun CardTitle(
-    cycle: Cycle,
+    cycleVM: CycleVMInterface,
     modifierCard: Modifier = Modifier
         .fillMaxWidth()
         .padding(start = 4.dp, end = 4.dp, top = 4.dp),
-    modifierValue: Modifier = Modifier.fillMaxWidth().padding(start = 10.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
+    modifierValue: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(start = 10.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
 ) {
     Card(
         modifier = modifierCard,
@@ -51,10 +49,7 @@ fun CardTitle(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        var title by remember {
-            mutableStateOf(cycle.title)
-        }
-
+       val cycle by cycleVM.cycle.collectAsState()
         TextField(modifier = modifierValue,
             colors = TextFieldDefaults.textFieldColors(
                 disabledTextColor = Color.Transparent,
@@ -63,10 +58,9 @@ fun CardTitle(
                 disabledIndicatorColor = Color.Transparent,
                 backgroundColor = colorResource(R.color.colorBackgroundCardView)
             ),
-            value = title!!,
+            value = cycle.title,
             onValueChange = {
-                cycle.title = it
-                title = it
+               cycleVM.updateTitle(it)
             },
             label = {
                 Text(
@@ -78,7 +72,5 @@ fun CardTitle(
                 Text(text = stringResource(id = R.string.title_cycle_hint))
             }
         )
-
     }
-
 }

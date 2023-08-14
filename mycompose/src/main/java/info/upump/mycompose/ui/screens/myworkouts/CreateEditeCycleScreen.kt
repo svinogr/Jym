@@ -5,11 +5,8 @@ import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -18,9 +15,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -31,12 +25,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.CardTitle
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCardWithDatePicker
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageTitleImageTitle
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageWithPicker
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.LabelTitleForImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -50,7 +41,7 @@ fun CreateEditeCycleScreen(
     appBarTitle: MutableState<String>
 ) {
     val cycleVM: CycleVM = viewModel()
-    val cycle by cycleVM.cycle.collectAsState()
+  //  val cycle  = cycleVM.cycle.collectAsState()
     val isLoad by cycleVM.isLoading.collectAsState()
 
     LaunchedEffect(key1 = true) {
@@ -64,13 +55,13 @@ fun CreateEditeCycleScreen(
             .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
     ) {
         // of thee parts
-        ImageTitleImageTitle(cycle = cycle)
-        DateCardWithDatePicker(cycle)
+        ImageTitleImageTitle(cycleVM)
+        DateCardWithDatePicker(cycleVM)
         // description aka comment
-        DescriptionCard(cycle)
+        DescriptionCard(cycleVM)
     }
     BackHandler {
-        Log.d("date", "save ${cycle}")
+       // Log.d("updateVM", "save ${cycle}")
     //    cycleVM.saveCycle()
 
         navHostController.navigateUp()

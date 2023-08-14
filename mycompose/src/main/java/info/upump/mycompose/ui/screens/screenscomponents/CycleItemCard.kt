@@ -139,8 +139,6 @@ fun CycleItemCard(
 ) {
     val context = LocalContext.current
 
-
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -156,7 +154,7 @@ fun CycleItemCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
         ) {
-/////////HERE
+
             val image = remember {
                 mutableStateOf<Bitmap?>(
                     Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888).apply {

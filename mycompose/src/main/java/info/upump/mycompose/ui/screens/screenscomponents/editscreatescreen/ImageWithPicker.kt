@@ -14,26 +14,31 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import info.upump.mycompose.models.entity.Cycle
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMInterface
+
 @Preview(showBackground = true)
 @Composable
 fun ImageWithPickerPreview() {
-    val cycle = Cycle()
-    cycle.defaultImg = "drew"
-    ImageWithPicker(cycle = cycle)
+    val cycleVM = CycleVM.vmOnlyForPreview
+    ImageWithPicker(cycleVM)
 }
 @Composable
-fun ImageWithPicker(cycle: Cycle) {
+fun ImageWithPicker(cycleVM: CycleVMInterface) {
     val context = LocalContext.current
+
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) {
-        cycle.image = it.toString()
+        cycleVM.updateImg(it.toString())
         Log.d("IRU", "$it")
     }
 
@@ -46,32 +51,32 @@ fun ImageWithPicker(cycle: Cycle) {
                 )
             },
 
-        bitmap = getImagePicker(cycle, context).asImageBitmap(),
+        bitmap = getImagePicker(cycleVM.cycle.collectAsState(), context).asImageBitmap(),
         contentDescription = "image",
         contentScale = ContentScale.Crop
     )
 }
 
-private fun getImagePicker(cycle: Cycle, context: Context): Bitmap {
+private fun getImagePicker(cycle: State<Cycle>, context: Context): Bitmap {
     var bitmap: Bitmap
     val name = context.packageName
 
     var source: ImageDecoder.Source
     try {
-        if (cycle.image != null) {
+        if (cycle.value.image != null) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.image))
+                source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.value.image))
                 bitmap = ImageDecoder.decodeBitmap(source)
             } else {
                 bitmap = MediaStore.Images.Media.getBitmap(
                     context.contentResolver,
-                    Uri.parse(cycle.image)
+                    Uri.parse(cycle.value.image)
                 );
             }
 
         } else {
-            val id = context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
+            val id = context.resources.getIdentifier(cycle.value.defaultImg, "drawable", name)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 source = ImageDecoder.createSource(context.resources, id)
                 bitmap = ImageDecoder.decodeBitmap(source)

@@ -9,6 +9,7 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,11 +23,13 @@ import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Entity
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMInterface
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 
 @Composable
 fun DescriptionCard(
-    entity: Entity,
+    cycleVM: CycleVMInterface,
     modifierCard: Modifier = Modifier
         .fillMaxWidth()
         .padding(start = 4.dp, end = 4.dp, top = 4.dp),
@@ -43,9 +46,10 @@ fun DescriptionCard(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        var comment by remember {
+     /*   var comment by remember {
             mutableStateOf(entity.comment)
-        }
+        }*/
+        val cycle by cycleVM.cycle.collectAsState()
 
         TextField(modifier = modifierValue,
             colors = TextFieldDefaults.textFieldColors(
@@ -55,10 +59,10 @@ fun DescriptionCard(
                 disabledIndicatorColor = Color.Transparent,
                 backgroundColor = colorResource(R.color.colorBackgroundCardView)
             ),
-            value = comment!!,
+            value = cycle.comment,
             onValueChange = {
-                entity.comment = it
-                comment = it
+                cycleVM.updateComment(it)
+             //   comment = it
             },
             label = {
                 Text(
@@ -76,8 +80,9 @@ fun DescriptionCard(
 @Preview(showBackground = true)
 @Composable
 fun DescriptionCardPreview() {
-    val description = ""
+    val description = "Gjujlf hhjdh hf j"
     val cycle = Cycle()
     cycle.comment = description
-    DescriptionCard(cycle)
+    val vm = CycleVM.vmOnlyForPreview
+    DescriptionCard(vm)
 }

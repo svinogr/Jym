@@ -49,7 +49,7 @@ class Workout(
             )
             workout.title = workoutEntity.title
             workout.id = workoutEntity._id
-            workout.comment = workoutEntity.comment
+            workout.comment = workoutEntity.comment!!
 
             return workout
         }
