@@ -23,7 +23,7 @@ fun ImageTitleImageTitle(cycleVM: CycleVMInterface) {
            // Log.d("State", "2 ${cycle.title}")
             ImageWithPicker(cycleVM)
 
-            LabelTitleForImage(cycleVM)
+           LabelTitleForImage(cycleVM)
         }
 
         CardTitle(cycleVM)

@@ -4,10 +4,10 @@ import android.util.Log
 import info.upump.database.entities.CycleEntity
 import java.util.Date
 
-data class Cycle(
+class Cycle(
     var workoutList: List<Workout> = ArrayList(),
     var isDefaultType: Boolean = false,
-    var image: String? = null,
+  //  var image: String? = "",
     var defaultImg: String? = null
 ) : Entity() {
 
@@ -48,7 +48,7 @@ data class Cycle(
             val cycle = Cycle(
                 workoutList = listOf(),
                 isDefaultType = entity.default_type == 1,
-                image = entity.img,
+
                 defaultImg = entity.default_img
             )
             cycle.title = entity.title
@@ -56,7 +56,7 @@ data class Cycle(
             cycle.setStartDate(entity.start_date)
             cycle.setFinishDate(entity.finish_date)
             cycle.comment = entity.comment!!
-            cycle.image = entity.img
+            cycle.image = entity.img ?: ""
             cycle.defaultImg = entity.default_img
             return cycle
         }
@@ -72,23 +72,18 @@ data class Cycle(
 
             return cycleEntity
         }
-    }
-
-    fun copy(cycle: Cycle): Cycle {
-        return Cycle().apply {
-            id = cycle.id
-            title = cycle.title
-            isDefaultType = cycle.isDefaultType
-            image = cycle.image
-            isDefaultType = cycle.isDefaultType
-         //   formatDate = cycle.formatDate
-            startDate = cycle.startDate
-            finishDate = cycle.finishDate
-            comment = cycle.comment
-            parentId = cycle.parentId
-
+        fun copy(cycle: Cycle): Cycle {
+            return Cycle().apply {
+                id = cycle.id
+                title = cycle.title
+                isDefaultType = cycle.isDefaultType
+                image = cycle.image
+                startDate = cycle.startDate
+                finishDate = cycle.finishDate
+                comment = cycle.comment
+                parentId = cycle.parentId
+            }
         }
-
     }
 }
 

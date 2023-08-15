@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -41,12 +42,13 @@ fun CreateEditeCycleScreen(
     appBarTitle: MutableState<String>
 ) {
     val cycleVM: CycleVM = viewModel()
-  //  val cycle  = cycleVM.cycle.collectAsState()
     val isLoad by cycleVM.isLoading.collectAsState()
 
-    LaunchedEffect(key1 = true) {
-        cycleVM.getCycle(id)
-    }
+   val c by cycleVM.cycle.collectAsState()
+
+ /*  LaunchedEffect(key1 = cycleVM) {
+        cycleVM.getCycle(0)
+    }*/
 
     Column(
         modifier = Modifier
@@ -54,15 +56,15 @@ fun CreateEditeCycleScreen(
             .verticalScroll(rememberScrollState())
             .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
     ) {
-        // of thee parts
+     // of thee parts
         ImageTitleImageTitle(cycleVM)
         DateCardWithDatePicker(cycleVM)
         // description aka comment
         DescriptionCard(cycleVM)
     }
     BackHandler {
-       // Log.d("updateVM", "save ${cycle}")
-    //    cycleVM.saveCycle()
+        Log.d("updateVM", "save _____}")
+        cycleVM.saveCycle()
 
         navHostController.navigateUp()
     }

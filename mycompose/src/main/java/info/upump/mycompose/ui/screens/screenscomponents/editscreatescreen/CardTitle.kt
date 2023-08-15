@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +10,8 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,7 +29,6 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 @Composable
 fun CardTitlePreview() {
     val cycle = CycleVM.vmOnlyForPreview
-
     CardTitle(cycle)
 }
 
@@ -40,6 +42,11 @@ fun CardTitle(
         .fillMaxWidth()
         .padding(start = 10.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
 ) {
+/*    LaunchedEffect(key1 = cycleVM.cycle) {
+        cycleVM.getCycle(0)
+        Log.d("TAG", "laucg")
+    }*/
+
     Card(
         modifier = modifierCard,
         elevation = CardDefaults.cardElevation(1.dp),
@@ -49,7 +56,13 @@ fun CardTitle(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
+
+
        val cycle by cycleVM.cycle.collectAsState()
+       LaunchedEffect(key1 = true){
+           Log.d("TAG", "lunc")
+       }
+
         TextField(modifier = modifierValue,
             colors = TextFieldDefaults.textFieldColors(
                 disabledTextColor = Color.Transparent,

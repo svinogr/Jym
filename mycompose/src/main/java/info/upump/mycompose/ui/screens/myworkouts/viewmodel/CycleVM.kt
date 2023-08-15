@@ -9,24 +9,31 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
 
-class CycleVM : BaseVMWithStateLoad(), CycleVMInterface {
-    companion object{
+class CycleVM() : BaseVMWithStateLoad(), CycleVMInterface {
+    companion object {
         val vmOnlyForPreview by lazy {
-            object : CycleVMInterface{
-                override val _cycles: MutableStateFlow<List<Cycle>>
-                    get() = MutableStateFlow(mutableListOf(Cycle().apply { title = "2" }, Cycle().apply { title = "2" }))
-                override val cycles: StateFlow<List<Cycle>>
-                    get() = _cycles
-                override val _cycle: MutableStateFlow<Cycle>
-                    get() = MutableStateFlow(Cycle().apply { defaultImg = "drew"
-                    title = "Новая"
-                    comment = "это коммент"})
+            object : CycleVMInterface {
+                private val _cycles = MutableStateFlow(
+                    mutableListOf(
+                        Cycle().apply { title = "2" },
+                        Cycle().apply { title = "2" })
+                )
 
-                override val cycle: StateFlow<Cycle>
-                    get() = _cycle
+                override val cycles: StateFlow<List<Cycle>> = _cycles
+
+                private val _cycle = MutableStateFlow(Cycle().apply {
+                    defaultImg = "drew"
+                    title = "Новая"
+                    comment = "это коммент"
+                })
+
+                override val cycle: StateFlow<Cycle> = _cycle
+                override val img: StateFlow<String>
+                    get() = TODO("Not yet implemented")
 
                 override fun getAllPersonal() {
                     TODO("Not yet implemented")
@@ -36,12 +43,19 @@ class CycleVM : BaseVMWithStateLoad(), CycleVMInterface {
                     TODO("Not yet implemented")
                 }
 
+                override fun saveCycle() {
+                    TODO("Not yet implemented")
+                }
+
                 override fun updateTitle(it: String) {
                     TODO("Not yet implemented")
                 }
 
-                override fun updateImg(imgStr: String) {
-                    TODO("Not yet implemented")
+                override fun updateImgage(imgStr: String) {
+                    _cycle.update {
+                        Log.d("updateImg", "1")
+                        Cycle.copy(it).apply { image = imgStr }
+                    }
                 }
 
                 override fun updateStartDate(date: Date) {
@@ -60,11 +74,14 @@ class CycleVM : BaseVMWithStateLoad(), CycleVMInterface {
 
     }
 
-    override  val _cycles = MutableStateFlow<List<Cycle>>(listOf())
+    private val _cycles = MutableStateFlow<List<Cycle>>(listOf())
     override val cycles: StateFlow<List<Cycle>> = _cycles.asStateFlow()
 
-    override val _cycle = MutableStateFlow(Cycle())
+    private val _cycle = MutableStateFlow(Cycle())
     override val cycle: StateFlow<Cycle> = _cycle.asStateFlow()
+
+    private val _img = MutableStateFlow<String>(" ")
+    override val img: StateFlow<String> = _img.asStateFlow()
 
     override fun getAllPersonal() {
         _stateLoading.value = true
@@ -87,8 +104,7 @@ class CycleVM : BaseVMWithStateLoad(), CycleVMInterface {
     override fun getCycle(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             if (id == 0L) {
-                _cycle.value = Cycle().apply { title = "" }
-                Log.d("getCycle", "${cycle.value}")
+                _cycle.value = Cycle()
                 return@launch
             }
 
@@ -103,73 +119,59 @@ class CycleVM : BaseVMWithStateLoad(), CycleVMInterface {
     override fun saveCycle() {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("save", "${cycle.value}")
-            CycleRepo.get().save(Cycle.mapToEntity(cycle.value))
+            val c = Cycle.mapToEntity(cycle.value)
+            c.img = img.value
+            Log.d("save", "$c")
+
+            // CycleRepo.get().save(Cycle.mapToEntity(cycle.value))
         }
     }
 
-    override fun updateTitle(it: String) {
-        //   viewModelScope.launch(Dispatchers.IO) {
-        Log.d("updateVM", "1 $cycle")
-        val c = cycle.value.copy()
-        c.title = it
-        _cycle.value = c
-        // _cycle.emit(cycle)
-        Log.d("updateVM", "2 ${_cycle.value}")
-        // teststr  = it
-        //   }
+    override fun updateTitle(titlen: String) {
+        _cycle.update {
+            Cycle.copy(it).apply { title = titlen }
+        }
     }
 
-     override fun updateImg(imgStr: String) {
-         val c = cycle.value.copy()
-         c.image = imgStr
-         _cycle.value = c
-     }
+    override fun updateImgage(imgStr: String) {
+            _img.update {imgStr
+
+            }
+
+    }
 
     override fun updateStartDate(date: Date) {
-        Log.d("start date", "$date")
-        val c = cycle.value.copy()
-        c.startDate = date
-        _cycle.value = c
-       }
-
-    override fun updateFinishDate(date: Date) {
-        Log.d("start date", "$date")
-
-        val c = cycle.value.copy()
-        c.finishDate = date
-        Log.d("start date", "${c.finishDate}")
-        _cycle.value = c
-
+        _cycle.update {
+            Cycle.copy(it).apply {
+                startDate = date
+            }
+        }
     }
 
-    override fun updateComment(comment: String) {
-        val c = cycle.value.copy()
-        c.comment = comment
-        Log.d("start date", "${c}")
+    override fun updateFinishDate(date: Date) {
+        _cycle.update {
+            Cycle.copy(it).apply { finishDate = date }
+        }
+    }
 
-        _cycle.value = c
+    override fun updateComment(commentN: String) {
+        _cycle.update {
+            Cycle.copy(it).apply { comment = commentN }
+        }
     }
 }
 
 interface CycleVMInterface {
-    val _cycles: MutableStateFlow<List<Cycle>>
     val cycles: StateFlow<List<Cycle>>
-
-    val _cycle: MutableStateFlow<Cycle>
     val cycle: StateFlow<Cycle>
+    val img: StateFlow<String>
 
     fun getAllPersonal()
-
     fun getCycle(id: Long)
-
-
-    fun saveCycle() {
-    }
-
+    fun saveCycle()
     fun updateTitle(title: String)
-    fun updateImg(imgStr: String)
+    fun updateImgage(imgStr: String)
     fun updateStartDate(date: Date)
     fun updateFinishDate(date: Date)
     fun updateComment(comment: String)
-
 }

@@ -63,13 +63,6 @@ fun DateCardWithDatePicker(
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             val cycle by cycleVM.cycle.collectAsState()
-         /*   val dateStateStart = remember {
-                mutableStateOf(cycle.value.startStringFormatDate)
-            }
-
-            val dateStateFinish = remember {
-                mutableStateOf(cycle.value.startStringFormatDate)
-            }*/
 
             ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                 val text = createRef()

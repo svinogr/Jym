@@ -245,10 +245,11 @@ fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
 fun PreviewDefaultDetailTitleCycleScreen() {
     val cycle = Cycle(
         workoutList = listOf(),
-        isDefaultType = true, image = "nach1",
+        isDefaultType = true,
         defaultImg = "nach1"
     )
     cycle.title = "ПРограмма"
+    cycle.image = "nach1"
 
     val list = listOf(
         Workout(
@@ -275,9 +276,10 @@ fun PreviewDefaultDetailTitleCycleScreen() {
 fun PreviewDefaultDetailDescriptionCycleScreen() {
     val cycle = Cycle(
         workoutList = listOf(),
-        isDefaultType = true, image = "uk2",
+        isDefaultType = true,
         defaultImg = "nach1"
     ).apply { title = "Новая" }
+    cycle.image = "nach1"
     cycle.comment =
         "Lorem ipsum dolor sit amet, consectetuer adipiscing . Aelit" +
                 "enean commodo ligula eget dolor. Aenean massa. "

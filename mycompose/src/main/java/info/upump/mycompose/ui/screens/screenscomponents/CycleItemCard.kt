@@ -64,9 +64,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-class SampleCycleProvider : PreviewParameterProvider<Cycle> {
+/*class SampleCycleProvider : PreviewParameterProvider<Cycle> {
     override val values = sequenceOf(Cycle( image = "uk1").apply { title = "Новая" })
-}
+}*/
 
 
 /*
@@ -95,7 +95,7 @@ suspend fun getImage(cycle: Cycle, context: Context): Bitmap {
 
     var source: ImageDecoder.Source
     try {
-        if (cycle.image != null) {
+        if (!cycle.image.isBlank()) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.image))
@@ -134,7 +134,7 @@ suspend fun getImage(cycle: Cycle, context: Context): Bitmap {
 
 @Composable
 fun CycleItemCard(
-    @PreviewParameter(SampleCycleProvider::class) cycle: Cycle,
+    cycle: Cycle,
     navHost: NavHostController
 ) {
     val context = LocalContext.current

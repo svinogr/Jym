@@ -66,16 +66,10 @@ fun MyCycleScreen(navHostController: NavHostController, paddingValues: PaddingVa
     val listState = rememberLazyListState()
     val cycleVM: CycleVM = viewModel()
     val listCycle by cycleVM.cycles.collectAsState()
-    val fabVisibility by remember {
-        derivedStateOf {
-            listState.isScrollInProgress
-        }
-    }
-
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth().fillMaxHeight()
             .padding(bottom = paddingValues.calculateBottomPadding(), top = paddingValues.calculateTopPadding())
     )
     {
