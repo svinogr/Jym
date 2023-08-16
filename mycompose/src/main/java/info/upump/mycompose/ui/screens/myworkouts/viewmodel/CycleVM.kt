@@ -52,10 +52,7 @@ class CycleVM() : BaseVMWithStateLoad(), CycleVMInterface {
                 }
 
                 override fun updateImgage(imgStr: String) {
-                    _cycle.update {
-                        Log.d("updateImg", "1")
-                        Cycle.copy(it).apply { image = imgStr }
-                    }
+                    TODO("Not yet implemented")
                 }
 
                 override fun updateStartDate(date: Date) {
@@ -71,7 +68,6 @@ class CycleVM() : BaseVMWithStateLoad(), CycleVMInterface {
                 }
             }
         }
-
     }
 
     private val _cycles = MutableStateFlow<List<Cycle>>(listOf())
@@ -104,7 +100,7 @@ class CycleVM() : BaseVMWithStateLoad(), CycleVMInterface {
     override fun getCycle(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             if (id == 0L) {
-                _cycle.value = Cycle()
+                _cycle.update { Cycle() }
                 return@launch
             }
 
@@ -135,11 +131,8 @@ class CycleVM() : BaseVMWithStateLoad(), CycleVMInterface {
 
     override fun updateImgage(imgStr: String) {
             _img.update {imgStr
-
             }
-
     }
-
     override fun updateStartDate(date: Date) {
         _cycle.update {
             Cycle.copy(it).apply {
@@ -147,7 +140,6 @@ class CycleVM() : BaseVMWithStateLoad(), CycleVMInterface {
             }
         }
     }
-
     override fun updateFinishDate(date: Date) {
         _cycle.update {
             Cycle.copy(it).apply { finishDate = date }

@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,24 +45,30 @@ fun CreateEditeCycleScreen(
     val cycleVM: CycleVM = viewModel()
     val isLoad by cycleVM.isLoading.collectAsState()
 
-   val c by cycleVM.cycle.collectAsState()
-
- /*  LaunchedEffect(key1 = cycleVM) {
-        cycleVM.getCycle(0)
-    }*/
-
     Column(
         modifier = Modifier
             .padding(top = paddingValues.calculateTopPadding())
             .verticalScroll(rememberScrollState())
             .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
     ) {
-     // of thee parts
+        // of thee parts
         ImageTitleImageTitle(cycleVM)
         DateCardWithDatePicker(cycleVM)
         // description aka comment
         DescriptionCard(cycleVM)
     }
+    val c = cycleVM.cycle.collectAsState()
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        cycleVM.getCycle(id)
+        if (id == 0L) {
+            appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
+        } else {
+            appBarTitle.value = c.value.title
+
+        }
+    }
+
     BackHandler {
         Log.d("updateVM", "save _____}")
         cycleVM.saveCycle()

@@ -15,7 +15,7 @@ fun NavGraph(
     appBarTitle: MutableState<String>,
     paddingValues: PaddingValues,
     topBarState: MutableState<Boolean>
-    ) {
+) {
     val context = LocalContext.current
     NavHost(
         navController = navHostController,

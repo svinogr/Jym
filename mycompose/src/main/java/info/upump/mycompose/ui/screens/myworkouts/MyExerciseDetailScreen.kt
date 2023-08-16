@@ -100,7 +100,7 @@ Log.d("saveItem", "$id")
 fun PreviewMyExerciseDetailScreen() {
     val id = 1L
     val m: MutableState<String> =
-        MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
+        MutableStateFlow(" ").asStateFlow().collectAsState() as MutableState<String>
 
     MyExerciseDetailScreen(
         id = id,
