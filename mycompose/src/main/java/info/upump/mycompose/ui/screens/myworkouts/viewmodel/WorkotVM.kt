@@ -67,7 +67,11 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                     TODO("Not yet implemented")
                 }
 
-
+                override fun updateDay(dayN: Day) {
+                    _workout.update {
+                        Workout.copy(it).apply { day = dayN }
+                    }
+                }
             }
         }
     }
@@ -140,6 +144,12 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
             Workout.copy(it).apply { comment = commentN }
         }
     }
+
+    override fun updateDay(dayN: Day) {
+        _workout.update {
+            Workout.copy(it).apply { day = dayN }
+        }
+    }
 }
 
 interface VMInterface<T> {
@@ -155,4 +165,5 @@ interface VMInterface<T> {
     fun updateStartDate(date: Date)
     fun updateFinishDate(date: Date)
     fun updateComment(comment: String)
+    fun updateDay(it: Day)
 }

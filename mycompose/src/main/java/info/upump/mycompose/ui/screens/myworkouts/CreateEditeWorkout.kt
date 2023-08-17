@@ -36,7 +36,10 @@ import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DayCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
+import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageByDay
+import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageTitleImageTitle
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -105,7 +108,10 @@ fun CreateEditeWorkoutScreen(
                 .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
         ) {
             // of thee parts
-           // ImageTitleImageTitle(workoutVM)
+            ImageTitleImageTitle(workoutVM){
+                ImageByDay(modelVM = workoutVM)
+            }
+            DayCard(workoutVM)
            // DateCardWithDatePicker(workoutVM)
             // description aka comment
             DescriptionCard(workoutVM)

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.CycleRepo
 import info.upump.mycompose.models.entity.Cycle
+import info.upump.mycompose.models.entity.Day
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -65,6 +66,10 @@ class CycleVM : BaseVMWithStateLoad(), VMInterface<Cycle> {
                 }
 
                 override fun updateComment(comment: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun updateDay(it: Day) {
                     TODO("Not yet implemented")
                 }
             }
@@ -151,6 +156,10 @@ class CycleVM : BaseVMWithStateLoad(), VMInterface<Cycle> {
         _item.update {
             Cycle.copy(it).apply { comment = commentN }
         }
+    }
+
+    override fun updateDay(it: Day) {
+        TODO("Not yet implemented")
     }
 }
 
