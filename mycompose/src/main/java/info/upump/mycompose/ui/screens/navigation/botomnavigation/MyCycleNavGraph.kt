@@ -27,7 +27,8 @@ fun NavGraphBuilder.myCycleGraph(
     appBarTitle: MutableState<String>,
     context: Context,
     paddingValues: PaddingValues,
-    topBarState: MutableState<Boolean>
+    topBarState: MutableState<Boolean>,
+    bottomBarState: MutableState<Boolean>
 ) {
     navigation(
         startDestination = NavigationItem.MyCycleNavigationItem.route,
@@ -40,6 +41,7 @@ fun NavGraphBuilder.myCycleGraph(
             appBarTitle.value =
                 context.resources.getString(NavigationItem.MyCycleNavigationItem.title)
             topBarState.value = true
+            bottomBarState.value = true
         }
 
         composable(
@@ -50,7 +52,7 @@ fun NavGraphBuilder.myCycleGraph(
         ) {
             val id = it.arguments?.getLong("id")
             topBarState.value = false
-
+            bottomBarState.value = false
             MyCycleDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
 
         }
@@ -117,7 +119,7 @@ fun NavGraphBuilder.myCycleGraph(
             //topBarState.value = false он уже должен был быть убран
             val id = it.arguments?.getLong("id")
             Log.d("TAG", "id = $id")
-
+            bottomBarState.value = false
             CreateEditeCycleScreen(id!!, navHostController, paddingValues, appBarTitle)
         }
     }

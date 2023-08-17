@@ -7,7 +7,7 @@ import java.util.Date
 class Cycle(
     var workoutList: List<Workout> = ArrayList(),
     var isDefaultType: Boolean = false,
-  //  var image: String? = "",
+    var image: String? = "",
     var defaultImg: String? = null
 ) : Entity() {
 

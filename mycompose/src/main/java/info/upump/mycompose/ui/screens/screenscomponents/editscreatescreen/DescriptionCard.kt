@@ -46,9 +46,6 @@ fun DescriptionCard(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-     /*   var comment by remember {
-            mutableStateOf(entity.comment)
-        }*/
         val cycle by cycleVM.cycle.collectAsState()
 
         TextField(modifier = modifierValue,
@@ -80,9 +77,6 @@ fun DescriptionCard(
 @Preview(showBackground = true)
 @Composable
 fun DescriptionCardPreview() {
-    val description = "Gjujlf hhjdh hf j"
-    val cycle = Cycle()
-    cycle.comment = description
     val vm = CycleVM.vmOnlyForPreview
     DescriptionCard(vm)
 }

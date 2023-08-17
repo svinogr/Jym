@@ -19,16 +19,16 @@ class CycleVM() : BaseVMWithStateLoad(), CycleVMInterface {
             object : CycleVMInterface {
                 private val _cycles = MutableStateFlow(
                     mutableListOf(
-                        Cycle().apply { title = "2" },
-                        Cycle().apply { title = "2" })
+                        Cycle().apply { title = "Preview2" },
+                        Cycle().apply { title = "Preview 3" })
                 )
 
                 override val cycles: StateFlow<List<Cycle>> = _cycles
 
                 private val _cycle = MutableStateFlow(Cycle().apply {
                     defaultImg = "drew"
-                    title = "Новая"
-                    comment = "это коммент"
+                    title = "Preview"
+                    comment = "это Preview"
                 })
 
                 override val cycle: StateFlow<Cycle> = _cycle
@@ -76,7 +76,7 @@ class CycleVM() : BaseVMWithStateLoad(), CycleVMInterface {
     private val _cycle = MutableStateFlow(Cycle())
     override val cycle: StateFlow<Cycle> = _cycle.asStateFlow()
 
-    private val _img = MutableStateFlow<String>(" ")
+    private val _img = MutableStateFlow<String>("")
     override val img: StateFlow<String> = _img.asStateFlow()
 
     override fun getAllPersonal() {

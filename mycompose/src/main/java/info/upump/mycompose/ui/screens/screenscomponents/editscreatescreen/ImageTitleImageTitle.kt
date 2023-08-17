@@ -19,10 +19,7 @@ fun ImageTitleImageTitle(cycleVM: CycleVMInterface) {
                 .fillMaxWidth()
                 .height(200.dp)
         ) {
-
-           // Log.d("State", "2 ${cycle.title}")
             ImageWithPicker(cycleVM)
-
            LabelTitleForImage(cycleVM)
         }
 

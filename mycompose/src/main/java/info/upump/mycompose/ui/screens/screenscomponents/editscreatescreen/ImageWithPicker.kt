@@ -59,7 +59,7 @@ fun ImageWithPicker(cycleVM: CycleVMInterface) {
             },
         bitmap = getImagePicker(cycle,  context).asImageBitmap(),
         contentDescription = "image",
-        contentScale = ContentScale.Crop
+        contentScale = ContentScale.Crop,
     )
 }
 

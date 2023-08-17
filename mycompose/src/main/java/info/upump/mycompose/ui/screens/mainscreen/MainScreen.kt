@@ -35,6 +35,11 @@ fun MainScreen() {
     val topBarState = remember {
         mutableStateOf(true)
     }
+
+    val bottomBarStat = remember{
+        mutableStateOf(true)
+    }
+
     val cameraPermission =
         rememberPermissionState(permission = "android.permission.CAMERA")
     val storagePermission =
@@ -50,8 +55,7 @@ fun MainScreen() {
         bottomBar =
         {
             AnimatedVisibility(modifier = Modifier.fillMaxWidth(),
-                visible = topBarState.value,
-                //visible = true,
+                visible = bottomBarStat.value,
                 enter = slideInVertically() {
                     // Slide in from 40 dp from the top.
                     with(density) { 60.dp.roundToPx() }
@@ -71,7 +75,6 @@ fun MainScreen() {
         },
 
         topBar = {
-
             AnimatedVisibility(modifier = Modifier.fillMaxWidth(),
                 //visible = topBarState.value,
                 visible = true,
@@ -96,7 +99,7 @@ fun MainScreen() {
             }
         },
     ) { padding ->
-        NavGraph(navController, appBarTitle, padding, topBarState)
+        NavGraph(navController, appBarTitle, padding, topBarState, bottomBarStat)
     }
 }
 

@@ -14,7 +14,8 @@ fun NavGraph(
     navHostController: NavHostController,
     appBarTitle: MutableState<String>,
     paddingValues: PaddingValues,
-    topBarState: MutableState<Boolean>
+    topBarState: MutableState<Boolean>,
+    bottomBarState: MutableState<Boolean>
 ) {
     val context = LocalContext.current
     NavHost(
@@ -22,7 +23,7 @@ fun NavGraph(
         startDestination = MY_CYCLE_ROOT_ROUTE,
         route = NAVGRAPH_ROOT_ROUTE
     ) {
-        myCycleGraph(navHostController, appBarTitle, context, paddingValues, topBarState)
+        myCycleGraph(navHostController, appBarTitle, context, paddingValues, topBarState, bottomBarState)
 
         defaultCycleGraph(navHostController, appBarTitle, context, paddingValues, topBarState)
 

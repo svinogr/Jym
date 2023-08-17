@@ -95,7 +95,7 @@ suspend fun getImage(cycle: Cycle, context: Context): Bitmap {
 
     var source: ImageDecoder.Source
     try {
-        if (!cycle.image.isBlank()) {
+        if (!cycle.image!!.isBlank()) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.image))
