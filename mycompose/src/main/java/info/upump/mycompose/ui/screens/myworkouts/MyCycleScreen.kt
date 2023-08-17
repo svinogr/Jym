@@ -56,7 +56,7 @@ fun MyCycleScreen(
     val listState = rememberLazyListState()
     val density = LocalDensity.current
     val cycleVM: CycleVM = viewModel()
-    val listCycle by cycleVM.cycles.collectAsState()
+    val listCycle by cycleVM.itemList.collectAsState()
     Scaffold(modifier = Modifier.padding(paddingValues = paddingValues),
         floatingActionButton = {
             AnimatedVisibility(

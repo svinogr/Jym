@@ -20,20 +20,31 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
+import info.upump.mycompose.models.entity.Entity
+import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMInterface
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutVM
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 
 @Preview(showBackground = true)
 @Composable
-fun CardTitlePreview() {
+fun CardTitlePreviewCycle() {
     val cycle = CycleVM.vmOnlyForPreview
     CardTitle(cycle)
 }
 
+@Preview(showBackground = true)
 @Composable
-fun CardTitle(
-    cycleVM: CycleVMInterface,
+fun CardTitlePreviewWorkout() {
+    val cycle = WorkoutVM.vmOnlyForPreview
+    CardTitle(cycle)
+}
+
+
+@Composable
+fun<T: Entity> CardTitle(
+    modelVM: VMInterface<T>,
     modifierCard: Modifier = Modifier
         .fillMaxWidth()
         .padding(start = 4.dp, end = 4.dp, top = 4.dp),
@@ -50,7 +61,7 @@ fun CardTitle(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        val cycle by cycleVM.cycle.collectAsState()
+        val cycle by modelVM.item.collectAsState()
         LaunchedEffect(key1 = true) {
             Log.d("TAG", "lunc")
         }
@@ -65,16 +76,16 @@ fun CardTitle(
             ),
             value = cycle.title,
             onValueChange = {
-                cycleVM.updateTitle(it)
+                modelVM.updateTitle(it)
             },
             label = {
                 Text(
-                    text = stringResource(id = R.string.label_title_cycle),
+                    text = stringResource(id = R.string.label_title_common),
                     style = MyTextTitleLabelWithColor
                 )
             },
             placeholder = {
-                Text(text = stringResource(id = R.string.title_cycle_hint))
+                Text(text = stringResource(id = R.string.label_title_common))
             }
         )
     }

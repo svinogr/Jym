@@ -31,6 +31,7 @@ import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMInterface
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 import java.util.Date
@@ -44,7 +45,7 @@ fun DateCardWithDatePickerPreview() {
 
 @Composable
 fun DateCardWithDatePicker(
-    cycleVM: CycleVMInterface,
+    cycleVM: VMInterface<Cycle>,
     modifierCard: Modifier = Modifier
         .fillMaxWidth()
         .padding(start = 4.dp, end = 4.dp, top = 4.dp),
@@ -62,7 +63,7 @@ fun DateCardWithDatePicker(
         )
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            val cycle by cycleVM.cycle.collectAsState()
+            val cycle by cycleVM.item.collectAsState()
 
             ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                 val text = createRef()

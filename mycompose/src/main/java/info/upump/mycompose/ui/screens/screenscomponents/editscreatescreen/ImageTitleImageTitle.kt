@@ -8,30 +8,41 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import info.upump.mycompose.models.entity.Entity
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMInterface
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutVM
 
 @Composable
-fun ImageTitleImageTitle(cycleVM: CycleVMInterface) {
+fun <T: Entity> ImageTitleImageTitle(modelVM: VMInterface<T>, content: @Composable() ()-> Unit) {
     Column {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
         ) {
-            ImageWithPicker(cycleVM)
-           LabelTitleForImage(cycleVM)
+
+           content()
+           LabelTitleForImage(modelVM)
         }
 
-        CardTitle(cycleVM)
+        CardTitle(modelVM)
     }
 }
 
 @Preview(showBackground = false)
 @Composable
-fun ImageTitleImageTitlePreview() {
+fun ImageTitleImageTitlePreviewCycle() {
     val cycle = CycleVM.vmOnlyForPreview
-    ImageTitleImageTitle(cycle)
+    ImageTitleImageTitle(cycle){
+        ImageWithPicker(cycle)
+    }
 }
 
+@Preview(showBackground = false)
+@Composable
+fun ImageTitleImageTitlePreviewWorkout() {
+    val cycle = WorkoutVM.vmOnlyForPreview
+ //   ImageTitleImageTitle(cycle)
+}
 

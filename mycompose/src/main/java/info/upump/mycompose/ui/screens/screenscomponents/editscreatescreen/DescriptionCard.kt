@@ -11,9 +11,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -21,15 +18,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Entity
+import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMInterface
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutVM
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 
 @Composable
-fun DescriptionCard(
-    cycleVM: CycleVMInterface,
+fun <T: Entity> DescriptionCard(
+    modelVM: VMInterface<T>,
     modifierCard: Modifier = Modifier
         .fillMaxWidth()
         .padding(start = 4.dp, end = 4.dp, top = 4.dp),
@@ -46,7 +44,7 @@ fun DescriptionCard(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        val cycle by cycleVM.cycle.collectAsState()
+        val item by modelVM.item.collectAsState()
 
         TextField(modifier = modifierValue,
             colors = TextFieldDefaults.textFieldColors(
@@ -56,9 +54,9 @@ fun DescriptionCard(
                 disabledIndicatorColor = Color.Transparent,
                 backgroundColor = colorResource(R.color.colorBackgroundCardView)
             ),
-            value = cycle.comment,
+            value = item.comment,
             onValueChange = {
-                cycleVM.updateComment(it)
+                modelVM.updateComment(it)
              //   comment = it
             },
             label = {
@@ -78,5 +76,12 @@ fun DescriptionCard(
 @Composable
 fun DescriptionCardPreview() {
     val vm = CycleVM.vmOnlyForPreview
+    DescriptionCard(vm)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DescriptionCardPreview2() {
+    val vm = WorkoutVM.vmOnlyForPreview
     DescriptionCard(vm)
 }
