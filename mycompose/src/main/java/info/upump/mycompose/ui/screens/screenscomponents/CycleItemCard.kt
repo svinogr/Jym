@@ -118,7 +118,7 @@ suspend fun getImage(cycle: Cycle, context: Context): Bitmap {
 
 
         }
-    } catch (e: NullPointerException) {
+    } catch (e: Exception ) {
         val id = context.resources.getIdentifier("drew", "drawable", name)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             source = ImageDecoder.createSource(context.resources, id)

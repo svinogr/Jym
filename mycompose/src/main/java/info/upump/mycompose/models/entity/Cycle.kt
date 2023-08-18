@@ -7,8 +7,8 @@ import java.util.Date
 class Cycle(
     var workoutList: List<Workout> = ArrayList(),
     var isDefaultType: Boolean = false,
-    var image: String? = "",
-    var defaultImg: String? = null
+    var image: String = "",
+    var defaultImg: String = ""
 ) : Entity() {
 
     private val daysBetweenDates: Int
@@ -49,7 +49,7 @@ class Cycle(
                 workoutList = listOf(),
                 isDefaultType = entity.default_type == 1,
 
-                defaultImg = entity.default_img
+                defaultImg = entity.default_img ?: ""
             )
             cycle.title = entity.title
             cycle.id = entity._id
@@ -57,7 +57,7 @@ class Cycle(
             cycle.setFinishDate(entity.finish_date)
             cycle.comment = entity.comment!!
             cycle.image = entity.img ?: ""
-            cycle.defaultImg = entity.default_img
+
             return cycle
         }
 

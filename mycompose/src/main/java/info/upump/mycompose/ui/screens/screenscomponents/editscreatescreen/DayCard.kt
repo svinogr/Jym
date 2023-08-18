@@ -1,14 +1,13 @@
 package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
-import androidx.compose.foundation.background
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
@@ -34,6 +34,7 @@ import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutVM
+import info.upump.mycompose.ui.theme.MyTextLabel12
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,9 +47,9 @@ fun DayCard(
         .fillMaxWidth()
         .padding(start = 10.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
 ) {
-    val workout by modelVM.item.collectAsState()
+
     var expanded by remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     Card(
         modifier = modifierCard,
@@ -61,12 +62,10 @@ fun DayCard(
     ) {
         Row(modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically) {
-            // ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-            //      val weekEvenEl = createRef()
-            //       val dayEl = createRef()
-            //        val gui = createGuidelineFromStart(0.7f)
 
             Box(  modifier = Modifier.weight(1f)) {
+                val workout by modelVM.item.collectAsState()
+                Log.d("RECOMPOSE", "ExposedDropdownMenuBox $workout")
                 ExposedDropdownMenuBox(
                     expanded = expanded, onExpandedChange = {
                         expanded = !expanded
@@ -82,31 +81,36 @@ fun DayCard(
                             containerColor =   colorResource(id = R.color.colorBackgroundCardView)
 
                         ),
+                        label = { Text(style = MyTextLabel12, text = stringResource(id = R.string.label_spinner_day))},
                         readOnly = true,
-                        value = workout.day!!.toString(),
+                        value = stringResource(id = workout.day!!.title()),
                         onValueChange = {
                         }
                     )
 
-                    ExposedDropdownMenu(expanded = expanded, onDismissRequest = {
+                    ExposedDropdownMenu(modifier = modifierValue.fillMaxHeight(), expanded = expanded, onDismissRequest = {
                         expanded = false
                     }) {
                         Day.values().forEach {
                             DropdownMenuItem(
                                 onClick = {
                                     modelVM.updateDay(it)
+                                    modelVM.updateImage(it.toString())
                                     expanded = false
                                 }) {
-                                Text(it.toString())
+                                Text(stringResource(id = it.title()))
                             }
                         }
                     }
                 }
             }
             OutlinedButton(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+
+                    .weight(1f)
+                    .padding(end = 8.dp),
                 onClick = {  }) {
-                Text("Четная")
+                Text("четная")
             }
         }
 

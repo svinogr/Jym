@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.models.entity.Entity
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.theme.MyTextTitleLabel20StrokeText
 
@@ -26,7 +26,8 @@ fun <T: Entity> LabelTitleForImage(
         val modifier1 = Modifier
             .padding(bottom = 16.dp, start = 10.dp)
             .align(alignmentText)
-       val cycle  by modelVM.item.collectAsState()
+       //val cycle  by modelVM.item.collectAsState()
+       val title  by modelVM.title.collectAsState()
 
         TextField(modifier = modifier1,
             textStyle = MyTextTitleLabel20StrokeText,
@@ -38,7 +39,7 @@ fun <T: Entity> LabelTitleForImage(
                 backgroundColor = Color.Transparent
             ),
             readOnly = true,
-            value = cycle.title,
+            value = title,
             onValueChange = {
            // nothing to change
             }
@@ -49,7 +50,7 @@ fun <T: Entity> LabelTitleForImage(
 @Preview(showBackground = true, backgroundColor = 1)
 @Composable
 fun LabelTitleForImagePreview() {
-    val cycle = CycleVM.vmOnlyForPreview
+    val cycle = CycleVMCreateEdit.vmOnlyForPreview
     LabelTitleForImage(cycle)
 }
 

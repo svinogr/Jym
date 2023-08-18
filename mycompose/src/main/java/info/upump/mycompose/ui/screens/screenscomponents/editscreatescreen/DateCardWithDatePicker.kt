@@ -17,8 +17,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -29,17 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMInterface
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
-import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 import java.util.Date
 
 @Preview(showBackground = true)
 @Composable
 fun DateCardWithDatePickerPreview() {
-    val cycle = CycleVM.vmOnlyForPreview
+    val cycle = CycleVMCreateEdit.vmOnlyForPreview
     DateCardWithDatePicker(cycle)
 }
 
@@ -63,13 +59,14 @@ fun DateCardWithDatePicker(
         )
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            val cycle by cycleVM.item.collectAsState()
+          //  val cycle by cycleVM.item.collectAsState()
+            val startDate by cycleVM.startDate.collectAsState()
+            val finishDate by cycleVM.finishDate.collectAsState()
 
             ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                 val text = createRef()
                 val gui = createGuidelineFromStart(0.5f)
-                TextField(modifier = modifierValue
-                ,
+                TextField(modifier = modifierValue,
                     colors = TextFieldDefaults.textFieldColors(
                         disabledTextColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
@@ -78,14 +75,14 @@ fun DateCardWithDatePicker(
                         backgroundColor = colorResource(R.color.colorBackgroundCardView)
                     ),
                     readOnly = true,
-                    value = cycle.startStringFormatDate,
+                    value = startDate.toGMTString(),
                     onValueChange = {
                      //   entity.comment = it
                        // comment = it
                     },
                     label = {
                         Text(modifier = Modifier.clickable {
-                            datePickerDialog(cycle.startDate!!, context) { date ->
+                            datePickerDialog(startDate, context) { date ->
                               cycleVM.updateStartDate(date)
                             //cycle.value.startDate = date
                                // dateStateStart.value = cycle.startStringFormatDate
@@ -114,14 +111,14 @@ fun DateCardWithDatePicker(
                     ),
 
                     readOnly = true,
-                    value = cycle.finishStringFormatDate,
+                    value = finishDate.toString(),
                     onValueChange = {
                         //entity.comment = it
                         //comment = it
                     },
                     label = {
                         Text(modifier = Modifier.clickable {
-                            datePickerDialog(cycle.finishDate, context) { date ->
+                            datePickerDialog(finishDate, context) { date ->
                                 cycleVM.updateFinishDate(date)
                                // cycle.finishDate = date
                                // dateStateFinish.value = cycle.finishStringFormatDate

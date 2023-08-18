@@ -21,14 +21,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 
 @Preview(showBackground = true)
 @Composable
 fun ImageWithPickerPreview() {
-    val cycleVM = CycleVM.vmOnlyForPreview
-    ImageWithPicker(cycleVM)
+    val cycleVMCreateEdit = CycleVMCreateEdit.vmOnlyForPreview
+    ImageWithPicker(cycleVMCreateEdit)
 }
 @Composable
 fun ImageWithPicker(cycleVM: VMInterface<Cycle>) {
@@ -39,7 +39,7 @@ fun ImageWithPicker(cycleVM: VMInterface<Cycle>) {
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) {
-        cycleVM.updateImgage(it.toString())
+        cycleVM.updateImage(it.toString())
     }
 
 

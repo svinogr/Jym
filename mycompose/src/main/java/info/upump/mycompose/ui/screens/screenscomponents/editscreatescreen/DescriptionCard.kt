@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,8 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Entity
-import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutVM
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
@@ -44,7 +44,9 @@ fun <T: Entity> DescriptionCard(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        val item by modelVM.item.collectAsState()
+        val comment by modelVM.comment.collectAsState()
+        Log.d("model", "${comment.javaClass}  $comment")
+        Log.d("model", "${modelVM.javaClass}")
 
         TextField(modifier = modifierValue,
             colors = TextFieldDefaults.textFieldColors(
@@ -54,7 +56,7 @@ fun <T: Entity> DescriptionCard(
                 disabledIndicatorColor = Color.Transparent,
                 backgroundColor = colorResource(R.color.colorBackgroundCardView)
             ),
-            value = item.comment,
+            value = comment,
             onValueChange = {
                 modelVM.updateComment(it)
              //   comment = it
@@ -75,7 +77,7 @@ fun <T: Entity> DescriptionCard(
 @Preview(showBackground = true)
 @Composable
 fun DescriptionCardPreview() {
-    val vm = CycleVM.vmOnlyForPreview
+    val vm = CycleVMCreateEdit.vmOnlyForPreview
     DescriptionCard(vm)
 }
 

@@ -1,5 +1,5 @@
-/*
 package info.upump.mycompose.ui.screens.myworkouts.viewmodel
+
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -19,26 +19,32 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     companion object {
         val vmOnlyForPreview by lazy {
             object : VMInterface<Workout> {
-                private val _workouts = MutableStateFlow(
-                    mutableListOf(
-                        Workout().apply { title = "Preview2" },
-                        Workout().apply { title = "Preview 3" })
-                )
-
-                override val itemList: StateFlow<List<Workout>> = _workouts
 
                 private val _workout = MutableStateFlow(Workout().apply {
                     day = Day.TUESDAY
                     title = "Preview Workout"
                     comment = "это Preview Workout"
                 })
-                override val item: StateFlow<Workout> = _workout
-                private val _img = MutableStateFlow(Day.TUESDAY.toString())
-                override val imgOption: StateFlow<String> = _img.asStateFlow()
 
-                override fun getAllPersonal() {
-                    TODO("Not yet implemented")
-                }
+                override val item: StateFlow<Workout> = _workout.asStateFlow()
+
+                private val _title = MutableStateFlow(_workout.value.title)
+                override val title: StateFlow<String> = _title.asStateFlow()
+
+                private val _comment = MutableStateFlow(_workout.value.comment)
+                override val comment: StateFlow<String> = _comment.asStateFlow()
+
+                private val _startDate = MutableStateFlow(_workout.value.startDate)
+                override val startDate: StateFlow<Date>  = _startDate
+
+                private val _finishDate = MutableStateFlow(_workout.value.finishDate)
+                override val finishDate: StateFlow<Date> = _finishDate
+
+                private val _day = MutableStateFlow(_workout.value.day)
+                override val day: StateFlow<Day> = _day
+
+                private val _img = MutableStateFlow(_workout.value.day.toString())
+                override val imgOption: StateFlow<String> = _img.asStateFlow()
 
                 override fun getBy(id: Long) {
                     TODO("Not yet implemented")
@@ -69,31 +75,39 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                 }
 
                 override fun updateDay(dayN: Day) {
-                    _workout.update {
-                        Workout.copy(it).apply { day = dayN }
+                    _day.update { dayN }
                     }
                 }
             }
         }
-    }
-
     private val _workouts = MutableStateFlow<List<Workout>>(listOf())
-    override val itemList: StateFlow<List<Workout>> = _workouts.asStateFlow()
+    val itemList: StateFlow<List<Workout>> = _workouts.asStateFlow()
 
     private val _workout = MutableStateFlow(Workout())
     override val item: StateFlow<Workout> = _workout.asStateFlow()
 
-    private val _img = MutableStateFlow(Day.MONDAY.toString())
+    private val _title = MutableStateFlow(_workout.value.title)
+    override val title: StateFlow<String> = _title.asStateFlow()
+
+    private val _comment = MutableStateFlow(_workout.value.comment)
+    override val comment: StateFlow<String> = _comment.asStateFlow()
+
+    private val _startDate = MutableStateFlow(_workout.value.startDate)
+    override val startDate: StateFlow<Date>  = _startDate
+
+    private val _finishDate = MutableStateFlow(_workout.value.finishDate)
+    override val finishDate: StateFlow<Date> = _finishDate
+
+    private val _day = MutableStateFlow(_workout.value.day)
+    override val day: StateFlow<Day> = _day
+
+    private val _img = MutableStateFlow(_workout.value.day.toString())
     override val imgOption: StateFlow<String> = _img.asStateFlow()
-    override fun getAllPersonal() {
-        //TODO
-    }
 
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             if (id == 0L) {
                 _workout.update { Workout() }
-
                 return@launch
             }
 
@@ -122,9 +136,9 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     }
 
     override fun updateImage(imgStr: String) {
-          _img.update {
-              imgStr
-          }
+        _img.update {
+            imgStr
+        }
     }
 
     override fun updateStartDate(date: Date) {
@@ -157,11 +171,14 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
 }
 
 interface VMInterface<T> {
-    val itemList: StateFlow<List<T>>
     val item: StateFlow<T>
     val imgOption: StateFlow<String>
+    val title: StateFlow<String>
+    val comment: StateFlow<String>
+    val startDate: StateFlow<Date>
+    val finishDate: StateFlow<Date>
+    val day: StateFlow<Day>
 
-    fun getAllPersonal()
     fun getBy(id: Long)
     fun save()
     fun updateTitle(title: String)
@@ -170,4 +187,4 @@ interface VMInterface<T> {
     fun updateFinishDate(date: Date)
     fun updateComment(comment: String)
     fun updateDay(it: Day)
-}*/
+}

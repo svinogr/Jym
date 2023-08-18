@@ -21,8 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Entity
-import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutVM
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
@@ -30,7 +29,7 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 @Preview(showBackground = true)
 @Composable
 fun CardTitlePreviewCycle() {
-    val cycle = CycleVM.vmOnlyForPreview
+    val cycle = CycleVMCreateEdit.vmOnlyForPreview
     CardTitle(cycle)
 }
 
@@ -61,7 +60,8 @@ fun<T: Entity> CardTitle(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        val cycle by modelVM.item.collectAsState()
+        val title by modelVM.title.collectAsState()
+
         LaunchedEffect(key1 = true) {
             Log.d("TAG", "lunc")
         }
@@ -74,7 +74,7 @@ fun<T: Entity> CardTitle(
                 disabledIndicatorColor = Color.Transparent,
                 backgroundColor = colorResource(R.color.colorBackgroundCardView)
             ),
-            value = cycle.title,
+            value = title,
             onValueChange = {
                 modelVM.updateTitle(it)
             },

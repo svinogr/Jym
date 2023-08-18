@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCardWithDatePicker
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
@@ -55,14 +55,14 @@ fun CreateEditeCycleScreen(
         mutableStateOf(true) // не забыть псотавить фолс для начального
     }
     val density = LocalDensity.current
-    val cycleVM: CycleVM = viewModel()
-    val isLoad by cycleVM.isLoading.collectAsState()
+    val cycleVMCreateEdit: CycleVMCreateEdit = viewModel()
+    val isLoad by cycleVMCreateEdit.isLoading.collectAsState()
 
-    val c = cycleVM.item.collectAsState()
+    val c = cycleVMCreateEdit.item.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
-        cycleVM.getBy(id)
+        cycleVMCreateEdit.getBy(id)
         if (id == 0L) {
             appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
         } else {
@@ -85,7 +85,7 @@ fun CreateEditeCycleScreen(
                 FloatingActionButton(
                     shape = CircleShape,
                     onClick = {
-                        cycleVM.save()
+                        cycleVMCreateEdit.save()
                         navHostController.navigate(
                             NavigationItem.CreateEditeWorkoutNavigationItem.routeWithId(c.value.id)
                         )
@@ -108,10 +108,10 @@ fun CreateEditeCycleScreen(
                 .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
         ) {
             // of thee parts
-            ImageTitleImageTitle(cycleVM){ImageWithPicker(cycleVM)}
-            DateCardWithDatePicker(cycleVM)
+            ImageTitleImageTitle(cycleVMCreateEdit){ImageWithPicker(cycleVMCreateEdit)}
+            DateCardWithDatePicker(cycleVMCreateEdit)
             // description aka comment
-            DescriptionCard(cycleVM)
+            DescriptionCard(cycleVMCreateEdit)
         }
     }
 
@@ -119,7 +119,7 @@ fun CreateEditeCycleScreen(
 
     BackHandler {
         Log.d("updateVM", "save _____}")
-        cycleVM.save()
+        cycleVMCreateEdit.save()
 
         navHostController.navigateUp()
     }

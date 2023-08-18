@@ -66,7 +66,7 @@ fun CreateEditeWorkoutScreen(
         if (id == 0L) {
             appBarTitle.value = context.resources.getString(R.string.workout_dialog_create_new)
         } else {
-            appBarTitle.value = c.value.title
+            appBarTitle.value = workoutVM.title.value
         }
     }
 

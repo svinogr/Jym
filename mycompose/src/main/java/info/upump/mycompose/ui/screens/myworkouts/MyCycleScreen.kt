@@ -39,7 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMtest
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.CycleItemCard
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,8 +56,9 @@ fun MyCycleScreen(
 ) {
     val listState = rememberLazyListState()
     val density = LocalDensity.current
-    val cycleVM: CycleVM = viewModel()
-    val listCycle by cycleVM.itemList.collectAsState()
+    val cycleVM: CycleVMtest = viewModel()
+    val listCycle by cycleVM.cycleList.collectAsState()
+
     Scaffold(modifier = Modifier.padding(paddingValues = paddingValues),
         floatingActionButton = {
             AnimatedVisibility(

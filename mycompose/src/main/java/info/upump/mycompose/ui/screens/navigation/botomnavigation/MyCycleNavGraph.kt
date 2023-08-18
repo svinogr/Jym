@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import info.upump.mycompose.ui.screens.myworkouts.CreateEditeCycleScreen
+import info.upump.mycompose.ui.screens.myworkouts.CreateEditeWorkoutScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyCycleDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyExerciseDetailScreen
@@ -121,6 +122,20 @@ fun NavGraphBuilder.myCycleGraph(
             Log.d("TAG", "id = $id")
             bottomBarState.value = false
             CreateEditeCycleScreen(id!!, navHostController, paddingValues, appBarTitle)
+        }
+
+        composable(
+            route = NavigationItem.CreateEditeWorkoutNavigationItem.route,
+            arguments = listOf(navArgument("id"){
+                type = NavType.LongType
+            }),
+        ) {
+
+            //topBarState.value = false он уже должен был быть убран
+            val id = it.arguments?.getLong("id")
+            Log.d("TAG", "id = $id")
+            bottomBarState.value = false
+            CreateEditeWorkoutScreen(id!!, navHostController, paddingValues, appBarTitle)
         }
     }
 }

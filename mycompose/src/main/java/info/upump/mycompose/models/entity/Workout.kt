@@ -6,7 +6,7 @@ class Workout(
     var isWeekEven: Boolean = false,
     var isDefaultType: Boolean = false,
     var isTemplate: Boolean = false,
-    var day: Day? = null,
+    var day: Day = Day.MONDAY,
     var exercises: List<Exercise> = ArrayList()
 ) : Entity() {
 
