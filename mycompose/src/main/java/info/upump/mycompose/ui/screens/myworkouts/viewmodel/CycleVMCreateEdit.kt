@@ -83,6 +83,10 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
                 override fun updateDay(it: Day) {
                     TODO("Not yet implemented")
                 }
+
+                override fun collectToSave(): Cycle {
+                    TODO("Not yet implemented")
+                }
             }
         }
     }
@@ -160,6 +164,10 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
     }
 
     override fun updateDay(it: Day) {
+        TODO("Not yet implemented")
+    }
+
+    override fun collectToSave(): Cycle {
         TODO("Not yet implemented")
     }
 }

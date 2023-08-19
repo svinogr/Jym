@@ -51,6 +51,10 @@ fun DayCard(
     var expanded by remember {
         mutableStateOf(false)
     }
+    val day by modelVM.day.collectAsState()
+    val workoutVM = modelVM as WorkoutVM
+    val isEven by workoutVM.isEven.collectAsState()
+
     Card(
         modifier = modifierCard,
         elevation = CardDefaults.cardElevation(1.dp),
@@ -60,12 +64,15 @@ fun DayCard(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        Row(modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-            Box(  modifier = Modifier.weight(1f)) {
-                val workout by modelVM.item.collectAsState()
-                Log.d("RECOMPOSE", "ExposedDropdownMenuBox $workout")
+            Box(modifier = Modifier.weight(1f)) {
+
+
+                Log.d("RECOMPOSE", "ExposedDropdownMenuBox $day")
                 ExposedDropdownMenuBox(
                     expanded = expanded, onExpandedChange = {
                         expanded = !expanded
@@ -78,19 +85,27 @@ fun DayCard(
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
                             disabledIndicatorColor = Color.Transparent,
-                            containerColor =   colorResource(id = R.color.colorBackgroundCardView)
+                            containerColor = colorResource(id = R.color.colorBackgroundCardView)
 
                         ),
-                        label = { Text(style = MyTextLabel12, text = stringResource(id = R.string.label_spinner_day))},
+                        label = {
+                            Text(
+                                style = MyTextLabel12,
+                                text = stringResource(id = R.string.label_spinner_day)
+                            )
+                        },
                         readOnly = true,
-                        value = stringResource(id = workout.day!!.title()),
+                        value = stringResource(id = day.title()),
                         onValueChange = {
                         }
                     )
 
-                    ExposedDropdownMenu(modifier = modifierValue.fillMaxHeight(), expanded = expanded, onDismissRequest = {
-                        expanded = false
-                    }) {
+                    ExposedDropdownMenu(
+                        modifier = modifierValue.fillMaxHeight(),
+                        expanded = expanded,
+                        onDismissRequest = {
+                            expanded = false
+                        }) {
                         Day.values().forEach {
                             DropdownMenuItem(
                                 onClick = {
@@ -104,13 +119,19 @@ fun DayCard(
                     }
                 }
             }
+
             OutlinedButton(
                 modifier = Modifier
-
                     .weight(1f)
                     .padding(end = 8.dp),
-                onClick = {  }) {
-                Text("четная")
+                onClick = {
+                    workoutVM.updateEven()
+                }) {
+                if (isEven) {
+                    Text("четная")
+                } else {
+                    Text("нечетная")
+                }
             }
         }
 

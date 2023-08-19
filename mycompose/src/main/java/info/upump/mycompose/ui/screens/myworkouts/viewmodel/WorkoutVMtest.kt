@@ -77,7 +77,11 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                 override fun updateDay(dayN: Day) {
                     _day.update { dayN }
                     }
+
+                override fun collectToSave(): Workout {
+                    TODO("Not yet implemented")
                 }
+            }
             }
         }
     private val _workouts = MutableStateFlow<List<Workout>>(listOf())
@@ -104,6 +108,9 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     private val _img = MutableStateFlow(_workout.value.day.toString())
     override val imgOption: StateFlow<String> = _img.asStateFlow()
 
+    private val _isEven = MutableStateFlow(_workout.value.isWeekEven)
+    val isEven: StateFlow<Boolean> = _isEven.asStateFlow()
+
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             if (id == 0L) {
@@ -122,51 +129,51 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     override fun save() {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("save", "${item.value}")
-            val c = Workout.mapToEntity(item.value)
-            Log.d("save", "$c")
+            val w = collectToSave()
+            val c = Workout.mapToEntity(w)
+            Log.d("save", "$w")
 
             // CycleRepo.get().save(Cycle.mapToEntity(cycle.value))
         }
     }
 
-    override fun updateTitle(titlen: String) {
-        _workout.update {
-            Workout.copy(it).apply { title = titlen }
+    override fun collectToSave(): Workout {
+        val collectW = Workout().apply{
+            id = _workout.value.id
+            title = _title.value
+            day = _day.value
+            comment = _comment.value
+            isWeekEven = _isEven.value
         }
+
+        return collectW
+    }
+
+    override fun updateTitle(titlen: String) {
+          _title.update {titlen }
     }
 
     override fun updateImage(imgStr: String) {
-        _img.update {
-            imgStr
-        }
+        _img.update { imgStr }
     }
 
     override fun updateStartDate(date: Date) {
-        _workout.update {
-            Workout.copy(it).apply {
-                startDate = date
-            }
-        }
+
     }
 
     override fun updateFinishDate(date: Date) {
-        _workout.update {
-            Workout.copy(it).apply { finishDate = date }
-        }
     }
 
     override fun updateComment(commentN: String) {
-        Log.d("DAY", "$commentN")
-        _workout.update {
-            Workout.copy(it).apply { comment = commentN }
-        }
+        _comment.update {commentN}
     }
 
     override fun updateDay(dayN: Day) {
-        Log.d("DAY", "$dayN")
-        _workout.update {
-            Workout.copy(it).apply { day = dayN }
-        }
+        _day.update { dayN }
+    }
+
+    fun updateEven() {
+        _isEven.update {!it}
     }
 }
 
@@ -187,4 +194,5 @@ interface VMInterface<T> {
     fun updateFinishDate(date: Date)
     fun updateComment(comment: String)
     fun updateDay(it: Day)
+    abstract fun collectToSave(): T
 }
