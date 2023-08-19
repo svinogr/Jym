@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
+import info.upump.mycompose.models.entity.Entity
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
@@ -75,7 +76,7 @@ fun DateCardWithDatePicker(
                         backgroundColor = colorResource(R.color.colorBackgroundCardView)
                     ),
                     readOnly = true,
-                    value = startDate.toGMTString(),
+                    value = startDate,
                     onValueChange = {
                      //   entity.comment = it
                        // comment = it
@@ -111,7 +112,7 @@ fun DateCardWithDatePicker(
                     ),
 
                     readOnly = true,
-                    value = finishDate.toString(),
+                    value = finishDate,
                     onValueChange = {
                         //entity.comment = it
                         //comment = it
@@ -134,9 +135,9 @@ fun DateCardWithDatePicker(
     }
 }
 
-fun datePickerDialog(date: Date, context: Context, updateText: (Date) -> Unit): DatePickerDialog {
+fun datePickerDialog(date: String, context: Context, updateText: (Date) -> Unit): DatePickerDialog {
     val c = Calendar.getInstance()
-    c.time = date
+    c.time = Entity.formatStringToDate(date)
     val y = c.get(Calendar.YEAR)
     val m = c.get(Calendar.MONTH)
     val d = c.get(Calendar.DAY_OF_MONTH)

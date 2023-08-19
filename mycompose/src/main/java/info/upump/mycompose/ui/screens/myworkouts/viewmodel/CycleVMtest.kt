@@ -22,12 +22,13 @@ class CycleVMtest: BaseVMWithStateLoad() {
         ) {
             val list = CycleRepo.get().getAllPersonal()
             list.map {
-                it.map {
-                    Cycle.mapFromDbEntity(it)
+                it.map {c ->
+                    Cycle.mapFromDbEntity(c)
                 }
             }.collect {
                 _cycleList.value = it
             }
+
             _stateLoading.value = false
         }
     }

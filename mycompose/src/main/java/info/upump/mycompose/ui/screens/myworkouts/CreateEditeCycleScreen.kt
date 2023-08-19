@@ -34,7 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
+import info.upump.mycompose.models.entity.Cycle
+import info.upump.mycompose.ui.screens.CheckFormable
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCardWithDatePicker
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
@@ -85,10 +88,11 @@ fun CreateEditeCycleScreen(
                 FloatingActionButton(
                     shape = CircleShape,
                     onClick = {
-                        cycleVMCreateEdit.save()
-                        navHostController.navigate(
-                            NavigationItem.CreateEditeWorkoutNavigationItem.routeWithId(c.value.id)
-                        )
+                        cycleVMCreateEdit.save() {
+                            navHostController.navigate(
+                                NavigationItem.DetailCycleNavigationItem.routeWithId(it)
+                            )
+                        }
                     },
                     content = {
                         Icon(
@@ -108,21 +112,31 @@ fun CreateEditeCycleScreen(
                 .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
         ) {
             // of thee parts
-            ImageTitleImageTitle(cycleVMCreateEdit){ImageWithPicker(cycleVMCreateEdit)}
+            ImageTitleImageTitle(cycleVMCreateEdit) { ImageWithPicker(cycleVMCreateEdit) }
             DateCardWithDatePicker(cycleVMCreateEdit)
             // description aka comment
             DescriptionCard(cycleVMCreateEdit)
         }
     }
 
-
-
     BackHandler {
-        Log.d("updateVM", "save _____}")
-        cycleVMCreateEdit.save()
-
-        navHostController.navigateUp()
+        if (!isBlackFormField(cycleVMCreateEdit)) {
+            cycleVMCreateEdit.save {
+                Log.d("save", "save id = $it")
+                navHostController.navigateUp()
+            }
+        } else {
+            navHostController.navigateUp()
+        }
     }
+}
+
+fun isBlackFormField(vm: VMInterface<Cycle>): Boolean {
+    val c = vm.collectToSave()
+    if (c.title.trim().isEmpty()) return true
+    // if (c.comment.trim().isEmpty()) return true
+
+    return false
 }
 
 /*@RequiresApi(Build.VERSION_CODES.P)*/

@@ -47,7 +47,9 @@ import kotlinx.coroutines.flow.asStateFlow
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateEditeWorkoutScreen(
-    id: Long, navHostController: NavHostController,
+    id: Long,
+    parentId: Long,
+    navHostController: NavHostController,
     paddingValues: PaddingValues,
     appBarTitle: MutableState<String>
 ) {
@@ -85,10 +87,11 @@ fun CreateEditeWorkoutScreen(
                 FloatingActionButton(
                     shape = CircleShape,
                     onClick = {
-                        workoutVM.save()
-                        navHostController.navigate(
-                            NavigationItem.CreateEditeWorkoutNavigationItem.routeWithId(c.value.id)
-                        )
+                        workoutVM.save {
+                            navHostController.navigate(
+                                NavigationItem.CreateWorkoutNavigationItem.routeWithId(it)
+                            )
+                        }
                     },
                     content = {
                         Icon(
@@ -108,11 +111,11 @@ fun CreateEditeWorkoutScreen(
                 .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
         ) {
             // of thee parts
-            ImageTitleImageTitle(workoutVM){
+            ImageTitleImageTitle(workoutVM) {
                 ImageByDay(modelVM = workoutVM)
             }
             DayCard(workoutVM)
-           // DateCardWithDatePicker(workoutVM)
+            // DateCardWithDatePicker(workoutVM)
             // description aka comment
             DescriptionCard(workoutVM)
         }
@@ -121,10 +124,10 @@ fun CreateEditeWorkoutScreen(
 
 
     BackHandler {
-        Log.d("updateVM", "save _____}")
-        workoutVM.save()
-
-        navHostController.navigateUp()
+        workoutVM.save {
+            Log.d("save", "save id = $it")
+            navHostController.navigateUp()
+        }
     }
 }
 

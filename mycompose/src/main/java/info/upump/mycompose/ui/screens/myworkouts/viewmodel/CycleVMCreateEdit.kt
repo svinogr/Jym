@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.CycleRepo
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Day
+import info.upump.mycompose.models.entity.Entity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -39,14 +40,14 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
                 private val _comment = MutableStateFlow(_cycle.value.comment)
                 override val comment: StateFlow<String> = _comment.asStateFlow()
 
-                private val _startDate = MutableStateFlow(_cycle.value.startDate)
-                override val startDate: StateFlow<Date> = _startDate
+                private val _startDate = MutableStateFlow(_cycle.value.startStringFormatDate)
+                override val startDate: StateFlow<String> = _startDate
 
-                private val _finishDate = MutableStateFlow(_cycle.value.finishDate)
-                override val finishDate: StateFlow<Date> = _finishDate
+                private val _finishDate = MutableStateFlow(_cycle.value.finishStringFormatDate)
+                override val finishDate: StateFlow<String> = _finishDate
 
 
-                override val day: StateFlow<Day> =MutableStateFlow(Day.MONDAY).asStateFlow()
+                override val day: StateFlow<Day> = MutableStateFlow(Day.MONDAY).asStateFlow()
 
                 private val _img = MutableStateFlow(_cycle.value.image)
                 override val imgOption: StateFlow<String> = _img.asStateFlow()
@@ -56,7 +57,7 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
                     TODO("Not yet implemented")
                 }
 
-                override fun save() {
+                override fun save(callback: (id: Long) -> Unit) {
                     TODO("Not yet implemented")
                 }
 
@@ -90,8 +91,6 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
             }
         }
     }
-    private val _cycleList = MutableStateFlow<List<Cycle>>(listOf())
-    val itemList: StateFlow<List<Cycle>> = _cycleList.asStateFlow()
 
     private val _cycle = MutableStateFlow(Cycle())
     override val item: StateFlow<Cycle> = _cycle.asStateFlow()
@@ -102,11 +101,11 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
     private val _comment = MutableStateFlow(item.value.comment)
     override val comment: StateFlow<String> = _comment.asStateFlow()
 
-    private val _startDate = MutableStateFlow(item.value.startDate)
-    override val startDate: StateFlow<Date> = _startDate
+    private val _startDate = MutableStateFlow(item.value.startStringFormatDate)
+    override val startDate: StateFlow<String> = _startDate
 
-    private val _finishDate = MutableStateFlow(item.value.finishDate)
-    override val finishDate: StateFlow<Date> = _finishDate
+    private val _finishDate = MutableStateFlow(item.value.finishStringFormatDate)
+    override val finishDate: StateFlow<String> = _finishDate
 
     override val day: StateFlow<Day> = MutableStateFlow(Day.MONDAY).asStateFlow()
 
@@ -116,10 +115,8 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             if (id == 0L) {
-                _cycle.update { Cycle()
-
-
-
+                _cycle.update {
+                    Cycle()
                 }
                 return@launch
             }
@@ -132,14 +129,16 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
         }
     }
 
-    override fun save() {
+    override fun save(callback: (id: Long) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("save", "${_cycle.value}")
-            val c = Cycle.mapToEntity(_cycle.value)
-            c.img = imgOption.value
-            Log.d("save", "$c")
-
-            // CycleRepo.get().save(Cycle.mapToEntity(cycle.value))
+            var cS = collectToSave()
+            val cE = Cycle.mapToEntity(cS)
+            Log.d("save", "$cE")
+            val save = CycleRepo.get().save(cE)
+            launch(Dispatchers.Main) {
+                callback(save._id)
+            }
         }
     }
 
@@ -152,11 +151,11 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
     }
 
     override fun updateStartDate(date: Date) {
-        _startDate.update { date }
+        _startDate.update { Entity.formatDateToString(date)}
     }
 
     override fun updateFinishDate(date: Date) {
-        _finishDate.update { date }
+        _finishDate.update { Entity.formatDateToString(date) }
     }
 
     override fun updateComment(comment: String) {
@@ -164,10 +163,18 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
     }
 
     override fun updateDay(it: Day) {
-        TODO("Not yet implemented")
     }
 
     override fun collectToSave(): Cycle {
-        TODO("Not yet implemented")
+        val c = Cycle().apply {
+            id = _cycle.value.id
+            comment = _comment.value
+            title = _title.value
+            image = _img.value
+            setFinishDate(_finishDate.value)
+            setStartDate(_startDate.value)
+        }
+
+        return c
     }
 }

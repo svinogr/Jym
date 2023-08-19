@@ -125,17 +125,16 @@ fun NavGraphBuilder.myCycleGraph(
         }
 
         composable(
-            route = NavigationItem.CreateEditeWorkoutNavigationItem.route,
-            arguments = listOf(navArgument("id"){
+            route = NavigationItem.CreateWorkoutNavigationItem.route,
+            arguments = listOf(navArgument("parentId"){
                 type = NavType.LongType
             }),
         ) {
-
             //topBarState.value = false он уже должен был быть убран
-            val id = it.arguments?.getLong("id")
+            val parentId = it.arguments?.getLong("parentId")
             Log.d("TAG", "id = $id")
             bottomBarState.value = false
-            CreateEditeWorkoutScreen(id!!, navHostController, paddingValues, appBarTitle)
+            CreateEditeWorkoutScreen(0, parentId!!, navHostController, paddingValues, appBarTitle)
         }
     }
 }

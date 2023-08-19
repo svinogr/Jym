@@ -2,6 +2,12 @@ package info.upump.mycompose.ui.screens.myworkouts
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -33,11 +39,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -93,6 +99,7 @@ fun MyCycleDetailScreen(
 
     appBarTitle.value = cycle.title!!
 
+    val image = cycle.image
     LaunchedEffect(key1 = true) {
         cycleVM.getDefaultCycleBy(id)
     }
@@ -100,11 +107,7 @@ fun MyCycleDetailScreen(
     Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
         Box() {
             Image(
-                painter = if (isLoading.value) {
-                    painterResource(id = R.drawable.logo_upump_round)
-                } else {
-                    painterResource(getCycleImage(cycle, LocalContext.current))
-                },
+                bitmap = getCycleImage(image, LocalContext.current).asImageBitmap(),
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -163,8 +166,8 @@ fun MyCycleDetailScreen(
 }
 
 
-fun getCycleImage(cycle: Cycle, context: Context): Int {
-    val name = context.packageName
+fun getCycleImage(image: String, context: Context): Bitmap {
+   /* val name = context.packageName
     val id: Int
 
     if (cycle.image == null) {
@@ -178,7 +181,43 @@ fun getCycleImage(cycle: Cycle, context: Context): Int {
         id = context.resources.getIdentifier(cycle.image, "drawable", name)
     }
 
-    return id
+    return id*/
+    var bitmap: Bitmap
+    val name = context.packageName
+
+    var source: ImageDecoder.Source
+    try {
+        if (!image.isBlank()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                source = ImageDecoder.createSource(context.contentResolver, Uri.parse(image))
+                bitmap = ImageDecoder.decodeBitmap(source)
+            } else {
+                bitmap = MediaStore.Images.Media.getBitmap(
+                    context.contentResolver,
+                    Uri.parse(image)
+                );
+            }
+
+        } else {
+            val id = context.resources.getIdentifier("drew", "drawable", name)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                source = ImageDecoder.createSource(context.resources, id)
+                bitmap = ImageDecoder.decodeBitmap(source)
+            } else {
+                bitmap = BitmapFactory.decodeResource(context.resources, id);
+            }
+        }
+    } catch (e: NullPointerException) {
+        val id = context.resources.getIdentifier("drew", "drawable", name)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            source = ImageDecoder.createSource(context.resources, id)
+            bitmap = ImageDecoder.decodeBitmap(source)
+        } else {
+            bitmap = BitmapFactory.decodeResource(context.resources, id);
+        }
+    }
+    return bitmap
 }
 
 @OptIn(ExperimentalFoundationApi::class)

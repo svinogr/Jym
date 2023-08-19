@@ -34,11 +34,11 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                 private val _comment = MutableStateFlow(_workout.value.comment)
                 override val comment: StateFlow<String> = _comment.asStateFlow()
 
-                private val _startDate = MutableStateFlow(_workout.value.startDate)
-                override val startDate: StateFlow<Date>  = _startDate
+                private val _startDate = MutableStateFlow(_workout.value.startStringFormatDate)
+                override val startDate: StateFlow<String>  = _startDate
 
-                private val _finishDate = MutableStateFlow(_workout.value.finishDate)
-                override val finishDate: StateFlow<Date> = _finishDate
+                private val _finishDate = MutableStateFlow(_workout.value.finishStringFormatDate)
+                override val finishDate: StateFlow<String> = _finishDate
 
                 private val _day = MutableStateFlow(_workout.value.day)
                 override val day: StateFlow<Day> = _day
@@ -50,7 +50,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                     TODO("Not yet implemented")
                 }
 
-                override fun save() {
+                override fun save(callback: (id: Long) -> Unit) {
                     TODO("Not yet implemented")
                 }
 
@@ -96,11 +96,11 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     private val _comment = MutableStateFlow(_workout.value.comment)
     override val comment: StateFlow<String> = _comment.asStateFlow()
 
-    private val _startDate = MutableStateFlow(_workout.value.startDate)
-    override val startDate: StateFlow<Date>  = _startDate
+    private val _startDate = MutableStateFlow(_workout.value.startStringFormatDate)
+    override val startDate: StateFlow<String>  = _startDate
 
-    private val _finishDate = MutableStateFlow(_workout.value.finishDate)
-    override val finishDate: StateFlow<Date> = _finishDate
+    private val _finishDate = MutableStateFlow(_workout.value.finishStringFormatDate)
+    override val finishDate: StateFlow<String> = _finishDate
 
     private val _day = MutableStateFlow(_workout.value.day)
     override val day: StateFlow<Day> = _day
@@ -126,14 +126,14 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
         }
     }
 
-    override fun save() {
+    override fun save(callback: (id: Long) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("save", "${item.value}")
-            val w = collectToSave()
-            val c = Workout.mapToEntity(w)
-            Log.d("save", "$w")
-
-            // CycleRepo.get().save(Cycle.mapToEntity(cycle.value))
+            val wC = collectToSave()
+            val wE = Workout.mapToEntity(wC)
+            Log.d("save", "$wE")
+            val save = WorkoutRepo.get().save(wE)
+            callback(save._id)
         }
     }
 
@@ -182,12 +182,12 @@ interface VMInterface<T> {
     val imgOption: StateFlow<String>
     val title: StateFlow<String>
     val comment: StateFlow<String>
-    val startDate: StateFlow<Date>
-    val finishDate: StateFlow<Date>
+    val startDate: StateFlow<String>
+    val finishDate: StateFlow<String>
     val day: StateFlow<Day>
 
     fun getBy(id: Long)
-    fun save()
+    fun save(callback: (id: Long)-> Unit)
     fun updateTitle(title: String)
     fun updateImage(imgStr: String)
     fun updateStartDate(date: Date)
