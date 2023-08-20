@@ -56,25 +56,7 @@ import kotlinx.coroutines.launch
 }*/
 
 
-/*
-fun getImage(cycle: Cycle, context: Context): Int {
 
-    return if (cycle.defaultImg != null) {
-
-        context.resources.getIdentifier(
-            cycle.defaultImg,
-            "drawable",
-            context.packageName
-        )
-    } else {
-        context.resources.getIdentifier(
-            "drew",
-            "drawable",
-            context.packageName
-        )
-    }
-}
-*/
 
 suspend fun getImage(cycle: Cycle, context: Context): Bitmap {
     var bitmap: Bitmap
@@ -102,8 +84,6 @@ suspend fun getImage(cycle: Cycle, context: Context): Bitmap {
             } else {
                 bitmap = BitmapFactory.decodeResource(context.resources, id);
             }
-
-
         }
     } catch (e: Exception ) {
         val id = context.resources.getIdentifier("drew", "drawable", name)
@@ -168,21 +148,7 @@ fun CycleItemCard(
 
                 contentDescription = ""
             )
-            ////// END
-            /*    AsyncImage(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .height(50.dp)
-                        .width(50.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop,
-                    model = ImageRequest.Builder(context)
-                        .data(getImage(cycle, context))
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null
-                )*/
-            Column(
+                  Column(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {

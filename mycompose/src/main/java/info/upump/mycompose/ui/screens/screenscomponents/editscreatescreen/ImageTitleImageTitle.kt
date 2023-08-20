@@ -21,14 +21,12 @@ fun <T: Entity> ImageTitleImageTitle(modelVM: VMInterface<T>, content: @Composab
                 .fillMaxWidth()
                 .height(200.dp)
         ) {
-
-           content()
-           LabelTitleForImage(modelVM)
+            content()
+            LabelTitleForImage(modelVM)
         }
         CardTitle(modelVM)
     }
 }
-
 @Preview(showBackground = false)
 @Composable
 fun ImageTitleImageTitlePreviewCycle() {

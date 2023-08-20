@@ -12,6 +12,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,7 +25,7 @@ import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ImageWithPickerPreview() {
     val cycleVMCreateEdit = CycleVMCreateEdit.vmOnlyForPreview
@@ -42,8 +43,7 @@ fun ImageWithPicker(cycleVM: VMInterface<Cycle>) {
         cycleVM.updateImage(it.toString())
     }
 
-
-    Image(modifier = Modifier
+    Image(modifier = Modifier.fillMaxHeight()
             .clickable {
                 launcher.launch(
                     PickVisualMediaRequest(

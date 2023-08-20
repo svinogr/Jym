@@ -26,7 +26,6 @@ fun <T: Entity> LabelTitleForImage(
         val modifier1 = Modifier
             .padding(bottom = 16.dp, start = 10.dp)
             .align(alignmentText)
-       //val cycle  by modelVM.item.collectAsState()
        val title  by modelVM.title.collectAsState()
 
         TextField(modifier = modifier1,

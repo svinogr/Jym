@@ -26,7 +26,7 @@ import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutVM
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CardTitlePreviewCycle() {
     val cycle = CycleVMCreateEdit.vmOnlyForPreview

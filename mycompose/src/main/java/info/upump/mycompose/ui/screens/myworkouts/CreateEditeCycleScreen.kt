@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.myworkouts
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -47,6 +48,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateEditeCycleScreen(
@@ -72,8 +74,7 @@ fun CreateEditeCycleScreen(
             appBarTitle.value = c.value.title
         }
     }
-
-    Scaffold(
+    Scaffold(modifier =Modifier,
         floatingActionButton = {
             AnimatedVisibility(
                 visible = visibleFab,
@@ -103,11 +104,10 @@ fun CreateEditeCycleScreen(
                 )
             }
         }) {
-
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(top = it.calculateTopPadding())
+               .padding()
                 .verticalScroll(rememberScrollState())
                 .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
         ) {

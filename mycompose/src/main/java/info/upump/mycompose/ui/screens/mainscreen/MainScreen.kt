@@ -10,6 +10,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,7 +21,10 @@ import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavGraph
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
@@ -92,10 +97,15 @@ fun MainScreen() {
                 }
             ) {
                 TopAppBar(
+                    colors = TopAppBarDefaults.smallTopAppBarColors(
+                        containerColor = Color.Transparent
+                    ),
                     title = {
-                        Text(appBarTitle.value)
+                        Text(text = appBarTitle.value,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis)
                     },
-                    )
+                )
             }
         },
     ) { padding ->
