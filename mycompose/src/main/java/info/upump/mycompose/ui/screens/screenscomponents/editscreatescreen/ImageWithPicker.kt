@@ -22,7 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 
 @Preview(showBackground = true, showSystemUi = true)

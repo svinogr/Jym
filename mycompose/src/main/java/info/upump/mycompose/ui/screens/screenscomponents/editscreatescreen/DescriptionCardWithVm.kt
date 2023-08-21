@@ -1,6 +1,5 @@
 package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,7 +9,6 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,20 +24,8 @@ import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutVM
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 
-@Preview(showBackground = true)
 @Composable
-fun CardTitlePreviewCycle() {
-    val cycle = CycleVMCreateEdit.vmOnlyForPreview
-    CardTitle(cycle)
-}
-@Preview(showBackground = true)
-@Composable
-fun CardTitlePreviewWorkout() {
-    val cycle = WorkoutVM.vmOnlyForPreview
-    CardTitle(cycle)
-}
-@Composable
-fun<T: Entity> CardTitle(
+fun <T: Entity> DescriptionCardWithVM(
     modelVM: VMInterface<T>,
     modifierCard: Modifier = Modifier
         .fillMaxWidth()
@@ -57,11 +43,7 @@ fun<T: Entity> CardTitle(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        val title by modelVM.title.collectAsState()
-
-        LaunchedEffect(key1 = true) {
-            Log.d("TAG", "lunc")
-        }
+        val comment by modelVM.comment.collectAsState()
 
         TextField(modifier = modifierValue,
             colors = TextFieldDefaults.textFieldColors(
@@ -71,19 +53,34 @@ fun<T: Entity> CardTitle(
                 disabledIndicatorColor = Color.Transparent,
                 backgroundColor = colorResource(R.color.colorBackgroundCardView)
             ),
-            value = title,
+            value = comment,
             onValueChange = {
-                modelVM.updateTitle(it)
+                modelVM.updateComment(it)
+             //   comment = it
             },
             label = {
                 Text(
-                    text = stringResource(id = R.string.label_title_common),
+                    text = stringResource(id = R.string.label_description_cycle),
                     style = MyTextTitleLabelWithColor
                 )
             },
             placeholder = {
-                Text(text = stringResource(id = R.string.label_title_common))
+                Text(text = stringResource(id = R.string.label_description_cycle))
             }
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DescriptionCardWithVMPreview() {
+    val vm = CycleVMCreateEdit.vmOnlyForPreview
+    DescriptionCardWithVM(vm)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DescriptionCardWithVMPreview2() {
+    val vm = WorkoutVM.vmOnlyForPreview
+    DescriptionCardWithVM(vm)
 }

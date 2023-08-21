@@ -94,7 +94,7 @@ val MyTextTitleLabel20: TextStyle
         )
     }
 @OptIn(ExperimentalTextApi::class)
-val MyTextTitleLabel20StrokeText: TextStyle
+val MyOutlineTextTitleLabel20Text: TextStyle
     @Composable
     get() {
         return TextStyle.Default.copy(

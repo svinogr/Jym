@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkouts.viewmodel
+package info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout
 
 
 import android.util.Log
@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.WorkoutRepo
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -35,7 +37,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                 override val comment: StateFlow<String> = _comment.asStateFlow()
 
                 private val _startDate = MutableStateFlow(_workout.value.startStringFormatDate)
-                override val startDate: StateFlow<String>  = _startDate
+                override val startDate: StateFlow<String> = _startDate
 
                 private val _finishDate = MutableStateFlow(_workout.value.finishStringFormatDate)
                 override val finishDate: StateFlow<String> = _finishDate
@@ -76,14 +78,15 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
 
                 override fun updateDay(dayN: Day) {
                     _day.update { dayN }
-                    }
+                }
 
                 override fun collectToSave(): Workout {
                     TODO("Not yet implemented")
                 }
             }
-            }
         }
+    }
+
     private val _workouts = MutableStateFlow<List<Workout>>(listOf())
     val itemList: StateFlow<List<Workout>> = _workouts.asStateFlow()
 
@@ -97,7 +100,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     override val comment: StateFlow<String> = _comment.asStateFlow()
 
     private val _startDate = MutableStateFlow(_workout.value.startStringFormatDate)
-    override val startDate: StateFlow<String>  = _startDate
+    override val startDate: StateFlow<String> = _startDate
 
     private val _finishDate = MutableStateFlow(_workout.value.finishStringFormatDate)
     override val finishDate: StateFlow<String> = _finishDate
@@ -138,7 +141,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     }
 
     override fun collectToSave(): Workout {
-        val collectW = Workout().apply{
+        val collectW = Workout().apply {
             id = _workout.value.id
             title = _title.value
             day = _day.value
@@ -150,7 +153,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     }
 
     override fun updateTitle(titlen: String) {
-          _title.update {titlen }
+        _title.update { titlen }
     }
 
     override fun updateImage(imgStr: String) {
@@ -165,7 +168,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     }
 
     override fun updateComment(commentN: String) {
-        _comment.update {commentN}
+        _comment.update { commentN }
     }
 
     override fun updateDay(dayN: Day) {
@@ -173,26 +176,6 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     }
 
     fun updateEven() {
-        _isEven.update {!it}
+        _isEven.update { !it }
     }
-}
-
-interface VMInterface<T> {
-    val item: StateFlow<T>
-    val imgOption: StateFlow<String>
-    val title: StateFlow<String>
-    val comment: StateFlow<String>
-    val startDate: StateFlow<String>
-    val finishDate: StateFlow<String>
-    val day: StateFlow<Day>
-
-    fun getBy(id: Long)
-    fun save(callback: (id: Long)-> Unit)
-    fun updateTitle(title: String)
-    fun updateImage(imgStr: String)
-    fun updateStartDate(date: Date)
-    fun updateFinishDate(date: Date)
-    fun updateComment(comment: String)
-    fun updateDay(it: Day)
-    abstract fun collectToSave(): T
 }

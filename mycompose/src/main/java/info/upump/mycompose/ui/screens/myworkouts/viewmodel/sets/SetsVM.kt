@@ -1,14 +1,13 @@
-package info.upump.mycompose.ui.screens.myworkouts.viewmodel
+package info.upump.mycompose.ui.screens.myworkouts.viewmodel.sets
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.SetsRepo
 import info.upump.mycompose.models.entity.Sets
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 

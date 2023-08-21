@@ -9,9 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.models.entity.Entity
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutVM
 
 @Composable
 fun <T: Entity> ImageTitleImageTitle(modelVM: VMInterface<T>, content: @Composable() ()-> Unit) {

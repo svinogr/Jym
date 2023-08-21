@@ -16,12 +16,13 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -52,7 +53,7 @@ import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleDetailVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.WorkoutItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
 import info.upump.mycompose.ui.theme.MyTextLabel12
@@ -103,11 +104,11 @@ fun DefaultDetailCycleScreen(
                 .align(alignment = Alignment.BottomCenter)
                 .fillMaxWidth(),
                 selectedTabIndex = pagerState.currentPage,
-                backgroundColor = Color.Transparent,
                 contentColor = Color.White,
-                indicator = { tabPositions ->
-                    TabRowDefaults.Indicator(
-                        Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                containerColor = Color.Transparent,
+                indicator = {
+                    androidx.compose.material.TabRowDefaults.Indicator(
+                        Modifier.tabIndicatorOffset(it[pagerState.currentPage])
                     )
                 })
             {

@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -33,14 +34,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMtest
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.CycleItemCard
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,7 +57,7 @@ fun MyCycleScreen(
 ) {
     val listState = rememberLazyListState()
     val density = LocalDensity.current
-    val cycleVM: CycleVMtest = viewModel()
+    val cycleVM: CycleVM = viewModel()
     val listCycle by cycleVM.cycleList.collectAsState()
 
     Scaffold(modifier = Modifier.padding(paddingValues = paddingValues),
@@ -86,14 +87,10 @@ fun MyCycleScreen(
                 )
             }
         }, content = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                   )
-            {
                 LazyColumn(
-                    state = listState
+                    state = listState,
+                    modifier = Modifier.fillMaxWidth().fillMaxHeight()
+                        . background(colorResource(id = R.color.colorBackgroundConstrateLayout))
                 ) {
 
                     itemsIndexed(
@@ -102,7 +99,7 @@ fun MyCycleScreen(
                         CycleItemCard(cycle = it, navHostController)
                     }
                 }
-            }
+
 
             LaunchedEffect(key1 = true) {
                 cycleVM.getAllPersonal()

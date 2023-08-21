@@ -36,12 +36,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.CheckFormable
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCardWithDatePicker
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
+import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCardWithVM
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageTitleImageTitle
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageWithPicker
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -115,7 +114,7 @@ fun CreateEditeCycleScreen(
             ImageTitleImageTitle(cycleVMCreateEdit) { ImageWithPicker(cycleVMCreateEdit) }
             DateCardWithDatePicker(cycleVMCreateEdit)
             // description aka comment
-            DescriptionCard(cycleVMCreateEdit)
+            DescriptionCardWithVM(cycleVMCreateEdit)
         }
     }
 

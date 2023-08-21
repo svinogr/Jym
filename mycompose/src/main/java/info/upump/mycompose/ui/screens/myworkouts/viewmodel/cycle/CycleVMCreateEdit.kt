@@ -1,12 +1,13 @@
-package info.upump.mycompose.ui.screens.myworkouts.viewmodel
+package info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.CycleRepo
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Entity
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -95,21 +96,21 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
     private val _cycle = MutableStateFlow(Cycle())
     override val item: StateFlow<Cycle> = _cycle.asStateFlow()
 
-    private val _title = MutableStateFlow(item.value.title)
+    private val _title = MutableStateFlow(_cycle.value.title)
     override val title: StateFlow<String> = _title.asStateFlow()
 
-    private val _comment = MutableStateFlow(item.value.comment)
+    private val _comment = MutableStateFlow(_cycle.value.comment)
     override val comment: StateFlow<String> = _comment.asStateFlow()
 
-    private val _startDate = MutableStateFlow(item.value.startStringFormatDate)
+    private val _startDate = MutableStateFlow(_cycle.value.startStringFormatDate)
     override val startDate: StateFlow<String> = _startDate
 
-    private val _finishDate = MutableStateFlow(item.value.finishStringFormatDate)
+    private val _finishDate = MutableStateFlow(_cycle.value.finishStringFormatDate)
     override val finishDate: StateFlow<String> = _finishDate
 
     override val day: StateFlow<Day> = MutableStateFlow(Day.MONDAY).asStateFlow()
 
-    private val _img = MutableStateFlow(item.value.image)
+    private val _img = MutableStateFlow(_cycle.value.image)
     override val imgOption: StateFlow<String> = _img.asStateFlow()
 
     override fun getBy(id: Long) {

@@ -34,10 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DayCard
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
+import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCardWithVM
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageTitleImageTitle
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -117,7 +117,7 @@ fun CreateEditeWorkoutScreen(
             DayCard(workoutVM)
             // DateCardWithDatePicker(workoutVM)
             // description aka comment
-            DescriptionCard(workoutVM)
+            DescriptionCardWithVM(workoutVM)
         }
     }
 

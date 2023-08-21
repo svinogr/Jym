@@ -51,7 +51,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(1.dp)
             .clickable {
                 navHost.navigate(NavigationItem.DetailWorkoutNavigationItem.routeWithId(workout.id))
             },

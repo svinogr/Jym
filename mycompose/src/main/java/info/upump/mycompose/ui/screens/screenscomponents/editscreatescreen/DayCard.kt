@@ -33,7 +33,7 @@ import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutVM
 import info.upump.mycompose.ui.theme.MyTextLabel12
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +42,7 @@ fun DayCard(
     modelVM: VMInterface<Workout>,
     modifierCard: Modifier = Modifier
         .fillMaxWidth()
-        .padding(start = 4.dp, end = 4.dp, top = 4.dp),
+        .padding(start = 0.dp, end = 0.dp, top = 4.dp),
     modifierValue: Modifier = Modifier
         .fillMaxWidth()
         .padding(start = 10.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)

@@ -14,9 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.models.entity.Entity
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVMCreateEdit
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
-import info.upump.mycompose.ui.theme.MyTextTitleLabel20StrokeText
+import info.upump.mycompose.ui.theme.MyOutlineTextTitleLabel20Text
 
 @Composable
 fun <T: Entity> LabelTitleForImage(
@@ -29,7 +29,7 @@ fun <T: Entity> LabelTitleForImage(
        val title  by modelVM.title.collectAsState()
 
         TextField(modifier = modifier1,
-            textStyle = MyTextTitleLabel20StrokeText,
+            textStyle = MyOutlineTextTitleLabel20Text,
             colors = TextFieldDefaults.textFieldColors(
                 disabledTextColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,

@@ -23,7 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Sets
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.SetsVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.sets.SetsVM
 import info.upump.mycompose.ui.screens.screenscomponents.NumberPicker
 import info.upump.mycompose.ui.screens.screenscomponents.NumberPickerWithStep
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -53,7 +53,7 @@ import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutDetailVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.ExerciseItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -98,10 +98,6 @@ fun MyWorkoutDetailScreen(
                 } else {
                     getDefaultImage(context = context).asImageBitmap()
                 },
-
-                /*        bitmap =
-                            getDefaultImage(context = context).asImageBitmap()
-                        ,*/
 
                 contentDescription = "",
                 modifier = Modifier
