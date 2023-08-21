@@ -39,11 +39,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.FloatingWindow
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.CycleItemCard
+import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -56,49 +58,35 @@ fun MyCycleScreen(
     paddingValues: PaddingValues,
 ) {
     val listState = rememberLazyListState()
-    val density = LocalDensity.current
+
     val cycleVM: CycleVM = viewModel()
     val listCycle by cycleVM.cycleList.collectAsState()
 
     Scaffold(modifier = Modifier.padding(paddingValues = paddingValues),
         floatingActionButton = {
-            AnimatedVisibility(
-                visible = listState.isScrollingUp(),
-                enter = slideInVertically {
-                    // Slide in from 40 dp from the top.
-                    with(density) { 100.dp.roundToPx() }
-                } ,
-                exit = slideOutVertically{
-                    with(density){ 100.dp.roundToPx()}
-                }
-            ) {
-                FloatingActionButton(
-                    shape = CircleShape,
-                    onClick = {
-                        navHostController.navigate(
-                            NavigationItem.CreateEditeCycleNavigationItem.routeWithId(0))
-                    },
-                    content = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_add_black_24dp),
-                            contentDescription = ""
-                        )
-                    }
+            val scrollState =
+                mutableStateOf(listState.isScrollingUp())
+
+            FloatActionButtonWithState(scrollState = scrollState, R.drawable.ic_add_black_24dp) {
+                navHostController.navigate(
+                    NavigationItem.CreateEditeCycleNavigationItem.routeWithId(0)
                 )
             }
         }, content = {
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier.fillMaxWidth().fillMaxHeight()
-                        . background(colorResource(id = R.color.colorBackgroundConstrateLayout))
-                ) {
+            LazyColumn(
+                state = listState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .background(colorResource(id = R.color.colorBackgroundConstrateLayout))
+            ) {
 
-                    itemsIndexed(
-                        items = listCycle,  // list items from Viewmodel: val listCycle by cycleVM.cycles.collectAsState()
-                    ) { _, it ->
-                        CycleItemCard(cycle = it, navHostController)
-                    }
+                itemsIndexed(
+                    items = listCycle,  // list items from Viewmodel: val listCycle by cycleVM.cycles.collectAsState()
+                ) { _, it ->
+                    CycleItemCard(cycle = it, navHostController)
                 }
+            }
 
 
             LaunchedEffect(key1 = true) {
@@ -120,7 +108,7 @@ fun PreviewCycleScreen() {
 }
 
 @Composable
- fun LazyListState.isScrollingUp(): Boolean {
+fun LazyListState.isScrollingUp(): Boolean {
     var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
     var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
     return remember(this) {

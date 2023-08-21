@@ -144,7 +144,6 @@ fun DefaultDetailCycleScreen(
         )
     }
 
-
     if (isLoading.value) {
         CircularProgressIndicator()
     }
@@ -171,7 +170,6 @@ fun TabsContent(
         }
     }
 }
-
 
 @OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true, showSystemUi = true)

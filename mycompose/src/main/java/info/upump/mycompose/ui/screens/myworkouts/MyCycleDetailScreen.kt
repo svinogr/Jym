@@ -9,10 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,12 +26,9 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -54,9 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,15 +62,19 @@ import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.defaultscreen.DefaultDetailCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.WorkoutItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
 import info.upump.mycompose.ui.theme.MyOutlineTextTitleLabel20Text
 import kotlinx.coroutines.launch
-import java.nio.file.WatchEvent
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "DiscouragedApi")
+@SuppressLint(
+    "UnusedMaterialScaffoldPaddingParameter", "DiscouragedApi",
+    "UnrememberedMutableState"
+)
 @OptIn(
     ExperimentalFoundationApi::class, ExperimentalPagerApi::class, ExperimentalTextApi::class,
     ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class
@@ -100,53 +96,36 @@ fun MyCycleDetailScreen(
         TabsItems.TitleCycleTab,
         TabsItems.DescriptionCycleTab
     )
+    appBarTitle.value = cycle.title!!
+
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
-    Log.d("TAG", "${isLoading.value}")
 
-    appBarTitle.value = cycle.title!!
-    val density = LocalDensity.current
-    val visibleFab = remember {
-        mutableStateOf(true) // не забыть псотавить фолс для начального
+    val iconState = remember {
+        mutableStateOf(R.drawable.ic_add_black_24dp)
     }
+    val listState = rememberLazyListState()
+    val scrollState =
+        mutableStateOf(listState.isScrollingUp())
 
     val image = cycle.image
+
+    val actionRoutState = remember {
+        mutableStateOf(
+                NavigationItem.CreateEditeCycleNavigationItem.routeWithId(0)
+        )
+    }
+
     LaunchedEffect(key1 = true) {
         cycleVM.getDefaultCycleBy(id)
     }
 
-    val fabIcons = remember {
-        mutableStateOf(R.drawable.ic_add_black_24dp)
-    }
-
     Scaffold(modifier = Modifier.padding(top = 0.dp),
         floatingActionButton = {
-            AnimatedVisibility(
-                visible = visibleFab.value,
-                enter = slideInVertically {
-                    // Slide in from 40 dp from the top.
-                    with(density) { 100.dp.roundToPx() }
-                },
-                exit = slideOutVertically {
-                    with(density) { 100.dp.roundToPx() }
-                }
-            ) {
-                FloatingActionButton(
-                    shape = CircleShape,
-                    onClick = {
-                        /*  cycleVMCreateEdit.save() {
-                            navHostController.navigate(
-                                NavigationItem.DetailCycleNavigationItem.routeWithId(it)
-                            )
-                        }*/
-                    },
-                    content = {
-                        Icon(
-                            painter = painterResource(id = fabIcons.value),
-                            contentDescription = "next"
-                        )
-                    }
-                )
+            FloatActionButtonWithState(scrollState = scrollState, iconState.value) {
+               navHostController.navigate(
+                   actionRoutState.value
+               )
             }
         }
     ) {
@@ -166,7 +145,7 @@ fun MyCycleDetailScreen(
                     .fillMaxWidth(),
                     selectedTabIndex = pagerState.currentPage,
                     containerColor = Color.Transparent,
-                    indicator = {list ->
+                    indicator = { list ->
                         TabRowDefaults.Indicator(
                             Modifier.tabIndicatorOffset(list[pagerState.currentPage])
                         )
@@ -198,8 +177,8 @@ fun MyCycleDetailScreen(
                 cycle,
                 workout,
                 navHostController = navHostController,
-                fabIcons,
-                visibleFab
+                iconState,
+                actionRoutState
             )
         }
     }
@@ -255,15 +234,20 @@ fun TabsContent(
     workout: List<Workout>,
     navHostController: NavHostController,
     fabIcons: MutableState<Int>,
-    visibleFab: MutableState<Boolean>
+    actionRoutState: MutableState<String>
 ) {
-    if (pagerState.currentPage == 0) fabIcons.value = R.drawable.ic_add_black_24dp else {
+    if (pagerState.currentPage == 0) {
+         actionRoutState.value =   NavigationItem.CreateWorkoutNavigationItem.routeWithId(cycle.id)
+        fabIcons.value = R.drawable.ic_add_black_24dp
+    } else {
+         actionRoutState.value =   NavigationItem.CreateEditeCycleNavigationItem.routeWithId(cycle.id)
         fabIcons.value = R.drawable.ic_edit_black_24dp
     }
+
     Log.d("pager", "${pagerState.currentPage}")
     HorizontalPager(pageCount = tabs.size, state = pagerState, verticalAlignment = Alignment.Top) {
         when (it) {
-            0 -> DefaultDetailTitleCycleScreen(workout, navHostController, visibleFab)
+            0 -> DefaultDetailTitleCycleScreen(workout, navHostController)
             1 -> DefaultDetailDescriptionCycleScreen(cycle)
         }
     }
@@ -274,13 +258,16 @@ fun TabsContent(
 fun DefaultDetailTitleCycleScreen(
     workoutList: List<Workout>,
     navHostController: NavHostController,
-    visibleFab: MutableState<Boolean>
 ) {
     val lazyState = rememberLazyListState()
-    visibleFab.value = lazyState.isScrollingUp()
-    LazyColumn(state = lazyState,
-        modifier = Modifier.fillMaxWidth().fillMaxHeight()
-            . background(colorResource(id = R.color.colorBackgroundConstrateLayout))) {
+
+    LazyColumn(
+        state = lazyState,
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .background(colorResource(id = R.color.colorBackgroundConstrateLayout))
+    ) {
         workoutList.forEach {
             item {
                 WorkoutItemCard(workout = it, navHost = navHostController)
@@ -339,7 +326,7 @@ fun PreviewDefaultDetailTitleCycleScreen() {
     cycle.workoutList = list
     val nav = NavHostController(LocalContext.current)
 
-    DefaultDetailTitleCycleScreen(list, nav, mutableStateOf(true))
+    DefaultDetailTitleCycleScreen(list, nav)
 }
 
 @SuppressLint("UnrememberedMutableState")
