@@ -1,23 +1,19 @@
-package info.upump.mycompose.ui.screens.myworkouts.viewmodel
+package info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle
 
-import android.os.StatFs
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.CycleRepo
 import info.upump.mycompose.models.entity.Cycle
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-
-class CycleVM : BaseVMWithStateLoad() {
-    private val _cycles = MutableStateFlow<List<Cycle>>(listOf())
-    val cycles: StateFlow<List<Cycle>> = _cycles.asStateFlow()
+// для списка всех cycles
+class CycleVM: BaseVMWithStateLoad() {
+    private val _cycleList = MutableStateFlow<List<Cycle>>(listOf())
+    val cycleList: StateFlow<List<Cycle>> = _cycleList.asStateFlow()
 
     fun getAllPersonal() {
         _stateLoading.value = true
@@ -27,13 +23,14 @@ class CycleVM : BaseVMWithStateLoad() {
         ) {
             val list = CycleRepo.get().getAllPersonal()
             list.map {
-                it.map {
-                    Cycle.mapFromDbEntity(it)
+                it.map {c ->
+                    Cycle.mapFromDbEntity(c)
                 }
-            }.collect{
-                _cycles.value = it
+            }.collect {
+                _cycleList.value = it
+            }
+
+            _stateLoading.value = false
         }
-        _stateLoading.value = false
     }
-}
 }

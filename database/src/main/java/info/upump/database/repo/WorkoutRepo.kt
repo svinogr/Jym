@@ -5,6 +5,8 @@ import android.content.Context
 import androidx.room.Query
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
+import info.upump.database.entities.ExerciseDescriptionEntity
+import info.upump.database.entities.ExerciseFullEntity
 import info.upump.database.entities.WorkoutEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -53,6 +55,4 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
     override fun save(item: WorkoutEntity): WorkoutEntity {
         TODO("Not yet implemented")
     }
-
-
 }

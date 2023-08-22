@@ -30,7 +30,6 @@ fun NumberPickerWithStep(
                 (min + (it * step)).toString()
             }
 
-
             picker.minValue = 0
             picker.maxValue = 200
             picker.displayedValues = valuesForDisplay
@@ -38,7 +37,7 @@ fun NumberPickerWithStep(
             picker.setOnValueChangedListener {p0, p1, p2 ->
 
                 weightFun(picker.displayedValues[p2].toDouble()) }
-
+            
             return@AndroidView picker
         },
         update = {

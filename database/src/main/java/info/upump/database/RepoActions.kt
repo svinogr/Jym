@@ -1,7 +1,10 @@
 package info.upump.database
 
+import info.upump.database.dao.ExerciseDescriptionDao
 import info.upump.database.entities.CycleEntity
+import info.upump.database.entities.ExerciseDescriptionEntity
 import info.upump.database.entities.ExerciseEntity
+import info.upump.database.entities.ExerciseFullEntity
 import info.upump.database.entities.SetsEntity
 import kotlinx.coroutines.flow.Flow
 

@@ -41,7 +41,6 @@ class DatabaseApp (val context: Context) {
             ExerciseRepo.initialize(context, db)
             ExerciseDescriptionRepo.initialize(context, db)
             SetsRepo.initialize(context, db)
-
         }
     }
 }

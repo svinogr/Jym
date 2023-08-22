@@ -1,5 +1,13 @@
 package info.upump.mycompose.ui.screens.screenscomponents
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,33 +26,86 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
-class SampleCycleProvider : PreviewParameterProvider<Cycle> {
-    override val values = sequenceOf(Cycle(title = "Новая", image = "uk1"))
+/*class SampleCycleProvider : PreviewParameterProvider<Cycle> {
+    override val values = sequenceOf(Cycle( image = "uk1").apply { title = "Новая" })
+}*/
+
+
+
+
+suspend fun getImage(cycle: Cycle, context: Context): Bitmap {
+    var bitmap: Bitmap
+    val name = context.packageName
+
+    var source: ImageDecoder.Source
+    try {
+        if (!cycle.image!!.isBlank()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.image))
+                bitmap = ImageDecoder.decodeBitmap(source)
+            } else {
+                bitmap = MediaStore.Images.Media.getBitmap(
+                    context.contentResolver,
+                    Uri.parse(cycle.image)
+                );
+            }
+
+        } else {
+            val id = context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                source = ImageDecoder.createSource(context.resources, id)
+                bitmap = ImageDecoder.decodeBitmap(source)
+            } else {
+                bitmap = BitmapFactory.decodeResource(context.resources, id);
+            }
+        }
+    } catch (e: Exception ) {
+        val id = context.resources.getIdentifier("drew", "drawable", name)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            source = ImageDecoder.createSource(context.resources, id)
+            bitmap = ImageDecoder.decodeBitmap(source)
+        } else {
+            bitmap = BitmapFactory.decodeResource(context.resources, id);
+        }
+
+    }
+    return bitmap
 }
+
 
 @Composable
 fun CycleItemCard(
-    @PreviewParameter(SampleCycleProvider::class) cycle: Cycle,
+    cycle: Cycle,
     navHost: NavHostController
 ) {
     val context = LocalContext.current
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -54,11 +115,27 @@ fun CycleItemCard(
             },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp)
+
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
         ) {
+
+            val image = remember {
+                mutableStateOf<Bitmap?>(
+                    Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888).apply {
+                        eraseColor(context.resources.getColor(R.color.colorBackgroundConstrateLayout))
+                    }
+                )
+            }
+            LaunchedEffect(key1 = true) {
+                coroutineScope {
+                    launch(Dispatchers.IO) {
+                        image.value = getImage(cycle, context)
+                    }
+                }
+            }
 
             Image(
                 modifier = Modifier
@@ -66,28 +143,12 @@ fun CycleItemCard(
                     .height(50.dp)
                     .width(50.dp)
                     .clip(CircleShape),
-                painter = if (cycle.defaultImg != null) {
-                    painterResource(
-                        id = context.resources.getIdentifier(
-                            cycle.defaultImg,
-                            "drawable",
-                            context.packageName
-                        )
-                    )
-                } else {
-                    painterResource(
-                        id = context.resources.getIdentifier(
-                            "drew",
-                            "drawable",
-                            context.packageName
-                        )
-                    )
-                }, contentDescription = "image",
-                contentScale = ContentScale.Crop
-                // painter = painterResource(id = R.drawable.my_cycle), contentDescription = "sdwdwd"
-            )
+                contentScale = ContentScale.Crop,
+                bitmap = image.value!!.asImageBitmap(),
 
-            Column(
+                contentDescription = ""
+            )
+                  Column(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
@@ -124,4 +185,12 @@ fun CycleItemCard(
             }
         }
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.P)
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun PreviewCycleItemCard() {
+    val c = Cycle(defaultImg = "uk2").apply { title = "Новая" }
+    CycleItemCard(c, NavHostController(LocalContext.current))
 }

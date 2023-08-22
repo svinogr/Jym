@@ -2,15 +2,15 @@ package info.upump.database.repo
 
 import android.content.Context
 import info.upump.database.RepoActions
+import info.upump.database.RepoActionsSpecific
 import info.upump.database.RoomDB
 import info.upump.database.entities.ExerciseEntity
-import info.upump.database.entities.SetsEntity
+import info.upump.database.entities.ExerciseFullEntity
 import kotlinx.coroutines.flow.Flow
 
 class ExerciseRepo private constructor(private val context: Context, db: RoomDB) :
-    RepoActions<ExerciseEntity> {
+    RepoActionsSpecific<ExerciseEntity, ExerciseFullEntity> {
     private val exerciseDao = db.exerciseDao()
-    private val exerciseDescriptionDao = db.exerciseDescriptionDao()
 
     companion object {
         private var instance: ExerciseRepo? = null
@@ -21,7 +21,7 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
             }
         }
 
-        fun get(): RepoActions<ExerciseEntity> {
+        fun get(): RepoActionsSpecific<ExerciseEntity, ExerciseFullEntity> {
             return instance ?: throw IllegalStateException(" first need initialize repo")
         }
     }
@@ -43,12 +43,8 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
     }
 
     override fun getAllByParent(id: Long): Flow<List<ExerciseEntity>> {
-        exerciseDao.getAllByParent(id)
-
-
-       return exerciseDao.getAllByParent(id)
+        return exerciseDao.getAllByParent(id)
     }
-
 
     override fun update(setsGet: ExerciseEntity): ExerciseEntity {
         TODO("Not yet implemented")
@@ -58,4 +54,11 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
         TODO("Not yet implemented")
     }
 
+    override fun getFullEntityBy(id: Long): Flow<ExerciseFullEntity> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllFullEntityByParent(id: Long): Flow<List<ExerciseFullEntity>> {
+        return exerciseDao.getFullEntityByParent(id)
+    }
 }

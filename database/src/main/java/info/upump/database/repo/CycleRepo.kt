@@ -4,10 +4,12 @@ import android.content.Context
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
 import info.upump.database.entities.CycleEntity
+import info.upump.database.entities.ExerciseDescriptionEntity
+import info.upump.database.entities.ExerciseFullEntity
 import kotlinx.coroutines.flow.Flow
 
 class CycleRepo private constructor(private val context: Context, db: RoomDB) :
-    RepoActions<CycleEntity> {
+    RepoActions<CycleEntity>  {
     private val cycleDao = db.cycleDao()
 
     companion object {
@@ -20,7 +22,7 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
         }
 
         fun get(): RepoActions<CycleEntity> {
-            return instance ?: throw IllegalStateException(" first need initialize repo")
+            return instance ?: throw IllegalStateException("first need initialize repo")
         }
     }
 
@@ -48,6 +50,7 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
     override fun getAllByParent(id: Long): Flow<List<CycleEntity>> {
         TODO("Not yet implemented")
     }
+
 
     override fun update(setsGet: CycleEntity): CycleEntity {
         TODO("Not yet implemented")

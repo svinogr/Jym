@@ -13,7 +13,7 @@ class Sets(
         return "Sets{" +
                 "weight=" + weight +
                 ", reps=" + reps +
-                ", formatDate='" + formatDate + '\'' +
+                ", formatDate='" +  '\'' +
                 ", id=" + id +
                 ", comment='" + comment + '\'' +
                 ", parentId=" + parentId +

@@ -144,7 +144,7 @@ fun getExerciseString(exercise: Exercise): String {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun PreviewExerciseItemCard() {
-    val exerdescription = ExerciseDescription(img = "nach1", defaultImg = "nach1")
+    val exerdescription = ExerciseDescription(img = "nach1", defaultImg = "nach1", title = "Новое упраж",)
 
     val listSets = listOf(
         Sets(20.0, 10, 15.0),
@@ -153,10 +153,9 @@ fun PreviewExerciseItemCard() {
     )
 
     val exercise = Exercise(
-        title = "Новое упраж",
-        isDefaultType = false,
+                isDefaultType = false,
         isTemplate = false, exerciseDescription = exerdescription
-    )
+    ).apply { title = "Новое упраж" }
 
     exercise.setsList = listSets
     ExerciseItemCard(exercise = exercise, navHost = NavController(LocalContext.current))

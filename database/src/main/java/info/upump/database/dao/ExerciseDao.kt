@@ -2,7 +2,9 @@ package info.upump.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import info.upump.database.entities.ExerciseDescriptionEntity
 import info.upump.database.entities.ExerciseEntity
+import info.upump.database.entities.ExerciseFullEntity
 import info.upump.database.entities.SetsEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -13,5 +15,8 @@ interface ExerciseDao {
 
     @Query("select * from exercises where parent_id= :id")
     fun getAllByParent(id: Long): Flow<List<ExerciseEntity>>
-
+/*    @Query("select * from exercises join exercise_description On exercise_description._id = exercises.description_id where exercises.parent_id=:id")
+    fun test(id: Long): Flow<Map<ExerciseEntity, ExerciseDescriptionEntity>>   */
+    @Query("select * from exercises where parent_id=:id")
+    fun getFullEntityByParent(id: Long): Flow<List<ExerciseFullEntity>>
 }

@@ -53,7 +53,7 @@ import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutDetailVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.ExerciseItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -87,22 +87,17 @@ fun MyWorkoutDetailScreen(
         workoutVM.getWorkoutBy(id)
     }
 
-    Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()) ){
+    Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
         Box {
 
             val context = LocalContext.current
 
             Image(
-               /* bitmap = if (!isLoading.value) {
+                bitmap = if (!isLoading.value) {
                     getWorkoutImage(workout, LocalContext.current).asImageBitmap()
                 } else {
                     getDefaultImage(context = context).asImageBitmap()
                 },
-
-*/
-                bitmap =
-                    getDefaultImage(context = context).asImageBitmap()
-                ,
 
                 contentDescription = "",
                 modifier = Modifier
@@ -187,7 +182,7 @@ fun TabsWorkoutContent(
     HorizontalPager(pageCount = tabs.size, state = pagerState, verticalAlignment = Alignment.Top) {
         Log.d("HorizontalPager", "${workout.exercises}")
         when (it) {
-            0 -> DetailTitleWorkoutScreen(exercises, navHostController)
+            0 -> DetailTitleWorkoutScreen(workout.exercises, navHostController)
             1 -> DetailDescriptionWorkoutScreen(workout)
         }
     }
@@ -239,9 +234,9 @@ fun DetailDescriptionWorkoutScreen(workout: Workout) {
 @Composable
 fun PreviewDetailTitleWorkoutScreen() {
     val workout = Workout(
-        title = "ПРограмма", exercises = listOf(),
+        exercises = listOf(),
         isDefaultType = true
-    )
+    ).apply { title = "Новая" }
 
     val exerdescription = ExerciseDescription(img = "nach1", defaultImg = "nach1")
     val listSets = listOf(
@@ -251,18 +246,16 @@ fun PreviewDetailTitleWorkoutScreen() {
     )
     val list = listOf(
         Exercise(
-            title = "Новое упраж",
             isDefaultType = false,
             isTemplate = false, exerciseDescription = exerdescription, setsList = listSets
-        ), Exercise(
-            title = "Новое упраж 2",
+        ).apply { title = "Новое упраж" }, Exercise(
             isDefaultType = false,
             isTemplate = false, exerciseDescription = exerdescription, setsList = listSets
-        ), Exercise(
-            title = "Новое упраж 3",
+        ).apply { title = "Новое упраж2" }, Exercise(
+
             isDefaultType = false,
             isTemplate = false, exerciseDescription = exerdescription, setsList = listSets
-        )
+        ).apply { title = "Новое упраж3" }
     )
 
     workout.exercises = list
@@ -275,9 +268,9 @@ fun PreviewDetailTitleWorkoutScreen() {
 @Composable
 fun PreviewDetailDescriptionWorkoutScreen() {
     val workout = Workout(
-        title = "ПРограмма", exercises = listOf(),
+        exercises = listOf(),
         isDefaultType = true
-    )
+    ).apply { title = "Программа" }
 
     workout.comment =
         "Lorem ipsum dolor sit amet, consectetuer adipiscing . Aelit" +

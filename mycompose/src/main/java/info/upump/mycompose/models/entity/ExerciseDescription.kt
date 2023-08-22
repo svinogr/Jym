@@ -6,9 +6,9 @@ import java.util.Objects
 
 class ExerciseDescription(
     var id: Long = 0,
-    var img: String? = null,
-    var title: String? = null,
-    var defaultImg: String? = null
+    var img: String = "",
+    var title: String = "",
+    var defaultImg: String = ""
 ) {
     override fun equals(o: Any?): Boolean {
         if (this === o) return true
@@ -32,9 +32,9 @@ class ExerciseDescription(
     companion object {
         fun mapFromDbEntity(entity: ExerciseDescriptionEntity): ExerciseDescription {
             val exercDescription = ExerciseDescription(entity._id)
-            exercDescription.img = entity.img
-            exercDescription.defaultImg = entity.default_img
-            exercDescription.title = entity.title
+            exercDescription.img = entity.img!!
+            exercDescription.defaultImg = entity.default_img!!
+            exercDescription.title = entity.title!!
 
             return exercDescription
         }

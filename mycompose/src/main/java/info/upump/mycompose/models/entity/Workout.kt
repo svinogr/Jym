@@ -1,14 +1,12 @@
 package info.upump.mycompose.models.entity
 
 import info.upump.database.entities.WorkoutEntity
-import kotlinx.coroutines.flow.map
 
 class Workout(
-    var title: String?,
     var isWeekEven: Boolean = false,
     var isDefaultType: Boolean = false,
     var isTemplate: Boolean = false,
-    var day: Day? = null,
+    var day: Day = Day.MONDAY,
     var exercises: List<Exercise> = ArrayList()
 ) : Entity() {
 
@@ -27,21 +25,7 @@ class Workout(
 
     companion object {
         fun mapFromDbEntity(workoutEntity: WorkoutEntity): Workout {
-          /*  return workoutEntity.map {
-                Workout(
-                    title = it.title,
-                    isWeekEven = it.week_even == 1,
-                    isDefaultType = it.default_type == 1,
-                    isTemplate = it.default_type == 1,
-                    day = Day.valueOf(it.day!!),
-                    //TODO вставить настоящис список
-                    exercises = listOf<Exercise>()
-                ).apply {
-                    id = it._id
-                    comment = it.comment
-                }*/
             val workout = Workout(
-                title = workoutEntity.title,
                 isWeekEven = workoutEntity.week_even == 1,
                 isDefaultType = workoutEntity.default_type == 1,
                 isTemplate = workoutEntity.default_type == 1,
@@ -49,10 +33,41 @@ class Workout(
                 //TODO вставить настоящис список
                 exercises = listOf<Exercise>()
             )
+            workout.title = workoutEntity.title
             workout.id = workoutEntity._id
-            workout.comment = workoutEntity.comment
+            workout.comment = workoutEntity.comment!!
 
             return workout
+        }
+
+        fun mapToEntity(workout: Workout): WorkoutEntity {
+            val workoutEntity = WorkoutEntity(workout.id)
+            workoutEntity.title = workout.title.orEmpty()
+            workoutEntity.start_date = workout.startStringFormatDate
+            workoutEntity.finish_date = workout.finishStringFormatDate
+            workoutEntity.comment = workout.comment
+            workoutEntity.day = workout.day.toString() //TODO внимание проверить правильность
+            workoutEntity.default_type = if (workout.isDefaultType) 1 else 0
+            workoutEntity.week_even = if (workout.isWeekEven) 1 else 0
+           // workoutEntity.template = if (workout.isTemplate) 1 else 0 // надо проверить
+            workoutEntity.template = 0 //TODO  надо проверить
+
+            return workoutEntity
+        }
+
+        fun copy(workout: Workout): Workout {
+            return Workout().apply {
+                id = workout.id
+                title = workout.title
+                isDefaultType = workout.isDefaultType
+                day = workout.day
+                isWeekEven = workout.isWeekEven
+                isTemplate = workout.isTemplate
+                startDate = workout.startDate
+                finishDate = workout.finishDate
+                comment = workout.comment
+                parentId = workout.parentId
+            }
         }
     }
 }

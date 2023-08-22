@@ -16,8 +16,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -26,8 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Sets
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.SetsVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.sets.SetsVM
 import info.upump.mycompose.ui.screens.screenscomponents.NumberPicker
 import info.upump.mycompose.ui.screens.screenscomponents.NumberPickerWithStep
 import kotlinx.coroutines.flow.MutableStateFlow

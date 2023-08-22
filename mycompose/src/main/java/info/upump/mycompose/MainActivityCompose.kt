@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.lifecycleScope
 import info.upump.database.DatabaseApp
 import info.upump.mycompose.ui.screens.mainscreen.MainScreen
@@ -17,9 +16,9 @@ import info.upump.mycompose.ui.theme.JymTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlin.concurrent.thread
 
 class MainActivityCompose : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
          lifecycleScope.launch(Dispatchers.IO) {
@@ -27,6 +26,8 @@ class MainActivityCompose : ComponentActivity() {
              DatabaseApp.initilizeDb(this@MainActivityCompose)
              Log.d("TAG", "${DatabaseApp.db.workoutDao().getAllWorkouts().size}")
          }
+
+
 
         setContent {
             JymTheme {
@@ -36,6 +37,7 @@ class MainActivityCompose : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ){
                     MainScreen()
+
                 }
 
             }

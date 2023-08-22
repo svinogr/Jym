@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.ui.screens.defaultscreen.viewmodel.CycleDefaultVM
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleVM
 import info.upump.mycompose.ui.screens.screenscomponents.CycleItemCard
 
 

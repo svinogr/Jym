@@ -4,10 +4,11 @@ import android.content.Context
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
 import info.upump.database.entities.ExerciseDescriptionEntity
+import info.upump.database.entities.ExerciseFullEntity
 import kotlinx.coroutines.flow.Flow
 
 class ExerciseDescriptionRepo private constructor(private val context: Context, db: RoomDB):
-    RepoActions<ExerciseDescriptionEntity> {
+    RepoActions<ExerciseDescriptionEntity,> {
     private val exerciseDescriptionDao =  db.exerciseDescriptionDao()
 
     companion object {

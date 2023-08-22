@@ -16,12 +16,13 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -52,7 +53,7 @@ import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.CycleDetailVM
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.WorkoutItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
 import info.upump.mycompose.ui.theme.MyTextLabel12
@@ -103,11 +104,11 @@ fun DefaultDetailCycleScreen(
                 .align(alignment = Alignment.BottomCenter)
                 .fillMaxWidth(),
                 selectedTabIndex = pagerState.currentPage,
-                backgroundColor = Color.Transparent,
                 contentColor = Color.White,
-                indicator = { tabPositions ->
-                    TabRowDefaults.Indicator(
-                        Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                containerColor = Color.Transparent,
+                indicator = {
+                    androidx.compose.material.TabRowDefaults.Indicator(
+                        Modifier.tabIndicatorOffset(it[pagerState.currentPage])
                     )
                 })
             {
@@ -143,7 +144,6 @@ fun DefaultDetailCycleScreen(
         )
     }
 
-
     if (isLoading.value) {
         CircularProgressIndicator()
     }
@@ -170,7 +170,6 @@ fun TabsContent(
         }
     }
 }
-
 
 @OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true, showSystemUi = true)
@@ -244,25 +243,25 @@ fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
 @Composable
 fun PreviewDefaultDetailTitleCycleScreen() {
     val cycle = Cycle(
-        title = "ПРограмма", workoutList = listOf(),
-        isDefaultType = true, image = "nach1",
+        workoutList = listOf(),
+        isDefaultType = true,
         defaultImg = "nach1"
     )
+    cycle.title = "ПРограмма"
+    cycle.image = "nach1"
 
     val list = listOf(
         Workout(
-            title = "Новая",
             isWeekEven = false, isDefaultType = false,
             isTemplate = false, day = Day.FRIDAY, exercises = listOf()
-        ), Workout(
-            title = "Новая1",
+        ).apply { title = "Новая" }, Workout(
             isWeekEven = false, isDefaultType = false,
             isTemplate = false, day = Day.THURSDAY, exercises = listOf()
-        ), Workout(
-            title = "Новая2",
+        ).apply { title = "Новая1" }, Workout(
+
             isWeekEven = false, isDefaultType = false,
             isTemplate = false, day = Day.MONDAY, exercises = listOf()
-        )
+        ).apply { title = "Новая2" }
     )
 
     cycle.workoutList = list
@@ -275,10 +274,11 @@ fun PreviewDefaultDetailTitleCycleScreen() {
 @Composable
 fun PreviewDefaultDetailDescriptionCycleScreen() {
     val cycle = Cycle(
-        title = "ПРограмма", workoutList = listOf(),
-        isDefaultType = true, image = "uk2",
+        workoutList = listOf(),
+        isDefaultType = true,
         defaultImg = "nach1"
-    )
+    ).apply { title = "Новая" }
+    cycle.image = "nach1"
     cycle.comment =
         "Lorem ipsum dolor sit amet, consectetuer adipiscing . Aelit" +
                 "enean commodo ligula eget dolor. Aenean massa. "

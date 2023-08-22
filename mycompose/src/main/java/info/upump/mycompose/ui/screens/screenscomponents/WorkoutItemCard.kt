@@ -39,10 +39,9 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 class SampleWorkoutProvider : PreviewParameterProvider<Workout> {
     override val values = sequenceOf(
         Workout(
-            title = "Новая",
             isWeekEven = false, isDefaultType = true,
             isTemplate = false, day = Day.FRIDAY, exercises = listOf()
-        )
+        ).apply { title = "Новоя" }
     )
 }
 
@@ -52,7 +51,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(1.dp)
             .clickable {
                 navHost.navigate(NavigationItem.DetailWorkoutNavigationItem.routeWithId(workout.id))
             },
@@ -111,10 +110,9 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
 @Composable
 fun PreviewWorkoutCard() {
     val workout = Workout(
-        title = "Новая",
         isWeekEven = false, isDefaultType = false,
         isTemplate = false, day = Day.FRIDAY, exercises = listOf()
-    )
+    ).apply {  title = "Новая" }
     val context = LocalContext.current
     WorkoutItemCard(workout = workout, navHost = NavHostController(context))
 }
