@@ -24,6 +24,7 @@ fun <T: Entity> ImageTitleImageTitle(modelVM: VMInterface<T>, content: @Composab
             content()
             LabelTitleForImage(modelVM)
         }
+
         CardTitle(modelVM)
     }
 }

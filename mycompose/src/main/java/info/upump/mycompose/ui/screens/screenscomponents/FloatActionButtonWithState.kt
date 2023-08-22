@@ -8,8 +8,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,10 +15,10 @@ import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
 
 @Composable
-fun FloatActionButtonWithState(scrollState: MutableState<Boolean>, icon: Int,  action: () -> Unit) {
+fun FloatActionButtonWithState(isVisible: Boolean, icon: Int, action: () -> Unit) {
     val density = LocalDensity.current
     AnimatedVisibility(
-        visible = scrollState.value,
+        visible = isVisible,
         enter = slideInVertically {
             // Slide in from 40 dp from the top.
             with(density) { 100.dp.roundToPx() }
@@ -44,20 +42,18 @@ fun FloatActionButtonWithState(scrollState: MutableState<Boolean>, icon: Int,  a
     }
 }
 
-
 @SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true)
 @Composable
 fun PreviewFab(){
-    FloatActionButtonWithState(scrollState = mutableStateOf(true), icon = R.drawable.ic_add_black_24dp) {
-
-    }
+   FloatActionButtonWithState(true, icon = R.drawable.ic_add_black_24dp) {
+   }
 }
 @SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true)
 @Composable
 fun PreviewFab2(){
-    FloatActionButtonWithState(scrollState = mutableStateOf(true), icon = R.drawable.ic_edit_black_24dp) {
+ FloatActionButtonWithState(true, icon = R.drawable.ic_edit_black_24dp) {
     }
 }
 

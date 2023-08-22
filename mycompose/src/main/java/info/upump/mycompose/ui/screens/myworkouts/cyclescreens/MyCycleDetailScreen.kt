@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkouts
+package info.upump.mycompose.ui.screens.myworkouts.cyclescreens
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -105,24 +105,21 @@ fun MyCycleDetailScreen(
         mutableStateOf(R.drawable.ic_add_black_24dp)
     }
     val listState = rememberLazyListState()
-    val scrollState =
-        mutableStateOf(listState.isScrollingUp())
 
     val image = cycle.image
 
     val actionRoutState = remember {
         mutableStateOf(
-                NavigationItem.CreateEditeCycleNavigationItem.routeWithId(0)
+                NavigationItem.CreateEditeCycleNavigationItem.routeWith(0)
         )
     }
 
     LaunchedEffect(key1 = true) {
         cycleVM.getDefaultCycleBy(id)
     }
-
     Scaffold(modifier = Modifier.padding(top = 0.dp),
         floatingActionButton = {
-            FloatActionButtonWithState(scrollState = scrollState, iconState.value) {
+            FloatActionButtonWithState( listState.isScrollingUp(), iconState.value) {
                navHostController.navigate(
                    actionRoutState.value
                )
@@ -237,10 +234,12 @@ fun TabsContent(
     actionRoutState: MutableState<String>
 ) {
     if (pagerState.currentPage == 0) {
-         actionRoutState.value =   NavigationItem.CreateWorkoutNavigationItem.routeWithId(cycle.id)
+        // создание новой тренировки
+        actionRoutState.value =   NavigationItem.CreateWorkoutNavigationItem.routeWith(cycle.id)
         fabIcons.value = R.drawable.ic_add_black_24dp
     } else {
-         actionRoutState.value =   NavigationItem.CreateEditeCycleNavigationItem.routeWithId(cycle.id)
+        // редакт программы
+        actionRoutState.value =   NavigationItem.CreateEditeCycleNavigationItem.routeWith(cycle.id)
         fabIcons.value = R.drawable.ic_edit_black_24dp
     }
 

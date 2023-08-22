@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
+import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DayCard
@@ -89,7 +90,7 @@ fun CreateEditeWorkoutScreen(
                     onClick = {
                         workoutVM.save {
                             navHostController.navigate(
-                                NavigationItem.CreateWorkoutNavigationItem.routeWithId(it)
+                                NavigationItem.CreateWorkoutNavigationItem.routeWith(it)
                             )
                         }
                     },
@@ -121,9 +122,9 @@ fun CreateEditeWorkoutScreen(
         }
     }
 
-
-
     BackHandler {
+
+
         workoutVM.save {
             Log.d("save", "save id = $it")
             navHostController.navigateUp()

@@ -49,6 +49,8 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
 
 
                 override val day: StateFlow<Day> = MutableStateFlow(Day.MONDAY).asStateFlow()
+                override val isTitleError: StateFlow<Boolean>
+                    get() = TODO("Not yet implemented")
 
                 private val _img = MutableStateFlow(_cycle.value.image)
                 override val imgOption: StateFlow<String> = _img.asStateFlow()
@@ -89,6 +91,10 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
                 override fun collectToSave(): Cycle {
                     TODO("Not yet implemented")
                 }
+
+                override fun isBlankFields(): Boolean {
+                    return (title.value.trim().isEmpty())
+                }
             }
         }
     }
@@ -110,22 +116,31 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
 
     override val day: StateFlow<Day> = MutableStateFlow(Day.MONDAY).asStateFlow()
 
+    private val _isTitleError = MutableStateFlow(false)
+    override val isTitleError: StateFlow<Boolean> = _isTitleError.asStateFlow()
+
+
     private val _img = MutableStateFlow(_cycle.value.image)
     override val imgOption: StateFlow<String> = _img.asStateFlow()
 
     override fun getBy(id: Long) {
+        Log.d("getcycle by id", "$id")
         viewModelScope.launch(Dispatchers.IO) {
             if (id == 0L) {
-                _cycle.update {
-                    Cycle()
-                }
+                /*    _cycle.update {
+                        Cycle()
+                    }*/
                 return@launch
             }
 
             CycleRepo.get().getBy(id).map {
                 Cycle.mapFromDbEntity(it)
             }.collect {
-                _cycle.value = it
+                updateTitle(it.title)
+                updateComment(it.comment)
+                updateStartDate(it.startDate)
+                updateFinishDate(it.finishDate)
+                updateImage(it.image)
             }
         }
     }
@@ -152,7 +167,7 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
     }
 
     override fun updateStartDate(date: Date) {
-        _startDate.update { Entity.formatDateToString(date)}
+        _startDate.update { Entity.formatDateToString(date) }
     }
 
     override fun updateFinishDate(date: Date) {
@@ -178,4 +193,12 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
 
         return c
     }
+
+    override fun isBlankFields(): Boolean {
+        Log.d("check fielsd", "${title.value.trim().isBlank()}")
+        val isBlank = title.value.trim().isBlank()
+        _isTitleError.update { isBlank }
+        return isBlank
+    }
 }
+

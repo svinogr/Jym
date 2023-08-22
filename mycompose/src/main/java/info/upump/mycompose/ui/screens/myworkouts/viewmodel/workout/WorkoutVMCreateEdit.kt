@@ -44,6 +44,8 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
 
                 private val _day = MutableStateFlow(_workout.value.day)
                 override val day: StateFlow<Day> = _day
+                override val isTitleError: StateFlow<Boolean>
+                    get() = TODO("Not yet implemented")
 
                 private val _img = MutableStateFlow(_workout.value.day.toString())
                 override val imgOption: StateFlow<String> = _img.asStateFlow()
@@ -83,6 +85,10 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                 override fun collectToSave(): Workout {
                     TODO("Not yet implemented")
                 }
+
+                override fun isBlankFields(): Boolean {
+                    TODO("Not yet implemented")
+                }
             }
         }
     }
@@ -107,6 +113,8 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
 
     private val _day = MutableStateFlow(_workout.value.day)
     override val day: StateFlow<Day> = _day
+    override val isTitleError: StateFlow<Boolean>
+        get() = TODO("Not yet implemented")
 
     private val _img = MutableStateFlow(_workout.value.day.toString())
     override val imgOption: StateFlow<String> = _img.asStateFlow()
@@ -150,6 +158,10 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
         }
 
         return collectW
+    }
+
+    override fun isBlankFields(): Boolean {
+        TODO("Not yet implemented")
     }
 
     override fun updateTitle(titlen: String) {

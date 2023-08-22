@@ -12,6 +12,7 @@ interface VMInterface<T> {
     val startDate: StateFlow<String>
     val finishDate: StateFlow<String>
     val day: StateFlow<Day>
+    val isTitleError: StateFlow<Boolean>
 
     fun getBy(id: Long)
     fun save(callback: (id: Long)-> Unit)
@@ -22,4 +23,5 @@ interface VMInterface<T> {
     fun updateComment(comment: String)
     fun updateDay(it: Day)
     fun collectToSave(): T
+    fun isBlankFields(): Boolean
 }

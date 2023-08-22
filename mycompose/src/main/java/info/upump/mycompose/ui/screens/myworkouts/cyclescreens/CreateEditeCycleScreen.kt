@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkouts
+package info.upump.mycompose.ui.screens.myworkouts.cyclescreens
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -14,10 +14,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -35,9 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCardWithDatePicker
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCardWithVM
@@ -58,23 +59,31 @@ fun CreateEditeCycleScreen(
     val visibleFab by remember {
         mutableStateOf(true) // не забыть псотавить фолс для начального
     }
+    val snackbarState = remember {
+        mutableStateOf(false)
+    }
     val density = LocalDensity.current
     val cycleVMCreateEdit: CycleVMCreateEdit = viewModel()
     val isLoad by cycleVMCreateEdit.isLoading.collectAsState()
 
     val c = cycleVMCreateEdit.item.collectAsState()
     val context = LocalContext.current
+    Log.d("CreateEditeCycleScreen", "$id")
 
-    LaunchedEffect(key1 = true) {
-        cycleVMCreateEdit.getBy(id)
-        if (id == 0L) {
-            appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
-        } else {
-            appBarTitle.value = c.value.title
-        }
+
+    if (id == 0L) {
+        appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
+    } else {
+        Log.d("CreateEditeCycleScreen appbar set", "${c.value.title}")
+        val o = cycleVMCreateEdit.title.collectAsState()
+        Log.d("CreateEditeCycleScreen appbar set", "${o.value}")
+
+        appBarTitle.value = o.value
     }
-    Scaffold(modifier =Modifier,
+
+    Scaffold(modifier = Modifier,
         floatingActionButton = {
+
             AnimatedVisibility(
                 visible = visibleFab,
                 enter = slideInVertically {
@@ -88,10 +97,15 @@ fun CreateEditeCycleScreen(
                 FloatingActionButton(
                     shape = CircleShape,
                     onClick = {
-                        cycleVMCreateEdit.save() {
-                            navHostController.navigate(
-                                NavigationItem.DetailCycleNavigationItem.routeWithId(it)
-                            )
+                        if (!cycleVMCreateEdit.isBlankFields()) {
+                            cycleVMCreateEdit.save() {
+                                navHostController.popBackStack()
+                                navHostController.navigate(
+                                    NavigationItem.DetailCycleNavigationItem.routeWithId(it)
+                                )
+                            }
+                        } else {
+                            snackbarState.value = true
                         }
                     },
                     content = {
@@ -102,11 +116,25 @@ fun CreateEditeCycleScreen(
                     }
                 )
             }
-        }) {
+        },
+        snackbarHost = {
+            val text = "тест"
+            if(snackbarState.value) {
+                Snackbar(
+                    action = {
+                        Button(onClick = {
+                            snackbarState.value = false
+                        }) {
+                        }
+                    },
+                ) { Text(text = text) }
+            }
+        },
+        ) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-               .padding()
+                .padding()
                 .verticalScroll(rememberScrollState())
                 .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
         ) {
@@ -118,25 +146,15 @@ fun CreateEditeCycleScreen(
         }
     }
 
+    LaunchedEffect(key1 = true) {
+        cycleVMCreateEdit.getBy(id)
+    }
+
     BackHandler {
-        if (!isBlackFormField(cycleVMCreateEdit)) {
-            cycleVMCreateEdit.save {
-                Log.d("save", "save id = $it")
-                navHostController.navigateUp()
-            }
-        } else {
-            navHostController.navigateUp()
-        }
+        navHostController.navigateUp()
     }
 }
 
-fun isBlackFormField(vm: VMInterface<Cycle>): Boolean {
-    val c = vm.collectToSave()
-    if (c.title.trim().isEmpty()) return true
-    // if (c.comment.trim().isEmpty()) return true
-
-    return false
-}
 
 /*@RequiresApi(Build.VERSION_CODES.P)*/
 @Preview(showBackground = true, showSystemUi = true)

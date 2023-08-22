@@ -1,15 +1,10 @@
 <resources>
-    <string name="app_name">UPump</string>
-    <string name="authorities">info.upump.jym</string>
-
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <!--menu-->
-    <string name="action_settings">Настройки</string>
-    <string name="action_delete">Удалить</string>
-    <!---->
-
+    <string name="title_activity_main_compose">MainActivityCompose</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_of_mycycle_screen">Мои программы</string>
+    <string name="title_of_mystartcycle_screen">Мои программы</string>
+    <string name="title_of_defaultcycle_screen">Готовые программы</string>
+    <string name="title_of_profile_screen">Профиль</string>
 
     <!-- list muscles-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -69,7 +64,6 @@
     <string name="tab_calves">Голени</string>
     <string name="tab_description">Описание</string>
 
-
     <!--day-->
     <string name="day_monday">понедельник</string>
     <string name="day_wednesday">среда</string>
@@ -86,6 +80,8 @@
     <string name="label_title_cycle">Название программы</string>
     <string name="title_cycle_hint">Новая программа</string>
     <string name="action_clear">Очистить</string>
+    <string name="label_title_common">Название</string>
+
     <!--dialog-->
     <string name="save">Сохранить?</string>
     <string name="yes">Да</string>
@@ -325,4 +321,7 @@
     <string name="title">Select Folder</string>
 
     <string name="location">Location</string>
+    <string name="tab_cycle_title">тренировки</string>
+    <string name="tab_cycle_description">описание</string>
+
 </resources>

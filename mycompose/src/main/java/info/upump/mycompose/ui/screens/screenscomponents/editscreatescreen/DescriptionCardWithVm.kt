@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -44,6 +45,7 @@ fun <T: Entity> DescriptionCardWithVM(
         )
     ) {
         val comment by modelVM.comment.collectAsState()
+        Log.d("DescriptionCardWithVM", "comment = $comment")
 
         TextField(modifier = modifierValue,
             colors = TextFieldDefaults.textFieldColors(
