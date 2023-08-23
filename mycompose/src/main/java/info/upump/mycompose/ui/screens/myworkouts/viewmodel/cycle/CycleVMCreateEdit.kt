@@ -67,6 +67,10 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
                     TODO("Not yet implemented")
                 }
 
+                override fun saveWith(parentId: Long, callback: (id: Long) -> Unit) {
+                    TODO("Not yet implemented")
+                }
+
                 override fun updateTitle(it: String) {
                     TODO("Not yet implemented")
                 }
@@ -216,7 +220,11 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
         Log.d("check fielsd", "${title.value.trim().isBlank()}")
         val isBlank = title.value.trim().isBlank()
         _isTitleError.update { isBlank }
+
         return isBlank
+    }
+    override fun saveWith(parentId: Long, callback: (id: Long) -> Unit) {
+        TODO("Not yet implemented")
     }
 }
 

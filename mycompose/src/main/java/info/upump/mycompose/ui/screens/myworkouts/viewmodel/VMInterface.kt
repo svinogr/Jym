@@ -17,6 +17,7 @@ interface VMInterface<T> {
 
     fun getBy(id: Long)
     fun save(callback: (id: Long)-> Unit)
+    fun saveWith(parentId: Long, callback: (id: Long) -> Unit)
     fun updateTitle(title: String)
     fun updateImage(imgStr: String)
     fun updateStartDate(date: Date)

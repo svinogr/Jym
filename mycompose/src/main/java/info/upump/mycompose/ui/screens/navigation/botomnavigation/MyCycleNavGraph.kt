@@ -13,7 +13,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import info.upump.mycompose.ui.screens.myworkouts.ActionState
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
-import info.upump.mycompose.ui.screens.myworkouts.CreateEditeWorkoutScreen
+import info.upump.mycompose.ui.screens.myworkouts.CreateWorkoutScreen
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.MyCycleDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.MyCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyExerciseDetailScreen
@@ -134,9 +134,10 @@ fun NavGraphBuilder.myCycleGraph(
         ) {
             //topBarState.value = false он уже должен был быть убран
             val parentId = it.arguments?.getLong("parentId")
-            Log.d("TAG", "id = $id")
+
           //  bottomBarState.value = false и так отключен ранее
-            CreateEditeWorkoutScreen(0, parentId!!, navHostController, paddingValues, appBarTitle)
+
+            CreateWorkoutScreen(0, parentId!!, navHostController, paddingValues, appBarTitle)
         }
     }
 }

@@ -3,36 +3,23 @@ package info.upump.mycompose.ui.screens.myworkouts.cyclescreens
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -59,42 +46,31 @@ fun CreateEditeCycleScreen(
     appBarTitle: MutableState<String>,
     action: ActionState
 ) {
-    val visibleFab by remember {
-        mutableStateOf(true) // не забыть псотавить фолс для начального
-    }
-
-    val density = LocalDensity.current
     val cycleVMCreateEdit: CycleVMCreateEdit = viewModel()
     val isLoad by cycleVMCreateEdit.isLoading.collectAsState()
 
-    val c = cycleVMCreateEdit.item.collectAsState()
+  //  val c = cycleVMCreateEdit.item.collectAsState()
     val context = LocalContext.current
     Log.d("CreateEditeCycleScreen", "$id")
+    val columnModifier = Modifier
+        .fillMaxHeight()
+        .padding()
+        .verticalScroll(rememberScrollState())
+        .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout))
 
-
-    if (id == 0L) {
+    if (action == ActionState.CREATE) {
         appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
-    } else {
-        Log.d("CreateEditeCycleScreen appbar set", "${c.value.title}")
-        val o = cycleVMCreateEdit.title.collectAsState()
-        Log.d("CreateEditeCycleScreen appbar set", "${o.value}")
+    }
+    if (action == ActionState.UPDATE){
+      //  Log.d("CreateEditeCycleScreen appbar set", "${c.value.title}")
+    //    val o = cycleVMCreateEdit.title.collectAsState()
+      //  Log.d("CreateEditeCycleScreen appbar set", "${o.value}")
 
-        appBarTitle.value = o.value
+        appBarTitle.value = "Редактирование"
     }
 
     Scaffold(modifier = Modifier,
         floatingActionButton = {
-
-            AnimatedVisibility(
-                visible = visibleFab,
-                enter = slideInVertically {
-                    // Slide in from 40 dp from the top.
-                    with(density) { 100.dp.roundToPx() }
-                },
-                exit = slideOutVertically {
-                    with(density) { 100.dp.roundToPx() }
-                }
-            ) {
                 FloatActionButtonWithState(isVisible = true, icon =R.drawable.ic_fab_next) {
                     if (!cycleVMCreateEdit.isBlankFields()) {
                         cycleVMCreateEdit.save() {
@@ -109,16 +85,10 @@ fun CreateEditeCycleScreen(
                         }
                     }
                 }
-            }
         }
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding()
-                .verticalScroll(rememberScrollState())
-                .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
-        ) {
+        Column(modifier = columnModifier)
+        {
             // of thee parts
             ImageTitleImageTitle(cycleVMCreateEdit) { ImageWithPicker(cycleVMCreateEdit) }
             DateCardWithDatePicker(cycleVMCreateEdit)
@@ -144,13 +114,28 @@ fun PreviewCreateEditeCycleScreen() {
     val m: MutableState<String> =
         MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
     CreateEditeCycleScreen(
-        id = 1L,
+        id = 0L,
         navHostController = NavHostController(LocalContext.current),
         PaddingValues(20.dp),
         m,
         ActionState.CREATE
     )
 }
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun PreviewCreateEditeCycleScreen2() {
+    val m: MutableState<String> =
+        MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
+    CreateEditeCycleScreen(
+        id = 1L,
+        navHostController = NavHostController(LocalContext.current),
+        PaddingValues(20.dp),
+        m,
+        ActionState.UPDATE
+    )
+}
+
+
 
 
 

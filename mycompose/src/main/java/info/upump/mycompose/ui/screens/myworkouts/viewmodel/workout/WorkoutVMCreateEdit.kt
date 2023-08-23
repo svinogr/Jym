@@ -96,6 +96,10 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                 override fun updateId(id: Long) {
                     _id.update { id }
                 }
+
+                override fun saveWith(parentId: Long, callback: (id: Long) -> Unit) {
+                    TODO("Not yet implemented")
+                }
             }
         }
     }
@@ -123,8 +127,9 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
 
     private val _day = MutableStateFlow(_workout.value.day)
     override val day: StateFlow<Day> = _day
-    override val isTitleError: StateFlow<Boolean>
-        get() = TODO("Not yet implemented")
+
+    private val _isTitleError = MutableStateFlow(false)
+    override val isTitleError: StateFlow<Boolean> = _isTitleError.asStateFlow()
 
     private val _img = MutableStateFlow(_workout.value.day.toString())
     override val imgOption: StateFlow<String> = _img.asStateFlow()
@@ -147,15 +152,20 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
         }
     }
 
-    override fun save(callback: (id: Long) -> Unit) {
+    override fun saveWith(parentId: Long, callback: (id: Long) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("save", "${item.value}")
             val wC = collectToSave()
             val wE = Workout.mapToEntity(wC)
+            wE.parent_id = parentId
             Log.d("save", "$wE")
             val save = WorkoutRepo.get().save(wE)
             callback(save._id)
         }
+    }
+
+    override fun save(callback: (id: Long) -> Unit) {
+        TODO("Not yet implemented")
     }
 
     override fun collectToSave(): Workout {
@@ -171,7 +181,11 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     }
 
     override fun isBlankFields(): Boolean {
-        TODO("Not yet implemented")
+        Log.d("check fielsd", "${title.value.trim().isBlank()}")
+        val isBlank = title.value.trim().isBlank()
+        _isTitleError.update { isBlank }
+
+        return isBlank
     }
 
     override fun updateTitle(titlen: String) {
