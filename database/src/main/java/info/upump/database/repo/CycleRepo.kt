@@ -1,6 +1,7 @@
 package info.upump.database.repo
 
 import android.content.Context
+import android.util.Log
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
 import info.upump.database.entities.CycleEntity
@@ -9,7 +10,7 @@ import info.upump.database.entities.ExerciseFullEntity
 import kotlinx.coroutines.flow.Flow
 
 class CycleRepo private constructor(private val context: Context, db: RoomDB) :
-    RepoActions<CycleEntity>  {
+    RepoActions<CycleEntity> {
     private val cycleDao = db.cycleDao()
 
     companion object {
@@ -31,15 +32,20 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
     }
 
     override fun save(item: CycleEntity): CycleEntity {
-        val newId  = cycleDao.save(item)
-        return item.apply { _id = newId }
+        Log.d("save", "id = ${item._id}")
+        if (item._id == 0L) {
+            val newId = cycleDao.save(item)
+            item.apply { _id = newId }
+        } else cycleDao.update(item)
+
+        return item
     }
 
-    override fun getAllPersonal() : Flow<List<CycleEntity>> {
-       return cycleDao.getAllPersonalCycles()
+    override fun getAllPersonal(): Flow<List<CycleEntity>> {
+        return cycleDao.getAllPersonalCycles()
     }
 
-    override fun getAllDefault() : List<CycleEntity> {
+    override fun getAllDefault(): List<CycleEntity> {
         return cycleDao.getAllDefaultCycles()
     }
 

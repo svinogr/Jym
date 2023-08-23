@@ -11,6 +11,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import info.upump.mycompose.ui.screens.myworkouts.ActionState
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.CreateEditeWorkoutScreen
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.MyCycleDetailScreen
@@ -121,7 +122,8 @@ fun NavGraphBuilder.myCycleGraph(
             val id = it.arguments?.getLong("id")
             Log.d("TAG", "id = $id")
             bottomBarState.value = false
-            CreateEditeCycleScreen(id!!, navHostController, paddingValues, appBarTitle)
+            val action = if (id == 0L) {ActionState.CREATE} else{ActionState.UPDATE}
+            CreateEditeCycleScreen(id!!, navHostController, paddingValues, appBarTitle, action)
         }
 
         composable(

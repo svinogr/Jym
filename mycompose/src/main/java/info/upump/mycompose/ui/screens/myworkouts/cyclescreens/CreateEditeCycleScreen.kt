@@ -38,8 +38,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
+import info.upump.mycompose.ui.screens.myworkouts.ActionState
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCardWithDatePicker
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCardWithVM
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageTitleImageTitle
@@ -54,14 +56,13 @@ import kotlinx.coroutines.flow.asStateFlow
 fun CreateEditeCycleScreen(
     id: Long, navHostController: NavHostController,
     paddingValues: PaddingValues,
-    appBarTitle: MutableState<String>
+    appBarTitle: MutableState<String>,
+    action: ActionState
 ) {
     val visibleFab by remember {
         mutableStateOf(true) // не забыть псотавить фолс для начального
     }
-    val snackbarState = remember {
-        mutableStateOf(false)
-    }
+
     val density = LocalDensity.current
     val cycleVMCreateEdit: CycleVMCreateEdit = viewModel()
     val isLoad by cycleVMCreateEdit.isLoading.collectAsState()
@@ -94,43 +95,23 @@ fun CreateEditeCycleScreen(
                     with(density) { 100.dp.roundToPx() }
                 }
             ) {
-                FloatingActionButton(
-                    shape = CircleShape,
-                    onClick = {
-                        if (!cycleVMCreateEdit.isBlankFields()) {
-                            cycleVMCreateEdit.save() {
+                FloatActionButtonWithState(isVisible = true, icon =R.drawable.ic_fab_next) {
+                    if (!cycleVMCreateEdit.isBlankFields()) {
+                        cycleVMCreateEdit.save() {
+                            if (action == ActionState.CREATE) {
                                 navHostController.popBackStack()
                                 navHostController.navigate(
                                     NavigationItem.DetailCycleNavigationItem.routeWithId(it)
                                 )
+                            } else {
+                                navHostController.navigateUp()
                             }
-                        } else {
-                            snackbarState.value = true
                         }
-                    },
-                    content = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_fab_next),
-                            contentDescription = "next"
-                        )
                     }
-                )
+                }
             }
-        },
-        snackbarHost = {
-            val text = "тест"
-            if(snackbarState.value) {
-                Snackbar(
-                    action = {
-                        Button(onClick = {
-                            snackbarState.value = false
-                        }) {
-                        }
-                    },
-                ) { Text(text = text) }
-            }
-        },
-        ) {
+        }
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
@@ -166,7 +147,8 @@ fun PreviewCreateEditeCycleScreen() {
         id = 1L,
         navHostController = NavHostController(LocalContext.current),
         PaddingValues(20.dp),
-        m
+        m,
+        ActionState.CREATE
     )
 }
 

@@ -6,6 +6,7 @@ import java.util.Date
 
 interface VMInterface<T> {
     val item: StateFlow<T>
+    val id: StateFlow<Long>
     val imgOption: StateFlow<String>
     val title: StateFlow<String>
     val comment: StateFlow<String>
@@ -24,4 +25,5 @@ interface VMInterface<T> {
     fun updateDay(it: Day)
     fun collectToSave(): T
     fun isBlankFields(): Boolean
+    fun updateId(id: Long)
 }

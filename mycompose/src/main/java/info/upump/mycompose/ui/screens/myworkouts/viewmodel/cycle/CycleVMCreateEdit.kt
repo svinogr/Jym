@@ -35,6 +35,9 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
 
                 override val item: StateFlow<Cycle> = _cycle.asStateFlow()
 
+                private val _id = MutableStateFlow(_cycle.value.id)
+                override val id: StateFlow<Long> = _id.asStateFlow()
+
                 private val _title = MutableStateFlow(_cycle.value.title)
                 override val title: StateFlow<String> = _title.asStateFlow()
 
@@ -95,12 +98,20 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
                 override fun isBlankFields(): Boolean {
                     return (title.value.trim().isEmpty())
                 }
+
+                override fun updateId(id: Long) {
+                    _id.update { id }
+                }
+
             }
         }
     }
 
     private val _cycle = MutableStateFlow(Cycle())
     override val item: StateFlow<Cycle> = _cycle.asStateFlow()
+
+    private val _id = MutableStateFlow(_cycle.value.id)
+    override val id: StateFlow<Long> = _id.asStateFlow()
 
     private val _title = MutableStateFlow(_cycle.value.title)
     override val title: StateFlow<String> = _title.asStateFlow()
@@ -136,6 +147,7 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
             CycleRepo.get().getBy(id).map {
                 Cycle.mapFromDbEntity(it)
             }.collect {
+                updateId(it.id)
                 updateTitle(it.title)
                 updateComment(it.comment)
                 updateStartDate(it.startDate)
@@ -145,12 +157,18 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
         }
     }
 
+    override fun updateId(id: Long) {
+        _id.update { id }
+    }
+
     override fun save(callback: (id: Long) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("save", "${_cycle.value}")
+            Log.d("save", "in _cycle ${_cycle.value}")
             var cS = collectToSave()
+            Log.d("save", "in colect ${cS}")
+
             val cE = Cycle.mapToEntity(cS)
-            Log.d("save", "$cE")
+            Log.d("save", "entity $cE")
             val save = CycleRepo.get().save(cE)
             launch(Dispatchers.Main) {
                 callback(save._id)
@@ -183,7 +201,7 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
 
     override fun collectToSave(): Cycle {
         val c = Cycle().apply {
-            id = _cycle.value.id
+            id = _id.value
             comment = _comment.value
             title = _title.value
             image = _img.value

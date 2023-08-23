@@ -30,6 +30,9 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
 
                 override val item: StateFlow<Workout> = _workout.asStateFlow()
 
+                private val _id = MutableStateFlow(item.value.id)
+                override val id: StateFlow<Long> = _id.asStateFlow()
+
                 private val _title = MutableStateFlow(_workout.value.title)
                 override val title: StateFlow<String> = _title.asStateFlow()
 
@@ -89,6 +92,10 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                 override fun isBlankFields(): Boolean {
                     TODO("Not yet implemented")
                 }
+
+                override fun updateId(id: Long) {
+                    _id.update { id }
+                }
             }
         }
     }
@@ -98,6 +105,9 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
 
     private val _workout = MutableStateFlow(Workout())
     override val item: StateFlow<Workout> = _workout.asStateFlow()
+
+    private val _id = MutableStateFlow(_workout.value.id)
+    override val id: StateFlow<Long> = _id.asStateFlow()
 
     private val _title = MutableStateFlow(_workout.value.title)
     override val title: StateFlow<String> = _title.asStateFlow()
@@ -150,7 +160,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
 
     override fun collectToSave(): Workout {
         val collectW = Workout().apply {
-            id = _workout.value.id
+            id = _id.value
             title = _title.value
             day = _day.value
             comment = _comment.value
@@ -189,5 +199,9 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
 
     fun updateEven() {
         _isEven.update { !it }
+    }
+
+    override fun updateId(id: Long) {
+        _id.update { id }
     }
 }

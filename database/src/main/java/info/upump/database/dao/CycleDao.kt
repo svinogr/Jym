@@ -3,7 +3,9 @@ package info.upump.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import info.upump.database.entities.CycleEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -12,9 +14,11 @@ interface CycleDao {
     @Query("select * from cycles")
     fun getAllCycles(): List<CycleEntity>
 
-    @Insert
+    @Insert()
     fun save(item: CycleEntity): Long
 
+    @Update()
+    fun update(item: CycleEntity): Int
     @Query("select * from cycles where default_type = 0")
     fun getAllPersonalCycles(): Flow<List<CycleEntity>>
 
