@@ -28,7 +28,8 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateCard(
-    entity: Entity,
+    startDate: String,
+    finishDate: String,
     modifierCard: Modifier = Modifier
         .fillMaxWidth()
         .padding(start = 0.dp, end = 0.dp),
@@ -59,7 +60,7 @@ fun DateCard(
                         containerColor = colorResource(R.color.colorBackgroundCardView)
                     ),
                     readOnly = true,
-                    value = entity.startStringFormatDate,
+                    value = startDate,
                     onValueChange = {
                     },
                     label = {
@@ -84,7 +85,7 @@ fun DateCard(
                     ),
 
                     readOnly = true,
-                    value = entity.finishStringFormatDate,
+                    value = finishDate,
                     onValueChange = {
                     },
                     label = {
@@ -103,5 +104,5 @@ fun DateCard(
 @Composable
 fun DateCard() {
     val cycle = Cycle()
-    DateCard(cycle)
+    DateCard(cycle.startStringFormatDate, cycle.finishStringFormatDate)
 }

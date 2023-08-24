@@ -63,14 +63,6 @@ fun<T: Entity> CardTitle(
     ) {
         val title by modelVM.title.collectAsState()
 
-        LaunchedEffect(key1 = true) {
-            Log.d("TAG", "lunc")
-        }
-
-        /*val s = remember{
-            mutableStateOf(false)
-        }*/
-
         TextField(modifier = modifierValue,
             colors = TextFieldDefaults.textFieldColors(
                 disabledTextColor = Color.Transparent,

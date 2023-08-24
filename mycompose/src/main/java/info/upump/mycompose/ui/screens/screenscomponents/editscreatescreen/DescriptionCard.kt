@@ -23,7 +23,7 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 
 @Composable
 fun DescriptionCard(
-    entity: Entity,
+    textDescription: String,
     modifierCard: Modifier = Modifier
         .fillMaxWidth()
         .padding(start = 0.dp, end = 0.dp, top = 2.dp),
@@ -49,7 +49,7 @@ fun DescriptionCard(
                 disabledIndicatorColor = Color.Transparent,
                 backgroundColor = colorResource(R.color.colorBackgroundCardView)
             ),
-            value = entity.comment,
+            value = textDescription,
             onValueChange = {
             },
             label = {
@@ -64,11 +64,11 @@ fun DescriptionCard(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DescriptionCardPreview() {
-    DescriptionCard(Cycle().apply { comment = "whagdwhgdakwjdgk wahdgawhdak" })
+    DescriptionCard( "whagdwhgdakwjdgk wahdgawhdak" )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DescriptionCardPreview2() {
-    DescriptionCard(Workout().apply { comment = "whagdwhgdakwjdgk wahdgawhdak" })
+    DescriptionCard("whagdwhgdakwjdgk wahdgawhdak" )
 }

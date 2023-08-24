@@ -51,6 +51,7 @@ fun MyCycleScreen(
 
     val cycleVM: CycleVM = viewModel()
     val listCycle by cycleVM.cycleList.collectAsState()
+    val context = LocalContext.current
 
     Scaffold(modifier = Modifier.padding(paddingValues = paddingValues),
         floatingActionButton = {
@@ -71,10 +72,9 @@ fun MyCycleScreen(
                 itemsIndexed(
                     items = listCycle,  // list items from Viewmodel: val listCycle by cycleVM.cycles.collectAsState()
                 ) { _, it ->
-                    CycleItemCard(cycle = it, navHostController)
+                    CycleItemCard(cycle = it, navHostController, context)
                 }
             }
-
 
             LaunchedEffect(key1 = true) {
                 cycleVM.getAllPersonal()

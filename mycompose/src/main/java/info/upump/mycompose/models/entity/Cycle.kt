@@ -1,15 +1,14 @@
 package info.upump.mycompose.models.entity
 
-import android.util.Log
 import info.upump.database.entities.CycleEntity
-import java.util.Date
+import info.upump.mycompose.ui.screens.screenscomponents.Imageable
 
 class Cycle(
     var workoutList: List<Workout> = ArrayList(),
     var isDefaultType: Boolean = false,
-    var image: String = "",
-    var defaultImg: String = ""
-) : Entity() {
+    override var image: String = "",
+    override var imageDefault: String = ""
+) : Entity(), Imageable {
 
     private val daysBetweenDates: Int
         get() = 0
@@ -23,7 +22,7 @@ class Cycle(
                 ", finishDate=" + finishStringFormatDate +
                 ", userList=" + workoutList.size +
                 ", image=" + image +
-                ", defaultImg=" + defaultImg +
+                ", defaultImg=" + imageDefault +
                 '}'
     }
 
@@ -49,7 +48,7 @@ class Cycle(
                 workoutList = listOf(),
                 isDefaultType = entity.default_type == 1,
 
-                defaultImg = entity.default_img ?: ""
+                imageDefault = entity.default_img ?: ""
             )
             cycle.title = entity.title
             cycle.id = entity._id
@@ -67,11 +66,17 @@ class Cycle(
             cycleEntity.start_date = cycle.startStringFormatDate
             cycleEntity.finish_date = cycle.finishStringFormatDate
             cycleEntity.comment = cycle.comment
-            cycleEntity.img = cycle.image
-            cycleEntity.default_img = cycle.defaultImg
+            if (cycle.image.isBlank()) {
+                cycleEntity.img = null
+            } else{cycleEntity.img = cycle.image}
+
+            if (cycle.image.isBlank()) {
+                cycleEntity.default_img = null
+            } else{cycleEntity.default_img = cycle.imageDefault}
 
             return cycleEntity
         }
+
         fun copy(cycle: Cycle): Cycle {
             return Cycle().apply {
                 id = cycle.id

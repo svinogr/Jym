@@ -28,7 +28,7 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
                 )
 
                 private val _cycle = MutableStateFlow(Cycle().apply {
-                    defaultImg = "drew"
+                    imageDefault = "drew"
                     title = "Preview"
                     comment = "это Preview"
                 })
@@ -167,13 +167,10 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
 
     override fun save(callback: (id: Long) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("save", "in _cycle ${_cycle.value}")
             var cS = collectToSave()
-            Log.d("save", "in colect ${cS}")
-
             val cE = Cycle.mapToEntity(cS)
-            Log.d("save", "entity $cE")
             val save = CycleRepo.get().save(cE)
+
             launch(Dispatchers.Main) {
                 callback(save._id)
             }

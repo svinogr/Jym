@@ -1,6 +1,7 @@
 package info.upump.mycompose.ui.screens.myworkouts
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -48,7 +49,6 @@ fun CreateWorkoutScreen(
     val workoutVM: WorkoutVM = viewModel()
     val isLoad by workoutVM.isLoading.collectAsState()
 
-    // val c = workoutVM.item.collectAsState()
     val context = LocalContext.current
     val columnModifier = Modifier
         .fillMaxHeight()
@@ -56,6 +56,7 @@ fun CreateWorkoutScreen(
         .verticalScroll(rememberScrollState())
         .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout))
     LaunchedEffect(key1 = true) {
+
         workoutVM.getBy(id)
         appBarTitle.value = context.resources.getString(R.string.workout_dialog_create_new)
     }

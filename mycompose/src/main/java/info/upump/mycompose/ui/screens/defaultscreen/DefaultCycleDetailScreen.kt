@@ -5,28 +5,25 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,6 +34,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -44,19 +42,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.pagerTabIndicatorOffset
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMDetailInterface
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.WorkoutItemCard
+import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCard
+import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
-import info.upump.mycompose.ui.theme.MyTextLabel12
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "DiscouragedApi")
@@ -67,7 +65,7 @@ fun DefaultDetailCycleScreen(
     navHostController: NavHostController
 ) {
     val cycleVM: CycleDetailVM = viewModel()
-    val cycle by cycleVM.cycle.collectAsState()
+    //val cycle by cycleVM.cycle.collectAsState()
 
     val isLoading = cycleVM.isLoading.collectAsState(true)
 
@@ -80,7 +78,7 @@ fun DefaultDetailCycleScreen(
     Log.d("TAG", "${isLoading.value}")
 
     LaunchedEffect(key1 = true) {
-        cycleVM.getDefaultCycleBy(id)
+        cycleVM.getInitialItem(id)
     }
 
     Column {
@@ -89,7 +87,7 @@ fun DefaultDetailCycleScreen(
                 mutableStateOf<Int>(R.drawable.logo_upump_round)
             }
             if (!isLoading.value) {
-                identificatorImg.value = getImage(cycle, LocalContext.current)
+         //       identificatorImg.value = getImage(cycle, LocalContext.current)
             }
 
             Image(
@@ -139,7 +137,7 @@ fun DefaultDetailCycleScreen(
         TabsContent(
             tabs = tabList,
             pagerState = pagerState,
-            cycle,
+            cycleVM,
             navHostController = navHostController
         )
     }
@@ -151,7 +149,7 @@ fun DefaultDetailCycleScreen(
 
 fun getImage(cycle: Cycle, context: Context): Int {
     val name = context.packageName
-    return context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
+    return context.resources.getIdentifier(cycle.imageDefault, "drawable", name)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -160,9 +158,11 @@ fun getImage(cycle: Cycle, context: Context): Int {
 fun TabsContent(
     tabs: List<TabsItems>,
     pagerState: PagerState,
-    cycle: Cycle,
+    cycle: VMDetailInterface<Cycle, Workout>,
     navHostController: NavHostController
 ) {
+
+
     HorizontalPager(pageCount = tabs.size, state = pagerState, verticalAlignment = Alignment.Top) {
         when (it) {
             0 -> DefaultDetailTitleCycleScreen(cycle, navHostController)
@@ -182,11 +182,12 @@ fun PreviewDefaultDetailCycleScreen() {
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun DefaultDetailTitleCycleScreen(cycle: Cycle, navHostController: NavHostController) {
+fun DefaultDetailTitleCycleScreen(cycle: VMDetailInterface<Cycle, Workout>, navHostController: NavHostController) {
     Log.d("TAG", "DefaultDetailTitleCycleScreen")
+    val workoutList = cycle.subItems.collectAsState().value
     Box(modifier = Modifier.fillMaxWidth()) {
         LazyColumn() {
-            cycle.workoutList.forEach {
+            workoutList.forEach {
                 item {
                     WorkoutItemCard(workout = it, navHost = navHostController)
                 }
@@ -197,43 +198,18 @@ fun DefaultDetailTitleCycleScreen(cycle: Cycle, navHostController: NavHostContro
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun DefaultDetailDescriptionCycleScreen(cycle: Cycle) {
-    Log.d("DefaultDetailDescriptionCycleScreen", "таг        $cycle")
-    Box(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-            Card(modifier = Modifier.fillMaxWidth()) {
+fun DefaultDetailDescriptionCycleScreen(cycleVM: VMDetailInterface<Cycle, Workout>) {
 
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                        val text = createRef()
-                        val gui = createGuidelineFromStart(0.5f)
-                        Text(
-                            modifier = Modifier.padding(start = 8.dp),
-                            style = MyTextLabel12,
-                            text = "Дата начала"
-                        )
-                        Text(modifier = Modifier.constrainAs(text) {
-                            start.linkTo(gui, margin = 8.dp)
-                        }, style = MyTextLabel12, text = "Дата окончания")
-                    }
-                    ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                        val text = createRef()
-                        val gui = createGuidelineFromStart(0.5f)
-                        Text(
-                            modifier = Modifier.padding(start = 8.dp),
-                            text = cycle.startStringFormatDate
-                        )
-                        Text(modifier = Modifier.constrainAs(text) {
-                            start.linkTo(gui, margin = 8.dp)
-                        }, text = cycle.finishStringFormatDate)
-                    }
-                }
-            }
-            Card() {
-                Text(modifier = Modifier.padding(8.dp), text = "${cycle.comment}")
-            }
-
-        }
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout))
+    ) {
+        DateCard(
+            cycleVM.startDate.collectAsState().value,
+            cycleVM.finishDate.collectAsState().value
+        )
+        DescriptionCard(cycleVM.title.collectAsState().value)
     }
 
 }
@@ -245,7 +221,7 @@ fun PreviewDefaultDetailTitleCycleScreen() {
     val cycle = Cycle(
         workoutList = listOf(),
         isDefaultType = true,
-        defaultImg = "nach1"
+        imageDefault = "nach1"
     )
     cycle.title = "ПРограмма"
     cycle.image = "nach1"
@@ -267,7 +243,7 @@ fun PreviewDefaultDetailTitleCycleScreen() {
     cycle.workoutList = list
     val nav = NavHostController(LocalContext.current)
 
-    DefaultDetailTitleCycleScreen(cycle, nav)
+    DefaultDetailTitleCycleScreen(CycleDetailVM.vmOnlyForPreview, nav)
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -276,11 +252,11 @@ fun PreviewDefaultDetailDescriptionCycleScreen() {
     val cycle = Cycle(
         workoutList = listOf(),
         isDefaultType = true,
-        defaultImg = "nach1"
+        imageDefault = "nach1"
     ).apply { title = "Новая" }
     cycle.image = "nach1"
     cycle.comment =
         "Lorem ipsum dolor sit amet, consectetuer adipiscing . Aelit" +
                 "enean commodo ligula eget dolor. Aenean massa. "
-    DefaultDetailDescriptionCycleScreen(cycle)
+    DefaultDetailDescriptionCycleScreen(CycleDetailVM.vmOnlyForPreview)
 }

@@ -27,7 +27,7 @@ fun DefaultCycleScreen(navHostController: NavHostController, paddingValues: Padd
     val vm: CycleDefaultVM = viewModel()
     val cycles by vm.cycles.collectAsState()
     val isLoading by vm.isLoading.collectAsState()
-
+    val context = LocalContext.current
 
     Box(
         Modifier
@@ -37,7 +37,7 @@ fun DefaultCycleScreen(navHostController: NavHostController, paddingValues: Padd
     ) {
         LazyColumn() {
             itemsIndexed(cycles) {index, it ->
-                CycleItemCard(cycle = it, navHostController)
+                CycleItemCard(cycle = it, navHostController, context )
             }
         }
 

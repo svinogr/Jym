@@ -2,11 +2,7 @@ package info.upump.mycompose.ui.screens.screenscomponents
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
-import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,148 +35,140 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-/*class SampleCycleProvider : PreviewParameterProvider<Cycle> {
-    override val values = sequenceOf(Cycle( image = "uk1").apply { title = "Новая" })
-}*/
 
+/*fun getImage(cycle: Cycle, context: Context): Bitmap {
+   var bitmap: Bitmap
+   val name = context.packageName
 
+   var source: ImageDecoder.Source
+   Log.d("image", " = 1) ${cycle.image} ${cycle.title}")
+   try {
+       if (!cycle.image.isBlank()) {
+           Log.d("image", " = 2) ${cycle.image} ${cycle.title}")
+           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+               source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.image))
+               bitmap = ImageDecoder.decodeBitmap(source)
+           } else {
+               bitmap = MediaStore.Images.Media.getBitmap(
+                   context.contentResolver,
+                   Uri.parse(cycle.image)
+               );
+           }
+       } else {
+           val id = context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
+           Log.d("image", " = 2a) ${cycle.defaultImg} ${cycle.title}")
+           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+               source = ImageDecoder.createSource(context.resources, id)
+               bitmap = ImageDecoder.decodeBitmap(source)
+           } else {
+               bitmap = BitmapFactory.decodeResource(context.resources, id);
+           }
+       }
+   } catch (e: Exception) {
+       val id = context.resources.getIdentifier("drew", "drawable", name)
+       Log.d("image", " = 2e) ${cycle.defaultImg} ${cycle.title}")
+       Log.d("image", " ${e.message}")
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+           source = ImageDecoder.createSource(context.resources, id)
+           bitmap = ImageDecoder.decodeBitmap(source)
+       } else {
+           bitmap = BitmapFactory.decodeResource(context.resources, id);
+       }
 
-
-suspend fun getImage(cycle: Cycle, context: Context): Bitmap {
-    var bitmap: Bitmap
-    val name = context.packageName
-
-    var source: ImageDecoder.Source
-    try {
-        if (!cycle.image!!.isBlank()) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.image))
-                bitmap = ImageDecoder.decodeBitmap(source)
-            } else {
-                bitmap = MediaStore.Images.Media.getBitmap(
-                    context.contentResolver,
-                    Uri.parse(cycle.image)
-                );
-            }
-
-        } else {
-            val id = context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                source = ImageDecoder.createSource(context.resources, id)
-                bitmap = ImageDecoder.decodeBitmap(source)
-            } else {
-                bitmap = BitmapFactory.decodeResource(context.resources, id);
-            }
-        }
-    } catch (e: Exception ) {
-        val id = context.resources.getIdentifier("drew", "drawable", name)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            source = ImageDecoder.createSource(context.resources, id)
-            bitmap = ImageDecoder.decodeBitmap(source)
-        } else {
-            bitmap = BitmapFactory.decodeResource(context.resources, id);
-        }
-
-    }
-    return bitmap
+   }
+   return bitmap
 }
 
-
+*/
 @Composable
 fun CycleItemCard(
     cycle: Cycle,
-    navHost: NavHostController
+    navHost: NavHostController,
+    context: Context
 ) {
-    val context = LocalContext.current
+    val bitmap: MutableState<Bitmap?> = remember{
+        mutableStateOf(null)
+    }
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(1.dp)
-            .clickable {
-                navHost.navigate(NavigationItem.DetailCycleNavigationItem.routeWithId(cycle.id))
-            },
-        elevation = CardDefaults.cardElevation(0.dp),
-        shape = RoundedCornerShape(0.dp)
+    bitmap.value ?: run {
+        LaunchedEffect(key1 = true) {
+            launch(Dispatchers.IO) {
+                bitmap.value = BitmapCreator.getImageBitmap(cycle, context)
+            }
+        }
 
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(1.dp)
+                .clickable {
+                    navHost.navigate(NavigationItem.DetailCycleNavigationItem.routeWithId(cycle.id))
+                },
+            elevation = CardDefaults.cardElevation(0.dp),
+            shape = RoundedCornerShape(0.dp)
+
         ) {
-
-            val image = remember {
-                mutableStateOf<Bitmap?>(
-                    Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888).apply {
-                        eraseColor(context.resources.getColor(R.color.colorBackgroundConstrateLayout))
-                    }
-                )
-            }
-            LaunchedEffect(key1 = true) {
-                coroutineScope {
-                    launch(Dispatchers.IO) {
-                        image.value = getImage(cycle, context)
-                    }
-                }
-            }
-
-            Image(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .height(50.dp)
-                    .width(50.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop,
-                bitmap = image.value!!.asImageBitmap(),
-
-                contentDescription = ""
-            )
-                  Column(
-                modifier = Modifier
-                    .fillMaxWidth()
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.background(MaterialTheme.colorScheme.background)
             ) {
-                Text(
-                    text = cycle.title!!,
-                    style = MyTextTitleLabel16,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
 
-                if (!cycle.isDefaultType) {
-                    Divider(
-                        modifier = Modifier
+                    //  bitmap = image.value.asImageBitmap(),
+                    bitmap.value?.let {
+                        Image(
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .height(50.dp)
+                                .width(50.dp)
+                                .clip(CircleShape),
+                            bitmap =   it.asImageBitmap(),
+                            contentScale = ContentScale.Crop,
+                            contentDescription = "")
+                    }
 
-                            .height(1.dp)
-                            .padding(end = 8.dp)
-                            .background(Color.Black)
+
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = cycle.title!!,
+                        style = MyTextTitleLabel16,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
-                }
 
-                if (!cycle.isDefaultType) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.End)
-                            .padding(end = 8.dp, top = 4.dp)
-                    ) {
-                        Text(
-                            text = cycle.finishStringFormatDate,
-                            fontSize = 12.sp,
-                            color = Color(0xFF6c6c70)
+                    if (!cycle.isDefaultType) {
+                        Divider(
+                            modifier = Modifier
+                                .height(1.dp)
+                                .padding(end = 8.dp)
+                                .background(Color.Black)
                         )
+                    }
+
+                    if (!cycle.isDefaultType) {
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.End)
+                                .padding(end = 8.dp, top = 4.dp)
+                        ) {
+                            Text(
+                                text = cycle.finishStringFormatDate,
+                                fontSize = 12.sp,
+                                color = Color(0xFF6c6c70)
+                            )
+                        }
                     }
                 }
             }
@@ -188,9 +177,37 @@ fun CycleItemCard(
 }
 
 @RequiresApi(Build.VERSION_CODES.P)
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun PreviewCycleItemCard() {
-    val c = Cycle(defaultImg = "uk2").apply { title = "Новая" }
-    CycleItemCard(c, NavHostController(LocalContext.current))
+    val c = Cycle().apply {
+        title = "Новая"
+        imageDefault = ""
+        image = ""
+    }
+    CycleItemCard(c, NavHostController(LocalContext.current), LocalContext.current)
+}
+
+@RequiresApi(Build.VERSION_CODES.P)
+@Preview(showBackground = true)
+@Composable
+fun PreviewCycleItemCard2() {
+    val c = Cycle().apply {
+        title = "Новая2"
+        imageDefault = ""
+        image = ""
+    }
+    CycleItemCard(c, NavHostController(LocalContext.current), LocalContext.current)
+}
+
+@RequiresApi(Build.VERSION_CODES.P)
+@Preview(showBackground = true)
+@Composable
+fun PreviewCycleItemCard3() {
+    val c = Cycle().apply {
+        title = "Новая3"
+        imageDefault = "plint1"
+        image = ""
+    }
+    CycleItemCard(c, NavHostController(LocalContext.current), LocalContext.current)
 }

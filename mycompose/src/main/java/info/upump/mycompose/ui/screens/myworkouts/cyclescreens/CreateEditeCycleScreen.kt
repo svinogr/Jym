@@ -49,7 +49,6 @@ fun CreateEditeCycleScreen(
     val cycleVMCreateEdit: CycleVMCreateEdit = viewModel()
     val isLoad by cycleVMCreateEdit.isLoading.collectAsState()
 
-  //  val c = cycleVMCreateEdit.item.collectAsState()
     val context = LocalContext.current
     Log.d("CreateEditeCycleScreen", "$id")
     val columnModifier = Modifier
@@ -62,10 +61,6 @@ fun CreateEditeCycleScreen(
         appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
     }
     if (action == ActionState.UPDATE){
-      //  Log.d("CreateEditeCycleScreen appbar set", "${c.value.title}")
-    //    val o = cycleVMCreateEdit.title.collectAsState()
-      //  Log.d("CreateEditeCycleScreen appbar set", "${o.value}")
-
         appBarTitle.value = "Редактирование"
     }
 
@@ -98,6 +93,7 @@ fun CreateEditeCycleScreen(
     }
 
     LaunchedEffect(key1 = true) {
+        Log.d("CreateEditeCycleScreen", "luncEffect start")
         cycleVMCreateEdit.getBy(id)
     }
 
