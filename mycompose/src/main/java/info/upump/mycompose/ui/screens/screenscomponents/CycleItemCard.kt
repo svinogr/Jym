@@ -44,51 +44,6 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
-/*fun getImage(cycle: Cycle, context: Context): Bitmap {
-   var bitmap: Bitmap
-   val name = context.packageName
-
-   var source: ImageDecoder.Source
-   Log.d("image", " = 1) ${cycle.image} ${cycle.title}")
-   try {
-       if (!cycle.image.isBlank()) {
-           Log.d("image", " = 2) ${cycle.image} ${cycle.title}")
-           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-               source = ImageDecoder.createSource(context.contentResolver, Uri.parse(cycle.image))
-               bitmap = ImageDecoder.decodeBitmap(source)
-           } else {
-               bitmap = MediaStore.Images.Media.getBitmap(
-                   context.contentResolver,
-                   Uri.parse(cycle.image)
-               );
-           }
-       } else {
-           val id = context.resources.getIdentifier(cycle.defaultImg, "drawable", name)
-           Log.d("image", " = 2a) ${cycle.defaultImg} ${cycle.title}")
-           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-               source = ImageDecoder.createSource(context.resources, id)
-               bitmap = ImageDecoder.decodeBitmap(source)
-           } else {
-               bitmap = BitmapFactory.decodeResource(context.resources, id);
-           }
-       }
-   } catch (e: Exception) {
-       val id = context.resources.getIdentifier("drew", "drawable", name)
-       Log.d("image", " = 2e) ${cycle.defaultImg} ${cycle.title}")
-       Log.d("image", " ${e.message}")
-       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-           source = ImageDecoder.createSource(context.resources, id)
-           bitmap = ImageDecoder.decodeBitmap(source)
-       } else {
-           bitmap = BitmapFactory.decodeResource(context.resources, id);
-       }
-
-   }
-   return bitmap
-}
-
-*/
 @Composable
 fun CycleItemCard(
     cycle: Cycle,

@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.CycleRepo
 import info.upump.mycompose.models.entity.Cycle
@@ -16,6 +17,7 @@ class CycleVM: BaseVMWithStateLoad() {
     val cycleList: StateFlow<List<Cycle>> = _cycleList.asStateFlow()
 
     fun getAllPersonal() {
+        Log.d("getAllPersonal", "getAllPersonal")
         _stateLoading.value = true
 
         viewModelScope.launch(

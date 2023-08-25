@@ -19,9 +19,7 @@ import androidx.navigation.compose.rememberNavController
 
 @Preview
 @Composable
-fun MyBottomNavigation(navController: NavController = rememberNavController() ) {
-   // fun MyBottomNavigation() {
-    //val navController = rememberNavController()
+fun MyBottomNavigation(navController: NavController = rememberNavController()) {
     val listScreens = listOf(
         NavigationItem.MyCycleNavigationItem,
         NavigationItem.DefaultCycleNavigationItem,
@@ -34,12 +32,10 @@ fun MyBottomNavigation(navController: NavController = rememberNavController() ) 
         Log.d("currentRout", " $currentRout")
         val context = LocalContext.current
         listScreens.forEach { item ->
-            BottomNavigationItem(modifier = Modifier.background(Color.White),
+            BottomNavigationItem(
+                modifier = Modifier.background(Color.White),
                 selected = currentRout == item.route,
                 onClick = { navController.navigate(item.route) },
-            /*    label = {
-                    Text(text = stringResource(id = item.title), fontSize = 10.sp)
-                },*/
                 icon = {
                     Icon(
                         painter = painterResource(id = item.iconId),

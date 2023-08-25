@@ -3,6 +3,7 @@ package info.upump.mycompose.ui.screens.myworkouts.cyclescreens
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
@@ -76,8 +77,10 @@ fun MyCycleScreen(
                 }
             }
 
-            LaunchedEffect(key1 = true) {
+            LaunchedEffect(key1 = false) {
+                Log.d("LaunchedEffect", "LaunchedEffect $")
                 cycleVM.getAllPersonal()
+
             }
         })
 }
