@@ -95,7 +95,7 @@ fun CycleItemCard(
     navHost: NavHostController,
     context: Context
 ) {
-    val bitmap: MutableState<Bitmap?> = remember{
+    val bitmap: MutableState<Bitmap?> = remember {
         mutableStateOf(null)
     }
 
@@ -105,76 +105,81 @@ fun CycleItemCard(
                 bitmap.value = BitmapCreator.getImageBitmap(cycle, context)
             }
         }
+    }
 
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(1.dp)
-                .clickable {
-                    navHost.navigate(NavigationItem.DetailCycleNavigationItem.routeWithId(cycle.id))
-                },
-            elevation = CardDefaults.cardElevation(0.dp),
-            shape = RoundedCornerShape(0.dp)
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(1.dp)
+            .clickable {
+                navHost.navigate(NavigationItem.DetailCycleNavigationItem.routeWithId(cycle.id))
+            },
+        elevation = CardDefaults.cardElevation(0.dp),
+        shape = RoundedCornerShape(0.dp)
 
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.background(MaterialTheme.colorScheme.background)
+
+            //  bitmap = image.value.asImageBitmap(),
+            Box(
+                modifier = Modifier.padding(8.dp)
+                    .height(50.dp)
+                    .width(50.dp)
             ) {
-
-                    //  bitmap = image.value.asImageBitmap(),
-                    bitmap.value?.let {
-                        Image(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .height(50.dp)
-                                .width(50.dp)
-                                .clip(CircleShape),
-                            bitmap =   it.asImageBitmap(),
-                            contentScale = ContentScale.Crop,
-                            contentDescription = "")
-                    }
-
-
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = cycle.title!!,
-                        style = MyTextTitleLabel16,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                bitmap.value?.let {
+                    Image(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .width(50.dp)
+                            .clip(CircleShape),
+                        bitmap = it.asImageBitmap(),
+                        contentScale = ContentScale.Crop,
+                        contentDescription = ""
                     )
+                }
+            }
 
-                    if (!cycle.isDefaultType) {
-                        Divider(
-                            modifier = Modifier
-                                .height(1.dp)
-                                .padding(end = 8.dp)
-                                .background(Color.Black)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = cycle.title!!,
+                    style = MyTextTitleLabel16,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                if (!cycle.isDefaultType) {
+                    Divider(
+                        modifier = Modifier
+                            .height(1.dp)
+                            .padding(end = 8.dp)
+                            .background(Color.Black)
+                    )
+                }
+
+                if (!cycle.isDefaultType) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .padding(end = 8.dp, top = 4.dp)
+                    ) {
+                        Text(
+                            text = cycle.finishStringFormatDate,
+                            fontSize = 12.sp,
+                            color = Color(0xFF6c6c70)
                         )
-                    }
-
-                    if (!cycle.isDefaultType) {
-                        Box(
-                            modifier = Modifier
-                                .align(Alignment.End)
-                                .padding(end = 8.dp, top = 4.dp)
-                        ) {
-                            Text(
-                                text = cycle.finishStringFormatDate,
-                                fontSize = 12.sp,
-                                color = Color(0xFF6c6c70)
-                            )
-                        }
                     }
                 }
             }
         }
     }
 }
+
 
 @RequiresApi(Build.VERSION_CODES.P)
 @Preview(showBackground = true)

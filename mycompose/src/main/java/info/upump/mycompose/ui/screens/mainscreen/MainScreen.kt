@@ -49,10 +49,12 @@ fun MainScreen() {
         rememberPermissionState(permission = "android.permission.CAMERA")
     val storagePermission =
         rememberPermissionState(permission = "android.permission.READ_EXTERNAL_STORAGE")
+    val c = rememberPermissionState("android.permission.OPEN_DOCUMENT")
 
     SideEffect {
         cameraPermission.launchPermissionRequest()
         storagePermission.launchPermissionRequest()
+        c.launchPermissionRequest()
     }
 
     val density = LocalDensity.current

@@ -56,6 +56,7 @@ class Cycle(
             cycle.setFinishDate(entity.finish_date)
             cycle.comment = entity.comment!!
             cycle.image = entity.img ?: ""
+            cycle.imageDefault = entity.default_img ?: ""
 
             return cycle
         }

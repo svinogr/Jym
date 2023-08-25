@@ -45,7 +45,6 @@ fun <T: Entity> DescriptionCardWithVM(
         )
     ) {
         val comment by modelVM.comment.collectAsState()
-        Log.d("DescriptionCardWithVM", "comment = $comment")
 
         TextField(modifier = modifierValue,
             colors = TextFieldDefaults.textFieldColors(

@@ -7,25 +7,27 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 
 class BitmapCreator {
     companion object{
         fun getImageBitmap(imageEntity: Imageable, context: Context): Bitmap {
             val bitmap: Bitmap
-
+            Log.d("getImageBitmap", "start---------------------------------------" )
             if (!imageEntity.image.isBlank()) {
-                bitmap = BitmapCreator.getImgBitmap(imageEntity.image, context)
+                bitmap = getImgBitmap(imageEntity.image, context)
             } else if (!imageEntity.imageDefault.isBlank()) {
-                bitmap = BitmapCreator.getImgDefaultBitmap(imageEntity.imageDefault, context)
+                bitmap = getImgDefaultBitmap(imageEntity.imageDefault, context)
             } else {
-                bitmap = BitmapCreator.getExceptionDefaultBitmap(context)
+                bitmap = getExceptionDefaultBitmap(context)
             }
-
+            Log.d("getImageBitmap", "---------------------------------------end" )
             return bitmap
 
         }
 
         fun getExceptionDefaultBitmap(context: Context): Bitmap {
+
             var bitmap: Bitmap
             val name = context.packageName
             val source: ImageDecoder.Source
@@ -37,7 +39,7 @@ class BitmapCreator {
                 } else {
                     bitmap = BitmapFactory.decodeResource(context.resources, id);
                 }
-
+                Log.d("getExceptionDefaultBitmap", "id = $id" )
             } catch (e: Exception) {
                 bitmap = getExceptionDefaultBitmap(context)
 
@@ -58,6 +60,7 @@ class BitmapCreator {
                 } else {
                     bitmap = BitmapFactory.decodeResource(context.resources, id);
                 }
+                Log.d("getImgDefaultBitmap", "imgDefault = $imgDefault" )
             } catch (e: Exception) {
                 bitmap = getExceptionDefaultBitmap(context)
             }
@@ -77,7 +80,7 @@ class BitmapCreator {
                     Uri.parse(img)
                 );
             }
-
+            Log.d("getImgDefaultBitmap", "im str = $img" )
             return bitmap
         }
     }

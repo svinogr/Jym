@@ -47,11 +47,13 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
 
                 private val _day = MutableStateFlow(_workout.value.day)
                 override val day: StateFlow<Day> = _day
+
+                override val imgDefault: StateFlow<String>    get() = TODO("Not yet implemented")
                 override val isTitleError: StateFlow<Boolean>
                     get() = TODO("Not yet implemented")
 
                 private val _img = MutableStateFlow(_workout.value.day.toString())
-                override val imgOption: StateFlow<String> = _img.asStateFlow()
+                override val img: StateFlow<String> = _img.asStateFlow()
 
                 override fun getBy(id: Long) {
                     TODO("Not yet implemented")
@@ -100,6 +102,11 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                 override fun saveWith(parentId: Long, callback: (id: Long) -> Unit) {
                     TODO("Not yet implemented")
                 }
+
+                override fun updateImageDefault(imgStr: String) {
+
+                }
+
             }
         }
     }
@@ -132,10 +139,12 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     override val isTitleError: StateFlow<Boolean> = _isTitleError.asStateFlow()
 
     private val _img = MutableStateFlow(_workout.value.day.toString())
-    override val imgOption: StateFlow<String> = _img.asStateFlow()
+    override val img: StateFlow<String> = _img.asStateFlow()
 
     private val _isEven = MutableStateFlow(_workout.value.isWeekEven)
     val isEven: StateFlow<Boolean> = _isEven.asStateFlow()
+
+    override val imgDefault: StateFlow<String>    get() = TODO("Not yet implemented")
 
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -186,6 +195,10 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
         _isTitleError.update { isBlank }
 
         return isBlank
+    }
+
+    override fun updateImageDefault(imgStr: String) {
+
     }
 
     override fun updateTitle(titlen: String) {

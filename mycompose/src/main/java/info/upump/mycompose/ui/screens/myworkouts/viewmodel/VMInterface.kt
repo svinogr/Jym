@@ -7,13 +7,14 @@ import java.util.Date
 interface VMInterface<T> {
     val item: StateFlow<T>
     val id: StateFlow<Long>
-    val imgOption: StateFlow<String>
+    val img: StateFlow<String>
+    val imgDefault: StateFlow<String>
     val title: StateFlow<String>
     val comment: StateFlow<String>
     val startDate: StateFlow<String>
     val finishDate: StateFlow<String>
-    val day: StateFlow<Day>
     val isTitleError: StateFlow<Boolean>
+    val day: StateFlow<Day>
 
     fun getBy(id: Long)
     fun save(callback: (id: Long)-> Unit)
@@ -27,4 +28,5 @@ interface VMInterface<T> {
     fun collectToSave(): T
     fun isBlankFields(): Boolean
     fun updateId(id: Long)
+    fun updateImageDefault(imgStr: String)
 }

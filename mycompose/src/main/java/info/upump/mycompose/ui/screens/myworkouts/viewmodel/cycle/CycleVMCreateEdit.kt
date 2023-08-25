@@ -56,8 +56,14 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
                     get() = TODO("Not yet implemented")
 
                 private val _img = MutableStateFlow(_cycle.value.image)
-                override val imgOption: StateFlow<String> = _img.asStateFlow()
+                override val img: StateFlow<String> = _img.asStateFlow()
 
+                private val _imgDefault = MutableStateFlow(_cycle.value.imageDefault)
+                override val imgDefault: StateFlow<String> = _imgDefault
+
+                override fun updateImageDefault(imgStr: String) {
+                    _imgDefault.update {imgStr}
+                }
 
                 override fun getBy(id: Long) {
                     TODO("Not yet implemented")
@@ -136,7 +142,10 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
 
 
     private val _img = MutableStateFlow(_cycle.value.image)
-    override val imgOption: StateFlow<String> = _img.asStateFlow()
+    override val img: StateFlow<String> = _img.asStateFlow()
+
+    private val _imgDefault = MutableStateFlow(_cycle.value.imageDefault)
+    override val imgDefault: StateFlow<String> = _imgDefault
 
     override fun getBy(id: Long) {
         Log.d("getcycle by id", "$id")
@@ -157,12 +166,17 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
                 updateStartDate(it.startDate)
                 updateFinishDate(it.finishDate)
                 updateImage(it.image)
+                updateImageDefault(it.imageDefault)
             }
         }
     }
 
     override fun updateId(id: Long) {
         _id.update { id }
+    }
+
+    override fun updateImageDefault(imgStr: String) {
+        _imgDefault.update {imgStr}
     }
 
     override fun save(callback: (id: Long) -> Unit) {

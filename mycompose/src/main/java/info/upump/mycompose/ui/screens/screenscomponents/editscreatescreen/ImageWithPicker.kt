@@ -7,6 +7,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
+import info.upump.mycompose.ui.screens.screenscomponents.BitmapCreator
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -35,7 +37,18 @@ fun ImageWithPickerPreview() {
 fun ImageWithPicker(cycleVM: VMInterface<Cycle>) {
     val context = LocalContext.current
 
-    val image by cycleVM.imgOption.collectAsState()
+    val image by cycleVM.img.collectAsState()
+    val imageDefault by cycleVM.imgDefault.collectAsState()
+
+     Log.d("image", "$image $imageDefault")
+    val bitmap: Bitmap
+    if (!image.isBlank()) {
+        bitmap = BitmapCreator.getImgBitmap(image, context)
+    } else if (!imageDefault.isBlank()) {
+        bitmap = BitmapCreator.getImgDefaultBitmap(imageDefault, context)
+    } else {
+        bitmap = BitmapCreator.getExceptionDefaultBitmap(context)
+    }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
@@ -43,15 +56,17 @@ fun ImageWithPicker(cycleVM: VMInterface<Cycle>) {
         cycleVM.updateImage(it.toString())
     }
 
-    Image(modifier = Modifier.fillMaxHeight()
-            .clickable {
-                launcher.launch(
-                    PickVisualMediaRequest(
-                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-                    )
+
+    Image(modifier = Modifier
+        .fillMaxHeight()
+        .clickable {
+            launcher.launch(
+                PickVisualMediaRequest(
+                    mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
                 )
-            },
-        bitmap = getImagePicker(image,  context).asImageBitmap(),
+            )
+        },
+        bitmap = bitmap.asImageBitmap(),
         contentDescription = "image",
         contentScale = ContentScale.Crop,
     )
