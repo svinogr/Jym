@@ -1,7 +1,7 @@
 package info.upump.mycompose.ui.screens.mainscreen
 
+import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
@@ -11,25 +11,22 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.MyBottomNavigation
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavGraph
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.MyBottomNavigation
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavGraph
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
@@ -47,18 +44,21 @@ fun MainScreen() {
         mutableStateOf(true)
     }
 
-    val cameraPermission =
+    val permissionState = rememberMultiplePermissionsState(listOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.ACCESS_MEDIA_LOCATION
+
+         ))
+  /*  val cameraPermission =
         rememberPermissionState(permission = "android.permission.CAMERA")
     val storagePermission =
         rememberPermissionState(permission = "android.permission.READ_EXTERNAL_STORAGE")
-    val c = rememberPermissionState("android.permission.MANAGE_DOCUMENTS")
+*/
 
 
-
-    SideEffect {
-        cameraPermission.launchPermissionRequest()
-        storagePermission.launchPermissionRequest()
-        c.launchPermissionRequest()
+    LaunchedEffect(key1 = true) {
+     permissionState.launchMultiplePermissionRequest()
     }
 
     val density = LocalDensity.current

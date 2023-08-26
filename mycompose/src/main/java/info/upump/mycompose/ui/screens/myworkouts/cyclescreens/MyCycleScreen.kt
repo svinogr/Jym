@@ -51,7 +51,8 @@ fun MyCycleScreen(
     val listState = rememberLazyListState()
 
     val cycleVM: CycleVM = viewModel()
-    val listCycle by cycleVM.cycleList.collectAsState()
+   val listCycle by cycleVM.cycleList.collectAsState()
+
     val context = LocalContext.current
 
     Scaffold(modifier = Modifier.padding(paddingValues = paddingValues),
@@ -77,7 +78,7 @@ fun MyCycleScreen(
                 }
             }
 
-            LaunchedEffect(key1 = false) {
+            LaunchedEffect(key1 = listCycle) {
                 Log.d("LaunchedEffect", "LaunchedEffect $")
                 cycleVM.getAllPersonal()
 
