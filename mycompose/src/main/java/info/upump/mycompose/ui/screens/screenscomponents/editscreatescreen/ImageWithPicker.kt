@@ -1,6 +1,7 @@
 package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -53,6 +54,9 @@ fun ImageWithPicker(cycleVM: VMInterface<Cycle>) {
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) {
+        Log.d("pers ", "$it.")
+            val name = context.packageName
+                context.grantUriPermission(name, it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
         cycleVM.updateImage(it.toString())
     }
 
@@ -62,7 +66,7 @@ fun ImageWithPicker(cycleVM: VMInterface<Cycle>) {
         .clickable {
             launcher.launch(
                 PickVisualMediaRequest(
-                    mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                    mediaType = ActivityResultContracts.PickVisualMedia.ImageAndVideo
                 )
             )
         },

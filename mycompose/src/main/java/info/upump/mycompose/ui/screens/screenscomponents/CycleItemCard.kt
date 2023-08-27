@@ -2,7 +2,9 @@ package info.upump.mycompose.ui.screens.screenscomponents
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,6 +40,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
@@ -54,14 +58,14 @@ fun CycleItemCard(
         mutableStateOf(null)
     }
 
-    bitmap.value ?: run {
+    /*   bitmap.value ?: run {
         LaunchedEffect(key1 = true) {
             launch(Dispatchers.IO) {
                 bitmap.value = BitmapCreator.getImageBitmap(cycle, context)
             }
         }
     }
-
+*/
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -80,11 +84,12 @@ fun CycleItemCard(
 
             //  bitmap = image.value.asImageBitmap(),
             Box(
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier
+                    .padding(8.dp)
                     .height(50.dp)
                     .width(50.dp)
             ) {
-                bitmap.value?.let {
+                /*bitmap.value?.let {
                     Image(
                         modifier = Modifier
                             .height(50.dp)
@@ -94,9 +99,26 @@ fun CycleItemCard(
                         contentScale = ContentScale.Crop,
                         contentDescription = ""
                     )
+                }*/
+                if (!cycle.image.isBlank()) {
+Log.d("image", "${cycle.image}")
+                    Image(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .width(50.dp)
+                            .clip(CircleShape),
+                        painter = rememberAsyncImagePainter(
+                            ImageRequest
+                                .Builder(LocalContext.current)
+                                .data(data = Uri.parse(cycle.image))
+                                .build()
+                        ),
+                        contentScale = ContentScale.Crop,
+                        contentDescription = ""
+                    )
+
                 }
             }
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -167,7 +189,7 @@ fun PreviewCycleItemCard3() {
     val c = Cycle().apply {
         title = "Новая3"
         imageDefault = "plint1"
-        image = ""
+        image = "content://media/picker/0/com.android.providers.media.photopicker/media/1000000033"
     }
     CycleItemCard(c, NavHostController(LocalContext.current), LocalContext.current)
 }

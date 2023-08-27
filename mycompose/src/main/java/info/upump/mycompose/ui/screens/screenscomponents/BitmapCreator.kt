@@ -35,12 +35,12 @@ class BitmapCreator {
             val source: ImageDecoder.Source
             try {
                 val id = context.resources.getIdentifier("drew", "drawable", name)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            /*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     source = ImageDecoder.createSource(context.resources, id)
                     bitmap = ImageDecoder.decodeBitmap(source)
-                } else {
+                } else {*/
                     bitmap = BitmapFactory.decodeResource(context.resources, id);
-                }
+              //  }
                 Log.d("getExceptionDefaultBitmap", "id = $id" )
             } catch (e: Exception) {
                 bitmap = getExceptionDefaultBitmap(context)
@@ -55,13 +55,13 @@ class BitmapCreator {
             val name = context.packageName
             val source: ImageDecoder.Source
             try {
-                val id = context.resources.getIdentifier(imgDefault, "drawable", name)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    source = ImageDecoder.createSource(context.resources, id)
-                    bitmap = ImageDecoder.decodeBitmap(source)
-                } else {
+             val id = context.resources.getIdentifier(imgDefault, "drawable", name)
+                /*      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        source = ImageDecoder.createSource(context.resources, id)
+                        bitmap = ImageDecoder.decodeBitmap(source)
+                    } else {*/
                     bitmap = BitmapFactory.decodeResource(context.resources, id);
-                }
+             //   }
                 Log.d("getImgDefaultBitmap", "imgDefault = $imgDefault" )
             } catch (e: Exception) {
                 bitmap = getExceptionDefaultBitmap(context)
@@ -73,16 +73,21 @@ class BitmapCreator {
         fun getImgBitmap(img: String, context: Context): Bitmap {
             val source: ImageDecoder.Source
             val bitmap: Bitmap
-            //val contentResolver = context.contentResolver
+           val contentResolver = context.contentResolver
 
-           // val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-             //       Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-           // Check for the freshest data.
-           // contentResolver.takePersistableUriPermission(Uri.parse(img), takeFlags)
+            val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
+             // or
+                    //Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            //Check for the freshest data.
+            val name = context.packageName
+         //   context.grantUriPermission(name, Uri.parse(img), Intent.FLAG_GRANT_READ_URI_PERMISSION )
+            //contentResolver.takePersistableUriPermission(Uri.parse(img),  Intent.FLAG_GRANT_READ_URI_PERMISSION)
+         //   val persistedUriPermissions = contentResolver.persistedUriPermissions
+         //   Log.d("pers", "${persistedUriPermissions.toString()}")
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
 
-                source = ImageDecoder.createSource(context.contentResolver, Uri.parse(img))
+                source = ImageDecoder.createSource(contentResolver, Uri.parse(img))
                 bitmap = ImageDecoder.decodeBitmap(source)
             } else {
                 bitmap = MediaStore.Images.Media.getBitmap(

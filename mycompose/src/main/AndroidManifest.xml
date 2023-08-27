@@ -15,13 +15,15 @@
         <activity
             android:name=".MainActivityCompose"
             android:exported="false"
+            android:icon="@drawable/logo_upump_round"
             android:label="@string/title_activity_main_compose"
-            android:theme="@style/Theme.Jym" />
+            android:theme="@style/Theme.Jym"
+            />
         <activity android:name=".SplashActivity"
+            android:icon="@drawable/logo_upump_round"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -14,6 +14,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -40,25 +41,25 @@ fun MainScreen() {
         mutableStateOf(true)
     }
 
-    val bottomBarStat = remember{
+    val bottomBarStat = remember {
         mutableStateOf(true)
     }
 
-    val permissionState = rememberMultiplePermissionsState(listOf(
-        Manifest.permission.CAMERA,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.ACCESS_MEDIA_LOCATION
+    val permissionState = rememberMultiplePermissionsState(
+        listOf(
+            Manifest.permission.READ_MEDIA_IMAGES,
+            Manifest.permission.CAMERA
 
-         ))
-  /*  val cameraPermission =
-        rememberPermissionState(permission = "android.permission.CAMERA")
-    val storagePermission =
-        rememberPermissionState(permission = "android.permission.READ_EXTERNAL_STORAGE")
-*/
+        )
+    )
+    /*  val cameraPermission =
+          rememberPermissionState(permission = "android.permission.CAMERA")
+      val storagePermission =
+          rememberPermissionState(permission = "android.permission.READ_EXTERNAL_STORAGE")
+  */
 
-
-    LaunchedEffect(key1 = true) {
-     permissionState.launchMultiplePermissionRequest()
+    SideEffect() {
+        permissionState.launchMultiplePermissionRequest()
     }
 
     val density = LocalDensity.current
@@ -93,7 +94,7 @@ fun MainScreen() {
                 enter = slideInVertically() {
                     // Slide in from 40 dp from the top.
                     with(density) { -60.dp.roundToPx() }
-                }  + fadeIn(
+                } + fadeIn(
                     // Fade in with the initial alpha of 0.3f.
                     initialAlpha = 0.3f
                 ),
@@ -107,9 +108,11 @@ fun MainScreen() {
                         containerColor = Color.Transparent
                     ),
                     title = {
-                        Text(text = appBarTitle.value,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis)
+                        Text(
+                            text = appBarTitle.value,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
                     },
                 )
             }
