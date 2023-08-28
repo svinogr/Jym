@@ -22,7 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.sets.SetsVM
-import info.upump.mycompose.ui.screens.screenscomponents.SetsItemCard
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.SetsItemCard
 import info.upump.mycompose.ui.theme.MyTextLabel16
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 import kotlinx.coroutines.flow.MutableStateFlow

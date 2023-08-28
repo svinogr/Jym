@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents
+package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

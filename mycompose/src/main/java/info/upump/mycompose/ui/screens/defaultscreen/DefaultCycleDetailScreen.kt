@@ -51,7 +51,7 @@ import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMDetailInterface
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
-import info.upump.mycompose.ui.screens.screenscomponents.WorkoutItemCard
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.WorkoutItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems

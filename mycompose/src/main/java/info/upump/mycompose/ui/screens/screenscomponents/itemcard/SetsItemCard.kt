@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents
+package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +16,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextLabel16
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 

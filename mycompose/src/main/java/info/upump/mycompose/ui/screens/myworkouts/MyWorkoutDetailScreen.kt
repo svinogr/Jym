@@ -54,7 +54,7 @@ import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutDetailVM
-import info.upump.mycompose.ui.screens.screenscomponents.ExerciseItemCard
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ExerciseItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

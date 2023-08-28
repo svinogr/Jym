@@ -35,7 +35,7 @@ import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.CycleItemCard
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.CycleItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
