@@ -1,14 +1,14 @@
-package info.upump.mycompose.ui.screens.myworkouts.viewmodel
+package info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout
 
 import info.upump.mycompose.models.entity.Day
+import info.upump.mycompose.models.entity.Workout
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Date
 
-interface VMInterface<T> {
-    val item: StateFlow<T>
+interface WorkoutVMInterface {
+    val item: StateFlow<Workout>
     val id: StateFlow<Long>
     val img: StateFlow<String>
-    val imgDefault: StateFlow<String>
     val title: StateFlow<String>
     val comment: StateFlow<String>
     val startDate: StateFlow<String>
@@ -20,13 +20,12 @@ interface VMInterface<T> {
     fun save(callback: (id: Long)-> Unit)
     fun saveWith(parentId: Long, callback: (id: Long) -> Unit)
     fun updateTitle(title: String)
-    fun updateImage(imgStr: String)
     fun updateStartDate(date: Date)
     fun updateFinishDate(date: Date)
     fun updateComment(comment: String)
     fun updateDay(it: Day)
-    fun collectToSave(): T
+    fun collectToSave(): Workout
     fun isBlankFields(): Boolean
     fun updateId(id: Long)
-    fun updateImageDefault(imgStr: String)
+    fun updateEven(it: Boolean)
 }

@@ -7,7 +7,6 @@ import info.upump.database.repo.WorkoutRepo
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,10 +16,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
 
-class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
+class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
     companion object {
         val vmOnlyForPreview by lazy {
-            object : VMInterface<Workout> {
+            object : WorkoutVMInterface {
 
                 private val _workout = MutableStateFlow(Workout().apply {
                     day = Day.TUESDAY
@@ -47,8 +46,6 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
 
                 private val _day = MutableStateFlow(_workout.value.day)
                 override val day: StateFlow<Day> = _day
-
-                override val imgDefault: StateFlow<String>    get() = TODO("Not yet implemented")
                 override val isTitleError: StateFlow<Boolean>
                     get() = TODO("Not yet implemented")
 
@@ -64,10 +61,6 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                 }
 
                 override fun updateTitle(title: String) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun updateImage(imgStr: String) {
                     TODO("Not yet implemented")
                 }
 
@@ -103,8 +96,8 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
                     TODO("Not yet implemented")
                 }
 
-                override fun updateImageDefault(imgStr: String) {
-
+                override fun updateEven(it: Boolean) {
+                    TODO("Not yet implemented")
                 }
 
             }
@@ -144,7 +137,6 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
     private val _isEven = MutableStateFlow(_workout.value.isWeekEven)
     val isEven: StateFlow<Boolean> = _isEven.asStateFlow()
 
-    override val imgDefault: StateFlow<String>    get() = TODO("Not yet implemented")
 
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -197,17 +189,10 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
         return isBlank
     }
 
-    override fun updateImageDefault(imgStr: String) {
-
-    }
-
     override fun updateTitle(titlen: String) {
         _title.update { titlen }
     }
 
-    override fun updateImage(imgStr: String) {
-        _img.update { imgStr }
-    }
 
     override fun updateStartDate(date: Date) {
 
@@ -224,8 +209,8 @@ class WorkoutVM() : BaseVMWithStateLoad(), VMInterface<Workout> {
         _day.update { dayN }
     }
 
-    fun updateEven() {
-        _isEven.update { !it }
+    override fun updateEven(it: Boolean) {
+        _isEven.update { it }
     }
 
     override fun updateId(id: Long) {

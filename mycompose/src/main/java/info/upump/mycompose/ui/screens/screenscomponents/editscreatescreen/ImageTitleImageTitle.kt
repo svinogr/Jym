@@ -8,13 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.models.entity.Entity
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutVM
 
 @Composable
-fun <T: Entity> ImageTitleImageTitle(modelVM: VMInterface<T>, content: @Composable() ()-> Unit) {
+fun ImageTitleImageTitle(title: String, isTitleError: Boolean, updateText: (String) -> Unit,  content: @Composable() ()-> Unit) {
     Column {
         Box(
             modifier = Modifier
@@ -22,27 +18,17 @@ fun <T: Entity> ImageTitleImageTitle(modelVM: VMInterface<T>, content: @Composab
                 .height(200.dp)
         ) {
             content()
-            LabelTitleForImage(modelVM)
+            LabelTitleForImage(title)
         }
-
-        CardTitle(modelVM)
+        CardTitle(title, isTitleError, updateText)
     }
 }
 @Preview(showBackground = false)
 @Composable
-fun ImageTitleImageTitlePreviewCycle() {
-    val cycle = CycleVMCreateEdit.vmOnlyForPreview
-    ImageTitleImageTitle(cycle){
-        ImageWithPicker(cycle)
+fun ImageTitleImageTitlePreviewCycleWithDefaultImage() {
+    val f: (String) -> Unit = { println(it) }
+        ImageTitleImageTitle("its a title", true, f){
+       ImageWithPicker("", "uk1", ::println)
     }
 }
 
-
-@Preview(showBackground = false)
-@Composable
-fun ImageTitleImageTitlePreviewWorkout() {
-    val workout = WorkoutVM.vmOnlyForPreview
-    ImageTitleImageTitle(workout) {
-        ImageByDay(workout)
-    }
-}

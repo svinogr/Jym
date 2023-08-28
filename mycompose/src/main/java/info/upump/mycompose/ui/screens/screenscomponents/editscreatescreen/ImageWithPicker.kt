@@ -16,37 +16,30 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.screens.screenscomponents.BitmapCreator
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ImageWithPickerPreview() {
-    val cycleVMCreateEdit = CycleVMCreateEdit.vmOnlyForPreview
-    ImageWithPicker(cycleVMCreateEdit)
+   // val cycleVMCreateEdit = CycleVMCreateEdit.vmOnlyForPreview
+    ImageWithPicker("", "uk", ::print)
 }
 @Composable
-fun ImageWithPicker(cycleVM: VMInterface<Cycle>) {
+fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -> Unit) {
     val context = LocalContext.current
 
-    val image by cycleVM.img.collectAsState()
-    val imageDefault by cycleVM.imgDefault.collectAsState()
-
-     Log.d("image", "$image $imageDefault")
+     Log.d("image", "$image $defaultImage")
     val bitmap: Bitmap
+
     if (!image.isBlank()) {
         bitmap = BitmapCreator.getImgBitmap(image, context)
-    } else if (!imageDefault.isBlank()) {
-        bitmap = BitmapCreator.getImgDefaultBitmap(imageDefault, context)
+    } else if (!defaultImage.isBlank()) {
+        bitmap = BitmapCreator.getImgDefaultBitmap(defaultImage, context)
     } else {
         bitmap = BitmapCreator.getExceptionDefaultBitmap(context)
     }
@@ -57,7 +50,7 @@ fun ImageWithPicker(cycleVM: VMInterface<Cycle>) {
         Log.d("pers ", "$it.")
             val name = context.packageName
                 context.grantUriPermission(name, it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        cycleVM.updateImage(it.toString())
+         updateImage(it.toString())
     }
 
 

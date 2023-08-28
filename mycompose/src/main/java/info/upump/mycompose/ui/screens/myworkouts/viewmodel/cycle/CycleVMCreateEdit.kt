@@ -7,7 +7,6 @@ import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Entity
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,10 +16,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
 
-class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
+class CycleVMCreateEdit : BaseVMWithStateLoad(), CycleVMInterface {
     companion object {
         val vmOnlyForPreview by lazy {
-            object : VMInterface<Cycle> {
+            object : CycleVMInterface {
                 private val _itemList = MutableStateFlow(
                     mutableListOf(
                         Cycle().apply { title = "Preview2" },
@@ -50,8 +49,6 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
                 private val _finishDate = MutableStateFlow(_cycle.value.finishStringFormatDate)
                 override val finishDate: StateFlow<String> = _finishDate
 
-
-                override val day: StateFlow<Day> = MutableStateFlow(Day.MONDAY).asStateFlow()
                 override val isTitleError: StateFlow<Boolean>
                     get() = TODO("Not yet implemented")
 
@@ -63,6 +60,10 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
 
                 override fun updateImageDefault(imgStr: String) {
                     _imgDefault.update {imgStr}
+                }
+
+                override fun updateEven(it: Boolean) {
+                    TODO("Not yet implemented")
                 }
 
                 override fun getBy(id: Long) {
@@ -97,9 +98,6 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
                     TODO("Not yet implemented")
                 }
 
-                override fun updateDay(it: Day) {
-                    TODO("Not yet implemented")
-                }
 
                 override fun collectToSave(): Cycle {
                     TODO("Not yet implemented")
@@ -135,11 +133,8 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
     private val _finishDate = MutableStateFlow(_cycle.value.finishStringFormatDate)
     override val finishDate: StateFlow<String> = _finishDate
 
-    override val day: StateFlow<Day> = MutableStateFlow(Day.MONDAY).asStateFlow()
-
     private val _isTitleError = MutableStateFlow(false)
     override val isTitleError: StateFlow<Boolean> = _isTitleError.asStateFlow()
-
 
     private val _img = MutableStateFlow(_cycle.value.image)
     override val img: StateFlow<String> = _img.asStateFlow()
@@ -148,7 +143,6 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
     override val imgDefault: StateFlow<String> = _imgDefault
 
     override fun getBy(id: Long) {
-        Log.d("getcycle by id", "$id")
         viewModelScope.launch(Dispatchers.IO) {
             if (id == 0L) {
                 /*    _cycle.update {
@@ -177,6 +171,10 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
 
     override fun updateImageDefault(imgStr: String) {
         _imgDefault.update {imgStr}
+    }
+
+    override fun updateEven(it: Boolean) {
+        TODO("Not yet implemented")
     }
 
     override fun save(callback: (id: Long) -> Unit) {
@@ -211,8 +209,6 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), VMInterface<Cycle> {
         _comment.update { comment }
     }
 
-    override fun updateDay(it: Day) {
-    }
 
     override fun collectToSave(): Cycle {
         val c = Cycle().apply {

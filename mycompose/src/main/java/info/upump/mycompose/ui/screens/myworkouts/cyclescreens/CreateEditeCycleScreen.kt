@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -30,7 +29,7 @@ import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateE
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCardWithDatePicker
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCardWithVM
+import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCardWithEdit
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageTitleImageTitle
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageWithPicker
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,8 +45,7 @@ fun CreateEditeCycleScreen(
     appBarTitle: MutableState<String>,
     action: ActionState
 ) {
-    val cycleVMCreateEdit: CycleVMCreateEdit = viewModel()
-    val isLoad by cycleVMCreateEdit.isLoading.collectAsState()
+    val cycleVM: CycleVMCreateEdit = viewModel()
 
     val context = LocalContext.current
     Log.d("CreateEditeCycleScreen", "$id")
@@ -60,41 +58,54 @@ fun CreateEditeCycleScreen(
     if (action == ActionState.CREATE) {
         appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
     }
-    if (action == ActionState.UPDATE){
+    if (action == ActionState.UPDATE) {
         appBarTitle.value = "Редактирование"
     }
 
     Scaffold(modifier = Modifier,
         floatingActionButton = {
-                FloatActionButtonWithState(isVisible = true, icon =R.drawable.ic_fab_next) {
-                    if (!cycleVMCreateEdit.isBlankFields()) {
-                        cycleVMCreateEdit.save() {
-                            if (action == ActionState.CREATE) {
-                                navHostController.popBackStack()
-                                navHostController.navigate(
-                                    NavigationItem.DetailCycleNavigationItem.routeWithId(it)
-                                )
-                            } else {
-                                navHostController.navigateUp()
-                            }
+            FloatActionButtonWithState(isVisible = true, icon = R.drawable.ic_fab_next) {
+                if (!cycleVM.isBlankFields()) {
+                    cycleVM.save() {
+                        if (action == ActionState.CREATE) {
+                            navHostController.popBackStack()
+                            navHostController.navigate(
+                                NavigationItem.DetailCycleNavigationItem.routeWithId(it)
+                            )
+                        } else {
+                            navHostController.navigateUp()
                         }
                     }
                 }
+            }
         }
     ) {
         Column(modifier = columnModifier)
         {
-            // of thee parts
-            ImageTitleImageTitle(cycleVMCreateEdit) { ImageWithPicker(cycleVMCreateEdit) }
-            DateCardWithDatePicker(cycleVMCreateEdit)
-            // description aka comment
-            DescriptionCardWithVM(cycleVMCreateEdit)
+            ImageTitleImageTitle(
+                cycleVM.title.collectAsState().value,
+                cycleVM.isTitleError.collectAsState().value,
+                cycleVM::updateTitle
+            ) {
+                ImageWithPicker(
+                    cycleVM.img.collectAsState().value,
+                    cycleVM.imgDefault.collectAsState().value,
+                    cycleVM::updateImage
+                )
+            }
+            DateCardWithDatePicker(
+                cycleVM.startDate.collectAsState().value,
+                cycleVM::updateStartDate,
+                cycleVM.finishDate.collectAsState().value,
+                cycleVM::updateFinishDate
+            )
+            DescriptionCardWithEdit(cycleVM.comment.collectAsState().value, cycleVM::updateComment)
         }
     }
 
     LaunchedEffect(key1 = true) {
         Log.d("CreateEditeCycleScreen", "luncEffect start")
-        cycleVMCreateEdit.getBy(id)
+        cycleVM.getBy(id)
     }
 
     BackHandler {
@@ -102,8 +113,6 @@ fun CreateEditeCycleScreen(
     }
 }
 
-
-/*@RequiresApi(Build.VERSION_CODES.P)*/
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewCreateEditeCycleScreen() {
@@ -117,6 +126,7 @@ fun PreviewCreateEditeCycleScreen() {
         ActionState.CREATE
     )
 }
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewCreateEditeCycleScreen2() {

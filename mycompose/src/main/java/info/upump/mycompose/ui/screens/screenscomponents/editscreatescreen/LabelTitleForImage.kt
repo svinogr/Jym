@@ -6,27 +6,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.models.entity.Entity
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMInterface
 import info.upump.mycompose.ui.theme.MyOutlineTextTitleLabel20Text
 
 @Composable
-fun <T: Entity> LabelTitleForImage(
-    modelVM: VMInterface<T>, alignmentText: Alignment = Alignment.BottomStart
+fun LabelTitleForImage(
+    title: String,
+    alignmentText: Alignment = Alignment.BottomStart
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         val modifier1 = Modifier
             .padding(bottom = 16.dp, start = 10.dp)
             .align(alignmentText)
-       val title  by modelVM.title.collectAsState()
 
         TextField(modifier = modifier1,
             textStyle = MyOutlineTextTitleLabel20Text,
@@ -40,7 +35,7 @@ fun <T: Entity> LabelTitleForImage(
             readOnly = true,
             value = title,
             onValueChange = {
-           // nothing to change
+                // nothing to change
             }
         )
     }
@@ -49,7 +44,7 @@ fun <T: Entity> LabelTitleForImage(
 @Preview(showBackground = true, backgroundColor = 1)
 @Composable
 fun LabelTitleForImagePreview() {
-    val cycle = CycleVMCreateEdit.vmOnlyForPreview
-    LabelTitleForImage(cycle)
+    val title = "its Title"
+    LabelTitleForImage(title)
 }
 
