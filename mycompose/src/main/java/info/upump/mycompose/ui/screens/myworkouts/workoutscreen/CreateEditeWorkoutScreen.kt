@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkouts
+package info.upump.mycompose.ui.screens.myworkouts.workoutscreen
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +33,6 @@ import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DayCa
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCardWithEdit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.nio.file.WatchEvent
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -51,17 +51,18 @@ fun CreateWorkoutScreen(
     val context = LocalContext.current
     val columnModifier = Modifier
         .fillMaxHeight().fillMaxWidth()
-        // .padding(top = it.calculateTopPadding())
         .verticalScroll(rememberScrollState())
         .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout))
+
     LaunchedEffect(key1 = true) {
         workoutVM.getBy(id)
         appBarTitle.value = context.resources.getString(R.string.workout_dialog_create_new)
     }
 
     Scaffold(
+        modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
         floatingActionButton = {
-            FloatActionButtonWithState(isVisible = true, icon = R.drawable.ic_fab_next) {
+            FloatActionButtonWithState(isVisible = true, icon = R.drawable.ic_fab_next) { // добавить цывет как у дня
                 // сохраняем новую и возвращаемся обратно
                 if (!workoutVM.isBlankFields()) {
                     workoutVM.saveWith(parentId) {
@@ -74,12 +75,18 @@ fun CreateWorkoutScreen(
         Column(
             modifier = columnModifier,
         ) {
+            DateCardWithDatePicker(
+                workoutVM.startDate.collectAsState().value,
+                workoutVM::updateStartDate,
+                workoutVM.finishDate.collectAsState().value,
+                workoutVM::updateFinishDate
+            )
+
             DayCardWorkoutEdit(
                 workoutVM.day.collectAsState().value,
                 workoutVM::updateDay,
                 workoutVM.isEven.collectAsState().value,
-                workoutVM::updateEven,
-                Modifier.weight(1F)
+                workoutVM::updateEven
             )
 
             CardTitle(
@@ -89,18 +96,10 @@ fun CreateWorkoutScreen(
                 modifier = Modifier.weight(1F)
             )
 
-            DateCardWithDatePicker(
-                workoutVM.startDate.collectAsState().value,
-                workoutVM::updateStartDate,
-                workoutVM.finishDate.collectAsState().value,
-                workoutVM::updateFinishDate,
-                Modifier.weight(1F)
-            )
-
             DescriptionCardWithEdit(
                 workoutVM.comment.collectAsState().value,
                 workoutVM::updateComment,
-                Modifier.weight(2F)
+                Modifier.weight(3F)
             )
         }
     }

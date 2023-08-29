@@ -87,7 +87,7 @@ fun CardTitle(
 
     val modifierValue = Modifier
         .fillMaxWidth()
-        .padding(top = 4.dp, end = 8.dp, bottom = 4.dp)
+        .padding(start = 8.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
     Card(
         modifier = modifierCard,
         elevation = CardDefaults.cardElevation(1.dp),

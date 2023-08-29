@@ -76,7 +76,6 @@ fun DayCardWorkoutEdit(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-               // verticalAlignment = Alignment.Top
             )
             {
                 ExposedDropdownMenuBox(modifier = Modifier.weight(1f),
@@ -123,13 +122,15 @@ fun DayCardWorkoutEdit(
                         }
                     }
                 }
-                //      }
 
                 OutlinedButton(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(end = 8.dp),
+                        .padding(end = 8.dp).align(Alignment.CenterVertically),
                     onClick = {
+                        Log.d("updateEven!", "$isEven")
+                        Log.d("updateEven!", "!$isEven")
+
                         updateEven(!isEven)
                     }) {
                     if (isEven) {

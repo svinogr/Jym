@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.WorkoutRepo
 import info.upump.mycompose.models.entity.Day
+import info.upump.mycompose.models.entity.Entity
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
@@ -104,9 +105,6 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
         }
     }
 
-    private val _workouts = MutableStateFlow<List<Workout>>(listOf())
-    val itemList: StateFlow<List<Workout>> = _workouts.asStateFlow()
-
     private val _workout = MutableStateFlow(Workout())
     override val item: StateFlow<Workout> = _workout.asStateFlow()
 
@@ -134,7 +132,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
     private val _img = MutableStateFlow(_workout.value.day.toString())
     override val img: StateFlow<String> = _img.asStateFlow()
 
-    private val _isEven = MutableStateFlow(_workout.value.isWeekEven)
+    private val _isEven = MutableStateFlow(false)
     val isEven: StateFlow<Boolean> = _isEven.asStateFlow()
 
 
@@ -155,11 +153,9 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
 
     override fun saveWith(parentId: Long, callback: (id: Long) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("save", "${item.value}")
             val wC = collectToSave()
             val wE = Workout.mapToEntity(wC)
             wE.parent_id = parentId
-            Log.d("save", "$wE")
             val save = WorkoutRepo.get().save(wE)
             callback(save._id)
         }
@@ -182,23 +178,23 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
     }
 
     override fun isBlankFields(): Boolean {
-        Log.d("check fielsd", "${title.value.trim().isBlank()}")
-        val isBlank = title.value.trim().isBlank()
+        val isBlank = _title.value.trim().isBlank()
         _isTitleError.update { isBlank }
 
         return isBlank
     }
 
-    override fun updateTitle(titlen: String) {
-        _title.update { titlen }
+    override fun updateTitle(title: String) {
+        _title.update { title }
+        _isTitleError.update { title.trim().isBlank() }
     }
 
-
     override fun updateStartDate(date: Date) {
-
+        _startDate.update {Entity.formatDateToString(date)}
     }
 
     override fun updateFinishDate(date: Date) {
+        _finishDate.update {Entity.formatDateToString(date)}
     }
 
     override fun updateComment(commentN: String) {
@@ -209,8 +205,8 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
         _day.update { dayN }
     }
 
-    override fun updateEven(it: Boolean) {
-        _isEven.update { it }
+    override fun updateEven(isEven: Boolean) {
+        _isEven.update { isEven }
     }
 
     override fun updateId(id: Long) {

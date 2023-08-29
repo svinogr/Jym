@@ -191,6 +191,7 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), CycleVMInterface {
 
     override fun updateTitle(title: String) {
         _title.update { title }
+        _isTitleError.update { title.trim().isBlank() }
     }
 
     override fun updateImage(imgStr: String) {

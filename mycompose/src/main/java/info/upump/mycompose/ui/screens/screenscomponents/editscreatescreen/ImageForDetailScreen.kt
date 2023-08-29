@@ -18,8 +18,7 @@ import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.BitmapCreator
 
 @Composable
-fun <T, R> ImageForDetailScreen(modelVM: VMDetailInterface<T, R>) {
-    Log.d("ImageForDetailScreen", modelVM.img.collectAsState().value)
+fun  ImageForDetailScreen() {
     val context = LocalContext.current
 
     val imgDefault = modelVM.imgDefault.collectAsState().value

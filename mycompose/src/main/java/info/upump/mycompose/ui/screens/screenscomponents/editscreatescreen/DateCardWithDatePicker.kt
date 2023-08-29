@@ -46,9 +46,9 @@ fun DateCardWithDatePickerPreview() {
 @Composable
 fun DateCardWithDatePicker(
     startDate: String,
-    updateStartString: (Date)->Unit,
+    updateStartString: (Date) -> Unit,
     finishDate: String,
-    updateFinishString: (Date)->Unit,
+    updateFinishString: (Date) -> Unit,
     modifier: Modifier = Modifier,
     context: Context = LocalContext.current
 ) {
@@ -65,14 +65,12 @@ fun DateCardWithDatePicker(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        Box(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
+        Box(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+        ) {
             Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.Top) {
-                //  Column(modifier = Modifier.align(Alignment.Center)) {
-                //  val cycle by cycleVM.item.collectAsState()
-
-                //     ConstraintLayout(modifier = Modifier) {
-                //           val text = createRef()
-                //           val gui = createGuidelineFromStart(0.5f)
                 TextField(modifier = modifierValue.weight(1f),
                     colors = TextFieldDefaults.textFieldColors(
                         disabledTextColor = Color.Transparent,
@@ -98,11 +96,8 @@ fun DateCardWithDatePicker(
                     }
                 )
 
-                TextField(modifier = modifierValue.weight(1f)
-                    //       .constrainAs(text)
-                    //     {
-                    //             start.linkTo(gui)
-                    //        }
+                TextField(modifier = modifierValue
+                    .weight(1f)
                     .clickable {
 
                     },
@@ -113,7 +108,6 @@ fun DateCardWithDatePicker(
                         disabledIndicatorColor = Color.Transparent,
                         containerColor = colorResource(R.color.colorBackgroundCardView)
                     ),
-
                     readOnly = true,
                     value = finishDate,
                     onValueChange = {
@@ -132,7 +126,7 @@ fun DateCardWithDatePicker(
                 )
             }
         }
-         //   }
+        //   }
         //}
     }
 }

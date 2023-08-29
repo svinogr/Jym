@@ -11,19 +11,18 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import info.upump.mycompose.ui.screens.mainscreen.MyCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.ActionState
-import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
-import info.upump.mycompose.ui.screens.myworkouts.CreateWorkoutScreen
-import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.MyCycleDetailScreen
-import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.MyCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.MyExerciseDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.MySetsCreateScreen
 import info.upump.mycompose.ui.screens.myworkouts.MySetsDetailScreen
-import info.upump.mycompose.ui.screens.myworkouts.MyWorkoutDetailScreen
+import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
+import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.MyCycleDetailScreen
+import info.upump.mycompose.ui.screens.myworkouts.workoutscreen.CreateWorkoutScreen
+import info.upump.mycompose.ui.screens.myworkouts.workoutscreen.MyWorkoutDetailScreen
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.myCycleGraph(
     navHostController: NavHostController,
     appBarTitle: MutableState<String>,

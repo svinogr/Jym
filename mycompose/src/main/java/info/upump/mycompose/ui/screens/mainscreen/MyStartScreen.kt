@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkouts.cyclescreens
+package info.upump.mycompose.ui.screens.mainscreen
 
 
 import android.annotation.SuppressLint
@@ -41,7 +41,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
-@RequiresApi(Build.VERSION_CODES.P)
 @SuppressLint("UnrememberedMutableState", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MyCycleScreen(
