@@ -147,20 +147,20 @@ fun DayCardWorkoutEdit(
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun DayCardPreview() {
+fun DayCardWorkoutEditPreview() {
 
     DayCardWorkoutEdit(Day.TUESDAY, ::println, true, ::println)
 }
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun DayCardPreview1() {
+fun DayCardWorkoutEditPreview1() {
     DayCardWorkoutEdit(Day.FRIDAY, ::println, true, ::println)
 }
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun DayCardPreview2() {
+fun DayCardWorkoutEditPreview2() {
 
     DayCardWorkoutEdit(Day.SATURDAY, ::println, true, ::println)
 }

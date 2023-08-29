@@ -78,7 +78,7 @@ fun DefaultDetailCycleScreen(
     Log.d("TAG", "${isLoading.value}")
 
     LaunchedEffect(key1 = true) {
-        cycleVM.getInitialItem(id)
+        cycleVM.getBy(id)
     }
 
     Column {
@@ -134,12 +134,12 @@ fun DefaultDetailCycleScreen(
             }
         }
 
-        TabsContent(
+   /*     TabsContent(
             tabs = tabList,
             pagerState = pagerState,
             cycleVM,
             navHostController = navHostController
-        )
+        )*/
     }
 
     if (isLoading.value) {
@@ -243,7 +243,7 @@ fun PreviewDefaultDetailTitleCycleScreen() {
     cycle.workoutList = list
     val nav = NavHostController(LocalContext.current)
 
-    DefaultDetailTitleCycleScreen(CycleDetailVM.vmOnlyForPreview, nav)
+   // DefaultDetailTitleCycleScreen(CycleDetailVM.vmOnlyForPreview, nav)
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -258,5 +258,5 @@ fun PreviewDefaultDetailDescriptionCycleScreen() {
     cycle.comment =
         "Lorem ipsum dolor sit amet, consectetuer adipiscing . Aelit" +
                 "enean commodo ligula eget dolor. Aenean massa. "
-    DefaultDetailDescriptionCycleScreen(CycleDetailVM.vmOnlyForPreview)
+   // DefaultDetailDescriptionCycleScreen(CycleDetailVM.vmOnlyForPreview)
 }

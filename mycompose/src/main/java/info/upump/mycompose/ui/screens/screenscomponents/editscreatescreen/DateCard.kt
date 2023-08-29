@@ -1,7 +1,11 @@
 package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
 import android.content.Context
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,6 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -30,13 +35,12 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 fun DateCard(
     startDate: String,
     finishDate: String,
-    modifierCard: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(start = 0.dp, end = 0.dp),
-    modifierValue: Modifier = Modifier
-        .padding(top = 4.dp, end = 8.dp, bottom = 4.dp),
-    context: Context = LocalContext.current
+    modifier: Modifier = Modifier
 ) {
+    val modifierCard = modifier
+        .fillMaxWidth()
+        .padding(start = 4.dp, end = 4.dp, top = 4.dp)
+    val modifierValue = Modifier.padding(top = 4.dp, end = 8.dp, bottom = 4.dp)
     Card(
         modifier = modifierCard,
         elevation = CardDefaults.cardElevation(1.dp),
@@ -46,12 +50,13 @@ fun DateCard(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-
-            ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                val text = createRef()
-                val gui = createGuidelineFromStart(0.5f)
-                TextField(modifier = modifierValue,
+        Box(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+        ) {
+            Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.Top) {
+                TextField(modifier = modifierValue.weight(1f),
                     colors = TextFieldDefaults.textFieldColors(
                         disabledTextColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
@@ -72,9 +77,9 @@ fun DateCard(
                 )
 
                 TextField(modifier = modifierValue
-                    .constrainAs(text)
-                    {
-                        start.linkTo(gui)
+                    .weight(1f)
+                    .clickable {
+
                     },
                     colors = TextFieldDefaults.textFieldColors(
                         disabledTextColor = Color.Transparent,
@@ -83,7 +88,6 @@ fun DateCard(
                         disabledIndicatorColor = Color.Transparent,
                         containerColor = colorResource(R.color.colorBackgroundCardView)
                     ),
-
                     readOnly = true,
                     value = finishDate,
                     onValueChange = {
@@ -97,6 +101,7 @@ fun DateCard(
                 )
             }
         }
+
     }
 }
 

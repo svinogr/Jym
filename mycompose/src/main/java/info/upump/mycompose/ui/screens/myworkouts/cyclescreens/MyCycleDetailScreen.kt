@@ -56,7 +56,7 @@ import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithSt
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.WorkoutItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageForDetailScreen
+import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageForDetailScreenWithICons
 import info.upump.mycompose.ui.screens.tabs.TabsItems
 import info.upump.mycompose.ui.theme.MyOutlineTextTitleLabel20Text
 import kotlinx.coroutines.launch
@@ -114,7 +114,6 @@ fun MyCycleDetailScreen(
     ) {
         Column(modifier = Modifier.padding(top = it.calculateTopPadding())) {
             Box() {
-                ImageForDetailScreen(cycleDetailVM)
                 TabRow(modifier = Modifier
                     .align(alignment = Alignment.BottomCenter)
                     .fillMaxWidth(),
@@ -127,6 +126,8 @@ fun MyCycleDetailScreen(
                     }
                 )
                 {
+                    /*ImageForDetailScreenWithICons(cycleDetailVM.img.collectAsState().value,
+                        cycleDetailVM.imgDefault.collectAsState().value)*/
                     val scope = rememberCoroutineScope()
                     tabList.forEachIndexed { index, tab ->
                         Tab(
@@ -147,19 +148,19 @@ fun MyCycleDetailScreen(
                     }
                 }
             }
-            TabsContent(
+           /* TabsContent(
                 tabs = tabList,
                 pagerState = pagerState,
                 cycleDetailVM,
                 navHostController = navHostController,
                 iconState,
                 actionRoutState
-            )
+            )*/
         }
     }
 
     LaunchedEffect(key1 = true) {
-        cycleDetailVM.getInitialItem(id)
+        cycleDetailVM.getBy(id)
     }
 }
 
@@ -249,13 +250,13 @@ fun PreviewDefaultDetailCycleScreen() {
 @Composable
 fun PreviewDefaultDetailTitleCycleScreen() {
     val nav = NavHostController(LocalContext.current)
-    DefaultDetailTitleCycleScreen(CycleDetailVM.vmOnlyForPreview, nav)
+   // DefaultDetailTitleCycleScreen(CycleDetailVM.vmOnlyForPreview, nav)
 }
 
 @SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewDefaultDetailDescriptionCycleScreen() {
-    DefaultDetailDescriptionCycleScreen(CycleDetailVM.vmOnlyForPreview)
+  //  DefaultDetailDescriptionCycleScreen(CycleDetailVM.vmOnlyForPreview)
 }
 

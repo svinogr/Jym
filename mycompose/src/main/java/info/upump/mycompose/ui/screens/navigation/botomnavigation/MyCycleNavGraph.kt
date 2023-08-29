@@ -16,6 +16,7 @@ import info.upump.mycompose.ui.screens.myworkouts.ActionState
 import info.upump.mycompose.ui.screens.myworkouts.MyExerciseDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.MySetsCreateScreen
 import info.upump.mycompose.ui.screens.myworkouts.MySetsDetailScreen
+import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.AlterCycleDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.MyCycleDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.workoutscreen.CreateWorkoutScreen
@@ -54,7 +55,13 @@ fun NavGraphBuilder.myCycleGraph(
             val id = it.arguments?.getLong("id")
             topBarState.value = false
             bottomBarState.value = false
-            MyCycleDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
+           // MyCycleDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
+            AlterCycleDetailScreen(
+                id = id!!,
+                navHostController = navHostController ,
+                paddingValues = paddingValues ,
+                appBarTitle = appBarTitle
+            )
 
         }
 

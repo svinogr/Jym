@@ -142,7 +142,7 @@
     <string name="cycle_dialog_create_new">Создать новую программу</string>
     <string name="cycle_dialog_сhoose">Выбрать готовую программу</string>
     <string name="workout_dialog_title">Выберите действие:</string>
-    <string name="workout_dialog_create_new">Создать новую тренировку</string>
+    <string name="workout_dialog_create_new">Добавить тренировку</string>
     <string name="workout_dialog_сhoose">Выбрать готовую тренировку</string>
     <string name="title_activity_settings2">Settings</string>
 
@@ -294,7 +294,7 @@
     <string name="idAdd">ca-app-pub-7715449191385617~1256202239</string>
     <string name="banner_ad_unit_id">ca-app-pub-7715449191385617/8047883437</string>
     <string name="week_even">четная неделя</string>
-    <string name="week_not_even">нечентная неделя</string>
+    <string name="week_not_even">нечетная неделя</string>
     <string name="week_even_label">Четная неделя</string>
     <string name="title_activity_user">Параметры измерений</string>
     <string name="pref_header_backup">Перенос базы данных</string>

@@ -7,7 +7,6 @@ import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMDetailInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +15,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class CycleDetailVM : BaseVMWithStateLoad(), VMDetailInterface<Cycle, Workout> {
+class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
     private var _cycle = MutableStateFlow(Cycle())
     override val item: StateFlow<Cycle> = _cycle
 
@@ -45,40 +44,33 @@ class CycleDetailVM : BaseVMWithStateLoad(), VMDetailInterface<Cycle, Workout> {
     private val _finishDate = MutableStateFlow(_cycle.value.finishStringFormatDate)
     override val finishDate: StateFlow<String> = _finishDate
 
-    override val day: StateFlow<Day> = MutableStateFlow(Day.MONDAY)
 
-    override fun getInitialItem(id: Long) {
+    override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             _stateLoading.value = true
-
             CycleRepo.get().getBy(id).map {
                 Cycle.mapFromDbEntity(it)
             }.collect { cycle ->
-                updateFields(cycle)
                 WorkoutRepo.get().getAllByParent(id).map {
                     it.map { w -> Workout.mapFromDbEntity(w) }
                 }.collect { list ->
                     _workouts.value = list
-                    _cycle.value = cycle
+                    _cycle.update { cycle}
+                   _title.update { cycle.title }
+                    _comment.update { cycle.comment }
+                    _startDate.update { cycle.startStringFormatDate }
+                    _finishDate.update { cycle.finishStringFormatDate }
+                    _image.update { cycle.image }
+                    _imageDefault.update { cycle.imageDefault }
                     _stateLoading.value = false
                 }
             }
         }
     }
 
-    private fun updateFields(cycle: Cycle) {
-        _id.update { cycle.id }
-        _title.update { cycle.title }
-        _comment.update { cycle.comment }
-        _startDate.update { cycle.startStringFormatDate }
-        _finishDate.update { cycle.finishStringFormatDate }
-        _image.update { cycle.image }
-        _imageDefault.update { cycle.imageDefault }
-    }
-
     companion object {
         val vmOnlyForPreview by lazy {
-            object : VMDetailInterface<Cycle, Workout> {
+            object : CycleDetailVMInterface {
                 private val _itemList = MutableStateFlow(
                     mutableListOf(
                         Cycle().apply { title = "Preview2" },
@@ -125,9 +117,7 @@ class CycleDetailVM : BaseVMWithStateLoad(), VMDetailInterface<Cycle, Workout> {
                 private val _finishDate = MutableStateFlow(_cycle.value.finishStringFormatDate)
                 override val finishDate: StateFlow<String> = _finishDate
 
-
-                override val day: StateFlow<Day> = MutableStateFlow(Day.MONDAY).asStateFlow()
-                override fun getInitialItem(id: Long) {
+                override fun getBy(id: Long) {
                     TODO("Not yet implemented")
                 }
 
