@@ -2,7 +2,6 @@ package info.upump.mycompose.ui.screens.navigation.botomnavigation
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavGraphBuilder
@@ -16,9 +15,8 @@ import info.upump.mycompose.ui.screens.myworkouts.ActionState
 import info.upump.mycompose.ui.screens.myworkouts.MyExerciseDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.MySetsCreateScreen
 import info.upump.mycompose.ui.screens.myworkouts.MySetsDetailScreen
-import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.AlterCycleDetailScreen
+import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.AlterCycleDetailScreenM3
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
-import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.MyCycleDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.workoutscreen.CreateWorkoutScreen
 import info.upump.mycompose.ui.screens.myworkouts.workoutscreen.MyWorkoutDetailScreen
 
@@ -56,7 +54,7 @@ fun NavGraphBuilder.myCycleGraph(
             topBarState.value = false
             bottomBarState.value = false
            // MyCycleDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
-            AlterCycleDetailScreen(
+            AlterCycleDetailScreenM3(
                 id = id!!,
                 navHostController = navHostController ,
                 paddingValues = paddingValues ,

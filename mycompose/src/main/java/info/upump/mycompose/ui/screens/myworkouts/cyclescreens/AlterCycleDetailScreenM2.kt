@@ -12,10 +12,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SnackbarHost
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -45,9 +45,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AlterCycleDetailScreen(
+fun AlterCycleDetailScreenM2(
     id: Long,
     navHostController: NavHostController,
     paddingValues: PaddingValues,
@@ -72,8 +72,7 @@ fun AlterCycleDetailScreen(
     } else {
         appBarTitle.value = cycleVM.title.collectAsState().value
     }
-
-
+    val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     BottomSheetScaffold(modifier = Modifier.padding(top = 0.dp),
         scaffoldState = scaffoldState,
         floatingActionButton = {
@@ -96,7 +95,7 @@ fun AlterCycleDetailScreen(
         sheetPeekHeight = 0.dp,
         backgroundColor = colorResource(id = R.color.colorBackgroundChips),
         snackbarHost = {
-            androidx.compose.material.SnackbarHost(it) {data->
+            androidx.compose.material.SnackbarHost(it) { data ->
                 SnackBar("удалить?", R.drawable.ic_delete_24) {
                 }
             }
@@ -125,7 +124,11 @@ fun AlterCycleDetailScreen(
                     Chips(
                         stringResource(id = R.string.chips_edite),
                         R.drawable.ic_edit_black_24dp,
-                    ) {},
+                    ) {
+                        coroutine.launch {
+                            bottomState.show()
+                        }
+                    },
                     Chips(
                         stringResource(id = R.string.chips_comment),
                         R.drawable.ic_info_black_24dp
@@ -159,10 +162,10 @@ fun AlterCycleDetailScreen(
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun AlterCycleDetailScreenPreview() {
+fun AlterCycleDetailScreenM2Preview() {
     val m: MutableState<String> =
         MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
-    AlterCycleDetailScreen(
+    AlterCycleDetailScreenM2(
         0L, NavHostController(LocalContext.current),
         PaddingValues(),
         m
