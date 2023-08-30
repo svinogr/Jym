@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -39,8 +40,8 @@ fun FloatExtendedButtonWithState(
     ) {
         ExtendedFloatingActionButton(
             modifier = modifier,
-            containerColor = colorResource(id = R.color.colorAccentNet),
-            shape = ShapeDefaults.Large,
+            containerColor = colorResource(id = R.color.colorBackgroundChips),
+            shape = RoundedCornerShape(8.dp),
             text = {
                 Text(
                     textAlign = TextAlign.Center,

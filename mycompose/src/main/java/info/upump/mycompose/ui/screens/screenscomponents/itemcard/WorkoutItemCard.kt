@@ -25,11 +25,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
@@ -62,10 +64,9 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.background(
-                MaterialTheme.colorScheme.background
+                colorResource(id = R.color.colorBackgroundCardView)
             )
         ) {
-
             val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
             bitmap.eraseColor(context.getColor(workout.day!!.getColor()))
             Image(
@@ -73,7 +74,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
                     .padding(8.dp)
                     .height(50.dp)
                     .width(50.dp)
-                    .clip(CircleShape),
+                    .clip(RoundedCornerShape(8.dp)),
                 bitmap = bitmap.asImageBitmap(), contentDescription = "image"
             )
 

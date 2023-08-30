@@ -279,6 +279,9 @@
     <string name="warning_save_description">Сохранить изменение описания</string>
 
     <string name="snack_delete">Удалить?</string>
+    <string name="chips_delete">удалить</string>
+    <string name="chips_comment">коментарий</string>
+    <string name="chips_edite">редактровать</string>
     <string name="snack_cycle_delete_workouts">Удалить тренировки</string>
     <string name="snack_exersice_delete_sets">Удалить подходы</string>
     <string name="snack_workout_delete_exercises">Удалить упражнения</string>

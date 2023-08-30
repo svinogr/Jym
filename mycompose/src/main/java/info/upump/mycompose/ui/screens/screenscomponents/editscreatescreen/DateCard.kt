@@ -2,10 +2,13 @@ package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
 
 import android.content.Context
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,7 +42,7 @@ fun DateCard(
 ) {
     val modifierCard = modifier
         .fillMaxWidth()
-        .padding(start = 4.dp, end = 4.dp, top = 4.dp)
+        .padding(start = 0.dp, end = 0.dp, top = 4.dp)
     val modifierValue = Modifier.padding(top = 4.dp, end = 8.dp, bottom = 4.dp)
     Card(
         modifier = modifierCard,
@@ -51,11 +54,15 @@ fun DateCard(
         )
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
         ) {
-            Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.Top) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+                //,
+                //verticalAlignment = Alignment.CenterVertically
+            )
+            {
+
                 TextField(modifier = modifierValue.weight(1f),
                     colors = TextFieldDefaults.textFieldColors(
                         disabledTextColor = Color.Transparent,
@@ -75,12 +82,7 @@ fun DateCard(
                         )
                     }
                 )
-
-                TextField(modifier = modifierValue
-                    .weight(1f)
-                    .clickable {
-
-                    },
+                TextField(modifier = modifierValue.weight(1f),
                     colors = TextFieldDefaults.textFieldColors(
                         disabledTextColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
@@ -99,6 +101,7 @@ fun DateCard(
                         )
                     }
                 )
+
             }
         }
 

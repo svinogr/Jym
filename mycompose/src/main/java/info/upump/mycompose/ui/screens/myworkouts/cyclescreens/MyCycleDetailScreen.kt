@@ -56,7 +56,6 @@ import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithSt
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.WorkoutItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageForDetailScreenWithICons
 import info.upump.mycompose.ui.screens.tabs.TabsItems
 import info.upump.mycompose.ui.theme.MyOutlineTextTitleLabel20Text
 import kotlinx.coroutines.launch
