@@ -44,7 +44,6 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
     private val _finishDate = MutableStateFlow(_cycle.value.finishStringFormatDate)
     override val finishDate: StateFlow<String> = _finishDate
 
-
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             _stateLoading.value = true

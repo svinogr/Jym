@@ -22,7 +22,7 @@ import info.upump.mycompose.R
 @Composable
 fun SnackBar(text: String, icon: Int, modifier: Modifier = Modifier, action: () -> Unit) {
     Snackbar(
-        modifier = Modifier.padding(10.dp),
+        modifier = Modifier.padding(16.dp),
         containerColor = colorResource(id = R.color.colorBackgroundChips),
         action = {
             AssistChip(

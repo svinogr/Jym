@@ -16,5 +16,4 @@ interface CycleDetailVMInterface {
     val imgDefault: StateFlow<String>
     val subItems: StateFlow<List<Workout>>
     fun getBy(id: Long)
-
 }

@@ -1,3 +1,4 @@
+/*
 package info.upump.mycompose.ui.screens.myworkouts.cyclescreens
 
 import android.annotation.SuppressLint
@@ -125,8 +126,10 @@ fun MyCycleDetailScreen(
                     }
                 )
                 {
-                    /*ImageForDetailScreenWithICons(cycleDetailVM.img.collectAsState().value,
-                        cycleDetailVM.imgDefault.collectAsState().value)*/
+                    */
+/*ImageForDetailScreenWithICons(cycleDetailVM.img.collectAsState().value,
+                        cycleDetailVM.imgDefault.collectAsState().value)*//*
+
                     val scope = rememberCoroutineScope()
                     tabList.forEachIndexed { index, tab ->
                         Tab(
@@ -147,14 +150,16 @@ fun MyCycleDetailScreen(
                     }
                 }
             }
-           /* TabsContent(
+           */
+/* TabsContent(
                 tabs = tabList,
                 pagerState = pagerState,
                 cycleDetailVM,
                 navHostController = navHostController,
                 iconState,
                 actionRoutState
-            )*/
+            )*//*
+
         }
     }
 
@@ -259,3 +264,4 @@ fun PreviewDefaultDetailDescriptionCycleScreen() {
   //  DefaultDetailDescriptionCycleScreen(CycleDetailVM.vmOnlyForPreview)
 }
 
+*/

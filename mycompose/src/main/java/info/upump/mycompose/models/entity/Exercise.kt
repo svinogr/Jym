@@ -11,9 +11,7 @@ class Exercise(
     var setsList: List<Sets> = ArrayList(),
     var descriptionId: Long = 0,
     var exerciseDescription: ExerciseDescription? = null,
-    // update
-   // var img: String? = null,
-    //var defaultImg: String? = null
+
 ) : Entity() {
 
     fun createInfo(): String {

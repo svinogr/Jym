@@ -1,3 +1,4 @@
+/*
 package info.upump.mycompose.ui.screens.myworkouts.workoutscreen
 
 import android.annotation.SuppressLint
@@ -84,7 +85,7 @@ fun MyWorkoutDetailScreen(
     appBarTitle.value = workout.title!!
 
     LaunchedEffect(key1 = true) {
-        workoutVM.getWorkoutBy(id)
+        workoutVM.getBy(id)
     }
 
     Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
@@ -278,3 +279,4 @@ fun PreviewDetailDescriptionWorkoutScreen() {
     DetailDescriptionWorkoutScreen(workout)
 }
 
+*/

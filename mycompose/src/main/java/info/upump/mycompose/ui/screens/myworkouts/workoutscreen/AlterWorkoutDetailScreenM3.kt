@@ -1,5 +1,3 @@
-package info.upump.mycompose.ui.screens.myworkouts.cyclescreens
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -38,14 +36,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVMInterface
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.WorkoutDetailVMInterface
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCard
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageForDetailScreen
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ListWorkouts
+import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageByDay
+import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ListExercise
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.RowChips
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.SnackBar
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,34 +52,33 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AlterCycleDetailScreenM3(
+fun AlterWorkoutDetailScreenM3(
     id: Long,
     navHostController: NavHostController,
     paddingValues: PaddingValues,
     appBarTitle: MutableState<String>
 ) {
     val listState = rememberLazyListState()
-    val cycleVM: CycleDetailVM = viewModel()
+    val workoutVM: WorkoutDetailVM = viewModel()
     val context = LocalContext.current
 
     val coroutine = rememberCoroutineScope()
     val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
-    val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = sheetState
-    )
-
+    /*  val scaffoldState = rememberBottomSheetScaffoldState(
+          bottomSheetState = sheetState
+      )
+  */
     LaunchedEffect(key1 = true) {
-        cycleVM.getBy(id)
+        workoutVM.getBy(id)
     }
 
     if (id == 0L) {
-        appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
+        appBarTitle.value = context.resources.getString(R.string.workout_dialog_create_new)
     } else {
-        appBarTitle.value = cycleVM.title.collectAsState().value
+        appBarTitle.value = workoutVM.title.collectAsState().value
     }
-
-    val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val snackBarHostState = remember { SnackbarHostState() }
+    val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
     ModalBottomSheetLayout(
         sheetState = bottomState,
@@ -92,11 +89,12 @@ fun AlterCycleDetailScreenM3(
                     .fillMaxWidth()
                     .height(300.dp)
             ) {
-                BottomSheet(text = cycleVM.comment.collectAsState().value)
+                BottomSheet(text = workoutVM.comment.collectAsState().value)
             }
         }
     ) {
-        Scaffold(modifier = Modifier.padding(top = 0.dp),
+        Scaffold(
+            modifier = Modifier.padding(top = 0.dp),
             floatingActionButton = {
                 FloatExtendedButtonWithState(
                     stringResource(id = R.string.workout_dialog_create_new),
@@ -106,12 +104,12 @@ fun AlterCycleDetailScreenM3(
             },
             snackbarHost = {
                 SnackbarHost(
+
                     snackBarHostState
                 ) {
                     SnackBar("удалить?", R.drawable.ic_delete_24) {}
                 }
             }
-
         ) {
             Column(
                 modifier = Modifier
@@ -119,10 +117,8 @@ fun AlterCycleDetailScreenM3(
                     .fillMaxHeight()
             ) {
                 Box(modifier = Modifier.weight(1.5f)) {
-                    ImageForDetailScreen(
-                        image = cycleVM.img.collectAsState().value,
-                        defaultImage = cycleVM.imgDefault.collectAsState().value,
-                    )
+                    ImageByDay(day = workoutVM.day.collectAsState().value)
+
                     RowChips(
                         modifier = Modifier.align(Alignment.BottomCenter),
                         Chips(
@@ -134,9 +130,13 @@ fun AlterCycleDetailScreenM3(
                             }
                         },
                         Chips(
-                            stringResource(id = R.string.chips_edite),
-                            R.drawable.ic_edit_black_24dp,
-                        ) {},
+                            stringResource(id = R.string.to_view_workout),
+                            R.drawable.ic_yey
+                        ) {
+                            coroutine.launch() {
+                                bottomState.show()
+                            }
+                        },
                         Chips(
                             stringResource(id = R.string.chips_comment),
                             R.drawable.ic_info_black_24dp
@@ -144,17 +144,21 @@ fun AlterCycleDetailScreenM3(
                             coroutine.launch() {
                                 bottomState.show()
                             }
-                        }
+                        },
+                        Chips(
+                            stringResource(id = R.string.chips_edite),
+                            R.drawable.ic_edit_black_24dp,
+                        ) {},
                     )
                 }
 
                 DateCard(
-                    cycleVM.startDate.collectAsState().value,
-                    cycleVM.finishDate.collectAsState().value,
+                    workoutVM.startDate.collectAsState().value,
+                    workoutVM.finishDate.collectAsState().value,
                 )
 
-                ListWorkouts(
-                    list = cycleVM.subItems.collectAsState().value,
+                ListExercise(
+                    list = workoutVM.subItems.collectAsState().value,
                     listState, navhost = navHostController,
                     Modifier.weight(4f)
                 )
@@ -170,8 +174,9 @@ fun AlterCycleDetailScreenM3(
 fun AlterCycleDetailScreenPreview() {
     val m: MutableState<String> =
         MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
-    AlterCycleDetailScreenM3(
-        0L, NavHostController(LocalContext.current),
+    AlterWorkoutDetailScreenM3(
+        0L,
+        NavHostController(LocalContext.current),
         PaddingValues(),
         m
     )

@@ -24,46 +24,51 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
+import java.nio.file.WatchEvent
 
 const val DEFAULT_IMAGE = "drew"
 
 @Composable
-fun ExerciseItemCard(exercise: Exercise, navHost: NavController) {
+fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(1.dp)
             .clickable {
-                navHost.navigate(NavigationItem.DetailExerciseNavigationItem.routeWithId(exercise.id))
+                //TODO
             },
-        elevation = CardDefaults.cardElevation(2.dp),
-        shape = RoundedCornerShape(0.dp)
-    ) {
+        elevation = CardDefaults.cardElevation(0.dp),
+        shape = RoundedCornerShape(0.dp),
+
+        ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.background(
-                MaterialTheme.colorScheme.background
+                colorResource(id = R.color.colorBackgroundCardView)
             )
         ) {
-
             Image(
                 modifier = Modifier
                     .padding(8.dp)
                     .height(50.dp)
                     .width(50.dp)
-                    .clip(CircleShape),
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable { //TODO
+                    },
                 painter = if (exercise.exerciseDescription!!.defaultImg != null) {
                     painterResource(
                         context.resources.getIdentifier(
@@ -81,10 +86,8 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController) {
                         )
                     )
                 },
-
                 contentDescription = "image",
                 contentScale = ContentScale.Crop
-
             )
 
             Column() {
@@ -144,7 +147,8 @@ fun getExerciseString(exercise: Exercise): String {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun PreviewExerciseItemCard() {
-    val exerdescription = ExerciseDescription(img = "nach1", defaultImg = "nach1", title = "Новое упраж",)
+    val exerdescription =
+        ExerciseDescription(img = "nach1", defaultImg = "nach1", title = "Новое упраж")
 
     val listSets = listOf(
         Sets(20.0, 10, 15.0),
@@ -153,7 +157,7 @@ fun PreviewExerciseItemCard() {
     )
 
     val exercise = Exercise(
-                isDefaultType = false,
+        isDefaultType = false,
         isTemplate = false, exerciseDescription = exerdescription
     ).apply { title = "Новое упраж" }
 

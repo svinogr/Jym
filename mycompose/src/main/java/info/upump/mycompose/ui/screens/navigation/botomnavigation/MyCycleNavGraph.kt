@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.navigation.botomnavigation
 
+import AlterWorkoutDetailScreenM3
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,7 +19,6 @@ import info.upump.mycompose.ui.screens.myworkouts.MySetsDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.AlterCycleDetailScreenM3
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.workoutscreen.CreateWorkoutScreen
-import info.upump.mycompose.ui.screens.myworkouts.workoutscreen.MyWorkoutDetailScreen
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
 
@@ -73,7 +73,7 @@ fun NavGraphBuilder.myCycleGraph(
             //topBarState.value = false он уже должен был быть убран
             Log.d("TAG", "id = $id")
 
-            MyWorkoutDetailScreen(id = id!!, navHostController,paddingValues, appBarTitle)
+            AlterWorkoutDetailScreenM3(id = id!!, navHostController,paddingValues, appBarTitle)
 
         }
 

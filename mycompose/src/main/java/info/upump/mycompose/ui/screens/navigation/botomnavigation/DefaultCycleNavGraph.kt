@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import info.upump.mycompose.ui.screens.defaultscreen.DefaultCycleScreen
-import info.upump.mycompose.ui.screens.defaultscreen.DefaultDetailCycleScreen
+import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.AlterCycleDetailScreenM3
 
 const val DEFAULT_CYCLE_ROOT_ROUTE = "default_cycle_root_route"
 
@@ -41,7 +41,7 @@ fun NavGraphBuilder.defaultCycleGraph(
         ) {
             val id =  it.arguments?.getLong("id")
 
-           DefaultDetailCycleScreen(id = id!!, navHostController)
+           AlterCycleDetailScreenM3(id = id!!, navHostController, paddingValues, appBarTitle)
             topBarState.value = false
             appBarTitle.value = context.resources.getString(NavigationItem.DefaultCycleNavigationItem.title)
         }

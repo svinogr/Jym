@@ -1,3 +1,4 @@
+/*
 package info.upump.mycompose.ui.screens.defaultscreen
 
 import android.annotation.SuppressLint
@@ -49,11 +50,10 @@ import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.VMDetailInterface
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.WorkoutItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCard
 import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCard
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.WorkoutItemCard
 import info.upump.mycompose.ui.screens.tabs.TabsItems
 import kotlinx.coroutines.launch
 
@@ -134,12 +134,14 @@ fun DefaultDetailCycleScreen(
             }
         }
 
-   /*     TabsContent(
+   */
+/*     TabsContent(
             tabs = tabList,
             pagerState = pagerState,
             cycleVM,
             navHostController = navHostController
-        )*/
+        )*//*
+
     }
 
     if (isLoading.value) {
@@ -260,3 +262,4 @@ fun PreviewDefaultDetailDescriptionCycleScreen() {
                 "enean commodo ligula eget dolor. Aenean massa. "
    // DefaultDetailDescriptionCycleScreen(CycleDetailVM.vmOnlyForPreview)
 }
+*/
