@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
+package info.upump.mycompose.ui.screens.screenscomponents.screen
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image

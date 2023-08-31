@@ -28,10 +28,10 @@ import info.upump.mycompose.ui.screens.myworkouts.ActionState
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCardWithDatePicker
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCardWithEdit
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageTitleImageTitle
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageWithPicker
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DescriptionCardWithEdit
+import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageTitleImageTitle
+import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageWithPicker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

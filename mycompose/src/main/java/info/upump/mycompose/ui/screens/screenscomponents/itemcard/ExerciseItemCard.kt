@@ -10,13 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,10 +32,8 @@ import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
-import java.nio.file.WatchEvent
 
 const val DEFAULT_IMAGE = "drew"
 
@@ -61,60 +57,80 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modif
                 colorResource(id = R.color.colorBackgroundCardView)
             )
         ) {
-            Image(
+            Box(
                 modifier = Modifier
                     .padding(8.dp)
                     .height(50.dp)
                     .width(50.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .clickable { //TODO
-                    },
-                painter = if (exercise.exerciseDescription!!.defaultImg != null) {
-                    painterResource(
-                        context.resources.getIdentifier(
-                            exercise.exerciseDescription!!.defaultImg,
-                            "drawable",
-                            context.packageName
-                        )
-                    )
+            ) {
+                /*   Image(
+                   modifier = Modifier
+                       .padding(8.dp)
+                       .height(50.dp)
+                       .width(50.dp)
+                       .clip(RoundedCornerShape(8.dp))
+                       .clickable { //TODO
+                       },
+                   painter = if (exercise.exerciseDescription!!.defaultImg != null) {
+                       painterResource(
+                           context.resources.getIdentifier(
+                               exercise.exerciseDescription!!.defaultImg,
+                               "drawable",
+                               context.packageName
+                           )
+                       )
+                   } else {
+                       painterResource(
+                           id = context.resources.getIdentifier(
+                               exercise.exerciseDescription!!.img,
+                               "drawable",
+                               context.packageName
+                           )
+                       )
+                   },
+                   contentDescription = "image",
+                   contentScale = ContentScale.Crop
+               )*/
+                var image = ""
+                var imageDef = ""
+                if (exercise.isDefaultType) {
+                    image = ""
+                    imageDef = exercise.exerciseDescription!!.defaultImg
                 } else {
-                    painterResource(
-                        id = context.resources.getIdentifier(
-                            exercise.exerciseDescription!!.img,
-                            "drawable",
-                            context.packageName
-                        )
-                    )
-                },
-                contentDescription = "image",
-                contentScale = ContentScale.Crop
-            )
-
-            Column() {
-                val modifier = Modifier.padding(end = 8.dp)
+                    image = exercise.exerciseDescription!!.img
+                    imageDef = ""
+                }
+                ItemImage(
+                    image = image,
+                    defaultImage = imageDef
+                )
+            }
+            Column(modifier = modifier.fillMaxWidth()) {
+                val modifierCol = Modifier
+                    .padding(end = 8.dp)
                 Text(
                     text = exercise.exerciseDescription!!.title!!,
                     style = MyTextTitleLabel16,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = modifier
-
+                    modifier = modifier.fillMaxWidth()
                 )
                 Divider(
-                    modifier = modifier
+                    modifier = modifierCol
                         .fillMaxWidth()
                         .height(1.dp)
                         .background(Color.Black)
                 )
                 Box(
-                    modifier = Modifier
+                    modifier = modifierCol
                         .align(Alignment.End)
-                        .padding(end = 8.dp, top = 4.dp)
+                        .padding(top = 4.dp)
                 ) {
                     Text(
                         text = getExerciseString(exercise),
-                        style = MyTextLabel12
-                    )
+                        style = MyTextLabel12,
+
+                        )
                 }
             }
         }
@@ -157,7 +173,7 @@ fun PreviewExerciseItemCard() {
     )
 
     val exercise = Exercise(
-        isDefaultType = false,
+        isDefaultType = true,
         isTemplate = false, exerciseDescription = exerdescription
     ).apply { title = "Новое упраж" }
 

@@ -27,10 +27,10 @@ import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutVM
 import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.CardTitle
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCardWithDatePicker
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DayCardWorkoutEdit
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DescriptionCardWithEdit
+import info.upump.mycompose.ui.screens.screenscomponents.screen.CardTitle
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DayCardWorkoutEdit
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DescriptionCardWithEdit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

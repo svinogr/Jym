@@ -42,28 +42,22 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 
 @Composable
 fun CycleItemCard(
     cycle: Cycle,
     navHost: NavHostController,
-    context: Context
+    context: Context,
+    modifier: Modifier = Modifier
 ) {
     val bitmap: MutableState<Bitmap?> = remember {
         mutableStateOf(null)
     }
 
-    /*   bitmap.value ?: run {
-        LaunchedEffect(key1 = true) {
-            launch(Dispatchers.IO) {
-                bitmap.value = BitmapCreator.getImageBitmap(cycle, context)
-            }
-        }
-    }
-*/
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(1.dp)
             .clickable {
@@ -96,8 +90,8 @@ fun CycleItemCard(
                         contentDescription = ""
                     )
                 }*/
+                //------------
                 if (!cycle.image.isBlank()) {
-Log.d("image", "${cycle.image}")
                     Image(
                         modifier = Modifier
                             .height(50.dp)
@@ -114,37 +108,53 @@ Log.d("image", "${cycle.image}")
                     )
 
                 }
+                //----------
+                var image = ""
+                var imageDef = ""
+                if (cycle.isDefaultType) {
+                    image = ""
+                    imageDef = cycle.imageDefault
+                } else {
+                    image = cycle.image
+                    imageDef = ""
+                }
+                ItemImage(
+                    image = image,
+                    defaultImage = imageDef
+                )
+
+
             }
             Column(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth()
             ) {
+                val modifierCol = Modifier
+                    .padding(end = 8.dp)
                 Text(
                     text = cycle.title!!,
                     style = MyTextTitleLabel16,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = modifier.fillMaxWidth()
                 )
 
                 if (!cycle.isDefaultType) {
                     Divider(
                         modifier = Modifier
                             .height(1.dp)
-                            .padding(end = 8.dp)
                             .background(Color.Black)
                     )
                 }
 
                 if (!cycle.isDefaultType) {
                     Box(
-                        modifier = Modifier
-                            .align(Alignment.End)
-                            .padding(end = 8.dp, top = 4.dp)
+                        modifier = modifierCol
+                            .align(Alignment.End).padding(top = 4.dp)
                     ) {
                         Text(
                             text = cycle.finishStringFormatDate,
-                            fontSize = 12.sp,
-                            color = Color(0xFF6c6c70)
+                            style = MyTextLabel12,
                         )
                     }
                 }
@@ -155,7 +165,7 @@ Log.d("image", "${cycle.image}")
 
 
 @RequiresApi(Build.VERSION_CODES.P)
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewCycleItemCard() {
     val c = Cycle().apply {
@@ -183,6 +193,7 @@ fun PreviewCycleItemCard2() {
 @Composable
 fun PreviewCycleItemCard3() {
     val c = Cycle().apply {
+        isDefaultType = true
         title = "Новая3"
         imageDefault = "plint1"
         image = "content://media/picker/0/com.android.providers.media.photopicker/media/1000000033"

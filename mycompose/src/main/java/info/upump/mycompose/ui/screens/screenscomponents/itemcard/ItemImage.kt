@@ -1,39 +1,30 @@
-package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
+package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.BitmapCreator
+import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageForDetailScreen(
-    image: String,
-    defaultImage: String,
-    modifier: Modifier = Modifier
+fun ItemImage(
+    modifier: Modifier = Modifier, image: String,
+    defaultImage: String
 ) {
     val context = LocalContext.current
     val bitmap: Bitmap
@@ -45,22 +36,21 @@ fun ImageForDetailScreen(
         bitmap = BitmapCreator.getExceptionDefaultBitmap(context)
     }
 
-    Box(modifier = modifier) {
-        Image(
-            bitmap = bitmap.asImageBitmap(),
-            contentDescription = "",
-            modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.Crop
-        )
-    }
+    Image(
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp)),
+        contentScale = ContentScale.Crop,
+        bitmap = bitmap.asImageBitmap(), contentDescription = "image"
+    )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun ImageForDetailScreenPreview() {
-    ImageForDetailScreen(
+fun ItemImagePreview() {
+    ItemImage(
         image = CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
         defaultImage =
         CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value,
     )
 }
+

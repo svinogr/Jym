@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen
+package info.upump.mycompose.ui.screens.screenscomponents.screen
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size

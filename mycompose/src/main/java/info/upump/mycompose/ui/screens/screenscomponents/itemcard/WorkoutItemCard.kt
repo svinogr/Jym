@@ -11,12 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -48,10 +46,10 @@ class SampleWorkoutProvider : PreviewParameterProvider<Workout> {
 }
 
 @Composable
-fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
+fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(1.dp)
             .clickable {
@@ -60,7 +58,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
 
-    ) {
+        ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.background(
@@ -78,24 +76,24 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController) {
                 bitmap = bitmap.asImageBitmap(), contentDescription = "image"
             )
 
-            Column() {
+            Column(modifier = modifier.fillMaxWidth()) {
+                val modifierCol = Modifier.padding(end = 8.dp)
                 Text(
                     text = workout.title!!,
                     style = MyTextTitleLabel16,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = modifier.fillMaxWidth()
                 )
                 Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = modifierCol.fillMaxWidth()
                         .height(1.dp)
-                        .padding(end = 8.dp)
                         .background(Color.Black)
                 )
                 Box(
-                    modifier = Modifier
+                    modifier = modifierCol
                         .align(Alignment.End)
-                        .padding(end = 8.dp, top = 4.dp)
+                        .padding( top = 4.dp)
                 ) {
                     Text(
                         text = context.getString(workout.day!!.title()),
@@ -113,7 +111,7 @@ fun PreviewWorkoutCard() {
     val workout = Workout(
         isWeekEven = false, isDefaultType = false,
         isTemplate = false, day = Day.FRIDAY, exercises = listOf()
-    ).apply {  title = "Новая" }
+    ).apply { title = "Новая" }
     val context = LocalContext.current
     WorkoutItemCard(workout = workout, navHost = NavHostController(context))
 }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
@@ -30,7 +29,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,15 +37,14 @@ import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVMInterface
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.Chips
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.DateCard
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ImageForDetailScreen
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.ListWorkouts
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.RowChips
-import info.upump.mycompose.ui.screens.screenscomponents.editscreatescreen.SnackBar
+import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCard
+import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
+import info.upump.mycompose.ui.screens.screenscomponents.screen.ListWorkouts
+import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
+import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

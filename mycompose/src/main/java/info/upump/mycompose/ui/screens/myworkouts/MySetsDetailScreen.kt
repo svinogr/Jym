@@ -1,3 +1,4 @@
+/*
 package info.upump.mycompose.ui.screens.myworkouts
 
 import android.annotation.SuppressLint
@@ -39,7 +40,7 @@ fun MySetsDetailScreen(
     appBarTitle: MutableState<String>
 ) {
     val setVM: SetsVM = viewModel()
-    val set by setVM.set.collectAsState()
+    val set by setVM.sets.collectAsState()
     val isLoad = setVM.isLoading.collectAsState()
 
     LaunchedEffect(key1 = true) {
@@ -117,4 +118,4 @@ fun PreviewMySetsDetailEditScreen() {
         paddingValues = PaddingValues(20.dp),
         appBarTitle = m
     )
-}
+}*/

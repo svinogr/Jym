@@ -9,62 +9,26 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SetsVM : BaseVMWithStateLoad(){
+class SetsVM : BaseVMWithStateLoad() {
     private val _sets = MutableStateFlow<List<Sets>>(listOf())
     val sets: StateFlow<List<Sets>> = _sets.asStateFlow()
 
-    private val _set = MutableStateFlow<Sets>(Sets())
-    val set: StateFlow<Sets> = _set.asStateFlow()
-
-
-    fun getSetsByParent(id: Long) {
-        viewModelScope.launch(Dispatchers.IO){
-            _stateLoading.value = true
-            val setsRepo = SetsRepo.get()
-            setsRepo.getAllByParent(id).map {
-
-                it.map { item -> Sets.mapFromDbEntity(item) }
-            }.collect{
-                _sets.value = it
+    fun getBy(parentId: Long) {
+        _stateLoading.value = true
+        viewModelScope.launch(Dispatchers.IO) {
+            val repo = SetsRepo.get()
+            val sets = repo.getAllByParent(parentId).map {list ->
+                list.map {
+                    Sets.mapFromDbEntity(it)
+                }
+            }.collect(){
+                _sets.update { it }
             }
 
-
-          //  _sets.value = setsGet
             _stateLoading.value = false
         }
     }
-
- /*   fun getSetsBy(id: Long) {
-        if (id == 0L){
-            val set = Sets()
-            _set.value = set
-
-            return
-        }
-
-        viewModelScope.launch(Dispatchers.IO) {
-            _stateLoading.value = true
-            val setsRepo = SetsRepo.get()
-            val setsGet = Sets.mapFromDbEntity(setsRepo.getBy(id))
-            Log.d("initialState", setsGet.toString())
-
-            _set.value = setsGet
-            _stateLoading.value = false
-        }
-    }*/
-
- /*   fun saveItem(item: Sets) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val setsRepo = SetsRepo.get()
-            val setsGet = Sets.mapTontity(item)
-            if (item.id != 0L) {
-                setsRepo.update(setsGet)
-            } else {
-                setsRepo.save(setsGet)
-            }
-            Log.d("saveItem", "$setsGet ")
-        }
-    }*/
 }
