@@ -91,18 +91,10 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modif
                    contentDescription = "image",
                    contentScale = ContentScale.Crop
                )*/
-                var image = ""
-                var imageDef = ""
-                if (exercise.isDefaultType) {
-                    image = ""
-                    imageDef = exercise.exerciseDescription!!.defaultImg
-                } else {
-                    image = exercise.exerciseDescription!!.img
-                    imageDef = ""
-                }
+
                 ItemImage(
-                    image = image,
-                    defaultImage = imageDef
+                    image = exercise.exerciseDescription!!.img,
+                    defaultImage = exercise.exerciseDescription!!.defaultImg
                 )
             }
             Column(modifier = modifier.fillMaxWidth()) {

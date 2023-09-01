@@ -37,7 +37,7 @@ fun DefaultCycleScreen(navHostController: NavHostController, paddingValues: Padd
     ) {
         LazyColumn() {
             itemsIndexed(cycles) {index, it ->
-                CycleItemCard(cycle = it, navHostController, context )
+                CycleItemCard(cycle = it, navHostController )
             }
         }
 

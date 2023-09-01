@@ -140,6 +140,7 @@
     <!--dialog-->
     <string name="cycle_dialog_title">Выберите действие:</string>
     <string name="cycle_dialog_create_new">Создать новую программу</string>
+    <string name="cycle_create_new">Добавить программу</string>
     <string name="cycle_dialog_сhoose">Выбрать готовую программу</string>
     <string name="workout_dialog_title">Выберите действие:</string>
     <string name="workout_dialog_create_new">Добавить тренировку</string>

@@ -32,7 +32,7 @@ class ExerciseDescription(
         fun mapFromDbEntity(entity: ExerciseDescriptionEntity): ExerciseDescription {
             val exerciseDescription = ExerciseDescription(entity._id)
             exerciseDescription.img = entity.img ?: ""
-            exerciseDescription.defaultImg = entity.default_img!!
+            exerciseDescription.defaultImg = entity.default_img ?: ""
             exerciseDescription.title = entity.title!!
 
             return exerciseDescription
