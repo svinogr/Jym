@@ -19,8 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
+import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.exercise.ExerciseVM
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.sets.SetsVM
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ListSets
 import info.upump.mycompose.ui.screens.screenscomponents.screen.TableHeader
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,7 +42,18 @@ fun MyExerciseDetailScreen(
     appBarTitle.value = stringResource(id = R.string.exercise_title_sets)
     Log.d("saveItem", "$id")
 
-    Scaffold(modifier = Modifier.fillMaxWidth().padding(paddingValues)) { it ->
+    Scaffold(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = paddingValues.calculateTopPadding()),
+        floatingActionButton = {
+            FloatExtendedButtonWithState(text = stringResource(id = R.string.set_create_),
+                isVisible = lazyListState.isScrollingUp(),
+                icon = R.drawable.ic_add_black_24dp ) {
+                navHostController.navigate(NavigationItem.CreateSetsNavigationItem.routeWithId(id))
+            }
+        }
+    ) { it ->
         Column(modifier = Modifier.padding(top = it.calculateTopPadding())) {
             TableHeader()
             ListSets(
@@ -51,7 +64,6 @@ fun MyExerciseDetailScreen(
         }
     }
 }
-
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -67,13 +79,16 @@ fun PreviewMyExerciseDetailScreen() {
         appBarTitle = m
     )
 }
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewMyExerciseDetailScreen2() {
     val id = 1L
     val m: MutableState<String> =
         MutableStateFlow(" ").asStateFlow().collectAsState() as MutableState<String>
-    Column(modifier = Modifier.padding(top = 20.dp)) {
+    Column(modifier = Modifier
+        .padding(top = 20.dp)
+        .fillMaxWidth()) {
         TableHeader()
         ListSets(
             navHost = NavHostController(LocalContext.current),

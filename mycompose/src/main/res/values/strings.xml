@@ -34,6 +34,7 @@
 
     <string name="workout_fragment_title">Мои тренировки</string>
     <string name="set_create_title">Создать новый подход</string>
+    <string name="set_create_">добавить подход</string>
     <string name="set_update_title">Изменить подход</string>
     <string name="title_activity_exercise_detail">ExerciseDetailActivity</string>
     <string name="no_description">Нет описания</string>
@@ -83,7 +84,8 @@
     <string name="label_title_common">Название</string>
 
     <!--dialog-->
-    <string name="save">Сохранить?</string>
+    <string name="save_Capitalizw">Сохранить?</string>
+    <string name="save">cохранить</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="label_spinner_day">День недели</string>

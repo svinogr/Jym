@@ -2,6 +2,7 @@ package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.magnifier
@@ -40,14 +41,18 @@ fun SetsItemCard(
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
 
-        ) {
+        )
+    {
         ConstraintLayout(
             modifier = modifier
                 .fillMaxWidth()
+                .padding()
                 .background(
                     colorResource(id = R.color.colorBackgroundCardView)
                 )
+                .padding(top = 8.dp, bottom = 8.dp)
         ) {
+
             val textNumber = createRef()
             val textWeight = createRef()
             val textPasWeight = createRef()
@@ -57,28 +62,33 @@ fun SetsItemCard(
             val guiThree = createGuidelineFromStart(GuidelineSets.THREE.offset)
             val guiFour = createGuidelineFromStart(GuidelineSets.FOUR.offset)
             val modifierOneThree = Modifier.padding(start = 0.dp)
-            Text(text = "${number + 1}",
+            Text(
+                text = "${number + 1}",
                 modifier = modifierOneThree.constrainAs(textNumber) {
                     start.linkTo(guiOne)
                 }, style = MyTextTitleLabel16
             )
-            Text(text = sets.weight.toString(),
+            Text(
+                text = sets.weight.toString(),
                 modifier = modifierOneThree.constrainAs(textWeight) {
                     start.linkTo(guiTwo)
                 }, style = MyTextTitleLabel16
             )
-            Text(text = sets.weightPast.toString(),
+            Text(
+                text = sets.weightPast.toString(),
                 modifier = modifierOneThree.constrainAs(textPasWeight) {
                     start.linkTo(guiThree)
                 }, style = MyTextLabel16
             )
-            Text(text = sets.reps.toString(),
+            Text(
+                text = sets.reps.toString(),
                 modifier = modifierOneThree.constrainAs(textReps) {
                     start.linkTo(guiFour)
                 }, style = MyTextTitleLabel16
             )
         }
     }
+
 }
 
 @Preview(showBackground = true)

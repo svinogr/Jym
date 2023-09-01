@@ -13,6 +13,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import info.upump.mycompose.ui.screens.mainscreen.MyCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.ActionState
+import info.upump.mycompose.ui.screens.myworkouts.SetsCreateScreen
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.AlterCycleDetailScreenM3
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.exercisescreens.MyExerciseDetailScreen
@@ -51,11 +52,11 @@ fun NavGraphBuilder.myCycleGraph(
             val id = it.arguments?.getLong("id")
             topBarState.value = false
             bottomBarState.value = false
-           // MyCycleDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
+            // MyCycleDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
             AlterCycleDetailScreenM3(
                 id = id!!,
-                navHostController = navHostController ,
-                paddingValues = paddingValues ,
+                navHostController = navHostController,
+                paddingValues = paddingValues,
                 appBarTitle = appBarTitle
             )
 
@@ -71,7 +72,7 @@ fun NavGraphBuilder.myCycleGraph(
             //topBarState.value = false он уже должен был быть убран
             Log.d("TAG", "id = $id")
 
-            AlterWorkoutDetailScreenM3(id = id!!, navHostController,paddingValues, appBarTitle)
+            AlterWorkoutDetailScreenM3(id = id!!, navHostController, paddingValues, appBarTitle)
 
         }
 
@@ -87,22 +88,22 @@ fun NavGraphBuilder.myCycleGraph(
 
             MyExerciseDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
         }
-
+        // создать новый подход
         composable(
             route = NavigationItem.CreateSetsNavigationItem.route,
-            arguments = listOf(navArgument("parentId"){
+            arguments = listOf(navArgument("parentId") {
                 type = NavType.LongType
             }),
         ) {
             //topBarState.value = false он уже должен был быть убран
             val parentId = it.arguments?.getLong("parentId")
 
-         //   MySetsCreateScreen(parentId!!, navHostController, paddingValues, appBarTitle)  //TODO
+            SetsCreateScreen(parentId!!, navHostController, paddingValues, appBarTitle)
         }
 
         composable(
             route = NavigationItem.DetailSetDetailNavigationItem.route,
-            arguments = listOf(navArgument("id"){
+            arguments = listOf(navArgument("id") {
                 type = NavType.LongType
             }),
         ) {
@@ -111,11 +112,11 @@ fun NavGraphBuilder.myCycleGraph(
             val id = it.arguments?.getLong("id")
             Log.d("TAG", "id = $id")
 
-         //   MySetsDetailScreen(id!!, navHostController, paddingValues, appBarTitle) //TODO
+            //   MySetsDetailScreen(id!!, navHostController, paddingValues, appBarTitle) //TODO
         }
         composable(
             route = NavigationItem.CreateEditeCycleNavigationItem.route,
-            arguments = listOf(navArgument("id"){
+            arguments = listOf(navArgument("id") {
                 type = NavType.LongType
             }),
         ) {
@@ -124,20 +125,24 @@ fun NavGraphBuilder.myCycleGraph(
             val id = it.arguments?.getLong("id")
             Log.d("TAG", "id = $id")
             bottomBarState.value = false
-            val action = if (id == 0L) {ActionState.CREATE} else{ActionState.UPDATE}
+            val action = if (id == 0L) {
+                ActionState.CREATE
+            } else {
+                ActionState.UPDATE
+            }
             CreateEditeCycleScreen(id!!, navHostController, paddingValues, appBarTitle, action)
         }
 
         composable(
             route = NavigationItem.CreateWorkoutNavigationItem.route,
-            arguments = listOf(navArgument("parentId"){
+            arguments = listOf(navArgument("parentId") {
                 type = NavType.LongType
             }),
         ) {
             //topBarState.value = false он уже должен был быть убран
             val parentId = it.arguments?.getLong("parentId")
 
-          //  bottomBarState.value = false и так отключен ранее
+            //  bottomBarState.value = false и так отключен ранее
 
             CreateWorkoutScreen(0, parentId!!, navHostController, paddingValues, appBarTitle)
         }

@@ -7,9 +7,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class ExerciseVM: BaseVMWithStateLoad(),  ExerciseVMInterface {
+
+
     private val _listSets = MutableStateFlow<List<Sets>>(
         mutableListOf(Sets(),Sets(), Sets())
     )
+
     override val subItems: StateFlow<List<Sets>> =  _listSets
 
     override fun getBy(id: Long) {

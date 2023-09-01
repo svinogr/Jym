@@ -19,9 +19,12 @@ const val EXERCISE_DETAIL_ROUTE = "exerciseDetail"
 const val SETS_DETAIL_ROUTE = "setsDetail"
 const val DETAIL_ARGUMENT_KEY_ID = "{id}"
 const val DETAIL_ARGUMENT_KEY_PARENT_ID = "{parentId}"
+
 const val CYCLE_EDITE_ROUTE = "cycleEditCreate"
 const val WORKOUT_CREATE_ROUTE = "workoutCreate"
 const val WORKOUT_EDITE_ROUTE = "workoutEditCreate"
+const val SETS_CREATE_ROUTE = "setsCreate"
+
 
 const val DEFAULT_EXERCISE_ROUTE = "defaultExerciseRoute"
 const val DEFAULT_SET_ROUTE = "defaultSetRoute"
@@ -89,11 +92,12 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
         }
     }
 
+    // создание нового подхода
     object CreateSetsNavigationItem : NavigationItem(
-        route = "$SETS_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
+        route = "$SETS_CREATE_ROUTE/$DETAIL_ARGUMENT_KEY_PARENT_ID"
     ) {
-        fun routeWithId(id: Long): String {
-            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+        fun routeWithId(parentId: Long): String {
+            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_PARENT_ID, newValue = parentId.toString())
         }
     }
     // переход на экран редактирования или создания cycle
