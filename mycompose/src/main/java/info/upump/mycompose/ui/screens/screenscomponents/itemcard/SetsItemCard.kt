@@ -25,19 +25,29 @@ import info.upump.mycompose.ui.theme.MyTextLabel16
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 
 @Composable
-fun SetsItemCard(sets: Sets, navHost: NavHostController, number: Int, modifier: Modifier = Modifier) {
+fun SetsItemCard(
+    sets: Sets,
+    navHost: NavHostController,
+    number: Int,
+    modifier: Modifier = Modifier
+) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(1.dp)
             .clickable {
                 navHost.navigate(NavigationItem.DetailSetDetailNavigationItem.routeWithId(sets.id))
             },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
 
-    ) {
-        ConstraintLayout(modifier = Modifier.fillMaxWidth().background(  colorResource(id = R.color.colorBackgroundCardView))) {
+        ) {
+        ConstraintLayout(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(
+                    colorResource(id = R.color.colorBackgroundCardView)
+                )
+        ) {
             val textNumber = createRef()
             val textWeight = createRef()
             val textPasWeight = createRef()
@@ -46,33 +56,43 @@ fun SetsItemCard(sets: Sets, navHost: NavHostController, number: Int, modifier: 
             val guiTwo = createGuidelineFromStart(GuidelineSets.TWO.offset)
             val guiThree = createGuidelineFromStart(GuidelineSets.THREE.offset)
             val guiFour = createGuidelineFromStart(GuidelineSets.FOUR.offset)
-            val modifierOneThree = Modifier.padding(start = 2.dp)
-            Text(text = "${number + 1 }",
+            val modifierOneThree = Modifier.padding(start = 0.dp)
+            Text(text = "${number + 1}",
                 modifier = modifierOneThree.constrainAs(textNumber) {
                     start.linkTo(guiOne)
-                }, style = MyTextTitleLabel16)
-
+                }, style = MyTextTitleLabel16
+            )
             Text(text = sets.weight.toString(),
                 modifier = modifierOneThree.constrainAs(textWeight) {
                     start.linkTo(guiTwo)
-                }, style = MyTextTitleLabel16)
-
+                }, style = MyTextTitleLabel16
+            )
             Text(text = sets.weightPast.toString(),
                 modifier = modifierOneThree.constrainAs(textPasWeight) {
                     start.linkTo(guiThree)
-                }, style = MyTextLabel16)
-
+                }, style = MyTextLabel16
+            )
             Text(text = sets.reps.toString(),
                 modifier = modifierOneThree.constrainAs(textReps) {
                     start.linkTo(guiFour)
-                },  style = MyTextTitleLabel16)
+                }, style = MyTextTitleLabel16
+            )
         }
     }
 }
 
-@Preview( showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun PreviewSetItemCard() {
+    val set = Sets(weight = 20.0, reps = 5, weightPast = 18.0)
+    set.id = 1
+
+    SetsItemCard(sets = set, navHost = NavHostController(LocalContext.current), number = 1)
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun PreviewSetItemCard2() {
     val set = Sets(weight = 20.0, reps = 5, weightPast = 18.0)
     set.id = 1
 

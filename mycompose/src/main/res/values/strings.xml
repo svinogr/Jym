@@ -328,5 +328,6 @@
     <string name="tab_cycle_title">тренировки</string>
     <string name="tab_cycle_description">описание</string>
     <string name="edit">Редактирование</string>
+    <string name="error_tips_empty_field">пустое поле</string>
 
 </resources>

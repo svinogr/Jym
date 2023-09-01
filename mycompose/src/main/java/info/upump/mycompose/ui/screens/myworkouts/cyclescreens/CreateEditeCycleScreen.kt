@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,8 +18,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -28,6 +31,7 @@ import info.upump.mycompose.ui.screens.myworkouts.ActionState
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithState
+import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DescriptionCardWithEdit
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageTitleImageTitle
@@ -50,31 +54,33 @@ fun CreateEditeCycleScreen(
     val context = LocalContext.current
     Log.d("CreateEditeCycleScreen", "$id")
     val columnModifier = Modifier
-        .fillMaxHeight()
+        .fillMaxHeight().fillMaxWidth()
         .padding()
         .verticalScroll(rememberScrollState())
-        .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout))
+        .background(color = colorResource(id = R.color.colorBackgroundCardView))
 
     if (action == ActionState.CREATE) {
         appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
     }
     if (action == ActionState.UPDATE) {
-        appBarTitle.value = "Редактирование"
+        appBarTitle.value = context.resources.getString(R.string.edit)
     }
 
-    Scaffold(modifier = Modifier,
+    Scaffold(
+        modifier = Modifier,
         floatingActionButton = {
-            FloatActionButtonWithState(isVisible = true, icon = R.drawable.ic_fab_next) {
-                if (!cycleVM.isBlankFields()) {
-                    cycleVM.save() {
-                        if (action == ActionState.CREATE) {
-                            navHostController.popBackStack()
-                            navHostController.navigate(
-                                NavigationItem.DetailCycleNavigationItem.routeWithId(it)
-                            )
-                        } else {
-                            navHostController.navigateUp()
-                        }
+            FloatExtendedButtonWithState(
+                text = stringResource(id = R.string.picker_dialog_btn_save),
+                isVisible = true, icon = R.drawable.ic_save_black
+            ) {
+                cycleVM.save() {
+                    if (action == ActionState.CREATE) {
+                        navHostController.popBackStack()
+                        navHostController.navigate(
+                            NavigationItem.DetailCycleNavigationItem.routeWithId(it)
+                        )
+                    } else {
+                        navHostController.navigateUp()
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkouts.workoutscreen
+package info.upump.mycompose.ui.screens.myworkouts.workoutscreens
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler

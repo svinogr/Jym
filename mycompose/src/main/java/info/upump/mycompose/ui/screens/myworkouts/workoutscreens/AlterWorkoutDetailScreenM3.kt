@@ -59,11 +59,7 @@ fun AlterWorkoutDetailScreenM3(
     val context = LocalContext.current
 
     val coroutine = rememberCoroutineScope()
-    val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
-    /*  val scaffoldState = rememberBottomSheetScaffoldState(
-          bottomSheetState = sheetState
-      )
-  */
+
     LaunchedEffect(key1 = true) {
         workoutVM.getBy(id)
     }

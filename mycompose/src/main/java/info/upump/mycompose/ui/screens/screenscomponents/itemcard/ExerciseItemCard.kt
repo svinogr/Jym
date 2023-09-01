@@ -1,6 +1,5 @@
 package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -11,19 +10,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,6 +26,8 @@ import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.screens.screenscomponents.screen.Divider
 import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 
@@ -55,7 +51,9 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modif
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.background(
                 colorResource(id = R.color.colorBackgroundCardView)
-            )
+            ).clickable {
+                navHost.navigate(NavigationItem.DetailExerciseNavigationItem.routeWithId(exercise.id))
+            }
         ) {
             Box(
                 modifier = Modifier
@@ -63,35 +61,6 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modif
                     .height(50.dp)
                     .width(50.dp)
             ) {
-                /*   Image(
-                   modifier = Modifier
-                       .padding(8.dp)
-                       .height(50.dp)
-                       .width(50.dp)
-                       .clip(RoundedCornerShape(8.dp))
-                       .clickable { //TODO
-                       },
-                   painter = if (exercise.exerciseDescription!!.defaultImg != null) {
-                       painterResource(
-                           context.resources.getIdentifier(
-                               exercise.exerciseDescription!!.defaultImg,
-                               "drawable",
-                               context.packageName
-                           )
-                       )
-                   } else {
-                       painterResource(
-                           id = context.resources.getIdentifier(
-                               exercise.exerciseDescription!!.img,
-                               "drawable",
-                               context.packageName
-                           )
-                       )
-                   },
-                   contentDescription = "image",
-                   contentScale = ContentScale.Crop
-               )*/
-
                 ItemImage(
                     image = exercise.exerciseDescription!!.img,
                     defaultImage = exercise.exerciseDescription!!.defaultImg
@@ -107,12 +76,7 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modif
                     overflow = TextOverflow.Ellipsis,
                     modifier = modifier.fillMaxWidth()
                 )
-                Divider(
-                    modifier = modifierCol
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color.Black)
-                )
+                Divider()
                 Box(
                     modifier = modifierCol
                         .align(Alignment.End)

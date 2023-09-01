@@ -51,11 +51,11 @@ fun DateCardWithDatePicker(
 ) {
     val modifierCard = modifier
         .fillMaxWidth()
-        .padding(start = 4.dp, end = 4.dp, top = 4.dp)
-    val modifierValue = Modifier.padding(top = 4.dp, end = 8.dp, bottom = 4.dp)
+        .padding(start = 0.dp, end = 0.dp, top = 0.dp)
+    val modifierValue = Modifier.padding(top = 4.dp, bottom = 4.dp)
     Card(
         modifier = modifierCard,
-        elevation = CardDefaults.cardElevation(1.dp),
+        elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
             containerColor =
@@ -64,8 +64,8 @@ fun DateCardWithDatePicker(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
+                .fillMaxWidth().
+                padding(start = 4.dp, end = 4.dp)
         ) {
             Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.Top) {
                 TextField(modifier = modifierValue.weight(1f),

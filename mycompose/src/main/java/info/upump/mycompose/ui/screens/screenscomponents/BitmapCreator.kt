@@ -12,10 +12,10 @@ import android.util.Log
 import androidx.compose.ui.platform.LocalContext
 
 class BitmapCreator {
-    companion object{
+    companion object {
         fun getImageBitmap(imageEntity: Imageable, context: Context): Bitmap {
             val bitmap: Bitmap
-            Log.d("getImageBitmap", "start---------------------------------------" )
+            Log.d("getImageBitmap", "start---------------------------------------")
             if (!imageEntity.image.isBlank()) {
                 bitmap = getImgBitmap(imageEntity.image, context)
             } else if (!imageEntity.imageDefault.isBlank()) {
@@ -23,9 +23,8 @@ class BitmapCreator {
             } else {
                 bitmap = getExceptionDefaultBitmap(context)
             }
-            Log.d("getImageBitmap", "---------------------------------------end" )
+            Log.d("getImageBitmap", "---------------------------------------end")
             return bitmap
-
         }
 
         fun getExceptionDefaultBitmap(context: Context): Bitmap {
@@ -35,13 +34,13 @@ class BitmapCreator {
             val source: ImageDecoder.Source
             try {
                 val id = context.resources.getIdentifier("drew", "drawable", name)
-            /*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    source = ImageDecoder.createSource(context.resources, id)
-                    bitmap = ImageDecoder.decodeBitmap(source)
-                } else {*/
-                    bitmap = BitmapFactory.decodeResource(context.resources, id);
-              //  }
-                Log.d("getExceptionDefaultBitmap", "id = $id" )
+                /*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        source = ImageDecoder.createSource(context.resources, id)
+                        bitmap = ImageDecoder.decodeBitmap(source)
+                    } else {*/
+                bitmap = BitmapFactory.decodeResource(context.resources, id);
+                //  }
+                Log.d("getExceptionDefaultBitmap", "id = $id")
             } catch (e: Exception) {
                 bitmap = getExceptionDefaultBitmap(context)
 
@@ -55,14 +54,14 @@ class BitmapCreator {
             val name = context.packageName
             val source: ImageDecoder.Source
             try {
-             val id = context.resources.getIdentifier(imgDefault, "drawable", name)
+                val id = context.resources.getIdentifier(imgDefault, "drawable", name)
                 /*      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                         source = ImageDecoder.createSource(context.resources, id)
                         bitmap = ImageDecoder.decodeBitmap(source)
                     } else {*/
-                    bitmap = BitmapFactory.decodeResource(context.resources, id);
-             //   }
-                Log.d("getImgDefaultBitmap", "imgDefault = $imgDefault" )
+                bitmap = BitmapFactory.decodeResource(context.resources, id);
+                //   }
+                Log.d("getImgDefaultBitmap", "imgDefault = $imgDefault")
             } catch (e: Exception) {
                 bitmap = getExceptionDefaultBitmap(context)
             }
@@ -73,17 +72,17 @@ class BitmapCreator {
         fun getImgBitmap(img: String, context: Context): Bitmap {
             val source: ImageDecoder.Source
             val bitmap: Bitmap
-           val contentResolver = context.contentResolver
+            val contentResolver = context.contentResolver
 
             val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
-             // or
-                    //Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            // or
+            //Intent.FLAG_GRANT_WRITE_URI_PERMISSION
             //Check for the freshest data.
             val name = context.packageName
-         //   context.grantUriPermission(name, Uri.parse(img), Intent.FLAG_GRANT_READ_URI_PERMISSION )
+            //   context.grantUriPermission(name, Uri.parse(img), Intent.FLAG_GRANT_READ_URI_PERMISSION )
             //contentResolver.takePersistableUriPermission(Uri.parse(img),  Intent.FLAG_GRANT_READ_URI_PERMISSION)
-         //   val persistedUriPermissions = contentResolver.persistedUriPermissions
-         //   Log.d("pers", "${persistedUriPermissions.toString()}")
+            //   val persistedUriPermissions = contentResolver.persistedUriPermissions
+            //   Log.d("pers", "${persistedUriPermissions.toString()}")
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
 
@@ -95,7 +94,7 @@ class BitmapCreator {
                     Uri.parse(img)
                 );
             }
-            Log.d("getImgDefaultBitmap", "im str = $img" )
+            Log.d("getImgDefaultBitmap", "im str = $img")
             return bitmap
         }
     }

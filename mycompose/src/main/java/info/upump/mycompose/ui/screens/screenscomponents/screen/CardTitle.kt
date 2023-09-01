@@ -11,10 +11,12 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -67,6 +69,16 @@ fun CardTitlePreviewWorkoutError() {
 
     CardTitle(workout.title, true, f)
 }
+@Preview(showBackground = true)
+@Composable
+fun CardTitlePreviewWorkoutNotitle() {
+    val workout = Workout().apply {
+        title = ""
+    }
+    val f: (String) -> Unit = { println(it) }
+
+    CardTitle(workout.title, false, f)
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,11 +90,11 @@ fun CardTitle(
 ) {
     val modifierCard = modifier
         .fillMaxWidth()
-        .padding(start = 4.dp, end = 4.dp, top = 4.dp)
+        .padding(start = 0.dp, end = 0.dp, top = 0.dp)
 
     val modifierValue = Modifier
         .fillMaxWidth()
-        .padding(start = 8.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
+        .padding(top = 4.dp, bottom = 4.dp)
     Card(
         modifier = modifierCard,
         elevation = CardDefaults.cardElevation(1.dp),
@@ -92,14 +104,14 @@ fun CardTitle(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        Box(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
-
+        Box(modifier = Modifier
+            .fillMaxWidth().padding(start = 4.dp, end = 4.dp)) {
             TextField(modifier = modifierValue,
                 colors = TextFieldDefaults.textFieldColors(
                     disabledTextColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor =  colorResource(R.color.colorBackgroundChips),
+                    unfocusedIndicatorColor = colorResource(R.color.colorBackgroundChips),
+                    disabledIndicatorColor = colorResource(R.color.colorBackgroundChips),
                     containerColor = colorResource(R.color.colorBackgroundCardView)
                 ),
                 value = text,
@@ -115,12 +127,13 @@ fun CardTitle(
                 isError = isError,
                 supportingText = {
                     if (isError) {
-                        Text(text = "пустое поле")
+                        Text(text = stringResource(id = R.string.error_tips_empty_field))
                     }
                 },
                 placeholder = {
                     Text(text = stringResource(id = R.string.label_title_common))
                 }
+
             )
         }
     }

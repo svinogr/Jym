@@ -44,21 +44,6 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
         R.drawable.my_cycle,
     )
 
-    object MyWorkoutNavigationItem : NavigationItem(
-        R.string.title_of_mycycle_screen,
-        MY_WORKOUT_ROUTE
-    )
-
-    object MyExerciseNavigationItem : NavigationItem(
-        R.string.title_of_mycycle_screen,
-        MY_EXERCISE_ROUTE
-    )
-
-    object MySetsNavigationItem : NavigationItem(
-        R.string.title_of_mycycle_screen,
-        MY_SET_ROUTE
-    )
-
     object DefaultCycleNavigationItem : NavigationItem(
         R.string.title_of_defaultcycle_screen,
         DEFAULT_START_CYCLE_ROUTE,

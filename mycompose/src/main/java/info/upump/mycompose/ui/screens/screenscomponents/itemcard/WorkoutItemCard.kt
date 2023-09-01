@@ -53,7 +53,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modi
             .fillMaxWidth()
             .padding(1.dp)
             .clickable {
-                navHost.navigate(NavigationItem.DetailWorkoutNavigationItem.routeWithId(workout.id))
+
             },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
@@ -77,7 +77,9 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modi
             )
 
             Column(modifier = modifier.fillMaxWidth()) {
-                val modifierCol = Modifier.padding(end = 8.dp)
+                val modifierCol = Modifier.padding(end = 8.dp).clickable {
+                    navHost.navigate(NavigationItem.DetailWorkoutNavigationItem.routeWithId(workout.id))
+                }
                 Text(
                     text = workout.title!!,
                     style = MyTextTitleLabel16,

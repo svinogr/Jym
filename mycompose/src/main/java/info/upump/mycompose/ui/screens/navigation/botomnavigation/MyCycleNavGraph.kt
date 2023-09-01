@@ -15,8 +15,8 @@ import info.upump.mycompose.ui.screens.mainscreen.MyCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.ActionState
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.AlterCycleDetailScreenM3
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
-import info.upump.mycompose.ui.screens.myworkouts.exercisescreen.MyExerciseDetailScreen
-import info.upump.mycompose.ui.screens.myworkouts.workoutscreen.CreateWorkoutScreen
+import info.upump.mycompose.ui.screens.myworkouts.exercisescreens.MyExerciseDetailScreen
+import info.upump.mycompose.ui.screens.myworkouts.workoutscreens.CreateWorkoutScreen
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
 

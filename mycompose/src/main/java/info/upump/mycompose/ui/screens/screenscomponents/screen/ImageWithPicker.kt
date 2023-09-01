@@ -16,6 +16,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -34,15 +35,15 @@ fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -
     val context = LocalContext.current
 
      Log.d("image", "$image $defaultImage")
-    val bitmap: Bitmap
-
+ //   val bitmap: Bitmap
+/*
     if (!image.isBlank()) {
         bitmap = BitmapCreator.getImgBitmap(image, context)
     } else if (!defaultImage.isBlank()) {
         bitmap = BitmapCreator.getImgDefaultBitmap(defaultImage, context)
     } else {
         bitmap = BitmapCreator.getExceptionDefaultBitmap(context)
-    }
+    }*/
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
@@ -52,9 +53,19 @@ fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -
                 context.grantUriPermission(name, it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
          updateImage(it.toString())
     }
+    ImageForDetailScreen(
+        image = image,
+        defaultImage = defaultImage,
+        modifier = Modifier.clickable {
+            launcher.launch(
+                PickVisualMediaRequest(
+                    mediaType = ActivityResultContracts.PickVisualMedia.ImageAndVideo
+                )
+            )
+        }
+    )
 
-
-    Image(modifier = Modifier
+  /*  Image(modifier = Modifier
         .fillMaxHeight()
         .clickable {
             launcher.launch(
@@ -66,7 +77,7 @@ fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -
         bitmap = bitmap.asImageBitmap(),
         contentDescription = "image",
         contentScale = ContentScale.Crop,
-    )
+    )*/
 }
 
 private fun getImagePicker(image: String, context: Context): Bitmap {
