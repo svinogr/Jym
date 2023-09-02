@@ -1,6 +1,5 @@
 package info.upump.mycompose.models.entity
 
-import androidx.compose.ui.Modifier
 import info.upump.database.entities.SetsEntity
 
 class Sets(
@@ -33,7 +32,7 @@ class Sets(
             return sets
         }
 
-        fun mapTontity(newSets: Sets): SetsEntity {
+        fun mapToEntity(newSets: Sets): SetsEntity {
             val sets = SetsEntity(
                 _id = newSets.id)
             sets.parent_id = newSets.parentId

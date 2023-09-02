@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -25,8 +26,10 @@ import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ListSets
 import info.upump.mycompose.ui.screens.screenscomponents.screen.TableHeader
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,6 +44,10 @@ fun MyExerciseDetailScreen(
     val lazyListState = LazyListState()
     appBarTitle.value = stringResource(id = R.string.exercise_title_sets)
     Log.d("saveItem", "$id")
+
+    LaunchedEffect(key1 = true){
+            exerciseVM.getBy(id)
+    }
 
     Scaffold(
         modifier = Modifier

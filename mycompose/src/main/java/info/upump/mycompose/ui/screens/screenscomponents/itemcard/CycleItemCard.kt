@@ -125,7 +125,7 @@ fun CycleItemCard(
                 if (!cycle.isDefaultType) {
                     Divider(
                         modifier = Modifier
-                            .height(1.dp)
+                            .height(1.dp).padding(end = 8.dp)
                             .background(Color.Black)
                     )
                 }

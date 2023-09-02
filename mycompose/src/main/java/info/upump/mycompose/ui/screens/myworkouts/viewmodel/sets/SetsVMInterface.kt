@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface SetsVMInterface {
     val item: StateFlow<Sets>
     val id: StateFlow<Long>
+    val parentId: StateFlow<Long>
     val reps: StateFlow<Int>
     val weight: StateFlow<Double>
     val weightPast: StateFlow<Double>
@@ -15,6 +16,7 @@ interface SetsVMInterface {
     fun updateWeight(weight: Double)
     fun updatePastWeight(weight: Double)
     fun updateQuantity(quantity: Int)
+    fun updateParentId(parentId: Long)
     fun getBy(id: Long)
     fun save()
 }

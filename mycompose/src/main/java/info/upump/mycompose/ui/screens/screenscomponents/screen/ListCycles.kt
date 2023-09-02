@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -15,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.CycleItemCard
 
 @Composable
@@ -24,7 +26,6 @@ fun ListCycle(
     list: List<Cycle>,
     navhost: NavHostController
 ) {
-
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
@@ -34,13 +35,16 @@ fun ListCycle(
     ) {
         list.forEachIndexed { index, cycle ->
             item {
-                Column(modifier = Modifier) {
+                key(cycle.id) {
                     CycleItemCard(cycle, navhost)
-                    if (index < list.size) {
-                        Divider()
-                    }
                 }
             }
+            item {
+                if (index < list.size) {
+                    Divider()
+                }
+            }
+  
         }
     }
 }
@@ -48,7 +52,6 @@ fun ListCycle(
 @Preview
 @Composable
 fun ComPreview() {
-
     ListCycle(
         lazyListState = rememberLazyListState(), navhost = NavHostController(
             LocalContext.current

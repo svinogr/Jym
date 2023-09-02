@@ -20,6 +20,9 @@ class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
     private val _id = MutableStateFlow(0L)
     override val id: StateFlow<Long> = _id.asStateFlow()
 
+    private val _parentId = MutableStateFlow(0L)
+    override val parentId: StateFlow<Long> = _parentId.asStateFlow()
+
     private val _weight = MutableStateFlow(0.0)
     override val weight: StateFlow<Double> = _weight.asStateFlow()
 
@@ -36,6 +39,7 @@ class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
     }
 
     override fun updateWeight(weight: Double) {
+        _weightPast.update { _weight.value }
         _weight.update { weight }
     }
 
@@ -45,6 +49,10 @@ class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
 
     override fun updateQuantity(quantity: Int) {
         _quantity.update { quantity }
+    }
+
+    override fun updateParentId(parentId: Long) {
+        _parentId.update { parentId }
     }
 
     override fun getBy(id: Long) {
@@ -67,8 +75,24 @@ class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
     }
 
     override fun save() {
-        Log.d("save set", "${weight.value} ${reps.value} ${quantity.value}")
+        if(quantity.value == 0) return
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d("save set", "${weight.value} ${reps.value} ${quantity.value}")
+            val sets = Sets().apply {
+                id = 0
+                parentId = this@SetsVM.parentId.value
+                reps = this@SetsVM.reps.value
+                weight = this@SetsVM.weight.value
+                weightPast = this@SetsVM._weightPast.value
+            }
+            val setsRepo = SetsRepo.get()
+
+            for (i in 1..quantity.value) {
+                setsRepo.save(Sets.mapToEntity(sets))
+            }
+        }
     }
+
     companion object {
         val vmOnlyForPreview by lazy {
             object : SetsVMInterface {
@@ -77,6 +101,9 @@ class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
 
                 private val _id = MutableStateFlow(0L)
                 override val id: StateFlow<Long> = _id.asStateFlow()
+
+                private val _parentId = MutableStateFlow(0L)
+                override val parentId: StateFlow<Long> = _parentId.asStateFlow()
 
                 private val _weight = MutableStateFlow(0.0)
                 override val weight: StateFlow<Double> = _weight.asStateFlow()
@@ -103,6 +130,10 @@ class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
                 }
 
                 override fun updateQuantity(quantity: Int) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun updateParentId(parentId: Long) {
                     TODO("Not yet implemented")
                 }
 

@@ -13,7 +13,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import info.upump.mycompose.ui.screens.mainscreen.MyCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.ActionState
-import info.upump.mycompose.ui.screens.myworkouts.SetsCreateScreen
+import info.upump.mycompose.ui.screens.myworkouts.setsscreen.SetsCreateScreen
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.AlterCycleDetailScreenM3
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.exercisescreens.MyExerciseDetailScreen

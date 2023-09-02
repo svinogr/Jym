@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -52,6 +53,7 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modif
             modifier = Modifier.background(
                 colorResource(id = R.color.colorBackgroundCardView)
             ).clickable {
+                Log.d("id exercise card","${exercise.id}")
                 navHost.navigate(NavigationItem.DetailExerciseNavigationItem.routeWithId(exercise.id))
             }
         ) {

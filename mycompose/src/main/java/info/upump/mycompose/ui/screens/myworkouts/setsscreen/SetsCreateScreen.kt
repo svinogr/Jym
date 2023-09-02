@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkouts
+package info.upump.mycompose.ui.screens.myworkouts.setsscreen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -43,10 +43,10 @@ fun SetsCreateScreen(
 ) {
     val setVM: SetsVM = viewModel()
     val isLoad = setVM.isLoading.collectAsState()
-    var quantity = 0
     val titleModifier = Modifier.padding(start = 8.dp, top = 8.dp)
     val colModifier = Modifier.background(colorResource(id = R.color.colorBackgroundCardView))
     appBarTitle.value = stringResource(id = R.string.set_create_title)
+    setVM.updateParentId(parentId)
 
     Scaffold(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
         floatingActionButton = {
