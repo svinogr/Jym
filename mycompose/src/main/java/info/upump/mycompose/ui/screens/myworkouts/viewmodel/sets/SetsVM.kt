@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -55,7 +56,7 @@ class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
         _parentId.update { parentId }
     }
 
-    override fun getBy(id: Long) {
+    override fun getByParent(id: Long) {
         _stateLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             val repo = SetsRepo.get()
@@ -74,21 +75,40 @@ class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
         }
     }
 
+    override fun getBy(id: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val setsRepo = SetsRepo.get()
+            setsRepo.getBy(id).map { entity ->
+                Sets.mapFromDbEntity(entity)
+            }.collect() { sets ->
+                Log.d("sets", "$sets ")
+                with(sets) {
+                    _id.update { id }
+                    _reps.update { reps }
+                    _weight.update { weight }
+                    _weightPast.update { weightPast }
+                    _parentId.update { parentId }
+                }
+            }
+        }
+    }
+
     override fun save() {
-        if(quantity.value == 0) return
+        if (quantity.value == 0 && id.value == 0L) return
+
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("save set", "${weight.value} ${reps.value} ${quantity.value}")
             val sets = Sets().apply {
-                id = 0
+                id = this@SetsVM.id.value
                 parentId = this@SetsVM.parentId.value
                 reps = this@SetsVM.reps.value
                 weight = this@SetsVM.weight.value
                 weightPast = this@SetsVM._weightPast.value
             }
             val setsRepo = SetsRepo.get()
-
-            for (i in 1..quantity.value) {
-                setsRepo.save(Sets.mapToEntity(sets))
+            var q = 1
+            if (quantity.value != 0) { setsRepo.save(Sets.mapToEntity(sets))} else {
+                setsRepo.update(Sets.mapToEntity(sets))
             }
         }
     }
@@ -134,6 +154,10 @@ class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
                 }
 
                 override fun updateParentId(parentId: Long) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun getByParent(id: Long) {
                     TODO("Not yet implemented")
                 }
 

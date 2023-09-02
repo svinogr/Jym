@@ -24,6 +24,7 @@ const val CYCLE_EDITE_ROUTE = "cycleEditCreate"
 const val WORKOUT_CREATE_ROUTE = "workoutCreate"
 const val WORKOUT_EDITE_ROUTE = "workoutEditCreate"
 const val SETS_CREATE_ROUTE = "setsCreate"
+const val SETS_EDITE_ROUTE = "setsEdite"
 
 
 const val DEFAULT_EXERCISE_ROUTE = "defaultExerciseRoute"
@@ -37,7 +38,7 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
         route = "$WORKOUT_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
     ) {
         fun routeWithId(id: Long): String {
-            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+            return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
         }
     }
 
@@ -57,14 +58,15 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
         route = "$DEFAULT_CYCLE_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
     ) {
         fun routeWithId(id: Long): String {
-            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+            return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
         }
     }
-   object DetailCycleNavigationItem : NavigationItem(
+
+    object DetailCycleNavigationItem : NavigationItem(
         route = "$CYCLE_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
     ) {
         fun routeWithId(id: Long): String {
-            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+            return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
         }
     }
 
@@ -75,37 +77,57 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
             R.drawable.profile
         )
 
-    object DetailSetDetailNavigationItem : NavigationItem(
+  /*  object DetailSetDetailNavigationItem : NavigationItem(
         route = "$SETS_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
-    ){
+    ) {
         fun routeWithId(id: Long): String {
-            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+            return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
         }
-    }
+    }*/
 
     object DetailExerciseNavigationItem : NavigationItem(
         route = "$EXERCISE_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
-    )
-    {
+    ) {
         fun routeWithId(id: Long): String {
-            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+            return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
         }
     }
 
+    // Sets start
     // создание нового подхода
     object CreateSetsNavigationItem : NavigationItem(
         route = "$SETS_CREATE_ROUTE/$DETAIL_ARGUMENT_KEY_PARENT_ID"
     ) {
         fun routeWithId(parentId: Long): String {
-            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_PARENT_ID, newValue = parentId.toString())
+            return this.route.replace(
+                oldValue = DETAIL_ARGUMENT_KEY_PARENT_ID,
+                newValue = parentId.toString()
+            )
         }
     }
+//редактирование Sets
+    object EditSetsNavigationItem : NavigationItem(
+        route = "$SETS_EDITE_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
+    ) {
+        fun routeWithId(id: Long): String {
+            return this.route.replace(
+                oldValue = DETAIL_ARGUMENT_KEY_ID,
+                newValue = id.toString()
+            )
+        }
+    }
+
+
+
+
+    //end Sets
+
     // переход на экран редактирования или создания cycle
     object CreateEditeCycleNavigationItem : NavigationItem(
         route = "$CYCLE_EDITE_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
     ) {
         fun routeWith(id: Long): String {
-            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+            return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
         }
     }
 
@@ -114,20 +136,22 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
         route = "$WORKOUT_CREATE_ROUTE/$DETAIL_ARGUMENT_KEY_PARENT_ID"
     ) {
         fun routeWith(parentId: Long): String {
-            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_PARENT_ID, newValue = parentId.toString())
+            return this.route.replace(
+                oldValue = DETAIL_ARGUMENT_KEY_PARENT_ID,
+                newValue = parentId.toString()
+            )
         }
     }
 
-/*
-    object EditeWorkoutNavigationItem : NavigationItem(
-        route = "$WORKOUT_EDITE_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
-    ) {
-        fun routeWithId(id: Long): String {
-            return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+    /*
+        object EditeWorkoutNavigationItem : NavigationItem(
+            route = "$WORKOUT_EDITE_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
+        ) {
+            fun routeWithId(id: Long): String {
+                return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+            }
         }
-    }
-*/
-
+    */
 
 
 }

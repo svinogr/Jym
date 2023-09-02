@@ -36,7 +36,7 @@ fun SetsItemCard(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-                navHost.navigate(NavigationItem.DetailSetDetailNavigationItem.routeWithId(sets.id))
+                navHost.navigate(NavigationItem.EditSetsNavigationItem.routeWithId(sets.id))
             },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),

@@ -17,6 +17,7 @@ import info.upump.mycompose.ui.screens.myworkouts.setsscreen.SetsCreateScreen
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.AlterCycleDetailScreenM3
 import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.exercisescreens.MyExerciseDetailScreen
+import info.upump.mycompose.ui.screens.myworkouts.setsscreen.SetEditeScreen
 import info.upump.mycompose.ui.screens.myworkouts.workoutscreens.CreateWorkoutScreen
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
@@ -88,6 +89,7 @@ fun NavGraphBuilder.myCycleGraph(
 
             MyExerciseDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
         }
+        // Sets start
         // создать новый подход
         composable(
             route = NavigationItem.CreateSetsNavigationItem.route,
@@ -101,7 +103,22 @@ fun NavGraphBuilder.myCycleGraph(
             SetsCreateScreen(parentId!!, navHostController, paddingValues, appBarTitle)
         }
 
+        // создать новый подход
         composable(
+            route = NavigationItem.EditSetsNavigationItem.route,
+            arguments = listOf(navArgument("id") {
+                type = NavType.LongType
+            }),
+        ) {
+            //topBarState.value = false он уже должен был быть убран
+            val id = it.arguments?.getLong("id")
+
+            SetEditeScreen(id!!, navHostController, paddingValues, appBarTitle)
+        }
+
+        // Sets end
+
+     /*   composable(
             route = NavigationItem.DetailSetDetailNavigationItem.route,
             arguments = listOf(navArgument("id") {
                 type = NavType.LongType
@@ -113,7 +130,7 @@ fun NavGraphBuilder.myCycleGraph(
             Log.d("TAG", "id = $id")
 
             //   MySetsDetailScreen(id!!, navHostController, paddingValues, appBarTitle) //TODO
-        }
+        }*/
         composable(
             route = NavigationItem.CreateEditeCycleNavigationItem.route,
             arguments = listOf(navArgument("id") {

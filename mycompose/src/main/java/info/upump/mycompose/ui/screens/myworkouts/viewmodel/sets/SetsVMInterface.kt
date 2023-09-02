@@ -17,6 +17,7 @@ interface SetsVMInterface {
     fun updatePastWeight(weight: Double)
     fun updateQuantity(quantity: Int)
     fun updateParentId(parentId: Long)
+    fun getByParent(parentId: Long)
     fun getBy(id: Long)
     fun save()
 }
