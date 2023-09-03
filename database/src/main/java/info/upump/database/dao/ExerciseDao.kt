@@ -19,4 +19,7 @@ interface ExerciseDao {
     fun test(id: Long): Flow<Map<ExerciseEntity, ExerciseDescriptionEntity>>   */
     @Query("select * from exercises where parent_id=:id")
     fun getFullEntityByParent(id: Long): Flow<List<ExerciseFullEntity>>
+
+    @Query("select * from exercises where _id= :id")
+    fun getFullEntityBy(id: Long): Flow<ExerciseFullEntity>
 }

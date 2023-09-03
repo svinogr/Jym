@@ -21,7 +21,7 @@ import info.upump.mycompose.R
 data class Chips(val title:String, val icon: Int, val action: ()-> Unit)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RowChips(modifier: Modifier, vararg chips: Chips,) {
+fun RowChips(modifier: Modifier, vararg chips: Chips) {
     val scrollState = rememberScrollState()
     Row(modifier =  modifier.padding(start = 4.dp, end = 4.dp).horizontalScroll(scrollState)) {
         chips.forEach {it->

@@ -55,7 +55,7 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
     }
 
     override fun getFullEntityBy(id: Long): Flow<ExerciseFullEntity> {
-        TODO("Not yet implemented")
+        return exerciseDao.getFullEntityBy(id)
     }
 
     override fun getAllFullEntityByParent(id: Long): Flow<List<ExerciseFullEntity>> {
