@@ -43,14 +43,10 @@ fun CycleItemCard(
     navHost: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    val bitmap: MutableState<Bitmap?> = remember {
-        mutableStateOf(null)
-    }
-
-    Card(
+      Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(1.dp)
+            .padding(0.dp)
             .clickable {
                 navHost.navigate(NavigationItem.DetailCycleNavigationItem.routeWithId(cycle.id))
             },
@@ -71,37 +67,6 @@ fun CycleItemCard(
                     .height(50.dp)
                     .width(50.dp)
             ) {
-                /*bitmap.value?.let {
-                    Image(
-                        modifier = Modifier
-                            .height(50.dp)
-                            .width(50.dp)
-                            .clip(CircleShape),
-                        bitmap = it.asImageBitmap(),
-                        contentScale = ContentScale.Crop,
-                        contentDescription = ""
-                    )
-                }*/
-                //------------
-                /*       if (!cycle.image.isBlank()) {
-                           Image(
-                               modifier = Modifier
-                                   .height(50.dp)
-                                   .width(50.dp)
-                                   .clip(CircleShape),
-                               painter = rememberAsyncImagePainter(
-                                   ImageRequest
-                                       .Builder(LocalContext.current)
-                                       .data(data = Uri.parse(cycle.image))
-                                       .build()
-                               ),
-                               contentScale = ContentScale.Crop,
-                               contentDescription = ""
-                           )
-
-                       }*/
-                //----------
-
                 ItemImage(
                     image = cycle.image,
                     defaultImage = cycle.imageDefault

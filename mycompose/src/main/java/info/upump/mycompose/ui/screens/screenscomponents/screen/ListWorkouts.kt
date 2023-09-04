@@ -7,6 +7,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.DismissDirection
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FractionalThreshold
+import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -17,8 +23,11 @@ import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ItemSwipeBackgroundOneIcon
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.SetsItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.WorkoutItemCard
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ListWorkouts(
     list: List<Workout>,
@@ -33,14 +42,24 @@ fun ListWorkouts(
             .background(colorResource(R.color.colorBackgroundCardView)),
         state = lazyListState
     ) {
-        list.forEachIndexed { index, it ->
-            item {
-                Column(modifier = Modifier) {
-                    WorkoutItemCard(workout = it, navHost = navhost)
-                    if (index < list.size) {
-                        Divider()
+        itemsIndexed(list) { index, it ->
+            val dismissState = rememberDismissState()
+            SwipeToDismiss(
+                state = dismissState,
+                directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
+                background = {
+                    ItemSwipeBackgroundOneIcon(dismissState = dismissState)
+                },
+                dismissContent = {
+                    Column(modifier = Modifier) {
+                        WorkoutItemCard(workout = it, navHost = navhost)
+
                     }
-                }
+                },
+                dismissThresholds = { FractionalThreshold(0.5f) }
+            )
+            if (index < list.size) {
+                Divider()
             }
         }
     }

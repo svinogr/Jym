@@ -26,7 +26,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
@@ -36,14 +35,6 @@ import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 
-class SampleWorkoutProvider : PreviewParameterProvider<Workout> {
-    override val values = sequenceOf(
-        Workout(
-            isWeekEven = false, isDefaultType = true,
-            isTemplate = false, day = Day.FRIDAY, exercises = listOf()
-        ).apply { title = "Новоя" }
-    )
-}
 
 @Composable
 fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modifier = Modifier) {
@@ -51,9 +42,8 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modi
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(1.dp)
             .clickable {
-
+                navHost.navigate(NavigationItem.DetailWorkoutNavigationItem.routeWithId(workout.id))
             },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
@@ -77,9 +67,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modi
             )
 
             Column(modifier = modifier.fillMaxWidth()) {
-                val modifierCol = Modifier.padding(end = 8.dp).clickable {
-                    navHost.navigate(NavigationItem.DetailWorkoutNavigationItem.routeWithId(workout.id))
-                }
+                val modifierCol = Modifier.padding(end = 8.dp)
                 Text(
                     text = workout.title!!,
                     style = MyTextTitleLabel16,

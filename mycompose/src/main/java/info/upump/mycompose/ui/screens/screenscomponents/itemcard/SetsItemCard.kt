@@ -50,9 +50,8 @@ fun SetsItemCard(
                 .background(
                     colorResource(id = R.color.colorBackgroundCardView)
                 )
-                .padding(top = 8.dp, bottom = 8.dp)
+                .padding(top = 16.dp, bottom = 16.dp)
         ) {
-
             val textNumber = createRef()
             val textWeight = createRef()
             val textPasWeight = createRef()

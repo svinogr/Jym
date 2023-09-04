@@ -6,6 +6,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -45,8 +47,9 @@ fun ItemSwipeBackgroundOneIcon(dismissState: DismissState, modifier: Modifier = 
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .fillMaxHeight()
             .background(color.value)
-            .padding(16.dp, 8.dp),
+            .padding(0.dp, 0.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = alignment.value
     ) {
@@ -58,7 +61,7 @@ fun ItemSwipeBackgroundOneIcon(dismissState: DismissState, modifier: Modifier = 
                 painter = painterResource(id = R.drawable.ic_delete_24),
                 " ",
                 Modifier
-                    .size(AssistChipDefaults.IconSize)
+                    .size(AssistChipDefaults.Height)
 
             )
         }
@@ -69,7 +72,7 @@ fun ItemSwipeBackgroundOneIcon(dismissState: DismissState, modifier: Modifier = 
                 painter = painterResource(id = R.drawable.ic_delete_24),
                 " ",
                 Modifier
-                    .size(AssistChipDefaults.IconSize)
+                    .size(AssistChipDefaults.Height)
             )
         }
     }
