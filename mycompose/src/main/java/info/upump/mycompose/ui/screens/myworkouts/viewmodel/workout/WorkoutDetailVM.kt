@@ -118,6 +118,10 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     }
 
+    override fun delete(it: Long) {
+
+    }
+
     companion object {
         val vmOnlyForPreview by lazy {
             object : WorkoutDetailVMInterface {
@@ -134,7 +138,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                         typeMuscle = TypeMuscle.ABS
                         isDefaultType = true
                         isTemplate = true
-                        setsList = listOf()
+                        setsList = mutableListOf()
                         descriptionId = 1
                         exerciseDescription = ExerciseDescription().apply {
                             img = "nach1"
@@ -147,7 +151,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                         typeMuscle = TypeMuscle.BACK
                         isDefaultType = true
                         isTemplate = true
-                        setsList = listOf()
+                        setsList = mutableListOf()
                         descriptionId = 2
                         exerciseDescription = ExerciseDescription().apply {
                             img = "nach1"
@@ -160,7 +164,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                         typeMuscle = TypeMuscle.CALVES
                         isDefaultType = true
                         isTemplate = true
-                        setsList = listOf()
+                        setsList = mutableListOf()
                         descriptionId = 3
                         exerciseDescription = ExerciseDescription().apply {
                             img = "nach1"
@@ -220,6 +224,10 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                     TODO(
                         "Not yet implemented"
                     )
+                }
+
+                override fun delete(it: Long) {
+                    TODO("Not yet implemented")
                 }
 
                 private

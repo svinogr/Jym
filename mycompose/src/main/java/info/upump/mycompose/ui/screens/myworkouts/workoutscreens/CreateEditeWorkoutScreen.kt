@@ -20,13 +20,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
+import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutVM
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithState
+import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardTitle
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DayCardWorkoutEdit
@@ -50,7 +54,8 @@ fun CreateWorkoutScreen(
 
     val context = LocalContext.current
     val columnModifier = Modifier
-        .fillMaxHeight().fillMaxWidth()
+        .fillMaxHeight()
+        .fillMaxWidth()
         .verticalScroll(rememberScrollState())
         .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout))
 
@@ -62,8 +67,10 @@ fun CreateWorkoutScreen(
     Scaffold(
         modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
         floatingActionButton = {
-            FloatActionButtonWithState(isVisible = true, icon = R.drawable.ic_fab_next) { // добавить цывет как у дня
-                // сохраняем новую и возвращаемся обратно
+            FloatExtendedButtonWithState(
+                stringResource(id = R.string.picker_dialog_btn_save),
+                true, R.drawable.ic_save_black
+            ) {
                 if (!workoutVM.isBlankFields()) {
                     workoutVM.saveWith(parentId) {
                         navHostController.popBackStack()//  NavigationItem.DetailWorkoutNavigationItem.routeWithId(it)
@@ -71,22 +78,23 @@ fun CreateWorkoutScreen(
                     }
                 }
             }
+
         }) {
         Column(
             modifier = columnModifier,
         ) {
-            DateCardWithDatePicker(
-                workoutVM.startDate.collectAsState().value,
-                workoutVM::updateStartDate,
-                workoutVM.finishDate.collectAsState().value,
-                workoutVM::updateFinishDate
-            )
-
             DayCardWorkoutEdit(
                 workoutVM.day.collectAsState().value,
                 workoutVM::updateDay,
                 workoutVM.isEven.collectAsState().value,
                 workoutVM::updateEven
+            )
+
+            DateCardWithDatePicker(
+                workoutVM.startDate.collectAsState().value,
+                workoutVM::updateStartDate,
+                workoutVM.finishDate.collectAsState().value,
+                workoutVM::updateFinishDate
             )
 
             CardTitle(

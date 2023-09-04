@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -37,6 +38,7 @@ import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
@@ -80,6 +82,7 @@ fun AlterCycleDetailScreenM3(
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val snackBarHostState = remember { SnackbarHostState() }
 
+
     ModalBottomSheetLayout(
         sheetState = bottomState,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -99,6 +102,7 @@ fun AlterCycleDetailScreenM3(
                     stringResource(id = R.string.workout_dialog_create_new),
                     listState.isScrollingUp(), R.drawable.ic_add_black_24dp
                 ) {
+                    navHostController.navigate(NavigationItem.CreateWorkoutNavigationItem.routeWith(id))
                 }
             },
             snackbarHost = {

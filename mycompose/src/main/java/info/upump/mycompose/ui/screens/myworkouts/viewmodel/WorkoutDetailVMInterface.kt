@@ -17,4 +17,5 @@ interface WorkoutDetailVMInterface {
         val isEven: StateFlow<Boolean>
         val subItems: StateFlow<List<Exercise>>
         fun getBy(id: Long)
-    }
+    fun delete(it: Long)
+}

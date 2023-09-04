@@ -58,7 +58,8 @@ fun MyExerciseDetailScreen(
     val lazyListState = LazyListState()
     appBarTitle.value = stringResource(id = R.string.exercise_title_sets)
     Log.d("saveItem", "$id")
-
+    val l = remember{
+        mutableStateOf(exerciseVM.subItems)}
     LaunchedEffect(key1 = true) {
         exerciseVM.getBy(id)
     }
@@ -91,14 +92,14 @@ fun MyExerciseDetailScreen(
                 )
             }
             TableHeader()
-            val del: (Long) -> Unit = { exerciseVM.deleteSub(it) }
+            val deleteSets: (Long) -> Unit = { exerciseVM.deleteSub(it) }
 
             ListSets(
                 modifier = Modifier.weight(4.5f),
                 navHost = navHostController,
-                list = exerciseVM.subItems.collectAsState().value,
+                list = l.value.collectAsState().value,
                 listState = lazyListState,
-                del,
+                deleteSets,
                 )
         }
     }

@@ -53,7 +53,8 @@ fun ListExercise(
                 dismissContent = {
                     Column(modifier = Modifier) {
                         ExerciseItemCard(exercise = it, navHost = navhost)
-                                         }
+
+                    }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
             )

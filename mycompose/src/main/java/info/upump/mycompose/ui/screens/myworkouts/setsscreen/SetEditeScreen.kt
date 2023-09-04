@@ -56,7 +56,7 @@ fun SetEditeScreen(
     Scaffold(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
         floatingActionButton = {
             FloatExtendedButtonWithState(
-                text = stringResource(id = R.string.save),
+                text = stringResource(id = R.string.picker_dialog_btn_save),
                 isVisible = true,
                 icon = R.drawable.ic_save_black
             ) {

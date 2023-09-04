@@ -4,16 +4,25 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -27,7 +36,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,7 +57,6 @@ fun DayCardWorkoutEdit(
 ) {
     val modifierCard = modifier
         .fillMaxWidth()
-        .padding(start = 0.dp, end = 0.dp, top = 4.dp)
     val modifierValue = Modifier
         .fillMaxWidth()
         .padding(start = 0.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
@@ -69,10 +79,11 @@ fun DayCardWorkoutEdit(
         colors = CardDefaults.cardColors(
         )
     ) {
-        Box(modifier = Modifier              // для фона
-            .fillMaxHeight()
-            .fillMaxWidth()
-            .background(brush, alpha = 0.30f)) {
+        Box(
+            modifier = Modifier              // для фона
+                .fillMaxWidth()
+                .background(brush, alpha = 0.30f)
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -82,65 +93,117 @@ fun DayCardWorkoutEdit(
                     expanded = expanded, onExpandedChange = {
                         expanded = !expanded
                     }) {
-                    TextField(modifier = modifierValue
-                        .menuAnchor(),
-                        colors = ExposedDropdownMenuDefaults.textFieldColors(
-                            disabledTextColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            containerColor = Color.Transparent
-
-                            // containerColor = Color( brush)
-                        ),
-                        label = {
-                            Text(
-                                style = MyTextLabel12,
-                                text = stringResource(id = R.string.label_spinner_day)
-                            )
+                    AssistChip(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .weight(1f)
+                            .menuAnchor(),
+                        onClick = {
                         },
-                        readOnly = true,
-                        value = stringResource(id = day.title()),
-                        onValueChange = {
+                        label = {
+                            Box(modifier = Modifier.fillMaxWidth()) {
+                                Text(
+                                    stringResource(id = day.title()),
+                                    modifier = Modifier.align(Alignment.Center)
+                                )
+                            }
+                        },
+                        colors = AssistChipDefaults.assistChipColors(
+                            containerColor = colorResource(id = R.color.colorBackgroundChips)
+                        ),
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_calendar),
+                                " ",
+                                Modifier.size(AssistChipDefaults.IconSize)
+                            )
                         }
                     )
 
-                    ExposedDropdownMenu(
-                        modifier = modifierValue.fillMaxHeight(),
-                        expanded = expanded,
-                        onDismissRequest = {
-                            expanded = false
-                        }) {
-                        Day.values().forEach {
-                            DropdownMenuItem(
-                                onClick = {
-                                    updateDay(it)
-                                    expanded = false
-                                }) {
-                                Text(stringResource(id = it.title()))
+                    Box(
+                        modifier = Modifier
+                            .padding(top = 0.dp, start = 8.dp)
+                            .background(Color.Transparent)
+                    ) {
+                        ExposedDropdownMenu(
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .background(brush, alpha = 0.30f),
+                            expanded = expanded,
+                            onDismissRequest = {
+                                expanded = false
+                            }) {
+                            Day.values().forEach {
+                                DropdownMenuItem(modifier = Modifier,
+                                    onClick = {
+                                        updateDay(it)
+                                        expanded = false
+                                    }) {
+                                    AssistChip(
+                                        modifier = Modifier,
+                                        onClick = {
+                                            updateDay(it)
+                                            expanded = false
+                                        },
+                                        label = {
+                                            Box(
+                                                modifier = Modifier
+                                                    .weight(1f)
+                                                    .fillMaxWidth()
+                                            ) {
+                                                Text(
+                                                    stringResource(id = it.title()),
+                                                    modifier = Modifier.align(Alignment.Center)
+                                                )
+                                            }
+                                        },
+                                        colors = AssistChipDefaults.assistChipColors(
+                                            containerColor = colorResource(id = R.color.colorBackgroundChips)
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
                 }
-
-                OutlinedButton(
+                AssistChip(
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp).align(Alignment.CenterVertically),
-                    onClick = {
-                        Log.d("updateEven!", "$isEven")
-                        Log.d("updateEven!", "!$isEven")
-
-                        updateEven(!isEven)
-                    }) {
-                    if (isEven) {
-                        Text("четная")
+                        .padding(end = 8.dp)
+                        .align(Alignment.CenterVertically)
+                        .weight(1f),
+                    onClick = { updateEven(!isEven) },
+                    colors = AssistChipDefaults.assistChipColors(
+                        containerColor = colorResource(id = R.color.colorBackgroundChips)
+                    ),
+                    label = {
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            if (isEven) {
+                                Text(
+                                    stringResource(id = R.string.week_even),
+                                    modifier = Modifier.align(Alignment.Center)
+                                )
+                            } else {
+                                Text(
+                                    stringResource(id = R.string.week_not_even),
+                                    modifier = Modifier.align(Alignment.Center)
+                                )
+                            }
+                        }
+                    },
+                    leadingIcon = if (isEven) {
+                        {
+                            Icon(
+                                imageVector = Icons.Filled.Done,
+                                contentDescription = "Done icon",
+                                modifier = Modifier.size(AssistChipDefaults.IconSize)
+                            )
+                        }
                     } else {
-                        Text("нечетная")
-                    }
-                }
+                        { Spacer(modifier = Modifier.size(AssistChipDefaults.IconSize)) } // TODO может убоать и оставить null?
+                    },
+                )
             }
-
         }
     }
 }
@@ -162,7 +225,7 @@ fun DayCardWorkoutEditPreview1() {
 @Composable
 fun DayCardWorkoutEditPreview2() {
 
-    DayCardWorkoutEdit(Day.SATURDAY, ::println, true, ::println)
+    DayCardWorkoutEdit(Day.SATURDAY, ::println, false, ::println)
 }
 
 

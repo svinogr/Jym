@@ -40,7 +40,7 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modif
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(1.dp)
+            .padding(0.dp)
             .clickable {
                 //TODO
             },
@@ -135,7 +135,7 @@ fun PreviewExerciseItemCard() {
         isTemplate = false, exerciseDescription = exerdescription
     ).apply { title = "Новое упраж" }
 
-    exercise.setsList = listSets
+    exercise.setsList = mutableListOf()
     ExerciseItemCard(exercise = exercise, navHost = NavController(LocalContext.current))
 
 }

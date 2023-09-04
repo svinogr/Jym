@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.SwipeToDismiss
@@ -33,7 +34,8 @@ fun ListCycle(
     modifier: Modifier = Modifier,
     lazyListState: LazyListState,
     list: List<Cycle>,
-    navhost: NavHostController
+    navhost: NavHostController,
+    deleteAction: (Long) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -43,7 +45,12 @@ fun ListCycle(
         state = lazyListState
     ) {
         itemsIndexed(list) { index, it ->
-            val dismissState = rememberDismissState()
+            val dismissState = rememberDismissState(confirmStateChange = {value ->
+                if(value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
+                    deleteAction(it.id)
+                }
+                true
+            })
             SwipeToDismiss(
                 state = dismissState,
                 directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
@@ -88,6 +95,5 @@ fun ComPreview() {
             }
 
         )
-
-    )
+    ){}
 }

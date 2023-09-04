@@ -48,6 +48,10 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
         return workoutDao.getAllByParent(id)
     }
 
+    override fun deleteBy(item: WorkoutEntity): Long {
+        TODO("Not yet implemented")
+    }
+
     override fun update(setsGet: WorkoutEntity): WorkoutEntity {
         TODO("Not yet implemented")
     }

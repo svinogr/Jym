@@ -57,6 +57,10 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
         TODO("Not yet implemented")
     }
 
+    override fun deleteBy(item: CycleEntity): Long {
+        TODO("Not yet implemented")
+    }
+
 
     override fun update(setsGet: CycleEntity): CycleEntity {
         TODO("Not yet implemented")

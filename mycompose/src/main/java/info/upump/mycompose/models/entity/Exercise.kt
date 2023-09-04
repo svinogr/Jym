@@ -8,7 +8,7 @@ class Exercise(
     var typeMuscle: TypeMuscle? = null,
     var isDefaultType: Boolean = false,
     var isTemplate: Boolean = false,
-    var setsList: List<Sets> = ArrayList(),
+    var setsList: MutableList<Sets> = ArrayList(),
     var descriptionId: Long = 0,
     var exerciseDescription: ExerciseDescription? = null,
 
