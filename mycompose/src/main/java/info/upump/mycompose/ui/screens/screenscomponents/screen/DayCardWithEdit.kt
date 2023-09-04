@@ -1,11 +1,9 @@
 package info.upump.mycompose.ui.screens.screenscomponents.screen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,13 +17,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,10 +26,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.platform.InspectableModifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,7 +39,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Day
-import info.upump.mycompose.ui.theme.MyTextLabel12
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,13 +47,12 @@ fun DayCardWorkoutEdit(
     updateDay: (Day) -> Unit,
     isEven: Boolean,
     updateEven: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier, focus: FocusManager,
+
+    ) {
     val modifierCard = modifier
         .fillMaxWidth()
-    val modifierValue = Modifier
-        .fillMaxWidth()
-        .padding(start = 0.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
+
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -92,6 +85,7 @@ fun DayCardWorkoutEdit(
                 ExposedDropdownMenuBox(modifier = Modifier.weight(1f),
                     expanded = expanded, onExpandedChange = {
                         expanded = !expanded
+                        focus.clearFocus()
                     }) {
                     AssistChip(
                         modifier = Modifier
@@ -212,20 +206,26 @@ fun DayCardWorkoutEdit(
 @Composable
 fun DayCardWorkoutEditPreview() {
 
-    DayCardWorkoutEdit(Day.TUESDAY, ::println, true, ::println)
+    DayCardWorkoutEdit(Day.TUESDAY, ::println, true, ::println, focus = LocalFocusManager.current)
 }
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun DayCardWorkoutEditPreview1() {
-    DayCardWorkoutEdit(Day.FRIDAY, ::println, true, ::println)
+    DayCardWorkoutEdit(Day.FRIDAY, ::println, true, ::println, focus = LocalFocusManager.current)
 }
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun DayCardWorkoutEditPreview2() {
 
-    DayCardWorkoutEdit(Day.SATURDAY, ::println, false, ::println)
+    DayCardWorkoutEdit(
+        Day.SATURDAY,
+        ::println,
+        false,
+        ::println,
+        focus = LocalFocusManager.current
+    )
 }
 
 

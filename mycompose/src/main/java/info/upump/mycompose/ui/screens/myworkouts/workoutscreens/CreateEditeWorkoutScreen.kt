@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,10 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutVM
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardTitle
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
@@ -87,7 +85,9 @@ fun CreateWorkoutScreen(
                 workoutVM.day.collectAsState().value,
                 workoutVM::updateDay,
                 workoutVM.isEven.collectAsState().value,
-                workoutVM::updateEven
+                workoutVM::updateEven,
+                Modifier,
+                LocalFocusManager.current
             )
 
             DateCardWithDatePicker(

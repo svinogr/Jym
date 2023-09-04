@@ -13,7 +13,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -92,6 +95,8 @@ fun CardTitle(
         .fillMaxWidth()
         .padding(start = 0.dp, end = 0.dp, top = 0.dp)
 
+    val req = remember{FocusRequester()}
+
     val modifierValue = Modifier
         .fillMaxWidth()
         .padding(top = 4.dp, bottom = 4.dp)
@@ -106,7 +111,7 @@ fun CardTitle(
     ) {
         Box(modifier = Modifier
             .fillMaxWidth().padding(start = 4.dp, end = 4.dp)) {
-            TextField(modifier = modifierValue,
+            TextField(modifier = modifierValue.focusRequester(req),
                 colors = TextFieldDefaults.textFieldColors(
                     disabledTextColor = Color.Transparent,
                     focusedIndicatorColor =  colorResource(R.color.colorBackgroundChips),
