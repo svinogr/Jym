@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkouts.setsscreen/*
+package info.upump.mycompose.ui.screens.myworkouts.screens.setsscreen/*
 package info.upump.mycompose.ui.screens.myworkouts
 
 import android.annotation.SuppressLint

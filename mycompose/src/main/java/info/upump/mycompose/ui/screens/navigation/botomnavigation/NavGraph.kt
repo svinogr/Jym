@@ -13,6 +13,7 @@ const val NAVGRAPH_ROOT_ROUTE = "navgraphRootRoute"
 fun NavGraph(
     navHostController: NavHostController,
     appBarTitle: MutableState<String>,
+    appBarStyle: MutableState<Int>,
     paddingValues: PaddingValues,
     topBarState: MutableState<Boolean>,
     bottomBarState: MutableState<Boolean>
@@ -23,7 +24,7 @@ fun NavGraph(
         startDestination = MY_CYCLE_ROOT_ROUTE,
         route = NAVGRAPH_ROOT_ROUTE
     ) {
-        myCycleGraph(navHostController, appBarTitle, context, paddingValues, topBarState, bottomBarState)
+        myCycleGraph(navHostController, appBarTitle, appBarStyle,  context, paddingValues, topBarState, bottomBarState)
 
         defaultCycleGraph(navHostController, appBarTitle, context, paddingValues, topBarState)
 

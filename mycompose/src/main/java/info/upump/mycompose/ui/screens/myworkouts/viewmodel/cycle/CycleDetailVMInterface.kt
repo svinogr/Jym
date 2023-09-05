@@ -3,7 +3,6 @@ package info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Workout
 import kotlinx.coroutines.flow.StateFlow
-import java.util.Date
 
 interface CycleDetailVMInterface {
     val item: StateFlow<Cycle>
@@ -16,4 +15,5 @@ interface CycleDetailVMInterface {
     val imgDefault: StateFlow<String>
     val subItems: StateFlow<List<Workout>>
     fun getBy(id: Long)
+    fun deleteSubItem(id: Long)
 }

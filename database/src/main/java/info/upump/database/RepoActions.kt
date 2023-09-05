@@ -11,6 +11,6 @@ interface RepoActions<T> {
     fun getBy(id: Long): Flow<T>
     fun getAllByParent(id: Long): Flow<List<T>>
     fun update(setsGet: T): T
-    fun deleteBy(item: T): Long
+    fun deleteBy(id: Long)
 }
 

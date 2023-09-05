@@ -32,6 +32,8 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
 
                 private val _id = MutableStateFlow(item.value.id)
                 override val id: StateFlow<Long> = _id.asStateFlow()
+                override val parentId: StateFlow<Long>
+                    get() = TODO("Not yet implemented")
 
                 private val _title = MutableStateFlow(_workout.value.title)
                 override val title: StateFlow<String> = _title.asStateFlow()
@@ -93,6 +95,10 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
                     _id.update { id }
                 }
 
+                override fun updateParent(parentId: Long) {
+                    TODO("Not yet implemented")
+                }
+
                 override fun saveWith(parentId: Long, callback: (id: Long) -> Unit) {
                     TODO("Not yet implemented")
                 }
@@ -108,45 +114,70 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
     private val _workout = MutableStateFlow(Workout())
     override val item: StateFlow<Workout> = _workout.asStateFlow()
 
-    private val _id = MutableStateFlow(_workout.value.id)
+    private val _id = MutableStateFlow(0L)
     override val id: StateFlow<Long> = _id.asStateFlow()
 
-    private val _title = MutableStateFlow(_workout.value.title)
+    private val _parentId = MutableStateFlow(0L)
+    override val parentId: StateFlow<Long> = _parentId.asStateFlow()
+
+    private val _title = MutableStateFlow("")
     override val title: StateFlow<String> = _title.asStateFlow()
 
-    private val _comment = MutableStateFlow(_workout.value.comment)
+    private val _comment = MutableStateFlow("")
     override val comment: StateFlow<String> = _comment.asStateFlow()
 
-    private val _startDate = MutableStateFlow(_workout.value.startStringFormatDate)
+    private val _startDate = MutableStateFlow("")
     override val startDate: StateFlow<String> = _startDate
 
-    private val _finishDate = MutableStateFlow(_workout.value.finishStringFormatDate)
+    private val _finishDate = MutableStateFlow("")
     override val finishDate: StateFlow<String> = _finishDate
 
-    private val _day = MutableStateFlow(_workout.value.day)
+    private val _day = MutableStateFlow(Day.MONDAY)
     override val day: StateFlow<Day> = _day
 
     private val _isTitleError = MutableStateFlow(false)
     override val isTitleError: StateFlow<Boolean> = _isTitleError.asStateFlow()
 
-    private val _img = MutableStateFlow(_workout.value.day.toString())
+    private val _img = MutableStateFlow("")
     override val img: StateFlow<String> = _img.asStateFlow()
 
     private val _isEven = MutableStateFlow(false)
     val isEven: StateFlow<Boolean> = _isEven.asStateFlow()
 
+    override fun updateParent(parentId: Long) {
+        TODO("Not yet implemented")
+    }
 
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             if (id == 0L) {
+                val workout = Workout()
                 _workout.update { Workout() }
+                with(workout) {
+                    _title.update { title }
+                    _id.update { id }
+                    _parentId.update { parentId }
+                    _comment.update { comment }
+                    _startDate.update { startStringFormatDate }
+                    _finishDate.update { finishStringFormatDate }
+                    _day.update { day }
+                }
+
                 return@launch
             }
 
             WorkoutRepo.get().getBy(id).map {
                 Workout.mapFromDbEntity(it)
             }.collect {
-                _workout.value = it
+                with(it) {
+                    _title.update { title }
+                    _id.update { id }
+                    _parentId.update { parentId }
+                    _comment.update { comment }
+                    _startDate.update { startStringFormatDate }
+                    _finishDate.update { finishStringFormatDate }
+                    _day.update { day }
+                }
             }
         }
     }
@@ -157,12 +188,18 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
             val wE = Workout.mapToEntity(wC)
             wE.parent_id = parentId
             val save = WorkoutRepo.get().save(wE)
-            callback(save._id)
+            launch(Dispatchers.Main) {
+                callback(save._id)
+            }
         }
     }
 
     override fun save(callback: (id: Long) -> Unit) {
-        TODO("Not yet implemented")
+        viewModelScope.launch(Dispatchers.IO) {
+            val wC = collectToSave()
+            val wE = Workout.mapToEntity(wC)
+            val save = WorkoutRepo.get().save(wE)
+        }
     }
 
     override fun collectToSave(): Workout {
@@ -170,6 +207,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
             id = _id.value
             title = _title.value
             day = _day.value
+            parentId = _parentId.value
             comment = _comment.value
             isWeekEven = _isEven.value
         }
@@ -190,11 +228,11 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
     }
 
     override fun updateStartDate(date: Date) {
-        _startDate.update {Entity.formatDateToString(date)}
+        _startDate.update { Entity.formatDateToString(date) }
     }
 
     override fun updateFinishDate(date: Date) {
-        _finishDate.update {Entity.formatDateToString(date)}
+        _finishDate.update { Entity.formatDateToString(date) }
     }
 
     override fun updateComment(commentN: String) {

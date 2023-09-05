@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkouts.setsscreen
+package info.upump.mycompose.ui.screens.myworkouts.screens.setsscreen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -15,7 +15,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -33,12 +32,12 @@ import info.upump.mycompose.ui.screens.screenscomponents.NumberPicker
 import info.upump.mycompose.ui.screens.screenscomponents.NumberPickerWithStep
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SetEditeScreen(
-    id: Long,
+fun SetsCreateScreen(
+    parentId: Long,
     navHostController: NavHostController,
     paddingValues: PaddingValues,
     appBarTitle: MutableState<String>
@@ -47,11 +46,8 @@ fun SetEditeScreen(
     val isLoad = setVM.isLoading.collectAsState()
     val titleModifier = Modifier.padding(start = 8.dp, top = 8.dp)
     val colModifier = Modifier.background(colorResource(id = R.color.colorBackgroundCardView))
-    appBarTitle.value = stringResource(id = R.string.set_update_title)
-
-    LaunchedEffect(key1 = true) {
-        launch { setVM.getBy(id) }
-    }
+    appBarTitle.value = stringResource(id = R.string.set_create_title)
+    setVM.updateParentId(parentId)
 
     Scaffold(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
         floatingActionButton = {
@@ -106,25 +102,35 @@ fun SetEditeScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1.3f) )
+            Card(
+                modifier = Modifier.weight(1f),
+                elevation = CardDefaults.cardElevation(0.dp),
+                shape = RoundedCornerShape(0.dp)
+            ) {
+                Column(modifier = colModifier.fillMaxHeight()) {
+                    Text(modifier = titleModifier, text = stringResource(id = R.string.label_sets))
+                    NumberPicker(0, 200, setVM.quantity.collectAsState().value) {
+                        setVM.updateQuantity(it)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.weight(0.3f))
         }
     }
 
     BackHandler {
-        //setVM.saveItem(newSets)
-
         navHostController.navigateUp()
     }
 }
 
-@Preview
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun ComPreview() {
+fun MySetsDetailScreenPreview() {
     val m: MutableState<String> =
         MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
-
-    SetEditeScreen(
-        id = 1,
+    SetsCreateScreen(
+        parentId = 1,
         navHostController = NavHostController(LocalContext.current),
         paddingValues = PaddingValues(20.dp),
         appBarTitle = m

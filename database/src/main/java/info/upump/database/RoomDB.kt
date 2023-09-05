@@ -31,5 +31,6 @@ abstract class RoomDB : RoomDatabase() {
     companion object {
         const val BASE_NAME = "jym.db"
         const val DB_PATH = "data/data/info.upump.jym/databases/$BASE_NAME"
+      // const val DB_PATH = "data/data/info.upump.mycompose/databases/$BASE_NAME"
     }
 }

@@ -2,6 +2,7 @@ package info.upump.database.dao
 
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -19,13 +20,17 @@ interface CycleDao {
 
     @Update()
     fun update(item: CycleEntity): Int
+
     @Query("select * from cycles where default_type = 0")
     fun getAllPersonalCycles(): Flow<List<CycleEntity>>
 
     @Query("select * from cycles where default_type = 1")
     fun getAllDefaultCycles(): List<CycleEntity>
 
-    @Query("select * from cycles where _id = :id")
+    @Query("select * from cycles where _id= :id")
     fun getBy(id: Long): Flow<CycleEntity>
+
+    @Query("delete from cycles where _id= :id")
+    fun delete(id: Long)
 
 }

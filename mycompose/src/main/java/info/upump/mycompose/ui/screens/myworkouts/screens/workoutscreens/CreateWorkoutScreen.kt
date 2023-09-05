@@ -1,8 +1,9 @@
-package info.upump.mycompose.ui.screens.myworkouts.workoutscreens
+package info.upump.mycompose.ui.screens.myworkouts.screens.workoutscreens
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -17,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -28,11 +30,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutVM
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardTitle
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DayCardWorkoutEdit
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DescriptionCardWithEdit
+import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
+import info.upump.mycompose.ui.screens.screenscomponents.screen.LabelTitleForImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -41,7 +46,6 @@ import kotlinx.coroutines.flow.asStateFlow
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateWorkoutScreen(
-    id: Long,
     parentId: Long,
     navHostController: NavHostController,
     paddingValues: PaddingValues,
@@ -57,13 +61,15 @@ fun CreateWorkoutScreen(
         .verticalScroll(rememberScrollState())
         .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout))
 
+    appBarTitle.value = context.resources.getString(R.string.workout_dialog_create_new)
+
     LaunchedEffect(key1 = true) {
-        workoutVM.getBy(id)
-        appBarTitle.value = context.resources.getString(R.string.workout_dialog_create_new)
+        workoutVM.getBy(0)
+
     }
 
     Scaffold(
-        modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
+        modifier = Modifier.padding(),
         floatingActionButton = {
             FloatExtendedButtonWithState(
                 stringResource(id = R.string.picker_dialog_btn_save),
@@ -71,8 +77,11 @@ fun CreateWorkoutScreen(
             ) {
                 if (!workoutVM.isBlankFields()) {
                     workoutVM.saveWith(parentId) {
-                        navHostController.popBackStack()//  NavigationItem.DetailWorkoutNavigationItem.routeWithId(it)
-                        navHostController.navigateUp()
+                        navHostController.navigate(
+                            NavigationItem.DetailWorkoutNavigationItem.routeWithId(
+                                it
+                            )
+                        )
                     }
                 }
             }
@@ -81,13 +90,25 @@ fun CreateWorkoutScreen(
         Column(
             modifier = columnModifier,
         ) {
+            Box(
+                modifier = Modifier.weight(1.5f)
+
+            ) {
+                ImageByDay(day = workoutVM.day.collectAsState().value)
+                LabelTitleForImage(
+                    title = workoutVM.title.collectAsState().value, modifier = Modifier.align(
+                        Alignment.BottomStart
+                    )
+                )
+            }
+
             DayCardWorkoutEdit(
                 workoutVM.day.collectAsState().value,
                 workoutVM::updateDay,
                 workoutVM.isEven.collectAsState().value,
                 workoutVM::updateEven,
-                Modifier,
-                LocalFocusManager.current
+                LocalFocusManager.current,
+                Modifier
             )
 
             DateCardWithDatePicker(
@@ -127,7 +148,6 @@ fun PreviewCreateEditeWorkoutScreen() {
     val m: MutableState<String> =
         MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
     CreateWorkoutScreen(
-        id = 1L,
         navHostController = NavHostController(LocalContext.current),
         parentId = 1L,
         paddingValues = PaddingValues(20.dp),

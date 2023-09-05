@@ -18,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.invalidateGroupsWithKey
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -67,7 +68,7 @@ fun DateCardWithDatePicker(
                 .fillMaxWidth().
                 padding(start = 4.dp, end = 4.dp)
         ) {
-            Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.Top) {
+            Row(modifier = Modifier,) {
                 TextField(modifier = modifierValue.weight(1f),
                     colors = TextFieldDefaults.textFieldColors(
                         disabledTextColor = Color.Transparent,

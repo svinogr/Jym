@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkouts.exercisescreens
+package info.upump.mycompose.ui.screens.myworkouts.screens.exercisescreens
 
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult

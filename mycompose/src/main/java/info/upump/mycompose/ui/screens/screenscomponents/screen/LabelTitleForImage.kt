@@ -2,6 +2,7 @@ package info.upump.mycompose.ui.screens.screenscomponents.screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -16,9 +17,10 @@ import info.upump.mycompose.ui.theme.MyOutlineTextTitleLabel20Text
 @Composable
 fun LabelTitleForImage(
     title: String,
-    alignmentText: Alignment = Alignment.BottomStart
+    alignmentText: Alignment = Alignment.BottomStart,
+    modifier: Modifier = Modifier
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxWidth()) {
         val modifier1 = Modifier
             .padding(bottom = 16.dp, start = 10.dp)
             .align(alignmentText)

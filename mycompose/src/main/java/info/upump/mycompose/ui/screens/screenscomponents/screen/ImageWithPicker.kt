@@ -50,8 +50,8 @@ fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -
     ) {
         Log.d("pers ", "$it.")
             val name = context.packageName
-                context.grantUriPermission(name, it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-         updateImage(it.toString())
+            context.grantUriPermission(name, it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            updateImage(it.toString())
     }
     ImageForDetailScreen(
         image = image,
@@ -64,20 +64,6 @@ fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -
             )
         }
     )
-
-  /*  Image(modifier = Modifier
-        .fillMaxHeight()
-        .clickable {
-            launcher.launch(
-                PickVisualMediaRequest(
-                    mediaType = ActivityResultContracts.PickVisualMedia.ImageAndVideo
-                )
-            )
-        },
-        bitmap = bitmap.asImageBitmap(),
-        contentDescription = "image",
-        contentScale = ContentScale.Crop,
-    )*/
 }
 
 private fun getImagePicker(image: String, context: Context): Bitmap {

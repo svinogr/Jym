@@ -46,7 +46,7 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
         return exerciseDao.getAllByParent(id)
     }
 
-    override fun deleteBy(item: ExerciseEntity): Long {
+    override fun deleteBy(id: Long) {
         TODO("Not yet implemented")
     }
 

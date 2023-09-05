@@ -283,6 +283,7 @@
 
     <string name="snack_delete">Удалить?</string>
     <string name="chips_delete">удалить</string>
+    <string name="chips_clear">очистить</string>
     <string name="chips_comment">коментарий</string>
     <string name="chips_edite">редактровать</string>
     <string name="snack_cycle_delete_workouts">Удалить тренировки</string>

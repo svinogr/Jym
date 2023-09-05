@@ -45,10 +45,11 @@ fun ListCycle(
         state = lazyListState
     ) {
         itemsIndexed(list) { index, it ->
-            val dismissState = rememberDismissState(confirmStateChange = {value ->
-                if(value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
+            val dismissState = rememberDismissState(confirmStateChange = { value ->
+                if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
                     deleteAction(it.id)
                 }
+
                 true
             })
             SwipeToDismiss(
@@ -95,5 +96,5 @@ fun ComPreview() {
             }
 
         )
-    ){}
+    ) {}
 }

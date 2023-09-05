@@ -1,6 +1,10 @@
 package info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
+import info.upump.database.RepoActions
+import info.upump.database.entities.CycleEntity
+import info.upump.database.entities.WorkoutEntity
 import info.upump.database.repo.CycleRepo
 import info.upump.database.repo.WorkoutRepo
 import info.upump.mycompose.models.entity.Cycle
@@ -16,6 +20,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
+    private val workoutRepo: RepoActions<WorkoutEntity> =  WorkoutRepo.get()
+    private val cycleRepo: RepoActions<CycleEntity>  = CycleRepo.get()
+
     private var _cycle = MutableStateFlow(Cycle())
     override val item: StateFlow<Cycle> = _cycle
 
@@ -47,15 +54,15 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             _stateLoading.value = true
-            CycleRepo.get().getBy(id).map {
+            cycleRepo.getBy(id).map {
                 Cycle.mapFromDbEntity(it)
             }.collect { cycle ->
-                WorkoutRepo.get().getAllByParent(id).map {
+               workoutRepo.getAllByParent(id).map {
                     it.map { w -> Workout.mapFromDbEntity(w) }
                 }.collect { list ->
                     _workouts.value = list
-                    _cycle.update { cycle}
-                   _title.update { cycle.title }
+                    _cycle.update { cycle }
+                    _title.update { cycle.title }
                     _comment.update { cycle.comment }
                     _startDate.update { cycle.startStringFormatDate }
                     _finishDate.update { cycle.finishStringFormatDate }
@@ -65,6 +72,15 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
                 }
             }
         }
+    }
+
+    override fun deleteSubItem(id: Long) {
+        Log.d("dele", "$id")
+               viewModelScope.launch(Dispatchers.IO) {
+                   _stateLoading.value = true
+                   workoutRepo.deleteBy(id)
+               }
+
     }
 
     companion object {
@@ -117,6 +133,10 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
                 override val finishDate: StateFlow<String> = _finishDate
 
                 override fun getBy(id: Long) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun deleteSubItem(id: Long) {
                     TODO("Not yet implemented")
                 }
 

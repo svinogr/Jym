@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,7 +19,7 @@ fun ImageTitleImageTitle(title: String, isTitleError: Boolean, updateText: (Stri
                 .height(200.dp)
         ) {
             content()
-            LabelTitleForImage(title)
+            LabelTitleForImage(title, modifier = Modifier.align(Alignment.BottomStart))
         }
         CardTitle(title, isTitleError, updateText)
     }

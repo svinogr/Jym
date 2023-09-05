@@ -47,7 +47,7 @@ class ExerciseVM : BaseVMWithStateLoad(), ExerciseVMInterface {
     override fun deleteSub(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             val sets = Sets.mapToEntity(Sets().apply { this.id = id })
-            val repo = SetsRepo.get().deleteBy(sets)
+            val repo = SetsRepo.get().deleteBy(id)
 
             Log.d("delete", "${_listSets.value.size}")
         _listSets.value.removeIf{

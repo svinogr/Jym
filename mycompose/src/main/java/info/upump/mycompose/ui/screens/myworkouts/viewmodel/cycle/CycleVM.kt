@@ -2,6 +2,7 @@ package info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import info.upump.database.entities.CycleEntity
 import info.upump.database.repo.CycleRepo
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
@@ -16,15 +17,16 @@ import kotlinx.coroutines.launch
 class CycleVM : BaseVMWithStateLoad() {
     private val _cycleList = MutableStateFlow<List<Cycle>>(listOf())
     val cycleList: StateFlow<List<Cycle>> = _cycleList.asStateFlow()
+    val cycleRepo = CycleRepo.get()
 
-    fun getAllPersonal() {
+   suspend fun getAllPersonal() {
         Log.d("getAllPersonal", "getAllPersonal")
         _stateLoading.value = true
 
         viewModelScope.launch(
             Dispatchers.IO
         ) {
-            val list = CycleRepo.get().getAllPersonal()
+            val list = cycleRepo.getAllPersonal()
             list.map {
                 it.map { c ->
                     Cycle.mapFromDbEntity(c)
@@ -37,7 +39,10 @@ class CycleVM : BaseVMWithStateLoad() {
         }
     }
 
-    fun delete(id: Long) {
+   fun delete(id: Long) {
+          viewModelScope.launch(Dispatchers.IO) {
+              cycleRepo.deleteBy(id)
+          }
 
     }
 }

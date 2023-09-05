@@ -44,7 +44,7 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
         TODO("Not yet implemented")
     }
 
-    override fun deleteBy(item: ExerciseDescriptionEntity): Long {
+    override fun deleteBy(id: Long) {
         TODO("Not yet implemented")
     }
 

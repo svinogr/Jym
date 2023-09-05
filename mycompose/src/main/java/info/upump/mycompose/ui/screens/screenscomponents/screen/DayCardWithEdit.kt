@@ -2,8 +2,10 @@ package info.upump.mycompose.ui.screens.screenscomponents.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -46,40 +48,35 @@ fun DayCardWorkoutEdit(
     day: Day,
     updateDay: (Day) -> Unit,
     isEven: Boolean,
-    updateEven: (Boolean) -> Unit,
-    modifier: Modifier = Modifier, focus: FocusManager,
-
-    ) {
-    val modifierCard = modifier
-        .fillMaxWidth()
-
+    updateEven: (Boolean) -> Unit, focus: FocusManager,
+    modifier: Modifier = Modifier
+) {
     var expanded by remember {
         mutableStateOf(false)
     }
-    val colorDay = colorResource(day.getColor())
+    /*  val colorDay = colorResource(day.getColor())*/
 
-    val brush = Brush.horizontalGradient(
-        colorStops = arrayOf(
-            0.0f to Color.White,
-            0.5F to colorDay
-        ), 0.10f, Float.POSITIVE_INFINITY, TileMode.Clamp
-    )
+    /*    val brush = Brush.horizontalGradient(
+            colorStops = arrayOf(
+                0.0f to Color.White,
+                0.5F to colorDay
+            ), 0.10f, Float.POSITIVE_INFINITY, TileMode.Clamp
+        )*/
 
     Card(
-        modifier = modifierCard,
-        elevation = CardDefaults.cardElevation(1.dp),
+        modifier = modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
+            containerColor =  colorResource(id = R.color.colorBackgroundCardView)
+
         )
     ) {
-        Box(
-            modifier = Modifier              // для фона
-                .fillMaxWidth()
-                .background(brush, alpha = 0.30f)
-        ) {
+
+        Column(modifier = Modifier) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
             )
             {
                 ExposedDropdownMenuBox(modifier = Modifier.weight(1f),
@@ -123,7 +120,7 @@ fun DayCardWorkoutEdit(
                         ExposedDropdownMenu(
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
-                                .background(brush, alpha = 0.30f),
+                                /*.background(brush, alpha = 0.30f)*/,
                             expanded = expanded,
                             onDismissRequest = {
                                 expanded = false
@@ -198,6 +195,7 @@ fun DayCardWorkoutEdit(
                     },
                 )
             }
+
         }
     }
 }
@@ -206,13 +204,27 @@ fun DayCardWorkoutEdit(
 @Composable
 fun DayCardWorkoutEditPreview() {
 
-    DayCardWorkoutEdit(Day.TUESDAY, ::println, true, ::println, focus = LocalFocusManager.current)
+    DayCardWorkoutEdit(
+        Day.TUESDAY,
+
+        ::println,
+        true,
+        ::println,
+        focus = LocalFocusManager.current
+    )
 }
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun DayCardWorkoutEditPreview1() {
-    DayCardWorkoutEdit(Day.FRIDAY, ::println, true, ::println, focus = LocalFocusManager.current)
+    DayCardWorkoutEdit(
+        Day.FRIDAY,
+
+        ::println,
+        true,
+        ::println,
+        focus = LocalFocusManager.current
+    )
 }
 
 @Preview(showSystemUi = true, showBackground = true)
@@ -221,6 +233,7 @@ fun DayCardWorkoutEditPreview2() {
 
     DayCardWorkoutEdit(
         Day.SATURDAY,
+
         ::println,
         false,
         ::println,

@@ -8,6 +8,7 @@ import java.util.Date
 interface WorkoutVMInterface {
     val item: StateFlow<Workout>
     val id: StateFlow<Long>
+    val parentId: StateFlow<Long>
     val img: StateFlow<String>
     val title: StateFlow<String>
     val comment: StateFlow<String>
@@ -17,7 +18,7 @@ interface WorkoutVMInterface {
     val day: StateFlow<Day>
 
     fun getBy(id: Long)
-    fun save(callback: (id: Long)-> Unit)
+    fun save(callback: (id: Long) -> Unit)
     fun saveWith(parentId: Long, callback: (id: Long) -> Unit)
     fun updateTitle(title: String)
     fun updateStartDate(date: Date)
@@ -27,5 +28,6 @@ interface WorkoutVMInterface {
     fun collectToSave(): Workout
     fun isBlankFields(): Boolean
     fun updateId(id: Long)
+    fun updateParent(parentId: Long)
     fun updateEven(it: Boolean)
 }

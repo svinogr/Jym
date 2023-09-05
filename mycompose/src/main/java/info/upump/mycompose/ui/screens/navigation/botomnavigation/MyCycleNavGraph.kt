@@ -11,20 +11,24 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import info.upump.mycompose.ui.screens.mainscreen.DEFAULT_STYLE
 import info.upump.mycompose.ui.screens.mainscreen.MyCycleScreen
+import info.upump.mycompose.ui.screens.mainscreen.WHITE_STYLE
 import info.upump.mycompose.ui.screens.myworkouts.ActionState
-import info.upump.mycompose.ui.screens.myworkouts.setsscreen.SetsCreateScreen
-import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.AlterCycleDetailScreenM3
-import info.upump.mycompose.ui.screens.myworkouts.cyclescreens.CreateEditeCycleScreen
-import info.upump.mycompose.ui.screens.myworkouts.exercisescreens.MyExerciseDetailScreen
-import info.upump.mycompose.ui.screens.myworkouts.setsscreen.SetEditeScreen
-import info.upump.mycompose.ui.screens.myworkouts.workoutscreens.CreateWorkoutScreen
+import info.upump.mycompose.ui.screens.myworkouts.screens.setsscreen.SetsCreateScreen
+import info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens.AlterCycleDetailScreenM3
+import info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens.CreateEditeCycleScreen
+import info.upump.mycompose.ui.screens.myworkouts.screens.exercisescreens.MyExerciseDetailScreen
+import info.upump.mycompose.ui.screens.myworkouts.screens.setsscreen.SetEditeScreen
+import info.upump.mycompose.ui.screens.myworkouts.screens.workoutscreens.CreateWorkoutScreen
+import info.upump.mycompose.ui.screens.myworkouts.screens.workoutscreens.EditeWorkoutScreen
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
 
 fun NavGraphBuilder.myCycleGraph(
     navHostController: NavHostController,
     appBarTitle: MutableState<String>,
+    appBarStyle: MutableState<Int>,
     context: Context,
     paddingValues: PaddingValues,
     topBarState: MutableState<Boolean>,
@@ -42,6 +46,7 @@ fun NavGraphBuilder.myCycleGraph(
                 context.resources.getString(NavigationItem.MyCycleNavigationItem.title)
             topBarState.value = true
             bottomBarState.value = true
+            appBarStyle.value = DEFAULT_STYLE
         }
 
         composable(
@@ -60,6 +65,7 @@ fun NavGraphBuilder.myCycleGraph(
                 paddingValues = paddingValues,
                 appBarTitle = appBarTitle
             )
+            appBarStyle.value = WHITE_STYLE
 
         }
 
@@ -73,6 +79,7 @@ fun NavGraphBuilder.myCycleGraph(
             //topBarState.value = false он уже должен был быть убран
             Log.d("TAG", "id = $id")
 
+            appBarStyle.value = WHITE_STYLE
             AlterWorkoutDetailScreenM3(id = id!!, navHostController, paddingValues, appBarTitle)
 
         }
@@ -86,7 +93,7 @@ fun NavGraphBuilder.myCycleGraph(
             val id = it.arguments?.getLong("id")
             //topBarState.value = false он уже должен был быть убран
             Log.d("TAG", "id = $id")
-
+            appBarStyle.value = WHITE_STYLE
             MyExerciseDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
         }
         // Sets start
@@ -99,7 +106,7 @@ fun NavGraphBuilder.myCycleGraph(
         ) {
             //topBarState.value = false он уже должен был быть убран
             val parentId = it.arguments?.getLong("parentId")
-
+            appBarStyle.value = WHITE_STYLE
             SetsCreateScreen(parentId!!, navHostController, paddingValues, appBarTitle)
         }
 
@@ -112,7 +119,7 @@ fun NavGraphBuilder.myCycleGraph(
         ) {
             //topBarState.value = false он уже должен был быть убран
             val id = it.arguments?.getLong("id")
-
+            appBarStyle.value = WHITE_STYLE
             SetEditeScreen(id!!, navHostController, paddingValues, appBarTitle)
         }
 
@@ -147,9 +154,11 @@ fun NavGraphBuilder.myCycleGraph(
             } else {
                 ActionState.UPDATE
             }
+            appBarStyle.value = WHITE_STYLE
             CreateEditeCycleScreen(id!!, navHostController, paddingValues, appBarTitle, action)
         }
 
+        //создание новой тренировки
         composable(
             route = NavigationItem.CreateWorkoutNavigationItem.route,
             arguments = listOf(navArgument("parentId") {
@@ -160,8 +169,20 @@ fun NavGraphBuilder.myCycleGraph(
             val parentId = it.arguments?.getLong("parentId")
 
             //  bottomBarState.value = false и так отключен ранее
+            appBarStyle.value = WHITE_STYLE
+            CreateWorkoutScreen(parentId!!, navHostController, paddingValues, appBarTitle)
+        }
 
-            CreateWorkoutScreen(0, parentId!!, navHostController, paddingValues, appBarTitle)
+        composable(
+            route = NavigationItem.EditeWorkoutNavigationItem.route,
+            arguments = listOf(navArgument("id") {
+                type = NavType.LongType
+            }),
+        ) {
+            //topBarState.value = false он уже должен был быть убран
+            val id = it.arguments?.getLong("id")
+            appBarStyle.value = WHITE_STYLE
+            EditeWorkoutScreen(id!!, navHostController, paddingValues, appBarTitle)
         }
     }
 }

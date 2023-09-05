@@ -9,12 +9,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -33,7 +35,8 @@ fun ListWorkouts(
     list: List<Workout>,
     lazyListState: LazyListState,
     navhost: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    deleteAction: (Long) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -42,8 +45,14 @@ fun ListWorkouts(
             .background(colorResource(R.color.colorBackgroundCardView)),
         state = lazyListState
     ) {
-        itemsIndexed(list) { index, it ->
-            val dismissState = rememberDismissState()
+        itemsIndexed(list, key = { index, item -> item.id }) { index, it ->
+
+            val dismissState = rememberDismissState(confirmStateChange = { value ->
+                if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
+                    deleteAction(it.id)
+                }
+                true
+            })
             SwipeToDismiss(
                 state = dismissState,
                 directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
@@ -53,7 +62,6 @@ fun ListWorkouts(
                 dismissContent = {
                     Column(modifier = Modifier) {
                         WorkoutItemCard(workout = it, navHost = navhost)
-
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
@@ -74,5 +82,5 @@ fun ListWorkoutsPreview() {
         CycleDetailVM.vmOnlyForPreview.subItems.collectAsState().value,
         LazyListState(),
         nav
-    )
+    ) {}
 }

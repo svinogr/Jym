@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkouts.cyclescreens
+package info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -153,7 +153,7 @@ fun AlterCycleDetailScreenM2(
                 list = cycleVM.subItems.collectAsState().value,
                 listState, navhost = navHostController,
                 Modifier.weight(4f)
-            )
+            ){}
 
         }
     }

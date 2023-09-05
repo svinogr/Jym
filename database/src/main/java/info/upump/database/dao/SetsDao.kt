@@ -24,6 +24,6 @@ interface SetsDao {
 
     @Update
     fun update(item: SetsEntity)
-    @Delete
-     fun deleteById(sets: SetsEntity)
+    @Query("delete from sets where _id=:id")
+     fun deleteById(id: Long)
 }

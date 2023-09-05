@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,7 +27,10 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.MyBottomNavigation
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavGraph
-
+import info.upump.mycompose.ui.theme.MyOutlineTextTitleLabel20Text
+import info.upump.mycompose.ui.theme.MyTextTitleLabel20
+const val WHITE_STYLE = 1
+const val DEFAULT_STYLE = 0
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
@@ -43,6 +45,10 @@ fun MainScreen() {
 
     val bottomBarStat = remember {
         mutableStateOf(true)
+    }
+
+    val appBarStyle = remember {
+        mutableStateOf(DEFAULT_STYLE)
     }
 
     val permissionState = rememberMultiplePermissionsState(
@@ -110,6 +116,7 @@ fun MainScreen() {
                     title = {
                         Text(
                             text = appBarTitle.value,
+                            style = if (appBarStyle.value == WHITE_STYLE) MyOutlineTextTitleLabel20Text else MyTextTitleLabel20  ,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -118,7 +125,7 @@ fun MainScreen() {
             }
         },
     ) { padding ->
-        NavGraph(navController, appBarTitle, padding, topBarState, bottomBarStat)
+        NavGraph(navController, appBarTitle, appBarStyle, padding, topBarState, bottomBarStat)
     }
 }
 

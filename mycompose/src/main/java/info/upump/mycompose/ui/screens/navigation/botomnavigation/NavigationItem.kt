@@ -23,7 +23,7 @@ const val EXERCISE_CREATE_ROUTE = "exerciseChoose"
 
 const val CYCLE_EDITE_ROUTE = "cycleEditCreate"
 const val WORKOUT_CREATE_ROUTE = "workoutCreate"
-const val WORKOUT_EDITE_ROUTE = "workoutEditCreate"
+const val WORKOUT_EDITE_ROUTE = "workoutEdit"
 const val SETS_CREATE_ROUTE = "setsCreate"
 const val SETS_EDITE_ROUTE = "setsEdite"
 
@@ -118,7 +118,7 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
 
 
     // WOrkout start
-    // workout detail
+    // workout экран деталей
     object DetailWorkoutNavigationItem : NavigationItem(
         route = "$WORKOUT_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
     ) {
@@ -140,16 +140,31 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
         }
     }
 
+    // редактирование тренировки
+    object EditeWorkoutNavigationItem : NavigationItem(
+        route = "$WORKOUT_EDITE_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
+    ) {
+        fun routeWith(id: Long): String {
+            return this.route.replace(
+                oldValue = DETAIL_ARGUMENT_KEY_ID,
+                newValue = id.toString()
+            )
+        }
+    }
+
     //WorkoutEnd
 
 
     // Exercise start
     // Choose exercise
-    object CreateExerciseNavigationItem: NavigationItem(
+    object CreateExerciseNavigationItem : NavigationItem(
         route = "$EXERCISE_CREATE_ROUTE/$DETAIL_ARGUMENT_KEY_PARENT_ID"
     ) {
         fun routeWithId(parentId: Long): String {
-            return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_PARENT_ID, newValue = parentId.toString())
+            return this.route.replace(
+                oldValue = DETAIL_ARGUMENT_KEY_PARENT_ID,
+                newValue = parentId.toString()
+            )
         }
     }
 
@@ -161,6 +176,7 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
             return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
         }
     }
+
 
     // Exercise end
     /*
