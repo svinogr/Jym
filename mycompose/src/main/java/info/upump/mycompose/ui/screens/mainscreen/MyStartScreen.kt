@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -33,9 +32,8 @@ import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ListCycle
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListCycle
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -70,6 +68,8 @@ fun MyCycleScreen(
         Log.d("LaunchedEffect", "LaunchedEffect $")
         cycleVM.getAllPersonal()
     }
+
+
     Scaffold(modifier = Modifier.padding(paddingValues = paddingValues),
         floatingActionButton = {
             FloatExtendedButtonWithState(
@@ -79,12 +79,13 @@ fun MyCycleScreen(
                 navHost.navigate(NavigationItem.CreateEditeCycleNavigationItem.routeWith(0))
             }
         }, content = {
+            val del: (Long) -> Unit = { cycleVM.delete(it) }
             ListCycle(
                 lazyListState = listState,
                 list = listCycle.value.collectAsState().value,
                 navhost = navHost,
-              //  deleteAction = deleteAction
-            ){cycleVM::delete}
+                deleteAction = del
+            )
         })
 }
 

@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.screen
+package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -20,8 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Sets
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ItemSwipeBackgroundOneIcon
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.SetsItemCard
+import info.upump.mycompose.ui.screens.screenscomponents.screen.Divider
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

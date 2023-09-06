@@ -42,7 +42,7 @@ import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWith
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCard
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ListWorkouts
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListWorkouts
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
 import kotlinx.coroutines.flow.MutableStateFlow

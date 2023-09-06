@@ -39,7 +39,7 @@ import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWith
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCard
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ListExercise
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -72,8 +72,9 @@ fun AlterWorkoutDetailScreenM3(
     }
     val snackBarHostState = remember { SnackbarHostState() }
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-    val exercisesList = remember{
-        mutableStateOf(workoutVM.subItems)}
+    val exercisesList = remember {
+        mutableStateOf(workoutVM.subItems)
+    }
     val deleteAction: (Long) -> Unit = {
         workoutVM.delete(it)
     }
@@ -98,7 +99,11 @@ fun AlterWorkoutDetailScreenM3(
                     stringResource(id = R.string.workout_dialog_create_new),
                     listState.isScrollingUp(), R.drawable.ic_add_black_24dp
                 ) {
-                    navHostController.navigate(NavigationItem.CreateExerciseNavigationItem.routeWithId(id))
+                    navHostController.navigate(
+                        NavigationItem.ExerciseChooseScreenNavigationItem.routeWithId(
+                            id
+                        )
+                    )
                 }
             },
             snackbarHost = {
@@ -148,7 +153,11 @@ fun AlterWorkoutDetailScreenM3(
                             stringResource(id = R.string.chips_edite),
                             R.drawable.ic_edit_black_24dp,
                         ) {
-                          navHostController.navigate(NavigationItem.EditeWorkoutNavigationItem.routeWith(id))
+                            navHostController.navigate(
+                                NavigationItem.EditeWorkoutNavigationItem.routeWith(
+                                    id
+                                )
+                            )
                         },
                     )
                 }
@@ -157,11 +166,12 @@ fun AlterWorkoutDetailScreenM3(
                     workoutVM.startDate.collectAsState().value,
                     workoutVM.finishDate.collectAsState().value,
                 )
-
+                val del: (Long) -> Unit = { workoutVM.deleteSub(it) }
                 ListExercise(
                     list = exercisesList.value.collectAsState().value,
                     listState, navhost = navHostController,
-                    Modifier.weight(4f)
+                    Modifier.weight(4f),
+                    del
                 )
             }
         }

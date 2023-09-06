@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.screen
+package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -16,7 +16,6 @@ import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -25,9 +24,7 @@ import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ItemSwipeBackgroundOneIcon
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.SetsItemCard
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.WorkoutItemCard
+import info.upump.mycompose.ui.screens.screenscomponents.screen.Divider
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -46,11 +43,11 @@ fun ListWorkouts(
         state = lazyListState
     ) {
         itemsIndexed(list, key = { index, item -> item.id }) { index, it ->
-
             val dismissState = rememberDismissState(confirmStateChange = { value ->
                 if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
                     deleteAction(it.id)
                 }
+
                 true
             })
             SwipeToDismiss(

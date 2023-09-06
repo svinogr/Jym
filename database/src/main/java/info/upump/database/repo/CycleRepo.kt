@@ -58,6 +58,7 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
     }
 
     override fun deleteBy(id: Long) {
+        Log.d("dele cycle", "id")
         cycleDao.delete(id)
     }
 

@@ -5,14 +5,14 @@ import info.upump.database.entities.ExerciseEntity
 import info.upump.database.entities.ExerciseFullEntity
 
 class Exercise(
-    var typeMuscle: TypeMuscle? = null,
+    var typeMuscle: TypeMuscle = TypeMuscle.CALVES,
     var isDefaultType: Boolean = false,
     var isTemplate: Boolean = false,
     var setsList: MutableList<Sets> = ArrayList(),
     var descriptionId: Long = 0,
     var exerciseDescription: ExerciseDescription? = null,
 
-) : Entity() {
+    ) : Entity() {
 
     fun createInfo(): String {
         return "инфо"

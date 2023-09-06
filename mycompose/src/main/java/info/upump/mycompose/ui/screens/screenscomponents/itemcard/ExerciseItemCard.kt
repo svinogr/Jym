@@ -1,6 +1,5 @@
 package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -53,7 +52,6 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modif
             modifier = Modifier.background(
                 colorResource(id = R.color.colorBackgroundCardView)
             ).clickable {
-                Log.d("id exercise card","${exercise.id}")
                 navHost.navigate(NavigationItem.DetailExerciseNavigationItem.routeWithId(exercise.id))
             }
         ) {
@@ -78,7 +76,7 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modif
                     overflow = TextOverflow.Ellipsis,
                     modifier = modifier.fillMaxWidth()
                 )
-                Divider()
+
                 Box(
                     modifier = modifierCol
                         .align(Alignment.End)
@@ -122,7 +120,7 @@ fun getExerciseString(exercise: Exercise): String {
 @Composable
 fun PreviewExerciseItemCard() {
     val exerdescription =
-        ExerciseDescription(img = "nach1", defaultImg = "nach1", title = "Новое упраж")
+        ExerciseDescription(img = "", defaultImg = "uk1", title = "Новое упраж")
 
     val listSets = listOf(
         Sets(20.0, 10, 15.0),

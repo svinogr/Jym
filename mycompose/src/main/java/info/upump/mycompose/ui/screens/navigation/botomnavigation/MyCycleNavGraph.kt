@@ -18,6 +18,7 @@ import info.upump.mycompose.ui.screens.myworkouts.ActionState
 import info.upump.mycompose.ui.screens.myworkouts.screens.setsscreen.SetsCreateScreen
 import info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens.AlterCycleDetailScreenM3
 import info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens.CreateEditeCycleScreen
+import info.upump.mycompose.ui.screens.myworkouts.screens.exercisescreens.ExerciseChooseScreen
 import info.upump.mycompose.ui.screens.myworkouts.screens.exercisescreens.MyExerciseDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.screens.setsscreen.SetEditeScreen
 import info.upump.mycompose.ui.screens.myworkouts.screens.workoutscreens.CreateWorkoutScreen
@@ -83,7 +84,8 @@ fun NavGraphBuilder.myCycleGraph(
             AlterWorkoutDetailScreenM3(id = id!!, navHostController, paddingValues, appBarTitle)
 
         }
-
+        // exercise start
+        //exercise detail
         composable(
             route = NavigationItem.DetailExerciseNavigationItem.route,
             arguments = listOf(navArgument("id") {
@@ -96,6 +98,28 @@ fun NavGraphBuilder.myCycleGraph(
             appBarStyle.value = WHITE_STYLE
             MyExerciseDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
         }
+
+        composable(
+            route = NavigationItem.ExerciseChooseScreenNavigationItem.route,
+            arguments = listOf(navArgument("parentId") {
+                type = NavType.LongType
+            })
+        ) {
+            val parentId = it.arguments?.getLong("parentId")
+            //topBarState.value = false он уже должен был быть убран
+            Log.d("TAG", "parentId = $id")
+            appBarStyle.value = WHITE_STYLE
+            ExerciseChooseScreen(
+                parentId = parentId!!,
+                navHostController,
+                paddingValues,
+                appBarTitle
+            )
+        }
+
+        // exercise end
+
+
         // Sets start
         // создать новый подход
         composable(
@@ -125,19 +149,19 @@ fun NavGraphBuilder.myCycleGraph(
 
         // Sets end
 
-     /*   composable(
-            route = NavigationItem.DetailSetDetailNavigationItem.route,
-            arguments = listOf(navArgument("id") {
-                type = NavType.LongType
-            }),
-        ) {
+        /*   composable(
+               route = NavigationItem.DetailSetDetailNavigationItem.route,
+               arguments = listOf(navArgument("id") {
+                   type = NavType.LongType
+               }),
+           ) {
 
-            //topBarState.value = false он уже должен был быть убран
-            val id = it.arguments?.getLong("id")
-            Log.d("TAG", "id = $id")
+               //topBarState.value = false он уже должен был быть убран
+               val id = it.arguments?.getLong("id")
+               Log.d("TAG", "id = $id")
 
-            //   MySetsDetailScreen(id!!, navHostController, paddingValues, appBarTitle) //TODO
-        }*/
+               //   MySetsDetailScreen(id!!, navHostController, paddingValues, appBarTitle) //TODO
+           }*/
         composable(
             route = NavigationItem.CreateEditeCycleNavigationItem.route,
             arguments = listOf(navArgument("id") {

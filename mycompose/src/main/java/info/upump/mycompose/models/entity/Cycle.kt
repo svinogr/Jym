@@ -38,9 +38,20 @@ class Cycle(
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + if (image != null) image.hashCode() else 0
+        result = 31 * result + workoutList.hashCode()
+        result = 31 * result + isDefaultType.hashCode()
+        result = 31 * result + image.hashCode()
+        result = 31 * result + imageDefault.hashCode()
         return result
     }
+
+    /*    override fun hashCode(): Int {
+            var result = super.hashCode()
+            result = 31 * result + if (image != null) image.hashCode() else 0
+            return result
+        }*/
+
+
 
     companion object {
         fun mapFromDbEntity(entity: CycleEntity): Cycle {

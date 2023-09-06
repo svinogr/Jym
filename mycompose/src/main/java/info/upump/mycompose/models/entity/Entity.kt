@@ -68,13 +68,40 @@ abstract class Entity(
         finishDate = formatStringToDate(stringDate)
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o !is Entity) return false
-        return id == o.id
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Entity
+
+        if (id != other.id) return false
+        if (title != other.title) return false
+        if (startDate != other.startDate) return false
+        if (finishDate != other.finishDate) return false
+        if (comment != other.comment) return false
+        if (parentId != other.parentId) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        return (id xor (id ushr 32)).toInt()
+        var result = id.hashCode()
+        result = 31 * result + title.hashCode()
+        result = 31 * result + startDate.hashCode()
+        result = 31 * result + finishDate.hashCode()
+        result = 31 * result + comment.hashCode()
+        result = 31 * result + parentId.hashCode()
+        return result
     }
+
+    /*   override fun equals(o: Any?): Boolean {
+           if (this === o) return true
+           if (o !is Entity) return false
+           return id == o.id
+       }
+
+       override fun hashCode(): Int {
+           return (id xor (id ushr 32)).toInt()
+       }*/
+
 }

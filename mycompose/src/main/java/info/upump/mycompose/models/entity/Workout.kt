@@ -31,7 +31,7 @@ class Workout(
                 isTemplate = workoutEntity.default_type == 1,
                 day = Day.valueOf(workoutEntity.day!!),
                 //TODO вставить настоящис список
-                exercises = listOf<Exercise>()
+                exercises = mutableListOf<Exercise>()
             )
             workout.title = workoutEntity.title
             workout.parentId = workoutEntity.parent_id!!

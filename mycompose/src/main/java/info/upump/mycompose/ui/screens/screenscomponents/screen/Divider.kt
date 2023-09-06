@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Divider(modifier: Modifier = Modifier) {
     androidx.compose.material3.Divider(
-        modifier = modifier.padding(start = 32.dp)
+        modifier = modifier.padding(start = 64.dp)
             .fillMaxWidth()
             .height(1.dp)
             .padding(end = 8.dp)

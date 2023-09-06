@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -14,6 +14,23 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+  /*      ksp {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }*/
+/*
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arg("room.schemaLocation", "$projectDir/schemas")
+              *//*  arguments += mapOf(
+                        "room.schemaLocation" to "$projectDir/schemas".toString(),
+                        "room.incremental" to "true"
+                )*//*
+            }
+        }*/
+
     }
 
     buildTypes {
@@ -34,21 +51,45 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-   // implementation 'com.google.android.material:material:1.9.0'
-   // testImplementation 'junit:junit:4.13.2'
-   // androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-   // androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    //implementation 'androidx.appcompat:appcompat:1.6.1'
     /*room*/
+
     implementation("androidx.room:room-runtime:2.5.2")
+    annotationProcessor("androidx.room:room-compiler:2.5.2")
+
+    // To use Kotlin annotation processing tool (kapt)
+   // kapt("androidx.room:room-compiler:$room_version")
+    // To use Kotlin Symbol Processing (KSP)
+    ksp("androidx.room:room-compiler:2.5.2")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.5.2")
+
+    // optional - RxJava2 support for Room
+    implementation("androidx.room:room-rxjava2:2.5.2")
+
+    // optional - RxJava3 support for Room
+    implementation("androidx.room:room-rxjava3:2.5.2")
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation("androidx.room:room-guava:2.5.2")
+
+    // optional - Test helpers
+    testImplementation("androidx.room:room-testing:2.5.2")
+
+    // optional - Paging 3 Integration
+    implementation("androidx.room:room-paging:2.5.2")
+
+  /*  implementation("androidx.room:room-runtime:2.5.2")
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     annotationProcessor("androidx.room:room-compiler:2.5.2")
     // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:2.5.2")
+ //   kapt("androidx.room:room-compiler:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.2")
     // To use Kotlin Symbol Processing (KSP)
     //  ksp("androidx.room:room-compiler:2.4.3")
     implementation "androidx.room:room-ktx:2.5.2"
-    /*/room*/
+    *//*//*room*/
 
 }

@@ -122,6 +122,10 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     }
 
+    override fun deleteSub(it: Long) {
+
+    }
+
     companion object {
         val vmOnlyForPreview by lazy {
             object : WorkoutDetailVMInterface {
@@ -227,6 +231,10 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                 }
 
                 override fun delete(it: Long) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun deleteSub(it: Long) {
                     TODO("Not yet implemented")
                 }
 

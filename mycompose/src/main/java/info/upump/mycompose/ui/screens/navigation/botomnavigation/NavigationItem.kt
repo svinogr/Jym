@@ -157,7 +157,7 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
 
     // Exercise start
     // Choose exercise
-    object CreateExerciseNavigationItem : NavigationItem(
+    object ExerciseChooseScreenNavigationItem : NavigationItem(
         route = "$EXERCISE_CREATE_ROUTE/$DETAIL_ARGUMENT_KEY_PARENT_ID"
     ) {
         fun routeWithId(parentId: Long): String {

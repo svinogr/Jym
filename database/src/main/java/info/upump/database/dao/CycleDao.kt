@@ -27,10 +27,10 @@ interface CycleDao {
     @Query("select * from cycles where default_type = 1")
     fun getAllDefaultCycles(): List<CycleEntity>
 
-    @Query("select * from cycles where _id= :id")
+    @Query("select * from cycles where _id=:id")
     fun getBy(id: Long): Flow<CycleEntity>
 
-    @Query("delete from cycles where _id= :id")
+    @Query("delete from cycles where _id=:id")
     fun delete(id: Long)
 
 }
