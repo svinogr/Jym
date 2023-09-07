@@ -3,23 +3,18 @@ package info.upump.mycompose.ui.screens.screenscomponents.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
@@ -38,6 +33,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Day
@@ -52,160 +48,107 @@ fun CarDaydWorkoutEdit(
     modifier: Modifier = Modifier
 ) {
     var expanded by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
-    /*  val colorDay = colorResource(day.getColor())*/
-
-    /*    val brush = Brush.horizontalGradient(
-            colorStops = arrayOf(
-                0.0f to Color.White,
-                0.5F to colorDay
-            ), 0.10f, Float.POSITIVE_INFINITY, TileMode.Clamp
-        )*/
-
     Card(
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
-            containerColor =  colorResource(id = R.color.colorBackgroundCardView)
-
+            containerColor = colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        Column(modifier = Modifier) {
-            Row(horizontalArrangement = Arrangement.SpaceAround,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            {
-                ExposedDropdownMenuBox(
-                    //modifier = Modifier.weight(1f)
-                    //,
-                    expanded = expanded, onExpandedChange = {
-                        expanded = !expanded
-                        focus.clearFocus()
-                    }) {
-                    AssistChip(
-                        modifier = Modifier
-                           // .fillMaxWidth()
-                            .padding(0.dp)
-                          //  .weight(1f)
-                            .menuAnchor(),
-
-                        onClick = {
-                        },
-                        label = {
-                         //   Box(modifier = Modifier.fillMaxWidth()) {
-                                Text(
-                                    stringResource(id = day.title()),
-                                  //  modifier = Modifier.align(Alignment.Center)
-                                )
-                         //   }
-                        },
-                        colors = AssistChipDefaults.assistChipColors(
-                            containerColor = colorResource(id = R.color.colorBackgroundChips)
-                        ),
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_calendar),
-                                " ",
-                                Modifier.size(AssistChipDefaults.IconSize)
-                            )
-                        }
-                    )
-
-               /*     Box(
-                        modifier = Modifier
-                            .padding(top = 0.dp, start = 0.dp)
-                            .background(Color.Transparent)
-                    ) {*/
-                        ExposedDropdownMenu(
-                            modifier = Modifier.width(145.dp)
-                              //  .fillMaxWidth()
-                         //       .align(Alignment.CenterEnd)
-                                /*.background(brush, alpha = 0.30f)*/,
-                           // expanded = expanded,
-                            expanded =  true,
-                            onDismissRequest = {
-                                expanded = false
-                            }) {
-                            Day.values().forEach {
-                                DropdownMenuItem(modifier = Modifier,
-                                 //  .fillMaxWidth()
-
-                                    onClick = {
-                                        updateDay(it)
-                                        expanded = false
-                                    }) {
-                                    AssistChip(
-                                        modifier = Modifier,
-                                        onClick = {
-                                            updateDay(it)
-                                            expanded = false
-                                        },
-                                        label = {
-                                           Box(
-                                                modifier = Modifier
-                                                  //  .weight(1f)
-                                                    .fillMaxWidth()
-                                            ) {
-                                                Text(
-                                                    stringResource(id = it.title()),
-                                                    modifier = Modifier.align(Alignment.Center)
-                                                )
-                                         }
-                                        },
-                                        colors = AssistChipDefaults.assistChipColors(
-                                            containerColor = colorResource(id = R.color.colorBackgroundChips)
-                                        )
-                                    )
-                                }
-                            }
-                        }
-                   // }
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier.fillMaxWidth()
+        )
+        {
+            ExposedDropdownMenuBox(
+                expanded = expanded,
+                onExpandedChange = {
+                    expanded = !it
+                    focus.clearFocus()
                 }
+            ) {
+
                 AssistChip(
-                    modifier = Modifier
-                        .padding(end = 8.dp)
-                        .align(Alignment.CenterVertically)
-                     //  .weight(1f)
-                    ,
-                    onClick = { updateEven(!isEven) },
+                    modifier = Modifier.menuAnchor(),
+                    onClick = {
+                    },
+                    label = {
+                        Text(
+                            stringResource(id = day.title()),
+                        )
+                    },
                     colors = AssistChipDefaults.assistChipColors(
                         containerColor = colorResource(id = R.color.colorBackgroundChips)
                     ),
-                    label = {
-                        Box(
-                        //    modifier = Modifier.fillMaxWidth()
-                        ) {
-                            if (isEven) {
-                                Text(
-                                    stringResource(id = R.string.week_even),
-                                    modifier = Modifier.align(Alignment.Center)
-                                )
-                            } else {
-                                Text(
-                                    stringResource(id = R.string.week_not_even),
-                                    modifier = Modifier.align(Alignment.Center)
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_calendar),
+                            " ",
+                            Modifier.size(AssistChipDefaults.IconSize)
+                        )
+                    }
+                )
 
+                DropdownMenu(
+                    modifier = Modifier.
+                    background(colorResource(id = R.color.colorBackgroundCardView)),
+                    expanded = expanded,
+                    onDismissRequest = {
+                        expanded = false
+                    }) {
+                    Day.values().forEach {
+                        DropdownMenuItem(modifier = Modifier,
+                            contentPadding = PaddingValues(4.dp),
+                            onClick = {
+                                updateDay(it)
+                                expanded = false
+                            }) {
+                            AssistChip(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    updateDay(it)
+                                    expanded = false
+                                },
+                                label = {
+                                    Box(modifier = Modifier.fillMaxWidth()) {
+                                        Text(
+                                            stringResource(id = it.title()),
+                                            modifier = Modifier.align(Alignment.Center)
+                                        )
+                                    }
+                                },
+                                colors = AssistChipDefaults.assistChipColors(
+                                    containerColor = colorResource(id = R.color.colorBackgroundChips)
                                 )
-                            }
-                        }
-                    },
-                  /*  leadingIcon = { if (isEven) {
-                  //      {
-                            Icon(
-                                imageVector = Icons.Filled.Done,
-                                contentDescription = "Done icon",
-                                modifier = Modifier.size(AssistChipDefaults.IconSize)
                             )
                         }
-                    } *//*else {
-                        { Spacer(modifier = Modifier.size(AssistChipDefaults.IconSize)) } // TODO может убоать и оставить null?
-                    }*//*,*/
-                )
+                    }
+                }
             }
+            AssistChip(
+                modifier = Modifier
+                    .padding(end = 8.dp),
 
+                onClick = { updateEven(!isEven) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = colorResource(id = R.color.colorBackgroundChips)
+                ),
+                label = {
+
+                    if (isEven) {
+                        Text(
+                            stringResource(id = R.string.week_even),
+                        )
+                    } else {
+                        Text(
+                            stringResource(id = R.string.week_not_even),
+                            )
+                    }
+                }
+            )
         }
     }
 }
