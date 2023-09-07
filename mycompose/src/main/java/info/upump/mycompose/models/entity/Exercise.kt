@@ -49,14 +49,13 @@ class Exercise(
             val exercise = mapFromDbEntity(entity.exercise)
             val exerciseDescription = ExerciseDescription.mapFromDbEntity(entity.exerciseDescriptionEntity)
             val listSets = mutableListOf<Sets>()
-            Log.d("mapFromFullDbEntity", "-------- exe ${exercise.id}")
+
             entity.listSet.forEach{
                 val set = Sets.mapFromDbEntity(it)
-                Log.d("mapFromFullDbEntity", "$it")
                 listSets.add(set)
             }
-            Log.d("mapFromFullDbEntity", "-------- exe end}")
             exercise.exerciseDescription = exerciseDescription
+            exercise.comment = entity.exercise.comment ?: ""
             exercise.setsList = listSets
 
             return exercise

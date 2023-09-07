@@ -8,5 +8,6 @@ interface ExerciseChooseVMInterface {
     val day: StateFlow<Day>
     val subItems: StateFlow<List<Exercise>>
     fun getByParent(parent: Long)
+    fun saveChosen(it: Long)
 
 }

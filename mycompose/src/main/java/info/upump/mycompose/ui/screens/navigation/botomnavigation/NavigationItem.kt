@@ -16,6 +16,7 @@ const val CYCLE_DETAIL_ROUTE = "cycleDetail"
 const val DEFAULT_WORKOUT_DETAIL_ROUTE = "defaultWorkoutDetail"
 const val WORKOUT_DETAIL_ROUTE = "workoutDetail"
 const val EXERCISE_DETAIL_ROUTE = "exerciseDetail"
+const val EXERCISE_REVIEW_ROUTE = "exerciseReview"
 const val SETS_DETAIL_ROUTE = "setsDetail"
 const val DETAIL_ARGUMENT_KEY_ID = "{id}"
 const val DETAIL_ARGUMENT_KEY_PARENT_ID = "{parentId}"
@@ -171,6 +172,14 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
     // detail exercise
     object DetailExerciseNavigationItem : NavigationItem(
         route = "$EXERCISE_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
+    ) {
+        fun routeWithId(id: Long): String {
+            return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+        }
+    }
+
+    object ReviewExerciseScreenNavigationItem : NavigationItem(
+        route = "$EXERCISE_REVIEW_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
     ) {
         fun routeWithId(id: Long): String {
             return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())

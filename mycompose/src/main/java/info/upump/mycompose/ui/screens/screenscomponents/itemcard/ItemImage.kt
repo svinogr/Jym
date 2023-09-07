@@ -2,6 +2,7 @@ package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,8 +24,10 @@ import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailSc
 
 @Composable
 fun ItemImage(
-    modifier: Modifier = Modifier, image: String,
-    defaultImage: String
+    modifier: Modifier = Modifier,
+    image: String,
+    defaultImage: String,
+    action: () -> Unit
 ) {
     val context = LocalContext.current
     val bitmap: Bitmap
@@ -37,8 +40,11 @@ fun ItemImage(
     }
 
     Image(
-        modifier = Modifier
-            .clip(RoundedCornerShape(8.dp)),
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .clickable {
+                action()
+            },
         contentScale = ContentScale.Crop,
         bitmap = bitmap.asImageBitmap(), contentDescription = "image"
     )
@@ -50,7 +56,7 @@ fun ItemImagePreview() {
     ItemImage(
         image = CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
         defaultImage =
-        CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value,
-    )
+        CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value){}
+
 }
 

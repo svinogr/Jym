@@ -40,7 +40,7 @@ import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCard
+import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListWorkouts
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
@@ -156,9 +156,10 @@ fun AlterCycleDetailScreenM3(
                     )
                 }
 
-                DateCard(
+                CardDate(
                     cycleVM.startDate.collectAsState().value,
                     cycleVM.finishDate.collectAsState().value,
+                    false
                 )
                 val del: (Long) -> Unit = { cycleVM.deleteSubItem(it) }
                 ListWorkouts(

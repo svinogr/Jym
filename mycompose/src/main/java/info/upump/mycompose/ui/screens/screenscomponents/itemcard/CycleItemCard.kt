@@ -70,7 +70,7 @@ fun CycleItemCard(
                 ItemImage(
                     image = cycle.image,
                     defaultImage = cycle.imageDefault
-                )
+                ){}
 
             }
             Column(
@@ -87,14 +87,14 @@ fun CycleItemCard(
                     modifier = modifier.fillMaxWidth()
                 )
 
-                if (!cycle.isDefaultType) {
+           /*     if (!cycle.isDefaultType) {
                     Divider(
                         modifier = Modifier
                             .height(1.dp).padding(end = 8.dp)
                             .background(Color.Black)
                     )
                 }
-
+*/
                 if (!cycle.isDefaultType) {
                     Box(
                         modifier = modifierCol
@@ -145,7 +145,7 @@ fun PreviewCycleItemCard3() {
         isDefaultType = true
         title = "Новая3"
         imageDefault = "plint1"
-        image = "content://media/picker/0/com.android.providers.media.photopicker/media/1000000033"
+        image = ""
     }
     CycleItemCard(c, NavHostController(LocalContext.current))
 }

@@ -18,13 +18,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
 
-data class Chips(val title:String, val icon: Int, val action: ()-> Unit)
+open class Chips(val title: String, val icon: Int, val action: () -> Unit)
+class CheckChips(var check: Boolean = false, title: String, icon: Int, action: () -> Unit) :
+    Chips(title, icon, action)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RowChips(modifier: Modifier, vararg chips: Chips) {
     val scrollState = rememberScrollState()
-    Row(modifier =  modifier.padding(start = 4.dp, end = 4.dp).horizontalScroll(scrollState)) {
-        chips.forEach {it->
+    Row(
+        modifier = modifier
+            .padding(start = 4.dp, end = 4.dp)
+            .horizontalScroll(scrollState)
+    ) {
+        chips.forEach { it ->
             AssistChip(
                 onClick = { it.action() },
                 label = { Text(it.title) },
@@ -47,9 +54,10 @@ fun RowChips(modifier: Modifier, vararg chips: Chips) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun RowChipsPreview() {
-    RowChips(modifier = Modifier,
+    RowChips(
+        modifier = Modifier,
         Chips("Коментарий", R.drawable.ic_info_black_24dp, ::println),
         Chips("Коментарий2", R.drawable.ic_add_black_24dp, ::println)
-        )
+    )
 
 }

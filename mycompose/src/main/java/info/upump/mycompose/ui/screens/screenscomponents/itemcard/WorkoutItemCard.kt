@@ -75,11 +75,6 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modi
                     overflow = TextOverflow.Ellipsis,
                     modifier = modifier.fillMaxWidth()
                 )
-                Divider(
-                    modifier = modifierCol.fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color.Black)
-                )
                 Box(
                     modifier = modifierCol
                         .align(Alignment.End)

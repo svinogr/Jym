@@ -24,16 +24,17 @@ import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutDetailVM
-import info.upump.mycompose.ui.screens.screenscomponents.screen.Divider
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ListExercise(
     list: List<Exercise>,
     lazyListState: LazyListState,
-    navhost: NavHostController,
+    navHost: NavHostController,
     modifier: Modifier = Modifier,
-    action: (Long) -> Unit,
+    actionDel: (Long) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -45,7 +46,7 @@ fun ListExercise(
         itemsIndexed(list) { index, it ->
             val dismissState = rememberDismissState(confirmStateChange = { value ->
                 if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
-                    action(it.id)
+                    actionDel(it.id)
                 }
 
                 true
@@ -59,14 +60,16 @@ fun ListExercise(
                 },
                 dismissContent = {
                     Column(modifier = Modifier) {
-                        ExerciseItemCard(exercise = it, navHost = navhost)
+                        ExerciseItemCard(exercise = it, navHost = navHost){
+                         navHost.navigate(NavigationItem.DetailExerciseNavigationItem.routeWithId(it))
+                        }
 
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
             )
             if (index < list.size -1) {
-                Divider()
+                DividerCustom()
             }
         }
     }

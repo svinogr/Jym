@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.screenscomponents.screen.Divider
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -61,8 +61,8 @@ fun ListCycle(
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
             )
-            if (index < list.size) {
-                Divider()
+            if (index < list.size - 1) {
+                DividerCustom()
             }
         }
     }

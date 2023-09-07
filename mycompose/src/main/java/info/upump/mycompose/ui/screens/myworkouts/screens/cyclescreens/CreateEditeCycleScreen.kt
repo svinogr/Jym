@@ -18,7 +18,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -30,10 +29,9 @@ import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.ActionState
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.FloatActionButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DescriptionCardWithEdit
+import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescriptiondWithEdit
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageTitleImageTitle
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageWithPicker
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -105,7 +103,7 @@ fun CreateEditeCycleScreen(
                 cycleVM.finishDate.collectAsState().value,
                 cycleVM::updateFinishDate
             )
-            DescriptionCardWithEdit(cycleVM.comment.collectAsState().value, cycleVM::updateComment)
+            CardDescriptiondWithEdit(cycleVM.comment.collectAsState().value, cycleVM::updateComment)
         }
     }
 

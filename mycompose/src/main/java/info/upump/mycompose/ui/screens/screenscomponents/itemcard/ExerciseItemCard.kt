@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -27,34 +28,35 @@ import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.screen.Divider
 import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 
 const val DEFAULT_IMAGE = "drew"
 
 @Composable
-fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modifier = Modifier) {
-    val context = LocalContext.current
+fun ExerciseItemCard(
+    exercise: Exercise,
+    navHost: NavController,
+    modifier: Modifier = Modifier,
+    actionNav: (Long) -> Unit
+) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(0.dp)
-            .clickable {
-                //TODO
-            },
+            .padding(0.dp),
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
 
         ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.background(
-                colorResource(id = R.color.colorBackgroundCardView)
-            ).clickable {
-                navHost.navigate(NavigationItem.DetailExerciseNavigationItem.routeWithId(exercise.id))
-            }
-        ) {
+            modifier = Modifier
+                .background(
+                    colorResource(id = R.color.colorBackgroundCardView)
+                ).clickable { actionNav(exercise.id) }
+
+        )
+        {
             Box(
                 modifier = Modifier
                     .padding(8.dp)
@@ -64,7 +66,14 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modif
                 ItemImage(
                     image = exercise.exerciseDescription!!.img,
                     defaultImage = exercise.exerciseDescription!!.defaultImg
-                )
+                ) {
+                    Log.d("click", "click")
+                    navHost.navigate(
+                        NavigationItem.ReviewExerciseScreenNavigationItem.routeWithId(
+                            exercise.id
+                        )
+                    )
+                }
             }
             Column(modifier = modifier.fillMaxWidth()) {
                 val modifierCol = Modifier
@@ -77,16 +86,18 @@ fun ExerciseItemCard(exercise: Exercise, navHost: NavController, modifier: Modif
                     modifier = modifier.fillMaxWidth()
                 )
 
-                Box(
-                    modifier = modifierCol
-                        .align(Alignment.End)
-                        .padding(top = 4.dp)
-                ) {
-                    Text(
-                        text = getExerciseString(exercise),
-                        style = MyTextLabel12,
+                if (!exercise.isTemplate) {
+                    Box(
+                        modifier = modifierCol
+                            .align(Alignment.End)
+                            .padding(top = 4.dp)
+                    ) {
+                        Text(
+                            text = getExerciseString(exercise),
+                            style = MyTextLabel12,
 
-                        )
+                            )
+                    }
                 }
             }
         }
@@ -130,10 +141,10 @@ fun PreviewExerciseItemCard() {
 
     val exercise = Exercise(
         isDefaultType = true,
-        isTemplate = false, exerciseDescription = exerdescription
+        isTemplate = true, exerciseDescription = exerdescription
     ).apply { title = "Новое упраж" }
 
     exercise.setsList = mutableListOf()
-    ExerciseItemCard(exercise = exercise, navHost = NavController(LocalContext.current))
+    ExerciseItemCard(exercise = exercise, navHost = NavController(LocalContext.current)) {}
 
 }

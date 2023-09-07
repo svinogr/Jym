@@ -33,13 +33,8 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DayCard(day: Day, isEven: Boolean, modifier: Modifier = Modifier) {
-    val modifierCard = modifier
-        .fillMaxWidth()
-        .padding(start = 0.dp, end = 0.dp, top = 4.dp)
-    val modifierValue = Modifier
-        .fillMaxWidth()
-        .padding(start = 0.dp, top = 4.dp, end = 8.dp, bottom = 4.dp)
+fun CardDay(day: Day, isEven: Boolean, modifier: Modifier = Modifier) {
+
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -60,7 +55,9 @@ fun DayCard(day: Day, isEven: Boolean, modifier: Modifier = Modifier) {
         containerColor = Color.Transparent
     )
     Card(
-        modifier = modifierCard,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 0.dp, end = 0.dp, top = 0.dp),
         elevation = CardDefaults.cardElevation(1.dp),
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
@@ -74,9 +71,12 @@ fun DayCard(day: Day, isEven: Boolean, modifier: Modifier = Modifier) {
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
             ) {
                 Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.Top) {
+                    val modifierValue = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 0.dp, top = 4.dp, end = 0.dp, bottom = 4.dp)
                     TextField(modifier = modifierValue.weight(1f),
                         colors = colorForTextField,
                         readOnly = true,
@@ -94,22 +94,21 @@ fun DayCard(day: Day, isEven: Boolean, modifier: Modifier = Modifier) {
                     TextField(
                         modifier = modifierValue
                             .weight(1f),
-                        colors = colorForTextField
-                    ,
-                    readOnly = true,
-                    value = if (isEven) {
-                        stringResource(id = R.string.week_not_even)
-                    } else {
-                        stringResource(id = R.string.week_not_even)
-                    },
-                    onValueChange = {
-                    },
-                    label = {
-                        Text(
-                            text = "Неделя",
-                            style = MyTextTitleLabelWithColor,
-                        )
-                    }
+                        colors = colorForTextField,
+                        readOnly = true,
+                        value = if (isEven) {
+                            stringResource(id = R.string.week_not_even)
+                        } else {
+                            stringResource(id = R.string.week_not_even)
+                        },
+                        onValueChange = {
+                        },
+                        label = {
+                            Text(
+                                text = "Неделя",
+                                style = MyTextTitleLabelWithColor,
+                            )
+                        }
                     )
                 }
             }
@@ -120,5 +119,5 @@ fun DayCard(day: Day, isEven: Boolean, modifier: Modifier = Modifier) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun DayCardPreview() {
-    DayCard(Day.SATURDAY, true)
+    CardDay(Day.SATURDAY, true)
 }

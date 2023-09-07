@@ -25,6 +25,6 @@ interface ExerciseDao {
     @Query("select * from exercises where _id= :id")
     fun getFullEntityBy(id: Long): Flow<ExerciseFullEntity>
     @Transaction
-    @Query("select * from exercises")
+    @Query("select * from exercises where template = 1")
     fun getAllFullEntities(): Flow<List<ExerciseFullEntity>>
 }

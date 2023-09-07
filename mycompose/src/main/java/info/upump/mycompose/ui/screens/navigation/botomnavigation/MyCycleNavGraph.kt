@@ -19,6 +19,7 @@ import info.upump.mycompose.ui.screens.myworkouts.screens.setsscreen.SetsCreateS
 import info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens.AlterCycleDetailScreenM3
 import info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens.CreateEditeCycleScreen
 import info.upump.mycompose.ui.screens.myworkouts.screens.exercisescreens.ExerciseChooseScreen
+import info.upump.mycompose.ui.screens.myworkouts.screens.exercisescreens.ExerciseReviewScreen
 import info.upump.mycompose.ui.screens.myworkouts.screens.exercisescreens.MyExerciseDetailScreen
 import info.upump.mycompose.ui.screens.myworkouts.screens.setsscreen.SetEditeScreen
 import info.upump.mycompose.ui.screens.myworkouts.screens.workoutscreens.CreateWorkoutScreen
@@ -117,8 +118,25 @@ fun NavGraphBuilder.myCycleGraph(
             )
         }
 
-        // exercise end
+        composable(
+            route = NavigationItem.ReviewExerciseScreenNavigationItem.route,
+            arguments = listOf(navArgument("id") {
+                type = NavType.LongType
+            })
+        ) {
+            val id = it.arguments?.getLong("id")
+            //topBarState.value = false он уже должен был быть убран
+            appBarStyle.value = WHITE_STYLE
+            ExerciseReviewScreen(
+                id = id!!,
+                navHostController,
+                paddingValues,
+                appBarTitle
+            )
+        }
 
+
+        // exercise end
 
         // Sets start
         // создать новый подход

@@ -5,18 +5,19 @@ import info.upump.database.repo.ExerciseRepo
 import info.upump.database.repo.WorkoutRepo
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Exercise
+import info.upump.mycompose.models.entity.TypeMuscle
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 
 class ExerciseChooseVM : BaseVMWithStateLoad(), ExerciseChooseVMInterface {
     private val exerciseRepo = ExerciseRepo.get()
     private val workoutRepo = WorkoutRepo.get()
-
 
     private val _day = MutableStateFlow(Day.TUESDAY)
     override val day: StateFlow<Day> = _day
@@ -31,7 +32,6 @@ class ExerciseChooseVM : BaseVMWithStateLoad(), ExerciseChooseVMInterface {
             val e = exerciseRepo.getAllFullEntity()
 
             w.zip(e) { workout, listExercise ->
-
                 val w = Workout.mapFromDbEntity(workout)
                 val list = mutableListOf<Exercise>()
                 listExercise.onEach() {
@@ -46,4 +46,16 @@ class ExerciseChooseVM : BaseVMWithStateLoad(), ExerciseChooseVMInterface {
             }
         }
     }
+
+    override fun saveChosen(it: Long) {
+        TODO("Not yet implemented")
+    }
+
+    fun filterBy(type: TypeMuscle) {
+        _subItems.value.filter {
+            it.typeMuscle == type
+        }
+    }
+
+
 }

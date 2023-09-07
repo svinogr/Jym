@@ -12,12 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
@@ -26,13 +27,11 @@ import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.TypeMuscle
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.exercise.ExerciseChooseVM
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ExerciseItemCard
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,9 +45,19 @@ fun ExerciseChooseScreen(
     appBarTitle.value = stringResource(id = R.string.exercise_choose_title_add_exercise)
     val exerciseVM: ExerciseChooseVM = viewModel()
     val listState = rememberLazyListState()
+
+    val valuesMuscle = TypeMuscle.values()
+    val list = mutableListOf<Chips>()
+    val filter = remember{
+        mutableStateOf(TypeMuscle.NECK)
+    }
+    valuesMuscle.forEach {
+        list.add(Chips(title = stringResource(id = it.title), R.drawable.ic_delete_24) { filter.value = it})
+    }
+
     Scaffold(
     ) { it ->
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column {
             Box(
                 modifier = Modifier
                     .weight(1.5f)
@@ -57,15 +66,26 @@ fun ExerciseChooseScreen(
                 ImageByDay(
                     day = exerciseVM.day.collectAsState().value
                 )
-                //RowChips(Chips)
+
+                RowChips(
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    *list.toTypedArray()
+                )
             }
+
             ListExercise(
-                list = exerciseVM.subItems.collectAsState().value,
+                list = exerciseVM.subItems.collectAsState().value.filter { it.typeMuscle == filter.value},
                 lazyListState = listState,
-                navhost = navHostController,
-                action = {},
+                navHost = navHostController ,
                 modifier = Modifier.weight(4.5f)
-            )
+            ) {
+                exerciseVM.saveChosen(it)
+                navHostController.navigate(
+                NavigationItem.DetailWorkoutNavigationItem.routeWithId(
+                    parentId
+                )
+            )}
+
         }
     }
 
@@ -74,31 +94,15 @@ fun ExerciseChooseScreen(
     }
 }
 
-/*@Preview(showBackground = true)
-@Composable
-fun ExerciseChooseScreenPreview() {
-    val id = 1L
-    val m: MutableState<String> =
-        MutableStateFlow(" ").asStateFlow().collectAsState() as MutableState<String>
-
-    ExerciseChooseScreen(
-        parentId = id,
-        navHostController = NavHostController(LocalContext.current),
-        paddingValues = PaddingValues(20.dp),
-        appBarTitle = m
-    )
-}*/
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun testImageWithChips() {
+fun ExerciseChooseScreenPreview() {
 
     val valuesMuscle = TypeMuscle.values()
     val list = mutableListOf<Chips>()
     valuesMuscle.forEach {
-       list.add(Chips(title = stringResource(id = it.title), R.drawable.ic_delete_24){})
+        list.add(Chips(title = stringResource(id = it.title), R.drawable.ic_delete_24) { })
     }
-
 
     Column {
         Box(
@@ -110,10 +114,9 @@ fun testImageWithChips() {
                 day = Day.TUESDAY
             )
 
-
             RowChips(
                 modifier = Modifier.align(Alignment.BottomCenter),
-             *list.toTypedArray()
+                *list.toTypedArray()
             )
         }
         val exD = ExerciseDescription()
@@ -129,7 +132,7 @@ fun testImageWithChips() {
         ListExercise(
             list = listExer,
             lazyListState = LazyListState(),
-            navhost = navHostController,
+            navHost = navHostController,
             modifier = Modifier.weight(4.5f)
         ) {}
 

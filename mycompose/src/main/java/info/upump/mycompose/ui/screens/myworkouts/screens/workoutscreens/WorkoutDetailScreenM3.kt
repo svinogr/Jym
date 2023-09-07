@@ -37,7 +37,7 @@ import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCard
+import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
@@ -162,14 +162,15 @@ fun AlterWorkoutDetailScreenM3(
                     )
                 }
 
-                DateCard(
+                CardDate(
                     workoutVM.startDate.collectAsState().value,
                     workoutVM.finishDate.collectAsState().value,
+                    false
                 )
                 val del: (Long) -> Unit = { workoutVM.deleteSub(it) }
                 ListExercise(
                     list = exercisesList.value.collectAsState().value,
-                    listState, navhost = navHostController,
+                    listState, navHost = navHostController,
                     Modifier.weight(4f),
                     del
                 )
@@ -177,7 +178,6 @@ fun AlterWorkoutDetailScreenM3(
         }
     }
 }
-
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
