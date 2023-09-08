@@ -29,9 +29,11 @@ import info.upump.mycompose.models.entity.TypeMuscle
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.exercise.ExerciseChooseVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
+import info.upump.mycompose.ui.screens.screenscomponents.screen.CheckChips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
+import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChooseChips
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,12 +49,12 @@ fun ExerciseChooseScreen(
     val listState = rememberLazyListState()
 
     val valuesMuscle = TypeMuscle.values()
-    val list = mutableListOf<Chips>()
+    val list = mutableListOf<CheckChips>()
     val filter = remember{
         mutableStateOf(TypeMuscle.NECK)
     }
     valuesMuscle.forEach {
-        list.add(Chips(title = stringResource(id = it.title), R.drawable.ic_delete_24) { filter.value = it})
+        list.add(CheckChips(title = stringResource(id = it.title), icon =  R.drawable.ic_done) { filter.value = it})
     }
 
     Scaffold(
@@ -67,7 +69,7 @@ fun ExerciseChooseScreen(
                     day = exerciseVM.day.collectAsState().value
                 )
 
-                RowChips(
+                RowChooseChips(
                     modifier = Modifier.align(Alignment.BottomCenter),
                     *list.toTypedArray()
                 )
@@ -99,9 +101,9 @@ fun ExerciseChooseScreen(
 fun ExerciseChooseScreenPreview() {
 
     val valuesMuscle = TypeMuscle.values()
-    val list = mutableListOf<Chips>()
+    val list = mutableListOf<CheckChips>()
     valuesMuscle.forEach {
-        list.add(Chips(title = stringResource(id = it.title), R.drawable.ic_delete_24) { })
+        list.add(CheckChips(check = false, title = stringResource(id = it.title), R.drawable.ic_done) { })
     }
 
     Column {
@@ -114,7 +116,7 @@ fun ExerciseChooseScreenPreview() {
                 day = Day.TUESDAY
             )
 
-            RowChips(
+            RowChooseChips(
                 modifier = Modifier.align(Alignment.BottomCenter),
                 *list.toTypedArray()
             )

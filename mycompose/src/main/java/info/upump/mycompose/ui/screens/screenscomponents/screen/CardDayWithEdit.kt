@@ -1,11 +1,13 @@
 package info.upump.mycompose.ui.screens.screenscomponents.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -48,8 +51,22 @@ fun CarDaydWorkoutEdit(
     modifier: Modifier = Modifier
 ) {
     var expanded by remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
+
+    val widhtOne = remember {
+        mutableStateOf(0)
+    }
+
+    val widhtMenu = remember {
+        mutableStateOf(0)
+    }
+
+    val offset = remember {
+        mutableStateOf(0)
+    }
+
+
     Card(
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(0.dp),
@@ -66,13 +83,21 @@ fun CarDaydWorkoutEdit(
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = {
-                    expanded = !it
+                    expanded = !expanded
                     focus.clearFocus()
+                    val o = widhtOne.value - widhtMenu.value
+                    offset.value = o/2
+                    Log.d("size3 ", "${offset.value}")
                 }
             ) {
 
                 AssistChip(
-                    modifier = Modifier.menuAnchor(),
+                    modifier = Modifier
+                        .menuAnchor()
+                        .onSizeChanged {
+                            Log.d("size ", "${it.width}")
+                            widhtOne.value = it.width
+                        },
                     onClick = {
                     },
                     label = {
@@ -93,8 +118,12 @@ fun CarDaydWorkoutEdit(
                 )
 
                 DropdownMenu(
-                    modifier = Modifier.
-                    background(colorResource(id = R.color.colorBackgroundCardView)),
+                    modifier = Modifier
+                        .onSizeChanged {
+                            Log.d("size2 ", "${it.width}")
+                            widhtMenu.value = it.width
+                        }
+                        .background(colorResource(id = R.color.colorBackgroundCardView)),
                     expanded = expanded,
                     onDismissRequest = {
                         expanded = false
