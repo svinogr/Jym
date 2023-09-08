@@ -1,5 +1,6 @@
 package info.upump.database.entities
 
+
 import androidx.room.Embedded
 import androidx.room.Relation
 
@@ -11,4 +12,3 @@ data class ExerciseFullEntity(
     @Relation(parentColumn = "_id", entityColumn = "parent_id", entity = SetsEntity::class)
     val listSet: List<SetsEntity>
 )
-

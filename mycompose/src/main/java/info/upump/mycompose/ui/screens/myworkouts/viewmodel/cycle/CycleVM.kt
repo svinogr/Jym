@@ -43,6 +43,23 @@ class CycleVM : BaseVMWithStateLoad() {
           viewModelScope.launch(Dispatchers.IO) {
               cycleRepo.deleteBy(id)
           }
-
     }
+
+    fun exp(id: Long){
+        viewModelScope.launch(Dispatchers.IO) {
+            (cycleRepo as CycleRepo).exp(id).collect{
+                Log.d("fullll", "${it.cycle._id}")
+                Log.d("fullll", "_____________________________________")
+
+                Log.d("fullll", "${it.listWorkouts[0].parent_id}")
+                Log.d("fullll", "_____________________________________")
+               Log.d("fullll", "${it.listExercise[0].parent_id}")
+           //     Log.d("fullll", "${it.listSet[0].listSet[0].listSet[0].toString()}")
+
+
+            }
+        }
+    }
+
+
 }

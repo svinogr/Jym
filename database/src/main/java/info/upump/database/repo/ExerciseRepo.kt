@@ -1,7 +1,6 @@
 package info.upump.database.repo
 
 import android.content.Context
-import info.upump.database.RepoActions
 import info.upump.database.RepoActionsSpecific
 import info.upump.database.RoomDB
 import info.upump.database.entities.ExerciseEntity
@@ -11,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 class ExerciseRepo private constructor(private val context: Context, db: RoomDB) :
     RepoActionsSpecific<ExerciseEntity, ExerciseFullEntity> {
     private val exerciseDao = db.exerciseDao()
+    //private val setRepo = SetsRepo.get()
 
     companion object {
         private var instance: ExerciseRepo? = null
@@ -47,8 +47,9 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
     }
 
     override fun deleteBy(id: Long) {
-        TODO("Not yet implemented")
+        exerciseDao.deleteBy(id)
     }
+
 
     override fun update(setsGet: ExerciseEntity): ExerciseEntity {
         TODO("Not yet implemented")

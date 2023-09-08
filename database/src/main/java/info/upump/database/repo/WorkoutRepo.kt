@@ -2,17 +2,14 @@ package info.upump.database.repo
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
-import androidx.room.Query
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
-import info.upump.database.entities.ExerciseDescriptionEntity
-import info.upump.database.entities.ExerciseFullEntity
 import info.upump.database.entities.WorkoutEntity
 import kotlinx.coroutines.flow.Flow
 
 class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<WorkoutEntity> {
     private val workoutDao = db.workoutDao()
+    //private val exerciseRepo = ExerciseRepo.get()
 
     companion object {
         @SuppressLint("StaticFieldLeak")
@@ -42,15 +39,15 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
     }
 
     override fun getBy(id: Long): Flow<WorkoutEntity> {
-      return workoutDao.getById(id)
+        return workoutDao.getById(id)
     }
 
-    override fun getAllByParent(id: Long): Flow<List<WorkoutEntity>>{
+    override fun getAllByParent(id: Long): Flow<List<WorkoutEntity>> {
         return workoutDao.getAllByParent(id)
     }
 
     override fun deleteBy(id: Long) {
-        workoutDao.delete(id)
+        TODO("Not yet implemented")
     }
 
     override fun update(setsGet: WorkoutEntity): WorkoutEntity {
@@ -61,10 +58,10 @@ class WorkoutRepo(private val context: Context, db: RoomDB) : RepoActions<Workou
         if (item._id == 0L) {
             val id = workoutDao.save(item)
             item._id = id
-        } else{
+        } else {
             workoutDao.update(item)
         }
 
-        return  item
+        return item
     }
 }

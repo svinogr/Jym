@@ -2,12 +2,11 @@ package info.upump.database.dao
 
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import info.upump.database.entities.CycleEntity
+import info.upump.database.entities.CycleFullEntity2
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -32,5 +31,8 @@ interface CycleDao {
 
     @Query("delete from cycles where _id=:id")
     fun delete(id: Long)
+
+    @Query("select * from cycles where _id=:id")
+    fun exp(id: Long): Flow<CycleFullEntity2>
 
 }

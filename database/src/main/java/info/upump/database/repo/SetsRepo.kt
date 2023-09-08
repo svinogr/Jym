@@ -4,8 +4,6 @@ import android.content.Context
 import info.upump.database.DatabaseApp
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
-import info.upump.database.entities.ExerciseDescriptionEntity
-import info.upump.database.entities.ExerciseFullEntity
 import info.upump.database.entities.SetsEntity
 import kotlinx.coroutines.flow.Flow
 

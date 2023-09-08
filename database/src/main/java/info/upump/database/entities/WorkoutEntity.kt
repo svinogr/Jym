@@ -35,4 +35,9 @@ data class WorkoutEntity(
 
     @ColumnInfo
     var parent_id: Long? = 0
+    override fun toString(): String {
+        return "WorkoutEntity(_id=$_id, title='$title', comment=$comment, week_even=$week_even, default_type=$default_type, template=$template, day=$day, start_date='$start_date', finish_date='$finish_date', parent_id=$parent_id)"
+    }
+
+
 }

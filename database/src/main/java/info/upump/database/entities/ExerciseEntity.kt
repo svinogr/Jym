@@ -32,4 +32,9 @@ data class ExerciseEntity(
 
     @ColumnInfo
     var parent_id: Long? = 0
+    override fun toString(): String {
+        return "ExerciseEntity(_id=$_id, comment=$comment, description_id=$description_id, type_exercise=$type_exercise, default_type=$default_type, template=$template, start_date='$start_date', finish_date='$finish_date', parent_id=$parent_id)"
+    }
+
+
 }

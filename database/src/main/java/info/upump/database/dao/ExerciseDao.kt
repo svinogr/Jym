@@ -3,10 +3,8 @@ package info.upump.database.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import info.upump.database.entities.ExerciseDescriptionEntity
 import info.upump.database.entities.ExerciseEntity
 import info.upump.database.entities.ExerciseFullEntity
-import info.upump.database.entities.SetsEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -27,4 +25,7 @@ interface ExerciseDao {
     @Transaction
     @Query("select * from exercises where template = 1")
     fun getAllFullEntities(): Flow<List<ExerciseFullEntity>>
+
+    @Query("delete from exercises where _id = :id")
+    fun deleteBy(id: Long)
 }

@@ -21,5 +21,8 @@ interface WorkoutDao {
     fun update(item: WorkoutEntity)
     @Query("delete from workouts where _id=:id")
     fun delete(id: Long)
+    @Query("delete from workouts where parent_id=:parentId")
+    fun deleteBy(parentId: Long)
+
 }
 

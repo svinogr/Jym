@@ -17,5 +17,9 @@ data class ExerciseDescriptionEntity(
 
     @ColumnInfo
     var title: String? = ""
+    override fun toString(): String {
+        return "ExerciseDescriptionEntity(_id=$_id, default_img=$default_img, img=$img, title=$title)"
+    }
+
 
 }

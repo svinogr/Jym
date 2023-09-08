@@ -2,16 +2,17 @@ package info.upump.database.repo
 
 import android.content.Context
 import android.util.Log
+import androidx.room.Transaction
 import info.upump.database.RepoActions
 import info.upump.database.RoomDB
 import info.upump.database.entities.CycleEntity
-import info.upump.database.entities.ExerciseDescriptionEntity
-import info.upump.database.entities.ExerciseFullEntity
+import info.upump.database.entities.CycleFullEntity2
 import kotlinx.coroutines.flow.Flow
 
 class CycleRepo private constructor(private val context: Context, db: RoomDB) :
     RepoActions<CycleEntity> {
     private val cycleDao = db.cycleDao()
+    private val workoutRepo = WorkoutRepo.get()
 
     companion object {
         private var instance: CycleRepo? = null
@@ -57,11 +58,19 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
         TODO("Not yet implemented")
     }
 
+    @Transaction
     override fun deleteBy(id: Long) {
         Log.d("dele cycle", "id")
         cycleDao.delete(id)
+
+        //     workoutRepo.deleteByParent(id)
+
     }
 
+    @Transaction
+    fun exp(id: Long): Flow<CycleFullEntity2> {
+        return cycleDao.exp(id)
+    }
 
     override fun update(setsGet: CycleEntity): CycleEntity {
         TODO("Not yet implemented")

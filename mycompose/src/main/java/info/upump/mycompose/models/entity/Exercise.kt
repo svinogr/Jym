@@ -1,6 +1,5 @@
 package info.upump.mycompose.models.entity
 
-import android.util.Log
 import info.upump.database.entities.ExerciseEntity
 import info.upump.database.entities.ExerciseFullEntity
 
