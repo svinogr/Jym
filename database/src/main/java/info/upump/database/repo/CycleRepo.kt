@@ -32,16 +32,17 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
         return cycleDao.getFullBy(id)
     }
 
-    override fun getAllFullEntityByParent(id: Long): Flow<List<CycleFullEntity>> {
-        TODO("Not yet implemented")
-    }
-
     override fun getAllFullEntity(): Flow<List<CycleFullEntity>> {
         TODO("Not yet implemented")
     }
 
-    override fun getAll(): List<CycleEntity> {
-        return cycleDao.getAllCycles()
+    override fun getAllFullEntityByParent(id: Long): Flow<List<CycleFullEntity>> {
+        TODO("Not yet implemented")
+    }
+
+
+    override fun getAllFullEntityTemplate(): Flow<List<CycleFullEntity>> {
+        return cycleDao.getAllTemplate()
     }
 
     override fun save(item: CycleEntity): CycleEntity {
@@ -54,20 +55,8 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
         return item
     }
 
-    override fun getAllPersonal(): Flow<List<CycleEntity>> {
+    override fun getAllFullEntityPersonal(): Flow<List<CycleFullEntity>> {
         return cycleDao.getAllPersonalCycles()
-    }
-
-    override fun getAllDefault(): List<CycleEntity> {
-        return cycleDao.getAllDefaultCycles()
-    }
-
-    override fun getBy(id: Long): Flow<CycleEntity> {
-        return cycleDao.getBy(id)
-    }
-
-    override fun getAllByParent(id: Long): Flow<List<CycleEntity>> {
-        TODO("Not yet implemented")
     }
 
     @Transaction
@@ -77,17 +66,12 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
 
     }
 
-
     override fun deleteByParent(parentId: Long) {
         TODO("Not yet implemented")
     }
 
-    @Transaction
-    fun exp(id: Long): Flow<CycleFullEntity> {
-        return cycleDao.exp(id)
-    }
-
-    override fun update(setsGet: CycleEntity): CycleEntity {
-        TODO("Not yet implemented")
+    override fun update(item: CycleEntity): CycleEntity {
+        cycleDao.update(item)
+        return item
     }
 }

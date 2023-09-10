@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface ExerciseChooseVMInterface {
     val day: StateFlow<Day>
     val subItems: StateFlow<List<Exercise>>
-    fun getByParent(parent: Long)
-    fun saveChosen(it: Long)
+    fun getAllExerciseForParent(parent: Long)
+    fun saveForParentChosen(id: Long)
 
 }

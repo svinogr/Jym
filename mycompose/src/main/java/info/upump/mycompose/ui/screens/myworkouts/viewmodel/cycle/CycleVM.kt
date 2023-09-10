@@ -25,16 +25,15 @@ class CycleVM : BaseVMWithStateLoad() {
         viewModelScope.launch(
             Dispatchers.IO
         ) {
-            val list = cycleRepo.getAllPersonal()
+            val list = cycleRepo.getAllFullEntityPersonal()
             list.map {
                 it.map { c ->
-                    Cycle.mapFromDbEntity(c)
+                    Cycle.mapFullFromDbEntity(c)
                 }
             }.collect {
                 _cycleList.value = it
+                _stateLoading.value = false
             }
-
-            _stateLoading.value = false
         }
     }
 

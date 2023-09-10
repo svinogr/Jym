@@ -166,8 +166,8 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
                 return@launch
             }
 
-            WorkoutRepo.get().getBy(id).map {
-                Workout.mapFromDbEntity(it)
+            WorkoutRepo.get().getFullEntityBy(id).map {
+                Workout.mapFromFullDbEntity(it)
             }.collect {
                 with(it) {
                     _title.update { title }

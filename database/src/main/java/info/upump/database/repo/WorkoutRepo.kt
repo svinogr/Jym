@@ -3,7 +3,6 @@ package info.upump.database.repo
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.room.Transaction
-import info.upump.database.RepoActions
 import info.upump.database.RepoActionsSpecific
 import info.upump.database.RoomDB
 import info.upump.database.entities.WorkoutEntity
@@ -34,99 +33,49 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
         return workoutDao.getById(id)
     }
 
-    override fun getAllFullEntityByParent(id: Long): Flow<List<WorkoutFullEntity>> {
-        TODO("Not yet implemented")
+    override fun getAllFullEntityByParent(parentId: Long): Flow<List<WorkoutFullEntity>> {
+        return workoutDao.getAllByParent(parentId)
     }
 
     override fun getAllFullEntity(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")
     }
 
-    override fun getAll(): List<WorkoutEntity> {
+    override fun getAllFullEntityTemplate(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")
     }
 
-    override fun getAllPersonal(): Flow<List<WorkoutEntity>> {
+    override fun getAllFullEntityPersonal(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")
     }
 
-    override fun getAllDefault(): List<WorkoutEntity> {
-        TODO("Not yet implemented")
-    }
 
-    override fun getBy(id: Long): Flow<WorkoutEntity> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAllByParent(id: Long): Flow<List<WorkoutEntity>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun delete(id: Long) {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteByParent(parentId: Long) {
-        TODO("Not yet implemented")
-    }
-
-    override fun update(setsGet: WorkoutEntity): WorkoutEntity {
+    override fun update(item: WorkoutEntity): WorkoutEntity {
         TODO("Not yet implemented")
     }
 
     override fun save(item: WorkoutEntity): WorkoutEntity {
-        TODO("Not yet implemented")
+        if (item._id == 0L) {
+            val id = workoutDao.save(item)
+            item._id = id
+        } else {
+            workoutDao.update(item)
+        }
+
+        return item
     }
-    /*
-        override fun getAll(): List<WorkoutEntity> {
-            return workoutDao.getAllWorkouts()
+
+    @Transaction
+    override fun delete(id: Long) {
+        exerciseRepo.deleteByParent(id)
+        workoutDao.delete(id)
+    }
+
+    override fun deleteByParent(parentId: Long) {
+        val listParentIdForNext = workoutDao.getListIdForNextByParent(parentId)
+        workoutDao.deleteBy(parentId)
+        listParentIdForNext.forEach {
+            exerciseRepo.deleteByParent(it)
         }
-
-        override fun getAllPersonal(): Flow<List<WorkoutEntity>> {
-            TODO("Not yet implemented")
-        }
-
-        override fun getAllDefault(): List<WorkoutEntity> {
-            TODO("Not yet implemented")
-        }
-
-        override fun getBy(id: Long): Flow<WorkoutFullEntity> {
-            return workoutDao.getById(id)
-        }
-
-        override fun getAllByParent(id: Long): Flow<List<WorkoutEntity>> {
-            return workoutDao.getAllByParent(id)
-        }
-
-        @Transaction
-        override fun delete(id: Long) {
-            exerciseRepo.deleteByParent(id)
-            workoutDao.delete(id)
-        }
-
-        @Transaction
-        override fun deleteByParent(parentId: Long) {
-            val listParentIdForNext = workoutDao.getListIdForNextByParent(parentId)
-            workoutDao.deleteBy(parentId)
-            listParentIdForNext.forEach{
-                exerciseRepo.deleteByParent(it)
-            }
-
-        }
-
-
-        override fun update(setsGet: WorkoutEntity): WorkoutEntity {
-            TODO("Not yet implemented")
-        }
-
-        override fun save(item: WorkoutEntity): WorkoutEntity {
-            if (item._id == 0L) {
-                val id = workoutDao.save(item)
-                item._id = id
-            } else {
-                workoutDao.update(item)
-            }
-
-            return item
-        }*/
+    }
 }

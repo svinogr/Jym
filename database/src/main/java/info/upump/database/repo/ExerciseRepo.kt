@@ -7,7 +7,6 @@ import info.upump.database.RoomDB
 import info.upump.database.entities.ExerciseEntity
 import info.upump.database.entities.ExerciseFullEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 
 class ExerciseRepo private constructor(private val context: Context, db: RoomDB) :
     RepoActionsSpecific<ExerciseEntity, ExerciseFullEntity> {
@@ -28,24 +27,9 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
         }
     }
 
-    override fun getAll(): List<ExerciseEntity> {
-        return exerciseDao.getAll()
-    }
 
-    override fun getAllPersonal(): Flow<List<ExerciseEntity>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAllDefault(): List<ExerciseEntity> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getBy(id: Long): Flow<ExerciseEntity> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAllByParent(id: Long): Flow<List<ExerciseEntity>> {
-        return exerciseDao.getAllByParent(id)
+    override fun getAllFullEntityByParent(parentId: Long): Flow<List<ExerciseFullEntity>> {
+        return exerciseDao.getAllByParent(parentId)
     }
 
     override fun delete(id: Long) {
@@ -62,12 +46,7 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
     }
 
 
-    fun deleteBdy(id: Long) {
-        exerciseDao.deleteBy(id)
-    }
-
-
-    override fun update(setsGet: ExerciseEntity): ExerciseEntity {
+    override fun update(item: ExerciseEntity): ExerciseEntity {
         TODO("Not yet implemented")
     }
 
@@ -79,11 +58,17 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
         return exerciseDao.getFullEntityBy(id)
     }
 
-    override fun getAllFullEntityByParent(id: Long): Flow<List<ExerciseFullEntity>> {
-        return exerciseDao.getFullEntityByParent(id)
-    }
 
     override fun getAllFullEntity(): Flow<List<ExerciseFullEntity>> {
         return exerciseDao.getAllFullEntities()
+    }
+
+    override fun getAllFullEntityTemplate(): Flow<List<ExerciseFullEntity>> {
+          return exerciseDao.getAllFullTemplateEntity()
+
+    }
+
+    override fun getAllFullEntityPersonal(): Flow<List<ExerciseFullEntity>> {
+        TODO("Not yet implemented")
     }
 }
