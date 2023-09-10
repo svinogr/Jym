@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class ExerciseVM : BaseVMWithStateLoad(), ExerciseVMInterface {
     private val _imageDescription = MutableStateFlow("")
@@ -47,7 +46,7 @@ class ExerciseVM : BaseVMWithStateLoad(), ExerciseVMInterface {
     override fun deleteSub(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             val sets = Sets.mapToEntity(Sets().apply { this.id = id })
-            val repo = SetsRepo.get().deleteBy(id)
+            val repo = SetsRepo.get().delete(id)
 
             Log.d("delete", "${_listSets.value.size}")
         _listSets.value.removeIf{

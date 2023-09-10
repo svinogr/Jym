@@ -7,37 +7,31 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "workouts")
 data class WorkoutEntity(
     @PrimaryKey(autoGenerate = true)
-    var _id: Long
-) {
-    @ColumnInfo
-    var title: String = ""
+    var _id: Long=0,
 
     @ColumnInfo
-    var comment: String? = ""
+    var title: String = "",
 
     @ColumnInfo
-    var week_even: Int = 0
+    var comment: String? = "",
 
     @ColumnInfo
-    var default_type: Int = 0
+    var week_even: Int = 0,
 
     @ColumnInfo
-    var template: Int = 0
+    var default_type: Int = 0,
 
     @ColumnInfo
-    var day: String? = ""
+    var template: Int = 0,
 
     @ColumnInfo
-    var start_date: String = ""
+    var day: String? = "",
 
     @ColumnInfo
-    var finish_date: String = ""
+    var start_date: String = "",
 
     @ColumnInfo
-    var parent_id: Long? = 0
-    override fun toString(): String {
-        return "WorkoutEntity(_id=$_id, title='$title', comment=$comment, week_even=$week_even, default_type=$default_type, template=$template, day=$day, start_date='$start_date', finish_date='$finish_date', parent_id=$parent_id)"
-    }
+    var finish_date: String = "",
 
-
-}
+    @ColumnInfo
+    var parent_id: Long? = 0)

@@ -7,19 +7,13 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "exercise_description")
 data class ExerciseDescriptionEntity(
     @PrimaryKey(autoGenerate = true)
-    var _id: Long
-) {
+    var _id: Long=0,
     @ColumnInfo
-    var default_img: String? = ""
-
-    @ColumnInfo
-    var img: String? = ""
+    var default_img: String? = "",
 
     @ColumnInfo
-    var title: String? = ""
-    override fun toString(): String {
-        return "ExerciseDescriptionEntity(_id=$_id, default_img=$default_img, img=$img, title=$title)"
-    }
+    var img: String? = "",
 
+    @ColumnInfo
+    var title: String? = "")
 
-}

@@ -1,16 +1,18 @@
 package info.upump.database.repo
 
 import android.content.Context
+import androidx.room.Transaction
 import info.upump.database.RepoActionsSpecific
 import info.upump.database.RoomDB
 import info.upump.database.entities.ExerciseEntity
 import info.upump.database.entities.ExerciseFullEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 
 class ExerciseRepo private constructor(private val context: Context, db: RoomDB) :
     RepoActionsSpecific<ExerciseEntity, ExerciseFullEntity> {
     private val exerciseDao = db.exerciseDao()
-    //private val setRepo = SetsRepo.get()
+    private val setsRepo = SetsRepo.get()
 
     companion object {
         private var instance: ExerciseRepo? = null
@@ -46,7 +48,21 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
         return exerciseDao.getAllByParent(id)
     }
 
-    override fun deleteBy(id: Long) {
+    override fun delete(id: Long) {
+        exerciseDao.deleteBy(id)
+    }
+
+    @Transaction
+    override fun deleteByParent(parentId: Long) {
+        val listParentIdForNext = exerciseDao.getListIdForNextByParent(parentId)
+        exerciseDao.deleteByParent(parentId)
+        listParentIdForNext.forEach {
+            setsRepo.deleteByParent(it)
+        }
+    }
+
+
+    fun deleteBdy(id: Long) {
         exerciseDao.deleteBy(id)
     }
 
@@ -68,6 +84,6 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
     }
 
     override fun getAllFullEntity(): Flow<List<ExerciseFullEntity>> {
-              return exerciseDao.getAllFullEntities()
+        return exerciseDao.getAllFullEntities()
     }
 }

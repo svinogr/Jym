@@ -2,6 +2,7 @@ package info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import info.upump.database.entities.WorkoutFullEntity
 import info.upump.database.repo.ExerciseRepo
 import info.upump.database.repo.WorkoutRepo
 import info.upump.mycompose.models.entity.Cycle
@@ -23,6 +24,8 @@ import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 
 class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
+    private val workoutRepo = WorkoutRepo.get()
+
     private val _workout = MutableStateFlow(Workout())
 
     override val item: StateFlow<Workout> = _workout
@@ -82,10 +85,63 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     override val isEven: StateFlow<Boolean> = _isEven
 
+    /*    override fun getBy(id: Long) {
+            _stateLoading.value = true
+            viewModelScope.launch(Dispatchers.IO) {
+
+                val wFlow = WorkoutRepo.get().getBy(id).map {
+                    Workout.mapFromDbEntity(it)
+                }
+
+                val eflow = ExerciseRepo.get().getAllFullEntityByParent(id).map {
+                    it.map {
+                        Exercise.mapFromFullDbEntity(it)
+                    }
+                }
+
+                wFlow.zip(eflow) { workout, exercise ->
+                   workout.exercises = exercise
+                    return@zip workout
+                }.collect { workout ->
+                    _workout.update { workout }
+                    _id.update { workout.id }
+                    _title.update { workout.title }
+                    _comment.update { workout.comment }
+                    _startDate.update { workout.startStringFormatDate }
+                    _finishDate.update { workout.finishStringFormatDate }
+                    _day.update { workout.day }
+                    _isEven.update { workout.isWeekEven }
+                    _exercises.update { workout.exercises }
+                    _exercises.update { workout.exercises }
+
+                    _stateLoading.value = false
+                }
+
+            }
+
+        }*/
+
     override fun getBy(id: Long) {
         _stateLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
 
+            workoutRepo.getFullEntityBy(id).map {
+               Workout.mapFromFullDbEntity(it)
+            }.collect{workout ->
+                _workout.update { workout }
+                _id.update { workout.id }
+                _title.update { workout.title }
+                _comment.update { workout.comment }
+                _startDate.update { workout.startStringFormatDate }
+                _finishDate.update { workout.finishStringFormatDate }
+                _day.update { workout.day }
+                _isEven.update { workout.isWeekEven }
+                _exercises.update { workout.exercises }
+
+                _stateLoading.value = false
+
+            }
+         /*
             val wFlow = WorkoutRepo.get().getBy(id).map {
                 Workout.mapFromDbEntity(it)
             }
@@ -97,7 +153,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
             }
 
             wFlow.zip(eflow) { workout, exercise ->
-               workout.exercises = exercise
+                workout.exercises = exercise
                 return@zip workout
             }.collect { workout ->
                 _workout.update { workout }
@@ -112,7 +168,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                 _exercises.update { workout.exercises }
 
                 _stateLoading.value = false
-            }
+            }*/
 
         }
 

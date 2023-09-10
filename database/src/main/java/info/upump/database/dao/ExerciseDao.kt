@@ -28,4 +28,8 @@ interface ExerciseDao {
 
     @Query("delete from exercises where _id = :id")
     fun deleteBy(id: Long)
+    @Query("delete from exercises where parent_id = :parentId" )
+    fun deleteByParent(parentId: Long)
+    @Query("select _id from exercises where parent_id = :parentId")
+    fun getListIdForNextByParent(parentId: Long) : List<Long>
 }

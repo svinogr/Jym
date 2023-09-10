@@ -67,7 +67,6 @@ fun MyCycleScreen(
     LaunchedEffect(key1 = true) {
         Log.d("LaunchedEffect", "LaunchedEffect $")
         cycleVM.getAllPersonal()
-        cycleVM.exp(2)
     }
 
 

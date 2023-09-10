@@ -43,7 +43,11 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
         TODO("Not yet implemented")
     }
 
-    override fun deleteBy(id: Long) {
+    override fun delete(id: Long) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteByParent(parentId: Long) {
         TODO("Not yet implemented")
     }
 

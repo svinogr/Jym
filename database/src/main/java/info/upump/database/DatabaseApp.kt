@@ -36,11 +36,11 @@ class DatabaseApp (val context: Context) {
             }
 
 
+            SetsRepo.initialize(context, db)
+            ExerciseRepo.initialize(context, db)
             WorkoutRepo.initialize(context, db)
             CycleRepo.initialize(context, db)
-            ExerciseRepo.initialize(context, db)
             ExerciseDescriptionRepo.initialize(context, db)
-            SetsRepo.initialize(context, db)
         }
     }
 }

@@ -45,8 +45,12 @@ class SetsRepo private constructor(private var context: Context, db: RoomDB) :
       return setsDao.getByParent(id)
     }
 
-    override fun deleteBy(id: Long) {
+    override fun delete(id: Long) {
         setsDao.deleteById(id)
+    }
+
+    override fun deleteByParent(parentId: Long) {
+       setsDao.deleteByParentId(parentId)
     }
 
 

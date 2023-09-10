@@ -9,32 +9,25 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "cycles")
 data class CycleEntity(
     @PrimaryKey(autoGenerate = true)
-    var _id: Long,
-) {
-    @ColumnInfo
-    var title: String = ""
+    var _id: Long = 0,
 
     @ColumnInfo
-    var comment: String? = ""
+    var title: String = "",
 
     @ColumnInfo
-    var default_type: Int = 0
+    var comment: String? = "",
 
     @ColumnInfo
-    var img: String? = ""
+    var default_type: Int = 0,
 
     @ColumnInfo
-    var start_date: String = ""
+    var img: String? = "",
 
     @ColumnInfo
-    var finish_date: String = ""
+    var start_date: String = "",
 
     @ColumnInfo
-    var default_img: String? = ""
-    @Ignore
-    override fun toString(): String {
-        return "CycleEntity(_id=$_id, title='$title', comment=$comment, default_type=$default_type, img=$img, start_date='$start_date', finish_date='$finish_date', default_img=$default_img)"
-    }
+    var finish_date: String = "",
 
-
-}
+    @ColumnInfo
+    var default_img: String? = "")

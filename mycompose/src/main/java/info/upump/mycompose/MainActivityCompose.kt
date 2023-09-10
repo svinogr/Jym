@@ -23,8 +23,8 @@ class MainActivityCompose : ComponentActivity() {
         super.onCreate(savedInstanceState)
          lifecycleScope.launch(Dispatchers.IO) {
            //  val db = DatabaseApp(this@MainActivityCompose)
-             DatabaseApp.initilizeDb(this@MainActivityCompose)
-             Log.d("TAG", "${DatabaseApp.db.workoutDao().getAllWorkouts().size}")
+            // DatabaseApp.initilizeDb(this@MainActivityCompose)
+             Log.d("TAG", "init db")
          }
 
         setContent {

@@ -3,14 +3,14 @@ package info.upump.database.repo
 import android.content.Context
 import android.util.Log
 import androidx.room.Transaction
-import info.upump.database.RepoActions
+import info.upump.database.RepoActionsSpecific
 import info.upump.database.RoomDB
 import info.upump.database.entities.CycleEntity
-import info.upump.database.entities.CycleFullEntity2
+import info.upump.database.entities.CycleFullEntity
 import kotlinx.coroutines.flow.Flow
 
 class CycleRepo private constructor(private val context: Context, db: RoomDB) :
-    RepoActions<CycleEntity> {
+    RepoActionsSpecific<CycleEntity, CycleFullEntity> {
     private val cycleDao = db.cycleDao()
     private val workoutRepo = WorkoutRepo.get()
 
@@ -23,9 +23,21 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
             }
         }
 
-        fun get(): RepoActions<CycleEntity> {
+        fun get(): RepoActionsSpecific<CycleEntity, CycleFullEntity> {
             return instance ?: throw IllegalStateException("first need initialize repo")
         }
+    }
+
+    override fun getFullEntityBy(id: Long): Flow<CycleFullEntity> {
+        return cycleDao.getFullBy(id)
+    }
+
+    override fun getAllFullEntityByParent(id: Long): Flow<List<CycleFullEntity>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllFullEntity(): Flow<List<CycleFullEntity>> {
+        TODO("Not yet implemented")
     }
 
     override fun getAll(): List<CycleEntity> {
@@ -59,16 +71,19 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
     }
 
     @Transaction
-    override fun deleteBy(id: Long) {
-        Log.d("dele cycle", "id")
+    override fun delete(id: Long) {
         cycleDao.delete(id)
-
-        //     workoutRepo.deleteByParent(id)
+        workoutRepo.deleteByParent(id)
 
     }
 
+
+    override fun deleteByParent(parentId: Long) {
+        TODO("Not yet implemented")
+    }
+
     @Transaction
-    fun exp(id: Long): Flow<CycleFullEntity2> {
+    fun exp(id: Long): Flow<CycleFullEntity> {
         return cycleDao.exp(id)
     }
 

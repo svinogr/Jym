@@ -13,10 +13,6 @@ class Exercise(
 
     ) : Entity() {
 
-    fun createInfo(): String {
-        return "инфо"
-    }
-
     override fun toString(): String {
         return "Exercise{" +
                 "template" + isTemplate +
@@ -28,33 +24,34 @@ class Exercise(
                 ", title='" + title + '\'' +
                 ", comment='" + comment + '\'' +
                 ", parentId=" + parentId + "descr" + exerciseDescription.toString()
-                '}'
+        '}'
     }
 
-    companion object{
-        fun mapFromDbEntity(entity: ExerciseEntity) : Exercise {
+    companion object {
+        fun mapFromDbEntity(entity: ExerciseEntity): Exercise {
             val exercise = Exercise()
             exercise.id = entity._id
             exercise.parentId = entity.parent_id!!
             exercise.descriptionId = entity.description_id!!
             exercise.typeMuscle = TypeMuscle.valueOf(entity.type_exercise!!)
             exercise.isTemplate = entity.template == 1
-          //TODO проверить
+            //TODO проверить
 
             return exercise
         }
 
         fun mapFromFullDbEntity(entity: ExerciseFullEntity): Exercise {
-            val exercise = mapFromDbEntity(entity.exercise)
-            val exerciseDescription = ExerciseDescription.mapFromDbEntity(entity.exerciseDescriptionEntity)
+            val exercise = mapFromDbEntity(entity.exerciseEntity)
+            val exerciseDescription =
+                ExerciseDescription.mapFromDbEntity(entity.exerciseDescriptionEntity)
             val listSets = mutableListOf<Sets>()
 
-            entity.listSet.forEach{
+            entity.listSetsEntity.forEach {
                 val set = Sets.mapFromDbEntity(it)
                 listSets.add(set)
             }
             exercise.exerciseDescription = exerciseDescription
-            exercise.comment = entity.exercise.comment ?: ""
+            exercise.comment = entity.exerciseEntity.comment ?: ""
             exercise.setsList = listSets
 
             return exercise

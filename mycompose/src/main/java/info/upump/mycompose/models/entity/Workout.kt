@@ -1,6 +1,7 @@
 package info.upump.mycompose.models.entity
 
 import info.upump.database.entities.WorkoutEntity
+import info.upump.database.entities.WorkoutFullEntity
 
 class Workout(
     var isWeekEven: Boolean = false,
@@ -69,6 +70,29 @@ class Workout(
                 comment = workout.comment
                 parentId = workout.parentId
             }
+        }
+
+        fun mapFromFullDbEntity(entity: WorkoutFullEntity): Workout {
+            val listEntityWorkout = entity.listExerciseEntity
+            val listExercises = mutableListOf<Exercise>()
+
+            listEntityWorkout.forEach(){
+                listExercises.add(Exercise.mapFromFullDbEntity(it))
+            }
+
+            val workout = Workout(
+                isWeekEven = entity.workoutEntity.week_even == 1,
+                isDefaultType = entity.workoutEntity.default_type == 1,
+                isTemplate = entity.workoutEntity.default_type == 1,
+                day = Day.valueOf(entity.workoutEntity.day!!),
+            )
+            workout.title = entity.workoutEntity.title
+            workout.parentId = entity.workoutEntity.parent_id!!
+            workout.id = entity.workoutEntity._id
+            workout.comment = entity.workoutEntity.comment!!
+            workout.exercises = listExercises
+
+            return workout
         }
     }
 }

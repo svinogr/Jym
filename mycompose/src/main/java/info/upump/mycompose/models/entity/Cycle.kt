@@ -1,6 +1,7 @@
 package info.upump.mycompose.models.entity
 
 import info.upump.database.entities.CycleEntity
+import info.upump.database.entities.CycleFullEntity
 import info.upump.mycompose.ui.screens.screenscomponents.Imageable
 
 class Cycle(
@@ -100,6 +101,33 @@ class Cycle(
                 comment = cycle.comment
                 parentId = cycle.parentId
             }
+        }
+
+        fun mapFullFromDbEntity(entity: CycleFullEntity): Cycle {
+           val listEntityWorkout = entity.listWorkoutEntity
+           val listWorkout = mutableListOf<Workout>()
+
+           listEntityWorkout.forEach(){
+              listWorkout.add(Workout.mapFromDbEntity(it))
+           }
+
+
+            val cycle = Cycle(
+                workoutList =  listWorkout,
+                isDefaultType = entity.cycleEntity.default_type == 1,
+
+                imageDefault = entity.cycleEntity.default_img ?: ""
+            )
+
+            cycle.title = entity.cycleEntity.title
+            cycle.id = entity.cycleEntity._id
+            cycle.setStartDate(entity.cycleEntity.start_date)
+            cycle.setFinishDate(entity.cycleEntity.finish_date)
+            cycle.comment = entity.cycleEntity.comment!!
+            cycle.image = entity.cycleEntity.img ?: ""
+            cycle.imageDefault = entity.cycleEntity.default_img ?: ""
+
+            return cycle
         }
     }
 }

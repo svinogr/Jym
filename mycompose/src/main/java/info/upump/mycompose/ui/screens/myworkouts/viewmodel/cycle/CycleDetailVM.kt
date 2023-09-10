@@ -1,9 +1,10 @@
 package info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import info.upump.database.RepoActions
+import info.upump.database.RepoActionsSpecific
 import info.upump.database.entities.CycleEntity
+import info.upump.database.entities.CycleFullEntity
 import info.upump.database.entities.WorkoutEntity
 import info.upump.database.repo.CycleRepo
 import info.upump.database.repo.WorkoutRepo
@@ -20,8 +21,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
-    private val workoutRepo: RepoActions<WorkoutEntity> =  WorkoutRepo.get()
-    private val cycleRepo: RepoActions<CycleEntity>  = CycleRepo.get()
+    private val workoutRepo: RepoActions<WorkoutEntity> = WorkoutRepo.get()
+    private val cycleRepo: RepoActionsSpecific<CycleEntity, CycleFullEntity> = CycleRepo.get()
 
     private var _cycle = MutableStateFlow(Cycle())
     override val item: StateFlow<Cycle> = _cycle
@@ -51,36 +52,54 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
     private val _finishDate = MutableStateFlow(_cycle.value.finishStringFormatDate)
     override val finishDate: StateFlow<String> = _finishDate
 
+    /*    override fun getBy(id: Long) {
+            viewModelScope.launch(Dispatchers.IO) {
+                _stateLoading.value = true
+                cycleRepo.getBy(id).map {
+                    Cycle.mapFromDbEntity(it)
+                }.collect { cycle ->
+                   workoutRepo.getAllByParent(id).map {
+                        it.map { w -> Workout.mapFromDbEntity(w) }
+                    }.collect { list ->
+                        _workouts.value = list
+                        _cycle.update { cycle }
+                        _title.update { cycle.title }
+                        _comment.update { cycle.comment }
+                        _startDate.update { cycle.startStringFormatDate }
+                        _finishDate.update { cycle.finishStringFormatDate }
+                        _image.update { cycle.image }
+                        _imageDefault.update { cycle.imageDefault }
+                        _stateLoading.value = false
+                    }
+                }
+            }
+        }*/
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             _stateLoading.value = true
-            cycleRepo.getBy(id).map {
-                Cycle.mapFromDbEntity(it)
+            cycleRepo.getFullEntityBy(id).map {
+                Cycle.mapFullFromDbEntity(it)
             }.collect { cycle ->
-               workoutRepo.getAllByParent(id).map {
-                    it.map { w -> Workout.mapFromDbEntity(w) }
-                }.collect { list ->
-                    _workouts.value = list
-                    _cycle.update { cycle }
-                    _title.update { cycle.title }
-                    _comment.update { cycle.comment }
-                    _startDate.update { cycle.startStringFormatDate }
-                    _finishDate.update { cycle.finishStringFormatDate }
-                    _image.update { cycle.image }
-                    _imageDefault.update { cycle.imageDefault }
-                    _stateLoading.value = false
-                }
+                _workouts.value = cycle.workoutList
+                _cycle.update { cycle }
+
+                _title.update { cycle.title }
+                _comment.update { cycle.comment }
+                _startDate.update { cycle.startStringFormatDate }
+                _finishDate.update { cycle.finishStringFormatDate }
+                _image.update { cycle.image }
+                _imageDefault.update { cycle.imageDefault }
+                _stateLoading.value = false
             }
         }
     }
 
-    override fun deleteSubItem(id: Long) {
-        Log.d("dele", "$id")
-               viewModelScope.launch(Dispatchers.IO) {
-                   _stateLoading.value = true
-                   workoutRepo.deleteBy(id)
-               }
 
+    override fun deleteSubItem(id: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _stateLoading.value = true
+            workoutRepo.delete(id)
+        }
     }
 
     companion object {

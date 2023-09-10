@@ -7,31 +7,26 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "sets")
 data class SetsEntity(
     @PrimaryKey(autoGenerate = true)
-    var _id: Long
-) {
+    var _id: Long=0,
     @ColumnInfo
-    var comment: String? = ""
-
-    @ColumnInfo
-    var weight: Double? = 0.0
+    var comment: String? = "",
 
     @ColumnInfo
-    var reps: Int? = 0
+    var weight: Double? = 0.0,
 
     @ColumnInfo
-    var start_date: String = ""
+    var reps: Int? = 0,
 
     @ColumnInfo
-    var finish_date: String = ""
+    var start_date: String = "",
 
     @ColumnInfo
-    var parent_id: Long? = 0
+    var finish_date: String = "",
 
     @ColumnInfo
-    var past_set: Double? = 0.0
-    override fun toString(): String {
-        return "SetsEntity(_id=$_id, comment=$comment, weight=$weight, reps=$reps, start_date='$start_date', finish_date='$finish_date', parent_id=$parent_id, past_set=$past_set)"
-    }
+    var parent_id: Long? = 0,
+
+    @ColumnInfo
+    var past_set: Double? = 0.0)
 
 
-}

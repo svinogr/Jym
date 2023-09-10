@@ -2,7 +2,6 @@ package info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import info.upump.database.entities.CycleEntity
 import info.upump.database.repo.CycleRepo
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
@@ -19,7 +18,7 @@ class CycleVM : BaseVMWithStateLoad() {
     val cycleList: StateFlow<List<Cycle>> = _cycleList.asStateFlow()
     val cycleRepo = CycleRepo.get()
 
-   suspend fun getAllPersonal() {
+    suspend fun getAllPersonal() {
         Log.d("getAllPersonal", "getAllPersonal")
         _stateLoading.value = true
 
@@ -39,27 +38,9 @@ class CycleVM : BaseVMWithStateLoad() {
         }
     }
 
-   fun delete(id: Long) {
-          viewModelScope.launch(Dispatchers.IO) {
-              cycleRepo.deleteBy(id)
-          }
-    }
-
-    fun exp(id: Long){
+    fun delete(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            (cycleRepo as CycleRepo).exp(id).collect{
-                Log.d("fullll", "${it.cycle._id}")
-                Log.d("fullll", "_____________________________________")
-
-                Log.d("fullll", "${it.listWorkouts[0].parent_id}")
-                Log.d("fullll", "_____________________________________")
-               Log.d("fullll", "${it.listExercise[0].parent_id}")
-           //     Log.d("fullll", "${it.listSet[0].listSet[0].listSet[0].toString()}")
-
-
-            }
+            cycleRepo.delete(id)
         }
     }
-
-
 }

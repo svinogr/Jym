@@ -1,6 +1,5 @@
 package info.upump.database
 
-import info.upump.database.entities.SetsEntity
 import kotlinx.coroutines.flow.Flow
 
 interface RepoActions<T> {
@@ -11,6 +10,7 @@ interface RepoActions<T> {
     fun getBy(id: Long): Flow<T>
     fun getAllByParent(id: Long): Flow<List<T>>
     fun update(setsGet: T): T
-    fun deleteBy(id: Long)
+    fun delete(id: Long)
+    fun deleteByParent(parentId: Long)
 }
 

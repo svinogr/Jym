@@ -1,7 +1,6 @@
 package info.upump.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -26,4 +25,6 @@ interface SetsDao {
     fun update(item: SetsEntity)
     @Query("delete from sets where _id=:id")
      fun deleteById(id: Long)
+     @Query("delete from sets where parent_id=:parenId")
+     fun deleteByParentId(parenId: Long)
 }
