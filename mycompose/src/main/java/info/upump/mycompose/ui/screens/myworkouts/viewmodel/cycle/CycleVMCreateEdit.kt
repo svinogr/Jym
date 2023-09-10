@@ -151,8 +151,8 @@ class CycleVMCreateEdit : BaseVMWithStateLoad(), CycleVMInterface {
                 return@launch
             }
 
-            CycleRepo.get().getBy(id).map {
-                Cycle.mapFromDbEntity(it)
+            CycleRepo.get().getFullEntityBy(id).map {
+                Cycle.mapFullFromDbEntity(it)
             }.collect {
                 updateId(it.id)
                 updateTitle(it.title)

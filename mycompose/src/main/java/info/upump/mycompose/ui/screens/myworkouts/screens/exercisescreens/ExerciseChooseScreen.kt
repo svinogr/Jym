@@ -30,9 +30,7 @@ import info.upump.mycompose.ui.screens.myworkouts.viewmodel.exercise.ExerciseCho
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CheckChips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
-import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChooseChips
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,6 +53,7 @@ fun ExerciseChooseScreen(
     }
     valuesMuscle.forEach {
         list.add(CheckChips(title = stringResource(id = it.title), icon =  R.drawable.ic_done) { filter.value = it})
+        list[0].let { it.check = true }
     }
 
     Scaffold(
@@ -81,7 +80,7 @@ fun ExerciseChooseScreen(
                 navHost = navHostController ,
                 modifier = Modifier.weight(4.5f)
             ) {
-                exerciseVM.saveChosen(it)
+                exerciseVM.saveForParentChosen(it)
                 navHostController.navigate(
                 NavigationItem.DetailWorkoutNavigationItem.routeWithId(
                     parentId
@@ -92,7 +91,7 @@ fun ExerciseChooseScreen(
     }
 
     LaunchedEffect(key1 = true) {
-        exerciseVM.getByParent(parentId)
+        exerciseVM.getAllExerciseForParent(parentId)
     }
 }
 

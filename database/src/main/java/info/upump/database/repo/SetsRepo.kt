@@ -3,12 +3,13 @@ package info.upump.database.repo
 import android.content.Context
 import info.upump.database.DatabaseApp
 import info.upump.database.RepoActions
+import info.upump.database.RepoActionsSpecific
 import info.upump.database.RoomDB
 import info.upump.database.entities.SetsEntity
 import kotlinx.coroutines.flow.Flow
 
 class SetsRepo private constructor(private var context: Context, db: RoomDB) :
-    RepoActions<SetsEntity> {
+    RepoActionsSpecific<SetsEntity, SetsEntity> {
     private val setsDao = DatabaseApp.db.setsDao()
 
     companion object {
@@ -20,29 +21,29 @@ class SetsRepo private constructor(private var context: Context, db: RoomDB) :
             }
         }
 
-        fun get(): RepoActions<SetsEntity> {
+        fun get(): RepoActionsSpecific<SetsEntity, SetsEntity> {
             return instance ?: throw IllegalStateException(" first need initialize repo")
         }
     }
 
-    override fun getAll(): List<SetsEntity> {
-        return setsDao.getAll()
-    }
-
-    override fun getAllPersonal(): Flow<List<SetsEntity>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAllDefault(): List<SetsEntity> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getBy(id: Long): Flow<SetsEntity> {
+    override fun getFullEntityBy(id: Long): Flow<SetsEntity> {
         return setsDao.getBy(id)
     }
 
-    override fun getAllByParent(id: Long): Flow<List<SetsEntity>> {
-      return setsDao.getByParent(id)
+    override fun getAllFullEntityByParent(id: Long): Flow<List<SetsEntity>> {
+        return setsDao.getByParent(id)
+    }
+
+    override fun getAllFullEntity(): Flow<List<SetsEntity>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllFullEntityTemplate(): Flow<List<SetsEntity>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllFullEntityPersonal(): Flow<List<SetsEntity>> {
+        TODO("Not yet implemented")
     }
 
     override fun delete(id: Long) {
@@ -50,9 +51,8 @@ class SetsRepo private constructor(private var context: Context, db: RoomDB) :
     }
 
     override fun deleteByParent(parentId: Long) {
-       setsDao.deleteByParentId(parentId)
+        setsDao.deleteByParentId(parentId)
     }
-
 
     override fun update(item: SetsEntity): SetsEntity {
         setsDao.update(item)
@@ -60,7 +60,7 @@ class SetsRepo private constructor(private var context: Context, db: RoomDB) :
     }
 
     override fun save(item: SetsEntity): SetsEntity {
-       val id = setsDao.save(item)
+        val id = setsDao.save(item)
         return item.apply { _id = id }
     }
 }

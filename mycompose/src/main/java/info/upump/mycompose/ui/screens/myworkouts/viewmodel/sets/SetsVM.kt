@@ -56,29 +56,33 @@ class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
         _parentId.update { parentId }
     }
 
-    override fun getByParent(id: Long) {
-        _stateLoading.value = true
-        viewModelScope.launch(Dispatchers.IO) {
-            val repo = SetsRepo.get()
-            repo.getBy(id).map { entity ->
-                Sets.mapFromDbEntity(entity)
-
-            }.collect() { sets ->
-                _sets.update { sets }
-                _id.update { sets.id }
-                _weight.update { sets.weight }
-                _reps.update { sets.reps }
-                _weightPast.update { sets.weightPast }
-            }
-
-            _stateLoading.value = false
-        }
+    override fun getByParent(parentId: Long) {
+        TODO("Not yet implemented")
     }
+
+    /*    override fun getByParent(id: Long) {
+            _stateLoading.value = true
+            viewModelScope.launch(Dispatchers.IO) {
+                val setsRepo = SetsRepo.get()
+                setsRepo.getAllFullEntityByParent(id).map { entity ->
+                    Sets.mapFromDbEntity(entity)
+
+                }.collect() { sets ->
+                    _sets.update { sets }
+                    _id.update { sets.id }
+                    _weight.update { sets.weight }
+                    _reps.update { sets.reps }
+                    _weightPast.update { sets.weightPast }
+                }
+
+                _stateLoading.value = false
+            }
+        }*/
 
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             val setsRepo = SetsRepo.get()
-            setsRepo.getBy(id).map { entity ->
+            setsRepo.getFullEntityBy(id).map { entity ->
                 Sets.mapFromDbEntity(entity)
             }.collect() { sets ->
                 Log.d("sets", "$sets ")
@@ -107,7 +111,9 @@ class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
             }
             val setsRepo = SetsRepo.get()
             var q = 1
-            if (quantity.value != 0) { setsRepo.save(Sets.mapToEntity(sets))} else {
+            if (quantity.value != 0) {
+                setsRepo.save(Sets.mapToEntity(sets))
+            } else {
                 setsRepo.update(Sets.mapToEntity(sets))
             }
         }

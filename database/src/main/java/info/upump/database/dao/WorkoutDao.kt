@@ -13,7 +13,7 @@ interface WorkoutDao {
     @Query("select * from workouts")
     fun getAllWorkouts(): List<WorkoutEntity>
     @Query("select * from workouts where parent_id= :id")
-    fun getAllByParent(id: Long): Flow<List<WorkoutEntity>>
+    fun getAllByParent(id: Long): Flow<List<WorkoutFullEntity>>
     @Query("select * from workouts where _id= :id")
     fun getById(id: Long): Flow<WorkoutFullEntity>
     @Insert
