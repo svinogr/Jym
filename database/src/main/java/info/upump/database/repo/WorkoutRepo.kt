@@ -29,26 +29,26 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
         }
     }
 
+    @Transaction
     override fun getFullEntityBy(id: Long): Flow<WorkoutFullEntity> {
         return workoutDao.getById(id)
     }
-
+    @Transaction
     override fun getAllFullEntityByParent(parentId: Long): Flow<List<WorkoutFullEntity>> {
         return workoutDao.getAllByParent(parentId)
     }
-
+    @Transaction
     override fun getAllFullEntity(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")
     }
-
+    @Transaction
     override fun getAllFullEntityTemplate(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")
     }
-
+    @Transaction
     override fun getAllFullEntityPersonal(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")
     }
-
 
     override fun update(item: WorkoutEntity): WorkoutEntity {
         TODO("Not yet implemented")
@@ -67,8 +67,8 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
 
     @Transaction
     override fun delete(id: Long) {
-        exerciseRepo.deleteByParent(id)
         workoutDao.delete(id)
+        exerciseRepo.deleteByParent(id)
     }
 
     override fun deleteByParent(parentId: Long) {

@@ -25,32 +25,32 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
     private val cycleRepo: RepoActionsSpecific<CycleEntity, CycleFullEntity> = CycleRepo.get()
 
     private var _cycle = MutableStateFlow(Cycle())
-    override val item: StateFlow<Cycle> = _cycle
+    override val item: StateFlow<Cycle> = _cycle.asStateFlow()
 
     private var _workouts = MutableStateFlow<List<Workout>>(mutableListOf())
-    override val subItems: StateFlow<List<Workout>> = _workouts
+    override val subItems: StateFlow<List<Workout>> = _workouts.asStateFlow()
 
     private val _id = MutableStateFlow(_cycle.value.id)
-    override val id: StateFlow<Long> = _id
+    override val id: StateFlow<Long> = _id.asStateFlow()
 
     private val _image = MutableStateFlow(_cycle.value.image)
-    override val img: StateFlow<String> = _image
+    override val img: StateFlow<String> = _image.asStateFlow()
 
     private val _imageDefault = MutableStateFlow(_cycle.value.imageDefault)
-    override val imgDefault: StateFlow<String> = _imageDefault
+    override val imgDefault: StateFlow<String> = _imageDefault.asStateFlow()
 
 
     private val _title = MutableStateFlow(_cycle.value.title)
-    override val title: StateFlow<String> = _title
+    override val title: StateFlow<String> = _title.asStateFlow()
 
     private val _comment = MutableStateFlow(_cycle.value.comment)
-    override val comment: StateFlow<String> = _comment
+    override val comment: StateFlow<String> = _comment.asStateFlow()
 
     private val _startDate = MutableStateFlow(_cycle.value.startStringFormatDate)
-    override val startDate: StateFlow<String> = _startDate
+    override val startDate: StateFlow<String> = _startDate.asStateFlow()
 
     private val _finishDate = MutableStateFlow(_cycle.value.finishStringFormatDate)
-    override val finishDate: StateFlow<String> = _finishDate
+    override val finishDate: StateFlow<String> = _finishDate.asStateFlow()
 
     /*    override fun getBy(id: Long) {
             viewModelScope.launch(Dispatchers.IO) {
@@ -80,7 +80,7 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
             cycleRepo.getFullEntityBy(id).map {
                 Cycle.mapFullFromDbEntity(it)
             }.collect { cycle ->
-                _workouts.value = cycle.workoutList
+                _workouts.update {  cycle.workoutList}
                 _cycle.update { cycle }
 
                 _title.update { cycle.title }

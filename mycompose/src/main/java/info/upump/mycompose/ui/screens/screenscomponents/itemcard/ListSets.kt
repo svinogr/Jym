@@ -37,12 +37,14 @@ fun ListSets(
             .background(colorResource(R.color.colorBackgroundCardView)),
         state = listState
     ) {
-        itemsIndexed(list) { index, it ->
+        itemsIndexed(list,  key = { index, item -> item.id }) { index, it ->
             val dismissState = rememberDismissState(confirmStateChange = {value ->
                 if(value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
                     deleteAction(it.id)
+                    true
+                } else {
+                    false
                 }
-                true
             })
             SwipeToDismiss(
                 state = dismissState,

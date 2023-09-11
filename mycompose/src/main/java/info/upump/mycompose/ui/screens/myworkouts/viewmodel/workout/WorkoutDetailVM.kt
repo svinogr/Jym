@@ -28,11 +28,11 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     private val _workout = MutableStateFlow(Workout())
 
-    override val item: StateFlow<Workout> = _workout
+    override val item: StateFlow<Workout> = _workout.asStateFlow()
 
-    private val _exercises = MutableStateFlow<List<Exercise>>(listOf())
+    private val _exercises = MutableStateFlow<List<Exercise>>(mutableListOf())
 
-    override val subItems: StateFlow<List<Exercise>> = _exercises
+    override val subItems: StateFlow<List<Exercise>> = _exercises.asStateFlow()
 
     private val _id = MutableStateFlow(0L)
 
@@ -62,7 +62,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     override
     val startDate: StateFlow<String> =
-        _startDate
+        _startDate.asStateFlow()
 
     private
     val _finishDate =
@@ -72,7 +72,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     override
     val finishDate: StateFlow<String> =
-        _finishDate
+        _finishDate.asStateFlow()
 
 
     private
@@ -83,7 +83,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     val _isEven = MutableStateFlow<Boolean>(true)
 
-    override val isEven: StateFlow<Boolean> = _isEven
+    override val isEven: StateFlow<Boolean> = _isEven.asStateFlow()
 
     /*    override fun getBy(id: Long) {
             _stateLoading.value = true
@@ -179,7 +179,10 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
     }
 
     override fun deleteSub(it: Long) {
-
+        viewModelScope.launch(Dispatchers.IO) {
+            val repo =  ExerciseRepo.get()
+            repo.delete(it)
+        }
     }
 
     companion object {

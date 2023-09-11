@@ -1,3 +1,4 @@
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -54,15 +55,15 @@ fun AlterWorkoutDetailScreenM3(
     paddingValues: PaddingValues,
     appBarTitle: MutableState<String>
 ) {
-    val listState = rememberLazyListState()
     val workoutVM: WorkoutDetailVM = viewModel()
     val context = LocalContext.current
-
+    val listState = rememberLazyListState()
 
     val coroutine = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
         workoutVM.getBy(id)
+        Log.d("size", "$")
     }
 
     if (id == 0L) {
@@ -70,13 +71,12 @@ fun AlterWorkoutDetailScreenM3(
     } else {
         appBarTitle.value = workoutVM.title.collectAsState().value
     }
-    val snackBarHostState = remember { SnackbarHostState() }
+
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+    val snackBarHostState = remember { SnackbarHostState() }
+
     val exercisesList = remember {
         mutableStateOf(workoutVM.subItems)
-    }
-    val deleteAction: (Long) -> Unit = {
-        workoutVM.delete(it)
     }
 
     ModalBottomSheetLayout(
@@ -114,7 +114,7 @@ fun AlterWorkoutDetailScreenM3(
                     SnackBar("удалить?", R.drawable.ic_delete_24) {}
                 }
             }
-        ) {
+        ) { it ->
             Column(
                 modifier = Modifier
                     .padding(top = it.calculateTopPadding())
@@ -172,8 +172,8 @@ fun AlterWorkoutDetailScreenM3(
                     list = exercisesList.value.collectAsState().value,
                     listState, navHost = navHostController,
                     Modifier.weight(4f),
-                    del
-                )
+
+                    ) { del(it) }
             }
         }
     }

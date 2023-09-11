@@ -60,9 +60,7 @@ fun AlterCycleDetailScreenM3(
     val cycleVM: CycleDetailVM = viewModel()
     val context = LocalContext.current
     val listState = rememberLazyListState()
-    val listWorkouts = remember {
-        mutableStateOf(cycleVM.subItems)
-    }
+
     val coroutine = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
@@ -165,7 +163,7 @@ fun AlterCycleDetailScreenM3(
                 )
                 val del: (Long) -> Unit = { cycleVM.deleteSubItem(it) }
                 ListWorkouts(
-                    list = listWorkouts.value.collectAsState().value,
+                    list = list.collectAsState().value,
                     listState, navhost = navHostController,
                     Modifier.weight(4f),
 

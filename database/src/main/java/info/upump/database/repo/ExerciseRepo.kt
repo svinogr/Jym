@@ -32,6 +32,7 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
         return exerciseDao.getAllByParent(parentId)
     }
 
+    @Transaction
     override fun delete(id: Long) {
         exerciseDao.deleteBy(id)
     }
@@ -64,7 +65,7 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
     }
 
     override fun getAllFullEntityTemplate(): Flow<List<ExerciseFullEntity>> {
-          return exerciseDao.getAllFullTemplateEntity()
+        return exerciseDao.getAllFullTemplateEntity()
 
     }
 

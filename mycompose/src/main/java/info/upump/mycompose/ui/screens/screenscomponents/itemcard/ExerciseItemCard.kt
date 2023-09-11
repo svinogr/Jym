@@ -43,7 +43,7 @@ fun ExerciseItemCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(0.dp),
+            .padding(0.dp).clickable { actionNav(exercise.id) },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
 
@@ -53,7 +53,7 @@ fun ExerciseItemCard(
             modifier = Modifier
                 .background(
                     colorResource(id = R.color.colorBackgroundCardView)
-                ).clickable { actionNav(exercise.id) }
+                )
 
         )
         {
