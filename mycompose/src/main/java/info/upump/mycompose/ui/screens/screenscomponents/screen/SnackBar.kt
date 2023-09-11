@@ -22,7 +22,7 @@ import info.upump.mycompose.R
 @Composable
 fun SnackBar(text: String, icon: Int, modifier: Modifier = Modifier, action: () -> Unit) {
     Snackbar(
-        modifier = Modifier.padding(16.dp),
+        modifier = modifier.padding(16.dp),
         containerColor = colorResource(id = R.color.colorBackgroundChips),
         action = {
             AssistChip(
@@ -49,7 +49,7 @@ fun SnackBar(text: String, icon: Int, modifier: Modifier = Modifier, action: () 
 @Preview
 @Composable
 fun SnackBarpreview() {
-    SnackBar("удалить?", R.drawable.ic_delete_24) {
+    SnackBar("удалит45ь?", R.drawable.ic_delete_24) {
 
     }
 }

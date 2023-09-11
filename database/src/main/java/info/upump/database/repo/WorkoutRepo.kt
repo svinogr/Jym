@@ -80,4 +80,8 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
             exerciseRepo.deleteByParent(it)
         }
     }
+
+    override fun deleteChilds(parentId: Long) {
+        TODO("Not yet implemented")
+    }
 }

@@ -111,7 +111,9 @@ fun AlterWorkoutDetailScreenM3(
 
                     snackBarHostState
                 ) {
-                    SnackBar("удалить?", R.drawable.ic_delete_24) {}
+                    SnackBar(stringResource(id = R.string.clean_workouts), R.drawable.ic_delete_24) {
+                        workoutVM.cleanItem()
+                    }
                 }
             }
         ) { it ->

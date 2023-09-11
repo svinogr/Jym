@@ -30,26 +30,26 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
     private var _workouts = MutableStateFlow<List<Workout>>(mutableListOf())
     override val subItems: StateFlow<List<Workout>> = _workouts.asStateFlow()
 
-    private val _id = MutableStateFlow(_cycle.value.id)
+    private val _id = MutableStateFlow(0L)
     override val id: StateFlow<Long> = _id.asStateFlow()
 
-    private val _image = MutableStateFlow(_cycle.value.image)
+    private val _image = MutableStateFlow("")
     override val img: StateFlow<String> = _image.asStateFlow()
 
-    private val _imageDefault = MutableStateFlow(_cycle.value.imageDefault)
+    private val _imageDefault = MutableStateFlow("")
     override val imgDefault: StateFlow<String> = _imageDefault.asStateFlow()
 
 
-    private val _title = MutableStateFlow(_cycle.value.title)
+    private val _title = MutableStateFlow("")
     override val title: StateFlow<String> = _title.asStateFlow()
 
-    private val _comment = MutableStateFlow(_cycle.value.comment)
+    private val _comment = MutableStateFlow("")
     override val comment: StateFlow<String> = _comment.asStateFlow()
 
-    private val _startDate = MutableStateFlow(_cycle.value.startStringFormatDate)
+    private val _startDate = MutableStateFlow("")
     override val startDate: StateFlow<String> = _startDate.asStateFlow()
 
-    private val _finishDate = MutableStateFlow(_cycle.value.finishStringFormatDate)
+    private val _finishDate = MutableStateFlow("")
     override val finishDate: StateFlow<String> = _finishDate.asStateFlow()
 
     /*    override fun getBy(id: Long) {
@@ -80,9 +80,9 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
             cycleRepo.getFullEntityBy(id).map {
                 Cycle.mapFullFromDbEntity(it)
             }.collect { cycle ->
-                _workouts.update {  cycle.workoutList}
+                _workouts.update { cycle.workoutList }
                 _cycle.update { cycle }
-
+                _id.update { cycle.id }
                 _title.update { cycle.title }
                 _comment.update { cycle.comment }
                 _startDate.update { cycle.startStringFormatDate }
@@ -99,6 +99,13 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
         viewModelScope.launch(Dispatchers.IO) {
             _stateLoading.value = true
             workoutRepo.delete(id)
+        }
+    }
+
+    override fun cleanItem() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _stateLoading.value = true
+            cycleRepo.deleteChilds(id.value)
         }
     }
 
@@ -156,6 +163,10 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
                 }
 
                 override fun deleteSubItem(id: Long) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun cleanItem() {
                     TODO("Not yet implemented")
                 }
 

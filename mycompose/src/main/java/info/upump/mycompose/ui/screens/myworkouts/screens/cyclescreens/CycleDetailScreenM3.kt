@@ -110,7 +110,9 @@ fun AlterCycleDetailScreenM3(
                 SnackbarHost(
                     snackBarHostState
                 ) {
-                    SnackBar("удалить?", R.drawable.ic_delete_24) {}
+                    SnackBar(stringResource(id = R.string.clean_cycle), R.drawable.ic_delete_24) {
+                        cycleVM.cleanItem()
+                    }
                 }
             }
 

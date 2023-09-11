@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -32,9 +35,11 @@ import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListSets
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
+import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
 import info.upump.mycompose.ui.screens.screenscomponents.screen.TableHeader
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,10 +52,14 @@ fun MyExerciseDetailScreen(
     val exerciseVM: ExerciseVM = viewModel()
     val load = exerciseVM.isLoading.collectAsState()
     val lazyListState = LazyListState()
+
+    val coroutine = rememberCoroutineScope()
+
     appBarTitle.value = stringResource(id = R.string.exercise_title_sets)
     Log.d("saveItem", "$id")
     val l = remember{
         mutableStateOf(exerciseVM.subItems)}
+    val snackBarHostState = remember { SnackbarHostState() }
     LaunchedEffect(key1 = true) {
         exerciseVM.getBy(id)
     }
@@ -67,6 +76,16 @@ fun MyExerciseDetailScreen(
             ) {
                 navHostController.navigate(NavigationItem.CreateSetsNavigationItem.routeWithId(id))
             }
+        },
+                snackbarHost = {
+            SnackbarHost(
+
+                snackBarHostState
+            ) {
+                SnackBar(stringResource(id = R.string.clean_workouts), R.drawable.ic_delete_24) {
+                    exerciseVM.cleanItem()
+                }
+            }
         }
     ) { it ->
         Column(modifier = Modifier.padding(top = it.calculateTopPadding())) {
@@ -79,7 +98,11 @@ fun MyExerciseDetailScreen(
                     Chips(
                         stringResource(id = R.string.snack_exersice_delete_sets),
                         R.drawable.ic_delete_24
-                    ) {}
+                    ) {
+                        coroutine.launch {
+                            snackBarHostState.showSnackbar("")
+                        }
+                    }
                 )
             }
             TableHeader()

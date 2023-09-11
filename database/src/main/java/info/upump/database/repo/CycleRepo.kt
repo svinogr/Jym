@@ -70,6 +70,11 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
         TODO("Not yet implemented")
     }
 
+    override fun deleteChilds(parentId: Long) {
+        Log.d("clean", "$parentId")
+        workoutRepo.deleteByParent(parentId)
+    }
+
     override fun update(item: CycleEntity): CycleEntity {
         cycleDao.update(item)
         return item
