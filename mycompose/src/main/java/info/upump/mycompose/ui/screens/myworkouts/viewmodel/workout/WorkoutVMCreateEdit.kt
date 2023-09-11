@@ -103,7 +103,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
                     TODO("Not yet implemented")
                 }
 
-                override fun updateEven(it: Boolean) {
+                override fun updateEven(isEven: Boolean) {
                     TODO("Not yet implemented")
                 }
 
@@ -198,7 +198,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
         viewModelScope.launch(Dispatchers.IO) {
             val wC = collectToSave()
             val wE = Workout.mapToEntity(wC)
-            val save = WorkoutRepo.get().save(wE)
+            WorkoutRepo.get().save(wE)
         }
     }
 
@@ -210,8 +210,10 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
             parentId = _parentId.value
             comment = _comment.value
             isWeekEven = _isEven.value
+            setFinishDate(_finishDate.value)
+            setStartDate(_startDate.value)
         }
-
+        Log.d("col", collectW.toString())
         return collectW
     }
 
@@ -235,12 +237,12 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
         _finishDate.update { Entity.formatDateToString(date) }
     }
 
-    override fun updateComment(commentN: String) {
-        _comment.update { commentN }
+    override fun updateComment(comment: String) {
+        _comment.update { comment }
     }
 
-    override fun updateDay(dayN: Day) {
-        _day.update { dayN }
+    override fun updateDay(day: Day) {
+        _day.update { day }
     }
 
     override fun updateEven(isEven: Boolean) {

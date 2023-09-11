@@ -25,7 +25,7 @@ abstract class Entity(
             val simpleDateFormat = SimpleDateFormat(FORMAT_DATE, Locale.getDefault())
             var date = Date()
             try {
-                date = simpleDateFormat.parse(stringDate)
+                date = simpleDateFormat.parse(stringDate)!!
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
@@ -93,6 +93,11 @@ abstract class Entity(
         result = 31 * result + parentId.hashCode()
         return result
     }
+
+    override fun toString(): String {
+        return "Entity(id=$id, title='$title', startDate=$startDate, finishDate=$finishDate, comment='$comment', parentId=$parentId, startStringFormatDate='$startStringFormatDate', finishStringFormatDate='$finishStringFormatDate')"
+    }
+
 
     /*   override fun equals(o: Any?): Boolean {
            if (this === o) return true

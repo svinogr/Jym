@@ -2,6 +2,7 @@ package info.upump.database.repo
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.room.Transaction
 import info.upump.database.RepoActionsSpecific
 import info.upump.database.RoomDB
@@ -59,6 +60,7 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
             val id = workoutDao.save(item)
             item._id = id
         } else {
+            Log.d("save", "${item._id}")
             workoutDao.update(item)
         }
 

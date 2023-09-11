@@ -27,10 +27,10 @@ class Cycle(
                 '}'
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o !is Cycle) return false
-        val cycle = o
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Cycle) return false
+        val cycle = other
         if (id != cycle.id) return false
         if (title != cycle.title) return false
         if (startStringFormatDate != cycle.startStringFormatDate) return false
