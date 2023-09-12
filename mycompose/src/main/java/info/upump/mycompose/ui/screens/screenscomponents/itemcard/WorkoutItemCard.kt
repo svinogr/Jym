@@ -63,7 +63,6 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modi
             val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
             bitmap.eraseColor(context.getColor(workout.day.getColor()))
 
-
             Image(
                 modifier = Modifier
                     .padding(8.dp)
@@ -76,7 +75,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modi
             Column(modifier = modifier.fillMaxWidth()) {
                 val modifierCol = Modifier.padding(end = 8.dp)
                 Text(
-                    text = workout.title + workout.day.title(),
+                    text = workout.title,
                     style = MyTextTitleLabel16,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

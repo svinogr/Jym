@@ -21,6 +21,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,17 +60,11 @@ fun AlterCycleDetailScreenM3(
     appBarTitle: MutableState<String>
 ) {
     val cycleVM: CycleDetailVM = viewModel()
-    val context = LocalContext.current
     val listState = rememberLazyListState()
 
     val coroutine = rememberCoroutineScope()
 
-
-    if (id == 0L) {
-        appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
-    } else {
-        appBarTitle.value = cycleVM.title.collectAsState().value
-    }
+    appBarTitle.value = cycleVM.title.collectAsState().value
 
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val snackBarHostState = remember { SnackbarHostState() }
@@ -77,11 +72,11 @@ fun AlterCycleDetailScreenM3(
     val list by remember {
         mutableStateOf(cycleVM.subItems)
     }
+
     LaunchedEffect(key1 = true) {
         Log.d("efect", "efect")
         cycleVM.getBy(id)
     }
-
 
     ModalBottomSheetLayout(
         sheetState = bottomState,
@@ -130,6 +125,7 @@ fun AlterCycleDetailScreenM3(
                         image = cycleVM.img.collectAsState().value,
                         defaultImage = cycleVM.imgDefault.collectAsState().value,
                     )
+
                     RowChips(
                         modifier = Modifier.align(Alignment.BottomCenter),
                         Chips(
@@ -166,16 +162,16 @@ fun AlterCycleDetailScreenM3(
                     cycleVM.finishDate.collectAsState().value,
                     false
                 )
+
                 val del: (Long) -> Unit = { cycleVM.deleteSubItem(it) }
                 ListWorkouts(
                     list = list.collectAsState().value,
                     listState, navhost = navHostController,
                     Modifier.weight(4f),
 
-                    ) {
-                    del(it)
+                    ) { id ->
+                    del(id)
                 }
-
             }
         }
     }

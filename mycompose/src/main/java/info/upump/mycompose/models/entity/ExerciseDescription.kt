@@ -9,23 +9,34 @@ class ExerciseDescription(
     var title: String = "",
     var defaultImg: String = ""
 ) {
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o == null || javaClass != o.javaClass) return false
-        val that = o as ExerciseDescription
-        return img == that.img && title == that.title && defaultImg == that.defaultImg
-    }
-
-    //без ID чтобы правильно сравнивать обьекты из текущей базы и базы бекапа
-    override fun hashCode(): Int {
-        return Objects.hash(img, title, defaultImg)
-    }
 
     override fun toString(): String {
         return "ExerciseDescription{" +
                 "id=" + id +
                 ", img='" + img + '\'' +
                 ", title='" + title + " $defaultImg}"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ExerciseDescription
+
+        if (id != other.id) return false
+        if (img != other.img) return false
+        if (title != other.title) return false
+        if (defaultImg != other.defaultImg) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + img.hashCode()
+        result = 31 * result + title.hashCode()
+        result = 31 * result + defaultImg.hashCode()
+        return result
     }
 
     companion object {
@@ -38,4 +49,5 @@ class ExerciseDescription(
             return exerciseDescription
         }
     }
+
 }

@@ -52,35 +52,12 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
     private val _finishDate = MutableStateFlow("")
     override val finishDate: StateFlow<String> = _finishDate.asStateFlow()
 
-    /*    override fun getBy(id: Long) {
-            viewModelScope.launch(Dispatchers.IO) {
-                _stateLoading.value = true
-                cycleRepo.getBy(id).map {
-                    Cycle.mapFromDbEntity(it)
-                }.collect { cycle ->
-                   workoutRepo.getAllByParent(id).map {
-                        it.map { w -> Workout.mapFromDbEntity(w) }
-                    }.collect { list ->
-                        _workouts.value = list
-                        _cycle.update { cycle }
-                        _title.update { cycle.title }
-                        _comment.update { cycle.comment }
-                        _startDate.update { cycle.startStringFormatDate }
-                        _finishDate.update { cycle.finishStringFormatDate }
-                        _image.update { cycle.image }
-                        _imageDefault.update { cycle.imageDefault }
-                        _stateLoading.value = false
-                    }
-                }
-            }
-        }*/
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             _stateLoading.value = true
             cycleRepo.getFullEntityBy(id).map {
                 Cycle.mapFullFromDbEntity(it)
             }.collect { cycle ->
-                _workouts.update { listOf() }
                 _workouts.update { cycle.workoutList }
                 _cycle.update { cycle }
                 _id.update { cycle.id }
@@ -94,7 +71,6 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
             }
         }
     }
-
 
     override fun deleteSubItem(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {

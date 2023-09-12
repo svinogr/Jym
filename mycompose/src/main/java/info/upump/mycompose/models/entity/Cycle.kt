@@ -3,14 +3,23 @@ package info.upump.mycompose.models.entity
 import info.upump.database.entities.CycleEntity
 import info.upump.database.entities.CycleFullEntity
 import info.upump.mycompose.ui.screens.screenscomponents.Imageable
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class Cycle(
     var workoutList: List<Workout> = ArrayList(),
     var isDefaultType: Boolean = false,
-    override var image: String = "",
-    override var imageDefault: String = ""
-) : Entity(), Imageable {
-
+    var image: String = "",
+    var imageDefault: String = "",
+    var id: Long = 0,
+    var title: String = "",
+    var startDate: Date = Date(),
+    var finishDate: Date = Date(),
+    var comment: String = "",
+    var parentId: Long = 0,
+) {
     private val daysBetweenDates: Int
         get() = 0
 
@@ -27,31 +36,15 @@ class Cycle(
                 '}'
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Cycle) return false
-        val cycle = other
-        if (id != cycle.id) return false
-        if (title != cycle.title) return false
-        if (startStringFormatDate != cycle.startStringFormatDate) return false
-        return if (finishStringFormatDate != cycle.finishStringFormatDate) false else comment == cycle.comment
-    }
 
-    override fun hashCode(): Int {
-        var result = super.hashCode()
-        result = 31 * result + workoutList.hashCode()
-        result = 31 * result + isDefaultType.hashCode()
-        result = 31 * result + image.hashCode()
-        result = 31 * result + imageDefault.hashCode()
-        return result
-    }
+
+
 
     /*    override fun hashCode(): Int {
             var result = super.hashCode()
             result = 31 * result + if (image != null) image.hashCode() else 0
             return result
         }*/
-
 
 
     companion object {
@@ -81,11 +74,15 @@ class Cycle(
             cycleEntity.comment = cycle.comment
             if (cycle.image.isBlank()) {
                 cycleEntity.img = null
-            } else{cycleEntity.img = cycle.image}
+            } else {
+                cycleEntity.img = cycle.image
+            }
 
             if (cycle.image.isBlank()) {
                 cycleEntity.default_img = null
-            } else{cycleEntity.default_img = cycle.imageDefault}
+            } else {
+                cycleEntity.default_img = cycle.imageDefault
+            }
 
             return cycleEntity
         }
@@ -104,16 +101,16 @@ class Cycle(
         }
 
         fun mapFullFromDbEntity(entity: CycleFullEntity): Cycle {
-           val listEntityWorkout = entity.listWorkoutEntity
-           val listWorkout = mutableListOf<Workout>()
+            val listEntityWorkout = entity.listWorkoutEntity
+            val listWorkout = mutableListOf<Workout>()
 
-           listEntityWorkout.forEach(){
-              listWorkout.add(Workout.mapFromDbEntity(it))
-           }
+            listEntityWorkout.forEach() {
+                listWorkout.add(Workout.mapFromDbEntity(it))
+            }
 
 
             val cycle = Cycle(
-                workoutList =  listWorkout,
+                workoutList = listWorkout,
                 isDefaultType = entity.cycleEntity.default_type == 1,
 
                 imageDefault = entity.cycleEntity.default_img ?: ""
@@ -129,6 +126,73 @@ class Cycle(
 
             return cycle
         }
+
+        fun formatDateToString(date: Date): String {
+            val simpleDateFormat = SimpleDateFormat(FORMAT_DATE, Locale.getDefault())
+            return simpleDateFormat.format(date)
+        }
+
+        fun formatStringToDate(stringDate: String): Date {
+            val simpleDateFormat = SimpleDateFormat(FORMAT_DATE, Locale.getDefault())
+            var date = Date()
+            try {
+                date = simpleDateFormat.parse(stringDate)!!
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+
+            return date
+        }
+    }
+
+    val startStringFormatDate: String
+        get() {
+            return Entity.formatDateToString(startDate)
+        }
+
+    fun setStartDate(stringDate: String) {
+        startDate = Entity.formatStringToDate(stringDate)
+    }
+
+    val finishStringFormatDate: String
+        get() {
+            return Entity.formatDateToString(finishDate)
+        }
+
+    fun setFinishDate(stringDate: String) {
+        finishDate = Entity.formatStringToDate(stringDate)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Cycle
+
+        if (isDefaultType != other.isDefaultType) return false
+        if (image != other.image) return false
+        if (imageDefault != other.imageDefault) return false
+        if (id != other.id) return false
+        if (title != other.title) return false
+        if (startDate != other.startDate) return false
+        if (finishDate != other.finishDate) return false
+        if (comment != other.comment) return false
+        if (parentId != other.parentId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = isDefaultType.hashCode()
+        result = 31 * result + image.hashCode()
+        result = 31 * result + imageDefault.hashCode()
+        result = 31 * result + id.hashCode()
+        result = 31 * result + title.hashCode()
+        result = 31 * result + startDate.hashCode()
+        result = 31 * result + finishDate.hashCode()
+        result = 31 * result + comment.hashCode()
+        result = 31 * result + parentId.hashCode()
+        return result
     }
 }
 

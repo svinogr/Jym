@@ -27,6 +27,33 @@ class Exercise(
         '}'
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        if (!super.equals(other)) return false
+
+        other as Exercise
+
+        if (typeMuscle != other.typeMuscle) return false
+        if (isDefaultType != other.isDefaultType) return false
+        if (isTemplate != other.isTemplate) return false
+        if (descriptionId != other.descriptionId) return false
+        if (exerciseDescription != other.exerciseDescription) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + typeMuscle.hashCode()
+        result = 31 * result + isDefaultType.hashCode()
+        result = 31 * result + isTemplate.hashCode()
+        result = 31 * result + descriptionId.hashCode()
+        result = 31 * result + (exerciseDescription?.hashCode() ?: 0)
+        return result
+    }
+
+
     companion object {
         fun mapFromDbEntity(entity: ExerciseEntity): Exercise {
             val exercise = Exercise()

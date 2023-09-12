@@ -13,13 +13,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 // для списка всех cycles
 class CycleVM : BaseVMWithStateLoad() {
     private val _cycleList = MutableStateFlow<List<Cycle>>(listOf())
     val cycleList: StateFlow<List<Cycle>> = _cycleList.asStateFlow()
-    val cycleRepo = CycleRepo.get()
+    private val cycleRepo = CycleRepo.get()
 
     suspend fun getAllPersonal() {
         Log.d("getAllPersonal", "getAllPersonal")
@@ -28,13 +29,15 @@ class CycleVM : BaseVMWithStateLoad() {
         viewModelScope.launch(
             Dispatchers.IO
         ) {
-            val list = cycleRepo.getAllFullEntityPersonal()
-            list.map {
+            val listEn = cycleRepo.getAllFullEntityPersonal()
+            listEn.map {
                 it.map { c ->
                     Cycle.mapFullFromDbEntity(c)
                 }
-            }.collect {
-                _cycleList.value = it
+            }.collect {list ->
+                Log.d("update","${list.size}")
+                _cycleList.update{ list}
+               // _cycleList.value = it
                 _stateLoading.value = false
             }
         }

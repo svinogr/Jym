@@ -13,20 +13,6 @@ import androidx.compose.ui.platform.LocalContext
 
 class BitmapCreator {
     companion object {
-        fun getImageBitmap(imageEntity: Imageable, context: Context): Bitmap {
-            val bitmap: Bitmap
-            Log.d("getImageBitmap", "start---------------------------------------")
-            if (!imageEntity.image.isBlank()) {
-                bitmap = getImgBitmap(imageEntity.image, context)
-            } else if (!imageEntity.imageDefault.isBlank()) {
-                bitmap = getImgDefaultBitmap(imageEntity.imageDefault, context)
-            } else {
-                bitmap = getExceptionDefaultBitmap(context)
-            }
-            Log.d("getImageBitmap", "---------------------------------------end")
-            return bitmap
-        }
-
         fun getExceptionDefaultBitmap(context: Context): Bitmap {
 
             var bitmap: Bitmap
@@ -71,7 +57,7 @@ class BitmapCreator {
 
         fun getImgBitmap(img: String, context: Context): Bitmap {
             val source: ImageDecoder.Source
-            val bitmap: Bitmap
+            var bitmap: Bitmap
             val contentResolver = context.contentResolver
 
             val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
@@ -83,9 +69,9 @@ class BitmapCreator {
             //contentResolver.takePersistableUriPermission(Uri.parse(img),  Intent.FLAG_GRANT_READ_URI_PERMISSION)
             //   val persistedUriPermissions = contentResolver.persistedUriPermissions
             //   Log.d("pers", "${persistedUriPermissions.toString()}")
-
+            try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-
+                Log.d("parse","${Uri.parse(img)}")
                 source = ImageDecoder.createSource(contentResolver, Uri.parse(img))
                 bitmap = ImageDecoder.decodeBitmap(source)
             } else {
@@ -94,7 +80,12 @@ class BitmapCreator {
                     Uri.parse(img)
                 );
             }
+            } catch (e: Exception) {
+                bitmap = getExceptionDefaultBitmap(context)
+            }
+
             Log.d("getImgDefaultBitmap", "im str = $img")
+
             return bitmap
         }
     }

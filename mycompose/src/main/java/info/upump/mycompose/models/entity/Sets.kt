@@ -19,6 +19,28 @@ class Sets(
                 '}'
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        if (!super.equals(other)) return false
+
+        other as Sets
+
+        if (weight != other.weight) return false
+        if (reps != other.reps) return false
+        if (weightPast != other.weightPast) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + weight.hashCode()
+        result = 31 * result + reps
+        result = 31 * result + weightPast.hashCode()
+        return result
+    }
+
     companion object {
         fun mapFromDbEntity(entity: SetsEntity): Sets {
            val sets =  Sets(
@@ -43,4 +65,6 @@ class Sets(
             return sets
         }
     }
+
+
 }
