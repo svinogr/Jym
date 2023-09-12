@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle
 
+import android.content.Context
 import info.upump.mycompose.models.entity.Cycle
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Date
@@ -17,14 +18,14 @@ interface CycleVMInterface {
     fun updateImageDefault(imgStr: String)
     fun updateEven(it: Boolean)
     fun getBy(id: Long)
-    fun save(callback: (id: Long) -> Unit)
+    fun save(context: Context, callback: (id: Long) -> Unit)
     fun saveWith(parentId: Long, callback: (id: Long) -> Unit)
     fun updateTitle(it: String)
     fun updateImage(imgStr: String)
     fun updateStartDate(date: Date)
     fun updateFinishDate(date: Date)
     fun updateComment(comment: String)
-    fun collectToSave(): Cycle
+    fun collectToSave(context: Context): Cycle
     fun isBlankFields(): Boolean
     fun updateId(id: Long)
 }

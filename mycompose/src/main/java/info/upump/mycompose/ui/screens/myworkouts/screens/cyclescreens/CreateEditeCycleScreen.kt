@@ -1,6 +1,7 @@
 package info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -71,7 +72,7 @@ fun CreateEditeCycleScreen(
                 text = stringResource(id = R.string.picker_dialog_btn_save),
                 isVisible = true, icon = R.drawable.ic_save_black
             ) {
-                cycleVM.save() {
+                cycleVM.save(context) {
                     if (action == ActionState.CREATE) {
                         navHostController.popBackStack()
                         navHostController.navigate(

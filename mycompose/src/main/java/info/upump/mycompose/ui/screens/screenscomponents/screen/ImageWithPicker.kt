@@ -48,10 +48,11 @@ fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) {
+        if(it == null) return@rememberLauncherForActivityResult
         Log.d("pers ", "$it.")
             val name = context.packageName
             context.grantUriPermission(name, it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            updateImage(it.toString())
+        updateImage(it.toString())
     }
     ImageForDetailScreen(
         image = image,
