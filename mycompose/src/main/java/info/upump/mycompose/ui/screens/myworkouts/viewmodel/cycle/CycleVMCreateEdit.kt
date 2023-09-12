@@ -239,20 +239,17 @@ class CycleVMCreateEdit() : BaseVMWithStateLoad(), CycleVMInterface {
             val file: File = writeToFile(img.value, context)
             c.image = file.toUri().toString()
             deleteTempImg(tempImage, context)
-            Log.d("write", "${c.image}")
-            Log.d("write", "${tempImage}")
-            Log.d("write", "${img.value}")
         }
 
         return c
     }
 
     private fun deleteTempImg(tempImage: String, context: Context) {
+        if(tempImage.isBlank()) return
         val file = Uri.parse(tempImage).toFile()
-        Log.d("del", "${file.toUri().toString()}")
-
-       val d = file.delete()
-        Log.d("del", "$d")
+        if(file.exists()) {
+            file.delete()
+        }
     }
 
     private fun writeToFile(strUri: String, context: Context): File {
