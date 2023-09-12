@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.CycleRepo
@@ -65,7 +66,7 @@ class CycleVMCreateEdit() : BaseVMWithStateLoad(), CycleVMInterface {
                 override val imgDefault: StateFlow<String> = _imgDefault
 
                 override fun updateImageDefault(imgStr: String) {
-                    _imgDefault.update {imgStr}
+                    _imgDefault.update { imgStr }
                 }
 
                 override fun updateEven(it: Boolean) {
@@ -75,8 +76,6 @@ class CycleVMCreateEdit() : BaseVMWithStateLoad(), CycleVMInterface {
                 override fun getBy(id: Long) {
                     TODO("Not yet implemented")
                 }
-
-
 
                 override fun saveWith(parentId: Long, callback: (id: Long) -> Unit) {
                     TODO("Not yet implemented")
@@ -149,7 +148,7 @@ class CycleVMCreateEdit() : BaseVMWithStateLoad(), CycleVMInterface {
     private val _imgDefault = MutableStateFlow("")
     override val imgDefault: StateFlow<String> = _imgDefault
 
-    private var tempImage  = ""
+    private var tempImage = ""
 
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -170,6 +169,8 @@ class CycleVMCreateEdit() : BaseVMWithStateLoad(), CycleVMInterface {
                 updateFinishDate(it.finishDate)
                 updateImage(it.image)
                 updateImageDefault(it.imageDefault)
+
+                tempImage = it.image
             }
         }
     }
@@ -179,7 +180,7 @@ class CycleVMCreateEdit() : BaseVMWithStateLoad(), CycleVMInterface {
     }
 
     override fun updateImageDefault(imgStr: String) {
-        _imgDefault.update {imgStr}
+        _imgDefault.update { imgStr }
     }
 
     override fun updateEven(it: Boolean) {
@@ -204,7 +205,6 @@ class CycleVMCreateEdit() : BaseVMWithStateLoad(), CycleVMInterface {
     }
 
     override fun updateImage(imgStr: String) {
-        tempImage = imgStr
         _img.update { imgStr }
     }
 
@@ -220,7 +220,6 @@ class CycleVMCreateEdit() : BaseVMWithStateLoad(), CycleVMInterface {
         _comment.update { comment }
     }
 
-
     override fun collectToSave(context: Context): Cycle {
         val c = Cycle().apply {
             id = _id.value
@@ -231,32 +230,43 @@ class CycleVMCreateEdit() : BaseVMWithStateLoad(), CycleVMInterface {
             setStartDate(_startDate.value)
         }
 
-        if(!tempImage.isBlank()) {
-            val file: File = writeToFile(tempImage, context)
-            c.image = file.toUri().toString()
-
-            Log.d("write", "${c.image  }")
-            Log.d("write", "${tempImage  }")
-            Log.d("write", "${img.value  }")
-        } else{
+        if (tempImage.equals(img.value)) {
             c.image = _img.value
+            return c
+        }
+
+        if (!img.value.isBlank()) {
+            val file: File = writeToFile(img.value, context)
+            c.image = file.toUri().toString()
+            deleteTempImg(tempImage, context)
+            Log.d("write", "${c.image}")
+            Log.d("write", "${tempImage}")
+            Log.d("write", "${img.value}")
         }
 
         return c
     }
 
+    private fun deleteTempImg(tempImage: String, context: Context) {
+        val file = Uri.parse(tempImage).toFile()
+        Log.d("del", "${file.toUri().toString()}")
+
+       val d = file.delete()
+        Log.d("del", "$d")
+    }
+
     private fun writeToFile(strUri: String, context: Context): File {
-       val bytes = context.contentResolver.openInputStream(Uri.parse(strUri))?.use {
-           it.readBytes()
-       }
+        val bytes = context.contentResolver.openInputStream(Uri.parse(strUri))?.use {
+            it.readBytes()
+        }
         val uuid = UUID.randomUUID().toString()
-        val file = File(context.filesDir,"${title.value}$uuid")
+        val file = File(context.filesDir, "${uuid}.jpg")
 
         FileOutputStream(file)?.use {
             it.write(bytes)
         }
 
-        return  file
+        return file
     }
 
     override fun isBlankFields(): Boolean {
@@ -266,6 +276,7 @@ class CycleVMCreateEdit() : BaseVMWithStateLoad(), CycleVMInterface {
 
         return isBlank
     }
+
     override fun saveWith(parentId: Long, callback: (id: Long) -> Unit) {
         TODO("Not yet implemented")
     }

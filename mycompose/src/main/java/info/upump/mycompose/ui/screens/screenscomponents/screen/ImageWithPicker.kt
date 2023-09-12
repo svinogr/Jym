@@ -34,17 +34,6 @@ fun ImageWithPickerPreview() {
 fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -> Unit) {
     val context = LocalContext.current
 
-     Log.d("image", "$image $defaultImage")
- //   val bitmap: Bitmap
-/*
-    if (!image.isBlank()) {
-        bitmap = BitmapCreator.getImgBitmap(image, context)
-    } else if (!defaultImage.isBlank()) {
-        bitmap = BitmapCreator.getImgDefaultBitmap(defaultImage, context)
-    } else {
-        bitmap = BitmapCreator.getExceptionDefaultBitmap(context)
-    }*/
-
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) {
