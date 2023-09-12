@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -63,9 +64,6 @@ fun AlterCycleDetailScreenM3(
 
     val coroutine = rememberCoroutineScope()
 
-    LaunchedEffect(key1 = true) {
-        cycleVM.getBy(id)
-    }
 
     if (id == 0L) {
         appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
@@ -79,6 +77,11 @@ fun AlterCycleDetailScreenM3(
     val list by remember {
         mutableStateOf(cycleVM.subItems)
     }
+    LaunchedEffect(key1 = true) {
+        Log.d("efect", "efect")
+        cycleVM.getBy(id)
+    }
+
 
     ModalBottomSheetLayout(
         sheetState = bottomState,

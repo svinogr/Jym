@@ -1,7 +1,9 @@
 package info.upump.mycompose.ui.screens.screenscomponents.screen
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -22,36 +24,56 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.accompanist.permissions.rememberPermissionState
 import info.upump.mycompose.ui.screens.screenscomponents.BitmapCreator
+import kotlin.math.log
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ImageWithPickerPreview() {
-   // val cycleVMCreateEdit = CycleVMCreateEdit.vmOnlyForPreview
+    // val cycleVMCreateEdit = CycleVMCreateEdit.vmOnlyForPreview
     ImageWithPicker("", "uk", ::print)
 }
+
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -> Unit) {
     val context = LocalContext.current
-
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) {
-        if(it == null) return@rememberLauncherForActivityResult
+
+        if (it == null) return@rememberLauncherForActivityResult
         Log.d("pers ", "$it.")
-            val name = context.packageName
-            context.grantUriPermission(name, it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        val name = context.packageName
+        context.grantUriPermission(name, it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
         updateImage(it.toString())
     }
-    ImageForDetailScreen(
-        image = image,
-        defaultImage = defaultImage,
-        modifier = Modifier.clickable {
+
+    val permissionState = rememberPermissionState(
+
+            Manifest.permission.CAMERA
+
+    ) {
+        if (it) {
+            Log.d("pic", "efefefefef")
             launcher.launch(
                 PickVisualMediaRequest(
                     mediaType = ActivityResultContracts.PickVisualMedia.ImageAndVideo
                 )
             )
+        }
+    }
+    ImageForDetailScreen(
+        image = image,
+        defaultImage = defaultImage,
+        modifier = Modifier.clickable {
+            //     launcher.launch(
+            permissionState.launchPermissionRequest()
+
+            //    )
         }
     )
 }

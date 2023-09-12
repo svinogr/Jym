@@ -28,7 +28,7 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
     override val item: StateFlow<Cycle> = _cycle.asStateFlow()
 
     private var _workouts = MutableStateFlow<List<Workout>>(mutableListOf())
-    override val subItems: StateFlow<List<Workout>> = _workouts.asStateFlow()
+    override val subItems: StateFlow<List<Workout>> = _workouts
 
     private val _id = MutableStateFlow(0L)
     override val id: StateFlow<Long> = _id.asStateFlow()
@@ -80,6 +80,7 @@ class CycleDetailVM : BaseVMWithStateLoad(), CycleDetailVMInterface {
             cycleRepo.getFullEntityBy(id).map {
                 Cycle.mapFullFromDbEntity(it)
             }.collect { cycle ->
+                _workouts.update { listOf() }
                 _workouts.update { cycle.workoutList }
                 _cycle.update { cycle }
                 _id.update { cycle.id }

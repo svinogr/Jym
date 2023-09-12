@@ -11,8 +11,6 @@ class Workout(
     var exercises: List<Exercise> = ArrayList()
 ) : Entity() {
 
-
-
     companion object {
         fun mapFromDbEntity(workoutEntity: WorkoutEntity): Workout {
             val workout = Workout(
@@ -44,6 +42,7 @@ class Workout(
             workoutEntity.week_even = if (workout.isWeekEven) 1 else 0
             workoutEntity.template = if (workout.isTemplate) 1 else 0 // надо проверить
             workoutEntity.template = 0 //TODO  надо проверить
+            workoutEntity.parent_id = workout.parentId
 
             return workoutEntity
         }
@@ -73,4 +72,10 @@ class Workout(
             return workout
         }
     }
+
+    override fun toString(): String {
+        return "Workout($title  --  $id  -- $parentId  isWeekEven=$isWeekEven, isDefaultType=$isDefaultType, isTemplate=$isTemplate, day=$day, exercises=$exercises) "
+    }
+
+
 }

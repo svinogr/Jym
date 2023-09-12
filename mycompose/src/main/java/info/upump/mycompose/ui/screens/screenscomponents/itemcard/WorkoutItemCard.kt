@@ -1,6 +1,7 @@
 package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,13 +15,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -39,6 +41,9 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 @Composable
 fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    SideEffect {
+        Log.d("recom", "$workout")
+    }
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -56,7 +61,9 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modi
             )
         ) {
             val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
-            bitmap.eraseColor(context.getColor(workout.day!!.getColor()))
+            bitmap.eraseColor(context.getColor(workout.day.getColor()))
+
+
             Image(
                 modifier = Modifier
                     .padding(8.dp)
@@ -69,7 +76,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modi
             Column(modifier = modifier.fillMaxWidth()) {
                 val modifierCol = Modifier.padding(end = 8.dp)
                 Text(
-                    text = workout.title!!,
+                    text = workout.title + workout.day.title(),
                     style = MyTextTitleLabel16,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -78,10 +85,10 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modi
                 Box(
                     modifier = modifierCol
                         .align(Alignment.End)
-                        .padding( top = 4.dp)
+                        .padding(top = 4.dp)
                 ) {
                     Text(
-                        text = context.getString(workout.day!!.title()),
+                        text = context.getString(workout.day.title()),
                         style = MyTextLabel12
                     )
                 }

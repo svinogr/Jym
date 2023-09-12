@@ -61,6 +61,7 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
             item._id = id
         } else {
             Log.d("save", "${item._id}")
+            Log.d("save", "${item.parent_id}")
             workoutDao.update(item)
         }
 

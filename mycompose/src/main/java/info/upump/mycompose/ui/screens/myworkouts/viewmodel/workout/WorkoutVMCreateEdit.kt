@@ -197,6 +197,7 @@ class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
     override fun save(callback: (id: Long) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             val wC = collectToSave()
+            Log.d("paren", "${parentId.value} ${wC.parentId}")
             val wE = Workout.mapToEntity(wC)
             WorkoutRepo.get().save(wE)
         }

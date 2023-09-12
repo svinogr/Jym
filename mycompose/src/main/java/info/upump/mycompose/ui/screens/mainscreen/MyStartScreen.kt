@@ -29,25 +29,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListCycle
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @SuppressLint("UnrememberedMutableState", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MyCycleScreen(
     navHost: NavHostController,
     paddingValues: PaddingValues,
 ) {
-
-    val corScop = rememberCoroutineScope()
     val listState = rememberLazyListState()
 
     val cycleVM: CycleVM = viewModel()
@@ -61,17 +58,16 @@ fun MyCycleScreen(
         cycleVM.getAllPersonal()
     }
 
-
     Scaffold(modifier = Modifier.padding(paddingValues = paddingValues),
         floatingActionButton = {
             FloatExtendedButtonWithState(
                 text = stringResource(id = R.string.cycle_create_new),
                 isVisible = listState.isScrollingUp(), icon = R.drawable.ic_add_black_24dp
             ) {
-                navHost.navigate(NavigationItem.CreateEditeCycleNavigationItem.routeWith(0))
+                 navHost.navigate(NavigationItem.CreateEditeCycleNavigationItem.routeWith(0))
             }
         }, content = {
-            val del: (Context,String,Long) -> Unit =  cycleVM::delete
+            val del: (Context, String, Long) -> Unit = cycleVM::delete
             ListCycle(
                 lazyListState = listState,
                 list = listCycle.value.collectAsState().value,
