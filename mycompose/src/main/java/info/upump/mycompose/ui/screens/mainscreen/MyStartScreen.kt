@@ -2,6 +2,7 @@ package info.upump.mycompose.ui.screens.mainscreen
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -51,15 +52,6 @@ fun MyCycleScreen(
 
     val cycleVM: CycleVM = viewModel()
 
-    val deleteAction: (Long) -> Unit = {
-        corScop.launch(
-            Dispatchers.IO
-        )
-        {
-            cycleVM.delete(it)
-        }
-    }
-
     val listCycle = remember {
         mutableStateOf(cycleVM.cycleList)
     }
@@ -79,7 +71,7 @@ fun MyCycleScreen(
                 navHost.navigate(NavigationItem.CreateEditeCycleNavigationItem.routeWith(0))
             }
         }, content = {
-            val del: (Long) -> Unit = { cycleVM.delete(it) }
+            val del: (Context,String,Long) -> Unit =  cycleVM::delete
             ListCycle(
                 lazyListState = listState,
                 list = listCycle.value.collectAsState().value,
