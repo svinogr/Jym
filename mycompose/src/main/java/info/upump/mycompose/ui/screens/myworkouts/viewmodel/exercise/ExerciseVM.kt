@@ -18,6 +18,8 @@ class ExerciseVM : BaseVMWithStateLoad(), ExerciseVMInterface {
     private val _imageDescription = MutableStateFlow("")
     val imageDescription = _imageDescription.asStateFlow()
 
+    private var parentId = 0L
+
     private val _imageDescriptionDefault = MutableStateFlow("")
     val imageDescriptionDefault = _imageDescriptionDefault.asStateFlow()
 
@@ -28,17 +30,18 @@ class ExerciseVM : BaseVMWithStateLoad(), ExerciseVMInterface {
 
     override fun getBy(id: Long) {
         _stateLoading.value = true
+        parentId = id
         viewModelScope.launch(Dispatchers.IO) {
             ExerciseRepo.get().getFullEntityBy(id).map { entity ->
                 Exercise.mapFromFullDbEntity(entity)
             }.collect() {
 
-              //  _listSets.value = mutableListOf()
+                //  _listSets.value = mutableListOf()
                 _listSets.value = it.setsList
                 _imageDescription.value = it.exerciseDescription!!.img
                 _imageDescriptionDefault.value = it.exerciseDescription!!.defaultImg
             }
-           Log.d("get", "get")
+            Log.d("get", "get")
             _stateLoading.value = false
         }
     }
@@ -49,15 +52,16 @@ class ExerciseVM : BaseVMWithStateLoad(), ExerciseVMInterface {
             val repo = SetsRepo.get().delete(id)
 
             Log.d("delete", "${_listSets.value.size}")
-        _listSets.value.removeIf{
-              it.id == id
-          }
-            Log.d("delete", "${_listSets.value.size}")
+            _listSets.value.removeIf {
+                it.id == id
+            }
 
-        // val n = _listSets.value
-         //_listSets.value = mutableListOf()
-        // _listSets.value = n
+        }
+    }
 
+    override fun cleanItem() {
+        viewModelScope.launch(Dispatchers.IO) {
+            SetsRepo.get().deleteByParent(parentId)
         }
     }
 
@@ -70,8 +74,13 @@ class ExerciseVM : BaseVMWithStateLoad(), ExerciseVMInterface {
                 override val subItems: StateFlow<List<Sets>> = _listSets.asStateFlow()
                 override fun getBy(id: Long) {
                 }
+
                 override fun deleteSub(id: Long) {
-                    Log.d("delete","$id")
+                    Log.d("delete", "$id")
+                }
+
+                override fun cleanItem() {
+                    TODO("Not yet implemented")
                 }
 
             }

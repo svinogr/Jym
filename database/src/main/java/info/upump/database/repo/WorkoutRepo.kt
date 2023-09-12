@@ -2,6 +2,7 @@ package info.upump.database.repo
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.room.Transaction
 import info.upump.database.RepoActionsSpecific
 import info.upump.database.RoomDB
@@ -29,26 +30,26 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
         }
     }
 
+    @Transaction
     override fun getFullEntityBy(id: Long): Flow<WorkoutFullEntity> {
         return workoutDao.getById(id)
     }
-
+    @Transaction
     override fun getAllFullEntityByParent(parentId: Long): Flow<List<WorkoutFullEntity>> {
         return workoutDao.getAllByParent(parentId)
     }
-
+    @Transaction
     override fun getAllFullEntity(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")
     }
-
+    @Transaction
     override fun getAllFullEntityTemplate(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")
     }
-
+    @Transaction
     override fun getAllFullEntityPersonal(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")
     }
-
 
     override fun update(item: WorkoutEntity): WorkoutEntity {
         TODO("Not yet implemented")
@@ -59,6 +60,8 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
             val id = workoutDao.save(item)
             item._id = id
         } else {
+            Log.d("save", "${item._id}")
+            Log.d("save", "${item.parent_id}")
             workoutDao.update(item)
         }
 
@@ -67,8 +70,8 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
 
     @Transaction
     override fun delete(id: Long) {
-        exerciseRepo.deleteByParent(id)
         workoutDao.delete(id)
+        exerciseRepo.deleteByParent(id)
     }
 
     override fun deleteByParent(parentId: Long) {
@@ -77,5 +80,9 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
         listParentIdForNext.forEach {
             exerciseRepo.deleteByParent(it)
         }
+    }
+
+    override fun deleteChilds(parentId: Long) {
+        TODO("Not yet implemented")
     }
 }

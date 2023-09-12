@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -60,14 +61,9 @@ fun AlterCycleDetailScreenM3(
     val cycleVM: CycleDetailVM = viewModel()
     val context = LocalContext.current
     val listState = rememberLazyListState()
-    val listWorkouts = remember {
-        mutableStateOf(cycleVM.subItems)
-    }
+
     val coroutine = rememberCoroutineScope()
 
-    LaunchedEffect(key1 = true) {
-        cycleVM.getBy(id)
-    }
 
     if (id == 0L) {
         appBarTitle.value = context.resources.getString(R.string.cycle_dialog_create_new)
@@ -81,6 +77,11 @@ fun AlterCycleDetailScreenM3(
     val list by remember {
         mutableStateOf(cycleVM.subItems)
     }
+    LaunchedEffect(key1 = true) {
+        Log.d("efect", "efect")
+        cycleVM.getBy(id)
+    }
+
 
     ModalBottomSheetLayout(
         sheetState = bottomState,
@@ -112,7 +113,9 @@ fun AlterCycleDetailScreenM3(
                 SnackbarHost(
                     snackBarHostState
                 ) {
-                    SnackBar("удалить?", R.drawable.ic_delete_24) {}
+                    SnackBar(stringResource(id = R.string.clean_cycle), R.drawable.ic_delete_24) {
+                        cycleVM.cleanItem()
+                    }
                 }
             }
 
@@ -165,7 +168,7 @@ fun AlterCycleDetailScreenM3(
                 )
                 val del: (Long) -> Unit = { cycleVM.deleteSubItem(it) }
                 ListWorkouts(
-                    list = listWorkouts.value.collectAsState().value,
+                    list = list.collectAsState().value,
                     listState, navhost = navHostController,
                     Modifier.weight(4f),
 

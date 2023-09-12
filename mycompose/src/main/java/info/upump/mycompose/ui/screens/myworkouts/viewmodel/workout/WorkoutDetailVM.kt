@@ -28,11 +28,11 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     private val _workout = MutableStateFlow(Workout())
 
-    override val item: StateFlow<Workout> = _workout
+    override val item: StateFlow<Workout> = _workout.asStateFlow()
 
-    private val _exercises = MutableStateFlow<List<Exercise>>(listOf())
+    private val _exercises = MutableStateFlow<List<Exercise>>(mutableListOf())
 
-    override val subItems: StateFlow<List<Exercise>> = _exercises
+    override val subItems: StateFlow<List<Exercise>> = _exercises.asStateFlow()
 
     private val _id = MutableStateFlow(0L)
 
@@ -62,7 +62,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     override
     val startDate: StateFlow<String> =
-        _startDate
+        _startDate.asStateFlow()
 
     private
     val _finishDate =
@@ -72,7 +72,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     override
     val finishDate: StateFlow<String> =
-        _finishDate
+        _finishDate.asStateFlow()
 
 
     private
@@ -83,7 +83,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     val _isEven = MutableStateFlow<Boolean>(true)
 
-    override val isEven: StateFlow<Boolean> = _isEven
+    override val isEven: StateFlow<Boolean> = _isEven.asStateFlow()
 
     /*    override fun getBy(id: Long) {
             _stateLoading.value = true
@@ -126,35 +126,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
         viewModelScope.launch(Dispatchers.IO) {
 
             workoutRepo.getFullEntityBy(id).map {
-               Workout.mapFromFullDbEntity(it)
-            }.collect{workout ->
-                _workout.update { workout }
-                _id.update { workout.id }
-                _title.update { workout.title }
-                _comment.update { workout.comment }
-                _startDate.update { workout.startStringFormatDate }
-                _finishDate.update { workout.finishStringFormatDate }
-                _day.update { workout.day }
-                _isEven.update { workout.isWeekEven }
-                _exercises.update { workout.exercises }
-
-                _stateLoading.value = false
-
-            }
-         /*
-            val wFlow = WorkoutRepo.get().getBy(id).map {
-                Workout.mapFromDbEntity(it)
-            }
-
-            val eflow = ExerciseRepo.get().getAllFullEntityByParent(id).map {
-                it.map {
-                    Exercise.mapFromFullDbEntity(it)
-                }
-            }
-
-            wFlow.zip(eflow) { workout, exercise ->
-                workout.exercises = exercise
-                return@zip workout
+                Workout.mapFromFullDbEntity(it)
             }.collect { workout ->
                 _workout.update { workout }
                 _id.update { workout.id }
@@ -165,10 +137,38 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                 _day.update { workout.day }
                 _isEven.update { workout.isWeekEven }
                 _exercises.update { workout.exercises }
-                _exercises.update { workout.exercises }
 
                 _stateLoading.value = false
-            }*/
+
+            }
+            /*
+               val wFlow = WorkoutRepo.get().getBy(id).map {
+                   Workout.mapFromDbEntity(it)
+               }
+
+               val eflow = ExerciseRepo.get().getAllFullEntityByParent(id).map {
+                   it.map {
+                       Exercise.mapFromFullDbEntity(it)
+                   }
+               }
+
+               wFlow.zip(eflow) { workout, exercise ->
+                   workout.exercises = exercise
+                   return@zip workout
+               }.collect { workout ->
+                   _workout.update { workout }
+                   _id.update { workout.id }
+                   _title.update { workout.title }
+                   _comment.update { workout.comment }
+                   _startDate.update { workout.startStringFormatDate }
+                   _finishDate.update { workout.finishStringFormatDate }
+                   _day.update { workout.day }
+                   _isEven.update { workout.isWeekEven }
+                   _exercises.update { workout.exercises }
+                   _exercises.update { workout.exercises }
+
+                   _stateLoading.value = false
+               }*/
 
         }
 
@@ -179,6 +179,18 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
     }
 
     override fun deleteSub(it: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val repo = ExerciseRepo.get()
+            repo.delete(it)
+        }
+    }
+
+    override fun cleanItem() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _stateLoading.value = true
+            ExerciseRepo.get().deleteByParent(_id.value)
+            _stateLoading.value = false
+        }
 
     }
 
@@ -291,6 +303,10 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                 }
 
                 override fun deleteSub(it: Long) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun cleanItem() {
                     TODO("Not yet implemented")
                 }
 

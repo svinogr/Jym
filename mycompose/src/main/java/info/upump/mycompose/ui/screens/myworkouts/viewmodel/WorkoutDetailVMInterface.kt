@@ -19,4 +19,6 @@ interface WorkoutDetailVMInterface {
     fun getBy(id: Long)
     fun delete(it: Long)
     fun deleteSub(it: Long)
+
+    fun cleanItem()
 }

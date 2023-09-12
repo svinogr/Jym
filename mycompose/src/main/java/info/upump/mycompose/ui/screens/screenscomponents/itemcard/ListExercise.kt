@@ -1,6 +1,7 @@
 package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -43,15 +44,16 @@ fun ListExercise(
             .background(colorResource(R.color.colorBackgroundCardView)),
         state = lazyListState
     ) {
-        itemsIndexed(list) { index, it ->
+        itemsIndexed(list, key = { index, item -> item.id }) { index, it ->
             val dismissState = rememberDismissState(confirmStateChange = { value ->
                 if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
+                    Log.d("exe", "ListExercise: ${it.exerciseDescription!!.title}")
                     actionDel(it.id)
+                    true
+                } else {
+                    false
                 }
-
-                true
             })
-
             SwipeToDismiss(
                 state = dismissState,
                 directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
@@ -60,15 +62,18 @@ fun ListExercise(
                 },
                 dismissContent = {
                     Column(modifier = Modifier) {
-                        ExerciseItemCard(exercise = it, navHost = navHost){
-                         navHost.navigate(NavigationItem.DetailExerciseNavigationItem.routeWithId(it))
+                        ExerciseItemCard(exercise = it, navHost = navHost) {
+                            navHost.navigate(
+                                NavigationItem.DetailExerciseNavigationItem.routeWithId(
+                                    it
+                                )
+                            )
                         }
-
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
             )
-            if (index < list.size -1) {
+            if (index < list.size - 1) {
                 DividerCustom()
             }
         }

@@ -7,5 +7,6 @@ interface RepoActions<T> {
     fun update(item: T): T
     fun delete(id: Long)
     fun deleteByParent(parentId: Long)
+    fun deleteChilds(parentId: Long)
 }
 

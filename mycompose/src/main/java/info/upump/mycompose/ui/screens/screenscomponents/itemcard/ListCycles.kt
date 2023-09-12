@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,9 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
+import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVM
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -31,8 +34,9 @@ fun ListCycle(
     lazyListState: LazyListState,
     list: List<Cycle>,
     navhost: NavHostController,
-    deleteAction: (Long) -> Unit,
+    deleteAction: (Context, String, Long) -> Unit,
 ) {
+    val context = LocalContext.current
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
@@ -43,7 +47,7 @@ fun ListCycle(
         itemsIndexed(list, key ={index, item -> item.id  }) { index, it ->
             val dismissState = rememberDismissState(confirmStateChange = { value ->
                 if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
-                    deleteAction(it.id)
+                    deleteAction(context, it.image, it.id)
                 }
 
                 true
@@ -71,6 +75,8 @@ fun ListCycle(
 @Preview
 @Composable
 fun ComPreview() {
+    val vm: CycleVM = viewModel()
+    val del: (Context,String,Long) -> Unit =  vm::delete
     ListCycle(
         lazyListState = rememberLazyListState(), navhost = NavHostController(
             LocalContext.current
@@ -91,6 +97,6 @@ fun ComPreview() {
                 imageDefault = "uk1"
             }
 
-        )
-    ) {}
+        ), deleteAction = del
+    )
 }

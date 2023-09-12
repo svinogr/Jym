@@ -46,9 +46,10 @@ fun ListWorkouts(
             val dismissState = rememberDismissState(confirmStateChange = { value ->
                 if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
                     deleteAction(it.id)
+                    true
+                } else {
+                    false
                 }
-
-                true
             })
             SwipeToDismiss(
                 state = dismissState,

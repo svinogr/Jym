@@ -54,6 +54,10 @@ class SetsRepo private constructor(private var context: Context, db: RoomDB) :
         setsDao.deleteByParentId(parentId)
     }
 
+    override fun deleteChilds(parentId: Long) {
+        TODO("Not yet implemented")
+    }
+
     override fun update(item: SetsEntity): SetsEntity {
         setsDao.update(item)
         return item

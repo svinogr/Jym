@@ -1,6 +1,9 @@
 package info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
+import androidx.core.net.toFile
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.CycleRepo
 import info.upump.mycompose.models.entity.Cycle
@@ -37,9 +40,18 @@ class CycleVM : BaseVMWithStateLoad() {
         }
     }
 
-    fun delete(id: Long) {
+    fun delete(context: Context, image: String,  id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
+            deleteTempImg( image, context)
             cycleRepo.delete(id)
+        }
+    }
+
+    private fun deleteTempImg(tempImage: String, context: Context) {
+        if (tempImage.isBlank()) return
+        val file = Uri.parse(tempImage).toFile()
+        if (file.exists()) {
+            file.delete()
         }
     }
 }

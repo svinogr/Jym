@@ -36,9 +36,11 @@ const val DEFAULT_STYLE = 0
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
+
     val appBarTitle = remember {
         mutableStateOf("")
     }
+
     val topBarState = remember {
         mutableStateOf(true)
     }
@@ -49,23 +51,6 @@ fun MainScreen() {
 
     val appBarStyle = remember {
         mutableStateOf(DEFAULT_STYLE)
-    }
-
-    val permissionState = rememberMultiplePermissionsState(
-        listOf(
-            Manifest.permission.READ_MEDIA_IMAGES,
-            Manifest.permission.CAMERA
-
-        )
-    )
-    /*  val cameraPermission =
-          rememberPermissionState(permission = "android.permission.CAMERA")
-      val storagePermission =
-          rememberPermissionState(permission = "android.permission.READ_EXTERNAL_STORAGE")
-  */
-
-    SideEffect() {
-        permissionState.launchMultiplePermissionRequest()
     }
 
     val density = LocalDensity.current

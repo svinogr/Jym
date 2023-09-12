@@ -24,10 +24,10 @@ interface WorkoutVMInterface {
     fun updateStartDate(date: Date)
     fun updateFinishDate(date: Date)
     fun updateComment(comment: String)
-    fun updateDay(it: Day)
+    fun updateDay(day: Day)
     fun collectToSave(): Workout
     fun isBlankFields(): Boolean
     fun updateId(id: Long)
     fun updateParent(parentId: Long)
-    fun updateEven(it: Boolean)
+    fun updateEven(isEven: Boolean)
 }

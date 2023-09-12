@@ -16,4 +16,5 @@ interface CycleDetailVMInterface {
     val subItems: StateFlow<List<Workout>>
     fun getBy(id: Long)
     fun deleteSubItem(id: Long)
+    fun cleanItem()
 }

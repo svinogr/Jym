@@ -11,19 +11,6 @@ class Workout(
     var exercises: List<Exercise> = ArrayList()
 ) : Entity() {
 
-    override fun toString(): String {
-        return "Workout{" +
-                "id=" + id +
-                "com " + comment +
-                ", title='" + title + '\'' +
-                ", weekEven=" + isWeekEven +
-                ", Day=" + day +
-                ", defaultType=" + isDefaultType +
-                ", cycle Id= " + parentId +
-                ", exercises Size=" + exercises.size +
-                '}'
-    }
-
     companion object {
         fun mapFromDbEntity(workoutEntity: WorkoutEntity): Workout {
             val workout = Workout(
@@ -38,38 +25,26 @@ class Workout(
             workout.parentId = workoutEntity.parent_id!!
             workout.id = workoutEntity._id
             workout.comment = workoutEntity.comment!!
+            workout.setStartDate(workoutEntity.start_date)
+            workout.setFinishDate(workoutEntity.finish_date)
 
             return workout
         }
 
         fun mapToEntity(workout: Workout): WorkoutEntity {
             val workoutEntity = WorkoutEntity(workout.id)
-            workoutEntity.title = workout.title.orEmpty()
+            workoutEntity.title = workout.title
             workoutEntity.start_date = workout.startStringFormatDate
             workoutEntity.finish_date = workout.finishStringFormatDate
             workoutEntity.comment = workout.comment
             workoutEntity.day = workout.day.toString() //TODO внимание проверить правильность
             workoutEntity.default_type = if (workout.isDefaultType) 1 else 0
             workoutEntity.week_even = if (workout.isWeekEven) 1 else 0
-           // workoutEntity.template = if (workout.isTemplate) 1 else 0 // надо проверить
+            workoutEntity.template = if (workout.isTemplate) 1 else 0 // надо проверить
             workoutEntity.template = 0 //TODO  надо проверить
+            workoutEntity.parent_id = workout.parentId
 
             return workoutEntity
-        }
-
-        fun copy(workout: Workout): Workout {
-            return Workout().apply {
-                id = workout.id
-                title = workout.title
-                isDefaultType = workout.isDefaultType
-                day = workout.day
-                isWeekEven = workout.isWeekEven
-                isTemplate = workout.isTemplate
-                startDate = workout.startDate
-                finishDate = workout.finishDate
-                comment = workout.comment
-                parentId = workout.parentId
-            }
         }
 
         fun mapFromFullDbEntity(entity: WorkoutFullEntity): Workout {
@@ -85,14 +60,22 @@ class Workout(
                 isDefaultType = entity.workoutEntity.default_type == 1,
                 isTemplate = entity.workoutEntity.default_type == 1,
                 day = Day.valueOf(entity.workoutEntity.day!!),
+                exercises = listExercises
             )
             workout.title = entity.workoutEntity.title
             workout.parentId = entity.workoutEntity.parent_id!!
             workout.id = entity.workoutEntity._id
             workout.comment = entity.workoutEntity.comment!!
-            workout.exercises = listExercises
+            workout.setStartDate(entity.workoutEntity.start_date)
+            workout.setFinishDate(entity.workoutEntity.finish_date)
 
             return workout
         }
     }
+
+    override fun toString(): String {
+        return "Workout($title  --  $id  -- $parentId  isWeekEven=$isWeekEven, isDefaultType=$isDefaultType, isTemplate=$isTemplate, day=$day, exercises=$exercises) "
+    }
+
+
 }

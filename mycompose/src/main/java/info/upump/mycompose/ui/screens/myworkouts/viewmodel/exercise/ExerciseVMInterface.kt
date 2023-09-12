@@ -7,4 +7,5 @@ interface ExerciseVMInterface {
     val subItems: StateFlow<List<Sets>>
     fun getBy(id: Long)
     fun deleteSub(id: Long)
+    fun cleanItem()
 }

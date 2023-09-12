@@ -73,7 +73,7 @@ fun SetEditeScreen(
             Card(
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxWidth(),
+                    .fillMaxWidth().padding(start = 8.dp, end = 8.dp),
                 elevation = CardDefaults.cardElevation(0.dp),
                 shape = RoundedCornerShape(0.dp)
             ) {
@@ -91,7 +91,7 @@ fun SetEditeScreen(
             }
 
             Card(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).padding(start = 8.dp, end = 8.dp),
                 elevation = CardDefaults.cardElevation(0.dp),
                 shape = RoundedCornerShape(0.dp)
             ) {
