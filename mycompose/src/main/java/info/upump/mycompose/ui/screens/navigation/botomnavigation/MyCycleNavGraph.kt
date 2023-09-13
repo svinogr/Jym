@@ -14,16 +14,16 @@ import androidx.navigation.navigation
 import info.upump.mycompose.ui.screens.mainscreen.DEFAULT_STYLE
 import info.upump.mycompose.ui.screens.mainscreen.MyCycleScreen
 import info.upump.mycompose.ui.screens.mainscreen.WHITE_STYLE
-import info.upump.mycompose.ui.screens.myworkouts.ActionState
-import info.upump.mycompose.ui.screens.myworkouts.screens.setsscreen.SetsCreateScreen
-import info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens.AlterCycleDetailScreenM3
-import info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens.CreateEditeCycleScreen
-import info.upump.mycompose.ui.screens.myworkouts.screens.exercisescreens.ExerciseChooseScreen
-import info.upump.mycompose.ui.screens.myworkouts.screens.exercisescreens.ExerciseReviewScreen
-import info.upump.mycompose.ui.screens.myworkouts.screens.exercisescreens.MyExerciseDetailScreen
-import info.upump.mycompose.ui.screens.myworkouts.screens.setsscreen.SetEditeScreen
-import info.upump.mycompose.ui.screens.myworkouts.screens.workoutscreens.CreateWorkoutScreen
-import info.upump.mycompose.ui.screens.myworkouts.screens.workoutscreens.EditeWorkoutScreen
+import info.upump.mycompose.ui.screens.myworkoutsscreens.ActionState
+import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.setsscreen.SetsCreateScreen
+import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.cyclescreens.AlterCycleDetailScreenM3
+import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.cyclescreens.CreateEditeCycleScreen
+import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.exercisescreens.ExerciseChooseScreen
+import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.exercisescreens.ExerciseReviewScreen
+import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.exercisescreens.MyExerciseDetailScreen
+import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.setsscreen.SetEditeScreen
+import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens.CreateWorkoutScreen
+import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens.EditeWorkoutScreen
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
 

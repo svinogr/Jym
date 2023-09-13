@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Entity
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVMCreateEdit
+import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle.CycleVMCreateEdit
 import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 import java.util.Date
 

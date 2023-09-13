@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
+import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.BitmapCreator
 
 @OptIn(ExperimentalMaterial3Api::class)

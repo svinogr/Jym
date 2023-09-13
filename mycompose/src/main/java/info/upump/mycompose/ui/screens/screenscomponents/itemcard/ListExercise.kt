@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Exercise
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.workout.WorkoutDetailVM
+import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.workout.WorkoutDetailVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
 

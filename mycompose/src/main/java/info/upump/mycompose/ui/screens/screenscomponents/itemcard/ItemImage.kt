@@ -1,26 +1,19 @@
 package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
 import android.graphics.Bitmap
-import androidx.compose.foundation.Image
+import android.net.Uri
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleDetailVM
-import info.upump.mycompose.ui.screens.screenscomponents.BitmapCreator
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
+import coil.compose.AsyncImage
+import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle.CycleDetailVM
 
 @Composable
 fun ItemImage(
@@ -31,14 +24,19 @@ fun ItemImage(
 ) {
     val context = LocalContext.current
     val bitmap: Bitmap
+    val k: Uri
     if (!image.isBlank()) {
-        bitmap = BitmapCreator.getImgBitmap(image, context)
-    } else if (!defaultImage.isBlank()) {
-        bitmap = BitmapCreator.getImgDefaultBitmap(defaultImage, context)
-    } else {
-        bitmap = BitmapCreator.getExceptionDefaultBitmap(context)
-    }
+     //   bitmap = BitmapCreator.getImgBitmap(image, context)
+        k = Uri.parse(image)
 
+    } else if (!defaultImage.isBlank()) {
+       // bitmap = BitmapCreator.getImgDefaultBitmap(defaultImage, context)
+        k = Uri.parse("android.resource://info.upump.mycompose/drawable/$defaultImage")
+    } else {
+       // bitmap = BitmapCreator.getExceptionDefaultBitmap(context)
+        k = Uri.parse("android.resource://info.upump.mycompose/drawable/logo_upump_round")
+    }
+/*
     Image(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
@@ -47,6 +45,16 @@ fun ItemImage(
             },
         contentScale = ContentScale.Crop,
         bitmap = bitmap.asImageBitmap(), contentDescription = "image"
+    )*/
+    val b =
+    AsyncImage(
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .clickable {
+                action()
+            },
+        contentScale = ContentScale.Crop,
+        model = k, contentDescription = "image"
     )
 }
 

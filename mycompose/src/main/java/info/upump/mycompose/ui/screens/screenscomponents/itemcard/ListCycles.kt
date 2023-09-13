@@ -24,7 +24,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.cycle.CycleVM
+import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle.CycleVM
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
 
 @OptIn(ExperimentalMaterialApi::class)

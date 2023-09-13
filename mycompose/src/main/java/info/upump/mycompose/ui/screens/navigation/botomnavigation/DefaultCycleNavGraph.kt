@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import info.upump.mycompose.ui.screens.defaultscreen.DefaultCycleScreen
-import info.upump.mycompose.ui.screens.myworkouts.screens.cyclescreens.AlterCycleDetailScreenM3
+import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.cyclescreens.AlterCycleDetailScreenM3
 
 const val DEFAULT_CYCLE_ROOT_ROUTE = "default_cycle_root_route"
 

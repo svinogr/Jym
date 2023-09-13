@@ -2,7 +2,6 @@ package info.upump.mycompose.models.entity
 
 import info.upump.database.entities.CycleEntity
 import info.upump.database.entities.CycleFullEntity
-import info.upump.mycompose.ui.screens.screenscomponents.Imageable
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date

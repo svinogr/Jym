@@ -1,19 +1,13 @@
 package info.upump.mycompose.ui.screens.defaultscreen.viewmodel
 
-import android.os.StatFs
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.CycleRepo
 import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.myworkouts.viewmodel.BaseVMWithStateLoad
+import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
