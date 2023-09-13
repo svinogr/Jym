@@ -80,42 +80,6 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     override val isEven: StateFlow<Boolean> = _isEven.asStateFlow()
 
-    /*    override fun getBy(id: Long) {
-            _stateLoading.value = true
-            viewModelScope.launch(Dispatchers.IO) {
-
-                val wFlow = WorkoutRepo.get().getBy(id).map {
-                    Workout.mapFromDbEntity(it)
-                }
-
-                val eflow = ExerciseRepo.get().getAllFullEntityByParent(id).map {
-                    it.map {
-                        Exercise.mapFromFullDbEntity(it)
-                    }
-                }
-
-                wFlow.zip(eflow) { workout, exercise ->
-                   workout.exercises = exercise
-                    return@zip workout
-                }.collect { workout ->
-                    _workout.update { workout }
-                    _id.update { workout.id }
-                    _title.update { workout.title }
-                    _comment.update { workout.comment }
-                    _startDate.update { workout.startStringFormatDate }
-                    _finishDate.update { workout.finishStringFormatDate }
-                    _day.update { workout.day }
-                    _isEven.update { workout.isWeekEven }
-                    _exercises.update { workout.exercises }
-                    _exercises.update { workout.exercises }
-
-                    _stateLoading.value = false
-                }
-
-            }
-
-        }*/
-
     override fun getBy(id: Long) {
         _stateLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
@@ -134,37 +98,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                 _exercises.update { workout.exercises }
 
                 _stateLoading.value = false
-
             }
-            /*
-               val wFlow = WorkoutRepo.get().getBy(id).map {
-                   Workout.mapFromDbEntity(it)
-               }
-
-               val eflow = ExerciseRepo.get().getAllFullEntityByParent(id).map {
-                   it.map {
-                       Exercise.mapFromFullDbEntity(it)
-                   }
-               }
-
-               wFlow.zip(eflow) { workout, exercise ->
-                   workout.exercises = exercise
-                   return@zip workout
-               }.collect { workout ->
-                   _workout.update { workout }
-                   _id.update { workout.id }
-                   _title.update { workout.title }
-                   _comment.update { workout.comment }
-                   _startDate.update { workout.startStringFormatDate }
-                   _finishDate.update { workout.finishStringFormatDate }
-                   _day.update { workout.day }
-                   _isEven.update { workout.isWeekEven }
-                   _exercises.update { workout.exercises }
-                   _exercises.update { workout.exercises }
-
-                   _stateLoading.value = false
-               }*/
-
         }
 
     }
@@ -193,6 +127,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
         val vmOnlyForPreview by lazy {
             object : WorkoutDetailVMInterface {
                 private val _workout = MutableStateFlow((Workout().apply {
+                    id = 1
                     title = "Preview3"
                     isWeekEven = true
                     isDefaultType = true
@@ -202,6 +137,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
                 private val _exercises = MutableStateFlow(listOf(
                     Exercise().apply {
+                        id = 1
                         typeMuscle = TypeMuscle.ABS
                         isDefaultType = true
                         isTemplate = true
@@ -214,7 +150,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                             id = descriptionId
                         }
                     },
-                    Exercise().apply {
+                    Exercise().apply {id = 2
                         typeMuscle = TypeMuscle.BACK
                         isDefaultType = true
                         isTemplate = true
@@ -228,6 +164,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                         }
                     },
                     Exercise().apply {
+                        id = 3
                         typeMuscle = TypeMuscle.CALVES
                         isDefaultType = true
                         isTemplate = true
@@ -242,7 +179,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                     }
                 ))
 
-                override val subItems: StateFlow<List<Exercise>> = _exercises
+                override val subItems: StateFlow<List<Exercise>> = _exercises.asStateFlow()
 
 
                 private val _id = MutableStateFlow(_workout.value.id)

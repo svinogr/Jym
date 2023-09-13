@@ -83,7 +83,6 @@ fun CreateEditeCycleScreen(
                             navHostController.navigateUp()
                         }
                     }
-
                 }
             }
         }
