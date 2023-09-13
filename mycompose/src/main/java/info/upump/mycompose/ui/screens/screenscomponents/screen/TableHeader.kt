@@ -52,7 +52,7 @@ fun TableHeader(
             val guiTwo = createGuidelineFromStart(GuidelineSets.TWO.offset)
             val guiThree = createGuidelineFromStart(GuidelineSets.THREE.offset)
             val guiFour = createGuidelineFromStart(GuidelineSets.FOUR.offset)
-            val modifierOneThree = Modifier.padding(start = 0.dp)
+            val modifierOneThree = Modifier.padding(top = 8.dp, bottom = 8.dp)
             Text(
                 text = "№",
                 modifier = modifierOneThree.constrainAs(textNumber) {

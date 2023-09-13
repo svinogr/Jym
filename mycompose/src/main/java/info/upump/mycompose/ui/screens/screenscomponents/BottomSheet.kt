@@ -11,13 +11,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescription
 
 @Composable
 fun BottomSheet(text: String, modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
-    Box(modifier = modifier.fillMaxWidth().padding(8.dp).verticalScroll(scrollState)){
+    Box(modifier = modifier
+        .fillMaxWidth()
+        .padding(8.dp)
+        .verticalScroll(scrollState)){
 
-        Text(text = text)
+        CardDescription(textDescription = text)
+        //Text(text = text)
     }
 
 }

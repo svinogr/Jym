@@ -13,9 +13,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -27,26 +25,22 @@ import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.models.entity.TypeMuscle
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.workout.WorkoutDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.screen.TableHeader
 import info.upump.mycompose.ui.theme.MyTextTitleLabel20
-import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ListWorkoutForReview(list: List<Exercise>, modifier: Modifier = Modifier) {
-    Column {
+    Column(modifier = modifier) {
         LazyColumn(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight()
                 .background(colorResource(R.color.colorBackgroundCardView))
         ) {
 
             list.groupBy { it.title }.forEach { title, list ->
 
                 stickyHeader {
-
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -55,12 +49,12 @@ fun ListWorkoutForReview(list: List<Exercise>, modifier: Modifier = Modifier) {
                         shape = RoundedCornerShape(0.dp),
                         colors = CardDefaults.cardColors(
                             containerColor =
-                            colorResource(id = R.color.colorBackgroundCardView)
+                            colorResource(id = R.color.colorBackgroundChips)
                         )
                     ) {
                         Text(
                             text = title,
-                            modifier = Modifier.fillMaxWidth().padding(start = 8.dp),
+                            modifier = Modifier.fillMaxWidth().padding(start = 8.dp, bottom = 8.dp, end = 8.dp),
                             style = MyTextTitleLabel20,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
@@ -75,12 +69,9 @@ fun ListWorkoutForReview(list: List<Exercise>, modifier: Modifier = Modifier) {
                             navHost = NavHostController(LocalContext.current),
                             number = index
                         )
-
                     }
-
                 }
             }
-
         }
     }
 
@@ -131,7 +122,7 @@ fun ListWorkoutForReviewPreview() {
             isDefaultType = true
             isTemplate = true
             setsList = mutableListOf(
-                Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets()
+                Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets()
             )
             descriptionId = 3
             exerciseDescription = ExerciseDescription().apply {

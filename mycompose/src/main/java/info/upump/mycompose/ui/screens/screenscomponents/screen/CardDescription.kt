@@ -20,10 +20,10 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
 
 @Composable
 fun CardDescription(
+    modifier: Modifier = Modifier,
     textDescription: String,
-    readonly: Boolean = true,
-    modifier: Modifier = Modifier
-    ) {
+    readonly: Boolean = true
+) {
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -62,11 +62,11 @@ fun CardDescription(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DescriptionCardPreview() {
-    CardDescription("whagdwhgdakwjdgk wahdgawhdak")
+    CardDescription(textDescription = "whagdwhgdakwjdgk wahdgawhdak")
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DescriptionCardPreview2() {
-    CardDescription("whagdwhgdakwjdgk wahdgawhdak")
+    CardDescription(textDescription ="whagdwhgdakwjdgk wahdgawhdak")
 }

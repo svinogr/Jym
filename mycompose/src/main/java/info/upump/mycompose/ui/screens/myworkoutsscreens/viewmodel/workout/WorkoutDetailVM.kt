@@ -6,6 +6,7 @@ import info.upump.database.repo.WorkoutRepo
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
+import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.models.entity.TypeMuscle
 import info.upump.mycompose.models.entity.Workout
 import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.BaseVMWithStateLoad
@@ -120,7 +121,6 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
             ExerciseRepo.get().deleteByParent(_id.value)
             _stateLoading.value = false
         }
-
     }
 
     companion object {
@@ -128,20 +128,25 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
             object : WorkoutDetailVMInterface {
                 private val _workout = MutableStateFlow((Workout().apply {
                     id = 1
+                    comment = "Предварительные выводы неутешительны: убеждённость некоторых оппонентов влечет за собой процесс внедрения и модернизации переосмысления внешнеэкономических политик. Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: консультация с широким активом способствует подготовке и реализации направлений прогрессивного развития. Также как перспективное планирование играет важную роль в формировании кластеризации усилий. Имеется спорная точка зрения, гласящая примерно следующее: активно развивающиеся страны третьего мира и по сей день остаются уделом либералов, которые жаждут быть функционально разнесены на независимые элементы."
                     title = "Preview3"
                     isWeekEven = true
                     isDefaultType = true
+                    day = Day.TUESDAY
                 }))
 
-                override val item: StateFlow<Workout> = _workout
+                override val item: StateFlow<Workout> = _workout.asStateFlow()
 
                 private val _exercises = MutableStateFlow(listOf(
                     Exercise().apply {
                         id = 1
+                        title = "Упражнение"
                         typeMuscle = TypeMuscle.ABS
                         isDefaultType = true
                         isTemplate = true
-                        setsList = mutableListOf()
+                        setsList = mutableListOf(
+                            Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets()
+                        )
                         descriptionId = 1
                         exerciseDescription = ExerciseDescription().apply {
                             img = "nach1"
@@ -151,10 +156,13 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                         }
                     },
                     Exercise().apply {id = 2
+                        title = "Упражнение"
                         typeMuscle = TypeMuscle.BACK
                         isDefaultType = true
                         isTemplate = true
-                        setsList = mutableListOf()
+                        setsList = mutableListOf(
+                            Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets()
+                        )
                         descriptionId = 2
                         exerciseDescription = ExerciseDescription().apply {
                             img = "nach1"
@@ -165,10 +173,13 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                     },
                     Exercise().apply {
                         id = 3
+                        title = "Упражнение"
                         typeMuscle = TypeMuscle.CALVES
                         isDefaultType = true
                         isTemplate = true
-                        setsList = mutableListOf()
+                        setsList = mutableListOf(
+                            Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets()
+                        )
                         descriptionId = 3
                         exerciseDescription = ExerciseDescription().apply {
                             img = "nach1"
@@ -187,7 +198,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
                 override val id: StateFlow<Long> = _id.asStateFlow()
 
                 private
-                val _title = MutableStateFlow(_workout.value.title)
+                val _title = MutableStateFlow("Тренировка")
 
                 override
                 val title: StateFlow<String> =
