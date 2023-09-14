@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.sets
+package info.upump.mycompose.ui.screens.viewmodel.sets
 
 import info.upump.mycompose.models.entity.Sets
 import kotlinx.coroutines.flow.StateFlow

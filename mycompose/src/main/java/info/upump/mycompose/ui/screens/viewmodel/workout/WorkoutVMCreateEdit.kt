@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.workout
+package info.upump.mycompose.ui.screens.viewmodel.workout
 
 
 import android.util.Log
@@ -7,7 +7,7 @@ import info.upump.database.repo.WorkoutRepo
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Entity
 import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.BaseVMWithStateLoad
+import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
 
-class WorkoutVM() : BaseVMWithStateLoad(), WorkoutVMInterface {
+class WorkoutVM() : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), WorkoutVMInterface {
     companion object {
         val vmOnlyForPreview by lazy {
             object : WorkoutVMInterface {

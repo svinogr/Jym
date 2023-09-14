@@ -1,6 +1,7 @@
 package info.upump.mycompose.ui.screens.navigation.botomnavigation
 
 import android.content.Context
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -13,7 +14,11 @@ const val PROFILE_ROOT_ROUT = "profileRootRout"
 fun NavGraphBuilder.profileNavGraph(
     navHostController: NavHostController,
     appBarTitle: MutableState<String>,
-    context: Context
+    appBarStyle: MutableState<Int>,
+    context: Context,
+    paddingValues: PaddingValues,
+    topBarState: MutableState<Boolean>,
+    bottomBarState: MutableState<Boolean>
 ) {
     navigation(
         startDestination = NavigationItem.ProfileNavigationItem.route,

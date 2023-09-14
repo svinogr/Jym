@@ -1,6 +1,8 @@
 package info.upump.mycompose.ui.screens.navigation.botomnavigation
 
+import DefaultWorkoutDetailScreenM3
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavGraphBuilder
@@ -9,41 +11,67 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import info.upump.mycompose.ui.screens.defaultscreen.DefaultCycleScreen
-import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.cyclescreens.AlterCycleDetailScreenM3
+import info.upump.mycompose.ui.screens.mainscreen.DEFAULT_STYLE
+import info.upump.mycompose.ui.screens.mainscreen.DefaultStartScreen
+import info.upump.mycompose.ui.screens.mainscreen.WHITE_STYLE
+import info.upump.mycompose.ui.screens.defaultscreen.cyclescreen.DefaultCycleDetailScreenM3
 
 const val DEFAULT_CYCLE_ROOT_ROUTE = "default_cycle_root_route"
 
 fun NavGraphBuilder.defaultCycleGraph(
     navHostController: NavHostController,
     appBarTitle: MutableState<String>,
+    appBarStyle: MutableState<Int>,
     context: Context,
     paddingValues: PaddingValues,
-    topBarState: MutableState<Boolean>
+    topBarState: MutableState<Boolean>,
+    bottomBarState: MutableState<Boolean>
 ) {
     navigation(
         startDestination = NavigationItem.DefaultCycleNavigationItem.route,
         route = DEFAULT_CYCLE_ROOT_ROUTE
-    ) {
+    )
+    {
         composable(
             route = NavigationItem.DefaultCycleNavigationItem.route
         ) {
-            DefaultCycleScreen(navHostController, paddingValues)
-            appBarTitle.value = context.resources.getString(NavigationItem.DefaultCycleNavigationItem.title)
+            DefaultStartScreen(navHostController, paddingValues)
+            appBarTitle.value =
+                context.resources.getString(NavigationItem.MyCycleNavigationItem.title)
             topBarState.value = true
+            bottomBarState.value = true
+            appBarStyle.value = DEFAULT_STYLE
         }
 
         composable(
             route = NavigationItem.DefaultDetailCycleNavigationItem.route,
-            arguments = listOf(navArgument("id"){
+            arguments = listOf(navArgument("id") {
                 type = NavType.LongType
             })
         ) {
-            val id =  it.arguments?.getLong("id")
-
-           AlterCycleDetailScreenM3(id = id!!, navHostController, paddingValues, appBarTitle)
+            val id = it.arguments?.getLong("id")
+            Log.d("ddw", "dwdw")
             topBarState.value = false
-            appBarTitle.value = context.resources.getString(NavigationItem.DefaultCycleNavigationItem.title)
+            bottomBarState.value = false
+            appBarTitle.value =
+                context.resources.getString(NavigationItem.DefaultCycleNavigationItem.title)
+            appBarStyle.value = WHITE_STYLE
+            DefaultCycleDetailScreenM3(id = id!!, navHostController, paddingValues, appBarTitle)
+        }
+
+        composable(
+            route = NavigationItem.DefaultDetailWorkoutNavigationItem.route,
+            arguments = listOf(navArgument("id") {
+                type = NavType.LongType
+            })
+        ) {
+            val id = it.arguments?.getLong("id")
+            //topBarState.value = false он уже должен был быть убран
+            Log.d("TAG", "id = $id")
+
+            appBarStyle.value = WHITE_STYLE
+            DefaultWorkoutDetailScreenM3(id = id!!, navHostController, paddingValues, appBarTitle)
+
         }
     }
 }

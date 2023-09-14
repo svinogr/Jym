@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle
+package info.upump.mycompose.ui.screens.viewmodel.cycle
 
 import android.content.Context
 import android.net.Uri
@@ -7,7 +7,7 @@ import androidx.core.net.toFile
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.CycleRepo
 import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.BaseVMWithStateLoad
+import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 // для списка всех cycles
-class CycleVM : BaseVMWithStateLoad() {
+class CycleVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad() {
     private val _cycleList = MutableStateFlow<List<Cycle>>(listOf())
     val cycleList: StateFlow<List<Cycle>> = _cycleList.asStateFlow()
     private val cycleRepo = CycleRepo.get()
@@ -38,6 +38,27 @@ class CycleVM : BaseVMWithStateLoad() {
                 Log.d("update","${list.size}")
                 _cycleList.update{ list}
                // _cycleList.value = it
+                _stateLoading.value = false
+            }
+        }
+    }
+
+    fun getAllDefault() {
+        Log.d("getAllPersonal", "getAllPersonal")
+        _stateLoading.value = true
+
+        viewModelScope.launch(
+            Dispatchers.IO
+        ) {
+            val listEn = cycleRepo.getAllFullEntityDefault()
+            listEn.map {
+                it.map { c ->
+                    Cycle.mapFullFromDbEntity(c)
+                }
+            }.collect {list ->
+                Log.d("update","${list.size}")
+                _cycleList.update{ list}
+                // _cycleList.value = it
                 _stateLoading.value = false
             }
         }

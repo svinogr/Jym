@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.workout
+package info.upump.mycompose.ui.screens.viewmodel.workout
 
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.ExerciseRepo
@@ -9,8 +9,8 @@ import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.models.entity.TypeMuscle
 import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.BaseVMWithStateLoad
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.WorkoutDetailVMInterface
+import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
+import info.upump.mycompose.ui.screens.viewmodel.WorkoutDetailVMInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +19,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
+class WorkoutDetailVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(),
+    info.upump.mycompose.ui.screens.viewmodel.WorkoutDetailVMInterface {
     private val workoutRepo = WorkoutRepo.get()
 
     private val _workout = MutableStateFlow(Workout())
@@ -125,7 +126,7 @@ class WorkoutDetailVM : BaseVMWithStateLoad(), WorkoutDetailVMInterface {
 
     companion object {
         val vmOnlyForPreview by lazy {
-            object : WorkoutDetailVMInterface {
+            object : info.upump.mycompose.ui.screens.viewmodel.WorkoutDetailVMInterface {
                 private val _workout = MutableStateFlow((Workout().apply {
                     id = 1
                     comment = "Предварительные выводы неутешительны: убеждённость некоторых оппонентов влечет за собой процесс внедрения и модернизации переосмысления внешнеэкономических политик. Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: консультация с широким активом способствует подготовке и реализации направлений прогрессивного развития. Также как перспективное планирование играет важную роль в формировании кластеризации усилий. Имеется спорная точка зрения, гласящая примерно следующее: активно развивающиеся страны третьего мира и по сей день остаются уделом либералов, которые жаждут быть функционально разнесены на независимые элементы."

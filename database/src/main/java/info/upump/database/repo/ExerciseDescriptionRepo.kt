@@ -45,6 +45,10 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
         TODO("Not yet implemented")
     }
 
+    override fun getAllFullEntityDefault(): Flow<List<ExerciseDescriptionEntity>> {
+        TODO("Not yet implemented")
+    }
+
     override fun delete(id: Long) {
         TODO("Not yet implemented")
     }

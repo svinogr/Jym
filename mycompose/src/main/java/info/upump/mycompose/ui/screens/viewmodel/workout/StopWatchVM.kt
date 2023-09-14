@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.workout
+package info.upump.mycompose.ui.screens.viewmodel.workout
 
 import android.os.Build
 import android.util.Log

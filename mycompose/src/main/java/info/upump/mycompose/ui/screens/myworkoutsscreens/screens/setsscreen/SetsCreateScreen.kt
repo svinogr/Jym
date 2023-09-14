@@ -26,10 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.sets.SetsVM
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.NumberPicker
 import info.upump.mycompose.ui.screens.screenscomponents.NumberPickerWithStep
+import info.upump.mycompose.ui.screens.viewmodel.sets.SetsVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

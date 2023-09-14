@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.screens.cyclescreens
+package info.upump.mycompose.ui.screens.defaultscreen.cyclescreen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
@@ -16,8 +16,6 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -28,31 +26,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
-import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
-import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListItemDefaultsWorkouts
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
+import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListWorkouts
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AlterCycleDetailScreenM3(
+fun DefaultCycleDetailScreenM3(
     id: Long,
     navHostController: NavHostController,
     paddingValues: PaddingValues,
@@ -66,7 +55,6 @@ fun AlterCycleDetailScreenM3(
     appBarTitle.value = cycleVM.title.collectAsState().value
 
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-    val snackBarHostState = remember { SnackbarHostState() }
 
     val list by remember {
         mutableStateOf(cycleVM.subItems)
@@ -90,29 +78,8 @@ fun AlterCycleDetailScreenM3(
             }
         }
     ) {
-        Scaffold(modifier = Modifier.padding(top = 0.dp),
-            floatingActionButton = {
-                FloatExtendedButtonWithState(
-                    stringResource(id = R.string.workout_dialog_create_new),
-                    listState.isScrollingUp(), R.drawable.ic_add_black_24dp
-                ) {
-                    navHostController.navigate(
-                        NavigationItem.CreateWorkoutNavigationItem.routeWith(
-                            id
-                        )
-                    )
-                }
-            },
-            snackbarHost = {
-                SnackbarHost(
-                    snackBarHostState
-                ) {
-                    SnackBar(stringResource(id = R.string.clean_cycle), R.drawable.ic_delete_24) {
-                        cycleVM.cleanItem()
-                    }
-                }
-            }
-
+        Scaffold(
+            modifier = Modifier.padding(top = 0.dp)
         ) {
             Column(
                 modifier = Modifier
@@ -126,24 +93,15 @@ fun AlterCycleDetailScreenM3(
                     )
 
                     RowChips(
-                        modifier = Modifier.align(Alignment.BottomCenter),
+                        modifier = Modifier.align(Alignment.BottomEnd),
+
                         Chips(
-                            stringResource(id = R.string.chips_clear),
-                            R.drawable.ic_delete_24,
+                            stringResource(id = R.string.chips_copy),
+                            R.drawable.ic_copy,
                         ) {
-                            coroutine.launch {
-                                snackBarHostState.showSnackbar("")
-                            }
-                        },
-                        Chips(
-                            stringResource(id = R.string.chips_edite),
-                            R.drawable.ic_edit_black_24dp,
-                        ) {
-                            navHostController.navigate(
-                                NavigationItem.CreateEditeCycleNavigationItem.routeWith(
-                                    id
-                                )
-                            )
+                            /* navHostController.navigate(
+                                 ""
+                             )*/
                         },
                         Chips(
                             stringResource(id = R.string.chips_comment),
@@ -162,29 +120,15 @@ fun AlterCycleDetailScreenM3(
                     false
                 )
 
-                val del: (Long) -> Unit = { cycleVM.deleteSubItem(it) }
-                ListWorkouts(
+                ListItemDefaultsWorkouts(
                     list = list.collectAsState().value,
-                    listState, navhost = navHostController,
+                    listState,
+                    navhost = navHostController,
                     Modifier.weight(4f),
-
-                    ) { id ->
-                    del(id)
-                }
+                )
             }
         }
     }
 }
 
 
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun AlterCycleDetailScreenPreview() {
-    val m: MutableState<String> =
-        MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
-    AlterCycleDetailScreenM3(
-        0L, NavHostController(LocalContext.current),
-        PaddingValues(),
-        m
-    )
-}

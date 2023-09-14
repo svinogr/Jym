@@ -32,7 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle.CycleDetailVM
+import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
@@ -54,7 +54,7 @@ fun AlterCycleDetailScreenM2(
     appBarTitle: MutableState<String>
 ) {
     val listState = rememberLazyListState()
-    val cycleVM: CycleDetailVM = viewModel()
+    val cycleVM: info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM = viewModel()
     val context = LocalContext.current
 
     val coroutine = rememberCoroutineScope()

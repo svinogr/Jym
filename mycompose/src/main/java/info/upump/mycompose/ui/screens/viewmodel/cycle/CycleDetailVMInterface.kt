@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle
+package info.upump.mycompose.ui.screens.viewmodel.cycle
 
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Workout

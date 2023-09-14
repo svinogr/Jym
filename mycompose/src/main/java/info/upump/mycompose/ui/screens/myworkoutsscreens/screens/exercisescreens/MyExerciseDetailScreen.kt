@@ -28,7 +28,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.exercise.ExerciseVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
@@ -37,6 +36,7 @@ import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListSets
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
 import info.upump.mycompose.ui.screens.screenscomponents.screen.TableHeader
+import info.upump.mycompose.ui.screens.viewmodel.exercise.ExerciseVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

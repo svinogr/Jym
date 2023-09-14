@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle.CycleDetailVM
+import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.BitmapCreator
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,8 +46,8 @@ fun ImageForDetailScreen(
 @Composable
 fun ImageForDetailScreenPreview() {
     ImageForDetailScreen(
-        image = CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
+        image = info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
         defaultImage =
-        CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value,
+        info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value,
     )
 }

@@ -33,23 +33,23 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.workout.WorkoutDetailVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
+import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
+import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
+import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
+import info.upump.mycompose.ui.screens.viewmodel.workout.WorkoutDetailVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AlterWorkoutDetailScreenM3(
+fun WorkoutDetailScreenM3(
     id: Long,
     navHostController: NavHostController,
     paddingValues: PaddingValues,
@@ -186,7 +186,7 @@ fun AlterWorkoutDetailScreenM3(
 fun AlterCycleDetailScreenPreview() {
     val m: MutableState<String> =
         MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
-    AlterWorkoutDetailScreenM3(
+    WorkoutDetailScreenM3(
         0L,
         NavHostController(LocalContext.current),
         PaddingValues(),

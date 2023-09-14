@@ -1,10 +1,10 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.sets
+package info.upump.mycompose.ui.screens.viewmodel.sets
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.SetsRepo
 import info.upump.mycompose.models.entity.Sets
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.BaseVMWithStateLoad
+import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SetsVM : BaseVMWithStateLoad(), SetsVMInterface {
+class SetsVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), SetsVMInterface {
     private val _sets = MutableStateFlow<Sets>(Sets())
     override val item: StateFlow<Sets> = _sets.asStateFlow()
 

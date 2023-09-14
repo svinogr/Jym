@@ -26,8 +26,8 @@ fun NavGraph(
     ) {
         myCycleGraph(navHostController, appBarTitle, appBarStyle,  context, paddingValues, topBarState, bottomBarState)
 
-        defaultCycleGraph(navHostController, appBarTitle, context, paddingValues, topBarState)
+        defaultCycleGraph(navHostController, appBarTitle,appBarStyle,  context, paddingValues, topBarState, bottomBarState)
 
-        profileNavGraph(navHostController, appBarTitle, context)
+        profileNavGraph(navHostController,appBarTitle,appBarStyle,  context, paddingValues, topBarState, bottomBarState)
     }
 }

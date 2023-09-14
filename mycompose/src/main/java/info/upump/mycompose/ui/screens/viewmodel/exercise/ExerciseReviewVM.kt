@@ -1,17 +1,17 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.exercise
+package info.upump.mycompose.ui.screens.viewmodel.exercise
 
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.ExerciseRepo
 import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.BaseVMWithStateLoad
+import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class ExerciseReviewVM : BaseVMWithStateLoad(), ExerciseReviewVMInterface {
+class ExerciseReviewVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), ExerciseReviewVMInterface {
     private val exerciseRepo = ExerciseRepo.get()
 
     private val _item = MutableStateFlow(Exercise().apply {

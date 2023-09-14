@@ -46,6 +46,10 @@ class SetsRepo private constructor(private var context: Context, db: RoomDB) :
         TODO("Not yet implemented")
     }
 
+    override fun getAllFullEntityDefault(): Flow<List<SetsEntity>> {
+        TODO("Not yet implemented")
+    }
+
     override fun delete(id: Long) {
         setsDao.deleteById(id)
     }

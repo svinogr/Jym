@@ -76,4 +76,8 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
     override fun getAllFullEntityPersonal(): Flow<List<ExerciseFullEntity>> {
         TODO("Not yet implemented")
     }
+
+    override fun getAllFullEntityDefault(): Flow<List<ExerciseFullEntity>> {
+        TODO("Not yet implemented")
+    }
 }

@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle.CycleDetailVM
+import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM
 
 @Composable
 fun ItemImage(
@@ -62,9 +62,9 @@ fun ItemImage(
 @Composable
 fun ItemImagePreview() {
     ItemImage(
-        image = CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
+        image = info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
         defaultImage =
-        CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value){}
+        info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value){}
 
 }
 

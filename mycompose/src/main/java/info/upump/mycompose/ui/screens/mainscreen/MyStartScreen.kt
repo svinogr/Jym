@@ -1,7 +1,6 @@
 package info.upump.mycompose.ui.screens.mainscreen
 
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.util.Log
@@ -28,17 +27,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle.CycleVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListCycle
+import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
-@SuppressLint("UnrememberedMutableState", "UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyCycleScreen(
     navHost: NavHostController,
@@ -65,7 +62,7 @@ fun MyCycleScreen(
             ) {
                  navHost.navigate(NavigationItem.CreateEditeCycleNavigationItem.routeWith(0))
             }
-        }, content = {
+        }, content = {it ->
             val del: (Context, String, Long) -> Unit = cycleVM::delete
             ListCycle(
                 lazyListState = listState,

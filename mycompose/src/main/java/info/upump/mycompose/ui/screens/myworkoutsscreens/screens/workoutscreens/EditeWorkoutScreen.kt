@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.workout.WorkoutVM
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardTitle
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
@@ -36,6 +35,7 @@ import info.upump.mycompose.ui.screens.screenscomponents.screen.CarDaydWorkoutEd
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescriptiondWithEdit
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.screen.LabelTitleForImage
+import info.upump.mycompose.ui.screens.viewmodel.workout.WorkoutVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -49,12 +49,6 @@ fun EditeWorkoutScreen(
 ) {
     val workoutVM: WorkoutVM = viewModel()
     val isLoad by workoutVM.isLoading.collectAsState()
-
-    val columnModifier = Modifier
-        .fillMaxHeight()
-        .fillMaxWidth()
-        .verticalScroll(rememberScrollState())
-        .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout))
 
     appBarTitle.value =  stringResource(id = R.string.edit)
 
@@ -78,7 +72,11 @@ fun EditeWorkoutScreen(
 
         }) { it ->
         Column(
-            modifier = columnModifier.padding(),
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
         ) {
             Box(
                 modifier = Modifier.weight(1.5f)

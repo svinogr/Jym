@@ -23,7 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle.CycleDetailVM
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -59,12 +60,21 @@ fun ListWorkouts(
                 },
                 dismissContent = {
                     Column(modifier = Modifier) {
-                        WorkoutItemCard(workout = it, navHost = navhost)
+                        val action: () -> Unit =
+                            {
+                                navhost.navigate(
+                                    NavigationItem.DetailWorkoutNavigationItem.routeWithId(
+                                        it.id
+                                    )
+                                )
+                            }
+
+                        WorkoutItemCard(workout = it, action)
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
             )
-            if (index < list.size -1) {
+            if (index < list.size - 1) {
                 DividerCustom()
             }
         }
@@ -77,7 +87,7 @@ fun ListWorkouts(
 fun ListWorkoutsPreview() {
     val nav = NavHostController(LocalContext.current)
     ListWorkouts(
-        CycleDetailVM.vmOnlyForPreview.subItems.collectAsState().value,
+        info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.subItems.collectAsState().value,
         LazyListState(),
         nav
     ) {}

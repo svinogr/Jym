@@ -26,12 +26,12 @@ import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.TypeMuscle
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.exercise.ExerciseChooseVM
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CheckChips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChooseChips
+import info.upump.mycompose.ui.screens.viewmodel.exercise.ExerciseChooseVM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

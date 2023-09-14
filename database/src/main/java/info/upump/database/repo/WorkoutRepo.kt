@@ -51,6 +51,10 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
         TODO("Not yet implemented")
     }
 
+    override fun getAllFullEntityDefault(): Flow<List<WorkoutFullEntity>> {
+        TODO("Not yet implemented")
+    }
+
     override fun update(item: WorkoutEntity): WorkoutEntity {
         TODO("Not yet implemented")
     }

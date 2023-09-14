@@ -59,6 +59,10 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
         return cycleDao.getAllPersonalCycles()
     }
 
+    override fun getAllFullEntityDefault(): Flow<List<CycleFullEntity>> {
+        return cycleDao.getAllTemplate()
+    }
+
     @Transaction
     override fun delete(id: Long) {
         cycleDao.delete(id)

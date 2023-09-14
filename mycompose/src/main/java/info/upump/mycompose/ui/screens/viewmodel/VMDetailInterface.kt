@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel
+package info.upump.mycompose.ui.screens.viewmodel
 
 /*
 interface VMDetailInterface<T, R> {
