@@ -1,8 +1,10 @@
 package info.upump.mycompose.ui.screens.navigation.botomnavigation
 
-import AlterWorkoutDetailScreenM3
+import WorkoutDetailScreenM3
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavGraphBuilder
@@ -28,6 +30,7 @@ import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens.
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.myCycleGraph(
     navHostController: NavHostController,
     appBarTitle: MutableState<String>,
@@ -61,7 +64,6 @@ fun NavGraphBuilder.myCycleGraph(
             val id = it.arguments?.getLong("id")
             topBarState.value = false
             bottomBarState.value = false
-            // MyCycleDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
             AlterCycleDetailScreenM3(
                 id = id!!,
                 navHostController = navHostController,
@@ -72,20 +74,6 @@ fun NavGraphBuilder.myCycleGraph(
 
         }
 
-        composable(
-            route = NavigationItem.DetailWorkoutNavigationItem.route,
-            arguments = listOf(navArgument("id") {
-                type = NavType.LongType
-            })
-        ) {
-            val id = it.arguments?.getLong("id")
-            //topBarState.value = false он уже должен был быть убран
-            Log.d("TAG", "id = $id")
-
-            appBarStyle.value = WHITE_STYLE
-            AlterWorkoutDetailScreenM3(id = id!!, navHostController, paddingValues, appBarTitle)
-
-        }
         // exercise start
         //exercise detail
         composable(
@@ -181,6 +169,24 @@ fun NavGraphBuilder.myCycleGraph(
 
                //   MySetsDetailScreen(id!!, navHostController, paddingValues, appBarTitle) //TODO
            }*/
+
+        // Workout start
+        // workout detail
+        composable(
+            route = NavigationItem.DetailWorkoutNavigationItem.route,
+            arguments = listOf(navArgument("id") {
+                type = NavType.LongType
+            })
+        ) {
+            val id = it.arguments?.getLong("id")
+            //topBarState.value = false он уже должен был быть убран
+            Log.d("TAG", "id = $id")
+
+            appBarStyle.value = WHITE_STYLE
+            WorkoutDetailScreenM3(id = id!!, navHostController, paddingValues, appBarTitle)
+
+        }
+
         composable(
             route = NavigationItem.CreateEditeCycleNavigationItem.route,
             arguments = listOf(navArgument("id") {

@@ -24,8 +24,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.cycle.CycleVM
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleVM
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -60,7 +61,8 @@ fun ListCycle(
                 },
                 dismissContent = {
                     Column(modifier = Modifier) {
-                        CycleItemCard(it, navhost)
+                        val action: ()->Unit = {navhost.navigate(NavigationItem.DetailCycleNavigationItem.routeWithId(it.id))}
+                        CycleItemCard(it, action)
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }

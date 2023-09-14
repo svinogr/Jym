@@ -40,15 +40,15 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 @Composable
 fun CycleItemCard(
     cycle: Cycle,
-    navHost: NavHostController,
+    action: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-      Card(
+    Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(0.dp)
             .clickable {
-                navHost.navigate(NavigationItem.DetailCycleNavigationItem.routeWithId(cycle.id))
+                action()
             },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
@@ -56,7 +56,7 @@ fun CycleItemCard(
         ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.background( colorResource(id = R.color.colorBackgroundCardView))
+            modifier = Modifier.background(colorResource(id = R.color.colorBackgroundCardView))
 
         ) {
 
@@ -70,7 +70,7 @@ fun CycleItemCard(
                 ItemImage(
                     image = cycle.image,
                     defaultImage = cycle.imageDefault
-                ){}
+                ) {}
 
             }
             Column(
@@ -87,14 +87,6 @@ fun CycleItemCard(
                     modifier = modifier.fillMaxWidth()
                 )
 
-           /*     if (!cycle.isDefaultType) {
-                    Divider(
-                        modifier = Modifier
-                            .height(1.dp).padding(end = 8.dp)
-                            .background(Color.Black)
-                    )
-                }
-*/
                 if (!cycle.isDefaultType) {
                     Box(
                         modifier = modifierCol
@@ -122,7 +114,7 @@ fun PreviewCycleItemCard() {
         imageDefault = ""
         image = ""
     }
-    CycleItemCard(c, NavHostController(LocalContext.current))
+    CycleItemCard(c, ::println)
 }
 
 @RequiresApi(Build.VERSION_CODES.P)
@@ -134,7 +126,7 @@ fun PreviewCycleItemCard2() {
         imageDefault = ""
         image = ""
     }
-    CycleItemCard(c, NavHostController(LocalContext.current))
+    CycleItemCard(c, ::println)
 }
 
 @RequiresApi(Build.VERSION_CODES.P)
@@ -147,5 +139,5 @@ fun PreviewCycleItemCard3() {
         imageDefault = "plint1"
         image = ""
     }
-    CycleItemCard(c, NavHostController(LocalContext.current))
+    CycleItemCard(c, ::println)
 }

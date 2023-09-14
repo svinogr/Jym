@@ -39,7 +39,11 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 
 
 @Composable
-fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modifier = Modifier) {
+fun WorkoutItemCard(
+    workout: Workout,
+    action: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val context = LocalContext.current
     SideEffect {
         Log.d("recom", "$workout")
@@ -48,7 +52,7 @@ fun WorkoutItemCard(workout: Workout, navHost: NavHostController, modifier: Modi
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-                navHost.navigate(NavigationItem.DetailWorkoutNavigationItem.routeWithId(workout.id))
+                action()
             },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
@@ -104,6 +108,6 @@ fun PreviewWorkoutCard() {
         isTemplate = false, day = Day.FRIDAY, exercises = listOf()
     ).apply { title = "Новая" }
     val context = LocalContext.current
-    WorkoutItemCard(workout = workout, navHost = NavHostController(context))
+    WorkoutItemCard(workout = workout, ::println)
 }
 

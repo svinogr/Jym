@@ -37,15 +37,14 @@ import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.models.entity.TypeMuscle
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.workout.StopWatchVM
-import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.workout.WorkoutDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListWorkoutForReview
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.StopWatch
-import info.upump.mycompose.ui.screens.screenscomponents.screen.StopWatchState
+import info.upump.mycompose.ui.screens.viewmodel.workout.StopWatchVM
+import info.upump.mycompose.ui.screens.viewmodel.workout.WorkoutDetailVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
