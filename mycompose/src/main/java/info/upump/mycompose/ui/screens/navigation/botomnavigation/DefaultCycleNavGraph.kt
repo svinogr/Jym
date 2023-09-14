@@ -45,6 +45,5 @@ fun NavGraphBuilder.defaultCycleGraph(
             topBarState.value = false
             appBarTitle.value = context.resources.getString(NavigationItem.DefaultCycleNavigationItem.title)
         }
-
     }
 }

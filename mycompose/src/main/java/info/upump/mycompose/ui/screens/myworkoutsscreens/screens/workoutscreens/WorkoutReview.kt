@@ -1,5 +1,7 @@
 package info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -34,6 +37,7 @@ import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.models.entity.TypeMuscle
+import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.workout.StopWatchVM
 import info.upump.mycompose.ui.screens.myworkoutsscreens.viewmodel.workout.WorkoutDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListWorkoutForReview
@@ -46,6 +50,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WorkoutReview(
@@ -55,12 +60,31 @@ fun WorkoutReview(
     appBarTitle: MutableState<String>
 ) {
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-    val snackBarHostState = remember { SnackbarHostState() }
 
     val workoutVM: WorkoutDetailVM = viewModel()
-    val exersise by remember {
+    val stopwatchVM: StopWatchVM = viewModel()
+
+    val workout by remember {
+        mutableStateOf(workoutVM.item)
+    }
+
+    val exercise by remember {
         mutableStateOf(workoutVM.subItems)
     }
+
+    val status by remember {
+        mutableStateOf(stopwatchVM.status)
+    }
+    val time by remember {
+        mutableStateOf(stopwatchVM.formatedTime)
+    }
+
+    val coroutine = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = true){
+        workoutVM.getBy(id)
+    }
+
     ModalBottomSheetLayout(
         sheetState = bottomState,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -70,7 +94,7 @@ fun WorkoutReview(
                     .fillMaxWidth()
                     .height(300.dp)
             ) {
-
+                BottomSheet(text = workoutVM.comment.collectAsState().value)
             }
         }
     ) {
@@ -78,15 +102,44 @@ fun WorkoutReview(
             modifier = Modifier.padding(top = 0.dp)
 
         ) { it ->
-            Column {
-                ImageByDay(day = workoutVM.day.collectAsState().value)
-                ListWorkoutForReview(exersise.collectAsState().value)
+            Column(
+                modifier = Modifier
+                    .padding(top = it.calculateTopPadding())
+            ) {
+                Box(modifier = Modifier.weight(1.5f)) {
+                    ImageByDay(day = workoutVM.item.collectAsState().value.day)
+                    RowChips(
+                        modifier = Modifier.align(Alignment.BottomEnd),
+                        Chips(
+                            stringResource(id = R.string.chips_comment),
+                            R.drawable.ic_info_black_24dp,
+                        ) {
+                            coroutine.launch() {
+                                bottomState.show()
+                            }
+                        }
+                    )
+                }
+                ListWorkoutForReview(
+                    exercise.collectAsState().value,
+                    modifier = Modifier.weight(4f)
+                )
+                Divider(
+                    thickness = 1.dp, modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                )
+                StopWatch(
+                    time.collectAsState().value,
+                    status.collectAsState().value,
+                    start = stopwatchVM::start,
+                    stop = stopwatchVM::stop,
+                    pause = stopwatchVM::pause,
+                    resume = stopwatchVM::resume
+                )
             }
-
-
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
@@ -140,7 +193,24 @@ fun WorkoutReviewPreview() {
             isDefaultType = true
             isTemplate = true
             setsList = mutableListOf(
-                Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets()
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets()
             )
             descriptionId = 3
             exerciseDescription = ExerciseDescription().apply {
@@ -163,7 +233,7 @@ fun WorkoutReviewPreview() {
                     .fillMaxWidth()
                     .height(300.dp)
             ) {
-              BottomSheet(text = workout.value.comment)
+                BottomSheet(text = workout.value.comment)
             }
         }
     ) {
@@ -174,7 +244,6 @@ fun WorkoutReviewPreview() {
             Column(
                 modifier = Modifier
                     .padding(top = it.calculateTopPadding())
-
             ) {
                 Box(modifier = Modifier.weight(1.5f)) {
                     ImageByDay(day = workout.value.day)
@@ -191,12 +260,13 @@ fun WorkoutReviewPreview() {
                     )
                 }
                 ListWorkoutForReview(list, modifier = Modifier.weight(4f))
-                Divider(thickness = 1.dp, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp))
-                StopWatch(hour = 10, minute = 10, second = 20, stopwatchState = StopWatchState.RESUME)
+                Divider(
+                    thickness = 1.dp, modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                )
+
             }
         }
     }
-
 }

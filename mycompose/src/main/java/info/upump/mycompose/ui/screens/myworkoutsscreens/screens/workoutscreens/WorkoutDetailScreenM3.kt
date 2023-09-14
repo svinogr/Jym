@@ -140,7 +140,7 @@ fun AlterWorkoutDetailScreenM3(
                             R.drawable.ic_yey
                         ) {
                             coroutine.launch() {
-                                bottomState.show()
+                               navHostController.navigate(NavigationItem.ReviewWorkoutNavigationItem.routeWith(id))
                             }
                         },
                         Chips(

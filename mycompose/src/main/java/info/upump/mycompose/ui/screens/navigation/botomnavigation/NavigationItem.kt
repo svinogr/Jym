@@ -15,6 +15,7 @@ const val CYCLE_DETAIL_ROUTE = "cycleDetail"
 
 const val DEFAULT_WORKOUT_DETAIL_ROUTE = "defaultWorkoutDetail"
 const val WORKOUT_DETAIL_ROUTE = "workoutDetail"
+const val WORKOUT_REVIEW_ROUTE = "workoutReview"
 const val EXERCISE_DETAIL_ROUTE = "exerciseDetail"
 const val EXERCISE_REVIEW_ROUTE = "exerciseReview"
 const val SETS_DETAIL_ROUTE = "setsDetail"
@@ -118,7 +119,7 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
     }
 
 
-    // WOrkout start
+    // Workouts start
     // workout экран деталей
     object DetailWorkoutNavigationItem : NavigationItem(
         route = "$WORKOUT_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
@@ -144,6 +145,18 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
     // редактирование тренировки
     object EditeWorkoutNavigationItem : NavigationItem(
         route = "$WORKOUT_EDITE_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
+    ) {
+        fun routeWith(id: Long): String {
+            return this.route.replace(
+                oldValue = DETAIL_ARGUMENT_KEY_ID,
+                newValue = id.toString()
+            )
+        }
+    }
+
+    //обзор тренировки с секундомером
+    object ReviewWorkoutNavigationItem : NavigationItem(
+        route = "$WORKOUT_REVIEW_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
     ) {
         fun routeWith(id: Long): String {
             return this.route.replace(

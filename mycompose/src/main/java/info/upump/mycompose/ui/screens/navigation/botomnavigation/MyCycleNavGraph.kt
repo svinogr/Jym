@@ -24,6 +24,7 @@ import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.exercisescreens
 import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.setsscreen.SetEditeScreen
 import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens.CreateWorkoutScreen
 import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens.EditeWorkoutScreen
+import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens.WorkoutReview
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
 
@@ -227,4 +228,16 @@ fun NavGraphBuilder.myCycleGraph(
             EditeWorkoutScreen(id!!, navHostController, paddingValues, appBarTitle)
         }
     }
+    composable(
+        route = NavigationItem.ReviewWorkoutNavigationItem.route,
+        arguments = listOf(navArgument("id") {
+            type = NavType.LongType
+        }),
+    ) {
+        //topBarState.value = false он уже должен был быть убран
+        val id = it.arguments?.getLong("id")
+        appBarStyle.value = WHITE_STYLE
+        WorkoutReview(id!!, navHostController, paddingValues, appBarTitle)
+    }
 }
+

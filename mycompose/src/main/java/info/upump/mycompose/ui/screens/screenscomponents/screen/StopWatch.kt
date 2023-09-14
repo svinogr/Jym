@@ -28,11 +28,13 @@ enum class StopWatchState {
 
 @Composable
 fun StopWatch(
-    hour: Int,
-    minute: Int,
-    second: Int,
+    time: String,
     stopwatchState: StopWatchState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    stop: () -> Unit,
+    start: () -> Unit,
+    pause: () -> Unit,
+    resume: () -> Unit,
 ) {
     Card(
         modifier = modifier
@@ -49,35 +51,14 @@ fun StopWatch(
             Row(modifier = Modifier.align(CenterHorizontally)) {
                 Text(
                     style = MyTextTitleLabel20,
-                    text = hour.toString(),
+                    text = time,
                     modifier = Modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 )
-                Text(
-                    text = ":", modifier = Modifier
-                        .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
-                        .align(CenterVertically)
-                )
-                Text(
-                    style = MyTextTitleLabel20,
-                    text = minute.toString(),
-                    modifier = Modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
-                )
-                Text(
-                    text = ":", modifier = Modifier
-                        .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
-                        .align(CenterVertically)
-                )
-                Text(
-                    style = MyTextTitleLabel20,
-                    text = second.toString(),
-                    modifier = Modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
-                )
-
             }
             Row {
                 if (stopwatchState == StopWatchState.STOP) {
                     OutlinedButton(
-                        onClick = {},
+                        onClick = {start()},
                         modifier
                             .fillMaxWidth()
                             .padding(8.dp)
@@ -88,7 +69,7 @@ fun StopWatch(
 
                 if (stopwatchState == StopWatchState.PAUSE) {
                     OutlinedButton(
-                        onClick = {},
+                        onClick = {stop()},
                         modifier
                             .fillMaxWidth()
                             .padding(8.dp)
@@ -97,19 +78,19 @@ fun StopWatch(
                         Text(style = MyTextTitleLabel16, text = "stop", modifier = Modifier)
                     }
                     OutlinedButton(
-                        onClick = {},
+                        onClick = {resume()},
                         modifier
                             .fillMaxWidth()
                             .padding(8.dp)
                             .weight(1f)
                     ) {
-                        Text(style = MyTextTitleLabel16, text = "start", modifier = Modifier)
+                        Text(style = MyTextTitleLabel16, text = "continue", modifier = Modifier)
                     }
                 }
 
                 if (stopwatchState == StopWatchState.RESUME) {
                     OutlinedButton(
-                        onClick = {},
+                        onClick = {stop()},
                         modifier
                             .fillMaxWidth()
                             .padding(8.dp)
@@ -118,7 +99,7 @@ fun StopWatch(
                         Text(style = MyTextTitleLabel16, text = "stop", modifier = Modifier)
                     }
                     OutlinedButton(
-                        onClick = {},
+                        onClick = {pause()},
                         modifier
                             .fillMaxWidth()
                             .padding(8.dp)
@@ -136,17 +117,17 @@ fun StopWatch(
 @Preview(showBackground = true)
 @Composable
 fun StopWatchStopPreview() {
-    StopWatch(10, 2, 30, StopWatchState.STOP)
+    StopWatch(time = "00:00:00", StopWatchState.STOP, start = ::println, stop = ::println, pause = ::println, resume = ::println)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun StopWatchPausePreview() {
-    StopWatch(10, 2, 30, StopWatchState.PAUSE)
+    StopWatch("00:00:00", StopWatchState.PAUSE, start = ::println, stop = ::println, pause = ::println, resume = ::println)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun StopWatchResumePreview() {
-    StopWatch(10, 2, 30, StopWatchState.RESUME)
+    StopWatch("00:00:00", StopWatchState.RESUME, start = ::println, stop = ::println, pause = ::println, resume = ::println)
 }
