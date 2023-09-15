@@ -109,9 +109,11 @@ class SetsVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), 
                 weightPast = this@SetsVM._weightPast.value
             }
             val setsRepo = SetsRepo.get()
-            var q = 1
+
             if (quantity.value != 0) {
-                setsRepo.save(Sets.mapToEntity(sets))
+                for (i in 0..<quantity.value) {
+                    setsRepo.save(Sets.mapToEntity(sets))
+                }
             } else {
                 setsRepo.update(Sets.mapToEntity(sets))
             }

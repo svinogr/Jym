@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.myworkoutsscreens.screens.setsscreen
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -110,6 +111,7 @@ fun SetsCreateScreen(
                 Column(modifier = colModifier.fillMaxHeight()) {
                     Text(modifier = titleModifier, text = stringResource(id = R.string.label_sets))
                     NumberPicker(0, 200, setVM.quantity.collectAsState().value) {
+                       Log.d("q", it.toString())
                         setVM.updateQuantity(it)
                     }
                 }
