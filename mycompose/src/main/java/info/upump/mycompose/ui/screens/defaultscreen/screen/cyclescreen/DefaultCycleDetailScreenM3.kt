@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.defaultscreen.cyclescreen
+package info.upump.mycompose.ui.screens.defaultscreen.screen.cyclescreen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box

@@ -20,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Sets
+import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.SetsItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -54,7 +56,9 @@ fun ListSets(
                 },
                 dismissContent = {
                     Column(modifier = Modifier) {
-                        SetsItemCard(it, navHost, index)
+                        SetsItemCard(it, index){
+                            navHost.navigate(NavigationItem.EditSetsNavigationItem.routeWithId(it.id))
+                        }
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
@@ -62,6 +66,9 @@ fun ListSets(
             if (index < list.size - 1) {
                 DividerCustom()
             }
+        }
+        item(){
+            EmptyItem()
         }
     }
 }

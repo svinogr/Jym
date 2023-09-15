@@ -1,11 +1,9 @@
-package info.upump.mycompose.ui.screens.screenscomponents.itemcard
+package info.upump.mycompose.ui.screens.screenscomponents.itemcard.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.Card
@@ -28,15 +26,15 @@ import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 @Composable
 fun SetsItemCard(
     sets: Sets,
-    navHost: NavHostController,
     number: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    action: () -> Unit
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-                navHost.navigate(NavigationItem.EditSetsNavigationItem.routeWithId(sets.id))
+                action()
             },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
@@ -96,7 +94,9 @@ fun PreviewSetItemCard() {
     val set = Sets(weight = 20.0, reps = 5, weightPast = 18.0)
     set.id = 1
 
-    SetsItemCard(sets = set, navHost = NavHostController(LocalContext.current), number = 1)
+    SetsItemCard(sets = set, number = 1) {
+        println()
+    }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -105,5 +105,5 @@ fun PreviewSetItemCard2() {
     val set = Sets(weight = 20.0, reps = 5, weightPast = 18.0)
     set.id = 1
 
-    SetsItemCard(sets = set, navHost = NavHostController(LocalContext.current), number = 1)
+    SetsItemCard(sets = set, number = 1) { println() }
 }

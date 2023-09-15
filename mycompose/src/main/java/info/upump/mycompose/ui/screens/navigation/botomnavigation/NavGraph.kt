@@ -1,5 +1,7 @@
 package info.upump.mycompose.ui.screens.navigation.botomnavigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -9,6 +11,7 @@ import androidx.navigation.compose.NavHost
 
 const val NAVGRAPH_ROOT_ROUTE = "navgraphRootRoute"
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavGraph(
     navHostController: NavHostController,

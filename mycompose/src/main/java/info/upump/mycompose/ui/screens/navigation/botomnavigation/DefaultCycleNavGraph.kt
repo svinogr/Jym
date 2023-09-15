@@ -14,7 +14,8 @@ import androidx.navigation.navigation
 import info.upump.mycompose.ui.screens.mainscreen.DEFAULT_STYLE
 import info.upump.mycompose.ui.screens.mainscreen.DefaultStartScreen
 import info.upump.mycompose.ui.screens.mainscreen.WHITE_STYLE
-import info.upump.mycompose.ui.screens.defaultscreen.cyclescreen.DefaultCycleDetailScreenM3
+import info.upump.mycompose.ui.screens.defaultscreen.screen.cyclescreen.DefaultCycleDetailScreenM3
+import info.upump.mycompose.ui.screens.defaultscreen.screen.exercise.DefaultExerciseDetailScreen
 
 const val DEFAULT_CYCLE_ROOT_ROUTE = "default_cycle_root_route"
 
@@ -71,6 +72,21 @@ fun NavGraphBuilder.defaultCycleGraph(
 
             appBarStyle.value = WHITE_STYLE
             DefaultWorkoutDetailScreenM3(id = id!!, navHostController, paddingValues, appBarTitle)
+
+        }
+
+        composable(
+            route = NavigationItem.DefaultDetailExerciseNavigationItem.route,
+            arguments = listOf(navArgument("id") {
+                type = NavType.LongType
+            })
+        ) {
+            val id = it.arguments?.getLong("id")
+            //topBarState.value = false он уже должен был быть убран
+            Log.d("TAG", "id = $id")
+
+            appBarStyle.value = WHITE_STYLE
+            DefaultExerciseDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
 
         }
     }

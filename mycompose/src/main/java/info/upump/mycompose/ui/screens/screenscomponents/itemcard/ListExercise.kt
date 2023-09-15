@@ -25,6 +25,7 @@ import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.ExerciseItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
 import info.upump.mycompose.ui.screens.viewmodel.workout.WorkoutDetailVM
 
@@ -76,6 +77,10 @@ fun ListExercise(
             if (index < list.size - 1) {
                 DividerCustom()
             }
+
+        }
+        item() {
+            EmptyItem()
         }
     }
 }

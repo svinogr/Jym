@@ -3,7 +3,6 @@ package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,6 +24,7 @@ import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.models.entity.TypeMuscle
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.SetsItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.screen.TableHeader
 import info.upump.mycompose.ui.theme.MyTextTitleLabel20
 
@@ -54,7 +54,9 @@ fun ListWorkoutForReview(list: List<Exercise>, modifier: Modifier = Modifier) {
                     ) {
                         Text(
                             text = title,
-                            modifier = Modifier.fillMaxWidth().padding(start = 8.dp, bottom = 8.dp, end = 8.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 8.dp, bottom = 8.dp, end = 8.dp),
                             style = MyTextTitleLabel20,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
@@ -66,9 +68,8 @@ fun ListWorkoutForReview(list: List<Exercise>, modifier: Modifier = Modifier) {
                     item.setsList.forEachIndexed() { index, it ->
                         SetsItemCard(
                             sets = it,
-                            navHost = NavHostController(LocalContext.current),
                             number = index
-                        )
+                        ) {}
                     }
                 }
             }
@@ -122,7 +123,24 @@ fun ListWorkoutForReviewPreview() {
             isDefaultType = true
             isTemplate = true
             setsList = mutableListOf(
-                Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets(), Sets()
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets(),
+                Sets()
             )
             descriptionId = 3
             exerciseDescription = ExerciseDescription().apply {

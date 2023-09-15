@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.itemcard
+package info.upump.mycompose.ui.screens.screenscomponents.itemcard.item
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -28,6 +28,7 @@ import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ItemImage
 import info.upump.mycompose.ui.theme.MyTextLabel12
 import info.upump.mycompose.ui.theme.MyTextTitleLabel16
 

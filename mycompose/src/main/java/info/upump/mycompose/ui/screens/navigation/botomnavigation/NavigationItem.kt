@@ -12,13 +12,13 @@ const val MY_SET_ROUTE = "mySetRoute"
 
 const val DEFAULT_CYCLE_DETAIL_ROUTE = "defaultCycleDetail"
 const val WORKOUT_DEFAULT_DETAIL_ROUTE = "defaultWorkoutDetail"
+const val DEFAULT_EXERCISE_DETAIL_ROUTE = "defaultExerciseDetail"
 
 const val CYCLE_DETAIL_ROUTE = "cycleDetail"
 const val WORKOUT_DETAIL_ROUTE = "workoutDetail"
 const val WORKOUT_REVIEW_ROUTE = "workoutReview"
 const val EXERCISE_DETAIL_ROUTE = "exerciseDetail"
 const val EXERCISE_REVIEW_ROUTE = "exerciseReview"
-const val SETS_DETAIL_ROUTE = "setsDetail"
 const val DETAIL_ARGUMENT_KEY_ID = "{id}"
 const val DETAIL_ARGUMENT_KEY_PARENT_ID = "{parentId}"
 const val EXERCISE_CREATE_ROUTE = "exerciseChoose"
@@ -28,10 +28,6 @@ const val WORKOUT_CREATE_ROUTE = "workoutCreate"
 const val WORKOUT_EDITE_ROUTE = "workoutEdit"
 const val SETS_CREATE_ROUTE = "setsCreate"
 const val SETS_EDITE_ROUTE = "setsEdite"
-
-
-const val DEFAULT_EXERCISE_ROUTE = "defaultExerciseRoute"
-const val DEFAULT_SET_ROUTE = "defaultSetRoute"
 
 const val PROFILE_SETTING_ROUTE = "myWorkoutRoute"
 
@@ -43,7 +39,8 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
         MY_START_CYCLE_ROUTE,
         R.drawable.my_cycle,
     )
-// default cycle screen
+
+    // default cycle screen
     object DefaultCycleNavigationItem : NavigationItem(
         R.string.title_of_defaultcycle_screen,
         DEFAULT_START_CYCLE_ROUTE,
@@ -69,6 +66,14 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
 
     object DefaultDetailWorkoutNavigationItem : NavigationItem(
         route = "$WORKOUT_DEFAULT_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
+    ) {
+        fun routeWithId(id: Long): String {
+            return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
+        }
+    }
+
+    object DefaultDetailExerciseNavigationItem : NavigationItem(
+        route = "$DEFAULT_EXERCISE_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
     ) {
         fun routeWithId(id: Long): String {
             return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
@@ -137,7 +142,6 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
             return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
         }
     }
-
 
 
     // переход на экран создания workout с id родителя

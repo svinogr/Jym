@@ -35,6 +35,7 @@ import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
 import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListDefaultExercise
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
@@ -121,7 +122,7 @@ fun DefaultWorkoutDetailScreenM3(
                     false
                 )
                 val del: (Long) -> Unit = { workoutVM.deleteSub(it) }
-                ListExercise(
+                ListDefaultExercise(
                     list = exercisesList.value.collectAsState().value,
                     listState, navHost = navHostController,
                     Modifier.weight(4f),
