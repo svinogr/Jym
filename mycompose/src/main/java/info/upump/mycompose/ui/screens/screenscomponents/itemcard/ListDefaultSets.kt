@@ -20,6 +20,7 @@ import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.SetsItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustomDef
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -41,7 +42,7 @@ fun ListDefaultSets(
                 SetsItemCard(it, index) {}
             }
             if (index < list.size - 1) {
-                DividerCustom()
+                DividerCustomDef()
             }
         }
     }

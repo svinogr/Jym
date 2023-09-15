@@ -27,6 +27,7 @@ import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.ExerciseItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustomDef
 import info.upump.mycompose.ui.screens.viewmodel.workout.WorkoutDetailVM
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -56,7 +57,7 @@ fun ListDefaultExercise(
                 }
             }
             if (index < list.size - 1) {
-                DividerCustom()
+                DividerCustomDef()
             }
         }
     }

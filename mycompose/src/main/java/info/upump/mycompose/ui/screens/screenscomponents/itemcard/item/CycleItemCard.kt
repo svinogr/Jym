@@ -51,7 +51,6 @@ fun CycleItemCard(
 
         ) {
 
-            //  bitmap = image.value.asImageBitmap(),
             Box(
                 modifier = Modifier
                     .padding(8.dp)

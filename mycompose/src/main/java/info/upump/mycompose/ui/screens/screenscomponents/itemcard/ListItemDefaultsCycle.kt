@@ -17,6 +17,7 @@ import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.CycleItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustomDef
 
 @Composable
 fun ListItemDefaultsCycle(
@@ -39,7 +40,7 @@ fun ListItemDefaultsCycle(
                 CycleItemCard(it, action)
             }
             if (index < list.size - 1) {
-                DividerCustom()
+                DividerCustomDef()
             }
         }
     }

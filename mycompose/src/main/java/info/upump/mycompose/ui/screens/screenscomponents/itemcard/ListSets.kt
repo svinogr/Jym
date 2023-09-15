@@ -60,12 +60,12 @@ fun ListSets(
                             navHost.navigate(NavigationItem.EditSetsNavigationItem.routeWithId(it.id))
                         }
                     }
+                    if (index < list.size - 1) {
+                        DividerCustom(dismissState)
+                    }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
             )
-            if (index < list.size - 1) {
-                DividerCustom()
-            }
         }
         item(){
             EmptyItem()

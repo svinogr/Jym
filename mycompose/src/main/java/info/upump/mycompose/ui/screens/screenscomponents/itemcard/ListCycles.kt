@@ -3,6 +3,7 @@ package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,6 +28,7 @@ import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.CycleItemCard
 import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom2
 import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleVM
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -62,15 +64,24 @@ fun ListCycle(
                 },
                 dismissContent = {
                     Column(modifier = Modifier) {
+                  /*      if (index != 0) {
+                            DividerCustom()
+                        }*/
+                 /*       if (dismissState.dismissDirection == DismissDirection.EndToStart ||
+                            dismissState.dismissDirection == DismissDirection.StartToEnd) {
+                            DividerCustom2(dismissState)
+                        }*/
+
                         val action: ()->Unit = {navhost.navigate(NavigationItem.DetailCycleNavigationItem.routeWithId(it.id))}
                         CycleItemCard(it, action)
+                        if (index < list.size - 1) {
+                            DividerCustom(dismissState)
+                        }
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
             )
-            if (index < list.size - 1) {
-                DividerCustom()
-            }
+
         }
         item(){
             EmptyItem()

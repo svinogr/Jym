@@ -59,25 +59,6 @@ class SetsVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), 
         TODO("Not yet implemented")
     }
 
-    /*    override fun getByParent(id: Long) {
-            _stateLoading.value = true
-            viewModelScope.launch(Dispatchers.IO) {
-                val setsRepo = SetsRepo.get()
-                setsRepo.getAllFullEntityByParent(id).map { entity ->
-                    Sets.mapFromDbEntity(entity)
-
-                }.collect() { sets ->
-                    _sets.update { sets }
-                    _id.update { sets.id }
-                    _weight.update { sets.weight }
-                    _reps.update { sets.reps }
-                    _weightPast.update { sets.weightPast }
-                }
-
-                _stateLoading.value = false
-            }
-        }*/
-
     override fun getBy(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             val setsRepo = SetsRepo.get()
@@ -109,9 +90,11 @@ class SetsVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), 
                 weightPast = this@SetsVM._weightPast.value
             }
             val setsRepo = SetsRepo.get()
-            var q = 1
+
             if (quantity.value != 0) {
-                setsRepo.save(Sets.mapToEntity(sets))
+                for (i in 0..<quantity.value) {
+                    setsRepo.save(Sets.mapToEntity(sets))
+                }
             } else {
                 setsRepo.update(Sets.mapToEntity(sets))
             }

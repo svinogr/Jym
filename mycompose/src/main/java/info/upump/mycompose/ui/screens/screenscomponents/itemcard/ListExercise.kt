@@ -70,14 +70,13 @@ fun ListExercise(
                                 )
                             )
                         }
+                        if (index < list.size - 1) {
+                            DividerCustom(dismissState)
+                        }
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
             )
-            if (index < list.size - 1) {
-                DividerCustom()
-            }
-
         }
         item() {
             EmptyItem()
