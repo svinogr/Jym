@@ -98,7 +98,7 @@ fun DividerCustomDef(modifier: Modifier = Modifier) {
             color = colorResource(id = R.color.colorBackgroundChips),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 8.dp)
+                .padding(start = 64.dp, end = 8.dp)
         )
 
     }
