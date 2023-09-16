@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -17,6 +18,8 @@ import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -50,6 +53,9 @@ fun ListExercise(
             EmptyItem(size = 2.dp)
         }
         itemsIndexed(list, key = { index, item -> item.id }) { index, it ->
+            val state = remember {
+                mutableStateOf(false)
+            }
             val dismissState = rememberDismissState(confirmStateChange = { value ->
                 if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
                     Log.d("exe", "ListExercise: ${it.exerciseDescription!!.title}")
@@ -63,18 +69,19 @@ fun ListExercise(
                 state = dismissState,
                 directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
                 background = {
-                    ItemSwipeBackgroundOneIcon(dismissState = dismissState)
+                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state.value)
                 },
                 dismissContent = {
                     Column(modifier = Modifier) {
                         ExerciseItemCard(exercise = it, navHost = navHost) {
+                            state.value = true
                             navHost.navigate(
                                 NavigationItem.DetailExerciseNavigationItem.routeWithId(
                                     it
                                 )
                             )
                         }
-                            DividerCustom(dismissState)
+                            DividerCustom(dismissState, state = state.value)
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }

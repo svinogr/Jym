@@ -16,6 +16,8 @@ import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -50,8 +52,10 @@ fun ListCycle(
         item() {
             EmptyItem(size = 2.dp)
         }
-
         itemsIndexed(list, key = { index, item -> item.id }) { index, it ->
+            val state = remember {
+                mutableStateOf(false)
+            }
             val dismissState = rememberDismissState(confirmStateChange = { value ->
                 if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
                     deleteAction(context, it.image, it.id)
@@ -62,17 +66,20 @@ fun ListCycle(
                 state = dismissState,
                 directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
                 background = {
-                    ItemSwipeBackgroundOneIcon(dismissState = dismissState)
+
+                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state = state.value)
                 },
                 dismissContent = {
+
                     Column(modifier = Modifier) {
                         val action: () -> Unit = {
+                            state.value = true
                             navhost.navigate(
                                 NavigationItem.DetailCycleNavigationItem.routeWithId(it.id)
                             )
                         }
                         CycleItemCard(it, action)
-                        DividerCustom(dismissState)
+                        DividerCustom(dismissState, state = state.value)
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
@@ -85,31 +92,82 @@ fun ListCycle(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Preview
 @Composable
 fun ComPreview() {
-    val vm: CycleVM = viewModel()
-    val del: (Context, String, Long) -> Unit = vm::delete
-    ListCycle(
-        lazyListState = rememberLazyListState(), navhost = NavHostController(
-            LocalContext.current
-        ), list = listOf(
-            Cycle().apply {
-                title = "Program1"
-                image = ""
-                imageDefault = "uk1"
-            },
-            Cycle().apply {
-                title = "Program2"
-                image = ""
-                imageDefault = "uk2"
-            },
-            Cycle().apply {
-                title = "Program3"
-                image = ""
-                imageDefault = "uk1"
-            }
+ //   val vm: CycleVM = viewModel()
+ //   val del: (Context, String, Long) -> Unit = vm::delete
+    val list = listOf(
+        Cycle().apply {
+            id = 1
+            title = "Program1"
+            image = ""
+            imageDefault = "uk1"
+        },
+        Cycle().apply {
+            id = 13
+            title = "Program2"
+            image = ""
+            imageDefault = "uk2"
+        },
+        Cycle().apply {
+            id = 15
+            title = "Program3"
+            image = ""
+            imageDefault = "uk1"
+        }
 
-        ), deleteAction = del
     )
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .background(colorResource(R.color.colorBackgroundCardView)),
+        state = LazyListState()
+    ) {
+        item() {
+            EmptyItem(size = 2.dp)
+        }
+        itemsIndexed(list, key = { index, item -> item.id }) { index, it ->
+            val state = remember {
+                mutableStateOf(false)
+            }
+            val dismissState = rememberDismissState(confirmStateChange = { value ->
+                if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
+                    // deleteAction(context, it.image, it.id)
+                }
+                true
+            })
+            SwipeToDismiss(
+                state = dismissState,
+                directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
+                background = {
+
+                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state = state.value)
+                },
+                dismissContent = {
+
+                    Column(modifier = Modifier) {
+                        val action: () -> Unit = {
+                            state.value = true
+                            /*  navhost.navigate(
+                                  NavigationItem . DetailCycleNavigationItem . routeWithId (it.id)
+                              )*/
+                        }
+                        CycleItemCard(it, action)
+                        DividerCustom(dismissState, state = state.value)
+                    }
+                },
+                dismissThresholds = { FractionalThreshold(0.5f) }
+            )
+        }
+
+        item() {
+            EmptyItem()
+        }
+    }
+
+
 }

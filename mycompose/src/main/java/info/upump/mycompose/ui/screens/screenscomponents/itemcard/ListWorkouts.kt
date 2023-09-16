@@ -16,6 +16,8 @@ import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -48,6 +50,9 @@ fun ListWorkouts(
             EmptyItem(size = 2.dp)
         }
         itemsIndexed(list, key = { index, item -> item.id }) { index, it ->
+            val state = remember {
+                mutableStateOf(false)
+            }
             val dismissState = rememberDismissState(confirmStateChange = { value ->
                 if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
                     deleteAction(it.id)
@@ -60,12 +65,12 @@ fun ListWorkouts(
                 state = dismissState,
                 directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
                 background = {
-                    ItemSwipeBackgroundOneIcon(dismissState = dismissState)
+                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state.value)
                 },
                 dismissContent = {
                     Column(modifier = Modifier) {
                         val action: () -> Unit =
-                            {
+                            {state.value = true
                                 navhost.navigate(
                                     NavigationItem.DetailWorkoutNavigationItem.routeWithId(
                                         it.id
@@ -74,7 +79,7 @@ fun ListWorkouts(
                             }
 
                         WorkoutItemCard(workout = it, action)
-                        DividerCustom(dismissState)
+                        DividerCustom(dismissState, state = state.value)
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }
