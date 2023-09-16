@@ -37,7 +37,9 @@ fun ListWorkoutForReview(list: List<Exercise>, modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .background(colorResource(R.color.colorBackgroundCardView))
         ) {
-
+            item() {
+                EmptyItem(size = 2.dp)
+            }
             list.groupBy { it.exerciseDescription!!.title }.forEach { title, list ->
 
                 stickyHeader {

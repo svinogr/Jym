@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Sets
@@ -38,7 +39,9 @@ fun ListSets(
             .fillMaxWidth()
             .background(colorResource(R.color.colorBackgroundCardView)),
         state = listState
-    ) {
+    ) {  item() {
+        EmptyItem(size = 2.dp)
+    }
         itemsIndexed(list,  key = { index, item -> item.id }) { index, it ->
             val dismissState = rememberDismissState(confirmStateChange = {value ->
                 if(value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
@@ -59,8 +62,6 @@ fun ListSets(
                         SetsItemCard(it, index){
                             navHost.navigate(NavigationItem.EditSetsNavigationItem.routeWithId(it.id))
                         }
-                    }
-                    if (index < list.size - 1) {
                         DividerCustom(dismissState)
                     }
                 },

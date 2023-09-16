@@ -4,11 +4,11 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.DismissDirection
@@ -16,6 +16,7 @@ import androidx.compose.material.DismissState
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -32,9 +33,6 @@ import info.upump.mycompose.R
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ItemSwipeBackgroundOneIcon(dismissState: DismissState, modifier: Modifier = Modifier) {
-    val alignment = remember {
-        mutableStateOf(Arrangement.End)
-    }
     val color = animateColorAsState(
         targetValue =
         when (dismissState.targetValue) {
@@ -44,36 +42,63 @@ fun ItemSwipeBackgroundOneIcon(dismissState: DismissState, modifier: Modifier = 
         animationSpec = tween(1000, easing = LinearEasing),
         label = ""
     )
-    Row(
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight()
             .background(color.value)
             .padding(0.dp, 0.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = alignment.value
     ) {
+        val isVisibleTopDivider = remember {
+            mutableStateOf(false)
+        }
+
+        val alignment = remember {
+            mutableStateOf(Alignment.CenterStart)
+        }
+        val padding = remember {
+            mutableStateOf(PaddingValues(start = 12.dp))
+        }
+
         val direction = dismissState.dismissDirection
+        when (direction) {
+            DismissDirection.StartToEnd -> {
+                alignment.value = Alignment.CenterStart
+                isVisibleTopDivider.value = true
+                padding.value = PaddingValues(start = 12.dp)
+            }
 
-        if (direction == DismissDirection.StartToEnd) {
-            alignment.value = Arrangement.Start
-            Icon(
-                painter = painterResource(id = R.drawable.ic_delete_24),
-                " ",
-                Modifier
-                    .size(AssistChipDefaults.Height)
+            DismissDirection.EndToStart -> {
+                alignment.value = Alignment.CenterEnd
+                isVisibleTopDivider.value = true
+                padding.value = PaddingValues(end = 12.dp)
+            }
 
-            )
+            else -> isVisibleTopDivider.value = false
         }
 
-        if (direction == DismissDirection.EndToStart) {
-            alignment.value = Arrangement.End
-            Icon(
-                painter = painterResource(id = R.drawable.ic_delete_24),
-                " ",
-                Modifier
-                    .size(AssistChipDefaults.Height)
-            )
-        }
+        if (isVisibleTopDivider.value) Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .offset(y = (-1).dp),
+            thickness = 1.dp,
+            color = colorResource(id = R.color.colorBackgroundChips)
+        )
+
+        if (!isVisibleTopDivider.value) Divider(
+            modifier = Modifier
+                .fillMaxWidth().align(Alignment.BottomEnd),
+            thickness = 1.dp,
+            color = colorResource(id = R.color.colorBackgroundCardView)
+        )
+
+        Icon(
+            painter = painterResource(id = R.drawable.ic_delete_24),
+            " ",
+            Modifier
+                .padding(padding.value)
+                .size(AssistChipDefaults.Height)
+                .align(alignment.value)
+        )
     }
 }

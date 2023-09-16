@@ -1,7 +1,6 @@
 package info.upump.mycompose.ui.screens.screenscomponents.itemcard
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,13 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Cycle
 
 @Composable
-fun EmptyItem(
-    modifier: Modifier = Modifier
+fun EmptyItem(size: Dp = 50.dp,
+              modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
@@ -41,8 +40,8 @@ fun EmptyItem(
             Box(
                 modifier = Modifier
                     .padding(8.dp)
-                    .height(50.dp)
-                    .width(50.dp)
+                    .height(size)
+                    .width(size)
             ) {
 
             }

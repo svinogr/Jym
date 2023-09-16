@@ -11,6 +11,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Workout
@@ -33,7 +34,9 @@ fun ListItemDefaultsWorkouts(
             .fillMaxHeight()
             .background(colorResource(R.color.colorBackgroundCardView)),
         state = lazyListState
-    ) {
+    ) {  item() {
+        EmptyItem(size = 2.dp)
+    }
         itemsIndexed(list, key = { index, item -> item.id }) { index, it ->
 
             Column(modifier = Modifier) {
@@ -43,9 +46,7 @@ fun ListItemDefaultsWorkouts(
                     }
                 WorkoutItemCard(workout = it, action )
             }
-            if (index < list.size - 1) {
                 DividerCustomDef()
-            }
         }
     }
 }

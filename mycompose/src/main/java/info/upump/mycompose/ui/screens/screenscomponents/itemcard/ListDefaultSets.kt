@@ -15,6 +15,7 @@ import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Sets
@@ -36,14 +37,14 @@ fun ListDefaultSets(
             .fillMaxWidth()
             .background(colorResource(R.color.colorBackgroundCardView)),
         state = listState
-    ) {
+    ) {  item() {
+        EmptyItem(size = 2.dp)
+    }
         itemsIndexed(list, key = { index, item -> item.id }) { index, it ->
             Column(modifier = Modifier) {
                 SetsItemCard(it, index) {}
             }
-            if (index < list.size - 1) {
                 DividerCustomDef()
-            }
         }
     }
 }

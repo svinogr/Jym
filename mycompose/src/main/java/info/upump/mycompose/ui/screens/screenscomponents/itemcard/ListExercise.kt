@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.models.entity.Exercise
@@ -45,6 +46,9 @@ fun ListExercise(
             .background(colorResource(R.color.colorBackgroundCardView)),
         state = lazyListState
     ) {
+        item() {
+            EmptyItem(size = 2.dp)
+        }
         itemsIndexed(list, key = { index, item -> item.id }) { index, it ->
             val dismissState = rememberDismissState(confirmStateChange = { value ->
                 if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
@@ -70,9 +74,7 @@ fun ListExercise(
                                 )
                             )
                         }
-                        if (index < list.size - 1) {
                             DividerCustom(dismissState)
-                        }
                     }
                 },
                 dismissThresholds = { FractionalThreshold(0.5f) }

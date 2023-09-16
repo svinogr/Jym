@@ -1,5 +1,8 @@
 package info.upump.mycompose.ui.screens.screenscomponents.screen
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,6 +15,8 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -21,10 +26,22 @@ import info.upump.mycompose.R
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DividerCustom(dismiseState: DismissState, modifier: Modifier = Modifier) {
-    Row(modifier = modifier.fillMaxWidth()) {
+fun DividerCustom(dismissState: DismissState, modifier: Modifier = Modifier) {
+    val direction = dismissState.dismissDirection
+    val color = remember {
+        mutableStateOf(R.color.colorBackgroundCardView)
+    }
+
+    if (direction == DismissDirection.StartToEnd ||
+        direction == DismissDirection.EndToStart
+    ) {
+        color.value = R.color.colorBackgroundChips
+    } else {
+        color.value = R.color.colorBackgroundCardView
+    }
+    Row(modifier = modifier) {
         Divider(
-            color = colorResource(id = R.color.colorBackgroundCardView),
+            color = colorResource(id = color.value),
             modifier = Modifier
                 .width(64.dp)
                 .height(1.dp)
@@ -32,34 +49,14 @@ fun DividerCustom(dismiseState: DismissState, modifier: Modifier = Modifier) {
         Divider(
             color = colorResource(id = R.color.colorBackgroundChips),
             modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .padding(end = 8.dp)
+               .fillMaxWidth().padding(end = 8.dp)
+                .height(1.dp),
         )
+
+
     }
 }
 
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun DividerCustom2(dismiseState: DismissState, modifier: Modifier = Modifier) {
-    Row(modifier = modifier.fillMaxWidth()) {
-
-        if (dismiseState.dismissDirection == DismissDirection.EndToStart ||
-            dismiseState.dismissDirection == DismissDirection.StartToEnd
-        ) {
-
-        /*    Divider(
-                thickness = 0.5.dp,
-                color = colorResource(id = R.color.colorBackgroundChips),
-                modifier = Modifier
-                    .width(64.dp)
-                    //   .fillMaxWidth()
-                    .offset(y = (-0.5).dp)
-            )*/
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Preview(showBackground = true, showSystemUi = true)
@@ -75,9 +72,9 @@ fun DividerPreview() {
     DividerCustom(dismissState)
 }
 
-@Preview(showBackground = true )
+@Preview(showBackground = true)
 @Composable
-fun klkl(){
+fun klkl() {
     Divider(
         //    color = colorResource(id = R.color.colorBackgroundChips),
         color = Color.Red,
@@ -93,7 +90,7 @@ fun klkl(){
 fun DividerCustomDef(modifier: Modifier = Modifier) {
     Row(modifier = modifier.fillMaxWidth()) {
 
-             Divider(
+        Divider(
             thickness = 1.dp,
             color = colorResource(id = R.color.colorBackgroundChips),
             modifier = Modifier
