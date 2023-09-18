@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,6 +26,8 @@ import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.Sets
 import info.upump.mycompose.models.entity.TypeMuscle
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.SetsItemCard
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustomBottom
 import info.upump.mycompose.ui.screens.screenscomponents.screen.TableHeader
 import info.upump.mycompose.ui.theme.MyTextTitleLabel20
 
@@ -37,9 +40,6 @@ fun ListWorkoutForReview(list: List<Exercise>, modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .background(colorResource(R.color.colorBackgroundCardView))
         ) {
-            item() {
-                EmptyItem(size = 2.dp)
-            }
             list.groupBy { it.exerciseDescription!!.title }.forEach { title, list ->
 
                 stickyHeader {
@@ -68,10 +68,13 @@ fun ListWorkoutForReview(list: List<Exercise>, modifier: Modifier = Modifier) {
                 }
                 itemsIndexed(list, key = { index, item -> item.id }) { index, item ->
                     item.setsList.forEachIndexed() { index, it ->
-                        SetsItemCard(
-                            sets = it,
-                            number = index
-                        ) {}
+                        Column {
+                            SetsItemCard(
+                                sets = it,
+                                number = index
+                            ) {}
+                           DividerCustomBottom()
+                        }
                     }
                 }
             }
