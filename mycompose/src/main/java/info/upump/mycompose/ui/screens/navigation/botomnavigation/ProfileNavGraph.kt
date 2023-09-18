@@ -25,7 +25,7 @@ fun NavGraphBuilder.profileNavGraph(
         route = PROFILE_ROOT_ROUT
     ) {
         composable(route = NavigationItem.ProfileNavigationItem.route) {
-            ProfileScreen(navHostController)
+            ProfileScreen(navHostController, paddingValues)
             appBarTitle.value =
             context.resources.getString(NavigationItem.ProfileNavigationItem.title)
 

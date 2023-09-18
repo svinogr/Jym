@@ -19,6 +19,16 @@
         android:roundIcon="@drawable/logo_upump_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name=".utils.DBProvider"
+            android:authorities="info.upump.jym"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/xmlpath" />
+        </provider>
+
         <activity
             android:name=".MainActivityCompose"
             android:exported="false"
