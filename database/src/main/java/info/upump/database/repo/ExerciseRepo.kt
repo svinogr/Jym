@@ -8,7 +8,7 @@ import info.upump.database.entities.ExerciseEntity
 import info.upump.database.entities.ExerciseFullEntity
 import kotlinx.coroutines.flow.Flow
 
-class ExerciseRepo private constructor(private val context: Context, db: RoomDB) :
+class ExerciseRepo private constructor(db: RoomDB) :
     RepoActionsSpecific<ExerciseEntity, ExerciseFullEntity> {
     private val exerciseDao = db.exerciseDao()
     private val setsRepo = SetsRepo.get()
@@ -16,10 +16,10 @@ class ExerciseRepo private constructor(private val context: Context, db: RoomDB)
     companion object {
         private var instance: ExerciseRepo? = null
 
-        fun initialize(context: Context, db: RoomDB) {
-            if (instance == null) {
-                instance = ExerciseRepo(context, db)
-            }
+        fun initialize(db: RoomDB) {
+
+                instance = ExerciseRepo(db)
+
         }
 
         fun get(): RepoActionsSpecific<ExerciseEntity, ExerciseFullEntity> {

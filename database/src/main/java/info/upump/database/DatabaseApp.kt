@@ -12,74 +12,45 @@ import info.upump.database.repo.WorkoutRepo
 
 import java.io.File
 
-class DatabaseApp (val context: Context) {
-
+open class DatabaseApp (val context: Context) {
     companion object {
         lateinit var db: RoomDB
 
-        fun initilizeDb(context: Context) {
+        fun initilizeDb(context: Context, name: String, path: String, isRestoring: Boolean = false ) {
 
 
-            val file = File(RoomDB.DB_PATH)
+         //   val file = File(RoomDB.DB_PATH)
+            if(isRestoring){
+                val file = File("$path/$name")
+                Log.d("jhj", "initilizeDb: ${file.usableSpace} ${file.path} ")
+                db =   Room
+                    .databaseBuilder(context, RoomDB::class.java, name)
+                    .createFromFile(file)
+                    .build()
+            }else{
+                val file = File(path)
+                Log.d("jhj", "initilizeDb: ${file.path}")
+                db = if (!file.exists()) {
 
-            if (!file.exists()) {
-                Log.d("DatabaseApp", "file isnt exist")
+                    Log.d("DatabaseApp", "file isnt exist")
 
-                db =
-                    Room.databaseBuilder(context, RoomDB::class.java, RoomDB.BASE_NAME)
-                        .createFromAsset(RoomDB.BASE_NAME)
+                    Room.databaseBuilder(context, RoomDB::class.java, name)
+                        .createFromAsset(name)
                         .build()
-            } else {
-                db =
-                    Room.databaseBuilder(context, RoomDB::class.java, RoomDB.BASE_NAME)
+                } else {
+                    Room.databaseBuilder(context, RoomDB::class.java, name)
                         .build()
+                }
             }
 
 
-            SetsRepo.initialize(context, db)
-            ExerciseRepo.initialize(context, db)
-            WorkoutRepo.initialize(context, db)
-            CycleRepo.initialize(context, db)
-            ExerciseDescriptionRepo.initialize(context, db)
+
+
+            SetsRepo.initialize(db)
+            ExerciseRepo.initialize(db)
+            WorkoutRepo.initialize(db)
+            CycleRepo.initialize(db)
+            ExerciseDescriptionRepo.initialize(db)
         }
     }
 }
-
-/*
-        private fun initializeDb(context: Context) : RoomDB {
-            val file = File(RoomDB.DB_PATH)
-            var db: RoomDB? = null
-
-            if (!file.exists()) {
-                Log.d("DatabaseApp", "file isnt exist")
-
-                db =
-                    Room.databaseBuilder(context, RoomDB::class.java, RoomDB.BASE_NAME)
-                        .createFromAsset(RoomDB.BASE_NAME)
-                        .build()
-            } else {
-                db =
-                    Room.databaseBuilder(context, RoomDB::class.java, RoomDB.BASE_NAME)
-                        .build()
-            }
-            return db!!
-
-        }
-
-
-
-    }
-
-     init{
-        Log.d("initialize db", "initialize db")
-        initializeDb()
-        WorkoutRepo.initialize(context, db)
-        CycleRepo.initialize(context,db)
-        ExerciseRepo.initialize(context, db)
-        ExerciseDescriptionRepo.initialize(context, db)
-        SetsRepo.initialize(context,db)
-    }
-*/
-
-
-//}

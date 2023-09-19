@@ -9,7 +9,7 @@ import info.upump.database.entities.CycleEntity
 import info.upump.database.entities.CycleFullEntity
 import kotlinx.coroutines.flow.Flow
 
-class CycleRepo private constructor(private val context: Context, db: RoomDB) :
+class CycleRepo private constructor(db: RoomDB) :
     RepoActionsSpecific<CycleEntity, CycleFullEntity> {
     private val cycleDao = db.cycleDao()
     private val workoutRepo = WorkoutRepo.get()
@@ -17,10 +17,8 @@ class CycleRepo private constructor(private val context: Context, db: RoomDB) :
     companion object {
         private var instance: CycleRepo? = null
 
-        fun initialize(context: Context, db: RoomDB) {
-            if (instance == null) {
-                instance = CycleRepo(context, db)
-            }
+        fun initialize(db: RoomDB) {
+                instance = CycleRepo(db)
         }
 
         fun get(): RepoActionsSpecific<CycleEntity, CycleFullEntity> {

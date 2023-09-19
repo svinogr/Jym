@@ -46,7 +46,6 @@ fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -
     ) {
 
         if (it == null) return@rememberLauncherForActivityResult
-        Log.d("pers ", "$it.")
         val name = context.packageName
         context.grantUriPermission(name, it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
         updateImage(it.toString())
@@ -70,10 +69,7 @@ fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -
         image = image,
         defaultImage = defaultImage,
         modifier = Modifier.clickable {
-            //     launcher.launch(
             permissionState.launchPermissionRequest()
-
-            //    )
         }
     )
 }

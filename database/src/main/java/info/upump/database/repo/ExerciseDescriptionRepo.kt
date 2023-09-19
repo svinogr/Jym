@@ -7,18 +7,17 @@ import info.upump.database.RoomDB
 import info.upump.database.entities.ExerciseDescriptionEntity
 import kotlinx.coroutines.flow.Flow
 
-class ExerciseDescriptionRepo private constructor(private val context: Context, db: RoomDB):
+class ExerciseDescriptionRepo private constructor(db: RoomDB) :
     RepoActionsSpecific<ExerciseDescriptionEntity, ExerciseDescriptionEntity> {
-    private val exerciseDescriptionDao =  db.exerciseDescriptionDao()
+    private val exerciseDescriptionDao = db.exerciseDescriptionDao()
 
     companion object {
         private var instance: ExerciseDescriptionRepo? = null
 
-        fun initialize(context: Context, db: RoomDB) {
-            if (instance == null) {
-                instance = ExerciseDescriptionRepo(context, db)
-            }
+        fun initialize(db: RoomDB) {
+            instance = ExerciseDescriptionRepo(db)
         }
+
         fun get(): RepoActions<ExerciseDescriptionEntity> {
             return instance ?: throw IllegalStateException(" first need initialize repo")
         }
@@ -67,7 +66,7 @@ class ExerciseDescriptionRepo private constructor(private val context: Context, 
     }
 
     fun getByParent(id: Long): ExerciseDescriptionEntity {
-         TODO("Not yet implemented")
+        TODO("Not yet implemented")
     }
 
     override fun save(item: ExerciseDescriptionEntity): ExerciseDescriptionEntity {

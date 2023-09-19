@@ -10,7 +10,7 @@ import info.upump.database.entities.WorkoutEntity
 import info.upump.database.entities.WorkoutFullEntity
 import kotlinx.coroutines.flow.Flow
 
-class WorkoutRepo(private val context: Context, db: RoomDB) :
+class WorkoutRepo private constructor(db: RoomDB) :
     RepoActionsSpecific<WorkoutEntity, WorkoutFullEntity> {
     private val workoutDao = db.workoutDao()
     private val exerciseRepo = ExerciseRepo.get()
@@ -19,10 +19,8 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
         @SuppressLint("StaticFieldLeak")
         private var instance: WorkoutRepo? = null
 
-        fun initialize(context: Context, db: RoomDB) {
-            if (instance == null) {
-                instance = WorkoutRepo(context, db)
-            }
+        fun initialize( db: RoomDB) {
+            instance = WorkoutRepo(db)
         }
 
         fun get(): RepoActionsSpecific<WorkoutEntity, WorkoutFullEntity> {
@@ -34,18 +32,22 @@ class WorkoutRepo(private val context: Context, db: RoomDB) :
     override fun getFullEntityBy(id: Long): Flow<WorkoutFullEntity> {
         return workoutDao.getById(id)
     }
+
     @Transaction
     override fun getAllFullEntityByParent(parentId: Long): Flow<List<WorkoutFullEntity>> {
         return workoutDao.getAllByParent(parentId)
     }
+
     @Transaction
     override fun getAllFullEntity(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")
     }
+
     @Transaction
     override fun getAllFullEntityTemplate(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")
     }
+
     @Transaction
     override fun getAllFullEntityPersonal(): Flow<List<WorkoutFullEntity>> {
         TODO("Not yet implemented")

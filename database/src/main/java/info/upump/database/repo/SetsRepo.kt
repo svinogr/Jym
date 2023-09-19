@@ -8,17 +8,16 @@ import info.upump.database.RoomDB
 import info.upump.database.entities.SetsEntity
 import kotlinx.coroutines.flow.Flow
 
-class SetsRepo private constructor(private var context: Context, db: RoomDB) :
+class SetsRepo private constructor(db: RoomDB) :
     RepoActionsSpecific<SetsEntity, SetsEntity> {
     private val setsDao = DatabaseApp.db.setsDao()
 
     companion object {
         private var instance: SetsRepo? = null
 
-        fun initialize(context: Context, db: RoomDB) {
-            if (instance == null) {
-                instance = SetsRepo(context, db)
-            }
+        fun initialize(db: RoomDB) {
+            instance = SetsRepo(db)
+
         }
 
         fun get(): RepoActionsSpecific<SetsEntity, SetsEntity> {
