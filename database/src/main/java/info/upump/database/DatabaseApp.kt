@@ -26,6 +26,7 @@ open class DatabaseApp (val context: Context) {
                 db =   Room
                     .databaseBuilder(context, RoomDB::class.java, name)
                     .createFromFile(file)
+                    .addMigrations(RoomDB.MIGRATION_1to2)
                     .build()
             }else{
                 val file = File(path)
@@ -35,15 +36,15 @@ open class DatabaseApp (val context: Context) {
                     Log.d("DatabaseApp", "file isnt exist")
 
                     Room.databaseBuilder(context, RoomDB::class.java, name)
+                        .addMigrations(RoomDB.MIGRATION_1to2)
                         .createFromAsset(name)
                         .build()
                 } else {
                     Room.databaseBuilder(context, RoomDB::class.java, name)
+                        .addMigrations(RoomDB.MIGRATION_1to2)
                         .build()
                 }
             }
-
-
 
 
             SetsRepo.initialize(db)
