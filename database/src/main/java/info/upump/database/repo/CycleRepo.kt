@@ -1,16 +1,16 @@
 package info.upump.database.repo
 
-import android.content.Context
 import android.util.Log
 import androidx.room.Transaction
 import info.upump.database.RepoActionsSpecific
 import info.upump.database.RoomDB
 import info.upump.database.entities.CycleEntity
 import info.upump.database.entities.CycleFullEntity
+import info.upump.database.entities.CycleFullEntityWithWorkouts
 import kotlinx.coroutines.flow.Flow
 
 class CycleRepo private constructor(db: RoomDB) :
-    RepoActionsSpecific<CycleEntity, CycleFullEntity> {
+    RepoActionsSpecific<CycleEntity, CycleFullEntityWithWorkouts> {
     private val cycleDao = db.cycleDao()
     private val workoutRepo = WorkoutRepo.get()
 
@@ -21,25 +21,25 @@ class CycleRepo private constructor(db: RoomDB) :
                 instance = CycleRepo(db)
         }
 
-        fun get(): RepoActionsSpecific<CycleEntity, CycleFullEntity> {
+        fun get(): RepoActionsSpecific<CycleEntity, CycleFullEntityWithWorkouts> {
             return instance ?: throw IllegalStateException("first need initialize repo")
         }
     }
 
-    override fun getFullEntityBy(id: Long): Flow<CycleFullEntity> {
+    override fun getFullEntityBy(id: Long): Flow<CycleFullEntityWithWorkouts> {
         return cycleDao.getFullBy(id)
     }
 
-    override fun getAllFullEntity(): Flow<List<CycleFullEntity>> {
+    override fun getAllFullEntity(): Flow<List<CycleFullEntityWithWorkouts>> {
         TODO("Not yet implemented")
     }
 
-    override fun getAllFullEntityByParent(id: Long): Flow<List<CycleFullEntity>> {
+    override fun getAllFullEntityByParent(id: Long): Flow<List<CycleFullEntityWithWorkouts>> {
         TODO("Not yet implemented")
     }
 
 
-    override fun getAllFullEntityTemplate(): Flow<List<CycleFullEntity>> {
+    override fun getAllFullEntityTemplate(): Flow<List<CycleFullEntityWithWorkouts>> {
         return cycleDao.getAllTemplate()
     }
 
@@ -53,11 +53,15 @@ class CycleRepo private constructor(db: RoomDB) :
         return item
     }
 
-    override fun getAllFullEntityPersonal(): Flow<List<CycleFullEntity>> {
+    override fun getAllFullEntityPersonal(): Flow<List<CycleFullEntityWithWorkouts>> {
         return cycleDao.getAllPersonalCycles()
     }
 
-    override fun getAllFullEntityDefault(): Flow<List<CycleFullEntity>> {
+     fun getAllFullestEntityPersonal(): Flow<List<CycleFullEntity>> {
+        return cycleDao.getAllFullPersonalCycles()
+    }
+
+    override fun getAllFullEntityDefault(): Flow<List<CycleFullEntityWithWorkouts>> {
         return cycleDao.getAllTemplate()
     }
 

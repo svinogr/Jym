@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 
 
-data class CycleFullEntity(
+data class CycleFullEntityWithWorkouts(
     @Embedded
     var cycleEntity: CycleEntity,
     @Relation(parentColumn = "_id", entityColumn = "parent_id", entity = WorkoutEntity::class)
@@ -12,6 +12,13 @@ data class CycleFullEntity(
 ) {
     constructor() : this(CycleEntity(), listOf())
 }
+
+data class  CycleFullEntity(
+    @Embedded
+    var cycleEntity: CycleEntity,
+    @Relation(parentColumn = "_id", entityColumn = "parent_id", entity = WorkoutEntity::class)
+    var listWorkoutEntity: List<WorkoutFullEntity>
+)
 
 
 

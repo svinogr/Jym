@@ -9,5 +9,4 @@ interface RepoActionsSpecific<T, R> : RepoActions<T> {
     fun getAllFullEntityTemplate(): Flow<List<R>>
     fun getAllFullEntityPersonal(): Flow<List<R>>
     fun getAllFullEntityDefault(): Flow<List<R>>
-
 }

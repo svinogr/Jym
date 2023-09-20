@@ -1,7 +1,7 @@
 package info.upump.mycompose.models.entity
 
 import info.upump.database.entities.CycleEntity
-import info.upump.database.entities.CycleFullEntity
+import info.upump.database.entities.CycleFullEntityWithWorkouts
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -99,7 +99,7 @@ class Cycle(
             }
         }
 
-        fun mapFullFromDbEntity(entity: CycleFullEntity): Cycle {
+        fun mapFullFromDbEntity(entity: CycleFullEntityWithWorkouts): Cycle {
             val listEntityWorkout = entity.listWorkoutEntity
             val listWorkout = mutableListOf<Workout>()
 

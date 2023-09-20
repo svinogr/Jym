@@ -4,14 +4,13 @@ import androidx.lifecycle.viewModelScope
 import info.upump.database.RepoActions
 import info.upump.database.RepoActionsSpecific
 import info.upump.database.entities.CycleEntity
-import info.upump.database.entities.CycleFullEntity
+import info.upump.database.entities.CycleFullEntityWithWorkouts
 import info.upump.database.entities.WorkoutEntity
 import info.upump.database.repo.CycleRepo
 import info.upump.database.repo.WorkoutRepo
 import info.upump.mycompose.models.entity.Cycle
 import info.upump.mycompose.models.entity.Day
 import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +22,7 @@ import kotlinx.coroutines.launch
 class CycleDetailVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(),
     info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVMInterface {
     private val workoutRepo: RepoActions<WorkoutEntity> = WorkoutRepo.get()
-    private val cycleRepo: RepoActionsSpecific<CycleEntity, CycleFullEntity> = CycleRepo.get()
+    private val cycleRepo: RepoActionsSpecific<CycleEntity, CycleFullEntityWithWorkouts> = CycleRepo.get()
 
     private var _cycle = MutableStateFlow(Cycle())
     override val item: StateFlow<Cycle> = _cycle.asStateFlow()

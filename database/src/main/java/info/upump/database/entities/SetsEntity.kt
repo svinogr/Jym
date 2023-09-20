@@ -27,6 +27,6 @@ data class SetsEntity(
     var parent_id: Long? = 0,
 
     @ColumnInfo
-    var past_set: Double = 0.0)
+    var past_set: Double ? = 0.0)
 
 
