@@ -1,22 +1,18 @@
 package info.upump.mycompose.ui.screens.viewmodel.workout
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import info.upump.mycompose.ui.screens.screenscomponents.screen.StopWatchState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.newCoroutineContext
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId

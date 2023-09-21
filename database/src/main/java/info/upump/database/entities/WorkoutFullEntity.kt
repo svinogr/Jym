@@ -11,6 +11,11 @@ data class WorkoutFullEntity(
     )
     var listExerciseEntity: List<ExerciseFullEntity>
 ) {
+
     constructor() : this(WorkoutEntity(), listOf())
+
+    override fun toString(): String {
+        return "WorkoutFullEntity(workoutEntity=$workoutEntity, listExerciseEntity=$listExerciseEntity)"
+    }
 }
 

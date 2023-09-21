@@ -57,59 +57,16 @@ class DBRestoreBackup() {
                         true
                     )
 
-                    val repo = CycleRepo.get() as CycleRepo
-                    val list = repo.getAllFullestEntityPersonal()
-                    list.onEach {
-                        Log.d("jhj", it.size.toString())
-                        prepareForWriteInDb(it)
-
-                    }.collect() {
-                        println("-------- -------- --------")
+                    val repoForRestore = CycleRepo.get() as CycleRepo
+                    repoForRestore.getAllFullestEntityPersonal().collect{list ->
                         DatabaseApp.initilizeDb(context, RoomDB.BASE_NAME, RoomDB.DB_PATH)
+
+                        val repo = CycleRepo.get() as CycleRepo
+                        repo.saveFullEntitiesOnlyFromOtherDB(list)
                     }
                 }
             }
         }
     }
 
-    private suspend fun prepareForWriteInDb(list: List<CycleFullEntity>): List<CycleFullEntity> {
-        val listForDbWrite = mutableListOf<Deferred<CycleFullEntity>>()
-        coroutineScope {
-
-            for (cycle in list) {
-                Log.d("prepareForWriteInDb", "-cycle")
-
-                async {
-                    cycle.cycleEntity._id = 0
-
-                    for (workout in cycle.listWorkoutEntity) {
-                        Log.d("prepareForWriteInDb", "--workout")
-
-                        async {
-                            workout.workoutEntity._id = 0
-
-                            for (exercise in workout.listExerciseEntity) {
-                                Log.d("prepareForWriteInDb", "---esercise")
-
-                                async {
-
-                                    exercise.exerciseEntity._id = 0
-
-                                    for(set in exercise.listSetsEntity){
-                                      Log.d("prepareForWriteInDb", "----set")
-                                        async {
-                                            set._id = 0
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return listForDbWrite.awaitAll()
-    }
 }

@@ -18,7 +18,7 @@ class ExerciseRepo private constructor(db: RoomDB) :
 
         fun initialize(db: RoomDB) {
 
-                instance = ExerciseRepo(db)
+            instance = ExerciseRepo(db)
 
         }
 
@@ -56,7 +56,10 @@ class ExerciseRepo private constructor(db: RoomDB) :
     }
 
     override fun save(item: ExerciseEntity): ExerciseEntity {
-        TODO("Not yet implemented")
+        val id = exerciseDao.save(item)
+        item._id = id
+
+        return item
     }
 
     override fun getFullEntityBy(id: Long): Flow<ExerciseFullEntity> {

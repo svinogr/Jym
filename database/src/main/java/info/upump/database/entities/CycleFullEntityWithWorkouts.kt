@@ -10,7 +10,12 @@ data class CycleFullEntityWithWorkouts(
     @Relation(parentColumn = "_id", entityColumn = "parent_id", entity = WorkoutEntity::class)
     var listWorkoutEntity: List<WorkoutEntity>
 ) {
+
     constructor() : this(CycleEntity(), listOf())
+
+    override fun toString(): String {
+        return "CycleFullEntityWithWorkouts(cycleEntity=$cycleEntity, listWorkoutEntity=$listWorkoutEntity)"
+    }
 }
 
 data class  CycleFullEntity(
@@ -18,7 +23,12 @@ data class  CycleFullEntity(
     var cycleEntity: CycleEntity,
     @Relation(parentColumn = "_id", entityColumn = "parent_id", entity = WorkoutEntity::class)
     var listWorkoutEntity: List<WorkoutFullEntity>
-)
+
+) {
+    override fun toString(): String {
+        return "CycleFullEntity(cycleEntity=$cycleEntity, listWorkoutEntity=$listWorkoutEntity)"
+    }
+}
 
 
 

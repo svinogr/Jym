@@ -1,6 +1,7 @@
 package info.upump.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import info.upump.database.entities.ExerciseEntity
@@ -9,6 +10,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ExerciseDao {
+
+    @Insert
+    fun save(exercise: ExerciseEntity): Long
+
     @Query("select * from exercises")
     fun getAll(): List<ExerciseEntity>
 

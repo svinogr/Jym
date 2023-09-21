@@ -13,6 +13,10 @@ data class ExerciseFullEntity(
 ) {
 
     constructor() : this(ExerciseEntity(), ExerciseDescriptionEntity(), listOf())
+
+    override fun toString(): String {
+        return "ExerciseFullEntity(exerciseEntity=$exerciseEntity, exerciseDescriptionEntity=$exerciseDescriptionEntity, listSetsEntity=$listSetsEntity)"
+    }
 }
 
 data class ExerciseFullEntityWithoutDescription(
