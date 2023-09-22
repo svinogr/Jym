@@ -3,19 +3,14 @@ package info.upump.mycompose.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import info.upump.database.DatabaseApp
 import info.upump.database.RoomDB
-import info.upump.database.entities.CycleFullEntity
-import info.upump.database.entities.CycleFullEntityWithWorkouts
 import info.upump.database.repo.CycleRepo
 import info.upump.mycompose.R
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -37,7 +32,7 @@ class DBRestoreBackup() {
         return intentToSendToBd
     }
 
-    suspend fun restore(uri: Uri, context: Context) {
+    suspend fun restore(uri: Uri, context: Context, _stateLoading: MutableStateFlow<Boolean>) {
         coroutineScope {
             launch {
                 val bytes = context.contentResolver.openInputStream(uri)?.use {
@@ -63,6 +58,7 @@ class DBRestoreBackup() {
 
                         val repo = CycleRepo.get() as CycleRepo
                         repo.saveFullEntitiesOnlyFromOtherDB(list)
+                        _stateLoading.update { false }
                     }
                 }
             }

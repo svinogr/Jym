@@ -82,18 +82,10 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
 
     object ProfileNavigationItem :
         NavigationItem(
-            R.string.title_of_profile_screen,
+            R.string.title_of_profile_screen2,
             PROFILE_START_CYCLE_ROUTE,
             R.drawable.profile
         )
-
-    /*  object DetailSetDetailNavigationItem : NavigationItem(
-          route = "$SETS_DETAIL_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
-      ) {
-          fun routeWithId(id: Long): String {
-              return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
-          }
-      }*/
 
 
     // Sets start
@@ -212,18 +204,4 @@ sealed class NavigationItem(val title: Int = -1, val route: String, val iconId: 
             return this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
         }
     }
-
-
-    // Exercise end
-    /*
-        object EditeWorkoutNavigationItem : NavigationItem(
-            route = "$WORKOUT_EDITE_ROUTE/$DETAIL_ARGUMENT_KEY_ID"
-        ) {
-            fun routeWithId(id: Long): String {
-                return  this.route.replace(oldValue = DETAIL_ARGUMENT_KEY_ID, newValue = id.toString())
-            }
-        }
-    */
-
-
 }

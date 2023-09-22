@@ -22,11 +22,8 @@ fun BottomSheet(text: String, modifier: Modifier = Modifier) {
         .verticalScroll(scrollState)){
 
         CardDescription(textDescription = text)
-        //Text(text = text)
     }
-
 }
-
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable

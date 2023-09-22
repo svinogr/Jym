@@ -2,65 +2,156 @@ package com.example.jymcompose.ui.screens.ProfileScreen
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.database.DatabaseApp
-import info.upump.database.repo.CycleRepo
+import info.upump.mycompose.R
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ItemSwipeBackgroundOneIcon
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.ItemButton
+import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescriptionVariableTitle
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.mycompose.ui.screens.viewmodel.profile.ProfileVM
 import info.upump.mycompose.utils.DBRestoreBackup
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingValues) {
     val context = LocalContext.current
 
     val coroutine = rememberCoroutineScope()
 
+    val profileVM: ProfileVM = viewModel()
+    val loadState = profileVM.isLoading.collectAsState()
+
     val launch = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
         it?.let {
             coroutine.launch(Dispatchers.IO) {
-                restoreFromFile(it, context)
-
+                profileVM.load(it, context)
             }
         }
+    }
+
+    val isLoad = remember {
+        mutableStateOf(loadState.value)
     }
 
     Scaffold(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) { it ->
-        Column() {
-            Button(onClick = { sendToDb(context) }) {
-                Text(text = "передать")
+        val context = LocalContext.current
+
+        Box(modifier = Modifier.fillMaxHeight()) {
+            LazyColumn() {
+                item {
+                    CardDescriptionVariableTitle(title = stringResource(id = R.string.action_with_db))
+                }
+                item {
+
+                    val state = remember {
+                        mutableStateOf(false)
+                    }
+                    val dismissState = rememberDismissState(confirmStateChange = { value ->
+                        true
+                    })
+
+                    SwipeToDismiss(
+                        state = dismissState,
+                        directions = setOf(),
+                        background = {
+
+                            ItemSwipeBackgroundOneIcon(
+                                dismissState = dismissState,
+                                state = state.value
+                            )
+                        },
+                        dismissContent = {
+                            Column(modifier = Modifier) {
+
+                                ItemButton(
+                                    action = {
+                                        state.value = true
+                                        profileVM.send(context)
+                                        state.value = false
+                                    },
+                                    title = stringResource(id = R.string.pref_title_write_to_email)
+                                )
+                                DividerCustom(dismissState, state = state.value)
+                            }
+                        }
+                    )
+                }
+                item {
+                    val state = remember {
+                        mutableStateOf(false)
+                    }
+                    val dismissState = rememberDismissState(confirmStateChange = { value ->
+                        true
+                    })
+
+                    SwipeToDismiss(
+                        state = dismissState,
+                        directions = setOf(),
+                        background = {
+
+                            ItemSwipeBackgroundOneIcon(
+                                dismissState = dismissState,
+                                state = state.value
+                            )
+                        },
+                        dismissContent = {
+                            Column(modifier = Modifier) {
+                                ItemButton(
+                                    action = {
+                                        state.value = true
+                                        launch.launch("*/*")
+                                        state.value = false
+                                    },
+                                    title = stringResource(id = R.string.pref_title_read_from_db)
+                                )
+                                DividerCustom(dismissState, state = state.value)
+                            }
+                        }
+                    )
+                }
+
             }
 
-            Button(onClick = { launch.launch("*/*") }) {
-                Text(text = "gjkexbnm")
+            if (isLoad.value) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .width(64.dp),
+                )
             }
         }
     }
-}
-
-private suspend fun restoreFromFile(uri: Uri, context: Context) {
-    val backupDB = DBRestoreBackup()
-    backupDB.restore(uri, context)
 }
 
 
@@ -76,3 +167,4 @@ private fun sendToDb(context: Context) {
 fun ProfileScreenPreview() {
     ProfileScreen(NavHostController(LocalContext.current), PaddingValues())
 }
+

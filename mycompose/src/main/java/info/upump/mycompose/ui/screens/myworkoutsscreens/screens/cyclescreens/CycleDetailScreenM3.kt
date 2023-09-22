@@ -73,7 +73,6 @@ fun AlterCycleDetailScreenM3(
     }
 
     LaunchedEffect(key1 = true) {
-        Log.d("efect", "efect")
         cycleVM.getBy(id)
     }
 

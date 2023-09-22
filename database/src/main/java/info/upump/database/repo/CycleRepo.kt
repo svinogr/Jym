@@ -136,7 +136,6 @@ class CycleRepo private constructor(db: RoomDB) :
                             }
                         }
 
-
                         return@async c
                     }
                 listForDbWrite.add(cycleE)
@@ -145,56 +144,5 @@ class CycleRepo private constructor(db: RoomDB) :
 
         val f = System.currentTimeMillis()
         listForDbWrite.awaitAll()
-        println(f - s)
-    }
-
-
-    private suspend fun prepareForWriteInDb(list: List<CycleFullEntity>): List<CycleFullEntity> {
-        val listForDbWrite = mutableListOf<Deferred<CycleFullEntity>>()
-        coroutineScope {
-
-            for (cycle in list) {
-                //    Log.d("prepareForWriteInDb", "-cycle")
-
-                val cycleA = async {
-                    cycle.cycleEntity._id = 0
-
-                    for (workout in cycle.listWorkoutEntity) {
-                        //Log.d("prepareForWriteInDb", "--workout")
-
-                        async {
-                            workout.workoutEntity._id = 0
-
-                            for (exercise in workout.listExerciseEntity) {
-                                //   Log.d("prepareForWriteInDb", "---esercise")
-
-                                async {
-
-                                    exercise.exerciseEntity._id = 0
-
-                                    for (set in exercise.listSetsEntity) {
-                                        Log.d("prepareForWriteInDb", "----set")
-                                        async {
-                                            set._id = 0
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-                    return@async cycle
-                }
-                listForDbWrite.add(cycleA)
-            }
-
-
-        }
-
-        /*
-                val o = listForDbWrite.awaitAll()
-                println(o.size.toString())*/
-
-        return listForDbWrite.awaitAll()
     }
 }

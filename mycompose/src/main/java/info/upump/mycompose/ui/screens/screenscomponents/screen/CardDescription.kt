@@ -59,6 +59,48 @@ fun CardDescription(
     }
 }
 
+@Composable
+fun CardDescriptionVariableTitle(
+    modifier: Modifier = Modifier,
+    title: String = "",
+    textDescription: String = "",
+    readonly: Boolean = true
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 0.dp, end = 0.dp, top = 0.dp),
+        elevation = CardDefaults.cardElevation(0.dp),
+        shape = RoundedCornerShape(0.dp),
+        colors = CardDefaults.cardColors(
+            containerColor =
+            colorResource(id = R.color.colorBackgroundCardView)
+        )
+    ) {
+        TextField(modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 4.dp, end = 0.dp, bottom = 4.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                disabledTextColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                backgroundColor = colorResource(R.color.colorBackgroundCardView)
+            ),
+            readOnly = readonly,
+            value = textDescription,
+            onValueChange = {
+            },
+            label = {
+                Text(
+                    text = title,
+                    style = MyTextTitleLabelWithColor
+                )
+            }
+        )
+    }
+}
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DescriptionCardPreview() {
@@ -68,5 +110,10 @@ fun DescriptionCardPreview() {
 @Preview(showBackground = true)
 @Composable
 fun DescriptionCardPreview2() {
-    CardDescription(textDescription ="whagdwhgdakwjdgk wahdgawhdak")
+    CardDescription(textDescription = "whagdwhgdakwjdgk wahdgawhdak")
+}
+@Preview(showBackground = true)
+@Composable
+fun DescriptionCardTitle() {
+    CardDescriptionVariableTitle(title = "Описание")
 }
