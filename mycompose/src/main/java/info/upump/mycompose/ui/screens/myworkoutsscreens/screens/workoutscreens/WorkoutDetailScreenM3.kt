@@ -35,7 +35,7 @@ import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
-import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
+import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
@@ -95,7 +95,7 @@ fun WorkoutDetailScreenM3(
         Scaffold(
             modifier = Modifier.padding(top = 0.dp),
             floatingActionButton = {
-                FloatExtendedButtonWithState(
+                FloatButtonWithState(
                     stringResource(id = R.string.workout_dialog_create_new),
                     listState.isScrollingUp(), R.drawable.ic_add_black_24dp
                 ) {

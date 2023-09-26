@@ -29,7 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
+import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListCycle
 import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleVM
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,8 +38,8 @@ import kotlinx.coroutines.flow.asStateFlow
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyCycleScreen(
-    navHost: NavHostController,
-    paddingValues: PaddingValues,
+        navHost: NavHostController,
+        paddingValues: PaddingValues,
 ) {
     val listState = rememberLazyListState()
 
@@ -55,22 +55,22 @@ fun MyCycleScreen(
     }
 
     Scaffold(modifier = Modifier.padding(paddingValues = paddingValues),
-        floatingActionButton = {
-            FloatExtendedButtonWithState(
-                text = stringResource(id = R.string.cycle_create_new),
-                isVisible = listState.isScrollingUp(), icon = R.drawable.ic_add_black_24dp
-            ) {
-                 navHost.navigate(NavigationItem.CreateEditeCycleNavigationItem.routeWith(0))
-            }
-        }, content = {it ->
-            val del: (Context, String, Long) -> Unit = cycleVM::delete
-            ListCycle(
+            floatingActionButton = {
+                FloatButtonWithState(
+                        text = stringResource(id = R.string.cycle_create_new),
+                        isVisible = listState.isScrollingUp(), icon = R.drawable.ic_add_black_24dp
+                ) {
+                    navHost.navigate(NavigationItem.CreateEditeCycleNavigationItem.routeWith(0))
+                }
+            }, content = { it ->
+        val del: (Context, String, Long) -> Unit = cycleVM::delete
+        ListCycle(
                 lazyListState = listState,
                 list = listCycle.value.collectAsState().value,
                 navhost = navHost,
                 deleteAction = del
-            )
-        })
+        )
+    })
 }
 
 @RequiresApi(Build.VERSION_CODES.P)
@@ -78,10 +78,10 @@ fun MyCycleScreen(
 @Composable
 fun PrviewCycleScreen() {
     val m: MutableState<Boolean> =
-        MutableStateFlow<Boolean>(true).asStateFlow().collectAsState() as MutableState<Boolean>
+            MutableStateFlow<Boolean>(true).asStateFlow().collectAsState() as MutableState<Boolean>
     MyCycleScreen(
-        navHost = NavHostController(LocalContext.current),
-        paddingValues = PaddingValues(16.dp)
+            navHost = NavHostController(LocalContext.current),
+            paddingValues = PaddingValues(16.dp)
     )
 }
 

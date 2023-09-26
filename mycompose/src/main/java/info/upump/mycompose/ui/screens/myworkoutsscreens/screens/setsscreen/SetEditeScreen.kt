@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
+import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.NumberPicker
 import info.upump.mycompose.ui.screens.screenscomponents.NumberPickerWithStep
 import info.upump.mycompose.ui.screens.viewmodel.sets.SetsVM
@@ -55,7 +55,7 @@ fun SetEditeScreen(
 
     Scaffold(modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
         floatingActionButton = {
-            FloatExtendedButtonWithState(
+            FloatButtonWithState(
                 text = stringResource(id = R.string.picker_dialog_btn_save),
                 isVisible = true,
                 icon = R.drawable.ic_save_black

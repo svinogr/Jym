@@ -30,11 +30,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardTitle
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
+import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CarDaydWorkoutEdit
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescriptiondWithEdit
+import info.upump.mycompose.ui.screens.screenscomponents.screen.CardTitle
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.screen.LabelTitleForImage
 import info.upump.mycompose.ui.screens.viewmodel.workout.WorkoutVM
@@ -66,7 +66,7 @@ fun CreateWorkoutScreen(
     Scaffold(
         modifier = Modifier.padding(),
         floatingActionButton = {
-            FloatExtendedButtonWithState(
+            FloatButtonWithState(
                 stringResource(id = R.string.picker_dialog_btn_save),
                 true, R.drawable.ic_save_black
             ) {

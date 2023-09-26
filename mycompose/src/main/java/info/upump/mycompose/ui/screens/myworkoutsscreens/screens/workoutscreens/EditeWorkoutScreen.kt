@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,11 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardTitle
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
+import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CarDaydWorkoutEdit
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescriptiondWithEdit
+import info.upump.mycompose.ui.screens.screenscomponents.screen.CardTitle
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.screen.LabelTitleForImage
 import info.upump.mycompose.ui.screens.viewmodel.workout.WorkoutVM
@@ -59,7 +58,7 @@ fun EditeWorkoutScreen(
     Scaffold(
         modifier = Modifier,
         floatingActionButton = {
-            FloatExtendedButtonWithState(
+            FloatButtonWithState(
                 stringResource(id = R.string.picker_dialog_btn_save),
                 true, R.drawable.ic_save_black
             ) {

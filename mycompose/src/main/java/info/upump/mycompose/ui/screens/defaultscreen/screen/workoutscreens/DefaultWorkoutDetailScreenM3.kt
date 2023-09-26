@@ -14,7 +14,6 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,17 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
-import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListDefaultExercise
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
 import info.upump.mycompose.ui.screens.viewmodel.workout.WorkoutDetailVM
 import kotlinx.coroutines.launch
 
@@ -71,7 +65,6 @@ fun DefaultWorkoutDetailScreenM3(
     }
 
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-    val snackBarHostState = remember { SnackbarHostState() }
 
     val exercisesList = remember {
         mutableStateOf(workoutVM.subItems)
@@ -126,7 +119,6 @@ fun DefaultWorkoutDetailScreenM3(
                     list = exercisesList.value.collectAsState().value,
                     listState, navHost = navHostController,
                     Modifier.weight(4f),
-
                     ) { del(it) }
             }
         }

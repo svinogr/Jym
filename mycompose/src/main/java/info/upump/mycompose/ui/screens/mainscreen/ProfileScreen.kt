@@ -82,29 +82,30 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
                     })
 
                     SwipeToDismiss(
-                        state = dismissState,
-                        directions = setOf(),
-                        background = {
+                            state = dismissState,
+                            directions = setOf(),
+                            background = {
 
-                            ItemSwipeBackgroundOneIcon(
-                                dismissState = dismissState,
-                                state = state.value
-                            )
-                        },
-                        dismissContent = {
-                            Column(modifier = Modifier) {
-
-                                ItemButton(
-                                    action = {
-                                        state.value = true
-                                        profileVM.send(context)
-                                        state.value = false
-                                    },
-                                    title = stringResource(id = R.string.pref_title_write_to_email)
+                                ItemSwipeBackgroundOneIcon(
+                                        dismissState = dismissState,
+                                        state = state.value
                                 )
-                                DividerCustom(dismissState, state = state.value)
+                            },
+                            dismissContent = {
+                                Column(modifier = Modifier) {
+
+                                    ItemButton(
+                                            action = {
+                                                state.value = true
+                                                profileVM.send(context)
+                                                state.value = false
+                                            },
+                                            icon = R.drawable.ic_send_to_email,
+                                            title = stringResource(id = R.string.pref_title_write_to_email)
+                                    )
+                                    DividerCustom(dismissState, state = state.value)
+                                }
                             }
-                        }
                     )
                 }
                 item {
@@ -116,28 +117,29 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
                     })
 
                     SwipeToDismiss(
-                        state = dismissState,
-                        directions = setOf(),
-                        background = {
+                            state = dismissState,
+                            directions = setOf(),
+                            background = {
 
-                            ItemSwipeBackgroundOneIcon(
-                                dismissState = dismissState,
-                                state = state.value
-                            )
-                        },
-                        dismissContent = {
-                            Column(modifier = Modifier) {
-                                ItemButton(
-                                    action = {
-                                        state.value = true
-                                        launch.launch("*/*")
-                                        state.value = false
-                                    },
-                                    title = stringResource(id = R.string.pref_title_read_from_db)
+                                ItemSwipeBackgroundOneIcon(
+                                        dismissState = dismissState,
+                                        state = state.value
                                 )
-                                DividerCustom(dismissState, state = state.value)
+                            },
+                            dismissContent = {
+                                Column(modifier = Modifier) {
+                                    ItemButton(
+                                            action = {
+                                                state.value = true
+                                                launch.launch("*/*")
+                                                state.value = false
+                                            },
+                                            icon = R.drawable.ic_down_to_db,
+                                            title = stringResource(id = R.string.pref_title_read_from_db)
+                                    )
+                                    DividerCustom(dismissState, state = state.value)
+                                }
                             }
-                        }
                     )
                 }
 
@@ -145,9 +147,9 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
 
             if (isLoad.value) {
                 CircularProgressIndicator(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .width(64.dp),
+                        modifier = Modifier
+                                .align(Alignment.Center)
+                                .width(64.dp),
                 )
             }
         }

@@ -28,9 +28,9 @@ import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.myworkoutsscreens.ActionState
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
+import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescriptiondWithEdit
+import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageTitleImageTitle
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageWithPicker
 import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleVMCreateEdit
@@ -68,7 +68,7 @@ fun CreateEditeCycleScreen(
     Scaffold(
         modifier = Modifier,
         floatingActionButton = {
-            FloatExtendedButtonWithState(
+            FloatButtonWithState(
                 text = stringResource(id = R.string.picker_dialog_btn_save),
                 isVisible = true, icon = R.drawable.ic_save_black
             ) {

@@ -29,10 +29,10 @@ import androidx.navigation.NavHostController
 import info.upump.mycompose.R
 import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.FloatExtendedButtonWithState
+import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListSets
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListSets
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
 import info.upump.mycompose.ui.screens.screenscomponents.screen.TableHeader
@@ -69,7 +69,7 @@ fun MyExerciseDetailScreen(
             .fillMaxWidth()
             .padding(top = 0.dp),
         floatingActionButton = {
-            FloatExtendedButtonWithState(
+            FloatButtonWithState(
                 text = stringResource(id = R.string.set_create_),
                 isVisible = lazyListState.isScrollingUp(),
                 icon = R.drawable.ic_add_black_24dp
