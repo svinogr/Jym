@@ -72,6 +72,7 @@ fun CreateWorkoutScreen(
             ) {
                 if (!workoutVM.isBlankFields()) {
                     workoutVM.saveWith(parentId) {
+                        navHostController.popBackStack()
                         navHostController.navigate(
                             NavigationItem.DetailWorkoutNavigationItem.routeWithId(
                                 it

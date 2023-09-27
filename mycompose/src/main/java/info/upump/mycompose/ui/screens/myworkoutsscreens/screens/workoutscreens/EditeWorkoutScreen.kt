@@ -49,7 +49,7 @@ fun EditeWorkoutScreen(
     val workoutVM: WorkoutVM = viewModel()
     val isLoad by workoutVM.isLoading.collectAsState()
 
-    appBarTitle.value =  stringResource(id = R.string.edit)
+    appBarTitle.value = stringResource(id = R.string.edit)
 
     LaunchedEffect(key1 = true) {
         workoutVM.getBy(id)
@@ -65,6 +65,7 @@ fun EditeWorkoutScreen(
                 if (!workoutVM.isBlankFields()) {
                     workoutVM.save {
                     }
+                    navHostController.popBackStack()
                     navHostController.navigateUp()
                 }
             }
@@ -82,8 +83,11 @@ fun EditeWorkoutScreen(
 
             ) {
                 ImageByDay(day = workoutVM.day.collectAsState().value)
-                LabelTitleForImage(title = workoutVM.title.collectAsState().value, modifier = Modifier.align(
-                    Alignment.BottomStart))
+                LabelTitleForImage(
+                    title = workoutVM.title.collectAsState().value, modifier = Modifier.align(
+                        Alignment.BottomStart
+                    )
+                )
             }
 
             CarDaydWorkoutEdit(
