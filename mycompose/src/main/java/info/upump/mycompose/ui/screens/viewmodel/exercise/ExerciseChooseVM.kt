@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.viewmodel.exercise
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.ExerciseRepo
 import info.upump.database.repo.WorkoutRepo
@@ -10,10 +11,13 @@ import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
-class ExerciseChooseVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), ExerciseChooseVMInterface {
+class ExerciseChooseVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(),
+    ExerciseChooseVMInterface {
     private val exerciseRepo = ExerciseRepo.get()
     private val workoutRepo = WorkoutRepo.get()
     private var parentId: Long = 0L
@@ -40,7 +44,27 @@ class ExerciseChooseVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithSta
         }
     }
 
-    override fun saveForParentChosen(it: Long) {
+    override fun saveForParentChosen(id: Long) {
+        Log.d("Save exercise", "save $id")
+        Log.d("Save exercise", "save $parentId")
+        viewModelScope.launch(Dispatchers.IO) {
+            val exerciseRepo = ExerciseRepo.get()
+
+            exerciseRepo.getFullEntityBy(id).take(1).collect { exeFullEnt ->  // костыль
+                val exeDescId = exeFullEnt.exerciseDescriptionEntity._id
+                Log.d("Save exercise", "save $id")
+                val exercise = Exercise()
+                exercise.id = 0
+                exercise.parentId = parentId
+                exercise.typeMuscle = TypeMuscle.valueOf(exeFullEnt.exerciseEntity.type_exercise!!)
+                exercise.isDefaultType = false
+                exercise.isTemplate = false
+                exercise.descriptionId = exeDescId
+                exercise.comment = exeFullEnt.exerciseEntity.comment!!
+
+                exerciseRepo.save(Exercise.mapToEntity(exercise))
+            }
+        }
     }
 
     fun filterBy(type: TypeMuscle) {

@@ -27,11 +27,14 @@ import info.upump.mycompose.models.entity.Exercise
 import info.upump.mycompose.models.entity.ExerciseDescription
 import info.upump.mycompose.models.entity.TypeMuscle
 import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListChooseExercise
+import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListDefaultExercise
 import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
 import info.upump.mycompose.ui.screens.screenscomponents.screen.CheckChips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChooseChips
 import info.upump.mycompose.ui.screens.viewmodel.exercise.ExerciseChooseVM
+import info.upump.mycompose.ui.screens.viewmodel.exercise.ExerciseVM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,11 +51,15 @@ fun ExerciseChooseScreen(
 
     val valuesMuscle = TypeMuscle.values()
     val list = mutableListOf<CheckChips>()
-    val filter = remember{
+    val filter = remember {
         mutableStateOf(TypeMuscle.NECK)
     }
     valuesMuscle.forEach {
-        list.add(CheckChips(title = stringResource(id = it.title), icon =  R.drawable.ic_done) { filter.value = it})
+        list.add(
+            CheckChips(
+                title = stringResource(id = it.title),
+                icon = R.drawable.ic_done
+            ) { filter.value = it })
         list[0].let { it.check = true }
     }
 
@@ -73,19 +80,20 @@ fun ExerciseChooseScreen(
                     *list.toTypedArray()
                 )
             }
+            val action: (Long) -> Unit = {
+                exerciseVM.saveForParentChosen(it)
+            }
 
-            ListExercise(
-                list = exerciseVM.subItems.collectAsState().value.filter { it.typeMuscle == filter.value},
+            ListChooseExercise(
+                list = exerciseVM.subItems.collectAsState().value.filter {
+                    it.typeMuscle == filter.value
+                },
                 lazyListState = listState,
-                navHost = navHostController ,
+                navHost = navHostController,
                 modifier = Modifier.weight(4.5f)
             ) {
-                exerciseVM.saveForParentChosen(it)
-                navHostController.navigate(
-                NavigationItem.DetailWorkoutNavigationItem.routeWithId(
-                    parentId
-                )
-            )}
+                action(it)
+            }
 
         }
     }
@@ -102,7 +110,12 @@ fun ExerciseChooseScreenPreview() {
     val valuesMuscle = TypeMuscle.values()
     val list = mutableListOf<CheckChips>()
     valuesMuscle.forEach {
-        list.add(CheckChips(check = false, title = stringResource(id = it.title), R.drawable.ic_done) { })
+        list.add(
+            CheckChips(
+                check = false,
+                title = stringResource(id = it.title),
+                R.drawable.ic_done
+            ) { })
     }
 
     Column {

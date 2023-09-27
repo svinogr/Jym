@@ -67,6 +67,21 @@ class Exercise(
             return exercise
         }
 
+        fun mapToEntity(exercise: Exercise): ExerciseEntity {
+            val exerciseEntity = ExerciseEntity()
+            exerciseEntity._id = exercise.id
+            exerciseEntity.parent_id = exercise.parentId
+            exerciseEntity.description_id = exercise.descriptionId
+            exerciseEntity.comment = exercise.comment
+            exerciseEntity.type_exercise = exercise.typeMuscle.toString()
+            exerciseEntity.default_type = if(exercise.isDefaultType) 1 else 0
+            exerciseEntity.template = if(exercise.isTemplate) 1 else 0
+            exerciseEntity.start_date = exercise.startStringFormatDate
+            exerciseEntity.finish_date = exercise.finishStringFormatDate
+
+            return exerciseEntity
+        }
+
         fun mapFromFullDbEntity(entity: ExerciseFullEntity): Exercise {
             val exercise = mapFromDbEntity(entity.exerciseEntity)
             val exerciseDescription =

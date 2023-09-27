@@ -1,6 +1,7 @@
 package info.upump.database.repo
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Transaction
 import info.upump.database.RepoActionsSpecific
 import info.upump.database.RoomDB
@@ -56,9 +57,10 @@ class ExerciseRepo private constructor(db: RoomDB) :
     }
 
     override fun save(item: ExerciseEntity): ExerciseEntity {
+        Log.d("Save exercise", "save $item")
         val id = exerciseDao.save(item)
-        item._id = id
-
+       // item._id = id
+       // Log.d("Save exercise", "save $id")
         return item
     }
 
