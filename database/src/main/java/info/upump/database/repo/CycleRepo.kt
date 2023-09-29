@@ -1,6 +1,5 @@
 package info.upump.database.repo
 
-import android.os.SystemClock
 import android.util.Log
 import androidx.room.Transaction
 import info.upump.database.RepoActionsSpecific
@@ -13,6 +12,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 
 class CycleRepo private constructor(db: RoomDB) :
     RepoActionsSpecific<CycleEntity, CycleFullEntityWithWorkouts> {
@@ -32,7 +35,7 @@ class CycleRepo private constructor(db: RoomDB) :
     }
 
     override fun getFullEntityBy(id: Long): Flow<CycleFullEntityWithWorkouts> {
-        return cycleDao.getFullBy(id)
+        return cycleDao.getWithWorkouts(id)
     }
 
     override fun getAllFullEntity(): Flow<List<CycleFullEntityWithWorkouts>> {
@@ -70,11 +73,31 @@ class CycleRepo private constructor(db: RoomDB) :
         return cycleDao.getAllTemplate()
     }
 
+    suspend fun copyToPersonal(id: Long) {
+        cycleDao.getFullCycle(id)
+            .take(1)
+            .onEach {
+                Log.d("copyToPersonal", "copyToPersonal")
+                it.cycleEntity.default_type = 0
+                it.listWorkoutEntity.forEach { w ->
+                    w.workoutEntity.default_type = 0
+                    w.workoutEntity.template = 0
+                    w.listExerciseEntity.forEach() { e ->
+                        e.exerciseEntity.default_type = 0
+                        e.exerciseEntity.template = 0
+                    }
+                }
+
+            }
+            .collect { c ->
+                copy(listOf(c))
+            }
+    }
+
     @Transaction
     override fun delete(id: Long) {
         cycleDao.delete(id)
         workoutRepo.deleteByParent(id)
-
     }
 
     override fun deleteByParent(parentId: Long) {
@@ -91,12 +114,11 @@ class CycleRepo private constructor(db: RoomDB) :
         return item
     }
 
-    suspend fun saveFullEntitiesOnlyFromOtherDB(list: List<CycleFullEntity>) {
-        val s = System.currentTimeMillis()
+
+    private suspend fun copy(list: List<CycleFullEntity>) {
         val listForDbWrite = mutableListOf<Deferred<CycleEntity>>()
         val workoutsRepo = WorkoutRepo.get()
         coroutineScope {
-
             for (cycle in list) {
                 val cycleE =
                     async {
@@ -118,21 +140,20 @@ class CycleRepo private constructor(db: RoomDB) :
                                     async {
                                         exercise.exerciseEntity._id = 0
                                         exercise.exerciseEntity.parent_id = idW
-                                        val idE = repoE.save(exercise.exerciseEntity)
+                                        val idE = repoE.save(exercise.exerciseEntity)._id
 
                                         val repoS = SetsRepo.get()
 
                                         for (sets in exercise.listSetsEntity) {
                                             async {
                                                 sets._id = 0
-                                                sets.parent_id = idE._id
+                                                sets.parent_id = idE
                                                 repoS.save(sets)
 
                                             }
                                         }
                                     }
                                 }
-
                             }
                         }
 
@@ -144,5 +165,62 @@ class CycleRepo private constructor(db: RoomDB) :
 
         val f = System.currentTimeMillis()
         listForDbWrite.awaitAll()
+    }
+
+    suspend fun saveFullEntitiesOnlyFromOtherDB(list: List<CycleFullEntity>) {
+        // val s = System.currentTimeMillis()
+        //  val listForDbWrite = mutableListOf<Deferred<CycleEntity>>()
+        //   val workoutsRepo = WorkoutRepo.get()
+
+        copy(list)
+        /* coroutineScope {
+
+             for (cycle in list) {
+                 val cycleE =
+                     async {
+                         val c = cycle.cycleEntity
+                         c._id = 0
+                         val id = cycleDao.save(c)
+
+                         for (workout in cycle.listWorkoutEntity) {
+                             val repoW = workoutsRepo
+
+                             async {
+                                 workout.workoutEntity._id = 0
+                                 workout.workoutEntity.parent_id = id
+                                 val idW = repoW.save(workout.workoutEntity)._id
+
+                                 val repoE = ExerciseRepo.get()
+
+                                 for (exercise in workout.listExerciseEntity) {
+                                     async {
+                                         exercise.exerciseEntity._id = 0
+                                         exercise.exerciseEntity.parent_id = idW
+                                         val idE = repoE.save(exercise.exerciseEntity)
+
+                                         val repoS = SetsRepo.get()
+
+                                         for (sets in exercise.listSetsEntity) {
+                                             async {
+                                                 sets._id = 0
+                                                 sets.parent_id = idE._id
+                                                 repoS.save(sets)
+
+                                             }
+                                         }
+                                     }
+                                 }
+
+                             }
+                         }
+
+                         return@async c
+                     }
+                 listForDbWrite.add(cycleE)
+             }
+         }*/
+
+        //  val f = System.currentTimeMillis()
+        //  listForDbWrite.awaitAll()
     }
 }

@@ -17,4 +17,5 @@ interface CycleDetailVMInterface {
     fun getBy(id: Long)
     fun deleteSubItem(id: Long)
     fun cleanItem()
+    fun copyToPersonal(long: Long)
 }

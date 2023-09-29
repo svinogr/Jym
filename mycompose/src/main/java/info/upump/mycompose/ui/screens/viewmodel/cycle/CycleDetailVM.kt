@@ -1,5 +1,6 @@
 package info.upump.mycompose.ui.screens.viewmodel.cycle
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import info.upump.database.RepoActions
 import info.upump.database.RepoActionsSpecific
@@ -20,9 +21,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CycleDetailVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(),
-    info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVMInterface {
+    CycleDetailVMInterface {
     private val workoutRepo: RepoActions<WorkoutEntity> = WorkoutRepo.get()
-    private val cycleRepo: RepoActionsSpecific<CycleEntity, CycleFullEntityWithWorkouts> = CycleRepo.get()
+    private val cycleRepo: RepoActionsSpecific<CycleEntity, CycleFullEntityWithWorkouts> =
+        CycleRepo.get()
 
     private var _cycle = MutableStateFlow(Cycle())
     override val item: StateFlow<Cycle> = _cycle.asStateFlow()
@@ -86,6 +88,17 @@ class CycleDetailVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateL
         }
     }
 
+    override fun copyToPersonal(id: Long) {
+        _stateLoading.value = true
+        viewModelScope.launch(Dispatchers.IO) {
+            val cycleRepo = CycleRepo.get() as CycleRepo
+            Log.d("copyToPersonal", "vm")
+
+            cycleRepo.copyToPersonal(id)
+            _stateLoading.value = false
+        }
+    }
+
     companion object {
         val vmOnlyForPreview by lazy {
             object : info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVMInterface {
@@ -144,6 +157,10 @@ class CycleDetailVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateL
                 }
 
                 override fun cleanItem() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun copyToPersonal(id: Long) {
                     TODO("Not yet implemented")
                 }
 

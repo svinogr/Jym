@@ -57,10 +57,10 @@ class ExerciseRepo private constructor(db: RoomDB) :
     }
 
     override fun save(item: ExerciseEntity): ExerciseEntity {
-        Log.d("Save exercise", "save $item")
+        Log.d("Save exercise", "save ExerciseEntity")
         val id = exerciseDao.save(item)
-       // item._id = id
-       // Log.d("Save exercise", "save $id")
+        item._id = id
+
         return item
     }
 

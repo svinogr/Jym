@@ -31,6 +31,10 @@ interface CycleDao {
     fun getAllFullPersonalCycles(): Flow<List<CycleFullEntity>>
 
     @Transaction
+    @Query("select * from cycles where _id = :id")
+    fun getFullCycle(id: Long): Flow<CycleFullEntity>
+
+    @Transaction
     @Query("select * from cycles where default_type = 1")
     fun getAllTemplate(): Flow<List<CycleFullEntityWithWorkouts>>
 
@@ -38,7 +42,7 @@ interface CycleDao {
         fun getBy(id: Long): Flow<CycleFullEntity>*/
     @Transaction
     @Query("select * from cycles where _id=:id")
-    fun getFullBy(id: Long): Flow<CycleFullEntityWithWorkouts>
+    fun getWithWorkouts(id: Long): Flow<CycleFullEntityWithWorkouts>
 
     @Query("delete from cycles where _id=:id")
     fun delete(id: Long)

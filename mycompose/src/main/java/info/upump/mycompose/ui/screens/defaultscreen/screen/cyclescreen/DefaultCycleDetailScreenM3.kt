@@ -37,6 +37,7 @@ import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
+import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
@@ -47,7 +48,7 @@ fun DefaultCycleDetailScreenM3(
     paddingValues: PaddingValues,
     appBarTitle: MutableState<String>
 ) {
-    val cycleVM: info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM = viewModel()
+    val cycleVM: CycleDetailVM = viewModel()
     val listState = rememberLazyListState()
 
     val coroutine = rememberCoroutineScope()
@@ -99,9 +100,7 @@ fun DefaultCycleDetailScreenM3(
                             stringResource(id = R.string.chips_copy),
                             R.drawable.ic_copy,
                         ) {
-                            /* navHostController.navigate(
-                                 ""
-                             )*/
+                           cycleVM.copyToPersonal(id)
                         },
                         Chips(
                             stringResource(id = R.string.chips_comment),
