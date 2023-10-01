@@ -4,7 +4,10 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_of_mycycle_screen">Мои программы</string>
     <string name="title_of_mystartcycle_screen">Мои программы</string>
+<!--
     <string name="title_of_defaultcycle_screen">Готовые программы</string>
+-->
+    <string name="title_of_defaultcycle_screen">Шаблоны</string>
     <string name="title_of_profile_screen">Профиль</string>
     <string name="title_of_profile_screen2">Настройки</string>
     <string name="action_with_db">Действия с базой данных</string>

@@ -36,12 +36,12 @@ fun NavGraphBuilder.defaultCycleGraph(
         composable(
             route = NavigationItem.DefaultCycleNavigationItem.route
         ) {
-            DefaultStartScreen(navHostController, paddingValues)
             appBarTitle.value =
-                context.resources.getString(NavigationItem.MyCycleNavigationItem.title)
+                context.resources.getString(NavigationItem.DefaultCycleNavigationItem.title)
             topBarState.value = true
             bottomBarState.value = true
             appBarStyle.value = DEFAULT_STYLE
+            DefaultStartScreen(navHostController, paddingValues)
         }
 
         composable(

@@ -24,7 +24,7 @@ class MainActivityCompose : ComponentActivity() {
          lifecycleScope.launch(Dispatchers.IO) {
            //  val db = DatabaseApp(this@MainActivityCompose)
             // DatabaseApp.initilizeDb(this@MainActivityCompose)
-             Log.d("TAG", "init db")
+           //  Log.d("TAG", "init db")
          }
 
         setContent {
