@@ -151,7 +151,7 @@ fun AlterCycleDetailScreenM2(
 
             ListWorkouts(
                 list = cycleVM.subItems.collectAsState().value,
-                listState, navhost = navHostController,
+                listState, navHost = navHostController,
                 Modifier.weight(4f)
             ){}
 

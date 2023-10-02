@@ -156,6 +156,7 @@ class WorkoutVM() : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoa
                 with(workout) {
                     _title.update { title }
                     _id.update { id }
+                    _isEven.update { isWeekEven }
                     _parentId.update { parentId }
                     _comment.update { comment }
                     _startDate.update { startStringFormatDate }
@@ -174,6 +175,7 @@ class WorkoutVM() : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoa
                     _id.update { id }
                     _parentId.update { parentId }
                     _comment.update { comment }
+                    _isEven.update { isWeekEven }
                     _startDate.update { startStringFormatDate }
                     _finishDate.update { finishStringFormatDate }
                     _day.update { day }
