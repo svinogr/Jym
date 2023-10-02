@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import coil.compose.AsyncImage
 import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM
 import info.upump.mycompose.ui.screens.screenscomponents.BitmapCreator
 
@@ -22,19 +23,9 @@ fun ImageForDetailScreen(
     defaultImage: String,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-    val bitmap: Bitmap
-    if (!image.isBlank()) {
-        bitmap = BitmapCreator.getImgBitmap(image, context)
-    } else if (!defaultImage.isBlank()) {
-        bitmap = BitmapCreator.getImgDefaultBitmap(defaultImage, context)
-    } else {
-        bitmap = BitmapCreator.getExceptionDefaultBitmap(context)
-    }
-
     Box(modifier = modifier) {
-        Image(
-            bitmap = bitmap.asImageBitmap(),
+        AsyncImage(
+            model = BitmapCreator.getImageWithUri(image, defaultImage),
             contentDescription = "",
             modifier = Modifier.fillMaxWidth(),
             contentScale = ContentScale.Crop

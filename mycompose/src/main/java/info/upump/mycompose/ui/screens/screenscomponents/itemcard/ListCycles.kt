@@ -52,13 +52,13 @@ fun ListCycle(
         item() {
             EmptyItem(size = 2.dp)
         }
-        itemsIndexed(list, key = { index, item -> item.id }) { index, it ->
+        itemsIndexed(list, key = { index, item -> item.id }) { index, cycle ->
             val state = remember {
                 mutableStateOf(false)
             }
             val dismissState = rememberDismissState(confirmStateChange = { value ->
                 if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
-                    deleteAction(context, it.image, it.id)
+                    deleteAction(context, cycle.image, cycle.id)
                 }
                 true
             })
@@ -75,10 +75,10 @@ fun ListCycle(
                         val action: () -> Unit = {
                             state.value = true
                             navhost.navigate(
-                                NavigationItem.DetailCycleNavigationItem.routeWithId(it.id)
+                                NavigationItem.DetailCycleNavigationItem.routeWithId(cycle.id)
                             )
                         }
-                        CycleItemCard(it, action)
+                        CycleItemCard(cycle, action)
                         DividerCustom(dismissState, state = state.value)
                     }
                 },
