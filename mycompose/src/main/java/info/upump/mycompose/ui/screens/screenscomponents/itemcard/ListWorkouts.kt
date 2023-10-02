@@ -56,8 +56,8 @@ fun ListWorkouts(
             isHasEvenWeek += 1
         }
     }
-
-    if (isHasEvenWeek != list.size) listWithGroup(
+Log.d("sz", "$isHasEvenWeek  ${list.size}")
+    if (isHasEvenWeek != list.size && isHasEvenWeek != 0) listWithGroup(
         list,
         modifier,
         lazyListState,
@@ -145,7 +145,7 @@ fun listWithGroup(
         item() {
             EmptyItem(size = 2.dp)
         }
-        list.groupBy { it.isWeekEven }.forEach { (isWeekEven, list) ->
+        list.groupBy { it.isWeekEven }.toSortedMap().forEach { (isWeekEven, list) ->
             stickyHeader {
                 Card(
                     modifier = Modifier
