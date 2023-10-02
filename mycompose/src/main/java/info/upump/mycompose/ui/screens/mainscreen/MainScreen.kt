@@ -14,6 +14,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -50,7 +51,7 @@ fun MainScreen() {
     }
 
     val appBarStyle = remember {
-        mutableStateOf(DEFAULT_STYLE)
+        mutableIntStateOf(DEFAULT_STYLE)
     }
 
     val density = LocalDensity.current
@@ -101,7 +102,7 @@ fun MainScreen() {
                     title = {
                         Text(
                             text = appBarTitle.value,
-                            style = if (appBarStyle.value == WHITE_STYLE) MyOutlineTextTitleLabel20Text else MyTextTitleLabel20  ,
+                            style = if (appBarStyle.intValue == WHITE_STYLE) MyOutlineTextTitleLabel20Text else MyTextTitleLabel20  ,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis
                         )

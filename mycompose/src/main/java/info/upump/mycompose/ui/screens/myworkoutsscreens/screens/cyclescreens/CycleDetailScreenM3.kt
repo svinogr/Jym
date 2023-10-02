@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -61,7 +62,7 @@ fun AlterCycleDetailScreenM3(
 
     val coroutine = rememberCoroutineScope()
 
-    appBarTitle.value = cycleVM.title.collectAsState().value
+    appBarTitle.value = cycleVM.title.collectAsState().value.capitalize()
 
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val snackBarHostState = remember { SnackbarHostState() }

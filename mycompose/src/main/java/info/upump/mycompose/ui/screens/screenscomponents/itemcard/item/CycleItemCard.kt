@@ -70,7 +70,7 @@ fun CycleItemCard(
                 val modifierCol = Modifier
                     .padding(end = 8.dp)
                 Text(
-                    text = cycle.title!!,
+                    text = cycle.title!!.capitalize(),
                     style = MyTextTitleLabel16,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

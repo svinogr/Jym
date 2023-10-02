@@ -75,7 +75,7 @@ fun WorkoutItemCard(
             Column(modifier = modifier.fillMaxWidth()) {
                 val modifierCol = Modifier.padding(end = 8.dp)
                 Text(
-                    text = workout.title,
+                    text = workout.title.capitalize(),
                     style = MyTextTitleLabel16,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

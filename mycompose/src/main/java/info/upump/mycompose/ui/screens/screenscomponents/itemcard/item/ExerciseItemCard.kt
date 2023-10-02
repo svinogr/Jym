@@ -80,7 +80,7 @@ fun ExerciseItemCard(
                 val modifierCol = Modifier
                     .padding(end = 8.dp)
                 Text(
-                    text = exercise.exerciseDescription!!.title!!,
+                    text = exercise.exerciseDescription!!.title!!.capitalize(),
                     style = MyTextTitleLabel16,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
