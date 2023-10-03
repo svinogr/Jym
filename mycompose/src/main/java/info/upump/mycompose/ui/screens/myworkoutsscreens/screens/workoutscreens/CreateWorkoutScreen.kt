@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens
+package info.upump.jym.ui.screens.myworkoutsscreens.screens.workoutscreens
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
@@ -28,16 +28,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CarDaydWorkoutEdit
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescriptiondWithEdit
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardTitle
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
-import info.upump.mycompose.ui.screens.screenscomponents.screen.LabelTitleForImage
-import info.upump.mycompose.ui.screens.viewmodel.workout.WorkoutVM
+import info.upump.jym.R
+import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.jym.ui.screens.screenscomponents.FloatButtonWithState
+import info.upump.jym.ui.screens.screenscomponents.screen.CarDaydWorkoutEdit
+import info.upump.jym.ui.screens.screenscomponents.screen.CardDescriptiondWithEdit
+import info.upump.jym.ui.screens.screenscomponents.screen.CardTitle
+import info.upump.jym.ui.screens.screenscomponents.screen.DateCardWithDatePicker
+import info.upump.jym.ui.screens.screenscomponents.screen.ImageByDay
+import info.upump.jym.ui.screens.screenscomponents.screen.LabelTitleForImage
+import info.upump.jym.ui.screens.viewmodel.workout.WorkoutVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

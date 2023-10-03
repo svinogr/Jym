@@ -1,6 +1,6 @@
-package info.upump.mycompose.ui.screens.viewmodel.sets
+package info.upump.jym.ui.screens.viewmodel.sets
 
-import info.upump.mycompose.models.entity.Sets
+import info.upump.jym.models.entity.Sets
 import kotlinx.coroutines.flow.StateFlow
 
 interface SetsVMInterface {

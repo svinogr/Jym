@@ -1,5 +1,5 @@
 /*
-package info.upump.mycompose.ui.theme.customtheme
+package info.upump.jym.ui.theme.customtheme
 
 import android.graphics.fonts.FontFamily
 import androidx.compose.material.lightColors

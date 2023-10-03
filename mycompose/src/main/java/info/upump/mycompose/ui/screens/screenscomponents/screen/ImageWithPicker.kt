@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.screen
+package info.upump.jym.ui.screens.screenscomponents.screen
 
 import android.Manifest
 import android.content.Context

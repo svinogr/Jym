@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.theme
+package info.upump.jym.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

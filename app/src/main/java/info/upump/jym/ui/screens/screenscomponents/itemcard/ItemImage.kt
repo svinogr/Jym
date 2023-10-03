@@ -34,9 +34,9 @@ fun ItemImage(
 @Composable
 fun ItemImagePreview() {
     ItemImage(
-        image = info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
+        image = info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
         defaultImage =
-        info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value
+        info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value
     ) {}
 
 }

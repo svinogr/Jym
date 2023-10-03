@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SetsVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), SetsVMInterface {
+class SetsVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), SetsVMInterface {
     private val _sets = MutableStateFlow<Sets>(Sets())
     override val item: StateFlow<Sets> = _sets.asStateFlow()
 

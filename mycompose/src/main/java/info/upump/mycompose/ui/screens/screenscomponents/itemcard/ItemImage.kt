@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.itemcard
+package info.upump.jym.ui.screens.screenscomponents.itemcard
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,7 +10,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import info.upump.mycompose.ui.screens.screenscomponents.BitmapCreator
+import info.upump.jym.ui.screens.screenscomponents.BitmapCreator
 
 @Composable
 fun ItemImage(
@@ -34,9 +34,9 @@ fun ItemImage(
 @Composable
 fun ItemImagePreview() {
     ItemImage(
-        image = info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
+        image = info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
         defaultImage =
-        info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value
+        info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value
     ) {}
 
 }

@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.itemcard
+package info.upump.jym.ui.screens.screenscomponents.itemcard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Exercise
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.ExerciseItemCard
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.jym.R
+import info.upump.jym.models.entity.Exercise
+import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.jym.ui.screens.screenscomponents.itemcard.item.ExerciseItemCard
+import info.upump.jym.ui.screens.screenscomponents.screen.DividerCustom
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

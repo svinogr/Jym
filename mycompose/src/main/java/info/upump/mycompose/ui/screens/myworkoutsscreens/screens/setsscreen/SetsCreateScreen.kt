@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.screens.setsscreen
+package info.upump.jym.ui.screens.myworkoutsscreens.screens.setsscreen
 
 import android.util.Log
 import androidx.activity.compose.BackHandler
@@ -26,11 +26,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.NumberPicker
-import info.upump.mycompose.ui.screens.screenscomponents.NumberPickerWithStep
-import info.upump.mycompose.ui.screens.viewmodel.sets.SetsVM
+import info.upump.jym.R
+import info.upump.jym.ui.screens.screenscomponents.FloatButtonWithState
+import info.upump.jym.ui.screens.screenscomponents.NumberPicker
+import info.upump.jym.ui.screens.screenscomponents.NumberPickerWithStep
+import info.upump.jym.ui.screens.viewmodel.sets.SetsVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

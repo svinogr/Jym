@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.itemcard
+package info.upump.jym.ui.screens.screenscomponents.itemcard
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -33,13 +33,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.WorkoutItemCard
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
-import info.upump.mycompose.ui.theme.MyTextLabel16
-import info.upump.mycompose.ui.theme.MyTextTitleLabel20
+import info.upump.jym.R
+import info.upump.jym.models.entity.Workout
+import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.jym.ui.screens.screenscomponents.itemcard.item.WorkoutItemCard
+import info.upump.jym.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.jym.ui.theme.MyTextLabel16
+import info.upump.jym.ui.theme.MyTextTitleLabel20
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -216,7 +216,7 @@ fun listWithGroup(
 fun ListWorkoutsPreview() {
     val nav = NavHostController(LocalContext.current)
     ListWorkouts(
-        info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.subItems.collectAsState().value,
+        info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.subItems.collectAsState().value,
         LazyListState(),
         nav
     ) {}

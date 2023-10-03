@@ -1,4 +1,4 @@
-package info.upump.mycompose.models.entity
+package info.upump.jym.models.entity
 
 import java.text.ParseException
 import java.text.SimpleDateFormat

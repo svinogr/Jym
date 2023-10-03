@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.itemcard.item
+package info.upump.jym.ui.screens.screenscomponents.itemcard.item
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -22,11 +22,11 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ItemImage
-import info.upump.mycompose.ui.theme.MyTextLabel12
-import info.upump.mycompose.ui.theme.MyTextTitleLabel16
+import info.upump.jym.R
+import info.upump.jym.models.entity.Cycle
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ItemImage
+import info.upump.jym.ui.theme.MyTextLabel12
+import info.upump.jym.ui.theme.MyTextTitleLabel16
 
 @Composable
 fun CycleItemCard(

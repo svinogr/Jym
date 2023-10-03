@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.itemcard
+package info.upump.jym.ui.screens.screenscomponents.itemcard
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -20,16 +20,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Exercise
-import info.upump.mycompose.models.entity.ExerciseDescription
-import info.upump.mycompose.models.entity.Sets
-import info.upump.mycompose.models.entity.TypeMuscle
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.SetsItemCard
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustomBottom
-import info.upump.mycompose.ui.screens.screenscomponents.screen.TableHeader
-import info.upump.mycompose.ui.theme.MyTextTitleLabel20
+import info.upump.jym.R
+import info.upump.jym.models.entity.Exercise
+import info.upump.jym.models.entity.ExerciseDescription
+import info.upump.jym.models.entity.Sets
+import info.upump.jym.models.entity.TypeMuscle
+import info.upump.jym.ui.screens.screenscomponents.itemcard.item.SetsItemCard
+import info.upump.jym.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.jym.ui.screens.screenscomponents.screen.DividerCustomBottom
+import info.upump.jym.ui.screens.screenscomponents.screen.TableHeader
+import info.upump.jym.ui.theme.MyTextTitleLabel20
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

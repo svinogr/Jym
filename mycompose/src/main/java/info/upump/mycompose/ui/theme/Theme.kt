@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.theme
+package info.upump.jym.ui.theme
 
 import android.app.Activity
 import android.os.Build

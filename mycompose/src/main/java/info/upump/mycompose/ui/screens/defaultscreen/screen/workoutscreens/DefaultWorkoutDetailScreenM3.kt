@@ -29,14 +29,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListDefaultExercise
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
-import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
-import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
-import info.upump.mycompose.ui.screens.viewmodel.workout.WorkoutDetailVM
+import info.upump.jym.R
+import info.upump.jym.ui.screens.screenscomponents.BottomSheet
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ListDefaultExercise
+import info.upump.jym.ui.screens.screenscomponents.screen.CardDate
+import info.upump.jym.ui.screens.screenscomponents.screen.Chips
+import info.upump.jym.ui.screens.screenscomponents.screen.ImageByDay
+import info.upump.jym.ui.screens.screenscomponents.screen.RowChips
+import info.upump.jym.ui.screens.viewmodel.workout.WorkoutDetailVM
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)

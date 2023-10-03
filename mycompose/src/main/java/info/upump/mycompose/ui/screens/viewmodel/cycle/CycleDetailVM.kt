@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.viewmodel.cycle
+package info.upump.jym.ui.screens.viewmodel.cycle
 
 import androidx.lifecycle.viewModelScope
 import info.upump.database.RepoActions
@@ -8,9 +8,9 @@ import info.upump.database.entities.CycleFullEntityWithWorkouts
 import info.upump.database.entities.WorkoutEntity
 import info.upump.database.repo.CycleRepo
 import info.upump.database.repo.WorkoutRepo
-import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.models.entity.Day
-import info.upump.mycompose.models.entity.Workout
+import info.upump.jym.models.entity.Cycle
+import info.upump.jym.models.entity.Day
+import info.upump.jym.models.entity.Workout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
 
-class CycleDetailVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(),
+class CycleDetailVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(),
     CycleDetailVMInterface {
     private val workoutRepo: RepoActions<WorkoutEntity> = WorkoutRepo.get()
     private val cycleRepo: RepoActionsSpecific<CycleEntity, CycleFullEntityWithWorkouts> =
@@ -100,7 +100,7 @@ class CycleDetailVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateL
 
     companion object {
         val vmOnlyForPreview by lazy {
-            object : info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVMInterface {
+            object : info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVMInterface {
                 private val _itemList = MutableStateFlow(
                     mutableListOf(
                         Cycle().apply { title = "Preview2" },

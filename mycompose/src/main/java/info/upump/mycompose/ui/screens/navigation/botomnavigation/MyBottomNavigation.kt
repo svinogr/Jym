@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.navigation.botomnavigation
+package info.upump.jym.ui.screens.navigation.botomnavigation
 
 import android.util.Log
 import androidx.compose.foundation.background

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class ExerciseReviewVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), ExerciseReviewVMInterface {
+class ExerciseReviewVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), ExerciseReviewVMInterface {
     private val exerciseRepo = ExerciseRepo.get()
 
     private val _item = MutableStateFlow(Exercise().apply {

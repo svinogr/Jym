@@ -1,6 +1,6 @@
-package info.upump.mycompose.models.entity
+package info.upump.jym.models.entity
 
-import info.upump.mycompose.R
+import info.upump.jym.R
 
 
 enum class TypeMuscle {

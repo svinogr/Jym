@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.screens.cyclescreens
+package info.upump.jym.ui.screens.myworkoutsscreens.screens.cyclescreens
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -25,15 +25,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.myworkoutsscreens.ActionState
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescriptiondWithEdit
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DateCardWithDatePicker
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageTitleImageTitle
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageWithPicker
-import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleVMCreateEdit
+import info.upump.jym.R
+import info.upump.jym.ui.screens.myworkoutsscreens.ActionState
+import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.jym.ui.screens.screenscomponents.FloatButtonWithState
+import info.upump.jym.ui.screens.screenscomponents.screen.CardDescriptiondWithEdit
+import info.upump.jym.ui.screens.screenscomponents.screen.DateCardWithDatePicker
+import info.upump.jym.ui.screens.screenscomponents.screen.ImageTitleImageTitle
+import info.upump.jym.ui.screens.screenscomponents.screen.ImageWithPicker
+import info.upump.jym.ui.screens.viewmodel.cycle.CycleVMCreateEdit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

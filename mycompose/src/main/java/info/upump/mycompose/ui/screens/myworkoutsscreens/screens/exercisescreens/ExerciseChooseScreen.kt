@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.screens.exercisescreens
+package info.upump.jym.ui.screens.myworkoutsscreens.screens.exercisescreens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,20 +21,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Day
-import info.upump.mycompose.models.entity.Exercise
-import info.upump.mycompose.models.entity.ExerciseDescription
-import info.upump.mycompose.models.entity.TypeMuscle
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListChooseExercise
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListDefaultExercise
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListExercise
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CheckChips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
-import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChooseChips
-import info.upump.mycompose.ui.screens.viewmodel.exercise.ExerciseChooseVM
-import info.upump.mycompose.ui.screens.viewmodel.exercise.ExerciseVM
+import info.upump.jym.R
+import info.upump.jym.models.entity.Day
+import info.upump.jym.models.entity.Exercise
+import info.upump.jym.models.entity.ExerciseDescription
+import info.upump.jym.models.entity.TypeMuscle
+import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ListChooseExercise
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ListDefaultExercise
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ListExercise
+import info.upump.jym.ui.screens.screenscomponents.screen.CheckChips
+import info.upump.jym.ui.screens.screenscomponents.screen.ImageByDay
+import info.upump.jym.ui.screens.screenscomponents.screen.RowChooseChips
+import info.upump.jym.ui.screens.viewmodel.exercise.ExerciseChooseVM
+import info.upump.jym.ui.screens.viewmodel.exercise.ExerciseVM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

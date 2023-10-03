@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'info.upump.mycompose'
+    namespace 'info.upump.jym'
     compileSdk 34
 
     defaultConfig {

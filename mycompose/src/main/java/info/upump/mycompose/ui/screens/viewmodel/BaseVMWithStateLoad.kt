@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.viewmodel
+package info.upump.jym.ui.screens.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

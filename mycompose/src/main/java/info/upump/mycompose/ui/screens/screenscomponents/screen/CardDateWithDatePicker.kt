@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.screen
+package info.upump.jym.ui.screens.screenscomponents.screen
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -24,10 +24,10 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Entity
-import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleVMCreateEdit
-import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
+import info.upump.jym.R
+import info.upump.jym.models.entity.Entity
+import info.upump.jym.ui.screens.viewmodel.cycle.CycleVMCreateEdit
+import info.upump.jym.ui.theme.MyTextTitleLabelWithColor
 import java.util.Date
 
 @Preview(showBackground = true, showSystemUi = true)

@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.screen
+package info.upump.jym.ui.screens.screenscomponents.screen
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.R
+import info.upump.jym.R
 
 open class Chips(val title: String, val icon: Int, val action: () -> Unit)
 class CheckChips(var check: Boolean = false, title: String, icon: Int, action: () -> Unit) :

@@ -32,13 +32,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ItemSwipeBackgroundOneIcon
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.ItemButton
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescriptionVariableTitle
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
-import info.upump.mycompose.ui.screens.viewmodel.profile.ProfileVM
-import info.upump.mycompose.utils.DBRestoreBackup
+import info.upump.jym.R
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ItemSwipeBackgroundOneIcon
+import info.upump.jym.ui.screens.screenscomponents.itemcard.item.ItemButton
+import info.upump.jym.ui.screens.screenscomponents.screen.CardDescriptionVariableTitle
+import info.upump.jym.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.jym.ui.screens.viewmodel.profile.ProfileVM
+import info.upump.jym.utils.DBRestoreBackup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

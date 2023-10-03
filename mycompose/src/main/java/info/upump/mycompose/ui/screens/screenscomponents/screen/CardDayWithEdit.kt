@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.screen
+package info.upump.jym.ui.screens.screenscomponents.screen
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -38,8 +38,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Day
+import info.upump.jym.R
+import info.upump.jym.models.entity.Day
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

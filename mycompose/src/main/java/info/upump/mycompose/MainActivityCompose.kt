@@ -1,4 +1,4 @@
-package info.upump.mycompose
+package info.upump.jym
 
 import android.content.Context
 import android.os.Bundle
@@ -11,8 +11,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import info.upump.database.DatabaseApp
-import info.upump.mycompose.ui.screens.mainscreen.MainScreen
-import info.upump.mycompose.ui.theme.JymTheme
+import info.upump.jym.ui.screens.mainscreen.MainScreen
+import info.upump.jym.ui.theme.JymTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch

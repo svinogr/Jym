@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents
+package info.upump.jym.ui.screens.screenscomponents
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
@@ -20,7 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.R
+import info.upump.jym.R
 
 @Composable
 fun FloatExtendedButtonWithState(

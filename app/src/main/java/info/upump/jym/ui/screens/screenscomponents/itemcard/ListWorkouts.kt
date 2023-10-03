@@ -213,7 +213,7 @@ fun listWithGroup(
 fun ListWorkoutsPreview() {
     val nav = NavHostController(LocalContext.current)
     ListWorkouts(
-        info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.subItems.collectAsState().value,
+        info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.subItems.collectAsState().value,
         LazyListState(),
         nav
     ) {}

@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.mainscreen
+package info.upump.jym.ui.screens.mainscreen
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -34,12 +34,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.MyBottomNavigation
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavGraph
-import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
-import info.upump.mycompose.ui.theme.MyOutlineTextTitleLabel20Text
-import info.upump.mycompose.ui.theme.MyTextTitleLabel20
+import info.upump.jym.R
+import info.upump.jym.ui.screens.navigation.botomnavigation.MyBottomNavigation
+import info.upump.jym.ui.screens.navigation.botomnavigation.NavGraph
+import info.upump.jym.ui.screens.screenscomponents.screen.SnackBar
+import info.upump.jym.ui.theme.MyOutlineTextTitleLabel20Text
+import info.upump.jym.ui.theme.MyTextTitleLabel20
 import kotlinx.coroutines.launch
 
 const val WHITE_STYLE = 1

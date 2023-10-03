@@ -1,4 +1,4 @@
-package info.upump.mycompose.utils
+package info.upump.jym.utils
 
 import android.content.Context
 import android.content.Intent
@@ -6,7 +6,7 @@ import android.net.Uri
 import info.upump.database.DatabaseApp
 import info.upump.database.RoomDB
 import info.upump.database.repo.CycleRepo
-import info.upump.mycompose.R
+import info.upump.jym.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow

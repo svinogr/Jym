@@ -32,8 +32,8 @@ abstract class RoomDB : RoomDatabase() {
     companion object {
         const val BASE_NAME = "jymO.db"
         const val BASE_NAME_RESTORE = "jymrestore.db"
-        const val DB_PATH = "data/data/info.upump.mycompose/databases/"
-        const val DB_PATH_RESTORE = "data/data/info.upump.mycompose/files/"
+        const val DB_PATH = "data/data/info.upump.jym/databases/"
+        const val DB_PATH_RESTORE = "data/data/info.upump.jym/files/"
         // добавляем новый столбец и не забываем увеличиьт версию в анотации выше
         val MIGRATION_1to2: Migration = Migration(1,2){
             it.execSQL("ALTER TABLE sets add column past_set real default undefined")

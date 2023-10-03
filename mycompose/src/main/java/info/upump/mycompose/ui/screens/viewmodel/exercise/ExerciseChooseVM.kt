@@ -1,13 +1,13 @@
-package info.upump.mycompose.ui.screens.viewmodel.exercise
+package info.upump.jym.ui.screens.viewmodel.exercise
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.ExerciseRepo
 import info.upump.database.repo.WorkoutRepo
-import info.upump.mycompose.models.entity.Day
-import info.upump.mycompose.models.entity.Exercise
-import info.upump.mycompose.models.entity.TypeMuscle
-import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
+import info.upump.jym.models.entity.Day
+import info.upump.jym.models.entity.Exercise
+import info.upump.jym.models.entity.TypeMuscle
+import info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
-class ExerciseChooseVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(),
+class ExerciseChooseVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(),
     ExerciseChooseVMInterface {
     private val exerciseRepo = ExerciseRepo.get()
     private val workoutRepo = WorkoutRepo.get()

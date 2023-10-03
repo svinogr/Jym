@@ -1,12 +1,12 @@
-package info.upump.mycompose.ui.screens.viewmodel.exercise
+package info.upump.jym.ui.screens.viewmodel.exercise
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.ExerciseRepo
 import info.upump.database.repo.SetsRepo
-import info.upump.mycompose.models.entity.Exercise
-import info.upump.mycompose.models.entity.Sets
-import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
+import info.upump.jym.models.entity.Exercise
+import info.upump.jym.models.entity.Sets
+import info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class ExerciseVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), ExerciseVMInterface {
+class ExerciseVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), ExerciseVMInterface {
     private val _imageDescription = MutableStateFlow("")
     val imageDescription = _imageDescription.asStateFlow()
 

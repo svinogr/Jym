@@ -1,15 +1,16 @@
 <resources>
     <string name="app_name">UPump</string>
-    <string name="authorities">info.upump.jym</string>
-
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <!--menu-->
-    <string name="action_settings">Настройки</string>
-    <string name="action_delete">Удалить</string>
-    <!---->
-
+    <string name="title_activity_main_compose">MainActivityCompose</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_of_mycycle_screen">Мои программы</string>
+    <string name="title_of_mystartcycle_screen">Мои программы</string>
+    <!--
+        <string name="title_of_defaultcycle_screen">Готовые программы</string>
+    -->
+    <string name="title_of_defaultcycle_screen">Шаблоны</string>
+    <string name="title_of_profile_screen">Профиль</string>
+    <string name="title_of_profile_screen2">Настройки</string>
+    <string name="action_with_db">Действия с базой данных</string>
 
     <!-- list muscles-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -39,6 +40,7 @@
 
     <string name="workout_fragment_title">Мои тренировки</string>
     <string name="set_create_title">Создать новый подход</string>
+    <string name="set_create_">добавить подход</string>
     <string name="set_update_title">Изменить подход</string>
     <string name="title_activity_exercise_detail">ExerciseDetailActivity</string>
     <string name="no_description">Нет описания</string>
@@ -69,7 +71,6 @@
     <string name="tab_calves">Голени</string>
     <string name="tab_description">Описание</string>
 
-
     <!--day-->
     <string name="day_monday">понедельник</string>
     <string name="day_wednesday">среда</string>
@@ -82,12 +83,18 @@
     <string name="label_cycle">Данные программы</string>
     <string name="label_start_cycle">Дата начала</string>
     <string name="label_finish_cycle">Дата окончания</string>
-    <string name="label_description_cycle">Описание</string>
+    <string name="label_description_cycle">Коментарий</string>
     <string name="label_title_cycle">Название программы</string>
     <string name="title_cycle_hint">Новая программа</string>
     <string name="action_clear">Очистить</string>
+    <string name="label_title_common">Название</string>
+
     <!--dialog-->
-    <string name="save">Сохранить?</string>
+    <string name="clean_cycle">Удалить эти тренировки?</string>
+    <string name="clean_workouts">Удалить эти упражнения?</string>
+    <string name="clean_exercise">Удалить эти подходы?</string>
+    <string name="save_Capitalizw">Сохранить?</string>
+    <string name="save">сохранить</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="label_spinner_day">День недели</string>
@@ -144,9 +151,10 @@
     <!--dialog-->
     <string name="cycle_dialog_title">Выберите действие:</string>
     <string name="cycle_dialog_create_new">Создать новую программу</string>
+    <string name="cycle_create_new">Добавить программу</string>
     <string name="cycle_dialog_сhoose">Выбрать готовую программу</string>
     <string name="workout_dialog_title">Выберите действие:</string>
-    <string name="workout_dialog_create_new">Создать новую тренировку</string>
+    <string name="workout_dialog_create_new">Добавить тренировку</string>
     <string name="workout_dialog_сhoose">Выбрать готовую тренировку</string>
     <string name="title_activity_settings2">Settings</string>
 
@@ -283,6 +291,13 @@
     <string name="warning_save_description">Сохранить изменение описания</string>
 
     <string name="snack_delete">Удалить?</string>
+    <string name="chips_delete">удалить</string>
+    <string name="chips_clear">очистить</string>
+    <string name="chips_comment">коментарий</string>
+    <string name="chips_edite">редактровать</string>
+    <string name="chips_copy">скопировать</string>
+
+
     <string name="snack_cycle_delete_workouts">Удалить тренировки</string>
     <string name="snack_exersice_delete_sets">Удалить подходы</string>
     <string name="snack_workout_delete_exercises">Удалить упражнения</string>
@@ -298,7 +313,7 @@
     <string name="idAdd">ca-app-pub-7715449191385617~1256202239</string>
     <string name="banner_ad_unit_id">ca-app-pub-7715449191385617/8047883437</string>
     <string name="week_even">четная неделя</string>
-    <string name="week_not_even">нечентная неделя</string>
+    <string name="week_not_even">нечетная неделя</string>
     <string name="week_even_label">Четная неделя</string>
     <string name="title_activity_user">Параметры измерений</string>
     <string name="pref_header_backup">Перенос базы данных</string>
@@ -306,7 +321,7 @@
     <string name="backupToFileDone">Экспорт завершен</string>
     <string name="backupToCurentBD">Импорт завершен</string>
     <string name="label_weight_set_past">Пред. вес</string>
-    <string name="to_view_workout">Просмотр</string>
+    <string name="to_view_workout">просмотр</string>
     <string name="start_time_00">00</string>
     <string name="stopwatch_btn_stop">STOP</string>
     <string name="stopwatch_btn_start">START</string>
@@ -325,4 +340,9 @@
     <string name="title">Select Folder</string>
 
     <string name="location">Location</string>
+    <string name="tab_cycle_title">тренировки</string>
+    <string name="tab_cycle_description">описание</string>
+    <string name="edit">Редактирование</string>
+    <string name="error_tips_empty_field">пустое поле</string>
+
 </resources>

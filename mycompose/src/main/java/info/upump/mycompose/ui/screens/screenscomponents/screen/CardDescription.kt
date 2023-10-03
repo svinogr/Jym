@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.screen
+package info.upump.jym.ui.screens.screenscomponents.screen
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,8 +15,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.theme.MyTextTitleLabelWithColor
+import info.upump.jym.R
+import info.upump.jym.ui.theme.MyTextTitleLabelWithColor
 
 @Composable
 fun CardDescription(

@@ -1,6 +1,5 @@
 package info.upump.jym.ui.screens.navigation.botomnavigation
 
-import WorkoutDetailScreenM3
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,6 +23,7 @@ import info.upump.jym.ui.screens.myworkoutsscreens.screens.setsscreen.SetEditeSc
 import info.upump.jym.ui.screens.myworkoutsscreens.screens.setsscreen.SetsCreateScreen
 import info.upump.jym.ui.screens.myworkoutsscreens.screens.workoutscreens.CreateWorkoutScreen
 import info.upump.jym.ui.screens.myworkoutsscreens.screens.workoutscreens.EditeWorkoutScreen
+import info.upump.jym.ui.screens.myworkoutsscreens.screens.workoutscreens.WorkoutDetailScreenM3
 import info.upump.jym.ui.screens.myworkoutsscreens.screens.workoutscreens.WorkoutReview
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"

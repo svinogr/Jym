@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents
+package info.upump.jym.ui.screens.screenscomponents
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
-import info.upump.mycompose.R
+import info.upump.jym.R
 
 @Composable
 @SuppressLint("InflateParams")

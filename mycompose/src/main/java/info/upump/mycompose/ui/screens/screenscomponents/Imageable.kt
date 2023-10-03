@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents
+package info.upump.jym.ui.screens.screenscomponents
 
 interface Imageable {
     val image: String

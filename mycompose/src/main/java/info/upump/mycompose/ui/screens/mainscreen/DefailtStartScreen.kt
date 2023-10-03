@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.mainscreen
+package info.upump.jym.ui.screens.mainscreen
 
 
 import android.graphics.Camera
@@ -16,8 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListItemDefaultsCycle
-import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleVM
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ListItemDefaultsCycle
+import info.upump.jym.ui.screens.viewmodel.cycle.CycleVM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

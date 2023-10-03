@@ -11,7 +11,7 @@ class DBProvider : FileProvider() {
     fun getDatabaseURI(c: Context): Uri {
         val data = Environment.getDataDirectory()
         val dbName = "jym.db"
-        val currentDBPath = "//data//info.upump.mycompose//databases//$dbName"
+        val currentDBPath = "//data//info.upump.jym//databases//$dbName"
         val exportFile = File(data, currentDBPath)
 
         return getFileUri(c, exportFile)

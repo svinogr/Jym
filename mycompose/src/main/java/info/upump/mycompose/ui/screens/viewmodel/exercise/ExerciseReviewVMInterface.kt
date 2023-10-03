@@ -1,6 +1,6 @@
-package info.upump.mycompose.ui.screens.viewmodel.exercise
+package info.upump.jym.ui.screens.viewmodel.exercise
 
-import info.upump.mycompose.models.entity.Exercise
+import info.upump.jym.models.entity.Exercise
 import kotlinx.coroutines.flow.StateFlow
 
 interface ExerciseReviewVMInterface {

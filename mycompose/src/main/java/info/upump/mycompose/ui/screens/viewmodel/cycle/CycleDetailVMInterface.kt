@@ -1,7 +1,7 @@
-package info.upump.mycompose.ui.screens.viewmodel.cycle
+package info.upump.jym.ui.screens.viewmodel.cycle
 
-import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.models.entity.Workout
+import info.upump.jym.models.entity.Cycle
+import info.upump.jym.models.entity.Workout
 import kotlinx.coroutines.flow.StateFlow
 
 interface CycleDetailVMInterface {

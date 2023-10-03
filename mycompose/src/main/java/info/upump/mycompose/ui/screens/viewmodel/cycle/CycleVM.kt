@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.viewmodel.cycle
+package info.upump.jym.ui.screens.viewmodel.cycle
 
 import android.content.Context
 import android.net.Uri
@@ -6,8 +6,8 @@ import android.util.Log
 import androidx.core.net.toFile
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.CycleRepo
-import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
+import info.upump.jym.models.entity.Cycle
+import info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 // для списка всех cycles
-class CycleVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad() {
+class CycleVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad() {
     private val _cycleList = MutableStateFlow<List<Cycle>>(listOf())
     val cycleList: StateFlow<List<Cycle>> = _cycleList.asStateFlow()
     private val cycleRepo = CycleRepo.get()

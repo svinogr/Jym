@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.screens.exercisescreens
+package info.upump.jym.ui.screens.myworkoutsscreens.screens.exercisescreens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
@@ -13,11 +13,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.models.entity.TypeMuscle
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescription
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardTypeMuscle
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
-import info.upump.mycompose.ui.screens.viewmodel.exercise.ExerciseReviewVM
+import info.upump.jym.models.entity.TypeMuscle
+import info.upump.jym.ui.screens.screenscomponents.screen.CardDescription
+import info.upump.jym.ui.screens.screenscomponents.screen.CardTypeMuscle
+import info.upump.jym.ui.screens.screenscomponents.screen.ImageForDetailScreen
+import info.upump.jym.ui.screens.viewmodel.exercise.ExerciseReviewVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

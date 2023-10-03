@@ -1,9 +1,9 @@
-package info.upump.mycompose.ui.screens.viewmodel.workout
+package info.upump.jym.ui.screens.viewmodel.workout
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
-import info.upump.mycompose.ui.screens.screenscomponents.screen.StopWatchState
+import info.upump.jym.ui.screens.screenscomponents.screen.StopWatchState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,6 +1,5 @@
 package info.upump.jym.ui.screens.navigation.botomnavigation
 
-import DefaultWorkoutDetailScreenM3
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,6 +12,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import info.upump.jym.ui.screens.defaultscreen.screen.cyclescreen.DefaultCycleDetailScreenM3
 import info.upump.jym.ui.screens.defaultscreen.screen.exercise.DefaultExerciseDetailScreen
+import info.upump.jym.ui.screens.defaultscreen.screen.workoutscreens.DefaultWorkoutDetailScreenM3
 import info.upump.jym.ui.screens.mainscreen.DEFAULT_STYLE
 import info.upump.jym.ui.screens.mainscreen.DefaultStartScreen
 import info.upump.jym.ui.screens.mainscreen.WHITE_STYLE

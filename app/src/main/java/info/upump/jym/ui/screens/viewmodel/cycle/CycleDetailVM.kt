@@ -100,7 +100,7 @@ class CycleDetailVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(),
 
     companion object {
         val vmOnlyForPreview by lazy {
-            object : info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVMInterface {
+            object : info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVMInterface {
                 private val _itemList = MutableStateFlow(
                     mutableListOf(
                         Cycle().apply { title = "Preview2" },

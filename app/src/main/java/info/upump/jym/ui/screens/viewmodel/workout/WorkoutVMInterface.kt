@@ -1,7 +1,7 @@
 package info.upump.jym.ui.screens.viewmodel.workout
 
-import info.upump.mycompose.models.entity.Day
-import info.upump.mycompose.models.entity.Workout
+import info.upump.jym.models.entity.Day
+import info.upump.jym.models.entity.Workout
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Date
 

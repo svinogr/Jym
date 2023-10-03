@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
-class ExerciseChooseVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(),
+class ExerciseChooseVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(),
     ExerciseChooseVMInterface {
     private val exerciseRepo = ExerciseRepo.get()
     private val workoutRepo = WorkoutRepo.get()

@@ -1,4 +1,4 @@
-package info.upump.mycompose
+package info.upump.jym
 
 import android.app.Application
 import android.util.Log

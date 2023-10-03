@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.navigation.botomnavigation
+package info.upump.jym.ui.screens.navigation.botomnavigation
 
 import WorkoutDetailScreenM3
 import android.content.Context
@@ -13,20 +13,20 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import info.upump.mycompose.ui.screens.mainscreen.DEFAULT_STYLE
-import info.upump.mycompose.ui.screens.mainscreen.MyCycleScreen
-import info.upump.mycompose.ui.screens.mainscreen.WHITE_STYLE
-import info.upump.mycompose.ui.screens.myworkoutsscreens.ActionState
-import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.setsscreen.SetsCreateScreen
-import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.cyclescreens.AlterCycleDetailScreenM3
-import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.cyclescreens.CreateEditeCycleScreen
-import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.exercisescreens.ExerciseChooseScreen
-import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.exercisescreens.ExerciseReviewScreen
-import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.exercisescreens.MyExerciseDetailScreen
-import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.setsscreen.SetEditeScreen
-import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens.CreateWorkoutScreen
-import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens.EditeWorkoutScreen
-import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens.WorkoutReview
+import info.upump.jym.ui.screens.mainscreen.DEFAULT_STYLE
+import info.upump.jym.ui.screens.mainscreen.MyCycleScreen
+import info.upump.jym.ui.screens.mainscreen.WHITE_STYLE
+import info.upump.jym.ui.screens.myworkoutsscreens.ActionState
+import info.upump.jym.ui.screens.myworkoutsscreens.screens.setsscreen.SetsCreateScreen
+import info.upump.jym.ui.screens.myworkoutsscreens.screens.cyclescreens.AlterCycleDetailScreenM3
+import info.upump.jym.ui.screens.myworkoutsscreens.screens.cyclescreens.CreateEditeCycleScreen
+import info.upump.jym.ui.screens.myworkoutsscreens.screens.exercisescreens.ExerciseChooseScreen
+import info.upump.jym.ui.screens.myworkoutsscreens.screens.exercisescreens.ExerciseReviewScreen
+import info.upump.jym.ui.screens.myworkoutsscreens.screens.exercisescreens.MyExerciseDetailScreen
+import info.upump.jym.ui.screens.myworkoutsscreens.screens.setsscreen.SetEditeScreen
+import info.upump.jym.ui.screens.myworkoutsscreens.screens.workoutscreens.CreateWorkoutScreen
+import info.upump.jym.ui.screens.myworkoutsscreens.screens.workoutscreens.EditeWorkoutScreen
+import info.upump.jym.ui.screens.myworkoutsscreens.screens.workoutscreens.WorkoutReview
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
 

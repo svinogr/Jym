@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.defaultscreen.screen.cyclescreen
+package info.upump.jym.ui.screens.defaultscreen.screen.cyclescreen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
@@ -30,14 +30,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListItemDefaultsWorkouts
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
-import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
-import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
-import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM
+import info.upump.jym.R
+import info.upump.jym.ui.screens.screenscomponents.BottomSheet
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ListItemDefaultsWorkouts
+import info.upump.jym.ui.screens.screenscomponents.screen.CardDate
+import info.upump.jym.ui.screens.screenscomponents.screen.Chips
+import info.upump.jym.ui.screens.screenscomponents.screen.ImageForDetailScreen
+import info.upump.jym.ui.screens.screenscomponents.screen.RowChips
+import info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)

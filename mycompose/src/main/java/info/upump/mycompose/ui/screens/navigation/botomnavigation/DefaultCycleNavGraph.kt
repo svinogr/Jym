@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.navigation.botomnavigation
+package info.upump.jym.ui.screens.navigation.botomnavigation
 
 import DefaultWorkoutDetailScreenM3
 import android.content.Context
@@ -11,11 +11,11 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import info.upump.mycompose.ui.screens.mainscreen.DEFAULT_STYLE
-import info.upump.mycompose.ui.screens.mainscreen.DefaultStartScreen
-import info.upump.mycompose.ui.screens.mainscreen.WHITE_STYLE
-import info.upump.mycompose.ui.screens.defaultscreen.screen.cyclescreen.DefaultCycleDetailScreenM3
-import info.upump.mycompose.ui.screens.defaultscreen.screen.exercise.DefaultExerciseDetailScreen
+import info.upump.jym.ui.screens.mainscreen.DEFAULT_STYLE
+import info.upump.jym.ui.screens.mainscreen.DefaultStartScreen
+import info.upump.jym.ui.screens.mainscreen.WHITE_STYLE
+import info.upump.jym.ui.screens.defaultscreen.screen.cyclescreen.DefaultCycleDetailScreenM3
+import info.upump.jym.ui.screens.defaultscreen.screen.exercise.DefaultExerciseDetailScreen
 
 const val DEFAULT_CYCLE_ROOT_ROUTE = "default_cycle_root_route"
 

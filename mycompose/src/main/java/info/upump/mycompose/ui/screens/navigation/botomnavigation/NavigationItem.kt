@@ -1,6 +1,6 @@
-package info.upump.mycompose.ui.screens.navigation.botomnavigation
+package info.upump.jym.ui.screens.navigation.botomnavigation
 
-import info.upump.mycompose.R
+import info.upump.jym.R
 
 const val MY_START_CYCLE_ROUTE = "myStartCycleRoute"
 const val DEFAULT_START_CYCLE_ROUTE = "defaultStartCycleRoute"

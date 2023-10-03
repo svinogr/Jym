@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.itemcard.item
+package info.upump.jym.ui.screens.screenscomponents.itemcard.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,8 +23,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.theme.MyTextTitleLabel16
+import info.upump.jym.R
+import info.upump.jym.ui.theme.MyTextTitleLabel16
 
 @Composable
 fun ItemButton(

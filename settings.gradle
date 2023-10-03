@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Jym"
-include ':database'
 include ':app'
+include ':database'

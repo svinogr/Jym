@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.screens.exercisescreens
+package info.upump.jym.ui.screens.myworkoutsscreens.screens.exercisescreens
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
@@ -26,17 +26,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListSets
-import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
-import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
-import info.upump.mycompose.ui.screens.screenscomponents.screen.TableHeader
-import info.upump.mycompose.ui.screens.viewmodel.exercise.ExerciseVM
+import info.upump.jym.R
+import info.upump.jym.ui.screens.mainscreen.isScrollingUp
+import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.jym.ui.screens.screenscomponents.FloatButtonWithState
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ListSets
+import info.upump.jym.ui.screens.screenscomponents.screen.Chips
+import info.upump.jym.ui.screens.screenscomponents.screen.ImageForDetailScreen
+import info.upump.jym.ui.screens.screenscomponents.screen.RowChips
+import info.upump.jym.ui.screens.screenscomponents.screen.SnackBar
+import info.upump.jym.ui.screens.screenscomponents.screen.TableHeader
+import info.upump.jym.ui.screens.viewmodel.exercise.ExerciseVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

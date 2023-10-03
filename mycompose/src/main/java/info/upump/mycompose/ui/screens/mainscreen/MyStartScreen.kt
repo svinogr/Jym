@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.mainscreen
+package info.upump.jym.ui.screens.mainscreen
 
 
 import android.content.Context
@@ -27,11 +27,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListCycle
-import info.upump.mycompose.ui.screens.viewmodel.cycle.CycleVM
+import info.upump.jym.R
+import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.jym.ui.screens.screenscomponents.FloatButtonWithState
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ListCycle
+import info.upump.jym.ui.screens.viewmodel.cycle.CycleVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

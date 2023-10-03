@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents
+package info.upump.jym.ui.screens.screenscomponents
 
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDescription
+import info.upump.jym.ui.screens.screenscomponents.screen.CardDescription
 
 @Composable
 fun BottomSheet(text: String, modifier: Modifier = Modifier) {

@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.myworkoutsscreens.screens.cyclescreens
+package info.upump.jym.ui.screens.myworkoutsscreens.screens.cyclescreens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,16 +30,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.ui.screens.mainscreen.isScrollingUp
-import info.upump.mycompose.ui.screens.screenscomponents.BottomSheet
-import info.upump.mycompose.ui.screens.screenscomponents.FloatButtonWithState
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListWorkouts
-import info.upump.mycompose.ui.screens.screenscomponents.screen.CardDate
-import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageForDetailScreen
-import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
-import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
+import info.upump.jym.R
+import info.upump.jym.ui.screens.mainscreen.isScrollingUp
+import info.upump.jym.ui.screens.screenscomponents.BottomSheet
+import info.upump.jym.ui.screens.screenscomponents.FloatButtonWithState
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ListWorkouts
+import info.upump.jym.ui.screens.screenscomponents.screen.CardDate
+import info.upump.jym.ui.screens.screenscomponents.screen.Chips
+import info.upump.jym.ui.screens.screenscomponents.screen.ImageForDetailScreen
+import info.upump.jym.ui.screens.screenscomponents.screen.RowChips
+import info.upump.jym.ui.screens.screenscomponents.screen.SnackBar
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -53,7 +53,7 @@ fun AlterCycleDetailScreenM2(
     appBarTitle: MutableState<String>
 ) {
     val listState = rememberLazyListState()
-    val cycleVM: info.upump.mycompose.ui.screens.viewmodel.cycle.CycleDetailVM = viewModel()
+    val cycleVM: info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM = viewModel()
     val context = LocalContext.current
 
     val coroutine = rememberCoroutineScope()

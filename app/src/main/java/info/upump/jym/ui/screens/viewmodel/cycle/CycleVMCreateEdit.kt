@@ -22,7 +22,7 @@ import java.io.FileOutputStream
 import java.util.Date
 import java.util.UUID
 
-class CycleVMCreateEdit() : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), CycleVMInterface {
+class CycleVMCreateEdit() : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), CycleVMInterface {
     companion object {
         val vmOnlyForPreview by lazy {
             object : CycleVMInterface {

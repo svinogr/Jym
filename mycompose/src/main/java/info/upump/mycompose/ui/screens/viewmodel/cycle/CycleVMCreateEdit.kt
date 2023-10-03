@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.viewmodel.cycle
+package info.upump.jym.ui.screens.viewmodel.cycle
 
 import android.content.Context
 import android.net.Uri
@@ -7,9 +7,9 @@ import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.CycleRepo
-import info.upump.mycompose.models.entity.Cycle
-import info.upump.mycompose.models.entity.Entity
-import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
+import info.upump.jym.models.entity.Cycle
+import info.upump.jym.models.entity.Entity
+import info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +22,7 @@ import java.io.FileOutputStream
 import java.util.Date
 import java.util.UUID
 
-class CycleVMCreateEdit() : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(), CycleVMInterface {
+class CycleVMCreateEdit() : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), CycleVMInterface {
     companion object {
         val vmOnlyForPreview by lazy {
             object : CycleVMInterface {

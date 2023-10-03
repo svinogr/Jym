@@ -1,4 +1,4 @@
-package info.upump.mycompose.models.entity
+package info.upump.jym.models.entity
 
 import info.upump.database.entities.ExerciseEntity
 import info.upump.database.entities.ExerciseFullEntity

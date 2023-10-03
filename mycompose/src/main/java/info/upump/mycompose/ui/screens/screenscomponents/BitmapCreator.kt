@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents
+package info.upump.jym.ui.screens.screenscomponents
 
 import android.net.Uri
 
@@ -7,7 +7,7 @@ import android.net.Uri
 class BitmapCreator {
     companion object {
         private const val DEFAULT_IMAGE = "drew"
-        private const val DEFAULT_IMAGE_ROUTE = "android.resource://info.upump.mycompose/drawable"
+        private const val DEFAULT_IMAGE_ROUTE = "android.resource://info.upump.jym/drawable"
         fun getImageWithUri(image: String, defaultImage: String): Uri {
             val uri: Uri = if (image.isNotBlank()) {
                 Uri.parse(image)

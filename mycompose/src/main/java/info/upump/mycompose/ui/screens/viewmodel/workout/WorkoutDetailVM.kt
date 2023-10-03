@@ -1,16 +1,16 @@
-package info.upump.mycompose.ui.screens.viewmodel.workout
+package info.upump.jym.ui.screens.viewmodel.workout
 
 import androidx.lifecycle.viewModelScope
 import info.upump.database.repo.ExerciseRepo
 import info.upump.database.repo.WorkoutRepo
-import info.upump.mycompose.models.entity.Day
-import info.upump.mycompose.models.entity.Exercise
-import info.upump.mycompose.models.entity.ExerciseDescription
-import info.upump.mycompose.models.entity.Sets
-import info.upump.mycompose.models.entity.TypeMuscle
-import info.upump.mycompose.models.entity.Workout
-import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
-import info.upump.mycompose.ui.screens.viewmodel.WorkoutDetailVMInterface
+import info.upump.jym.models.entity.Day
+import info.upump.jym.models.entity.Exercise
+import info.upump.jym.models.entity.ExerciseDescription
+import info.upump.jym.models.entity.Sets
+import info.upump.jym.models.entity.TypeMuscle
+import info.upump.jym.models.entity.Workout
+import info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad
+import info.upump.jym.ui.screens.viewmodel.WorkoutDetailVMInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,8 +19,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class WorkoutDetailVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(),
-    info.upump.mycompose.ui.screens.viewmodel.WorkoutDetailVMInterface {
+class WorkoutDetailVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(),
+    info.upump.jym.ui.screens.viewmodel.WorkoutDetailVMInterface {
     private val workoutRepo = WorkoutRepo.get()
 
     private val _workout = MutableStateFlow(Workout())
@@ -126,7 +126,7 @@ class WorkoutDetailVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStat
 
     companion object {
         val vmOnlyForPreview by lazy {
-            object : info.upump.mycompose.ui.screens.viewmodel.WorkoutDetailVMInterface {
+            object : info.upump.jym.ui.screens.viewmodel.WorkoutDetailVMInterface {
                 private val _workout = MutableStateFlow((Workout().apply {
                     id = 1
                     comment = "Предварительные выводы неутешительны: убеждённость некоторых оппонентов влечет за собой процесс внедрения и модернизации переосмысления внешнеэкономических политик. Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: консультация с широким активом способствует подготовке и реализации направлений прогрессивного развития. Также как перспективное планирование играет важную роль в формировании кластеризации усилий. Имеется спорная точка зрения, гласящая примерно следующее: активно развивающиеся страны третьего мира и по сей день остаются уделом либералов, которые жаждут быть функционально разнесены на независимые элементы."

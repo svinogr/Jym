@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.theme.customtheme
+package info.upump.jym.ui.theme.customtheme
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

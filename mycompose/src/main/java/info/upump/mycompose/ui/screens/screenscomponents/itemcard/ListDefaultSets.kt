@@ -1,4 +1,4 @@
-package info.upump.mycompose.ui.screens.screenscomponents.itemcard
+package info.upump.jym.ui.screens.screenscomponents.itemcard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,14 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import info.upump.mycompose.R
-import info.upump.mycompose.models.entity.Sets
-import info.upump.mycompose.ui.screens.navigation.botomnavigation.NavigationItem
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.ExerciseItemCard
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.SetsItemCard
-import info.upump.mycompose.ui.screens.screenscomponents.itemcard.item.SetsItemCardWithoutClick
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustom
-import info.upump.mycompose.ui.screens.screenscomponents.screen.DividerCustomBottom
+import info.upump.jym.R
+import info.upump.jym.models.entity.Sets
+import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
+import info.upump.jym.ui.screens.screenscomponents.itemcard.item.ExerciseItemCard
+import info.upump.jym.ui.screens.screenscomponents.itemcard.item.SetsItemCard
+import info.upump.jym.ui.screens.screenscomponents.itemcard.item.SetsItemCardWithoutClick
+import info.upump.jym.ui.screens.screenscomponents.screen.DividerCustom
+import info.upump.jym.ui.screens.screenscomponents.screen.DividerCustomBottom
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

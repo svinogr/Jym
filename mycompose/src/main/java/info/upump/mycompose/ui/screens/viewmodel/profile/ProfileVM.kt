@@ -1,10 +1,10 @@
-package info.upump.mycompose.ui.screens.viewmodel.profile
+package info.upump.jym.ui.screens.viewmodel.profile
 
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad
-import info.upump.mycompose.utils.DBRestoreBackup
+import info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad
+import info.upump.jym.utils.DBRestoreBackup
 import kotlinx.coroutines.flow.update
 
 class ProfileVM : BaseVMWithStateLoad() {
