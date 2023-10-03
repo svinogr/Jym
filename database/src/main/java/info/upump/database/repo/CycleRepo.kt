@@ -12,8 +12,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 
@@ -73,7 +71,7 @@ class CycleRepo private constructor(db: RoomDB) :
         return cycleDao.getAllTemplate()
     }
 
-    suspend fun copyToPersonal(id: Long) {
+    suspend fun copyToPersonal(id: Long, today: String) {
         cycleDao.getFullCycle(id)
             .take(1)
             .onEach {
@@ -90,7 +88,7 @@ class CycleRepo private constructor(db: RoomDB) :
 
             }
             .collect { c ->
-                copy(listOf(c))
+                copy(listOf(c), today)
             }
     }
 
@@ -115,7 +113,7 @@ class CycleRepo private constructor(db: RoomDB) :
     }
 
 
-    private suspend fun copy(list: List<CycleFullEntity>) {
+    private suspend fun copy(list: List<CycleFullEntity>, today: String) {
         val listForDbWrite = mutableListOf<Deferred<CycleEntity>>()
         val workoutsRepo = WorkoutRepo.get()
         coroutineScope {
@@ -124,6 +122,11 @@ class CycleRepo private constructor(db: RoomDB) :
                     async {
                         val c = cycle.cycleEntity
                         c._id = 0
+                        if (today.isNotBlank()) {
+                            c.start_date = today
+                            c.finish_date = today
+                        }
+
                         val id = cycleDao.save(c)
 
                         for (workout in cycle.listWorkoutEntity) {
@@ -132,6 +135,12 @@ class CycleRepo private constructor(db: RoomDB) :
                             async {
                                 workout.workoutEntity._id = 0
                                 workout.workoutEntity.parent_id = id
+
+                                if (today.isNotBlank()) {
+                                    workout.workoutEntity.start_date = today
+                                    workout.workoutEntity.finish_date = today
+                                }
+
                                 val idW = repoW.save(workout.workoutEntity)._id
 
                                 val repoE = ExerciseRepo.get()
@@ -168,59 +177,6 @@ class CycleRepo private constructor(db: RoomDB) :
     }
 
     suspend fun saveFullEntitiesOnlyFromOtherDB(list: List<CycleFullEntity>) {
-        // val s = System.currentTimeMillis()
-        //  val listForDbWrite = mutableListOf<Deferred<CycleEntity>>()
-        //   val workoutsRepo = WorkoutRepo.get()
-
-        copy(list)
-        /* coroutineScope {
-
-             for (cycle in list) {
-                 val cycleE =
-                     async {
-                         val c = cycle.cycleEntity
-                         c._id = 0
-                         val id = cycleDao.save(c)
-
-                         for (workout in cycle.listWorkoutEntity) {
-                             val repoW = workoutsRepo
-
-                             async {
-                                 workout.workoutEntity._id = 0
-                                 workout.workoutEntity.parent_id = id
-                                 val idW = repoW.save(workout.workoutEntity)._id
-
-                                 val repoE = ExerciseRepo.get()
-
-                                 for (exercise in workout.listExerciseEntity) {
-                                     async {
-                                         exercise.exerciseEntity._id = 0
-                                         exercise.exerciseEntity.parent_id = idW
-                                         val idE = repoE.save(exercise.exerciseEntity)
-
-                                         val repoS = SetsRepo.get()
-
-                                         for (sets in exercise.listSetsEntity) {
-                                             async {
-                                                 sets._id = 0
-                                                 sets.parent_id = idE._id
-                                                 repoS.save(sets)
-
-                                             }
-                                         }
-                                     }
-                                 }
-
-                             }
-                         }
-
-                         return@async c
-                     }
-                 listForDbWrite.add(cycleE)
-             }
-         }*/
-
-        //  val f = System.currentTimeMillis()
-        //  listForDbWrite.awaitAll()
+        copy(list, "")
     }
 }

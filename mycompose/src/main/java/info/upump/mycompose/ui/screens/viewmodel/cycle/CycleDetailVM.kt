@@ -1,6 +1,5 @@
 package info.upump.mycompose.ui.screens.viewmodel.cycle
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import info.upump.database.RepoActions
 import info.upump.database.RepoActionsSpecific
@@ -19,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class CycleDetailVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateLoad(),
     CycleDetailVMInterface {
@@ -92,9 +92,8 @@ class CycleDetailVM : info.upump.mycompose.ui.screens.viewmodel.BaseVMWithStateL
         _stateLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             val cycleRepo = CycleRepo.get() as CycleRepo
-            Log.d("copyToPersonal", "vm")
-
-            cycleRepo.copyToPersonal(id)
+            val today = Cycle.formatDateToString(Date())
+            cycleRepo.copyToPersonal(id, today)
             _stateLoading.value = false
         }
     }
