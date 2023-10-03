@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Jym"
-include ':mycompose'
 include ':database'
+include ':app'

@@ -40,10 +40,7 @@
             android:name=".SplashActivity"
             android:exported="true"
             android:icon="@drawable/logo_upump_round">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
     </application>
 </manifest>
