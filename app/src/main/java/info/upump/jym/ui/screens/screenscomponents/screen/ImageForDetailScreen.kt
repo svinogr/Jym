@@ -12,7 +12,6 @@ import coil.compose.AsyncImage
 import info.upump.jym.ui.screens.screenscomponents.BitmapCreator
 import info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImageForDetailScreen(
     image: String,

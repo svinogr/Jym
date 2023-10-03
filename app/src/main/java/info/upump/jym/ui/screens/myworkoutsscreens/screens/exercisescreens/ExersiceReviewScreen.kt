@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -37,14 +38,14 @@ fun ExerciseReviewScreen(
     }
     Scaffold { it ->
         Column {
-            ImageForDetailScreen(
+            ImageForDetailScreen(modifier = Modifier.weight(1.5f),
                 image = exerciseVM.item.collectAsState().value.exerciseDescription!!.img,
                 defaultImage = exerciseVM.item.collectAsState().value.exerciseDescription!!.defaultImg
             )
 
             CardTypeMuscle(text = stringResource(id = exerciseVM.item.collectAsState().value.typeMuscle.title))
 
-            CardDescription(textDescription = exerciseVM.item.collectAsState().value.comment)
+            CardDescription(textDescription = exerciseVM.item.collectAsState().value.comment, modifier =  Modifier.weight(4f))
         }
     }
 
@@ -66,6 +67,6 @@ fun ExersiceReviewScreenPreview() {
 
         CardTypeMuscle(text = stringResource(id = TypeMuscle.NECK.title))
 
-        CardDescription(textDescription = "djkwgdjkghdwkdghlkdwjkdgwgjkwdgjkwdwdgjk")
+        CardDescription(textDescription = "djkwgdjkghdwkdghlkdwjkdgwgjkwdgjkwdwdgjk", modifier =  Modifier.weight(4f))
     }
 }
