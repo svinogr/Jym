@@ -30,7 +30,6 @@ import info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens.
 
 const val MY_CYCLE_ROOT_ROUTE = "myCycleRootRoute"
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.myCycleGraph(
     navHostController: NavHostController,
     appBarTitle: MutableState<String>,

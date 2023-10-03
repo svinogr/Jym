@@ -11,7 +11,6 @@ import androidx.navigation.compose.NavHost
 
 const val NAVGRAPH_ROOT_ROUTE = "navgraphRootRoute"
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavGraph(
     navHostController: NavHostController,

@@ -56,7 +56,6 @@ fun MyExerciseDetailScreen(
     val coroutine = rememberCoroutineScope()
 
     appBarTitle.value = stringResource(id = R.string.exercise_title_sets)
-    Log.d("saveItem", "$id")
     val l = remember{
         mutableStateOf(exerciseVM.subItems)}
     val snackBarHostState = remember { SnackbarHostState() }
@@ -82,7 +81,7 @@ fun MyExerciseDetailScreen(
 
                 snackBarHostState
             ) {
-                SnackBar(stringResource(id = R.string.clean_workouts), R.drawable.ic_delete_24) {
+                SnackBar(stringResource(id = R.string.clean_exercise), R.drawable.ic_delete_24) {
                     exerciseVM.cleanItem()
                 }
             }

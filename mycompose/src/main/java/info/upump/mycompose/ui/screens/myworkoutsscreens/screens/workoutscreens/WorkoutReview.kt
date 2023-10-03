@@ -1,6 +1,8 @@
 package info.upump.mycompose.ui.screens.myworkoutsscreens.screens.workoutscreens
 
+import android.app.Activity
 import android.os.Build
+import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,7 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,6 +46,7 @@ import info.upump.mycompose.ui.screens.screenscomponents.itemcard.ListWorkoutFor
 import info.upump.mycompose.ui.screens.screenscomponents.screen.Chips
 import info.upump.mycompose.ui.screens.screenscomponents.screen.ImageByDay
 import info.upump.mycompose.ui.screens.screenscomponents.screen.RowChips
+import info.upump.mycompose.ui.screens.screenscomponents.screen.SnackBar
 import info.upump.mycompose.ui.screens.screenscomponents.screen.StopWatch
 import info.upump.mycompose.ui.screens.viewmodel.workout.StopWatchVM
 import info.upump.mycompose.ui.screens.viewmodel.workout.WorkoutDetailVM
@@ -49,7 +54,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WorkoutReview(
@@ -79,8 +83,9 @@ fun WorkoutReview(
     }
 
     val coroutine = rememberCoroutineScope()
+    val snackBarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(key1 = true) {
         workoutVM.getBy(id)
     }
 
@@ -98,7 +103,16 @@ fun WorkoutReview(
         }
     ) {
         Scaffold(
-            modifier = Modifier.padding(top = 0.dp)
+            modifier = Modifier.padding(top = 0.dp),
+            snackbarHost = {
+                SnackbarHost(
+                    snackBarHostState
+                ) {
+                    SnackBar(stringResource(id = R.string.snack_exit_workout), R.drawable.ic_exit) {
+                     navHostController.popBackStack()
+                    }
+                }
+            }
 
         ) { it ->
             Column(
@@ -137,6 +151,12 @@ fun WorkoutReview(
                     resume = stopwatchVM::resume
                 )
             }
+        }
+    }
+
+    BackHandler {
+        coroutine.launch {
+            snackBarHostState.showSnackbar("")
         }
     }
 }

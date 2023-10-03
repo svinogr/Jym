@@ -90,9 +90,9 @@
     <string name="label_title_common">Название</string>
 
     <!--dialog-->
-    <string name="clean_cycle">удалить эти тренировки?</string>
-    <string name="clean_workouts">удалить эти упражнения?</string>
-    <string name="clean_exercise">удалить эти подходы?</string>
+    <string name="clean_cycle">Удалить эти тренировки?</string>
+    <string name="clean_workouts">Удалить эти упражнения?</string>
+    <string name="clean_exercise">Удалить эти подходы?</string>
     <string name="save_Capitalizw">Сохранить?</string>
     <string name="save">сохранить</string>
     <string name="yes">Да</string>
