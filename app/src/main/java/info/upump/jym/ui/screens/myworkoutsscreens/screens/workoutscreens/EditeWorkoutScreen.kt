@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -29,7 +27,7 @@ import androidx.navigation.NavHostController
 import info.upump.jym.R
 import info.upump.jym.ui.screens.screenscomponents.FloatButtonWithState
 import info.upump.jym.ui.screens.screenscomponents.screen.CarDaydWorkoutEdit
-import info.upump.jym.ui.screens.screenscomponents.screen.CardDescriptiondWithEdit
+import info.upump.jym.ui.screens.screenscomponents.screen.CardDescriptionWithEdit
 import info.upump.jym.ui.screens.screenscomponents.screen.CardTitle
 import info.upump.jym.ui.screens.screenscomponents.screen.DateCardWithDatePicker
 import info.upump.jym.ui.screens.screenscomponents.screen.ImageByDay
@@ -75,7 +73,6 @@ fun EditeWorkoutScreen(
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
                 .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
         ) {
             Box(
@@ -110,10 +107,9 @@ fun EditeWorkoutScreen(
                 text = workoutVM.title.collectAsState().value,
                 isError = workoutVM.isTitleError.collectAsState().value,
                 updateText = workoutVM::updateTitle,
-                modifier = Modifier.weight(1F)
             )
 
-            CardDescriptiondWithEdit(
+            CardDescriptionWithEdit(
                 workoutVM.comment.collectAsState().value,
                 workoutVM::updateComment,
                 Modifier.weight(3F)

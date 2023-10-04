@@ -1,13 +1,16 @@
 package info.upump.jym.ui.screens.screenscomponents.screen
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import info.upump.jym.R
 import info.upump.jym.ui.theme.MyTextTitleLabelWithColor
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardDescription(
     modifier: Modifier = Modifier,
@@ -35,15 +39,21 @@ fun CardDescription(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        TextField(modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 4.dp, end = 0.dp, bottom = 4.dp),
-            colors = TextFieldDefaults.textFieldColors(
+        TextField(
+            modifier = Modifier
+                .drawCustomIndicatorLine(
+                    BorderStroke(
+                        DividerDefaults.Thickness,
+                        colorResource(R.color.colorBackgroundChips)
+                    ), 8.dp
+                )
+                .fillMaxWidth(),
+            colors = androidx.compose.material3.TextFieldDefaults.textFieldColors(
                 disabledTextColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                backgroundColor = colorResource(R.color.colorBackgroundCardView)
+                focusedIndicatorColor = colorResource(R.color.colorBackgroundChips),
+                unfocusedIndicatorColor = colorResource(R.color.colorBackgroundCardView),
+                disabledIndicatorColor = colorResource(R.color.colorBackgroundChips),
+                containerColor = colorResource(R.color.colorBackgroundCardView),
             ),
             readOnly = readonly,
             value = textDescription,
@@ -59,6 +69,7 @@ fun CardDescription(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardDescriptionVariableTitle(
     modifier: Modifier = Modifier,
@@ -78,14 +89,20 @@ fun CardDescriptionVariableTitle(
         )
     ) {
         TextField(modifier = Modifier
+            .drawCustomIndicatorLine(
+                BorderStroke(
+                    DividerDefaults.Thickness,
+                    colorResource(R.color.colorBackgroundChips)
+                ), 8.dp
+            )
             .fillMaxWidth()
-            .padding(top = 4.dp, end = 0.dp, bottom = 4.dp),
+            .padding(top = 0.dp, end = 0.dp, bottom = 0.dp),
             colors = TextFieldDefaults.textFieldColors(
                 disabledTextColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                backgroundColor = colorResource(R.color.colorBackgroundCardView)
+                focusedIndicatorColor = colorResource(R.color.colorBackgroundCardView),
+                unfocusedIndicatorColor = colorResource(R.color.colorBackgroundCardView),
+                disabledIndicatorColor = colorResource(R.color.colorBackgroundChips),
+                containerColor = colorResource(R.color.colorBackgroundCardView),
             ),
             readOnly = readonly,
             value = textDescription,
@@ -112,6 +129,7 @@ fun DescriptionCardPreview() {
 fun DescriptionCardPreview2() {
     CardDescription(textDescription = "whagdwhgdakwjdgk wahdgawhdak")
 }
+
 @Preview(showBackground = true)
 @Composable
 fun DescriptionCardTitle() {

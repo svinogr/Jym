@@ -109,7 +109,6 @@ fun AlterCycleDetailScreenM3(
                     }
                 }
             }
-
         ) {
             Column(
                 modifier = Modifier

@@ -22,7 +22,8 @@ import java.io.FileOutputStream
 import java.util.Date
 import java.util.UUID
 
-class CycleVMCreateEdit() : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), CycleVMInterface {
+class CycleVMCreateEdit() : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(),
+    CycleVMInterface {
     companion object {
         val vmOnlyForPreview by lazy {
             object : CycleVMInterface {
@@ -170,6 +171,8 @@ class CycleVMCreateEdit() : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateL
                 updateImageDefault(it.imageDefault)
 
                 tempImage = it.image
+
+                Log.d("ret", "$tempImage  / ${it.image}  / ${_img.value} / ${it.imageDefault}")
             }
         }
     }
@@ -229,12 +232,14 @@ class CycleVMCreateEdit() : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateL
             setStartDate(_startDate.value)
         }
 
-        if (tempImage.equals(img.value)) {
+        c.imageDefault = _imgDefault.value
+
+        if (tempImage == img.value) {
             c.image = _img.value
             return c
         }
 
-        if (!img.value.isBlank()) {
+        if (img.value.isNotBlank()) {
             val file: File = writeToFile(img.value, context)
             c.image = file.toUri().toString()
             deleteTempImg(tempImage, context)
@@ -244,9 +249,9 @@ class CycleVMCreateEdit() : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateL
     }
 
     private fun deleteTempImg(tempImage: String, context: Context) {
-        if(tempImage.isBlank()) return
+        if (tempImage.isBlank()) return
         val file = Uri.parse(tempImage).toFile()
-        if(file.exists()) {
+        if (file.exists()) {
             file.delete()
         }
     }
@@ -266,7 +271,6 @@ class CycleVMCreateEdit() : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateL
     }
 
     override fun isBlankFields(): Boolean {
-        Log.d("check fielsd", "${title.value.trim().isBlank()}")
         val isBlank = title.value.trim().isBlank()
         _isTitleError.update { isBlank }
 

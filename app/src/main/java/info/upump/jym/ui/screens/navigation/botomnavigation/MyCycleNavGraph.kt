@@ -43,13 +43,12 @@ fun NavGraphBuilder.myCycleGraph(
     ) {
 
         composable(route = NavigationItem.MyCycleNavigationItem.route) {
-
-            MyCycleScreen(navHostController, paddingValues)
             appBarTitle.value =
                 context.resources.getString(NavigationItem.MyCycleNavigationItem.title)
             topBarState.value = true
             bottomBarState.value = true
             appBarStyle.value = DEFAULT_STYLE
+            MyCycleScreen(navHostController, paddingValues)
         }
 
         composable(
@@ -61,13 +60,13 @@ fun NavGraphBuilder.myCycleGraph(
             val id = it.arguments?.getLong("id")
             topBarState.value = false
             bottomBarState.value = false
+            appBarStyle.value = WHITE_STYLE
             AlterCycleDetailScreenM3(
                 id = id!!,
                 navHostController = navHostController,
                 paddingValues = paddingValues,
                 appBarTitle = appBarTitle
             )
-            appBarStyle.value = WHITE_STYLE
 
         }
 

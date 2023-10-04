@@ -37,10 +37,9 @@ fun CardTypeMuscle(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-
             TextField(modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp, end = 8.dp, bottom = 4.dp),
+                .padding(top = 0.dp, end = 8.dp, bottom = 0.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     disabledTextColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,

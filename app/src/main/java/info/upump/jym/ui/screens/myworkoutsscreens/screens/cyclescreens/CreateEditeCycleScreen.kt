@@ -1,14 +1,12 @@
 package info.upump.jym.ui.screens.myworkoutsscreens.screens.cyclescreens
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,7 +27,7 @@ import info.upump.jym.R
 import info.upump.jym.ui.screens.myworkoutsscreens.ActionState
 import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.jym.ui.screens.screenscomponents.FloatButtonWithState
-import info.upump.jym.ui.screens.screenscomponents.screen.CardDescriptiondWithEdit
+import info.upump.jym.ui.screens.screenscomponents.screen.CardDescriptionWithEdit
 import info.upump.jym.ui.screens.screenscomponents.screen.DateCardWithDatePicker
 import info.upump.jym.ui.screens.screenscomponents.screen.ImageTitleImageTitle
 import info.upump.jym.ui.screens.screenscomponents.screen.ImageWithPicker
@@ -50,11 +48,9 @@ fun CreateEditeCycleScreen(
     val cycleVM: CycleVMCreateEdit = viewModel()
 
     val context = LocalContext.current
-    Log.d("CreateEditeCycleScreen", "$id")
     val columnModifier = Modifier
         .fillMaxHeight()
         .fillMaxWidth()
-        .padding()
         .verticalScroll(rememberScrollState())
         .background(color = colorResource(id = R.color.colorBackgroundCardView))
 
@@ -90,9 +86,10 @@ fun CreateEditeCycleScreen(
         Column(modifier = columnModifier)
         {
             ImageTitleImageTitle(
+                Modifier.weight(1.5f),
                 cycleVM.title.collectAsState().value,
                 cycleVM.isTitleError.collectAsState().value,
-                cycleVM::updateTitle
+                cycleVM::updateTitle,
             ) {
                 ImageWithPicker(
                     cycleVM.img.collectAsState().value,
@@ -106,12 +103,14 @@ fun CreateEditeCycleScreen(
                 cycleVM.finishDate.collectAsState().value,
                 cycleVM::updateFinishDate
             )
-            CardDescriptiondWithEdit(cycleVM.comment.collectAsState().value, cycleVM::updateComment)
+            CardDescriptionWithEdit(
+                cycleVM.comment.collectAsState().value,
+                cycleVM::updateComment,
+                Modifier.weight(4f))
         }
     }
 
     LaunchedEffect(key1 = true) {
-        Log.d("CreateEditeCycleScreen", "luncEffect start")
         cycleVM.getBy(id)
     }
 

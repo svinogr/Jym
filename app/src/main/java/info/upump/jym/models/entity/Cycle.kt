@@ -1,5 +1,6 @@
 package info.upump.jym.models.entity
 
+import android.util.Log
 import info.upump.database.entities.CycleEntity
 import info.upump.database.entities.CycleFullEntityWithWorkouts
 import java.text.ParseException
@@ -77,7 +78,7 @@ class Cycle(
                 cycleEntity.img = cycle.image
             }
 
-            if (cycle.image.isBlank()) {
+            if (cycle.imageDefault.isBlank()) {
                 cycleEntity.default_img = null
             } else {
                 cycleEntity.default_img = cycle.imageDefault

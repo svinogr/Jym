@@ -24,17 +24,17 @@ fun ImageByDay(
     val filterColor = context.getColor(day.getColor())
 
     Box(modifier = modifier) {
-        Image(
-            painter = painterResource(id = R.drawable.day_background),
-            contentDescription = "",
-            modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.Crop,
-            colorFilter = ColorFilter.tint(Color(filterColor), BlendMode.Multiply)
-        )
-    }
+    Image(
+        painter = painterResource(id = R.drawable.day_background),
+        contentDescription = "",
+        modifier = Modifier.fillMaxWidth(),
+        contentScale = ContentScale.Crop,
+        colorFilter = ColorFilter.tint(Color(filterColor), BlendMode.Multiply)
+    )
+     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ImageByDayPreview() {
     ImageByDay(day = Day.MONDAY)
