@@ -43,7 +43,7 @@ fun ListWorkoutForReview(list: List<Exercise>, modifier: Modifier = Modifier) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 0.dp, end = 0.dp, top = 0.dp),
-                        elevation = CardDefaults.cardElevation(1.dp),
+                        elevation = CardDefaults.cardElevation(0.dp),
                         shape = RoundedCornerShape(0.dp),
                         colors = CardDefaults.cardColors(
                             containerColor =
@@ -60,6 +60,9 @@ fun ListWorkoutForReview(list: List<Exercise>, modifier: Modifier = Modifier) {
                             overflow = TextOverflow.Ellipsis,
                         )
                     }
+
+                }
+                item {
                     TableHeader()
                 }
                 itemsIndexed(list, key = { index, item -> item.id }) { index, item ->

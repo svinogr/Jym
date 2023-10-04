@@ -20,7 +20,7 @@ import info.upump.jym.ui.theme.MyTextTitleLabel16
 
 
 enum class GuidelineSets(val offset: Float) {
-    ONE(0.05f), TWO(0.25f), THREE(0.45f), FOUR(0.75f)
+    ONE(0.05f), TWO(0.20f), THREE(0.40f), FOUR(0.7f)
 
 }
 

@@ -85,6 +85,19 @@ fun ListSets(
 fun ListSetsPreview() {
     val listSets = listOf<Sets>(
         Sets().apply {
+            id = 1
+            weightPast = 10.0
+            weight = 12.0
+            reps = 12
+        },
+        Sets().apply {
+            id = 11
+            weightPast = 10.0
+            weight = 12.0
+            reps = 12
+        },
+        Sets().apply {
+            id = 12
             weightPast = 10.0
             weight = 12.0
             reps = 12
@@ -93,26 +106,19 @@ fun ListSetsPreview() {
             weightPast = 10.0
             weight = 12.0
             reps = 12
+            id = 15
         },
         Sets().apply {
             weightPast = 10.0
             weight = 12.0
             reps = 12
+            id = 16
         },
         Sets().apply {
             weightPast = 10.0
             weight = 12.0
             reps = 12
-        },
-        Sets().apply {
-            weightPast = 10.0
-            weight = 12.0
-            reps = 12
-        },
-        Sets().apply {
-            weightPast = 10.0
-            weight = 12.0
-            reps = 12
+            id = 18
         }
     )
 

@@ -13,6 +13,7 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -115,7 +116,7 @@ fun WorkoutReview(
                 modifier = Modifier
                     .padding(top = it.calculateTopPadding())
             ) {
-                Box(modifier = Modifier.weight(1.5f)) {
+                Box(modifier = Modifier.height(paddingValues.calculateTopPadding() + 20.dp)) {
                     ImageByDay(day = workoutVM.item.collectAsState().value.day)
                     RowChips(
                         modifier = Modifier.align(Alignment.BottomEnd),
@@ -134,7 +135,7 @@ fun WorkoutReview(
                     modifier = Modifier.weight(4f)
                 )
                 Divider(
-                    thickness = 1.dp, modifier = Modifier
+                    thickness = DividerDefaults.Thickness, modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
                 )

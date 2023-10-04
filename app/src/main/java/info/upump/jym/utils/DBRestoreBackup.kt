@@ -3,6 +3,7 @@ package info.upump.jym.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import info.upump.database.DatabaseApp
 import info.upump.database.RoomDB
 import info.upump.database.repo.CycleRepo

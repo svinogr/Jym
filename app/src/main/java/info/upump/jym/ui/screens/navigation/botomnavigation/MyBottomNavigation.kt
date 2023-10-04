@@ -30,7 +30,6 @@ fun MyBottomNavigation(navController: NavController = rememberNavController()) {
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentRout = backStackEntry?.destination?.route
         Log.d("currentRout", " $currentRout")
-        val context = LocalContext.current
         listScreens.forEach { item ->
             BottomNavigationItem(
                 modifier = Modifier.background(Color.White),

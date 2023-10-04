@@ -38,7 +38,6 @@ import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.jym.ui.screens.screenscomponents.itemcard.item.WorkoutItemCard
 import info.upump.jym.ui.screens.screenscomponents.screen.DividerCustom
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun ListWorkouts(
     list: List<Workout>,
@@ -53,7 +52,6 @@ fun ListWorkouts(
             isHasEvenWeek += 1
         }
     }
-Log.d("sz", "$isHasEvenWeek  ${list.size}")
     if (isHasEvenWeek != list.size && isHasEvenWeek != 0) listWithGroup(
         list,
         modifier,

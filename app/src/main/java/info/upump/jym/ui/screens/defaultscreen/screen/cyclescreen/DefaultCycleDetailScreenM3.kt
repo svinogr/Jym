@@ -120,7 +120,7 @@ fun DefaultCycleDetailScreenM3(
                 ListItemDefaultsWorkouts(
                     list = list.collectAsState().value,
                     listState,
-                    navhost = navHostController,
+                    navHost = navHostController,
                     Modifier.weight(4f),
                 )
             }
