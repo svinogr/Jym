@@ -95,12 +95,13 @@ class CycleDetailVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(),
             val today = Cycle.formatDateToString(Date())
             cycleRepo.copyToPersonal(id, today)
             _stateLoading.value = false
+
         }
     }
 
     companion object {
         val vmOnlyForPreview by lazy {
-            object : info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVMInterface {
+            object : CycleDetailVMInterface {
                 private val _itemList = MutableStateFlow(
                     mutableListOf(
                         Cycle().apply { title = "Preview2" },

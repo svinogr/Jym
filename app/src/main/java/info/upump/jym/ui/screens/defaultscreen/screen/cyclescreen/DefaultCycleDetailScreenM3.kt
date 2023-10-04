@@ -15,6 +15,8 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -36,6 +38,7 @@ import info.upump.jym.ui.screens.screenscomponents.screen.CardDate
 import info.upump.jym.ui.screens.screenscomponents.screen.Chips
 import info.upump.jym.ui.screens.screenscomponents.screen.ImageForDetailScreen
 import info.upump.jym.ui.screens.screenscomponents.screen.RowChips
+import info.upump.jym.ui.screens.screenscomponents.screen.SnackBar
 import info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM
 import kotlinx.coroutines.launch
 
@@ -63,6 +66,7 @@ fun DefaultCycleDetailScreenM3(
     LaunchedEffect(key1 = true) {
         cycleVM.getBy(id)
     }
+    val snackBarHostState = remember { SnackbarHostState() }
 
     ModalBottomSheetLayout(
         sheetState = bottomState,
@@ -78,7 +82,16 @@ fun DefaultCycleDetailScreenM3(
         }
     ) {
         Scaffold(
-            modifier = Modifier.padding(top = 0.dp)
+            modifier = Modifier.padding(top = 0.dp),
+            snackbarHost = {
+                SnackbarHost(
+                    snackBarHostState
+                ) {
+                    SnackBar(stringResource(id = R.string.chips_copy), R.drawable.ic_copy) {
+                        cycleVM.copyToPersonal(id)
+                    }
+                }
+            }
         ) {
             Column(
                 modifier = Modifier
@@ -98,7 +111,9 @@ fun DefaultCycleDetailScreenM3(
                             stringResource(id = R.string.chips_copy),
                             R.drawable.ic_copy,
                         ) {
-                           cycleVM.copyToPersonal(id)
+                            coroutine.launch {
+                                snackBarHostState.showSnackbar("")
+                            }
                         },
                         Chips(
                             stringResource(id = R.string.chips_comment),
