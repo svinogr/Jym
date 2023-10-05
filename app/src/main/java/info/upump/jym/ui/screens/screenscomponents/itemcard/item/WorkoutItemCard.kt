@@ -1,6 +1,10 @@
 package info.upump.jym.ui.screens.screenscomponents.itemcard.item
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,12 +25,18 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.drawable.toBitmapOrNull
 import info.upump.jym.R
 import info.upump.jym.models.entity.Day
 import info.upump.jym.models.entity.Workout
@@ -34,6 +44,7 @@ import info.upump.jym.ui.theme.MyTextLabel12
 import info.upump.jym.ui.theme.MyTextTitleLabel16
 
 
+@SuppressLint("UseCompatLoadingForDrawables")
 @Composable
 fun WorkoutItemCard(
     workout: Workout,
@@ -60,18 +71,19 @@ fun WorkoutItemCard(
                 colorResource(id = R.color.colorBackgroundCardView)
             )
         ) {
-            val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
-            bitmap.eraseColor(context.getColor(workout.day.getColor()))
+            val filterColor = context.getColor(workout.day.getColor())
 
-            Image(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .height(50.dp)
-                    .width(50.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                bitmap = bitmap.asImageBitmap(), contentDescription = "image"
+            Image( modifier = Modifier
+                .padding(8.dp)
+                .height(50.dp)
+                .width(50.dp)
+                .clip(RoundedCornerShape(8.dp)),
+                painter = painterResource(id = R.drawable.day_background),
+                contentDescription = "",
+
+                contentScale = ContentScale.Crop,
+                colorFilter = ColorFilter.tint(Color(filterColor), BlendMode.Multiply)
             )
-
             Column(modifier = modifier.fillMaxWidth()) {
                 val modifierCol = Modifier.padding(end = 8.dp)
                 Text(
