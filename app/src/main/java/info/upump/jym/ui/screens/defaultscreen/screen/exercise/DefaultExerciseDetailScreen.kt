@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -70,7 +71,7 @@ fun DefaultExerciseDetailScreen(
         }
     ) { it ->
         Column(modifier = Modifier.padding(top = it.calculateTopPadding())) {
-            Box(modifier = Modifier.weight(1.5f)) {
+            Box(modifier = Modifier.height(200.dp)) {
                 ImageForDetailScreen(
                     image = exerciseVM.imageDescription.collectAsState().value,
                     defaultImage = exerciseVM.imageDescriptionDefault.collectAsState().value

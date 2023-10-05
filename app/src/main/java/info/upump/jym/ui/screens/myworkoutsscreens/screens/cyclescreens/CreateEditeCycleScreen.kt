@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -86,7 +87,7 @@ fun CreateEditeCycleScreen(
         Column(modifier = columnModifier)
         {
             ImageTitleImageTitle(
-                Modifier.weight(1.5f),
+                Modifier.height(200.dp),
                 cycleVM.title.collectAsState().value,
                 cycleVM.isTitleError.collectAsState().value,
                 cycleVM::updateTitle,

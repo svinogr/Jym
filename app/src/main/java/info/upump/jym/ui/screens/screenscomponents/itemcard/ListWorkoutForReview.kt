@@ -3,6 +3,7 @@ package info.upump.jym.ui.screens.screenscomponents.itemcard
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,51 +30,52 @@ import info.upump.jym.ui.theme.MyTextTitleLabel20
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ListWorkoutForReview(list: List<Exercise>, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(colorResource(R.color.colorBackgroundCardView))
-        ) {
-            list.groupBy { it.exerciseDescription!!.title }.forEach { title, list ->
+fun ListWorkoutForReview(
+    list: List<Exercise>, modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .background(colorResource(R.color.colorBackgroundCardView))
+    ) {
+        list.groupBy { it.exerciseDescription!!.title }.forEach { title, list ->
 
-                stickyHeader {
-                    Card(
+            stickyHeader {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 0.dp, end = 0.dp, top = 0.dp),
+                    elevation = CardDefaults.cardElevation(0.dp),
+                    shape = RoundedCornerShape(0.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor =
+                        colorResource(id = R.color.colorBackgroundChips)
+                    )
+                ) {
+                    Text(
+                        text = title,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 0.dp, end = 0.dp, top = 0.dp),
-                        elevation = CardDefaults.cardElevation(0.dp),
-                        shape = RoundedCornerShape(0.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor =
-                            colorResource(id = R.color.colorBackgroundChips)
-                        )
-                    ) {
-                        Text(
-                            text = title,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 8.dp, bottom = 8.dp, end = 8.dp),
-                            style = MyTextTitleLabel20,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
+                            .padding(start = 8.dp, bottom = 8.dp, end = 8.dp),
+                        style = MyTextTitleLabel20,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
 
-                }
-                item {
-                    TableHeader()
-                }
-                itemsIndexed(list, key = { index, item -> item.id }) { index, item ->
-                    item.setsList.forEachIndexed() { index, it ->
-                        Column {
-                            SetsItemCard(
-                                sets = it,
-                                number = index
-                            ) {}
-                           DividerCustomBottom()
-                        }
+            }
+            item {
+                TableHeader()
+            }
+            itemsIndexed(list, key = { index, item -> item.id }) { index, item ->
+                item.setsList.forEachIndexed() { index, it ->
+                    Column {
+                        SetsItemCard(
+                            sets = it,
+                            number = index
+                        ) {}
+                        DividerCustomBottom()
                     }
                 }
             }

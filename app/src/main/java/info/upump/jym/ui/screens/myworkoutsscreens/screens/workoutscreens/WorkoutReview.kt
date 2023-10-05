@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -106,7 +107,7 @@ fun WorkoutReview(
                     snackBarHostState
                 ) {
                     SnackBar(stringResource(id = R.string.snack_exit_workout), R.drawable.ic_exit) {
-                     navHostController.popBackStack()
+                        navHostController.popBackStack()
                     }
                 }
             }
@@ -115,8 +116,9 @@ fun WorkoutReview(
             Column(
                 modifier = Modifier
                     .padding(top = it.calculateTopPadding())
+                    .fillMaxHeight()
             ) {
-                Box(modifier = Modifier.height(paddingValues.calculateTopPadding() + 20.dp)) {
+                Box(modifier = Modifier.height(200.dp)) {
                     ImageByDay(day = workoutVM.item.collectAsState().value.day)
                     RowChips(
                         modifier = Modifier.align(Alignment.BottomEnd),
@@ -130,23 +132,19 @@ fun WorkoutReview(
                         }
                     )
                 }
+
                 ListWorkoutForReview(
                     exercise.collectAsState().value,
-                    modifier = Modifier.weight(4f)
+                    Modifier.weight(4f)
                 )
-                Divider(
-                    thickness = DividerDefaults.Thickness, modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                )
-                StopWatch(
-                    time.collectAsState().value,
-                    status.collectAsState().value,
-                    start = stopwatchVM::start,
-                    stop = stopwatchVM::stop,
-                    pause = stopwatchVM::pause,
-                    resume = stopwatchVM::resume
-                )
+                    StopWatch(
+                        time.collectAsState().value,
+                        status.collectAsState().value,
+                        start = stopwatchVM::start,
+                        stop = stopwatchVM::stop,
+                        pause = stopwatchVM::pause,
+                        resume = stopwatchVM::resume
+                    )
             }
         }
     }
@@ -275,7 +273,7 @@ fun WorkoutReviewPreview() {
                         }
                     )
                 }
-                ListWorkoutForReview(list, modifier = Modifier.weight(4f))
+                ListWorkoutForReview(list, modifier = Modifier.weight(3f))
                 Divider(
                     thickness = 1.dp, modifier = Modifier
                         .fillMaxWidth()

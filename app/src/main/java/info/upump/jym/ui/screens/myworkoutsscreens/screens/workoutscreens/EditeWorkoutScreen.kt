@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -76,7 +77,7 @@ fun EditeWorkoutScreen(
                 .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
         ) {
             Box(
-                modifier = Modifier.weight(1.5f)
+                modifier = Modifier.height(200.dp)
 
             ) {
                 ImageByDay(day = workoutVM.day.collectAsState().value)

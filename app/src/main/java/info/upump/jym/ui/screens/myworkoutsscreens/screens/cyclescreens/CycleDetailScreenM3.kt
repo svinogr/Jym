@@ -115,7 +115,7 @@ fun AlterCycleDetailScreenM3(
                     .padding(top = it.calculateTopPadding())
                     .fillMaxHeight()
             ) {
-                Box(modifier = Modifier.weight(1.5f)) {
+                Box(modifier = Modifier.height(200.dp)) {
                     ImageForDetailScreen(
                         image = cycleVM.img.collectAsState().value,
                         defaultImage = cycleVM.imgDefault.collectAsState().value,

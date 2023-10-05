@@ -124,9 +124,8 @@ fun WorkoutDetailScreenM3(
                     .padding(top = it.calculateTopPadding())
                     .fillMaxHeight()
             ) {
-                Box(modifier = Modifier.weight(1.5f)) {
+                Box(modifier = Modifier.height(200.dp)) {
                     ImageByDay(day = workoutVM.day.collectAsState().value)
-
                     RowChips(
                         modifier = Modifier.align(Alignment.BottomCenter),
                         Chips(

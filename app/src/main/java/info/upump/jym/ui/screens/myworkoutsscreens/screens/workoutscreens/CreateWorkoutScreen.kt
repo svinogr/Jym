@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -62,7 +63,7 @@ fun CreateWorkoutScreen(
     }
 
     Scaffold(
-        modifier = Modifier.padding(),
+        modifier = Modifier,
         floatingActionButton = {
             FloatButtonWithState(
                 stringResource(id = R.string.picker_dialog_btn_save),
@@ -83,13 +84,14 @@ fun CreateWorkoutScreen(
         }) {
         Column(
             modifier = Modifier
+
                 .fillMaxHeight()
                 .fillMaxWidth()
                // .verticalScroll(rememberScrollState())
                 .background(color = colorResource(id = R.color.colorBackgroundConstrateLayout)),
         ) {
             Box(
-                modifier = Modifier.weight(1.5f)
+                modifier = Modifier.height(200.dp)
 
             ) {
                 ImageByDay(day = workoutVM.day.collectAsState().value)
@@ -120,13 +122,13 @@ fun CreateWorkoutScreen(
                 text = workoutVM.title.collectAsState().value,
                 isError = workoutVM.isTitleError.collectAsState().value,
                 updateText = workoutVM::updateTitle,
-                modifier = Modifier.weight(1F)
+              //  modifier = Modifier.weight(1F)
             )
 
             CardDescriptionWithEdit(
                 workoutVM.comment.collectAsState().value,
                 workoutVM::updateComment,
-                Modifier.weight(3F)
+                Modifier.weight(4F)
             )
         }
     }
