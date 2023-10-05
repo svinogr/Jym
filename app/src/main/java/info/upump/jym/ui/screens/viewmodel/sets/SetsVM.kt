@@ -31,6 +31,7 @@ class SetsVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), SetsVM
 
     private val _weightPast = MutableStateFlow(0.0)
     override val weightPast: StateFlow<Double> = _weightPast.asStateFlow()
+    private var tempWeight: Double = 0.0
 
     private val _quantity = MutableStateFlow(0)
     override val quantity: StateFlow<Int> = _quantity.asStateFlow()
@@ -39,7 +40,8 @@ class SetsVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), SetsVM
     }
 
     override fun updateWeight(weight: Double) {
-        _weightPast.update { _weight.value }
+       //  if (tempWeight !=)
+      //  _weightPast.update { _weight.value }
         _weight.update { weight }
     }
 
@@ -68,6 +70,7 @@ class SetsVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), SetsVM
                 Log.d("sets", "$sets ")
                 with(sets) {
                     _id.update { id }
+                    tempWeight = weight
                     _reps.update { reps }
                     _weight.update { weight }
                     _weightPast.update { weightPast }
@@ -89,6 +92,11 @@ class SetsVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), SetsVM
                 weight = this@SetsVM.weight.value
                 weightPast = this@SetsVM._weightPast.value
             }
+
+            if ( _weight.value != tempWeight) {
+                sets.weightPast = tempWeight
+            }
+
             val setsRepo = SetsRepo.get()
 
             if (quantity.value != 0) {
