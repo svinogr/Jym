@@ -26,7 +26,8 @@ fun ItemImage(
                 action()
             },
         contentScale = ContentScale.Crop,
-        model = BitmapCreator.getImageWithUri(image, defaultImage), contentDescription = "image"
+        model = BitmapCreator.getImageWithUri(image, defaultImage),
+        contentDescription = "image"
     )
 }
 

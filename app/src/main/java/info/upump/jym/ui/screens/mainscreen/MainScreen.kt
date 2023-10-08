@@ -10,6 +10,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -17,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collection.mutableVectorOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +52,10 @@ fun MainScreen() {
 
     val appBarTitle = remember {
         mutableStateOf("")
+    }
+    val colorAppBarr = MaterialTheme.colorScheme.primary
+    val containerColorAppBAr = remember {
+        mutableStateOf(colorAppBarr)
     }
 
     val topBarState = remember {
@@ -109,12 +115,17 @@ fun MainScreen() {
             ) {
                 TopAppBar(
                     colors = TopAppBarDefaults.smallTopAppBarColors(
-                        containerColor = Color.Transparent
+                        containerColor = if (appBarStyle.intValue == WHITE_STYLE) {
+                            Color.Transparent
+                        } else MaterialTheme.colorScheme.primary
                     ),
                     title = {
                         Text(
                             text = appBarTitle.value,
-                            style = if (appBarStyle.intValue == WHITE_STYLE) MyOutlineTextTitleLabel20Text else MyTextTitleLabel20,
+                            style = if (appBarStyle.intValue == WHITE_STYLE)
+                                MyOutlineTextTitleLabel20Text
+                            else
+                                MyTextTitleLabel20,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis
                         )

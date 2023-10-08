@@ -18,6 +18,7 @@ import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -68,7 +69,8 @@ fun simpleDefaultList(
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(colorResource(R.color.colorBackgroundCardView)),
+            .background(
+                MaterialTheme.colorScheme.background),
         state = lazyListState
     ) {
         item() {
@@ -125,7 +127,8 @@ fun listDefaultWithGroup(
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(colorResource(R.color.colorBackgroundCardView)),
+            .background(
+                MaterialTheme.colorScheme.background),
         state = lazyListState
     ) {
         item() {

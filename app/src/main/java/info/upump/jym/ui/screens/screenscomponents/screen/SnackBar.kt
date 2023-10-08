@@ -6,7 +6,9 @@ import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Snackbar
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,29 +23,30 @@ import info.upump.jym.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SnackBar(text: String, icon: Int, modifier: Modifier = Modifier, action: () -> Unit) {
-    Snackbar(
-        modifier = modifier.padding(16.dp),
-        containerColor = colorResource(id = R.color.colorBackgroundChips),
-        action = {
-            AssistChip(
-                label = { Text("да") },
-                modifier = Modifier.padding(end = 4.dp, start = 4.dp),
-                colors = AssistChipDefaults.assistChipColors(
-                    containerColor = colorResource(id = R.color.colorBackgroundChips)
-                ),
-                onClick = { action() },
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = icon),
-                        " ",
-                        Modifier.size(AssistChipDefaults.IconSize)
-                    )
-                }
-            )
+        Snackbar(
+            modifier = modifier.padding(16.dp),
+             containerColor =  MaterialTheme.colorScheme.background,
+            action = {
+                AssistChip(
+                    label = { Text("да", style = TextStyle(MaterialTheme.colorScheme.onBackground))
+                         },
+                    modifier = Modifier.padding(end = 4.dp, start = 4.dp),
+                         colors = AssistChipDefaults.assistChipColors(
+                       // containerColor = colorResource(id = R.color.colorBackgroundChips)
+                    ),
+                    onClick = { action() },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = icon),
+                            " ",
+                            Modifier.size(AssistChipDefaults.IconSize)
+                        )
+                    }
+                )
+            }
+        ) {
+            Text(text = text, style = TextStyle(MaterialTheme.colorScheme.onBackground))
         }
-    ) {
-        Text(text = text, style = TextStyle(Color(0xFF000000)))
-    }
 }
 
 @Preview

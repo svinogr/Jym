@@ -62,9 +62,6 @@ fun RowChooseChips(modifier: Modifier = Modifier, vararg chips: CheckChips) {
                     }
                 },
                 modifier = Modifier.padding(end = 4.dp, start = 4.dp),
-                colors = AssistChipDefaults.assistChipColors(
-                    containerColor = colorResource(id = R.color.colorBackgroundChips)
-                ),
                 leadingIcon =
                 {
                     if (chips.check) {

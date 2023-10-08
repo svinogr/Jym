@@ -20,6 +20,7 @@ import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -92,7 +93,8 @@ fun ItemSwipeBackgroundOneIcon(dismissState: DismissState, state: Boolean = fals
                 .fillMaxWidth()
                 .align(Alignment.BottomEnd),
             thickness = 1.dp,
-            color = colorResource(id = R.color.colorBackgroundCardView)
+            color =
+                MaterialTheme.colorScheme.background
         )
 
         Icon(

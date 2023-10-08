@@ -19,6 +19,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -69,7 +70,8 @@ fun CarDaydWorkoutEdit(
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.colorBackgroundCardView)
+            containerColor = MaterialTheme.colorScheme.background
+            // containerColor = colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
         Row(
@@ -83,7 +85,7 @@ fun CarDaydWorkoutEdit(
                     expanded = !expanded
                     focus.clearFocus()
                     val o = widhtOne.value - widhtMenu.value
-                    offset.value = o/2
+                    offset.value = o / 2
                     Log.d("size3 ", "${offset.value}")
                 }
             ) {
@@ -99,11 +101,13 @@ fun CarDaydWorkoutEdit(
                     },
                     label = {
                         Text(
-                            stringResource(id = day.title()),
+                            text = stringResource(id = day.title()),
+                            color =  MaterialTheme.colorScheme.onBackground
                         )
                     },
                     colors = AssistChipDefaults.assistChipColors(
-                        containerColor = colorResource(id = R.color.colorBackgroundChips)
+                        containerColor = MaterialTheme.colorScheme.background
+                        //containerColor = colorResource(id = R.color.colorBackgroundChips)
                     ),
                     leadingIcon = {
                         Icon(
@@ -120,7 +124,10 @@ fun CarDaydWorkoutEdit(
                             Log.d("size2 ", "${it.width}")
                             widhtMenu.value = it.width
                         }
-                        .background(colorResource(id = R.color.colorBackgroundCardView)),
+                        .background(
+                            //colorResource(id = R.color.colorBackgroundCardView)),
+                            MaterialTheme.colorScheme.background
+                        ),
                     expanded = expanded,
                     onDismissRequest = {
                         expanded = false
@@ -141,13 +148,15 @@ fun CarDaydWorkoutEdit(
                                 label = {
                                     Box(modifier = Modifier.fillMaxWidth()) {
                                         Text(
-                                            stringResource(id = it.title()),
-                                            modifier = Modifier.align(Alignment.Center)
+                                            text = stringResource(id = it.title()),
+                                            modifier = Modifier.align(Alignment.Center),
+                                            color =  MaterialTheme.colorScheme.onBackground
                                         )
                                     }
                                 },
                                 colors = AssistChipDefaults.assistChipColors(
-                                    containerColor = colorResource(id = R.color.colorBackgroundChips)
+                                    //  containerColor = colorResource(id = R.color.colorBackgroundChips)
+                                    containerColor = MaterialTheme.colorScheme.background
                                 )
                             )
                         }
@@ -160,18 +169,19 @@ fun CarDaydWorkoutEdit(
 
                 onClick = { updateEven(!isEven) },
                 colors = AssistChipDefaults.assistChipColors(
-                    containerColor = colorResource(id = R.color.colorBackgroundChips)
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
                 label = {
-
                     if (isEven) {
                         Text(
-                            stringResource(id = R.string.week_even),
+                            text = stringResource(id = R.string.week_even),
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     } else {
                         Text(
-                            stringResource(id = R.string.week_not_even),
-                            )
+                            text = stringResource(id = R.string.week_not_even),
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
                     }
                 }
             )

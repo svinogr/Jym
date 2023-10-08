@@ -5,7 +5,6 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,8 +16,8 @@
         android:icon="@drawable/logo_upump_round"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo_upump_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/JymTheme.NoActionBar"
+        android:supportsRtl="true">
         <provider
             android:name=".utils.DBProvider"
             android:authorities="info.upump.jym"
@@ -31,19 +30,13 @@
 
         <activity
             android:name=".MainActivityCompose"
-            android:exported="false"
-            android:icon="@drawable/logo_upump_round"/>
-      <!--      android:label="@string/title_activit"
-            android:theme="@style/Theme.Jym" />-->
-
-        <activity
-            android:name=".SplashActivity"
             android:exported="true"
-            android:icon="@drawable/logo_upump_round">
+            android:theme="@style/Theme.Jym.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 </manifest>

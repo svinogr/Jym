@@ -13,6 +13,7 @@ import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -32,8 +33,9 @@ fun DividerCustom(
     state: Boolean = false
 ) {
     val direction = dismissState.dismissDirection
+    val c = MaterialTheme.colorScheme.background
     val color = remember {
-        mutableIntStateOf(R.color.colorBackgroundCardView)
+        mutableStateOf(c)
     }
     val padding = remember {
         mutableStateOf(8.dp)
@@ -42,15 +44,15 @@ fun DividerCustom(
     if (direction == DismissDirection.StartToEnd ||
         direction == DismissDirection.EndToStart || state
     ) {
-        color.intValue = R.color.colorBackgroundChips
+        color.value = Color( R.color.colorBackgroundChips)
         padding.value = 0.dp
     } else {
-        color.intValue = R.color.colorBackgroundCardView
+        color.value = Color(R.color.colorBackgroundCardView)
         padding.value = 8.dp
     }
     Row(modifier = modifier) {
         Divider(
-            color = colorResource(id = color.intValue),
+            color = color.value,
             modifier = Modifier
                 .width(64.dp)
                 .height(1.dp)

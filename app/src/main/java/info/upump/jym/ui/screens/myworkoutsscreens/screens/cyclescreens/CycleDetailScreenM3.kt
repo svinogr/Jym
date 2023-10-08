@@ -44,6 +44,7 @@ import info.upump.jym.ui.screens.screenscomponents.screen.Chips
 import info.upump.jym.ui.screens.screenscomponents.screen.ImageForDetailScreen
 import info.upump.jym.ui.screens.screenscomponents.screen.RowChips
 import info.upump.jym.ui.screens.screenscomponents.screen.SnackBar
+import info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -173,14 +174,126 @@ fun AlterCycleDetailScreenM3(
 }
 
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun AlterCycleDetailScreenPreview() {
     val m: MutableState<String> =
         MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
-    AlterCycleDetailScreenM3(
-        0L, NavHostController(LocalContext.current),
-        PaddingValues(),
-        m
-    )
+   val navHostController = NavHostController(LocalContext.current)
+
+    val cycleVM: CycleDetailVM = viewModel()
+    val listState = rememberLazyListState()
+    val id = 1L
+    val coroutine = rememberCoroutineScope()
+
+    m.value = cycleVM.title.collectAsState().value.capitalize()
+
+    val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    val list by remember {
+        mutableStateOf(cycleVM.subItems)
+    }
+
+    LaunchedEffect(key1 = cycleVM.subItems) {
+        cycleVM.getBy(id)
+    }
+
+    ModalBottomSheetLayout(
+        sheetState = bottomState,
+        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        sheetContent = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp)
+            ) {
+                BottomSheet(text = cycleVM.comment.collectAsState().value)
+            }
+        }
+    ) {
+        Scaffold(modifier = Modifier.padding(top = 0.dp),
+            floatingActionButton = {
+                FloatButtonWithState(
+                    stringResource(id = R.string.workout_dialog_create_new),
+                    listState.isScrollingUp(), R.drawable.ic_add_black_24dp
+                ) {
+                    navHostController.navigate(
+                        NavigationItem.CreateWorkoutNavigationItem.routeWith(
+                            id
+                        )
+                    )
+                }
+            },
+            snackbarHost = {
+                SnackbarHost(
+                    snackBarHostState
+                ) {
+                    SnackBar(stringResource(id = R.string.clean_cycle), R.drawable.ic_delete_24) {
+                        cycleVM.cleanItem()
+                    }
+                }
+            }
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(top = it.calculateTopPadding())
+                    .fillMaxHeight()
+            ) {
+                Box(modifier = Modifier.height(200.dp)) {
+                    ImageForDetailScreen(
+                        image = cycleVM.img.collectAsState().value,
+                        defaultImage = cycleVM.imgDefault.collectAsState().value,
+                    )
+
+                    RowChips(
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                        Chips(
+                            stringResource(id = R.string.chips_clear),
+                            R.drawable.ic_delete_24,
+                        ) {
+                            coroutine.launch {
+                                snackBarHostState.showSnackbar("")
+                            }
+                        },
+                        Chips(
+                            stringResource(id = R.string.chips_edite),
+                            R.drawable.ic_edit_black_24dp,
+                        ) {
+                            navHostController.navigate(
+                                NavigationItem.CreateEditeCycleNavigationItem.routeWith(
+                                    id
+                                )
+                            )
+                        },
+                        Chips(
+                            stringResource(id = R.string.chips_comment),
+                            R.drawable.ic_info_black_24dp
+                        ) {
+                            coroutine.launch() {
+                                bottomState.show()
+                            }
+                        }
+                    )
+                }
+
+                CardDate(
+                    cycleVM.startDate.collectAsState().value,
+                    cycleVM.finishDate.collectAsState().value,
+                    false
+                )
+
+                val del: (Long) -> Unit = { cycleVM.deleteSubItem(it) }
+                ListWorkouts(
+                    list = list.collectAsState().value,
+                    listState, navHost = navHostController,
+                    Modifier.weight(4f),
+
+                    ) { id ->
+                    del(id)
+                }
+            }
+        }
+    }
 }

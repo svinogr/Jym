@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -33,8 +34,8 @@ fun CardTypeMuscle(
         elevation = CardDefaults.cardElevation(1.dp),
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
-            containerColor =
-            colorResource(id = R.color.colorBackgroundCardView)
+            containerColor = MaterialTheme.colorScheme.background
+         //   colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
             TextField(modifier = Modifier
@@ -45,7 +46,8 @@ fun CardTypeMuscle(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
-                    containerColor = colorResource(R.color.colorBackgroundCardView)
+                    containerColor = MaterialTheme.colorScheme.background,
+                    textColor = MaterialTheme.colorScheme.onBackground
                 ),
                 readOnly = readOnly,
                 value = text,
@@ -58,7 +60,6 @@ fun CardTypeMuscle(
                     )
                 }
             )
-
     }
 }
 

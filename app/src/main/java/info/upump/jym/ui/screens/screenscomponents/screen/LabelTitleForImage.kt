@@ -22,7 +22,7 @@ fun LabelTitleForImage(
 ) {
     Box(modifier = modifier.fillMaxWidth()) {
         val modifier1 = Modifier
-            .padding(bottom = 16.dp, start = 10.dp)
+            .padding(bottom = 16.dp, start = 8.dp)
             .align(alignmentText)
 
         TextField(modifier = modifier1,

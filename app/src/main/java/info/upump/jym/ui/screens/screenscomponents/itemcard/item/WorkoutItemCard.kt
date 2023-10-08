@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -68,8 +69,7 @@ fun WorkoutItemCard(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.background(
-                colorResource(id = R.color.colorBackgroundCardView)
-            )
+                MaterialTheme.colorScheme.background)
         ) {
             val filterColor = context.getColor(workout.day.getColor())
 

@@ -43,12 +43,9 @@ fun ImageWithPicker(image: String, defaultImage: String, updateImage: (String) -
     }
 
     val permissionState = rememberPermissionState(
-
             Manifest.permission.CAMERA
-
     ) {
         if (it) {
-            Log.d("pic", "efefefefef")
             launcher.launch(
                 PickVisualMediaRequest(
                     mediaType = ActivityResultContracts.PickVisualMedia.ImageAndVideo

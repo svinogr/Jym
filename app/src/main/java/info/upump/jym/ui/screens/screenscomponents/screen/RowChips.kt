@@ -36,9 +36,9 @@ fun RowChips(modifier: Modifier, vararg chips: Chips) {
                 onClick = { it.action() },
                 label = { Text(it.title) },
                 modifier = Modifier.padding(end = 4.dp, start = 4.dp),
-                colors = AssistChipDefaults.assistChipColors(
+              /*  colors = AssistChipDefaults.assistChipColors(
                     containerColor = colorResource(id = R.color.colorBackgroundChips)
-                ),
+                ),*/
                 leadingIcon = {
                     Icon(
                         painter = painterResource(id = it.icon),
@@ -51,7 +51,7 @@ fun RowChips(modifier: Modifier, vararg chips: Chips) {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true,)
 @Composable
 fun RowChipsPreview() {
     RowChips(

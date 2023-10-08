@@ -1,5 +1,6 @@
 package info.upump.jym.ui.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Offset
@@ -47,7 +48,7 @@ val MyTextLabel12: TextStyle
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,
-            color = Color(0xFF6c6c70)
+            color = MaterialTheme.colorScheme.onTertiary
         )
     }
 val MyTextLabel16: TextStyle
@@ -57,7 +58,18 @@ val MyTextLabel16: TextStyle
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp,
-            color = Color(0xFF6c6c70)
+            //  color = Color(0xFF6c6c70)
+        )
+    }
+
+val MyTextHeader16: TextStyle
+    @Composable
+    get() {
+        return TextStyle.Default.copy(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Normal,
+            fontSize = 16.sp,
+              color = MaterialTheme.colorScheme.onSecondary
         )
     }
 
@@ -68,6 +80,18 @@ val MyTextTitleLabel16: TextStyle
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+    }
+
+val MyTextTitleHeaderl16: TextStyle
+    @Composable
+    get() {
+        return TextStyle.Default.copy(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Normal,
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSecondary
         )
     }
 val MyTextTitleLabel16WithColor: TextStyle
@@ -86,7 +110,7 @@ val MyTextTitleLabelWithColor: TextStyle
         return TextStyle.Default.copy(
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Normal,
-            color = Color(0xFF6c6c70),
+            color = MaterialTheme.colorScheme.onTertiary,
             fontSize = 12.sp,
         )
     }
@@ -99,8 +123,10 @@ val MyTextTitleLabel20: TextStyle
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Normal,
             fontSize = 24.sp,
+            color = MaterialTheme.colorScheme.onPrimary
         )
     }
+
 /*
 val MyOutlineTextTitleLabel20Text: TextStyle
     @Composable
@@ -118,7 +144,7 @@ val MyOutlineTextTitleLabel20Text: TextStyle
     get() {
         return TextStyle.Default.copy(
             fontSize = 24.sp,
-            shadow = Shadow(color = Color.Black, offset = Offset(4f,4f), blurRadius = 8f),
-            color = colorResource(id = R.color.colorBackgroundCardView)
+            shadow = Shadow(color = Color.Black, offset = Offset(4f, 4f), blurRadius = 8f),
+            color = MaterialTheme.colorScheme.onPrimary
         )
     }

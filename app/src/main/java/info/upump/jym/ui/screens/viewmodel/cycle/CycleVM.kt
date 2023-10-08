@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 // для списка всех cycles
-class CycleVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad() {
+class CycleVM : BaseVMWithStateLoad() {
     private val _cycleList = MutableStateFlow<List<Cycle>>(listOf())
     val cycleList: StateFlow<List<Cycle>> = _cycleList.asStateFlow()
     private val cycleRepo = CycleRepo.get()

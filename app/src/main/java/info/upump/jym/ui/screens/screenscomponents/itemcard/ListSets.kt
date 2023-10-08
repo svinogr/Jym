@@ -12,6 +12,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.rememberDismissState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +40,8 @@ fun ListSets(
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
-            .background(colorResource(R.color.colorBackgroundCardView)),
+            .background(
+                MaterialTheme.colorScheme.background),
         state = listState
     ) {  item() {
         EmptyItem(size = 2.dp)

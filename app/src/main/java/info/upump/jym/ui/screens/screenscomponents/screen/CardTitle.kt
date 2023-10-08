@@ -9,6 +9,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -48,8 +49,8 @@ fun CardTitle(
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
-            containerColor =
-            colorResource(id = R.color.colorBackgroundCardView)
+            containerColor = MaterialTheme.colorScheme.background
+       //     colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
         TextField(modifier = Modifier
@@ -57,16 +58,21 @@ fun CardTitle(
             .drawCustomIndicatorLine(
                 BorderStroke(
                     DividerDefaults.Thickness,
-                    colorResource(R.color.colorBackgroundChips)
+                    MaterialTheme.colorScheme.background
+                //    colorResource(R.color.colorBackgroundChips)
                 ), 8.dp
             )
             .focusRequester(focusRequester),
             colors = TextFieldDefaults.textFieldColors(
                 disabledTextColor = Color.Transparent,
-                focusedIndicatorColor = colorResource(R.color.colorBackgroundCardView),
-                unfocusedIndicatorColor = colorResource(R.color.colorBackgroundCardView),
+              //  focusedIndicatorColor = colorResource(R.color.colorBackgroundCardView),
+                focusedIndicatorColor = MaterialTheme.colorScheme.background,
+                //unfocusedIndicatorColor = colorResource(R.color.colorBackgroundCardView),
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.background,
                 disabledIndicatorColor = colorResource(R.color.colorBackgroundChips),
-                containerColor = colorResource(R.color.colorBackgroundCardView),
+               // containerColor = colorResource(R.color.colorBackgroundCardView),
+                containerColor = MaterialTheme.colorScheme.background,
+                textColor = MaterialTheme.colorScheme.onBackground
             ),
             value = text,
             onValueChange = {
@@ -81,7 +87,8 @@ fun CardTitle(
             //    isError = isError,
             supportingText = {
                 if (isError) {
-                    Text(text = stringResource(id = R.string.error_tips_empty_field))
+                    Text(text = stringResource(id = R.string.error_tips_empty_field),
+                        color = MaterialTheme.colorScheme.onError )
                 }
             },
             placeholder = {

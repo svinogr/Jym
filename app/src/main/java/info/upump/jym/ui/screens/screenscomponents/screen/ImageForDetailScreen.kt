@@ -32,8 +32,7 @@ fun ImageForDetailScreen(
 @Composable
 fun ImageForDetailScreenPreview() {
     ImageForDetailScreen(
-        image = info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
-        defaultImage =
-        info.upump.jym.ui.screens.viewmodel.cycle.CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value,
+        image = CycleDetailVM.vmOnlyForPreview.img.collectAsState().value,
+        defaultImage = CycleDetailVM.vmOnlyForPreview.imgDefault.collectAsState().value,
     )
 }

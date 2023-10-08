@@ -7,6 +7,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -29,6 +30,7 @@ fun FloatActionButtonWithState(isVisible: Boolean, icon: Int, action: () -> Unit
     ) {
         FloatingActionButton(
             shape = CircleShape,
+            containerColor = MaterialTheme.colorScheme.primary,
             onClick = {
                 action()
             },
