@@ -5,11 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,10 +31,9 @@ fun MyBottomNavigation(navController: NavController = rememberNavController()) {
     BottomNavigation() {
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentRout = backStackEntry?.destination?.route
-        Log.d("currentRout", " $currentRout")
         listScreens.forEach { item ->
             BottomNavigationItem(
-                modifier = Modifier.background(Color.White),
+                modifier = Modifier.background(MaterialTheme.colorScheme.primary),
                 selected = currentRout == item.route,
                 onClick = { navController.navigate(item.route) },
                 icon = {
@@ -40,12 +41,13 @@ fun MyBottomNavigation(navController: NavController = rememberNavController()) {
                         painter = painterResource(id = item.iconId),
                         contentDescription = stringResource(
                             id = item.title
-                        )
+                        ),
+                     //   tint = MaterialTheme.colorScheme.onPrimary
                     )
                 },
 
-                selectedContentColor = Color.Green,
-                unselectedContentColor = Color.Red
+                selectedContentColor = MaterialTheme.colorScheme.onPrimary,
+                unselectedContentColor = MaterialTheme.colorScheme.onBackground
             )
         }
     }

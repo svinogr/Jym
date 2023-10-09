@@ -1,6 +1,8 @@
 package info.upump.jym.ui.screens.myworkoutsscreens.screens.setsscreen
 
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +38,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SetEditeScreen(
@@ -73,7 +77,8 @@ fun SetEditeScreen(
             Card(
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxWidth().padding(start = 8.dp, end = 8.dp),
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, end = 8.dp),
                 elevation = CardDefaults.cardElevation(0.dp),
                 shape = RoundedCornerShape(0.dp)
             ) {
@@ -82,7 +87,8 @@ fun SetEditeScreen(
                 ) {
                     Text(
                         modifier = titleModifier,
-                        text = stringResource(id = R.string.label_weight_set)
+                        text = stringResource(id = R.string.label_weight_set),
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     NumberPickerWithStep(0.0, 200, 1.25, setVM.weight.collectAsState().value) {
                         setVM.updateWeight(it)
@@ -91,14 +97,17 @@ fun SetEditeScreen(
             }
 
             Card(
-                modifier = Modifier.weight(1f).padding(start = 8.dp, end = 8.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 8.dp, end = 8.dp),
                 elevation = CardDefaults.cardElevation(0.dp),
                 shape = RoundedCornerShape(0.dp)
             ) {
                 Column(modifier = colModifier.fillMaxHeight()) {
                     Text(
                         modifier = titleModifier,
-                        text = stringResource(id = R.string.label_reps_sets)
+                        text = stringResource(id = R.string.label_reps_sets),
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     NumberPicker(0, 100, setVM.reps.collectAsState().value) {
                         setVM.updateReps(it)
@@ -106,17 +115,16 @@ fun SetEditeScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1.3f) )
+            Spacer(modifier = Modifier.weight(1.3f))
         }
     }
 
     BackHandler {
-        //setVM.saveItem(newSets)
-
         navHostController.navigateUp()
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview
 @Composable
 fun ComPreview() {

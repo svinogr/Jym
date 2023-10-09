@@ -79,8 +79,6 @@ fun NavGraphBuilder.myCycleGraph(
             })
         ) {
             val id = it.arguments?.getLong("id")
-            //topBarState.value = false он уже должен был быть убран
-            Log.d("TAG", "id = $id")
             appBarStyle.value = WHITE_STYLE
             MyExerciseDetailScreen(id = id!!, navHostController, paddingValues, appBarTitle)
         }
@@ -133,7 +131,7 @@ fun NavGraphBuilder.myCycleGraph(
         ) {
             //topBarState.value = false он уже должен был быть убран
             val parentId = it.arguments?.getLong("parentId")
-            appBarStyle.value = WHITE_STYLE
+            appBarStyle.value = DEFAULT_STYLE
             SetsCreateScreen(parentId!!, navHostController, paddingValues, appBarTitle)
         }
 
@@ -146,7 +144,7 @@ fun NavGraphBuilder.myCycleGraph(
         ) {
             //topBarState.value = false он уже должен был быть убран
             val id = it.arguments?.getLong("id")
-            appBarStyle.value = WHITE_STYLE
+            appBarStyle.value = DEFAULT_STYLE
             SetEditeScreen(id!!, navHostController, paddingValues, appBarTitle)
         }
 
