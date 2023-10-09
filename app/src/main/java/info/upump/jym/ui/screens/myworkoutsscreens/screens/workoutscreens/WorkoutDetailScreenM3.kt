@@ -65,7 +65,6 @@ fun WorkoutDetailScreenM3(
 
     LaunchedEffect(key1 = true) {
         workoutVM.getBy(id)
-        Log.d("size", "$")
     }
 
     if (id == 0L) {
@@ -110,7 +109,6 @@ fun WorkoutDetailScreenM3(
             },
             snackbarHost = {
                 SnackbarHost(
-
                     snackBarHostState
                 ) {
                     SnackBar(stringResource(id = R.string.clean_workouts), R.drawable.ic_delete_24) {

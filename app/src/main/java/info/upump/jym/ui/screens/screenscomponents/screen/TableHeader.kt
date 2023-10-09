@@ -42,7 +42,6 @@ fun TableHeader(
                 .fillMaxWidth()
                 .background(
                     MaterialTheme.colorScheme.secondary
-                   // colorResource(id = R.color.colorBackgroundChips)
                 )
         ) {
             val textNumber = createRef()

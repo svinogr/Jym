@@ -1,14 +1,19 @@
 package info.upump.jym.ui.screens.screenscomponents.screen
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.ChipDefaults
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.ChipBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,7 +27,7 @@ open class Chips(val title: String, val icon: Int, val action: () -> Unit)
 class CheckChips(var check: Boolean = false, title: String, icon: Int, action: () -> Unit) :
     Chips(title, icon, action)
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun RowChips(modifier: Modifier, vararg chips: Chips) {
     val scrollState = rememberScrollState()
@@ -34,11 +39,12 @@ fun RowChips(modifier: Modifier, vararg chips: Chips) {
         chips.forEach { it ->
             AssistChip(
                 onClick = { it.action() },
-                label = { Text(it.title) },
+                label = { Text(text = it.title, color = MaterialTheme.colorScheme.onPrimary) },
                 modifier = Modifier.padding(end = 4.dp, start = 4.dp),
-              /*  colors = AssistChipDefaults.assistChipColors(
-                    containerColor = colorResource(id = R.color.colorBackgroundChips)
-                ),*/
+                border = AssistChipDefaults.assistChipBorder(borderColor = MaterialTheme.colorScheme.onPrimary),
+                colors = AssistChipDefaults.assistChipColors(
+                    leadingIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
                 leadingIcon = {
                     Icon(
                         painter = painterResource(id = it.icon),
@@ -51,7 +57,7 @@ fun RowChips(modifier: Modifier, vararg chips: Chips) {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true,)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun RowChipsPreview() {
     RowChips(
