@@ -54,7 +54,7 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
     val launch = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
         it?.let {
             val checkFile = File(it.path!!)
-            Log.d("exe", "${checkFile.extension}")
+            Log.d("exe", "extension = ${checkFile.extension}")
             if (checkFile.extension == "db") {
                 coroutine.launch(Dispatchers.IO) {
                     profileVM.load(it, context)

@@ -44,7 +44,7 @@ fun ListCycle(
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background( MaterialTheme.colorScheme.background),
+            .background(MaterialTheme.colorScheme.background),
         state = lazyListState
     ) {
         item() {
@@ -68,7 +68,6 @@ fun ListCycle(
                     ItemSwipeBackgroundOneIcon(dismissState = dismissState, state = state.value)
                 },
                 dismissContent = {
-
                     Column(modifier = Modifier) {
                         val action: () -> Unit = {
                             state.value = true

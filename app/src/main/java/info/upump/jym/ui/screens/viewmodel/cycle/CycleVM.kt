@@ -73,9 +73,14 @@ class CycleVM : BaseVMWithStateLoad() {
 
     private fun deleteTempImg(tempImage: String, context: Context) {
         if (tempImage.isBlank()) return
-        val file = Uri.parse(tempImage).toFile()
-        if (file.exists()) {
-            file.delete()
+        try {
+            val file = Uri.parse(tempImage).toFile()
+            if (file.exists()) {
+                file.delete()
+            }
+        }catch (e: IllegalArgumentException) {
+            Log.d("delete", "image is not add")
+            Log.d("delete", "${e.message}")
         }
     }
 }

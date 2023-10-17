@@ -44,10 +44,10 @@ fun DividerCustom(
     if (direction == DismissDirection.StartToEnd ||
         direction == DismissDirection.EndToStart || state
     ) {
-        color.value = Color( R.color.colorBackgroundChips)
+        color.value = MaterialTheme.colorScheme.onTertiary
         padding.value = 0.dp
     } else {
-        color.value = Color(R.color.colorBackgroundCardView)
+        color.value = MaterialTheme.colorScheme.background
         padding.value = 8.dp
     }
     Row(modifier = modifier) {
@@ -58,7 +58,7 @@ fun DividerCustom(
                 .height(1.dp)
         )
         Divider(
-            color = colorResource(id = R.color.colorBackgroundChips),
+            color = MaterialTheme.colorScheme.onTertiary,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(end = padding.value)
@@ -112,7 +112,7 @@ fun DividerCustomBottom(modifier: Modifier = Modifier, state: Boolean = false) {
     Row(modifier = modifier.fillMaxWidth()) {
         Divider(
             thickness = 1.dp,
-            color = colorResource(id = R.color.colorBackgroundChips),
+            color = MaterialTheme.colorScheme.background,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(padding.value)
@@ -133,7 +133,7 @@ fun DividerCustomTop(modifier: Modifier = Modifier, state: Boolean = false) {
         mutableStateOf(Color.Transparent)
     }
     if (state) {
-        color.value = colorResource(id = R.color.colorBackgroundChips)
+        color.value = MaterialTheme.colorScheme.background
     } else color.value = Color.Transparent
     Divider(
         thickness = 1.dp,
