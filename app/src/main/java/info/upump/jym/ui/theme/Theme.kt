@@ -17,31 +17,29 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = ONPrimary,
     secondary = Secondary,
     onSecondary = ONSecondary,
-    background = BackgroundNight,
+    background = Background,
     onBackground = Color.Black,
     primaryContainer = Accent,
     onPrimaryContainer = OnAccent,
     // текст labal
-    tertiary = Color(0xFFfeffff),
-    onTertiary = Color(0xFFd9d9d9), //подчеркивание и label
-    outlineVariant = Color(0xFFAC173C)
-
-//tertiary = Pink80
+    tertiary = Tertiary,
+    onTertiary = OnTertiary, //подчеркивание и label
+    outlineVariant = OutlineVariant
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Primary,
-    onPrimary = ONPrimary,
-    secondary = Secondary,
-    onSecondary = ONSecondary,
-    background = BackgroundNight,
+    primary = PrimaryLight,
+    onPrimary = ONPrimaryLight,
+    secondary = SecondaryLight,
+    onSecondary = ONSecondaryLight,
+    background = BackgroundLight,
     onBackground = Color.Black,
-    primaryContainer = Accent,
-    onPrimaryContainer = OnAccent,
+    primaryContainer = AccentLight,
+    onPrimaryContainer = OnAccentLight,
     // текст labal
-    tertiary = Color(0xFFfeffff),
-    onTertiary = Color(0xFFd9d9d9), //подчеркивание и label
-    outlineVariant = Color(0xFFAC173C)
+    tertiary = TertiaryLight,
+    onTertiary = OnTertiaryLight, //подчеркивание и label
+    outlineVariant = OutlineVariantLight
 )
 
 @Composable
