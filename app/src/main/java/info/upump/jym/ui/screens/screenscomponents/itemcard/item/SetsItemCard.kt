@@ -106,7 +106,7 @@ fun SetsItemCardWithoutClick(
                 .fillMaxWidth()
                 .padding()
                 .background(
-                    colorResource(id = R.color.colorBackgroundCardView)
+                    MaterialTheme.colorScheme.background
                 )
                 .padding(top = 16.dp, bottom = 16.dp)
         ) {

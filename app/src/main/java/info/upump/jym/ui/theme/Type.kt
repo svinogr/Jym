@@ -58,7 +58,7 @@ val MyTextLabel16: TextStyle
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp,
-            //  color = Color(0xFF6c6c70)
+              color =  MaterialTheme.colorScheme.onTertiary
         )
     }
 

@@ -1,5 +1,6 @@
 package info.upump.jym.ui.screens.screenscomponents.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +10,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +38,7 @@ fun StopWatch(
     resume: () -> Unit,
 ) {
     Card(
-        modifier = modifier
+        modifier = modifier.background(MaterialTheme.colorScheme.background)
             .fillMaxWidth()
             .padding(start = 0.dp, end = 0.dp, top = 0.dp),
         elevation = CardDefaults.cardElevation(0.dp),
@@ -46,8 +48,9 @@ fun StopWatch(
             colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
-        Column(modifier = modifier.fillMaxWidth()) {
+        Column(modifier = modifier.background(MaterialTheme.colorScheme.background).fillMaxWidth()) {
             Divider(
+                color = MaterialTheme.colorScheme.onTertiary,
                 thickness = DividerDefaults.Thickness, modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)

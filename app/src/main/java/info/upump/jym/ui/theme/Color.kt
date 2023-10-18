@@ -10,7 +10,7 @@ val OnBackground =  Color(0xFFfeffff)
 val Accent =  Color(0xFF2186E0)
 val OnAccent = Color(0xFFfeffff)
 val Tertiary = Color(0xFFfeffff)
-val OnTertiary = Color(0xFFd9d9d9) //подчеркивание и label
+val OnTertiary = Color(0xFFfeffff)//подчеркивание и label
 val OutlineVariant = Color(0xFFCF6679)
 
 val PrimaryLight = Color(0xFF2186E0)
@@ -25,9 +25,9 @@ val TertiaryLight = Color(0xFFfeffff)
 val OnTertiaryLight = Color(0xFFd9d9d9) //подчеркивание и label
 val OutlineVariantLight = Color(0xFB00020)
 
-val Purple80 = Color(0xFFE91E63)
+/*val Purple80 = Color(0xFFE91E63)
 val PurpleGrey80 = Color(0xFFE91E63)
-val Pink80 = Color(0xFF78945C)
+val Pink80 = Color(0xFF78945C)*/
 /*
 val Purple40 = Color(0xFFE80515)
 val PurpleGrey40 = Color(0xFFe80515)
