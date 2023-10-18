@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,7 +35,7 @@ fun ItemButton(
         action: () -> Unit
 ) {
     Card(
-            modifier = modifier
+            modifier = modifier.background(MaterialTheme.colorScheme.background)
                     .fillMaxWidth()
                     .padding(0.dp)
                     .clickable { action() },
@@ -45,13 +46,11 @@ fun ItemButton(
         Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                        .background(
-                                colorResource(id = R.color.colorBackgroundCardView)
-                        )
+                    .background(MaterialTheme.colorScheme.background)
         )
         {
             Box(
-                    modifier = Modifier
+                    modifier = Modifier.background(MaterialTheme.colorScheme.background)
                             .padding(8.dp)
                             .height(50.dp)
                             .width(50.dp)
@@ -62,7 +61,7 @@ fun ItemButton(
                         painter = painterResource(id = icon),
                         contentDescription = "")
             }
-            Column(modifier = modifier.fillMaxWidth()) {
+            Column(modifier = modifier.background(MaterialTheme.colorScheme.background).fillMaxWidth()) {
                 Text(
                         text = title,
                         style = MyTextTitleLabel16,

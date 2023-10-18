@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +17,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -70,13 +72,12 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
     Scaffold(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) { it ->
         val context = LocalContext.current
 
-        Box(modifier = Modifier.fillMaxHeight()) {
-            LazyColumn() {
+        Box(modifier = Modifier.fillMaxHeight().background(MaterialTheme.colorScheme.background)) {
+            LazyColumn(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
                 item {
                     CardDescriptionVariableTitle(title = stringResource(id = R.string.action_with_db))
                 }
                 item {
-
                     val state = remember {
                         mutableStateOf(false)
                     }
@@ -96,7 +97,6 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
                         },
                         dismissContent = {
                             Column(modifier = Modifier) {
-
                                 ItemButton(
                                     action = {
                                         state.value = true

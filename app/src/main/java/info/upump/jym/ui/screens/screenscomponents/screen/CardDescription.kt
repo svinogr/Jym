@@ -1,6 +1,7 @@
 package info.upump.jym.ui.screens.screenscomponents.screen
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -83,31 +84,35 @@ fun CardDescriptionVariableTitle(
     readonly: Boolean = true
 ) {
     Card(
-        modifier = modifier
+        modifier = modifier.background(MaterialTheme.colorScheme.background)
             .fillMaxWidth()
             .padding(start = 0.dp, end = 0.dp, top = 0.dp),
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
             containerColor =
-            colorResource(id = R.color.colorBackgroundCardView)
+         MaterialTheme.colorScheme.background
         )
     ) {
         TextField(modifier = Modifier
             .drawCustomIndicatorLine(
                 BorderStroke(
                     DividerDefaults.Thickness,
-                    colorResource(R.color.colorBackgroundChips)
+                    MaterialTheme.colorScheme.background
                 ), 8.dp
             )
             .fillMaxWidth()
             .padding(top = 0.dp, end = 0.dp, bottom = 0.dp),
             colors = TextFieldDefaults.textFieldColors(
                 disabledTextColor = Color.Transparent,
-                focusedIndicatorColor = colorResource(R.color.colorBackgroundCardView),
-                unfocusedIndicatorColor = colorResource(R.color.colorBackgroundCardView),
+                //  focusedIndicatorColor = colorResource(R.color.colorBackgroundCardView),
+                focusedIndicatorColor = Color.Transparent,
+                //unfocusedIndicatorColor = colorResource(R.color.colorBackgroundCardView),
+                unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = colorResource(R.color.colorBackgroundChips),
-                containerColor = colorResource(R.color.colorBackgroundCardView),
+                // containerColor = colorResource(R.color.colorBackgroundCardView),
+                containerColor = MaterialTheme.colorScheme.background,
+                textColor = MaterialTheme.colorScheme.onBackground
             ),
             readOnly = readonly,
             value = textDescription,
