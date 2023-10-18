@@ -84,13 +84,7 @@ fun AlterCycleDetailScreenM2(
         },
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetContent = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-            ) {
                 BottomSheet(text = cycleVM.comment.collectAsState().value)
-            }
         },
         sheetPeekHeight = 0.dp,
         backgroundColor = colorResource(id = R.color.colorBackgroundChips),

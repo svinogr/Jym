@@ -67,19 +67,19 @@ fun SetsCreateScreen(
         })
     { it ->
         Column(
-            modifier = colModifier
+            modifier = colModifier.background(MaterialTheme.colorScheme.background)
                 .fillMaxWidth()
                 .padding(top = it.calculateTopPadding())
         ) {
             Card(
-                modifier = Modifier
+                modifier = Modifier.background(MaterialTheme.colorScheme.background)
                     .weight(1f)
                     .fillMaxWidth().padding(start = 8.dp, end = 8.dp),
                 elevation = CardDefaults.cardElevation(0.dp),
                 shape = RoundedCornerShape(0.dp)
             ) {
                 Column(
-                    modifier = colModifier.fillMaxHeight()
+                    modifier = colModifier.fillMaxHeight().background(MaterialTheme.colorScheme.background)
                 ) {
                     Text(
                         modifier = titleModifier,
@@ -93,11 +93,11 @@ fun SetsCreateScreen(
             }
 
             Card(
-                modifier = Modifier.weight(1f).padding(start = 8.dp, end = 8.dp),
+                modifier = Modifier.weight(1f).background(MaterialTheme.colorScheme.background).padding(start = 8.dp, end = 8.dp),
                 elevation = CardDefaults.cardElevation(0.dp),
                 shape = RoundedCornerShape(0.dp)
             ) {
-                Column(modifier = colModifier.fillMaxHeight()) {
+                Column(modifier = colModifier.background(MaterialTheme.colorScheme.background).fillMaxHeight()) {
                     Text(
                         modifier = titleModifier,
                         text = stringResource(id = R.string.label_reps_sets),
@@ -110,11 +110,11 @@ fun SetsCreateScreen(
             }
 
             Card(
-                modifier = Modifier.weight(1f).padding(start = 8.dp, end = 8.dp),
+                modifier = Modifier.weight(1f).background(MaterialTheme.colorScheme.background).padding(start = 8.dp, end = 8.dp),
                 elevation = CardDefaults.cardElevation(0.dp),
                 shape = RoundedCornerShape(0.dp)
             ) {
-                Column(modifier = colModifier.fillMaxHeight()) {
+                Column(modifier = colModifier.background(MaterialTheme.colorScheme.background).fillMaxHeight()) {
                     Text(modifier = titleModifier,
                         text = stringResource(id = R.string.label_sets),
                         color = MaterialTheme.colorScheme.onBackground)

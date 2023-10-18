@@ -70,12 +70,12 @@ fun SetEditeScreen(
         })
     { it ->
         Column(
-            modifier = colModifier
+            modifier = colModifier.background(MaterialTheme.colorScheme.background)
                 .fillMaxWidth()
-                .padding(top = it.calculateTopPadding())
+               .padding(top = it.calculateTopPadding())
         ) {
             Card(
-                modifier = Modifier
+                modifier = Modifier.background(MaterialTheme.colorScheme.background)
                     .weight(1f)
                     .fillMaxWidth()
                     .padding(start = 8.dp, end = 8.dp),
@@ -83,10 +83,10 @@ fun SetEditeScreen(
                 shape = RoundedCornerShape(0.dp)
             ) {
                 Column(
-                    modifier = colModifier.fillMaxHeight()
+                    modifier = colModifier.fillMaxHeight().background(MaterialTheme.colorScheme.background)
                 ) {
                     Text(
-                        modifier = titleModifier,
+                        modifier = titleModifier.fillMaxWidth(),
                         text = stringResource(id = R.string.label_weight_set),
                         color = MaterialTheme.colorScheme.onBackground
                     )
@@ -97,13 +97,13 @@ fun SetEditeScreen(
             }
 
             Card(
-                modifier = Modifier
+                modifier = Modifier.background(MaterialTheme.colorScheme.background)
                     .weight(1f)
                     .padding(start = 8.dp, end = 8.dp),
                 elevation = CardDefaults.cardElevation(0.dp),
                 shape = RoundedCornerShape(0.dp)
             ) {
-                Column(modifier = colModifier.fillMaxHeight()) {
+                Column(modifier = colModifier.fillMaxHeight().background(MaterialTheme.colorScheme.background)) {
                     Text(
                         modifier = titleModifier,
                         text = stringResource(id = R.string.label_reps_sets),

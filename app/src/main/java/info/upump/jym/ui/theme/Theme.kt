@@ -18,7 +18,7 @@ private val DarkColorScheme = darkColorScheme(
     secondary = Secondary,
     onSecondary = ONSecondary,
     background = Background,
-    onBackground = Color.Black,
+    onBackground = OnBackground,
     primaryContainer = Accent,
     onPrimaryContainer = OnAccent,
     // текст labal
@@ -33,7 +33,7 @@ private val LightColorScheme = lightColorScheme(
     secondary = SecondaryLight,
     onSecondary = ONSecondaryLight,
     background = BackgroundLight,
-    onBackground = Color.Black,
+    onBackground = OnBackgroundLight,
     primaryContainer = AccentLight,
     onPrimaryContainer = OnAccentLight,
     // текст labal

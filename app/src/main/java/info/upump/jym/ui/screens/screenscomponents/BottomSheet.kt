@@ -1,10 +1,13 @@
 package info.upump.jym.ui.screens.screenscomponents
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,10 +17,14 @@ import info.upump.jym.ui.screens.screenscomponents.screen.CardDescription
 @Composable
 fun BottomSheet(text: String, modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
-    Box(modifier = modifier
-        .fillMaxWidth()
-        .padding(8.dp)
-        .verticalScroll(scrollState)){
+    Box(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.background)
+            .fillMaxWidth()
+            .height(300.dp)
+            .padding(8.dp)
+            .verticalScroll(scrollState)
+    ) {
 
         CardDescription(textDescription = text)
     }

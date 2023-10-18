@@ -84,13 +84,7 @@ fun WorkoutDetailScreenM3(
         sheetState = bottomState,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetContent = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-            ) {
                 BottomSheet(text = workoutVM.comment.collectAsState().value)
-            }
         }
     ) {
         Scaffold(

@@ -1,16 +1,17 @@
 package info.upump.jym.ui.theme
 
 import androidx.compose.ui.graphics.Color
-val Primary = Color(0xFF2186E0)
+val Primary = Color(0xFF06345E)
 val ONPrimary = Color(0xFFfeffff)
-val Secondary = Color(0xFF2186E0)
+val Secondary = Color(0xFF06345E)
 val ONSecondary = Color(0xFFfeffff)
-val Background =  Color(0xFFfeffff)
+val Background =  Color(0xFF121212)
+val OnBackground =  Color(0xFFfeffff)
 val Accent =  Color(0xFF2186E0)
 val OnAccent = Color(0xFFfeffff)
 val Tertiary = Color(0xFFfeffff)
 val OnTertiary = Color(0xFFd9d9d9) //подчеркивание и label
-val OutlineVariant = Color(0xFFAC173C)
+val OutlineVariant = Color(0xFFCF6679)
 
 val PrimaryLight = Color(0xFF2186E0)
 val ONPrimaryLight = Color(0xFFfeffff)
@@ -19,9 +20,10 @@ val ONSecondaryLight = Color(0xFFfeffff)
 val AccentLight =  Color(0xFF2186E0)
 val OnAccentLight = Color(0xFFfeffff)
 val BackgroundLight =  Color(0xFFfeffff)
+val OnBackgroundLight =  Color(0xF0000000)
 val TertiaryLight = Color(0xFFfeffff)
 val OnTertiaryLight = Color(0xFFd9d9d9) //подчеркивание и label
-val OutlineVariantLight = Color(0xFFAC173C)
+val OutlineVariantLight = Color(0xFB00020)
 
 val Purple80 = Color(0xFFE91E63)
 val PurpleGrey80 = Color(0xFFE91E63)
