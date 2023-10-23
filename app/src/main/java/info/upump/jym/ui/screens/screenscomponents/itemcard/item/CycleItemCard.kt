@@ -31,9 +31,9 @@ import info.upump.jym.ui.theme.MyTextTitleLabel16
 
 @Composable
 fun CycleItemCard(
+    modifier: Modifier = Modifier,
     cycle: Cycle,
     action: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
@@ -105,7 +105,7 @@ fun PreviewCycleItemCard() {
         imageDefault = ""
         image = ""
     }
-    CycleItemCard(c, ::println)
+    CycleItemCard(cycle = c, action = ::println)
 }
 
 @RequiresApi(Build.VERSION_CODES.P)
@@ -117,7 +117,7 @@ fun PreviewCycleItemCard2() {
         imageDefault = ""
         image = ""
     }
-    CycleItemCard(c, ::println)
+    CycleItemCard(cycle = c, action = ::println)
 }
 
 @RequiresApi(Build.VERSION_CODES.P)
@@ -130,5 +130,5 @@ fun PreviewCycleItemCard3() {
         imageDefault = "plint1"
         image = ""
     }
-    CycleItemCard(c, ::println)
+    CycleItemCard(cycle = c, action =  ::println)
 }

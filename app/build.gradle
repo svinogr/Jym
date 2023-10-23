@@ -4,20 +4,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        debug {
-            storeFile file('C:\\Users\\User\\Downloads\\updevel.jks')
-            storePassword 'ghbdtnupdevel1'
-            keyAlias 'C:\\Users\\User\\Downloads\\updevel.jks'
-            keyPassword 'ghbdtnupdevel1'
-        }
-        release {
-            storeFile file('C:\\Users\\User\\Downloads\\updevel.jks')
-            storePassword 'ghbdtnupdevel1'
-            keyAlias 'C:\\Users\\User\\Downloads\\updevel.jks'
-            keyPassword 'ghbdtnupdevel1'
-        }
-    }
     namespace 'info.upump.jym'
     compileSdk 34
 

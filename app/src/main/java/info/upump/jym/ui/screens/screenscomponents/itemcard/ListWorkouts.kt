@@ -1,7 +1,6 @@
 package info.upump.jym.ui.screens.screenscomponents.itemcard
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -89,17 +88,23 @@ fun simpleList(
             }
             val dismissState = rememberDismissState(confirmStateChange = { value ->
                 if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
-                    deleteAction(it.id)
+                  /*  deleteAction(it.id)*/
                     true
                 } else {
                     false
                 }
             })
+
+            val actionDelete = {  deleteAction(it.id)}
             SwipeToDismiss(
                 state = dismissState,
                 directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
                 background = {
-                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state.value)
+                    ItemSwipeBackgroundIcon(
+                        dismissState = dismissState,
+                        state = state.value,
+                        actionDelete = actionDelete
+                    )
                 },
                 dismissContent = {
                     Column(modifier = Modifier) {
@@ -151,8 +156,7 @@ fun listWithGroup(
                     elevation = CardDefaults.cardElevation(0.dp),
                     shape = RoundedCornerShape(0.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor =
-                        colorResource(id = R.color.colorBackgroundChips)
+                        containerColor = MaterialTheme.colorScheme.secondary
                     )
                 ) {
                     Text(
@@ -172,17 +176,21 @@ fun listWithGroup(
                 }
                 val dismissState = rememberDismissState(confirmStateChange = { value ->
                     if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
-                        deleteAction(it.id)
+                     //   deleteAction(it.id)
                         true
                     } else {
                         false
                     }
                 })
+               val actionDelete =  {deleteAction(it.id)}
                 SwipeToDismiss(
                     state = dismissState,
                     directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
                     background = {
-                        ItemSwipeBackgroundOneIcon(dismissState = dismissState, state.value)
+                        ItemSwipeBackgroundIcon(
+                            dismissState = dismissState,
+                            state = state.value,
+                            actionDelete = actionDelete)
                     },
                     dismissContent = {
                         Column(modifier = Modifier) {

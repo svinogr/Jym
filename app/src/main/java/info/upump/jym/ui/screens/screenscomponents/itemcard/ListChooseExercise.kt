@@ -16,10 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import info.upump.jym.R
 import info.upump.jym.models.entity.Exercise
 import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.jym.ui.screens.screenscomponents.itemcard.item.ExerciseItemCard
@@ -58,7 +56,11 @@ fun ListChooseExercise(
                 directions = setOf(),
                 background = {
 
-                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state = state.value)
+                    ItemSwipeBackgroundIcon(
+                        dismissState = dismissState,
+                        state = state.value,
+                        actionDelete = {}
+                    )
                 },
                 dismissContent = {
 

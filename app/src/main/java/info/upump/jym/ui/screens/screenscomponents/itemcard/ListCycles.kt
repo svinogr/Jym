@@ -40,6 +40,7 @@ fun ListCycle(
     deleteAction: (Context, String, Long) -> Unit,
 ) {
     val context = LocalContext.current
+
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
@@ -50,32 +51,50 @@ fun ListCycle(
         item() {
             EmptyItem(size = 2.dp)
         }
+
         itemsIndexed(list, key = { index, item -> item.id }) { index, cycle ->
             val state = remember {
                 mutableStateOf(false)
             }
+            val dismiseState = remember {
+                mutableStateOf(true)
+            }
+
             val dismissState = rememberDismissState(confirmStateChange = { value ->
-                if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
-                    deleteAction(context, cycle.image, cycle.id)
-                }
-                true
+                /*    if (value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
+                     //   deleteAction(context, cycle.image, cycle.id)
+                        return@rememberDismissState false
+                    }
+                    true*/
+                dismiseState.value
             })
+
+            val actionDelete: () -> Unit = {
+                deleteAction(context, cycle.image, cycle.id)
+            }
+
             SwipeToDismiss(
                 state = dismissState,
                 directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
                 background = {
 
-                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state = state.value)
+                    ItemSwipeBackgroundIcon(
+                        dismissState = dismissState,
+                        state = state.value,
+                        actionDelete = actionDelete
+                    )
                 },
                 dismissContent = {
                     Column(modifier = Modifier) {
-                        val action: () -> Unit = {
+                        val actionNavigate: () -> Unit = {
                             state.value = true
                             navhost.navigate(
                                 NavigationItem.DetailCycleNavigationItem.routeWithId(cycle.id)
                             )
                         }
-                        CycleItemCard(cycle, action)
+
+
+                        CycleItemCard(cycle = cycle, action = actionNavigate)
                         DividerCustom(dismissState, state = state.value)
                     }
                 },
@@ -93,8 +112,8 @@ fun ListCycle(
 @Preview
 @Composable
 fun ComPreview() {
- //   val vm: CycleVM = viewModel()
- //   val del: (Context, String, Long) -> Unit = vm::delete
+    //   val vm: CycleVM = viewModel()
+    //   val del: (Context, String, Long) -> Unit = vm::delete
     val list = listOf(
         Cycle().apply {
             id = 1
@@ -137,12 +156,17 @@ fun ComPreview() {
                 }
                 true
             })
+
             SwipeToDismiss(
                 state = dismissState,
                 directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
                 background = {
 
-                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state = state.value)
+                    ItemSwipeBackgroundIcon(
+                        dismissState = dismissState,
+                        state = state.value,
+                        actionDelete = {},
+                    )
                 },
                 dismissContent = {
 
@@ -153,7 +177,7 @@ fun ComPreview() {
                                   NavigationItem . DetailCycleNavigationItem . routeWithId (it.id)
                               )*/
                         }
-                        CycleItemCard(it, action)
+                        CycleItemCard(cycle = it, action = action)
                         DividerCustom(dismissState, state = state.value)
                     }
                 },

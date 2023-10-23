@@ -10,8 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.DismissDirection
-import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.SwipeToDismiss
@@ -24,8 +22,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import info.upump.jym.R
@@ -98,7 +96,11 @@ fun simpleDefaultList(
                 directions = setOf(),
                 background = {
 
-                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state = state.value)
+                    ItemSwipeBackgroundIcon(
+                        dismissState = dismissState,
+                        state = state.value,
+                        actionDelete = {}
+                    )
                 },
                 dismissContent = {
 
@@ -143,14 +145,14 @@ fun listDefaultWithGroup(
                     elevation = CardDefaults.cardElevation(0.dp),
                     shape = RoundedCornerShape(0.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor =
-                        colorResource(id = R.color.colorBackgroundChips)
+                        containerColor = MaterialTheme.colorScheme.secondary
                     )
                 ) {
                     Text(
                         text = if (isWeekEven) stringResource(id = R.string.week_even) else stringResource(
                             id = R.string.week_not_even
                         ),
+                        style = TextStyle.Default.copy(color = MaterialTheme.colorScheme.onSecondary) ,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
@@ -169,7 +171,11 @@ fun listDefaultWithGroup(
                     state = dismissState,
                     directions = setOf(),
                     background = {
-                        ItemSwipeBackgroundOneIcon(dismissState = dismissState, state.value)
+                        ItemSwipeBackgroundIcon(
+                            dismissState = dismissState,
+                            state = state.value,
+                            actionDelete = {}
+                        )
                     },
                     dismissContent = {
                         Column(modifier = Modifier) {

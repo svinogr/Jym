@@ -291,6 +291,7 @@
     <string name="warning_save_description">Сохранить изменение описания</string>
 
     <string name="snack_delete">Удалить?</string>
+    <string name="chip_cancel">отмена</string>
     <string name="chips_delete">удалить</string>
     <string name="chips_clear">очистить</string>
     <string name="chips_comment">коментарий</string>

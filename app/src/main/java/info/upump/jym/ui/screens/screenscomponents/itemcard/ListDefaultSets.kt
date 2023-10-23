@@ -16,10 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import info.upump.jym.R
 import info.upump.jym.models.entity.Sets
 import info.upump.jym.ui.screens.screenscomponents.itemcard.item.SetsItemCardWithoutClick
 import info.upump.jym.ui.screens.screenscomponents.screen.DividerCustom
@@ -56,7 +54,11 @@ fun ListDefaultSets(
                 directions = setOf(),
                 background = {
 
-                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state = state.value)
+                    ItemSwipeBackgroundIcon(
+                        dismissState = dismissState,
+                        state = state.value,
+                        actionDelete = {}
+                    )
                 },
                 dismissContent = {
 

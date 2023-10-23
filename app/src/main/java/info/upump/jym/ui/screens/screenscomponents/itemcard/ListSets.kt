@@ -18,11 +18,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import info.upump.jym.R
 import info.upump.jym.models.entity.Sets
 import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.jym.ui.screens.screenscomponents.itemcard.item.SetsItemCard
@@ -52,17 +50,22 @@ fun ListSets(
             }
             val dismissState = rememberDismissState(confirmStateChange = {value ->
                 if(value == DismissValue.DismissedToEnd || value == DismissValue.DismissedToStart) {
-                    deleteAction(it.id)
+                    //deleteAction(it.id)
                     true
                 } else {
                     false
                 }
             })
+            val actionDelete = {deleteAction(it.id)}
             SwipeToDismiss(
                 state = dismissState,
                 directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
                 background = {
-                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state.value)
+                    ItemSwipeBackgroundIcon(
+                        dismissState = dismissState,
+                        state = state.value,
+                        actionDelete = actionDelete
+                    )
                 },
                 dismissContent = {
                     Column(modifier = Modifier) {

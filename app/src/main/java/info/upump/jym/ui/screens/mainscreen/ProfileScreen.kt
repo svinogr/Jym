@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import info.upump.jym.R
-import info.upump.jym.ui.screens.screenscomponents.itemcard.ItemSwipeBackgroundOneIcon
+import info.upump.jym.ui.screens.screenscomponents.itemcard.ItemSwipeBackgroundIcon
 import info.upump.jym.ui.screens.screenscomponents.itemcard.item.ItemButton
 import info.upump.jym.ui.screens.screenscomponents.screen.CardDescriptionVariableTitle
 import info.upump.jym.ui.screens.screenscomponents.screen.DividerCustom
@@ -72,7 +72,9 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
     Scaffold(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) { it ->
         val context = LocalContext.current
 
-        Box(modifier = Modifier.fillMaxHeight().background(MaterialTheme.colorScheme.background)) {
+        Box(modifier = Modifier
+            .fillMaxHeight()
+            .background(MaterialTheme.colorScheme.background)) {
             LazyColumn(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
                 item {
                     CardDescriptionVariableTitle(title = stringResource(id = R.string.action_with_db))
@@ -90,9 +92,10 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
                         directions = setOf(),
                         background = {
 
-                            ItemSwipeBackgroundOneIcon(
+                            ItemSwipeBackgroundIcon(
                                 dismissState = dismissState,
-                                state = state.value
+                                state = state.value,
+                                actionDelete = {}
                             )
                         },
                         dismissContent = {
@@ -124,9 +127,10 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
                         directions = setOf(),
                         background = {
 
-                            ItemSwipeBackgroundOneIcon(
+                            ItemSwipeBackgroundIcon(
                                 dismissState = dismissState,
-                                state = state.value
+                                state = state.value,
+                                actionDelete = {}
                             )
                         },
                         dismissContent = {

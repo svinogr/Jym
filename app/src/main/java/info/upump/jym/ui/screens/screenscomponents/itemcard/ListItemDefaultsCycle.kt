@@ -17,11 +17,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import info.upump.jym.R
 import info.upump.jym.models.entity.Cycle
 import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.jym.ui.screens.screenscomponents.itemcard.item.CycleItemCard
@@ -63,12 +61,16 @@ fun ListItemDefaultsCycle(
                 directions = setOf(),
                 background = {
 
-                    ItemSwipeBackgroundOneIcon(dismissState = dismissState, state = state.value)
+                    ItemSwipeBackgroundIcon(
+                        dismissState = dismissState,
+                        state = state.value,
+                        actionDelete = {}
+                    )
                 },
                 dismissContent = {
 
                     Column(modifier = Modifier) {
-                        CycleItemCard(it, action)
+                        CycleItemCard(cycle = it, action = action)
                         DividerCustom(dismissState, state = state.value)
                     }
                 },
