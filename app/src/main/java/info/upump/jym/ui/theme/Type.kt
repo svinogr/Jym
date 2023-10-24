@@ -127,6 +127,17 @@ val MyTextTitleLabel20: TextStyle
         )
     }
 
+val MyWatchTitleLabel20: TextStyle
+    @Composable
+    get() {
+        return TextStyle.Default.copy(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Normal,
+            fontSize = 24.sp,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+    }
+
 /*
 val MyOutlineTextTitleLabel20Text: TextStyle
     @Composable

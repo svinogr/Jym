@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.upump.jym.R
 import info.upump.jym.ui.theme.MyTextTitleLabel16
-import info.upump.jym.ui.theme.MyTextTitleLabel20
+import info.upump.jym.ui.theme.MyWatchTitleLabel20
 
 enum class StopWatchState {
     STOP, RESUME, PAUSE
@@ -57,7 +57,7 @@ fun StopWatch(
             )
             Row(modifier = Modifier.align(CenterHorizontally)) {
                 Text(
-                    style = MyTextTitleLabel20,
+                    style = MyWatchTitleLabel20,
                     text = time,
                     modifier = Modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 )
