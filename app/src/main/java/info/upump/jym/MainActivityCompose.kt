@@ -15,8 +15,7 @@ class MainActivityCompose : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-         installSplashScreen()
-
+        installSplashScreen()
         setContent {
             JymTheme {
                 // A surface container using the 'background' color from the theme
