@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import info.upump.jym.ui.screens.mainscreen.AppBarAction
 import info.upump.jym.ui.screens.mainscreen.DEFAULT_STYLE
 import info.upump.jym.ui.screens.mainscreen.MyCycleScreen
 import info.upump.jym.ui.screens.mainscreen.WHITE_STYLE
@@ -35,7 +36,8 @@ fun NavGraphBuilder.myCycleGraph(
     context: Context,
     paddingValues: PaddingValues,
     topBarState: MutableState<Boolean>,
-    bottomBarState: MutableState<Boolean>
+    bottomBarState: MutableState<Boolean>,
+    appBarActions: MutableState<List<AppBarAction>>
 ) {
     navigation(
         startDestination = NavigationItem.MyCycleNavigationItem.route,
@@ -236,8 +238,8 @@ fun NavGraphBuilder.myCycleGraph(
     ) {
         //topBarState.value = false он уже должен был быть убран
         val id = it.arguments?.getLong("id")
-        appBarStyle.value = WHITE_STYLE
-        WorkoutReview(id!!, navHostController, paddingValues, appBarTitle)
+        appBarStyle.value = DEFAULT_STYLE
+        WorkoutReview(id!!, navHostController, paddingValues, appBarTitle, appBarActions)
     }
 }
 

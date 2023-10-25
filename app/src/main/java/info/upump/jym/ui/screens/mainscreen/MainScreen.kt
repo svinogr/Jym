@@ -1,8 +1,8 @@
 package info.upump.jym.ui.screens.mainscreen
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -10,6 +10,8 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -18,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collection.mutableVectorOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,10 +55,6 @@ fun MainScreen() {
     val appBarTitle = remember {
         mutableStateOf("")
     }
-    val colorAppBarr = MaterialTheme.colorScheme.primary
-    val containerColorAppBAr = remember {
-        mutableStateOf(colorAppBarr)
-    }
 
     val topBarState = remember {
         mutableStateOf(true)
@@ -70,10 +68,13 @@ fun MainScreen() {
         mutableIntStateOf(DEFAULT_STYLE)
     }
 
+    val appBarActions = remember {
+        mutableStateOf(listOf<AppBarAction>())
+    }
+
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutine = rememberCoroutineScope()
     val activity = LocalContext.current as Activity
-
     val density = LocalDensity.current
 
     Scaffold(
@@ -130,11 +131,38 @@ fun MainScreen() {
                             overflow = TextOverflow.Ellipsis
                         )
                     },
+
+                    actions = {
+                       // Log.d("click", "click2 ${appBarActions.value.size}")
+                        for (i in appBarActions.value) {
+                            val coroutineScope = rememberCoroutineScope()
+                            IconButton(onClick = {
+                        //        Log.d("click", "click")
+                                coroutineScope.launch() {
+                                    i.action()
+                                }
+                            }) {
+                                Icon(
+                                    painter = painterResource(id = i.icon),
+                                    contentDescription = "Localized description",
+                                    tint = MaterialTheme.colorScheme.onPrimary
+                                )
+                            }
+                        }
+                    }
                 )
             }
         },
     ) { padding ->
-        NavGraph(navController, appBarTitle, appBarStyle, padding, topBarState, bottomBarStat)
+        NavGraph(
+            navController,
+            appBarTitle,
+            appBarStyle,
+            padding,
+            topBarState,
+            bottomBarStat,
+            appBarActions
+        )
     }
 
     BackHandler {
@@ -142,7 +170,6 @@ fun MainScreen() {
             snackBarHostState.showSnackbar("")
         }
     }
-
 }
 
 @Preview
@@ -150,3 +177,8 @@ fun MainScreen() {
 fun MainScreenPreview() {
     MainScreen()
 }
+
+class AppBarAction(val icon: Int, val action: suspend () -> Unit) {
+
+}
+
