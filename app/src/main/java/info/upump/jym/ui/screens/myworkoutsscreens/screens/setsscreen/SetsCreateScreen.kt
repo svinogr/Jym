@@ -86,7 +86,7 @@ fun SetsCreateScreen(
                         text = stringResource(id = R.string.label_weight_set),
                         color = MaterialTheme.colorScheme.onBackground
                     )
-                    NumberPickerWithStep(0.0, 200, 1.25, setVM.weight.collectAsState().value) {
+                    NumberPickerWithStep(min = 0.0, max = 200, step =  1.25, initialState =  setVM.weight.collectAsState().value) {
                         setVM.updateWeight(it)
                     }
                 }

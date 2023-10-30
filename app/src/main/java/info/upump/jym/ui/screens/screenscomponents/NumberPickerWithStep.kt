@@ -4,14 +4,18 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.widget.NumberPicker
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.viewinterop.AndroidView
 import info.upump.jym.R
 
 @SuppressLint("InflateParams")
 @Composable
 fun NumberPickerWithStep(
+    textColor: Color = MaterialTheme.colorScheme.onBackground,
     min: Double,
     max: Int,
     step: Double,
@@ -28,7 +32,7 @@ fun NumberPickerWithStep(
             val valuesForDisplay = Array<String>(size = iStepsArray) {
                 (min + (it * step)).toString()
             }
-
+            picker.textColor = textColor.toArgb()
             picker.minValue = 0
             picker.maxValue = 200
             picker.displayedValues = valuesForDisplay

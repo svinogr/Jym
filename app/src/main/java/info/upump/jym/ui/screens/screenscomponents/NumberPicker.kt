@@ -52,7 +52,6 @@ fun NumberPicker(
         update = {
             val i = it.displayedValues.indexOf(initialState.toString())
             it.value = i
-            // value(it.value)
         }
     )
 }
