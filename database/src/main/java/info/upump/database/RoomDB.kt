@@ -30,7 +30,7 @@ abstract class RoomDB : RoomDatabase() {
     abstract fun setsDao(): SetsDao
 
     companion object {
-        const val BASE_NAME = "jymO.db"
+        const val BASE_NAME = "jym.db"
         const val BASE_NAME_RESTORE = "jymrestore.db"
         const val DB_PATH = "data/data/info.upump.jym/databases/"
         const val DB_PATH_RESTORE = "data/data/info.upump.jym/files/"

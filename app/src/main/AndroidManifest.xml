@@ -25,7 +25,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@drawable/ic_launcher_new_background" />
+                android:resource="@xml/filepaths" />
         </provider>
 
         <activity

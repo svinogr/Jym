@@ -1,7 +1,7 @@
 <paths>
     <files-path
         path="../databases/"
-        name="mydatabases" />
+        name="databases" />
 
     <files-path
         path=""
