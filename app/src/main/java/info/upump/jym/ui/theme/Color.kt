@@ -3,11 +3,11 @@ package info.upump.jym.ui.theme
 import androidx.compose.ui.graphics.Color
 val Primary = Color(0xFF06345E)
 val ONPrimary = Color(0xFFfeffff)
-val Secondary = Color(0xFF06345E)
+val Secondary = Color(0xFF152F47)
 val ONSecondary = Color(0xFFfeffff)
-val Background =  Color(0xFF121212)
+val Background =  Color(0xFF3475AF)
 val OnBackground =  Color(0xFFfeffff)
-val Accent =  Color(0xFF2186E0)
+val Accent =  Color(0xFF5584AF)
 val OnAccent = Color(0xFFfeffff)
 val Tertiary = Color(0xFFfeffff)
 val OnTertiary = Color(0xFFfeffff)//подчеркивание и label

@@ -69,9 +69,9 @@ fun WorkoutReview(
     val workoutVM: WorkoutDetailVM = viewModel()
     val stopwatchVM: StopWatchVM = viewModel()
 
-  /*  val workout by remember {
-        mutableStateOf(workoutVM.item)
-    }*/
+    val title = remember {
+        mutableStateOf(workoutVM.title)
+    }
 
     val exercise by remember {
         mutableStateOf(workoutVM.subItems)
@@ -83,6 +83,8 @@ fun WorkoutReview(
     val time by remember {
         mutableStateOf(stopwatchVM.formatedTime)
     }
+
+    appBarTitle.value = title.value.collectAsState().value
 
     val coroutine = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
