@@ -84,7 +84,7 @@ class SetsVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), SetsVM
         if (quantity.value == 0 && id.value == 0L) return
 
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("save set", "${weight.value} ${reps.value} ${quantity.value}")
+            Log.d("save set", "${weight.value} ${reps.value} ${quantity.value} ${parentId.value} ")
             val sets = Sets().apply {
                 id = this@SetsVM.id.value
                 parentId = this@SetsVM.parentId.value
@@ -92,9 +92,9 @@ class SetsVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad(), SetsVM
                 weight = this@SetsVM.weight.value
                 weightPast = this@SetsVM._weightPast.value
             }
+            sets.weightPast = tempWeight
 
             if ( _weight.value != tempWeight) {
-                sets.weightPast = tempWeight
             }
 
             val setsRepo = SetsRepo.get()

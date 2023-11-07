@@ -81,7 +81,14 @@ fun ExerciseChooseScreen(
                 )
             }
             val action: (Long) -> Unit = {
-                exerciseVM.saveForParentChosen(it)
+                exerciseVM.saveForParentChosen(it) {id ->
+                    navHostController.popBackStack()
+                    navHostController.navigate(
+                        NavigationItem.DetailExerciseNavigationItem.routeWithId(
+                            id
+                        )
+                    )
+                }
             }
 
             ListChooseExercise(

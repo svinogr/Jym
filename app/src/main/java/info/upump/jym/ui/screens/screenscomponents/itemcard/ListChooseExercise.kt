@@ -37,7 +37,8 @@ fun ListChooseExercise(
             .fillMaxWidth()
             .fillMaxHeight()
             .background(
-                MaterialTheme.colorScheme.background),
+                MaterialTheme.colorScheme.background
+            ),
         state = lazyListState
     ) {
         item() {
@@ -68,12 +69,6 @@ fun ListChooseExercise(
                         ExerciseItemCard(exercise = it, navHost = navHost) {
                             state.value = true
                             actionChoose(it)
-                            navHost.popBackStack()
-                            navHost.navigate(
-                              NavigationItem.DetailExerciseNavigationItem.routeWithId(
-                                    it
-                                )
-                            )
                         }
                         DividerCustom(dismissState, state = state.value)
                     }
