@@ -35,7 +35,6 @@ fun CardDescriptionWithEdit(
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background
-         //   colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
         TextField(modifier = Modifier
@@ -43,7 +42,6 @@ fun CardDescriptionWithEdit(
                 BorderStroke(
                     DividerDefaults.Thickness,
                     MaterialTheme.colorScheme.background,
-                    //      colorResource(R.color.colorBackgroundChips)
                 ), 8.dp
             )
             .fillMaxWidth()

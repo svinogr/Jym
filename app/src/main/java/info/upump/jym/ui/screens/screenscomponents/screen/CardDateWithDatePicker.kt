@@ -56,13 +56,12 @@ fun DateCardWithDatePicker(
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background
-            // colorResource(id = R.color.colorBackgroundCardView)
         )
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 4.dp, end = 4.dp)
+               // .padding(start = 4.dp, end = 4.dp)
         ) {
             Row(modifier = Modifier) {
                 val modifierValue = Modifier.padding(top = 4.dp, bottom = 4.dp)

@@ -29,6 +29,7 @@ import info.upump.jym.ui.screens.myworkoutsscreens.ActionState
 import info.upump.jym.ui.screens.navigation.botomnavigation.NavigationItem
 import info.upump.jym.ui.screens.screenscomponents.FloatButtonWithState
 import info.upump.jym.ui.screens.screenscomponents.screen.CardDescriptionWithEdit
+import info.upump.jym.ui.screens.screenscomponents.screen.CardTitle
 import info.upump.jym.ui.screens.screenscomponents.screen.DateCardWithDatePicker
 import info.upump.jym.ui.screens.screenscomponents.screen.ImageTitleImageTitle
 import info.upump.jym.ui.screens.screenscomponents.screen.ImageWithPicker
@@ -98,6 +99,12 @@ fun CreateEditeCycleScreen(
                     cycleVM::updateImage
                 )
             }
+
+            CardTitle(
+                text = cycleVM.title.collectAsState().value,
+                isError = cycleVM.isTitleError.collectAsState().value,
+                updateText = cycleVM::updateTitle,
+            )
             DateCardWithDatePicker(
                 cycleVM.startDate.collectAsState().value,
                 cycleVM::updateStartDate,
