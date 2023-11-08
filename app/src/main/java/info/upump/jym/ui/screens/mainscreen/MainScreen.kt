@@ -90,7 +90,7 @@ fun MainScreen() {
                 ),
                 exit = slideOutVertically() { with(density) { 60.dp.roundToPx() } }
             ) {
-                MyBottomNavigation(navController)
+                MyBottomNavigation(navController  = navController)
             }
         },
         snackbarHost = {

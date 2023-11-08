@@ -110,7 +110,7 @@ fun AlterCycleDetailScreenM3(
             Column(
                 modifier = Modifier
                     .padding(top = it.calculateTopPadding())
-                    .fillMaxHeight()
+                  //  .fillMaxHeight()
             ) {
                 Box(modifier = Modifier.height(200.dp)) {
                     ImageForDetailScreen(
