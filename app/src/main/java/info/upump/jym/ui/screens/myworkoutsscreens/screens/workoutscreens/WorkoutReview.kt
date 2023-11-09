@@ -111,10 +111,15 @@ fun WorkoutReview(
                 SnackbarHost(
                     snackBarHostState
                 ) {
-                    SnackBar(stringResource(id = R.string.snack_exit_workout), R.drawable.ic_exit) {
-                        appBarActions.value = listOf()
-                        navHostController.popBackStack()
-                    }
+                    SnackBar(
+                        text = stringResource(id = R.string.snack_exit_workout),
+                        icon = R.drawable.ic_exit,
+                        action = {
+                            appBarActions.value = listOf()
+                            navHostController.popBackStack()
+                        },
+                        data = it
+                    )
                 }
             }
 

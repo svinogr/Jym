@@ -56,8 +56,9 @@ fun MyExerciseDetailScreen(
     val coroutine = rememberCoroutineScope()
 
     appBarTitle.value = stringResource(id = R.string.exercise_title_sets)
-    val l = remember{
-        mutableStateOf(exerciseVM.subItems)}
+    val l = remember {
+        mutableStateOf(exerciseVM.subItems)
+    }
     val snackBarHostState = remember { SnackbarHostState() }
     LaunchedEffect(key1 = true) {
         exerciseVM.getBy(id)
@@ -76,14 +77,21 @@ fun MyExerciseDetailScreen(
                 navHostController.navigate(NavigationItem.CreateSetsNavigationItem.routeWithId(id))
             }
         },
-                snackbarHost = {
+        snackbarHost = {
             SnackbarHost(
 
                 snackBarHostState
             ) {
-                SnackBar(stringResource(id = R.string.clean_exercise), R.drawable.ic_delete_24) {
-                    exerciseVM.cleanItem()
-                }
+                SnackBar(
+                    text =
+                    stringResource(id = R.string.clean_exercise),
+                    icon =
+                    R.drawable.ic_delete_24,
+                    action = {
+                        exerciseVM.cleanItem()
+                    },
+                    data = it
+                )
             }
         }
     ) { it ->
@@ -113,7 +121,7 @@ fun MyExerciseDetailScreen(
                 list = l.value.collectAsState().value,
                 listState = lazyListState,
                 deleteSets,
-                )
+            )
         }
     }
 }
@@ -148,9 +156,10 @@ fun PreviewMyExerciseDetailScreen2() {
         ListSets(
             navHost = NavHostController(LocalContext.current),
             list = ExerciseVM.vmOnlyForPreview.subItems.collectAsState().value,
-            listState = LazyListState()) {
-                  println(it)
-            }
+            listState = LazyListState()
+        ) {
+            println(it)
+        }
 
     }
 }

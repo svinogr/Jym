@@ -1,6 +1,6 @@
 package info.upump.jym.ui.screens.myworkoutsscreens.screens.cyclescreens
 
-import androidx.compose.foundation.background
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,9 +13,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -81,7 +81,7 @@ fun AlterCycleDetailScreenM3(
         sheetState = bottomState,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetContent = {
-                BottomSheet(text = cycleVM.comment.collectAsState().value)
+            BottomSheet(text = cycleVM.comment.collectAsState().value)
         }
     ) {
         Scaffold(modifier = Modifier.padding(top = 0.dp),
@@ -100,17 +100,18 @@ fun AlterCycleDetailScreenM3(
             snackbarHost = {
                 SnackbarHost(
                     snackBarHostState
-                ) {
-                    SnackBar(stringResource(id = R.string.clean_cycle), R.drawable.ic_delete_24) {
+                ) {data ->
+                    SnackBar(text = stringResource(id = R.string.clean_cycle), icon = R.drawable.ic_delete_24, data = data) {
                         cycleVM.cleanItem()
                     }
+
                 }
             }
         ) {
             Column(
                 modifier = Modifier
                     .padding(top = it.calculateTopPadding())
-                  //  .fillMaxHeight()
+                //  .fillMaxHeight()
             ) {
                 Box(modifier = Modifier.height(200.dp)) {
                     ImageForDetailScreen(
@@ -125,7 +126,13 @@ fun AlterCycleDetailScreenM3(
                             R.drawable.ic_delete_24,
                         ) {
                             coroutine.launch {
-                                snackBarHostState.showSnackbar("")
+                                val res = snackBarHostState.showSnackbar(
+                                    message = "",
+                                )
+                                Log.d("perfing", "$res")
+                                if (res == SnackbarResult.ActionPerformed) {
+                                    Log.d("perfing", "$res")
+                                }
                             }
                         },
                         Chips(
@@ -176,7 +183,7 @@ fun AlterCycleDetailScreenM3(
 fun AlterCycleDetailScreenPreview() {
     val m: MutableState<String> =
         MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
-   val navHostController = NavHostController(LocalContext.current)
+    val navHostController = NavHostController(LocalContext.current)
 
     val cycleVM: CycleDetailVM = viewModel()
     val listState = rememberLazyListState()
@@ -225,10 +232,11 @@ fun AlterCycleDetailScreenPreview() {
             snackbarHost = {
                 SnackbarHost(
                     snackBarHostState
-                ) {
-                    SnackBar(stringResource(id = R.string.clean_cycle), R.drawable.ic_delete_24) {
+                ) {data ->
+                    SnackBar(text = stringResource(id = R.string.clean_cycle), icon = R.drawable.ic_delete_24, data = data) {
                         cycleVM.cleanItem()
                     }
+
                 }
             }
         ) {

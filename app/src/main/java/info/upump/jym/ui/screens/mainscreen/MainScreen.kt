@@ -2,7 +2,6 @@ package info.upump.jym.ui.screens.mainscreen
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -57,11 +56,11 @@ fun MainScreen() {
         mutableStateOf("")
     }
 
-    val topBarState = rememberSaveable  {
+    val topBarState = rememberSaveable {
         mutableStateOf(true)
     }
 
-    val bottomBarStat = rememberSaveable  {
+    val bottomBarStat = rememberSaveable {
         mutableStateOf(true)
     }
 
@@ -90,16 +89,19 @@ fun MainScreen() {
                 ),
                 exit = slideOutVertically() { with(density) { 60.dp.roundToPx() } }
             ) {
-                MyBottomNavigation(navController  = navController)
+                MyBottomNavigation(navController = navController)
             }
         },
         snackbarHost = {
             SnackbarHost(
                 snackBarHostState
             ) {
-                SnackBar(stringResource(id = R.string.snack_exit_app), R.drawable.ic_exit) {
-                    activity.finish()
-                }
+                SnackBar(text = stringResource(id = R.string.snack_exit_app),
+                    icon = R.drawable.ic_exit,
+                    action = {
+                        activity.finish()
+                    }, data = it
+                )
             }
         },
 
@@ -134,11 +136,11 @@ fun MainScreen() {
                     },
 
                     actions = {
-                       // Log.d("click", "click2 ${appBarActions.value.size}")
+                        // Log.d("click", "click2 ${appBarActions.value.size}")
                         for (i in appBarActions.value) {
                             val coroutineScope = rememberCoroutineScope()
                             IconButton(onClick = {
-                        //        Log.d("click", "click")
+                                //        Log.d("click", "click")
                                 coroutineScope.launch() {
                                     i.action()
                                 }

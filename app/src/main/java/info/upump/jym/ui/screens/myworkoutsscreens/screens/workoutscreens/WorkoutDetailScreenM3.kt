@@ -1,11 +1,9 @@
 package info.upump.jym.ui.screens.myworkoutsscreens.screens.workoutscreens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -105,9 +103,14 @@ fun WorkoutDetailScreenM3(
                 SnackbarHost(
                     snackBarHostState
                 ) {
-                    SnackBar(stringResource(id = R.string.clean_workouts), R.drawable.ic_delete_24) {
-                        workoutVM.cleanItem()
-                    }
+                    SnackBar(
+                        text = stringResource(id = R.string.clean_workouts),
+                        icon = R.drawable.ic_delete_24,
+                        action = {
+                            workoutVM.cleanItem()
+                        },
+                        data = it
+                    )
                 }
             }
         ) { it ->
