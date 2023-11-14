@@ -30,6 +30,10 @@ interface CycleDao {
     @Query("select * from cycles where default_type = 0")
     fun getAllFullPersonalCycles(): Flow<List<CycleFullEntity>>
 
+
+    @Query("select * from cycles where default_type = 0")
+    fun getAllFullPersonalCyclesNotFlow(): List<CycleFullEntity>
+
     @Transaction
     @Query("select * from cycles where _id = :id")
     fun getFullCycle(id: Long): Flow<CycleFullEntity>

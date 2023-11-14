@@ -71,10 +71,10 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
 
     Scaffold(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) { it ->
         val context = LocalContext.current
-
+        val coroutine = rememberCoroutineScope()
         Box(modifier = Modifier
-            .fillMaxHeight()
-            .background(MaterialTheme.colorScheme.background)) {
+                .fillMaxHeight()
+                .background(MaterialTheme.colorScheme.background)) {
             LazyColumn(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
                 item {
                     CardDescriptionVariableTitle(title = stringResource(id = R.string.action_with_db))
@@ -88,30 +88,32 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
                     })
 
                     SwipeToDismiss(
-                        state = dismissState,
-                        directions = setOf(),
-                        background = {
+                            state = dismissState,
+                            directions = setOf(),
+                            background = {
 
-                            ItemSwipeBackgroundIcon(
-                                dismissState = dismissState,
-                                state = state.value,
-                                actionDelete = {}
-                            )
-                        },
-                        dismissContent = {
-                            Column(modifier = Modifier) {
-                                ItemButton(
-                                    action = {
-                                        state.value = true
-                                        profileVM.send(context)
-                                        state.value = false
-                                    },
-                                    icon = R.drawable.ic_send_to_email,
-                                    title = stringResource(id = R.string.pref_title_write_to_email)
+                                ItemSwipeBackgroundIcon(
+                                        dismissState = dismissState,
+                                        state = state.value,
+                                        actionDelete = {}
                                 )
-                                DividerCustom(dismissState, state = state.value)
+                            },
+                            dismissContent = {
+                                Column(modifier = Modifier) {
+                                    ItemButton(
+                                            action = {
+                                                state.value = true
+                                                coroutine.launch {
+                                                    profileVM.send(context)
+                                                }
+                                                state.value = false
+                                            },
+                                            icon = R.drawable.ic_send_to_email,
+                                            title = stringResource(id = R.string.pref_title_write_to_email)
+                                    )
+                                    DividerCustom(dismissState, state = state.value)
+                                }
                             }
-                        }
                     )
                 }
                 item {
@@ -123,30 +125,30 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
                     })
 
                     SwipeToDismiss(
-                        state = dismissState,
-                        directions = setOf(),
-                        background = {
+                            state = dismissState,
+                            directions = setOf(),
+                            background = {
 
-                            ItemSwipeBackgroundIcon(
-                                dismissState = dismissState,
-                                state = state.value,
-                                actionDelete = {}
-                            )
-                        },
-                        dismissContent = {
-                            Column(modifier = Modifier) {
-                                ItemButton(
-                                    action = {
-                                        state.value = true
-                                        launch.launch("*/*")
-                                        state.value = false
-                                    },
-                                    icon = R.drawable.ic_down_to_db,
-                                    title = stringResource(id = R.string.pref_title_read_from_db)
+                                ItemSwipeBackgroundIcon(
+                                        dismissState = dismissState,
+                                        state = state.value,
+                                        actionDelete = {}
                                 )
-                                DividerCustom(dismissState, state = state.value)
+                            },
+                            dismissContent = {
+                                Column(modifier = Modifier) {
+                                    ItemButton(
+                                            action = {
+                                                state.value = true
+                                                launch.launch("*/*")
+                                                state.value = false
+                                            },
+                                            icon = R.drawable.ic_down_to_db,
+                                            title = stringResource(id = R.string.pref_title_read_from_db)
+                                    )
+                                    DividerCustom(dismissState, state = state.value)
+                                }
                             }
-                        }
                     )
                 }
 
@@ -154,9 +156,9 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
 
             if (isLoad.value) {
                 CircularProgressIndicator(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .width(64.dp),
+                        modifier = Modifier
+                                .align(Alignment.Center)
+                                .width(64.dp),
                 )
             }
         }
@@ -164,7 +166,7 @@ fun ProfileScreen(navHostController: NavHostController, paddingValues: PaddingVa
 }
 
 
-private fun sendToDb(context: Context) {
+private suspend fun sendToDb(context: Context) {
     val backupDab = DBRestoreBackup()
     val intent = backupDab.getSendIntent(context)
     context.startActivity(intent)

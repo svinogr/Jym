@@ -5,6 +5,8 @@ import android.net.Uri
 import android.util.Log
 import info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad
 import info.upump.jym.utils.DBRestoreBackup
+import info.upump.jym.utils.JSONRestoreBackup
+import info.upump.jym.utils.RestoreBackupable
 import kotlinx.coroutines.flow.update
 
 class ProfileVM : BaseVMWithStateLoad() {
@@ -12,14 +14,15 @@ class ProfileVM : BaseVMWithStateLoad() {
     suspend fun load(uri: Uri, context: Context) {
         _stateLoading.update {true}
         Log.d("load", "load")
-        val backupDB = DBRestoreBackup()
+       // val backupDB: RestoreBackupable = DBRestoreBackup()
+        val backupDB: RestoreBackupable = JSONRestoreBackup()
         backupDB.restore(uri, context, _stateLoading)
-
     }
 
-    fun send(context: Context) {
+    suspend fun send(context: Context) {
         Log.d("v", "send")
-        val backupDab = DBRestoreBackup()
+      //  val backupDab: RestoreBackupable = DBRestoreBackup()
+        val backupDab: RestoreBackupable = JSONRestoreBackup()
         val intent = backupDab.getSendIntent(context)
         context.startActivity(intent)
     }

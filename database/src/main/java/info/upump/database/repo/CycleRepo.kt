@@ -63,8 +63,8 @@ class CycleRepo private constructor(db: RoomDB) :
         return cycleDao.getAllPersonalCycles()
     }
 
-    fun getAllFullestEntityPersonal(): Flow<List<CycleFullEntity>> {
-        return cycleDao.getAllFullPersonalCycles()
+    fun getAllFullestEntityPersonal(): List<CycleFullEntity> {
+        return cycleDao.getAllFullPersonalCyclesNotFlow()
     }
 
     override fun getAllFullEntityDefault(): Flow<List<CycleFullEntityWithWorkouts>> {
@@ -179,4 +179,5 @@ class CycleRepo private constructor(db: RoomDB) :
     suspend fun saveFullEntitiesOnlyFromOtherDB(list: List<CycleFullEntity>) {
         copy(list, "")
     }
+
 }

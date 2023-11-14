@@ -18,8 +18,6 @@ open class DatabaseApp (val context: Context) {
 
         fun initilizeDb(context: Context, name: String, path: String, isRestoring: Boolean = false ) {
 
-
-         //   val file = File(RoomDB.DB_PATH)
             if(isRestoring){
                 val file = File("$path/$name")
                 Log.d("jhj", "initilizeDb: ${file.usableSpace} ${file.path} ")
@@ -29,8 +27,9 @@ open class DatabaseApp (val context: Context) {
                     .addMigrations(RoomDB.MIGRATION_1to2)
                     .build()
             }else{
-                val file = File(path)
-                Log.d("jhj", "initilizeDb: ${file.path}")
+               // val file = File(path)
+                val file = File("$path/$name")
+                Log.d("jhj 2", "initilizeDb: ${file.path}")
                 db = if (!file.exists()) {
 
                     Log.d("DatabaseApp", "file isnt exist")

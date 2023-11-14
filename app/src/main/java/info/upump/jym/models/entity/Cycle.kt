@@ -100,6 +100,9 @@ class Cycle(
             }
         }
 
+
+
+
         fun mapFullFromDbEntity(entity: CycleFullEntityWithWorkouts): Cycle {
             val listEntityWorkout = entity.listWorkoutEntity
             val listWorkout = mutableListOf<Workout>()
