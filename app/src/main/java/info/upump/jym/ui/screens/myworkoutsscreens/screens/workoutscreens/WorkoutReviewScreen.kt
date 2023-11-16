@@ -58,11 +58,11 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WorkoutReview(
-    id: Long,
-    navHostController: NavHostController,
-    paddingValues: PaddingValues,
-    appBarTitle: MutableState<String>,
-    appBarActions: MutableState<List<AppBarAction>>
+        id: Long,
+        navHostController: NavHostController,
+        paddingValues: PaddingValues,
+        appBarTitle: MutableState<String>,
+        appBarActions: MutableState<List<AppBarAction>>
 ) {
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
@@ -91,7 +91,7 @@ fun WorkoutReview(
 
     LaunchedEffect(key1 = true) {
         val commentAction =
-            AppBarAction(icon = R.drawable.ic_info_black_24dp) { bottomState.show() }
+                AppBarAction(icon = R.drawable.ic_info_black_24dp) { bottomState.show() }
         workoutVM.getBy(id)
         val list = mutableListOf<AppBarAction>()
         list.add(commentAction)
@@ -99,49 +99,49 @@ fun WorkoutReview(
     }
 
     ModalBottomSheetLayout(
-        sheetState = bottomState,
-        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        sheetContent = {
-            BottomSheet(text = workoutVM.comment.collectAsState().value)
-        }
+            sheetState = bottomState,
+            sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+            sheetContent = {
+                BottomSheet(text = workoutVM.comment.collectAsState().value)
+            }
     ) {
         Scaffold(
-            modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
-            snackbarHost = {
-                SnackbarHost(
-                    snackBarHostState
-                ) {
-                    SnackBar(
-                        text = stringResource(id = R.string.snack_exit_workout),
-                        icon = R.drawable.ic_exit,
-                        action = {
-                            appBarActions.value = listOf()
-                            navHostController.popBackStack()
-                        },
-                        data = it
-                    )
+                modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
+                snackbarHost = {
+                    SnackbarHost(
+                            snackBarHostState
+                    ) {
+                        SnackBar(
+                                text = stringResource(id = R.string.snack_exit_workout),
+                                icon = R.drawable.ic_exit,
+                                action = {
+                                    appBarActions.value = listOf()
+                                    navHostController.popBackStack()
+                                },
+                                data = it
+                        )
+                    }
                 }
-            }
 
         ) { it ->
             Column(
-                modifier = Modifier
-                    .padding(top = it.calculateTopPadding(),
-                            bottom = it.calculateBottomPadding())
-                    .fillMaxHeight()
+                    modifier = Modifier
+                            .padding(top = it.calculateTopPadding(),
+                                    bottom = it.calculateBottomPadding())
+                            .fillMaxHeight()
             ) {
 
                 ListWorkoutForReview(
-                    exercise.collectAsState().value,
-                    Modifier.weight(4f)
+                        exercise.collectAsState().value,
+                        Modifier.weight(4f)
                 )
                 StopWatch(
-                    time.collectAsState().value,
-                    status.collectAsState().value,
-                    start = stopwatchVM::start,
-                    stop = stopwatchVM::stop,
-                    pause = stopwatchVM::pause,
-                    resume = stopwatchVM::resume
+                        time.collectAsState().value,
+                        status.collectAsState().value,
+                        start = stopwatchVM::start,
+                        stop = stopwatchVM::stop,
+                        pause = stopwatchVM::pause,
+                        resume = stopwatchVM::resume
                 )
             }
         }
@@ -159,125 +159,125 @@ fun WorkoutReview(
 @Composable
 fun WorkoutReviewPreview() {
     val m: MutableState<String> =
-        MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
+            MutableStateFlow<String>(" ").asStateFlow().collectAsState() as MutableState<String>
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val snackBarHostState = remember { SnackbarHostState() }
 
     val list = listOf(
-        Exercise().apply {
-            id = 1
-            title = "First"
-            typeMuscle = TypeMuscle.ABS
-            isDefaultType = true
-            isTemplate = true
-            setsList = mutableListOf(
-                Sets(), Sets(), Sets(), Sets(), Sets(), Sets()
-            )
-            descriptionId = 1
-            exerciseDescription = ExerciseDescription().apply {
-                img = "nach1"
-                defaultImg = "nach1"
-                title = "Новое упраж"
-                id = descriptionId
+            Exercise().apply {
+                id = 1
+                title = "First"
+                typeMuscle = TypeMuscle.ABS
+                isDefaultType = true
+                isTemplate = true
+                setsList = mutableListOf(
+                        Sets(), Sets(), Sets(), Sets(), Sets(), Sets()
+                )
+                descriptionId = 1
+                exerciseDescription = ExerciseDescription().apply {
+                    img = "nach1"
+                    defaultImg = "nach1"
+                    title = "Новое упраж"
+                    id = descriptionId
+                }
+            },
+            Exercise().apply {
+                id = 2
+                title = "Second"
+                typeMuscle = TypeMuscle.BACK
+                isDefaultType = true
+                isTemplate = true
+                setsList = mutableListOf(
+                        Sets(), Sets(), Sets()
+                )
+                descriptionId = 2
+                exerciseDescription = ExerciseDescription().apply {
+                    img = "nach1"
+                    defaultImg = "nach1"
+                    title = "Новое упраж"
+                    id = descriptionId
+                }
+            },
+            Exercise().apply {
+                id = 3
+                title = "Thead"
+                typeMuscle = TypeMuscle.CALVES
+                isDefaultType = true
+                isTemplate = true
+                setsList = mutableListOf(
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets(),
+                        Sets()
+                )
+                descriptionId = 3
+                exerciseDescription = ExerciseDescription().apply {
+                    img = "nach1"
+                    defaultImg = "nach1"
+                    title = "Новое упраж"
+                    id = descriptionId
+                }
             }
-        },
-        Exercise().apply {
-            id = 2
-            title = "Second"
-            typeMuscle = TypeMuscle.BACK
-            isDefaultType = true
-            isTemplate = true
-            setsList = mutableListOf(
-                Sets(), Sets(), Sets()
-            )
-            descriptionId = 2
-            exerciseDescription = ExerciseDescription().apply {
-                img = "nach1"
-                defaultImg = "nach1"
-                title = "Новое упраж"
-                id = descriptionId
-            }
-        },
-        Exercise().apply {
-            id = 3
-            title = "Thead"
-            typeMuscle = TypeMuscle.CALVES
-            isDefaultType = true
-            isTemplate = true
-            setsList = mutableListOf(
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets(),
-                Sets()
-            )
-            descriptionId = 3
-            exerciseDescription = ExerciseDescription().apply {
-                img = "nach1"
-                defaultImg = "nach1"
-                title = "Новое упраж"
-                id = descriptionId
-            }
-        }
     )
 
     val workout = WorkoutDetailVM.vmOnlyForPreview.item.collectAsState()
     val coroutine = rememberCoroutineScope()
     ModalBottomSheetLayout(
-        sheetState = bottomState,
-        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        sheetContent = {
-            BottomSheet(text = workout.value.comment)
-        }
+            sheetState = bottomState,
+            sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+            sheetContent = {
+                BottomSheet(text = workout.value.comment)
+            }
     ) {
         Scaffold(
-            modifier = Modifier.padding(top = 0.dp),
-            topBar = {
-                TopAppBar(
-                    colors = TopAppBarDefaults.smallTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary
-                    ),
-                    title = {
-                        Text(
-                            text = "упражнение",
-                            style =
-                            MyOutlineTextTitleLabel20Text,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    },
-                    actions = {
-                        IconButton(onClick = {
-                            coroutine.launch() {
-                                bottomState.show()
+                modifier = Modifier.padding(top = 0.dp),
+                topBar = {
+                    TopAppBar(
+                            colors = TopAppBarDefaults.smallTopAppBarColors(
+                                    containerColor = MaterialTheme.colorScheme.primary
+                            ),
+                            title = {
+                                Text(
+                                        text = "упражнение",
+                                        style =
+                                        MyOutlineTextTitleLabel20Text,
+                                        maxLines = 2,
+                                        overflow = TextOverflow.Ellipsis
+                                )
+                            },
+                            actions = {
+                                IconButton(onClick = {
+                                    coroutine.launch() {
+                                        bottomState.show()
+                                    }
+                                }) {
+                                    Icon(
+                                            painter = painterResource(id = R.drawable.ic_info_black_24dp),
+                                            contentDescription = "Localized description"
+                                    )
+                                }
                             }
-                        }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_info_black_24dp),
-                                contentDescription = "Localized description"
-                            )
-                        }
-                    }
-                )
-            }
+                    )
+                }
 
         ) { it ->
             Column(
-                modifier = Modifier
-                    .padding(top = it.calculateTopPadding())
+                    modifier = Modifier
+                            .padding(top = it.calculateTopPadding())
             ) {
                 /*   Box(modifier = Modifier.weight(1.5f)) {
                        ImageByDay(day = workout.value.day)
@@ -295,7 +295,7 @@ fun WorkoutReviewPreview() {
                    }*/
                 ListWorkoutForReview(list, modifier = Modifier.weight(3f))
                 Divider(
-                    thickness = 1.dp, modifier = Modifier
+                        thickness = 1.dp, modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
                 )
