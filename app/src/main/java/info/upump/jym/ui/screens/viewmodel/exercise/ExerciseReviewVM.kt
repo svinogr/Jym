@@ -17,6 +17,7 @@ class ExerciseReviewVM : info.upump.jym.ui.screens.viewmodel.BaseVMWithStateLoad
     private val _item = MutableStateFlow(Exercise().apply {
         exerciseDescription = ExerciseDescription()
     })
+
     override val item: StateFlow<Exercise> = _item
     override fun getItem(id: Long) {
         _stateLoading.value = true

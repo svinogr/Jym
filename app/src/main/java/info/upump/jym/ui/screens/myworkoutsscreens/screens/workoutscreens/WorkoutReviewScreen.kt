@@ -126,7 +126,8 @@ fun WorkoutReview(
         ) { it ->
             Column(
                 modifier = Modifier
-                    .padding(top = it.calculateTopPadding())
+                    .padding(top = it.calculateTopPadding(),
+                            bottom = it.calculateBottomPadding())
                     .fillMaxHeight()
             ) {
 
