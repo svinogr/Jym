@@ -112,7 +112,6 @@ class CycleRepo private constructor(db: RoomDB) :
         return item
     }
 
-
     private suspend fun copy(list: List<CycleFullEntity>, today: String) {
         val listForDbWrite = mutableListOf<Deferred<CycleEntity>>()
         val workoutsRepo = WorkoutRepo.get()
